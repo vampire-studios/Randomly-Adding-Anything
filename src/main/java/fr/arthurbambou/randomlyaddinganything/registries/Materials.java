@@ -1,12 +1,13 @@
 package fr.arthurbambou.randomlyaddinganything.registries;
 
+import fr.arthurbambou.randomlyaddinganything.api.NameGenerator;
 import fr.arthurbambou.randomlyaddinganything.api.objects.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.config.Config;
+import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Materials {
     public static final List<Material> MATERIAL_LIST = new ArrayList<>();
@@ -14,17 +15,13 @@ public class Materials {
     public static void init() {
         for (int a = 0; a < new Config().materialNumber; a++) {
             Material material = new Material();
-            material.setOreType(enumf(OreTypes.values()));
+            material.setOreType(Rands.values(OreTypes.values()));
+            material.setName(NameGenerator.generate());
             MATERIAL_LIST.add(material);
-            System.out.println("oreType : " + material.getOreType().name().toLowerCase());
+            // Debug Only
+            System.out.println("Material : " + material.getName() + " with oreType : " + material.getOreType().name().toLowerCase());
         }
     }
 
-    private static int rand(int bound) {
-        return new Random().nextInt(bound);
-    }
 
-    private static <O extends Object> O enumf(O[] values) {
-        return values[rand(values.length)];
-    }
 }
