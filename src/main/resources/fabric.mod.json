@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything"
+    ],
+    "client": [
+      "fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnythingClient"
     ]
   },
   "mixins": [

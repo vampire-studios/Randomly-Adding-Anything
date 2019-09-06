@@ -28,6 +28,13 @@ public class NameGenerator {
         String[] l4 = new String[]{"",Rands.values(list1)};
         String[] l5 = new String[]{"",Rands.values(list2)};
         String[] l6 = new String[]{"",Rands.values(list6)};
-        return l1[aa] + l2[ab] + l3[b] + l4[c] + l5[d] + l6[e];
+        return lf(l1[aa],l2[ab]) + l3[b] + l4[c] + l5[d] + l6[e];
+    }
+
+    private static String lf(String string, String string1) {
+        String string2 = string + string1;
+        char[] chars = string2.toCharArray();
+        chars[0] = Character.toUpperCase(chars[0]);
+        return new StringBuilder().append(chars).toString();
     }
 }
