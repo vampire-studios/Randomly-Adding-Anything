@@ -14,7 +14,7 @@ public class Materials {
     public static void init() {
         for (int a = 0; a < new Config().materialNumber; a++) {
             Material material = new Material();
-            material.setOreType(OreTypes.values()[rand(2)]);
+            material.setOreType(enumf(OreTypes.values()));
             MATERIAL_LIST.add(material);
             System.out.println("oreType : " + material.getOreType().name().toLowerCase());
         }
@@ -22,5 +22,9 @@ public class Materials {
 
     private static int rand(int bound) {
         return new Random().nextInt(bound);
+    }
+
+    private static <O extends Object> O enumf(O[] values) {
+        return values[rand(values.length)];
     }
 }
