@@ -2,18 +2,22 @@ package fr.arthurbambou.randomlyaddinganything;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import fr.arthurbambou.randomlyaddinganything.blocks.RAABlockItem;
+import fr.arthurbambou.randomlyaddinganything.client.OreBackedModel;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.registries.Materials;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.ModelBakeSettings;
+import net.minecraft.client.render.model.ModelLoader;
+import net.minecraft.client.render.model.UnbakedModel;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 
 public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
@@ -62,37 +66,22 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             Identifier identifier = new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath());
             if (!(IDENTIFIERS.containsKey(identifier))) return null;
             System.out.println(modelIdentifier.toString());
-            return null;
-//            return new UnbakedModel() {
-//                @Override
-//                public Collection<Identifier> getModelDependencies() {
-//                    return Collections.emptyList();
-//                }
-//
-//                @Override
-//                public Collection<Identifier> getTextureDependencies(Function<Identifier, UnbakedModel> var1, Set<String> var2) {
-//                    return Collections.emptyList();
-//                }
-//
-//                @Override
-//                public BakedModel bake(ModelLoader var1, Function<Identifier, Sprite> var2, ModelBakeSettings var3) {
-//                    if (BLOCK_MAP.get(identifier) instanceof SlabBlock) {
-//                        return new ColoredSlabRenderer((fr.arthurbambou.paintingmod.mainmod.api.ColoredBlock) BLOCK_MAP.get(identifier));
-//                    }
-//                    if (BLOCK_MAP.get(identifier) instanceof PressurePlateBlock) {
-//                        return new ColoredPPRenderer((fr.arthurbambou.paintingmod.mainmod.api.ColoredBlock) BLOCK_MAP.get(identifier));
-//                    }
-//                    if (BLOCK_MAP.get(identifier) instanceof WallBlock) {
-//                        return new ColoredWallRenderer((fr.arthurbambou.paintingmod.mainmod.api.ColoredBlock) BLOCK_MAP.get(identifier));
-//                    }
-////                    if (BLOCK_MAP.get(identifier) instanceof FenceBlock) {
-////                        return new ColoredFenceRenderer((fr.arthurbambou.paintingmod.mainmod.api.ColoredBlock) BLOCK_MAP.get(identifier));
-////                    }
-//                    return new ColoredBlockRenderer(
-//                            (fr.arthurbambou.paintingmod.mainmod.api.ColoredBlock) BLOCK_MAP.get(
-//                                    new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath())));
-//                }
-//            };
+            return new UnbakedModel() {
+                @Override
+                public Collection<Identifier> getModelDependencies() {
+                    return Collections.emptyList();
+                }
+
+                @Override
+                public Collection<Identifier> getTextureDependencies(Function<Identifier, UnbakedModel> var1, Set<String> var2) {
+                    return Collections.emptyList();
+                }
+
+                @Override
+                public BakedModel bake(ModelLoader var1, Function<Identifier, Sprite> var2, ModelBakeSettings var3) {
+                    return new OreBackedModel(IDENTIFIERS.get(identifier).getKey());
+                }
+            };
 
         });
     }
