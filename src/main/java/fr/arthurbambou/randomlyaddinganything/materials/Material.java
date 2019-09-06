@@ -7,31 +7,32 @@ import net.minecraft.util.Identifier;
 public class Material {
     private OreTypes oreType;
     private String name;
-    private int[] RGB = new int[3];
+    private int[] RGB;
     private AppearsIn generateIn;
     private Identifier overlayTexture;
-    private Identifier ressourceItemTexture;
+    private Identifier resourceItemTexture;
+    private boolean armor;
+    private boolean tools;
+    private boolean weapons;
 
-    public Material() {}
+    public Material(OreTypes oreType, String name, int[] RGB, AppearsIn generateIn, Identifier overlayTexture, Identifier resourceItemTexture, boolean armor, boolean tools, boolean weapons) {
+        this.oreType = oreType;
+        this.name = name;
+        this.RGB = RGB;
+        this.generateIn = generateIn;
+        this.overlayTexture = overlayTexture;
+        this.resourceItemTexture = resourceItemTexture;
+        this.armor = armor;
+        this.tools = tools;
+        this.weapons = weapons;
+    }
 
     public OreTypes getOreType() {
         return oreType;
     }
 
-    public void setOreType(OreTypes oreType) {
-        this.oreType = oreType;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setRGB(int[] RGB) {
-        this.RGB = RGB;
     }
 
     public int[] getRGB() {
@@ -42,23 +43,24 @@ public class Material {
         return generateIn;
     }
 
-    public void setGenerateIn(AppearsIn generateIn) {
-        this.generateIn = generateIn;
-    }
-
     public Identifier getOverlayTexture() {
         return overlayTexture;
     }
 
-    public void setOverlayTexture(Identifier overlayTexture) {
-        this.overlayTexture = overlayTexture;
+    public Identifier getResourceItemTexture() {
+        return resourceItemTexture;
     }
 
-    public Identifier getRessourceItemTexture() {
-        return ressourceItemTexture;
+    public boolean hasArmor() {
+        return armor;
     }
 
-    public void setRessourceItemTexture(Identifier ressourceItemTexture) {
-        this.ressourceItemTexture = ressourceItemTexture;
+    public boolean hasTools() {
+        return tools;
     }
+
+    public boolean hasWeapons() {
+        return weapons;
+    }
+
 }
