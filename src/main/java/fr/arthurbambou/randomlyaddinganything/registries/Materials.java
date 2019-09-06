@@ -11,6 +11,7 @@ import fr.arthurbambou.randomlyaddinganything.materials.CustomArmorMaterial;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.materials.MaterialBuilder;
 import fr.arthurbambou.randomlyaddinganything.utils.RegistryUtils;
+import fr.arthurbambou.randomlyaddinganything.world.gen.feature.RAAOreFeature;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
@@ -19,13 +20,22 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
+import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.decorator.Decorator;
+import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
+import net.minecraft.world.gen.feature.FeatureConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 public class Materials {
-    private static final List<Material> MATERIAL_LIST = new ArrayList<>();
+    public static final List<Material> MATERIAL_LIST = new ArrayList<>();
 
     public static boolean isReady = false;
 
@@ -59,49 +69,45 @@ public class Materials {
     public static void createMaterialResources() {
         for (Material material : MATERIAL_LIST) {
             Item repairItem;
-            RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_block"),
-                    RandomlyAddingAnything.ITEM_GROUP);
-            RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_ORE)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ore"),
-                    RandomlyAddingAnything.ITEM_GROUP);
+            for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
+                Block block = new Block(Block.Settings.copy(Blocks.IRON_BLOCK));
+                RegistryUtils.registerBlockWithoutItem(block, new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + blockType.getString()));
+                RegistryUtils.registerItem(new RAABlockItem(material.getName(), block, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP), blockType),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + blockType.getString()));
+            }
             if (material.getOreType() == OreTypes.METAL) {
                 RegistryUtils.registerItem(repairItem = new Item(new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP)), new Identifier(RandomlyAddingAnything.MOD_ID,
-                        material.getName() + "_ingot"));
+                        material.getName().toLowerCase() + "_ingot"));
                 RegistryUtils.registerItem(new Item(new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP)), new Identifier(RandomlyAddingAnything.MOD_ID,
-                        material.getName() + "_nugget"));
+                        material.getName().toLowerCase() + "_nugget"));
             } else {
                 RegistryUtils.registerItem(repairItem = new Item(new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP)), new Identifier(RandomlyAddingAnything.MOD_ID,
-                        material.getName() + "_gem"));
+                        material.getName().toLowerCase() + "_gem"));
             }
-            if(material.hasArmor()) {
+            if (material.hasArmor()) {
                 RegistryUtils.registerItem(
                         new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
-                                EquipmentSlot.HEAD, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_helmet")
+                                EquipmentSlot.HEAD, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")
                 );
                 RegistryUtils.registerItem(
                         new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
-                                EquipmentSlot.CHEST, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_chestplate")
+                                EquipmentSlot.CHEST, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")
                 );
                 RegistryUtils.registerItem(
                         new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
-                                EquipmentSlot.LEGS, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_leggings")
+                                EquipmentSlot.LEGS, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")
                 );
                 RegistryUtils.registerItem(
                         new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
-                                EquipmentSlot.FEET, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_boots")
+                                EquipmentSlot.FEET, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots")
                 );
             }
             if (material.hasTools()) {
-                RegistryUtils.registerItem(
+                /*RegistryUtils.registerItem(
                         new PickaxeItem()
-                )
-            for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
-                Block block = new Block(Block.Settings.copy(Blocks.IRON_BLOCK));
-                Registry.register(Registry.BLOCK, new Identifier("raa", material.getName().toLowerCase() + blockType.getString()), block);
-                Registry.register(Registry.ITEM, new Identifier("raa", material.getName().toLowerCase() + blockType.getString()),
-                        new RAABlockItem(material.getName(), block, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP), blockType));
+                );*/
             }
         }
     }
-
 
 }

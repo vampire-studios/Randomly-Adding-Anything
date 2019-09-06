@@ -9,6 +9,7 @@ public class Material {
     private String name;
     private int[] RGB;
     private AppearsIn generateIn;
+    private GeneratingOptions generatingOptions = new GeneratingOptions();
     private Identifier overlayTexture;
     private Identifier resourceItemTexture;
     private boolean armor;
@@ -41,6 +42,10 @@ public class Material {
 
     public AppearsIn getGenerateIn() {
         return generateIn;
+    }
+
+    public GeneratingOptions getGeneratingOptions() {
+        return generatingOptions;
     }
 
     public Identifier getOverlayTexture() {
