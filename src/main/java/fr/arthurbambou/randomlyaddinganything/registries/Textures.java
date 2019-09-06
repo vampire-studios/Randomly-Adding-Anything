@@ -1,6 +1,6 @@
 package fr.arthurbambou.randomlyaddinganything.registries;
 
-import fr.arthurbambou.randomlyaddinganything.api.objects.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import net.minecraft.util.Identifier;
 
 public class Textures {
@@ -10,18 +10,6 @@ public class Textures {
     }
 
     private static void ores() {
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/andesite"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/diorite"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/dirt"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/end_stone"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/gravel"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/netherrack"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/packed_ice"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/sand"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/soul_sand"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/stone"));
-        OreTypes.MATERIAL_ORE.add(new Identifier("block/terracotta"));
-
         OreTypes.METAL_TEXTURES.add(new Identifier("item/melon_seeds"));
         OreTypes.METAL_TEXTURES.add(new Identifier("item/prismarine_crystals"));
         OreTypes.METAL_TEXTURES.add(new Identifier("item/cocoa_beans"));

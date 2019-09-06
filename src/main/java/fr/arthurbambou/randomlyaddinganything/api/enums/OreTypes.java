@@ -1,4 +1,4 @@
-package fr.arthurbambou.randomlyaddinganything.api.objects;
+package fr.arthurbambou.randomlyaddinganything.api.enums;
 
 import net.minecraft.util.Identifier;
 
@@ -10,5 +10,4 @@ public enum OreTypes {
     GEM;
     public static List<Identifier> METAL_TEXTURES = new ArrayList<>();
     public static List<Identifier> GEM_TEXTURES = new ArrayList<>();
-    public static List<Identifier> MATERIAL_ORE = new ArrayList<>();
 }
