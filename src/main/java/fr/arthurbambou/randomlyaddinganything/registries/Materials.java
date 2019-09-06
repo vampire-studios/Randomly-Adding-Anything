@@ -4,12 +4,12 @@ import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
 import fr.arthurbambou.randomlyaddinganything.api.NameGenerator;
 import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.blocks.RAABlockItem;
 import fr.arthurbambou.randomlyaddinganything.config.Config;
 import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -19,6 +19,8 @@ import java.util.List;
 
 public class Materials {
     public static final List<Material> MATERIAL_LIST = new ArrayList<>();
+
+    public static boolean isReady = false;
 
     public static void init() {
         for (int a = 0; a < new Config().materialNumber; a++) {
@@ -39,13 +41,21 @@ public class Materials {
                     "\nOverlay Texture : " + material.getOverlayTexture().toString() +
                     "\nItem Texture : " + material.getRessourceItemTexture().toString());
         }
+        isReady = true;
+    }
+
+    public static boolean isIsReady() {
+        return isReady;
     }
 
     public static void createBlocks() {
         for (Material material : MATERIAL_LIST) {
-            Block block = new Block(Block.Settings.copy(Blocks.IRON_BLOCK));
-            Registry.register(Registry.BLOCK, new Identifier("raa", material.getName()), block);
-            Registry.register(Registry.ITEM, new Identifier("raa", material.getName()), new BlockItem(block, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP)));
+            for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
+                Block block = new Block(Block.Settings.copy(Blocks.IRON_BLOCK));
+                Registry.register(Registry.BLOCK, new Identifier("raa", material.getName().toLowerCase() + blockType.getString()), block);
+                Registry.register(Registry.ITEM, new Identifier("raa", material.getName().toLowerCase() + blockType.getString()),
+                        new RAABlockItem(material.getName(), block, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP), blockType));
+            }
         }
     }
 
