@@ -15,6 +15,7 @@ public class MaterialBuilder {
     private boolean armor;
     private boolean tools;
     private boolean weapons;
+    private boolean glowing;
 
     public static MaterialBuilder create() {
         return new MaterialBuilder();
@@ -65,8 +66,13 @@ public class MaterialBuilder {
         return this;
     }
 
+    public MaterialBuilder glowing(boolean glowing) {
+        this.glowing = glowing;
+        return this;
+    }
+
     public Material build() {
-        return new Material(oreType, name, RGB, generateIn, overlayTexture, resourceItemTexture, armor, tools, weapons);
+        return new Material(oreType, name, RGB, generateIn, overlayTexture, resourceItemTexture, armor, tools, weapons, glowing);
     }
 
 }

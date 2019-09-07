@@ -14,8 +14,10 @@ public class Material {
     private boolean armor;
     private boolean tools;
     private boolean weapons;
+    private boolean glowing;
 
-    public Material(OreTypes oreType, String name, int[] RGB, AppearsIn generateIn, Identifier overlayTexture, Identifier resourceItemTexture, boolean armor, boolean tools, boolean weapons) {
+    public Material(OreTypes oreType, String name, int[] RGB, AppearsIn generateIn, Identifier overlayTexture, Identifier resourceItemTexture, boolean armor, boolean tools, boolean weapons,
+                    boolean glowing) {
         this.oreType = oreType;
         this.name = name;
         this.RGB = RGB;
@@ -25,6 +27,7 @@ public class Material {
         this.armor = armor;
         this.tools = tools;
         this.weapons = weapons;
+        this.glowing = glowing;
     }
 
     public OreTypes getOreType() {
@@ -61,6 +64,10 @@ public class Material {
 
     public boolean hasWeapons() {
         return weapons;
+    }
+
+    public boolean isGlowing() {
+        return glowing;
     }
 
 }

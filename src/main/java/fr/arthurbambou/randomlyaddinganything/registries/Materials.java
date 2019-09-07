@@ -40,7 +40,7 @@ public class Materials {
                     .oreType(Rands.values(OreTypes.values())).name(NameGenerator.generate()).color(RGB)
                     .generatesIn(Rands.values(AppearsIn.values())).overlayTexture(Rands.list(OreTypes.METAL_TEXTURES))
                     .resourceItemTexture(Rands.list(OreTypes.GEM_TEXTURES)).armor(random.nextBoolean())
-                    .tools(random.nextBoolean()).weapons(random.nextBoolean()).build();
+                    .tools(random.nextBoolean()).weapons(random.nextBoolean()).glowing(random.nextBoolean()).build();
             MATERIAL_LIST.add(material);
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
@@ -49,7 +49,11 @@ public class Materials {
                         "\nRGB color : " + RGB[0] + "," + RGB[1] + "," + RGB[2] +
                         "\nGenerate in : " + material.getGenerateIn().name().toLowerCase() +
                         "\nOverlay Texture : " + material.getOverlayTexture().toString() +
-                        "\nItem Texture : " + material.getResourceItemTexture().toString());
+                        "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
+                        "\nHas Armor : " + material.hasArmor() +
+                        "\nHas Weapons : " + material.hasWeapons() +
+                        "\nHas Tools : " + material.hasTools() +
+                        "\nIs Glowing : " + material.isGlowing());
             }
         }
         isReady = true;
