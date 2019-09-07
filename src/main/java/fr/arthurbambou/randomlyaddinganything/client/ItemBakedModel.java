@@ -25,7 +25,7 @@ public abstract class ItemBakedModel implements BakedModel, FabricBakedModel {
     public Material material;
 
     public ItemBakedModel(Material material) {
-        material = material;
+        this.material = material;
     }
 
     @Override

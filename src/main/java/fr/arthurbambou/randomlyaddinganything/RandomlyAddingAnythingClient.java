@@ -43,14 +43,9 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     registry.register(new Identifier("block/red_sandstone"));
                     for (Material material : Materials.MATERIAL_LIST) {
                         registry.register(material.getOreInformation().getOverlayTexture());
-                        registry.register(material.getResourceItemTexture());
+//                        registry.register(material.getResourceItemTexture());
                     }
                 });
-        ModelLoadingRegistry.INSTANCE.registerAppender((manager, out) -> {
-            for (Material material : Materials.MATERIAL_LIST) {
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem1"),"inventory"));
-            }
-        });
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
             for (Material material : Materials.MATERIAL_LIST) {
                 for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
@@ -90,14 +85,25 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 //                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_ingot"));
                         modelBuilder.texture("layer0", new Identifier(material.getResourceItemTexture().getNamespace(), material.getResourceItemTexture().getPath().toLowerCase()));
                     });
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot1"), modelBuilder -> {
+                        modelBuilder.parent(new Identifier("item/generated"));
+//                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_ingot"));
+                        modelBuilder.texture("layer0", new Identifier(material.getResourceItemTexture().getNamespace(), material.getResourceItemTexture().getPath().toLowerCase()));
+                    });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
 //                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_nugget"));
                         modelBuilder.texture("layer0", new Identifier(material.getResourceItemTexture().getNamespace(), material.getResourceItemTexture().getPath().toLowerCase()));
                     });
                     ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"), material);
-                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget"), material);
                 }
+            }
+        });
+
+        ModelLoadingRegistry.INSTANCE.registerAppender((manager, out) -> {
+            for (Material material : Materials.MATERIAL_LIST) {
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot1"),"inventory"));
             }
         });
 
