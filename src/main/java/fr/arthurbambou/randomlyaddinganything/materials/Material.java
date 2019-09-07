@@ -7,6 +7,7 @@ public class Material {
     private String name;
     private int RGB;
     private Identifier resourceItemTexture;
+    private Identifier nuggetTexture;
     private Identifier storageBlockTexture;
     private boolean armor;
     private boolean tools;
@@ -18,6 +19,19 @@ public class Material {
         this.name = name;
         this.RGB = RGB;
         this.resourceItemTexture = resourceItemTexture;
+        this.nuggetTexture = null;
+        this.armor = armor;
+        this.tools = tools;
+        this.weapons = weapons;
+        this.glowing = glowing;
+    }
+
+    public Material(OreInformation oreInformation, String name, int RGB, Identifier resourceItemTexture,Identifier nuggetTexture, boolean armor, boolean tools, boolean weapons, boolean glowing) {
+        this.oreInformation = oreInformation;
+        this.name = name;
+        this.RGB = RGB;
+        this.resourceItemTexture = resourceItemTexture;
+        this.nuggetTexture = nuggetTexture;
         this.armor = armor;
         this.tools = tools;
         this.weapons = weapons;
@@ -60,4 +74,7 @@ public class Material {
         return glowing;
     }
 
+    public Identifier getNuggetTexture() {
+        return nuggetTexture;
+    }
 }

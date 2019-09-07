@@ -24,6 +24,7 @@
 
 package fr.arthurbambou.randomlyaddinganything.utils;
 
+import fr.arthurbambou.randomlyaddinganything.items.RAABlockItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -37,10 +38,10 @@ import net.minecraft.util.registry.Registry;
 
 public class RegistryUtils {
 
-    public static Block register(Block block, Identifier name, ItemGroup itemGroup) {
+    public static Block register(Block block, Identifier name, ItemGroup itemGroup, String upperCaseName, RAABlockItem.BlockType blockType) {
         if (!Registry.BLOCK.containsId(name)) {
             Registry.register(Registry.BLOCK, name, block);
-            BlockItem item = new BlockItem(block, (new Settings()).group(itemGroup));
+            BlockItem item = new RAABlockItem(upperCaseName, block, (new Settings()).group(itemGroup), blockType);
             item.appendBlocks(Item.BLOCK_ITEMS, item);
             Registry.register(Registry.ITEM, name, item);
         }
