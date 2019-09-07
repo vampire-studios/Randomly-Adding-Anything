@@ -5,14 +5,14 @@ import net.minecraft.util.Identifier;
 public class Material {
     private OreInformation oreInformation;
     private String name;
-    private int[] RGB;
+    private int RGB;
     private Identifier resourceItemTexture;
     private boolean armor;
     private boolean tools;
     private boolean weapons;
     private boolean glowing;
 
-    public Material(OreInformation oreInformation, String name, int[] RGB, Identifier resourceItemTexture, boolean armor, boolean tools, boolean weapons, boolean glowing) {
+    public Material(OreInformation oreInformation, String name, int RGB, Identifier resourceItemTexture, boolean armor, boolean tools, boolean weapons, boolean glowing) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.RGB = RGB;
@@ -31,7 +31,7 @@ public class Material {
         return name;
     }
 
-    public int[] getRGB() {
+    public int getRGB() {
         return RGB;
     }
 

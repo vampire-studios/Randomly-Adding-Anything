@@ -23,7 +23,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
 
-import java.awt.*;
 import java.util.Collections;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -47,7 +46,7 @@ public class OreBakedModel extends RAABakedModel {
         QuadEmitter emitter = builder.getEmitter();
 
         RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, true).find();
-        int color = new Color(0xFFFFFFFF).getRGB();
+        int color = 0xFFFFFFFF;
         Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/" + Registry.BLOCK.getId(material.getOreInformation()
                 .getGenerateIn().getBlock()).getPath()));
         
@@ -81,7 +80,7 @@ public class OreBakedModel extends RAABakedModel {
         } else {
             mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).find();
         }
-        color = new Color(this.material.getRGB()[0],this.material.getRGB()[1],this.material.getRGB()[2]).getRGB();
+        color = material.getRGB();
         sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)

@@ -9,7 +9,7 @@ public class MaterialBuilder {
 
     private OreTypes oreType;
     private String name;
-    private int[] RGB = new int[3];
+    private int RGB;
     private AppearsIn generateIn;
     private Identifier overlayTexture;
     private Identifier resourceItemTexture;
@@ -34,7 +34,7 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder color(int[] RGB) {
+    public MaterialBuilder color(int RGB) {
         this.RGB = RGB;
         return this;
     }
