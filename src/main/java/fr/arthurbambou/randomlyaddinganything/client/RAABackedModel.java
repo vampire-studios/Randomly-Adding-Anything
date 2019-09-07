@@ -45,7 +45,7 @@ public abstract class RAABackedModel implements BakedModel, FabricBakedModel {
 
     @Override
     public boolean isBuiltin() {
-        return true;
+        return false;
     }
 
     @Override
