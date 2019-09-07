@@ -2,6 +2,7 @@ package fr.arthurbambou.randomlyaddinganything.materials;
 
 import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
 import net.minecraft.util.Identifier;
 
 public class MaterialBuilder {
@@ -43,13 +44,13 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder overlayTexture(Identifier overlayTexture) {
-        this.overlayTexture = overlayTexture;
+    public MaterialBuilder overlayTexture() {
+        this.overlayTexture = oreType == OreTypes.METAL ? Rands.list(OreTypes.METAL_BLOCK_TEXTURES) : Rands.list(OreTypes.GEM_BLOCK_TEXTURES);
         return this;
     }
 
-    public MaterialBuilder resourceItemTexture(Identifier resourceItemTexture) {
-        this.resourceItemTexture = resourceItemTexture;
+    public MaterialBuilder resourceItemTexture() {
+        this.resourceItemTexture = oreType == OreTypes.METAL ? Rands.list(OreTypes.METAL_ITEM_TEXTURES) : Rands.list(OreTypes.GEM_ITEM_TEXTURES);
         return this;
     }
 

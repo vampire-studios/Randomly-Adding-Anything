@@ -34,8 +34,8 @@ public class Materials {
             Random random = new Random();
             Material material = MaterialBuilder.create()
                     .oreType(Rands.values(OreTypes.values())).name(NameGenerator.generate()).color(RGB)
-                    .generatesIn(Rands.values(AppearsIn.values())).overlayTexture(Rands.list(OreTypes.METAL_TEXTURES))
-                    .resourceItemTexture(Rands.list(OreTypes.GEM_TEXTURES)).armor(random.nextBoolean())
+                    .generatesIn(Rands.values(AppearsIn.values())).overlayTexture(/*Rands.list(OreTypes.METAL_TEXTURES)*/)
+                    .resourceItemTexture(/*Rands.list(OreTypes.GEM_TEXTURES)*/).armor(random.nextBoolean())
                     .tools(random.nextBoolean()).weapons(random.nextBoolean()).glowing(random.nextBoolean()).build();
             MATERIAL_LIST.add(material);
             // Debug Only

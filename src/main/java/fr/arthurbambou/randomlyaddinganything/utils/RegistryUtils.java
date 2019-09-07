@@ -53,7 +53,10 @@ public class RegistryUtils {
     }
 
     public static Item registerItem(Item item, Identifier name) {
-        return Registry.register(Registry.ITEM, name, item);
+        if (!Registry.ITEM.containsId(name)) {
+            return Registry.register(Registry.ITEM, name, item);
+        }
+        return item;
     }
 
     public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(Builder<T> builder, Identifier name) {

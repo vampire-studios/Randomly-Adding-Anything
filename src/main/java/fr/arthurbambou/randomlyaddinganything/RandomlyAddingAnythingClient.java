@@ -2,7 +2,7 @@ package fr.arthurbambou.randomlyaddinganything;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
-import fr.arthurbambou.randomlyaddinganything.client.OreBackedModel;
+import fr.arthurbambou.randomlyaddinganything.client.OreBakedModel;
 import fr.arthurbambou.randomlyaddinganything.items.RAABlockItem;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.registries.Materials;
@@ -105,7 +105,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
                 @Override
                 public BakedModel bake(ModelLoader var1, Function<Identifier, Sprite> var2, ModelBakeSettings var3) {
-                    return new OreBackedModel(IDENTIFIERS.get(identifier).getKey());
+                    return new OreBakedModel(IDENTIFIERS.get(identifier).getKey());
                 }
             };
 
