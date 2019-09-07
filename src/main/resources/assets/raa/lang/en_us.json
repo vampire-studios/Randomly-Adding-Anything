@@ -3,5 +3,14 @@
   "text.raa.block.block": "%s Block",
   "text.raa.item.gem": "%s Gem",
   "text.raa.item.ingot": "%s Ingot",
-  "text.raa.item.nugget": "%s Nugget"
+  "text.raa.item.crystal": "%s Crystal",
+  "text.raa.item.nugget": "%s Nugget",
+  "text.raa.item.axe": "%s Axe",
+  "text.raa.item.pickaxe": "%s Pickaxe",
+  "text.raa.item.hoe": "%s Hoe",
+  "text.raa.item.shovel": "%s Shovel",
+  "text.raa.item.armor_head": "%s Helmet",
+  "text.raa.item.armor_chest": "%s Chestplate",
+  "text.raa.item.armor_legs": "%s Leggings",
+  "text.raa.item.armor_feet": "%s Boots"
 }

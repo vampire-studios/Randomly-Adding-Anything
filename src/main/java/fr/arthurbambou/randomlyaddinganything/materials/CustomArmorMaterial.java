@@ -18,22 +18,22 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
     @Override
     public int getDurability(EquipmentSlot var1) {
-        return ArmorMaterials.LEATHER.getDurability(var1);
+        return ArmorMaterials.IRON.getDurability(var1);
     }
 
     @Override
     public int getProtectionAmount(EquipmentSlot var1) {
-        return ArmorMaterials.LEATHER.getProtectionAmount(var1);
+        return ArmorMaterials.IRON.getProtectionAmount(var1);
     }
 
     @Override
     public int getEnchantability() {
-        return ArmorMaterials.LEATHER.getEnchantability();
+        return ArmorMaterials.IRON.getEnchantability();
     }
 
     @Override
     public SoundEvent getEquipSound() {
-        return ArmorMaterials.LEATHER.getEquipSound();
+        return ArmorMaterials.IRON.getEquipSound();
     }
 
     @Override
@@ -43,12 +43,12 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
     @Override
     public String getName() {
-        return this.name;
+        return "raa";
     }
 
     @Override
     public float getToughness() {
-        return ArmorMaterials.LEATHER.getToughness();
+        return ArmorMaterials.IRON.getToughness();
     }
 
 }

@@ -1,6 +1,5 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
-import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
@@ -31,7 +30,7 @@ public class ItemResourceModel extends ItemBakedModel {
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
         BakedModelManager bakedModelManager = MinecraftClient.getInstance().getBakedModelManager();
         context.fallbackConsumer().accept(bakedModelManager.getModel(new ModelIdentifier(new Identifier(identifier.getNamespace(), identifier.getPath().replace("item/","") + "1"), "inventory")));
-        int color = material.getRGB();
+        int color = material.getRGBColor();
         context.pushTransform(quad -> {
             quad.nominalFace(GeometryHelper.lightFace(quad));
             quad.spriteColor(0, color, color, color, color);

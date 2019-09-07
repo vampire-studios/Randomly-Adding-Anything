@@ -1,6 +1,5 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
-import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
@@ -17,10 +16,8 @@ import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
 
@@ -28,11 +25,9 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.function.Supplier;
 
-import static net.minecraft.block.BlockRenderLayer.CUTOUT;
+public class StorageBlockBakedModel extends RAABakedModel {
 
-public class OreBakedModel extends RAABakedModel {
-
-    public OreBakedModel(Material material) {
+    public StorageBlockBakedModel(Material material) {
         super(material);
     }
 
@@ -46,48 +41,14 @@ public class OreBakedModel extends RAABakedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, true).find();
-        int color = 0xFFFFFFFF;
-        Sprite sprite;
-        if (material.getOreInformation().getGenerateIn() != AppearsIn.DOES_NOT_APPEAR) {
-            sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/" + Registry.BLOCK.getId(material.getOreInformation()
-                    .getGenerateIn().getBlock()).getPath()));
-        } else {
-            sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/oak_planks"));
-        }
-        
-        emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.UP, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-
+        RenderMaterial mat;
         if (material.isGlowing()) {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).emissive(0, true).find();
+            mat = renderer.materialFinder().disableDiffuse(0, true).emissive(0, true).find();
         } else {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).find();
+            mat = renderer.materialFinder().disableDiffuse(0, true).find();
         }
-        color = material.getRGBColor();
-        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
+        int color = material.getRGBColor();
+        Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getStorageBlockTexture());
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
@@ -129,7 +90,7 @@ public class OreBakedModel extends RAABakedModel {
 
         @Override
         public BakedModel apply(BakedModel bakedModel_1, ItemStack itemStack_1, World world_1, LivingEntity livingEntity_1) {
-            return OreBakedModel.this;
+            return StorageBlockBakedModel.this;
         }
     }
 

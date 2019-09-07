@@ -37,14 +37,12 @@ public class OreFeatureConfig implements FeatureConfig {
     }
 
     public enum Target {
-        NATURAL_STONE("natural_stone", (blockState_1) -> {
-            if (blockState_1 == null) {
-                return false;
-            } else {
-                Block block_1 = blockState_1.getBlock();
-                return block_1 == Blocks.STONE || block_1 == Blocks.GRANITE || block_1 == Blocks.DIORITE || block_1 == Blocks.ANDESITE;
-            }
-        }),
+        STONE("stone", new BlockPredicate(Blocks.STONE)),
+        ANDESITE("andesite", new BlockPredicate(Blocks.ANDESITE)),
+        DIORITE("diorite", new BlockPredicate(Blocks.DIORITE)),
+        GRANITE("granite", new BlockPredicate(Blocks.GRANITE)),
+        GRASS_BLOCK("grass_block", new BlockPredicate(Blocks.GRASS_BLOCK)),
+        GRAVEL("gravel", new BlockPredicate(Blocks.GRAVEL)),
         DIRT("dirt", (blockState_1) -> {
             if (blockState_1 == null) {
                 return false;
@@ -58,7 +56,15 @@ public class OreFeatureConfig implements FeatureConfig {
                 return false;
             } else {
                 Block block_1 = blockState_1.getBlock();
-                return block_1 == Blocks.SAND || block_1 == Blocks.SANDSTONE || block_1 == Blocks.RED_SAND || block_1 == Blocks.RED_SANDSTONE;
+                return block_1 == Blocks.SAND || block_1 == Blocks.SANDSTONE;
+            }
+        }),
+        RED_SAND("red_sand", (blockState_1) -> {
+            if (blockState_1 == null) {
+                return false;
+            } else {
+                Block block_1 = blockState_1.getBlock();
+                return block_1 == Blocks.RED_SAND || block_1 == Blocks.RED_SANDSTONE;
             }
         }),
         NETHERRACK("netherrack", new BlockPredicate(Blocks.NETHERRACK)),

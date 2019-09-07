@@ -3,11 +3,9 @@ package fr.arthurbambou.randomlyaddinganything.api.enums;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public enum AppearsIn {
     STONE(Blocks.STONE),
+    GRASS_BLOCK(Blocks.GRASS_BLOCK),
     DIRT_SURFACE(Blocks.DIRT),
     GRAVEL(Blocks.GRAVEL),
     SAND_DESERT(Blocks.SAND),
