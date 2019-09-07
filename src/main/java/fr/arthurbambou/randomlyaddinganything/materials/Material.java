@@ -6,18 +6,22 @@ public class Material {
     private OreInformation oreInformation;
     private String name;
     private int RGB;
-    private Identifier resourceItemTexture;
-    private Identifier nuggetTexture;
     private Identifier storageBlockTexture;
+    private Identifier resourceItemTexture;
+    private Identifier ingotTexture;
+    private Identifier nuggetTexture;
+    private Identifier gemTexture;
     private boolean armor;
     private boolean tools;
     private boolean weapons;
     private boolean glowing;
 
-    public Material(OreInformation oreInformation, String name, int RGB, Identifier resourceItemTexture, boolean armor, boolean tools, boolean weapons, boolean glowing) {
+    public Material(OreInformation oreInformation, String name, int RGB, Identifier storageBlockTexture, Identifier resourceItemTexture,
+                    boolean armor, boolean tools, boolean weapons, boolean glowing) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.RGB = RGB;
+        this.storageBlockTexture = storageBlockTexture;
         this.resourceItemTexture = resourceItemTexture;
         this.nuggetTexture = null;
         this.armor = armor;
@@ -26,10 +30,12 @@ public class Material {
         this.glowing = glowing;
     }
 
-    public Material(OreInformation oreInformation, String name, int RGB, Identifier resourceItemTexture,Identifier nuggetTexture, boolean armor, boolean tools, boolean weapons, boolean glowing) {
+    public Material(OreInformation oreInformation, String name, int RGB, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
+                    boolean armor, boolean tools, boolean weapons, boolean glowing) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.RGB = RGB;
+        this.storageBlockTexture = storageBlockTexture;
         this.resourceItemTexture = resourceItemTexture;
         this.nuggetTexture = nuggetTexture;
         this.armor = armor;
@@ -46,7 +52,7 @@ public class Material {
         return name;
     }
 
-    public int getRGB() {
+    public int getRGBColor() {
         return RGB;
     }
 

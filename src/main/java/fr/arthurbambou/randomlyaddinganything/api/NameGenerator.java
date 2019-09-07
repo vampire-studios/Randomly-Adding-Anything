@@ -35,6 +35,6 @@ public class NameGenerator {
         String string2 = string + string1;
         char[] chars = string2.toCharArray();
         chars[0] = Character.toUpperCase(chars[0]);
-        return new StringBuilder().append(chars).toString();
+        return String.valueOf(chars);
     }
 }
