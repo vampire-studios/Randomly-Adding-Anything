@@ -36,15 +36,21 @@ public class RandomlyAddingAnything implements ModInitializer {
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.SAND_DESERT) {
 					if (biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == Biomes.DESERT_LAKES) {
 						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
-						        new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NATURAL_STONE,
+						        new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.SAND,
                                         Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
                                         Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
 					}
 				}
+				if (material.getOreInformation().getGenerateIn() == AppearsIn.STONE) {
+					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
+							new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NATURAL_STONE,
+									Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
+							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.SAND_ANY) {
 					if (biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == Biomes.DESERT_LAKES || biome == Biomes.BEACH) {
 						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
-								new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NATURAL_STONE,
+								new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.SAND,
 										Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
 								Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
 					}
@@ -52,7 +58,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.NETHERRACK) {
 					if (biome == Biomes.NETHER) {
 						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
-								new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NATURAL_STONE,
+								new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NETHERRACK,
 										Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
 								Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
 					}

@@ -6,8 +6,11 @@ public class Material {
     private OreInformation oreInformation;
     private String name;
     private int RGB;
-    private Identifier resourceItemTexture;
     private Identifier storageBlockTexture;
+    private Identifier resourceItemTexture;
+    private Identifier ingotTexture;
+    private Identifier nuggetTexture;
+    private Identifier gemTexture;
     private boolean armor;
     private boolean tools;
     private boolean weapons;

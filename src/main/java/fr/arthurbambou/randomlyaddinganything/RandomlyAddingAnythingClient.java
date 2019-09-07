@@ -11,6 +11,7 @@ import fr.arthurbambou.randomlyaddinganything.registries.Materials;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.fabricmc.fabric.impl.client.render.ColorProviderRegistryImpl;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.client.render.model.ModelLoader;
@@ -19,7 +20,7 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.util.Identifier;
-import org.apache.commons.lang3.text.WordUtils;
+import net.minecraft.util.registry.Registry;
 
 import java.util.*;
 import java.util.function.Function;
@@ -194,6 +195,29 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             }
         });
 
+
+        for (Material material : Materials.MATERIAL_LIST) {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
+                if (layer == 0) return material.getRGB();
+                else return -1;
+            },
+                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")),
+                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")),
+                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")),
+                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots"))
+            );
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
+                        if (layer == 1) return material.getRGB();
+                        else return -1;
+                    },
+                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe")),
+                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel")),
+                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe")),
+                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe")),
+                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_sword"))
+            );
+        }
+
         ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {
             if(!modelIdentifier.getNamespace().equals(RandomlyAddingAnything.MOD_ID)){
                 return null;
@@ -219,6 +243,18 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 public BakedModel bake(ModelLoader var1, Function<Identifier, Sprite> var2, ModelBakeSettings var3) {
                     if (ITEM_IDENTIFIERS.containsKey(identifier)) {
                         if (identifier.getPath().endsWith("nugget")) {
+                            return new NuggetResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
+                        }
+                        if (identifier.getPath().endsWith("helmet")) {
+                            return new NuggetResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
+                        }
+                        if (identifier.getPath().endsWith("chestplate")) {
+                            return new NuggetResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
+                        }
+                        if (identifier.getPath().endsWith("leggings")) {
+                            return new NuggetResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
+                        }
+                        if (identifier.getPath().endsWith("boots")) {
                             return new NuggetResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
                         }
                         return new ItemResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
