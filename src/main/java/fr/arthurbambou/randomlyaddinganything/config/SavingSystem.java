@@ -10,10 +10,7 @@ import fr.arthurbambou.randomlyaddinganything.registries.Materials;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +41,28 @@ public class SavingSystem {
         configFile = new File(configPath, configFilename + ".json");
         if (!configFile.exists()) {
             try {
-                FileWriter fileWriter = new FileWriter(configFile);
-                System.out.println(gson.toJson(toJSON()));
-                fileWriter.write(gson.toJson(toJSON()));
+                BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
+                MaterialJSON[] materialJSONS = toJSON();
+                for (int a = 0; a < materialJSONS.length; a++) {
+                    if (a == 0) {
+                        fileWriter.write("[" + gson.toJson(materialJSONS[a]) + ",");
+                        fileWriter.newLine();
+                        fileWriter.flush();
+                        continue;
+                    }
+                    if (a == materialJSONS.length - 1) {
+                        fileWriter.write(gson.toJson(materialJSONS[a]));
+                        fileWriter.newLine();
+                        fileWriter.flush();
+                        continue;
+                    }
+                    fileWriter.write(gson.toJson(materialJSONS[a]) + ",");
+                    fileWriter.newLine();
+                    fileWriter.flush();
+                }
+                fileWriter.write("]");
+                fileWriter.flush();
+                fileWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

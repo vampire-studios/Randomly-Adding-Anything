@@ -34,7 +34,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         while (!Materials.isIsReady()) {
-            System.out.println("Not Ready");
+//            System.out.println("Not Ready");
         }
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {

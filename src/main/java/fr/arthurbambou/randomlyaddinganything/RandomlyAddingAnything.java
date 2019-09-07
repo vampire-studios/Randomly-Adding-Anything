@@ -35,6 +35,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 			SavingSystem.createFile();
 		} else {
 			SavingSystem.readFile();
+			Materials.isReady = true;
 		}
 		Materials.createMaterialResources();
 		Registry.BIOME.forEach(biome -> {
