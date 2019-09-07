@@ -26,6 +26,7 @@
     ]
   },
   "mixins": [
+    "raa.mixin.json"
   ],
 
   "depends": {
