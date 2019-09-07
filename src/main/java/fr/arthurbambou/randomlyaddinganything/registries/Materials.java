@@ -81,22 +81,22 @@ public class Materials {
             }
             if (material.hasArmor()) {
                 RegistryUtils.registerItem(
-                        new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
+                        new ArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
                                 EquipmentSlot.HEAD, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")
                 );
                 RegistryUtils.registerItem(
-                        new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
+                        new ArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
                                 EquipmentSlot.CHEST, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")
                 );
                 RegistryUtils.registerItem(
-                        new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
+                        new ArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
                                 EquipmentSlot.LEGS, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")
                 );
                 RegistryUtils.registerItem(
-                        new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
+                        new ArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
                                 EquipmentSlot.FEET, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots")
                 );

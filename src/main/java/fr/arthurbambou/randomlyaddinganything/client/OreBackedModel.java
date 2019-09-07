@@ -74,38 +74,36 @@ public class OreBackedModel extends RAABackedModel {
                 .spriteColor(0, color, color, color, color)
                 .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
 
-        mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).emissive(2, true).find();
+        if (material.isGlowing()) {
+            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).emissive(0, true).find();
+        } else {
+            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).find();
+        }
         color = new Color(this.material.getRGB()[0],this.material.getRGB()[0],this.material.getRGB()[0]).getRGB();
         sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOverlayTexture());
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
-                .lightmap(0, 0, 1, 1)
                 .spriteColor(0, color, color, color, color)
                 .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
                 .material(mat)
-                .lightmap(1, 1, 1, 1)
                 .spriteColor(0, color, color, color, color)
                 .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
                 .material(mat)
-                .lightmap(1, 1, 1, 1)
                 .spriteColor(0, color, color, color, color)
                 .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
                 .material(mat)
-                .lightmap(1, 1, 1, 1)
                 .spriteColor(0, color, color, color, color)
                 .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
                 .material(mat)
-                .lightmap(1, 1, 1, 1)
                 .spriteColor(0, color, color, color, color)
                 .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                 .material(mat)
-                .lightmap(1, 1, 1, 1)
                 .spriteColor(0, color, color, color, color)
                 .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
 

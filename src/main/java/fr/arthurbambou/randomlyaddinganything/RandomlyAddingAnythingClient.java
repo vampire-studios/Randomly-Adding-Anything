@@ -2,8 +2,8 @@ package fr.arthurbambou.randomlyaddinganything;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
-import fr.arthurbambou.randomlyaddinganything.items.RAABlockItem;
 import fr.arthurbambou.randomlyaddinganything.client.OreBackedModel;
+import fr.arthurbambou.randomlyaddinganything.items.RAABlockItem;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.registries.Materials;
 import net.fabricmc.api.ClientModInitializer;
@@ -16,6 +16,7 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.util.Identifier;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.*;
 import java.util.function.Function;
@@ -56,12 +57,12 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     clientResourcePackBuilder.addItemModel(id, modelBuilder -> {
                         modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath()));
                     });
-//                    clientResourcePackBuilder.addTranslations();
+                    clientResourcePackBuilder.addTranslations(id, translationBuilder ->
+                            translationBuilder.entry("block." + id.getNamespace() + "." + id.getPath(), WordUtils.capitalizeFully(id.getNamespace() + "." + id.getPath())));
                     Map<Material, RAABlockItem.BlockType> map = new HashMap<>();
                     map.put(material, blockType);
                     IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
                 }
-                Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase());
                 if (material.getOreType() == OreTypes.GEM) {
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
