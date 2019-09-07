@@ -46,7 +46,7 @@ public class OreBakedModel extends RAABakedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, true).find();
+        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, false).find();
         int color = 0xFFFFFFFF;
         Sprite sprite;
         if (material.getOreInformation().getGenerateIn() != AppearsIn.DOES_NOT_APPEAR) {
