@@ -48,7 +48,7 @@ public class NuggetResourceModel extends ItemBakedModel {
 
     @Override
     public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(material.getResourceItemTexture());
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(material.getNuggetTexture());
     }
 
     @Override

@@ -1,4 +1,7 @@
 {
   "text.raa.block.ore": "%s Ore",
-  "text.raa.block.block": "%s Block"
+  "text.raa.block.block": "%s Block",
+  "text.raa.item.gem": "%s Gem",
+  "text.raa.item.ingot": "%s Ingot",
+  "text.raa.item.nugget": "%s Nugget"
 }
