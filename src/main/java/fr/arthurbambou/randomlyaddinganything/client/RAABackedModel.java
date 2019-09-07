@@ -45,12 +45,12 @@ public abstract class RAABackedModel implements BakedModel, FabricBakedModel {
 
     @Override
     public boolean isBuiltin() {
-        return false;
+        return true;
     }
 
     @Override
     public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOverlayTexture());
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
     }
 
     @Override

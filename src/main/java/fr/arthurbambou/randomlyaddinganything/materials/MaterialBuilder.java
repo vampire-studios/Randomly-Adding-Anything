@@ -16,6 +16,8 @@ public class MaterialBuilder {
     private boolean tools;
     private boolean weapons;
     private boolean glowing;
+    private int minXPAmount = 0;
+    private int maxXPAmount = 10;
 
     public static MaterialBuilder create() {
         return new MaterialBuilder();
@@ -71,8 +73,18 @@ public class MaterialBuilder {
         return this;
     }
 
+    public MaterialBuilder minXPAmount(int minXPAmount) {
+        this.minXPAmount = minXPAmount;
+        return this;
+    }
+
+    public MaterialBuilder maxXPAmount(int maxXPAmount) {
+        this.maxXPAmount = maxXPAmount;
+        return this;
+    }
+
     public Material build() {
-        return new Material(oreType, name, RGB, generateIn, overlayTexture, resourceItemTexture, armor, tools, weapons, glowing);
+        return new Material(new OreInformation(oreType, generateIn, overlayTexture, minXPAmount, maxXPAmount), name, RGB, resourceItemTexture, armor, tools, weapons, glowing);
     }
 
 }

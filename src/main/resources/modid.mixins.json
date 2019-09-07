@@ -1,11 +1,9 @@
 {
   "required": true,
-  "package": "net.fabricmc.example.mixin",
+  "package": "fr.arthurbambou.randomlyaddinganything.mixins",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ],
   "client": [
-    "ExampleMixin"
+    "client.ArmorFeatureRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

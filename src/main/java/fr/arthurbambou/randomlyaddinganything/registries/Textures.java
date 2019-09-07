@@ -13,6 +13,9 @@ public class Textures {
         OreTypes.METAL_TEXTURES.add(new Identifier("item/melon_seeds"));
         OreTypes.METAL_TEXTURES.add(new Identifier("item/prismarine_crystals"));
         OreTypes.METAL_TEXTURES.add(new Identifier("item/cocoa_beans"));
+        OreTypes.METAL_TEXTURES.add(new Identifier("item/blaze_powder"));
+        OreTypes.METAL_TEXTURES.add(new Identifier("item/iron_ingot"));
+        OreTypes.METAL_TEXTURES.add(new Identifier("item/gold_ingot"));
 
         OreTypes.GEM_TEXTURES.add(new Identifier("item/ghast_tear"));
         OreTypes.GEM_TEXTURES.add(new Identifier("item/coal"));

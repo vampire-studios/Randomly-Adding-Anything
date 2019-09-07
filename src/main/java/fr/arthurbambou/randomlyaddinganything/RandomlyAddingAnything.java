@@ -33,7 +33,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 		Materials.createMaterialResources();
 		Registry.BIOME.forEach(biome -> {
 			for (Material material : Materials.MATERIAL_LIST) {
-				if (material.getGenerateIn() == AppearsIn.SAND_DESERT) {
+				if (material.getOreInformation().getGenerateIn() == AppearsIn.SAND_DESERT) {
 					if (biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == Biomes.DESERT_LAKES) {
 						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 						        new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NATURAL_STONE,
@@ -41,7 +41,7 @@ public class RandomlyAddingAnything implements ModInitializer {
                                         Decorator.COUNT_RANGE, new RangeDecoratorConfig(20, 0, 0, 64)));
 					}
 				}
-				if (material.getGenerateIn() == AppearsIn.SAND_BEACH) {
+				if (material.getOreInformation().getGenerateIn() == AppearsIn.SAND_BEACH) {
 					if (biome == Biomes.BEACH ) {
                         biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
                                 new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.SAND,

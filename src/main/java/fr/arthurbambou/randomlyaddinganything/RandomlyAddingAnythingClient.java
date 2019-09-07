@@ -39,7 +39,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     registry.register(new Identifier("block/sandstone"));
                     registry.register(new Identifier("block/red_sandstone"));
                     for (Material material : Materials.MATERIAL_LIST) {
-                        registry.register(material.getOverlayTexture());
+                        registry.register(material.getOreInformation().getOverlayTexture());
                         registry.register(material.getResourceItemTexture());
                     }
                 });
@@ -63,14 +63,14 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     map.put(material, blockType);
                     IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
                 }
-                if (material.getOreType() == OreTypes.GEM) {
+                if (material.getOreInformation().getOreType() == OreTypes.GEM) {
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
 //                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_gem"));
                         modelBuilder.texture("layer0", new Identifier(material.getResourceItemTexture().getNamespace(), material.getResourceItemTexture().getPath().toLowerCase()));
                     });
                 }
-                if (material.getOreType() == OreTypes.METAL) {
+                if (material.getOreInformation().getOreType() == OreTypes.METAL) {
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
 //                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_ingot"));

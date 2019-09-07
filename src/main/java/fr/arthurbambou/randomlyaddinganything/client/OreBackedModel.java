@@ -46,67 +46,68 @@ public class OreBackedModel extends RAABackedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, true).find();
+        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, false).find();
         int color = new Color(0xFFFFFFFF).getRGB();
-        Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/" + Registry.BLOCK.getId(material.getGenerateIn().getBlock()).getPath()));
+        Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/" + Registry.BLOCK.getId(material.getOreInformation()
+                .getGenerateIn().getBlock()).getPath()));
         
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
 
         if (material.isGlowing()) {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).emissive(0, true).find();
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, CUTOUT).emissive(0, true).find();
         } else {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).find();
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, CUTOUT).find();
         }
         color = new Color(this.material.getRGB()[0],this.material.getRGB()[0],this.material.getRGB()[0]).getRGB();
-        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOverlayTexture());
+        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
         emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_NORMALIZED).emit();
 
         return builder.build();
     }

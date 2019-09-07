@@ -6,10 +6,7 @@ import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.blocks.LayeredOreBlock;
 import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
-import fr.arthurbambou.randomlyaddinganything.items.RAAAxeItem;
-import fr.arthurbambou.randomlyaddinganything.items.RAAHoeItem;
-import fr.arthurbambou.randomlyaddinganything.items.RAAPickaxeItem;
-import fr.arthurbambou.randomlyaddinganything.items.RAAShovelItem;
+import fr.arthurbambou.randomlyaddinganything.items.*;
 import fr.arthurbambou.randomlyaddinganything.materials.CustomArmorMaterial;
 import fr.arthurbambou.randomlyaddinganything.materials.CustomToolMaterial;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
@@ -18,9 +15,8 @@ import fr.arthurbambou.randomlyaddinganything.utils.RegistryUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.*;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.item.Item;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -45,10 +41,10 @@ public class Materials {
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
                 System.out.println("\nname : " + material.getName() +
-                        "\noreType : " + material.getOreType().name().toLowerCase() +
+                        "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
                         "\nRGB color : " + RGB[0] + "," + RGB[1] + "," + RGB[2] +
-                        "\nGenerate in : " + material.getGenerateIn().name().toLowerCase() +
-                        "\nOverlay Texture : " + material.getOverlayTexture().toString() +
+                        "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
+                        "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
                         "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
                         "\nHas Armor : " + material.hasArmor() +
                         "\nHas Weapons : " + material.hasWeapons() +
@@ -68,9 +64,9 @@ public class Materials {
             Item repairItem;
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
                     new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_block"), RandomlyAddingAnything.ITEM_GROUP);
-            RegistryUtils.register(new LayeredOreBlock(Block.Settings.copy(Blocks.IRON_ORE)),
+            RegistryUtils.register(new LayeredOreBlock(material, Block.Settings.copy(Blocks.IRON_ORE)),
                     new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore"), RandomlyAddingAnything.ITEM_GROUP);
-            if (material.getOreType() == OreTypes.METAL) {
+            if (material.getOreInformation().getOreType() == OreTypes.METAL) {
                 RegistryUtils.registerItem(repairItem = new Item(new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP)), new Identifier(RandomlyAddingAnything.MOD_ID,
                         material.getName().toLowerCase() + "_ingot"));
                 RegistryUtils.registerItem(new Item(new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP)), new Identifier(RandomlyAddingAnything.MOD_ID,
@@ -81,22 +77,22 @@ public class Materials {
             }
             if (material.hasArmor()) {
                 RegistryUtils.registerItem(
-                        new ArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
+                        new RAAArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
                                 EquipmentSlot.HEAD, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")
                 );
                 RegistryUtils.registerItem(
-                        new ArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
+                        new RAAArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
                                 EquipmentSlot.CHEST, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")
                 );
                 RegistryUtils.registerItem(
-                        new ArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
+                        new RAAArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
                                 EquipmentSlot.LEGS, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")
                 );
                 RegistryUtils.registerItem(
-                        new ArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
+                        new RAAArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
                                 EquipmentSlot.FEET, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots")
                 );
