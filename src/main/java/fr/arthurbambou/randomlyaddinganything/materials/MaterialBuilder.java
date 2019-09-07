@@ -51,7 +51,7 @@ public class MaterialBuilder {
     }
 
     public MaterialBuilder storageBlockTexture() {
-        this.resourceItemTexture = oreType == OreTypes.METAL ? Rands.list(OreTypes.METAL_BLOCK_TEXTURES) : Rands.list(OreTypes.GEM_BLOCK_TEXTURES);
+        this.storageBlockTexture = oreType == OreTypes.METAL ? Rands.list(OreTypes.METAL_BLOCK_TEXTURES) : Rands.list(OreTypes.GEM_BLOCK_TEXTURES);
         return this;
     }
 
@@ -91,7 +91,7 @@ public class MaterialBuilder {
     }
 
     public Material build() {
-        return new Material(new OreInformation(oreType, generateIn, overlayTexture, minXPAmount, maxXPAmount), name, RGB, resourceItemTexture, armor, tools, weapons, glowing);
+        return new Material(new OreInformation(oreType, generateIn, overlayTexture, minXPAmount, maxXPAmount), name, RGB, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing);
     }
 
 }

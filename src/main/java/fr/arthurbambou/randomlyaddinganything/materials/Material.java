@@ -13,10 +13,12 @@ public class Material {
     private boolean weapons;
     private boolean glowing;
 
-    public Material(OreInformation oreInformation, String name, int RGB, Identifier resourceItemTexture, boolean armor, boolean tools, boolean weapons, boolean glowing) {
+    public Material(OreInformation oreInformation, String name, int RGB, Identifier storageBlockTexture, Identifier resourceItemTexture,
+                    boolean armor, boolean tools, boolean weapons, boolean glowing) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.RGB = RGB;
+        this.storageBlockTexture = storageBlockTexture;
         this.resourceItemTexture = resourceItemTexture;
         this.armor = armor;
         this.tools = tools;

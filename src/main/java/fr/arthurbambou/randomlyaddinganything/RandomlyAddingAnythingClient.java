@@ -43,6 +43,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     registry.register(new Identifier("block/red_sandstone"));
                     for (Material material : Materials.MATERIAL_LIST) {
                         registry.register(material.getOreInformation().getOverlayTexture());
+                        registry.register(material.getStorageBlockTexture());
 //                        registry.register(material.getResourceItemTexture());
                     }
                 });
@@ -184,6 +185,11 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate1"),"inventory"));
                 out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings1"),"inventory"));
                 out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_sword1"),"inventory"));
             }
         });
 
