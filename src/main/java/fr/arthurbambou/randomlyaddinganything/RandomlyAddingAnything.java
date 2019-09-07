@@ -2,6 +2,7 @@ package fr.arthurbambou.randomlyaddinganything;
 
 import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.config.Config;
+import fr.arthurbambou.randomlyaddinganything.config.SavingSystem;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.registries.Materials;
 import fr.arthurbambou.randomlyaddinganything.registries.Textures;
@@ -29,7 +30,12 @@ public class RandomlyAddingAnything implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		Textures.init();
-		Materials.init();
+		if (SavingSystem.init()) {
+			Materials.init();
+			SavingSystem.createFile();
+		} else {
+			SavingSystem.readFile();
+		}
 		Materials.createMaterialResources();
 		Registry.BIOME.forEach(biome -> {
 			for (Material material : Materials.MATERIAL_LIST) {
