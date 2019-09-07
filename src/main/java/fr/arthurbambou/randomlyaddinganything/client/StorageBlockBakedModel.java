@@ -1,5 +1,6 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
+import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
@@ -16,6 +17,7 @@ import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.ExtendedBlockView;
@@ -49,6 +51,11 @@ public class StorageBlockBakedModel extends RAABakedModel {
         }
         int color = material.getRGBColor();
         Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getStorageBlockTexture());
+        if (material.getOreInformation().getGenerateIn() != AppearsIn.DOES_NOT_APPEAR) {
+            sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(material.getStorageBlockTexture());
+        } else {
+            sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/oak_planks"));
+        }
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
