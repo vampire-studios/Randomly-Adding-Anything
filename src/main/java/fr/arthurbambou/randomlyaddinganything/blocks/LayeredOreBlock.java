@@ -37,7 +37,7 @@ public class LayeredOreBlock extends OreBlock {
 
 	@Override
 	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT_MIPPED;
+		return BlockRenderLayer.SOLID;
 	}
 
 	protected int getExperienceWhenMined(Random random_1) {
