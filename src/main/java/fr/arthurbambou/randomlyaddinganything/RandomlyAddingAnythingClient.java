@@ -236,8 +236,9 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     if (ITEM_IDENTIFIERS.containsKey(identifier)) {
                         if (identifier.getPath().endsWith("nugget")) {
                             return new NuggetResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
+                        } else {
+                            return new ItemResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
                         }
-                        return new ItemResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
                     }
                     if (identifier.getPath().endsWith("block")) {
                         return new StorageBlockBakedModel(BLOCKS_IDENTIFIERS.get(identifier).getKey());
