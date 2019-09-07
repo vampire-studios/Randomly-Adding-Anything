@@ -59,11 +59,6 @@ public abstract class ItemBakedModel implements BakedModel, FabricBakedModel {
     }
 
     @Override
-    public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(material.getResourceItemTexture());
-    }
-
-    @Override
     public ModelItemPropertyOverrideList getItemPropertyOverrides() {
         return ModelItemPropertyOverrideList.EMPTY;
     }
