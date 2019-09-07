@@ -3,6 +3,7 @@ package fr.arthurbambou.randomlyaddinganything;
 import com.swordglowsblue.artifice.api.Artifice;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.client.ItemResourceModel;
+import fr.arthurbambou.randomlyaddinganything.client.NuggetResourceModel;
 import fr.arthurbambou.randomlyaddinganything.client.OreBakedModel;
 import fr.arthurbambou.randomlyaddinganything.items.RAABlockItem;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
@@ -25,7 +26,7 @@ import java.util.function.Function;
 
 public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
-    private static final Map<Identifier, Map.Entry<Material, RAABlockItem.BlockType>> IDENTIFIERS = new HashMap<>();
+    private static final Map<Identifier, Map.Entry<Material, RAABlockItem.BlockType>> BLOCKS_IDENTIFIERS = new HashMap<>();
     private static final Map<Identifier, Material> ITEM_IDENTIFIERS = new HashMap<>();
 
     @Override
@@ -58,13 +59,12 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder.parent(new Identifier("block/cube_all"));
                         modelBuilder.texture("all", material.getStorageBlockTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(id, modelBuilder ->
-                            modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
-                    clientResourcePackBuilder.addTranslations(id, translationBuilder ->
-                            translationBuilder.entry("block." + id.getNamespace() + "." + id.getPath(), WordUtils.capitalizeFully(id.getNamespace() + "." + id.getPath())));
+                    clientResourcePackBuilder.addItemModel(id, modelBuilder -> {
+                        modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath()));
+                    });
                     Map<Material, RAABlockItem.BlockType> map = new HashMap<>();
                     map.put(material, blockType);
-                    IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
+                    BLOCKS_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
                 }
                 if (material.getOreInformation().getOreType() == OreTypes.GEM) {
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"), modelBuilder -> {
@@ -100,6 +100,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
                     ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"), material);
+                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget"), material);
                 }
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
@@ -198,10 +199,10 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 return null;
             }
             Identifier identifier = new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath());
-            if (!(IDENTIFIERS.containsKey(identifier) || ITEM_IDENTIFIERS.containsKey(identifier))) return null;
+            if (!(BLOCKS_IDENTIFIERS.containsKey(identifier) || ITEM_IDENTIFIERS.containsKey(identifier))) return null;
             System.out.println(modelIdentifier.toString());
-            if (IDENTIFIERS.containsKey(identifier)) {
-                if (IDENTIFIERS.get(identifier).getValue() != RAABlockItem.BlockType.ORE) return null;
+            if (BLOCKS_IDENTIFIERS.containsKey(identifier)) {
+                if (BLOCKS_IDENTIFIERS.get(identifier).getValue() != RAABlockItem.BlockType.ORE) return null;
             }
             return new UnbakedModel() {
                 @Override
@@ -217,9 +218,12 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 @Override
                 public BakedModel bake(ModelLoader var1, Function<Identifier, Sprite> var2, ModelBakeSettings var3) {
                     if (ITEM_IDENTIFIERS.containsKey(identifier)) {
+                        if (identifier.getPath().endsWith("nugget")) {
+                            return new NuggetResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
+                        }
                         return new ItemResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
                     }
-                    return new OreBakedModel(IDENTIFIERS.get(identifier).getKey());
+                    return new OreBakedModel(BLOCKS_IDENTIFIERS.get(identifier).getKey());
                 }
             };
 

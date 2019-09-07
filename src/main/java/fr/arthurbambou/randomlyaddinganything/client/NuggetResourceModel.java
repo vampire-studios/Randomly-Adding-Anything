@@ -1,6 +1,5 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
-import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
@@ -18,11 +17,11 @@ import net.minecraft.util.Identifier;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class ItemResourceModel extends ItemBakedModel {
+public class NuggetResourceModel extends ItemBakedModel {
 
     private Identifier identifier;
 
-    public ItemResourceModel(Identifier identifier,Material material) {
+    public NuggetResourceModel(Identifier identifier, Material material) {
         super(material);
         this.identifier = identifier;
     }
@@ -49,7 +48,7 @@ public class ItemResourceModel extends ItemBakedModel {
 
     @Override
     public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(material.getResourceItemTexture());
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(material.getNuggetItemTexture());
     }
 
     @Override

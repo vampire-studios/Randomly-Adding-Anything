@@ -72,5 +72,8 @@ public class Textures {
         OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_1"));
         OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_2"));
         OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_3"));
+
+        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier("item/iron_nugget"));
+        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier("item/gold_nugget"));
     }
 }
