@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
 
@@ -47,7 +48,7 @@ public class OreBackedModel extends RAABackedModel {
 
         RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, true).find();
         int color = new Color(0xFFFFFFFF).getRGB();
-        Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/stone"));
+        Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/" + Registry.BLOCK.getId(material.getGenerateIn().getBlock()).getPath()));
         
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
