@@ -43,7 +43,7 @@ public class OreBackedModel extends RAABackedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, true).find().spriteDepth(2);
+        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, true).find();
         int color = new Color(this.material.getRGB()[0],this.material.getRGB()[0],this.material.getRGB()[0]).getRGB();
         Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/stone"));
         

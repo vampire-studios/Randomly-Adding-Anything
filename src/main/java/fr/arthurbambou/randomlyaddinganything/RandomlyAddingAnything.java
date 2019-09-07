@@ -7,7 +7,6 @@ import fr.arthurbambou.randomlyaddinganything.registries.Materials;
 import fr.arthurbambou.randomlyaddinganything.registries.Textures;
 import fr.arthurbambou.randomlyaddinganything.world.gen.feature.OreFeature;
 import fr.arthurbambou.randomlyaddinganything.world.gen.feature.OreFeatureConfig;
-import fr.arthurbambou.randomlyaddinganything.world.gen.feature.RAAOreFeature;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
@@ -20,7 +19,6 @@ import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
-import net.minecraft.world.gen.feature.FeatureConfig;
 
 public class RandomlyAddingAnything implements ModInitializer {
 

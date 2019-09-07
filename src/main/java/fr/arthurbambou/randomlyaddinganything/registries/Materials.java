@@ -4,14 +4,17 @@ import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
 import fr.arthurbambou.randomlyaddinganything.api.NameGenerator;
 import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
-import fr.arthurbambou.randomlyaddinganything.blocks.RAABlockItem;
-import fr.arthurbambou.randomlyaddinganything.config.Config;
+import fr.arthurbambou.randomlyaddinganything.blocks.LayeredOreBlock;
 import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
+import fr.arthurbambou.randomlyaddinganything.items.RAAAxeItem;
+import fr.arthurbambou.randomlyaddinganything.items.RAAHoeItem;
+import fr.arthurbambou.randomlyaddinganything.items.RAAPickaxeItem;
+import fr.arthurbambou.randomlyaddinganything.items.RAAShovelItem;
 import fr.arthurbambou.randomlyaddinganything.materials.CustomArmorMaterial;
+import fr.arthurbambou.randomlyaddinganything.materials.CustomToolMaterial;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.materials.MaterialBuilder;
 import fr.arthurbambou.randomlyaddinganything.utils.RegistryUtils;
-import fr.arthurbambou.randomlyaddinganything.world.gen.feature.RAAOreFeature;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
@@ -19,20 +22,10 @@ import net.minecraft.item.*;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.biome.DefaultBiomeFeatures;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
-import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
 
 public class Materials {
     public static final List<Material> MATERIAL_LIST = new ArrayList<>();
@@ -69,12 +62,10 @@ public class Materials {
     public static void createMaterialResources() {
         for (Material material : MATERIAL_LIST) {
             Item repairItem;
-            for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
-                Block block = new Block(Block.Settings.copy(Blocks.IRON_BLOCK));
-                RegistryUtils.registerBlockWithoutItem(block, new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + blockType.getString()));
-                RegistryUtils.registerItem(new RAABlockItem(material.getName(), block, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP), blockType),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + blockType.getString()));
-            }
+            RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_block"), RandomlyAddingAnything.ITEM_GROUP);
+            RegistryUtils.register(new LayeredOreBlock(Block.Settings.copy(Blocks.IRON_ORE)),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore"), RandomlyAddingAnything.ITEM_GROUP);
             if (material.getOreType() == OreTypes.METAL) {
                 RegistryUtils.registerItem(repairItem = new Item(new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP)), new Identifier(RandomlyAddingAnything.MOD_ID,
                         material.getName().toLowerCase() + "_ingot"));
@@ -87,25 +78,54 @@ public class Materials {
             if (material.hasArmor()) {
                 RegistryUtils.registerItem(
                         new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
-                                EquipmentSlot.HEAD, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")
+                                EquipmentSlot.HEAD, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")
                 );
                 RegistryUtils.registerItem(
                         new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
-                                EquipmentSlot.CHEST, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")
+                                EquipmentSlot.CHEST, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")
                 );
                 RegistryUtils.registerItem(
                         new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
-                                EquipmentSlot.LEGS, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")
+                                EquipmentSlot.LEGS, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")
                 );
                 RegistryUtils.registerItem(
                         new DyeableArmorItem(new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName()),
-                                EquipmentSlot.FEET, (new Item.Settings()).group(ItemGroup.COMBAT)), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots")
+                                EquipmentSlot.FEET, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots")
                 );
             }
             if (material.hasTools()) {
-                /*RegistryUtils.registerItem(
-                        new PickaxeItem()
-                );*/
+                RegistryUtils.registerItem(
+                        new RAAPickaxeItem(
+                                new CustomToolMaterial(Ingredient.ofItems(repairItem), 100, 1.0F, 1.0F, 3),
+                                10, 2.0F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
+                        ),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe")
+                );
+                RegistryUtils.registerItem(
+                        new RAAAxeItem(
+                                new CustomToolMaterial(Ingredient.ofItems(repairItem), 100, 1.0F, 1.0F, 3),
+                                10, 2.0F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
+                        ),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe")
+                );
+                RegistryUtils.registerItem(
+                        new RAAShovelItem(
+                                new CustomToolMaterial(Ingredient.ofItems(repairItem), 100, 1.0F, 1.0F, 3),
+                                10, 2.0F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
+                        ),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel")
+                );
+                RegistryUtils.registerItem(
+                        new RAAHoeItem(
+                                new CustomToolMaterial(Ingredient.ofItems(repairItem), 100, 1.0F, 1.0F, 3),
+                                2.0F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
+                        ),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe")
+                );
             }
         }
     }

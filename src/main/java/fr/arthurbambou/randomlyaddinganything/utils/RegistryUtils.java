@@ -24,25 +24,26 @@
 
 package fr.arthurbambou.randomlyaddinganything.utils;
 
-import com.mojang.datafixers.types.Type;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.BlockEntityType.Builder;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item.Settings;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class RegistryUtils {
 
     public static Block register(Block block, Identifier name, ItemGroup itemGroup) {
-        Registry.register(Registry.BLOCK, name, block);
-        BlockItem item = new BlockItem(block, (new Settings()).group(itemGroup));
-        item.appendBlocks(Item.BLOCK_ITEMS, item);
-        Registry.register(Registry.ITEM, name, item);
+        if (!Registry.BLOCK.containsId(name)) {
+            Registry.register(Registry.BLOCK, name, block);
+            BlockItem item = new BlockItem(block, (new Settings()).group(itemGroup));
+            item.appendBlocks(Item.BLOCK_ITEMS, item);
+            Registry.register(Registry.ITEM, name, item);
+        }
         return block;
     }
 

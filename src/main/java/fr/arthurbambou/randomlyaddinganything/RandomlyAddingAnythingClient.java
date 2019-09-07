@@ -1,10 +1,8 @@
 package fr.arthurbambou.randomlyaddinganything;
 
 import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
-import com.swordglowsblue.artifice.api.util.Processor;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
-import fr.arthurbambou.randomlyaddinganything.blocks.RAABlockItem;
+import fr.arthurbambou.randomlyaddinganything.items.RAABlockItem;
 import fr.arthurbambou.randomlyaddinganything.client.OreBackedModel;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.registries.Materials;
@@ -58,6 +56,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     clientResourcePackBuilder.addItemModel(id, modelBuilder -> {
                         modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath()));
                     });
+//                    clientResourcePackBuilder.addTranslations();
                     Map<Material, RAABlockItem.BlockType> map = new HashMap<>();
                     map.put(material, blockType);
                     IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
