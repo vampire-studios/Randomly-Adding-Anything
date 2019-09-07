@@ -1,8 +1,10 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
+import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
@@ -13,11 +15,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.ExtendedBlockView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class ItemBakedModel implements BakedModel, FabricBakedModel {
+public abstract class ItemBakedModel implements BakedModel, FabricBakedModel {
+
+    public Material material;
+
+    public ItemBakedModel(Material material) {
+        material = material;
+    }
 
     @Override
     public boolean isVanillaAdapter() {
@@ -25,23 +34,18 @@ public class ItemBakedModel implements BakedModel, FabricBakedModel {
     }
 
     @Override
-    public void emitBlockQuads(ExtendedBlockView extendedBlockView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
-
-    }
-
-    @Override
-    public void emitItemQuads(ItemStack itemStack, Supplier<Random> supplier, RenderContext renderContext) {
+    public void emitBlockQuads(ExtendedBlockView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
 
     }
 
     @Override
     public List<BakedQuad> getQuads(BlockState var1, Direction var2, Random var3) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public boolean useAmbientOcclusion() {
-        return false;
+        return true;
     }
 
     @Override
@@ -56,16 +60,11 @@ public class ItemBakedModel implements BakedModel, FabricBakedModel {
 
     @Override
     public Sprite getSprite() {
-        return null;
-    }
-
-    @Override
-    public ModelTransformation getTransformation() {
-        return null;
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(material.getResourceItemTexture());
     }
 
     @Override
     public ModelItemPropertyOverrideList getItemPropertyOverrides() {
-        return null;
+        return ModelItemPropertyOverrideList.EMPTY;
     }
 }

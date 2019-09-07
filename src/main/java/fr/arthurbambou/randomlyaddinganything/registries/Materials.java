@@ -5,6 +5,7 @@ import fr.arthurbambou.randomlyaddinganything.api.NameGenerator;
 import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.blocks.LayeredOreBlock;
+import fr.arthurbambou.randomlyaddinganything.client.Color;
 import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
 import fr.arthurbambou.randomlyaddinganything.items.*;
 import fr.arthurbambou.randomlyaddinganything.materials.CustomArmorMaterial;
@@ -30,10 +31,10 @@ public class Materials {
 
     public static void init() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
-            int[] RGB = new int[]{Rands.rand(256),Rands.rand(256),Rands.rand(256)};
+            Color RGB = new Color(Rands.rand(256),Rands.rand(256),Rands.rand(256));
             Random random = new Random();
             Material material = MaterialBuilder.create()
-                    .oreType(Rands.values(OreTypes.values())).name(NameGenerator.generate()).color(RGB)
+                    .oreType(Rands.values(OreTypes.values())).name(NameGenerator.generate()).color(RGB.getColor())
                     .generatesIn(Rands.values(AppearsIn.values())).overlayTexture(/*Rands.list(OreTypes.METAL_TEXTURES)*/)
                     .resourceItemTexture(/*Rands.list(OreTypes.GEM_TEXTURES)*/).armor(random.nextBoolean())
                     .tools(random.nextBoolean()).weapons(random.nextBoolean()).glowing(random.nextBoolean()).build();
@@ -42,7 +43,7 @@ public class Materials {
             if (RandomlyAddingAnything.CONFIG.debug) {
                 System.out.println("\nname : " + material.getName() +
                         "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
-                        "\nRGB color : " + RGB[0] + "," + RGB[1] + "," + RGB[2] +
+                        "\nRGB color : " + RGB.getRed() + "," + RGB.getGreen() + "," + RGB.getBlue() +
                         "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
                         "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
                         "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
