@@ -8,9 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
-import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.ExtendedBlockView;
@@ -25,7 +23,7 @@ public abstract class ItemBakedModel implements BakedModel, FabricBakedModel {
     public Material material;
 
     public ItemBakedModel(Material material) {
-        material = material;
+        this.material = material;
     }
 
     @Override

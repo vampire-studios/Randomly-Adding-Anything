@@ -13,6 +13,7 @@ public class MaterialBuilder {
     private AppearsIn generateIn;
     private Identifier overlayTexture;
     private Identifier resourceItemTexture;
+    private Identifier storageBlockTexture;
     private boolean armor;
     private boolean tools;
     private boolean weapons;
@@ -45,7 +46,12 @@ public class MaterialBuilder {
     }
 
     public MaterialBuilder overlayTexture() {
-        this.overlayTexture = oreType == OreTypes.METAL ? Rands.list(OreTypes.METAL_BLOCK_TEXTURES) : Rands.list(OreTypes.GEM_BLOCK_TEXTURES);
+        this.overlayTexture = oreType == OreTypes.METAL ? Rands.list(OreTypes.METAL_ORE_TEXTURES) : Rands.list(OreTypes.GEM_ORE_TEXTURES);
+        return this;
+    }
+
+    public MaterialBuilder storageBlockTexture() {
+        this.resourceItemTexture = oreType == OreTypes.METAL ? Rands.list(OreTypes.METAL_BLOCK_TEXTURES) : Rands.list(OreTypes.GEM_BLOCK_TEXTURES);
         return this;
     }
 

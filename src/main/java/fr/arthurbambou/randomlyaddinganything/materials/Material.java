@@ -7,6 +7,7 @@ public class Material {
     private String name;
     private int RGB;
     private Identifier resourceItemTexture;
+    private Identifier storageBlockTexture;
     private boolean armor;
     private boolean tools;
     private boolean weapons;
@@ -37,6 +38,10 @@ public class Material {
 
     public Identifier getResourceItemTexture() {
         return resourceItemTexture;
+    }
+
+    public Identifier getStorageBlockTexture() {
+        return storageBlockTexture;
     }
 
     public boolean hasArmor() {
