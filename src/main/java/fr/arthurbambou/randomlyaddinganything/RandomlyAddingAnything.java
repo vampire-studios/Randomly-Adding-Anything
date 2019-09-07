@@ -7,6 +7,7 @@ import fr.arthurbambou.randomlyaddinganything.registries.Materials;
 import fr.arthurbambou.randomlyaddinganything.registries.Textures;
 import fr.arthurbambou.randomlyaddinganything.world.gen.feature.OreFeature;
 import fr.arthurbambou.randomlyaddinganything.world.gen.feature.OreFeatureConfig;
+import fr.arthurbambou.randomlyaddinganything.world.gen.feature.SimpleRangeDecoratorConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
@@ -18,7 +19,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
 
 public class RandomlyAddingAnything implements ModInitializer {
 
@@ -38,7 +38,31 @@ public class RandomlyAddingAnything implements ModInitializer {
 						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 						        new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NATURAL_STONE,
                                         Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-                                        Decorator.COUNT_RANGE, new RangeDecoratorConfig(20, 0, 0, 64)));
+                                        Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+					}
+				}
+				if (material.getOreInformation().getGenerateIn() == AppearsIn.SAND_ANY) {
+					if (biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == Biomes.DESERT_LAKES || biome == Biomes.BEACH) {
+						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
+								new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NATURAL_STONE,
+										Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
+								Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+					}
+				}
+				if (material.getOreInformation().getGenerateIn() == AppearsIn.NETHERRACK) {
+					if (biome == Biomes.NETHER) {
+						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
+								new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NATURAL_STONE,
+										Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
+								Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+					}
+				}
+				if (material.getOreInformation().getGenerateIn() == AppearsIn.END_STONE) {
+					if (biome == Biomes.END_BARRENS || biome == Biomes.END_HIGHLANDS || biome == Biomes.END_MIDLANDS || biome == Biomes.THE_END || biome == Biomes.SMALL_END_ISLANDS) {
+						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
+								new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.END_STONE,
+										Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
+								Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
 					}
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.SAND_BEACH) {
@@ -46,7 +70,7 @@ public class RandomlyAddingAnything implements ModInitializer {
                         biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
                                 new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.SAND,
                                         Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-                                Decorator.COUNT_RANGE, new RangeDecoratorConfig(20, 0, 0, 64)));
+                                Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
 					}
 				}
 			}
