@@ -3,15 +3,16 @@ package fr.arthurbambou.randomlyaddinganything.world.gen.feature;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.types.DynamicOps;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.predicate.block.BlockPredicate;
 import net.minecraft.world.gen.feature.FeatureConfig;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class OreFeatureConfig implements FeatureConfig {
     public final OreFeatureConfig.Target target;
@@ -60,7 +61,8 @@ public class OreFeatureConfig implements FeatureConfig {
                 return block_1 == Blocks.SAND || block_1 == Blocks.SANDSTONE || block_1 == Blocks.RED_SAND || block_1 == Blocks.RED_SANDSTONE;
             }
         }),
-        NETHERRACK("netherrack", new BlockPredicate(Blocks.NETHERRACK));
+        NETHERRACK("netherrack", new BlockPredicate(Blocks.NETHERRACK)),
+        END_STONE("end_stone", new BlockPredicate(Blocks.END_STONE));
 
         private static final Map<String, OreFeatureConfig.Target> nameMap = Arrays.stream(values()).collect(Collectors.toMap(OreFeatureConfig.Target::getName,
                 (oreFeatureConfig$Target_1) -> oreFeatureConfig$Target_1));

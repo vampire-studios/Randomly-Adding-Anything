@@ -7,7 +7,8 @@ import java.util.List;
 
 public enum OreTypes {
     METAL,
-    GEM;
+    GEM,
+    CRYSTAL;
     public static List<Identifier> METAL_TEXTURES = new ArrayList<>();
     public static List<Identifier> METAL_BLOCK_TEXTURES = new ArrayList<>();
     public static List<Identifier> METAL_ITEM_TEXTURES = new ArrayList<>();
