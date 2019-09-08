@@ -6,6 +6,7 @@ import fr.arthurbambou.randomlyaddinganything.client.ItemResourceModel;
 import fr.arthurbambou.randomlyaddinganything.client.NuggetResourceModel;
 import fr.arthurbambou.randomlyaddinganything.client.OreBakedModel;
 import fr.arthurbambou.randomlyaddinganything.client.StorageBlockBakedModel;
+import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
 import fr.arthurbambou.randomlyaddinganything.items.RAABlockItem;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.registries.Materials;
@@ -200,12 +201,12 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/horse_armor_base"));
-                    modelBuilder.texture("layer1", new Identifier("raa", "item/horse_armor_saddle"));
+                    modelBuilder.texture("layer1", Rands.list(OreTypes.HORSE_ARMOR_SADDLE_TEXTURES));
                 });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/horse_armor_base"));
-                    modelBuilder.texture("layer1", new Identifier("raa", "item/horse_armor_saddle"));
+                    modelBuilder.texture("layer1", Rands.list(OreTypes.HORSE_ARMOR_SADDLE_TEXTURES));
                 });
 
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple"), modelBuilder -> {

@@ -153,27 +153,27 @@ public class OreBakedModel extends RAABakedModel {
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
         emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
         emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
         emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
         emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
         emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
 
         return builder.build();
     }
