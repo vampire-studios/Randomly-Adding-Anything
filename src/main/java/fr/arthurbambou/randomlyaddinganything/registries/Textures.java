@@ -7,10 +7,10 @@ import net.minecraft.util.Identifier;
 public class Textures {
 
     public static void init() {
-        ores();
+        textures();
     }
 
-    private static void ores() {
+    private static void textures() {
         /*OreTypes.METAL_TEXTURES.add(new Identifier("item/melon_seeds"));
         OreTypes.METAL_TEXTURES.add(new Identifier("item/prismarine_crystals"));
         OreTypes.METAL_TEXTURES.add(new Identifier("item/cocoa_beans"));
@@ -85,12 +85,12 @@ public class Textures {
         OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_1"));
         OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_2"));
 
-        OreTypes.HORSE_ARMOR_SADDLE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle_1"));
+        OreTypes.HORSE_ARMOR_SADDLE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle"));
         OreTypes.HORSE_ARMOR_SADDLE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle_2"));
 
-        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/armor_1"));
-        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/armor_2"));
-        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/armor_4"));
-        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/armor_3"));
+        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/horse_armor_1.png"));
+        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/horse_armor_2.png"));
+        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/horse_armor_3.png"));
+        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/horse_armor_4.png"));
     }
 }

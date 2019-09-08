@@ -13,7 +13,6 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.render.model.BakedModel;
@@ -43,10 +42,10 @@ public class OreBakedModel extends RAABakedModel {
 
     @Override
     public void emitBlockQuads(ExtendedBlockView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-        context.meshConsumer().accept(mesh(blockView, state, pos));
+        context.meshConsumer().accept(mesh(blockView, randomSupplier, pos));
     }
 
-    private Mesh mesh(ExtendedBlockView blockView, BlockState state, BlockPos pos) {
+    private Mesh mesh(ExtendedBlockView blockView, Supplier<Random> randomSupplier, BlockPos pos) {
         Renderer renderer = RendererAccess.INSTANCE.getRenderer();
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
@@ -99,6 +98,7 @@ public class OreBakedModel extends RAABakedModel {
             if (blockColor != null) {
                 color2 = 0xff000000 | blockColor.getColor(material.getOreInformation().getGenerateIn().getBlock().getDefaultState(), blockView, pos, 1);
             }
+
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
@@ -153,34 +153,34 @@ public class OreBakedModel extends RAABakedModel {
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3) ).emit();
         emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
         emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
         emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
         emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
         emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                 .material(mat)
                 .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_FLIP_U).emit();
+                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + MutableQuadView.BAKE_ROTATE_90).emit();
 
         return builder.build();
     }
 
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-        context.meshConsumer().accept(mesh(MinecraftClient.getInstance().world, Blocks.GRASS_BLOCK.getDefaultState(), MinecraftClient.getInstance().player.getBlockPos()));
+        context.meshConsumer().accept(mesh(MinecraftClient.getInstance().world, randomSupplier, MinecraftClient.getInstance().player.getBlockPos()));
     }
 
     protected class ItemProxy extends ModelItemPropertyOverrideList {
