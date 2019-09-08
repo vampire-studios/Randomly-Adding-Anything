@@ -28,6 +28,7 @@ public class Materials {
     public static final List<Material> MATERIAL_LIST = new ArrayList<>();
 
     public static boolean isReady = false;
+    public static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
 
     public static void init() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
@@ -83,22 +84,22 @@ public class Materials {
             }
             if (material.hasArmor()) {
                 RegistryUtils.registerItem(
-                        new RAAArmorItem(material, new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
+                        new RAAArmorItem(material,
                                 EquipmentSlot.HEAD, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")
                 );
                 RegistryUtils.registerItem(
-                        new RAAArmorItem(material, new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
+                        new RAAArmorItem(material,
                                 EquipmentSlot.CHEST, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")
                 );
                 RegistryUtils.registerItem(
-                        new RAAArmorItem(material, new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
+                        new RAAArmorItem(material,
                                 EquipmentSlot.LEGS, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")
                 );
                 RegistryUtils.registerItem(
-                        new RAAArmorItem(material, new CustomArmorMaterial(Ingredient.ofItems(repairItem), material.getName().toLowerCase()),
+                        new RAAArmorItem(material,
                                 EquipmentSlot.FEET, (new Item.Settings()).group(RandomlyAddingAnything.ITEM_GROUP)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots")
                 );

@@ -9,7 +9,8 @@ import net.minecraft.util.registry.Registry;
 
 public class CustomToolMaterial implements ToolMaterial {
 
-    private Material material;
+    private String name;
+    private OreTypes oreTypes;
     private int durability;
     private float miningSpeed;
     private float attackDamage;
@@ -19,8 +20,10 @@ public class CustomToolMaterial implements ToolMaterial {
     private float axeAttackDamage;
     private float axeAttackSpeed;
 
-    public CustomToolMaterial(Material material, int durability, float miningSpeed, float attackDamage, int miningLevel,
+    public CustomToolMaterial(String name, OreTypes oreTypes, int durability, float miningSpeed, float attackDamage, int miningLevel,
                               int enchantability, float hoeAttackSpeed, float axeAttackDamage, float axeAttackSpeed) {
+        this.name = name;
+        this.oreTypes = oreTypes;
         this.durability = durability;
         this.miningSpeed = miningSpeed;
         this.attackDamage = attackDamage;
@@ -58,12 +61,12 @@ public class CustomToolMaterial implements ToolMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        if (material.getOreInformation().getOreType() == OreTypes.CRYSTAL) {
-            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", material.getName().toLowerCase() + "_crystal")));
-        } else if (material.getOreInformation().getOreType() == OreTypes.GEM) {
-            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", material.getName().toLowerCase() + "_gem")));
+        if (oreTypes == OreTypes.CRYSTAL) {
+            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_crystal")));
+        } else if (oreTypes == OreTypes.GEM) {
+            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_gem")));
         } else {
-            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", material.getName().toLowerCase() + "_crystal")));
+            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_crystal")));
         }
     }
 
