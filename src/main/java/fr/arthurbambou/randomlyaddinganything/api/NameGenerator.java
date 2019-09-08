@@ -17,11 +17,11 @@ public class NameGenerator {
             list2[o] = Rands.values(choice);
         }
         int ab = 1;
-        int aa = Rands.rand(ab + 1);
+        int aa = Rands.randInt(ab + 1);
         int b = 1;
-        int c = Rands.rand(b + 1);
-        int d = Rands.rand(c + 1);
-        int e = Rands.rand(d + 1);
+        int c = Rands.randInt(b + 1);
+        int d = Rands.randInt(c + 1);
+        int e = Rands.randInt(d + 1);
         String[] l1 = new String[]{"",Rands.values(list2)};
         String[] l2 = new String[]{"",Rands.values(list1)};
         String[] l3 = new String[]{"",Rands.values(list2)};

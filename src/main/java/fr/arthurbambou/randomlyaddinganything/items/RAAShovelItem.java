@@ -12,7 +12,7 @@ public class RAAShovelItem extends ShovelItem {
 
     private Material material;
 
-    public RAAShovelItem(Material material, ToolMaterial toolMaterial_1, int int_1, float float_1, Settings item$Settings_1) {
+    public RAAShovelItem(Material material, ToolMaterial toolMaterial_1, float int_1, float float_1, Settings item$Settings_1) {
         super(toolMaterial_1, int_1, float_1, item$Settings_1);
         this.material = material;
     }
