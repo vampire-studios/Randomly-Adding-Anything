@@ -85,7 +85,8 @@ public class SavingSystem {
         for (MaterialJSON materialJSON : fromJson) {
             OreInformationJSON oreInformationJSON = materialJSON.oreInformationJSON;
             OreInformation oreInformation = new OreInformation(oreInformationJSON.oreTypes, oreInformationJSON.appearsIn,
-                    new Identifier(oreInformationJSON.overlayTexture), oreInformationJSON.minXPAmount, oreInformationJSON.maxXPAmount);
+                    new Identifier(oreInformationJSON.overlayTexture), oreInformationJSON.oreCount,
+                    oreInformationJSON.minXPAmount, oreInformationJSON.maxXPAmount);
             Material material;
             if (materialJSON.nuggetTexture == "null") {
                 material = new Material(oreInformation, materialJSON.name, materialJSON.rgb,
@@ -107,7 +108,8 @@ public class SavingSystem {
         for (Material material : Materials.MATERIAL_LIST) {
             OreInformation oreInformation = material.getOreInformation();
             OreInformationJSON oreInformationJSON = new OreInformationJSON(oreInformation.getOreType(),
-                    oreInformation.getGenerateIn(), oreInformation.getOverlayTexture().toString(), oreInformation.getMinXPAmount(), oreInformation.getMaxXPAmount());
+                    oreInformation.getGenerateIn(), oreInformation.getOverlayTexture().toString(), oreInformation.getOreCount(),
+                    oreInformation.getMinXPAmount(), oreInformation.getMaxXPAmount());
             String nuggetTexture;
             if (material.getNuggetTexture() == null) {
                 nuggetTexture = "null";
@@ -154,13 +156,15 @@ public class SavingSystem {
         public OreTypes oreTypes;
         public AppearsIn appearsIn;
         public String overlayTexture;
+        public int oreCount;
         public int minXPAmount;
         public int maxXPAmount;
 
-        public  OreInformationJSON(OreTypes oreTypes, AppearsIn appearsIn, String overlayTexture, int minXPAmount, int maxXPAmount) {
+        public  OreInformationJSON(OreTypes oreTypes, AppearsIn appearsIn, String overlayTexture, int oreCount, int minXPAmount, int maxXPAmount) {
             this.oreTypes = oreTypes;
             this.appearsIn = appearsIn;
             this.overlayTexture = overlayTexture;
+            this.oreCount = oreCount;
             this.minXPAmount = minXPAmount;
             this.maxXPAmount = maxXPAmount;
         }

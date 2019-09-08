@@ -11,6 +11,7 @@ public class MaterialBuilder {
     private String name;
     private int RGB;
     private AppearsIn generateIn;
+    private int oreCount;
     private Identifier overlayTexture;
     private Identifier resourceItemTexture;
     private Identifier storageBlockTexture;
@@ -22,7 +23,9 @@ public class MaterialBuilder {
     private int maxXPAmount = 10;
 
     public static MaterialBuilder create() {
-        return new MaterialBuilder();
+        MaterialBuilder materialBuilder = new MaterialBuilder();
+        materialBuilder.oreCount = Rands.rand(19) + 1;
+        return materialBuilder;
     }
 
     public MaterialBuilder oreType(OreTypes oreType) {
@@ -92,8 +95,8 @@ public class MaterialBuilder {
 
     public Material build() {
         return oreType == OreTypes.GEM ?
-                new Material(new OreInformation(oreType, generateIn, overlayTexture, minXPAmount, maxXPAmount), name, RGB, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing)
-                : new Material(new OreInformation(oreType, generateIn, overlayTexture, minXPAmount, maxXPAmount), name, RGB, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing);
+                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount), name, RGB, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing)
+                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount), name, RGB, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing);
     }
 
 }
