@@ -188,6 +188,11 @@ public class OreBakedModel extends RAABakedModel {
     }
 
     @Override
+    public Sprite getSprite() {
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
+    }
+
+    @Override
     public ModelItemPropertyOverrideList getItemPropertyOverrides() {
         return new ItemProxy();
     }

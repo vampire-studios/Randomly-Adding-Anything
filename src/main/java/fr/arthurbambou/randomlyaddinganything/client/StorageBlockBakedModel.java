@@ -90,6 +90,11 @@ public class StorageBlockBakedModel extends RAABakedModel {
     }
 
     @Override
+    public Sprite getSprite() {
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getStorageBlockTexture());
+    }
+
+    @Override
     public ModelItemPropertyOverrideList getItemPropertyOverrides() {
         return new ItemProxy();
     }

@@ -49,11 +49,6 @@ public abstract class RAABakedModel implements BakedModel, FabricBakedModel {
     }
 
     @Override
-    public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
-    }
-
-    @Override
     public ModelTransformation getTransformation() {
         return ModelHelper.MODEL_TRANSFORM_BLOCK;
     }

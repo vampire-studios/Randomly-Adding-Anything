@@ -34,7 +34,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         while (!Materials.isIsReady()) {
-//            System.out.println("Not Ready");
+            System.out.println("Not Ready");
         }
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
@@ -47,7 +47,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     for (Material material : Materials.MATERIAL_LIST) {
                         registry.register(material.getOreInformation().getOverlayTexture());
                         registry.register(material.getStorageBlockTexture());
-//                        registry.register(material.getResourceItemTexture());
                     }
                 });
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
@@ -217,9 +216,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             Identifier identifier = new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath());
             if (!(BLOCKS_IDENTIFIERS.containsKey(identifier) || ITEM_IDENTIFIERS.containsKey(identifier))) return null;
             System.out.println(modelIdentifier.toString());
-            if (BLOCKS_IDENTIFIERS.containsKey(identifier)) {
-                if (BLOCKS_IDENTIFIERS.get(identifier).getValue() != RAABlockItem.BlockType.ORE) return null;
-            }
             return new UnbakedModel() {
                 @Override
                 public Collection<Identifier> getModelDependencies() {
@@ -240,7 +236,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                             return new ItemResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
                         }
                     }
-                    if (identifier.getPath().endsWith("block")) {
+                    if (BLOCKS_IDENTIFIERS.get(identifier).getValue() == RAABlockItem.BlockType.BLOCK) {
                         return new StorageBlockBakedModel(BLOCKS_IDENTIFIERS.get(identifier).getKey());
                     } else {
                         return new OreBakedModel(BLOCKS_IDENTIFIERS.get(identifier).getKey());
