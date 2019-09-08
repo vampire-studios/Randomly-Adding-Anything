@@ -9,13 +9,15 @@ public class OreInformation {
     private OreTypes oreType;
     private AppearsIn generateIn;
     private Identifier overlayTexture;
+    private int oreCount;
     private int minXPAmount;
     private int maxXPAmount;
 
-    public OreInformation(OreTypes oreType, AppearsIn generateIn, Identifier overlayTexture, int minXPAmount, int maxXPAmount) {
+    public OreInformation(OreTypes oreType, AppearsIn generateIn, Identifier overlayTexture, int oreCount, int minXPAmount, int maxXPAmount) {
         this.oreType = oreType;
         this.generateIn = generateIn;
         this.overlayTexture = overlayTexture;
+        this.oreCount = oreCount;
         this.minXPAmount = minXPAmount;
         this.maxXPAmount = maxXPAmount;
     }
@@ -40,4 +42,7 @@ public class OreInformation {
         return maxXPAmount;
     }
 
+    public int getOreCount() {
+        return oreCount;
+    }
 }
