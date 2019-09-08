@@ -45,51 +45,51 @@ public class RandomlyAddingAnything implements ModInitializer {
 						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 						        new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.SAND,
                                         Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-                                        Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+                                        Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 					}
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.STONE) {
 					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 							new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.STONE,
 									Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.GRASS_BLOCK) {
 					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 							new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.GRASS_BLOCK,
 									Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.GRAVEL) {
 					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 							new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.GRAVEL,
 									Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.DIORITE) {
 					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 							new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.DIORITE,
 									Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.GRANITE) {
 					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 							new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.GRANITE,
 									Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.ANDESITE) {
 					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 							new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.ANDESITE,
 									Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.NETHERRACK) {
 					if (biome == Biomes.NETHER) {
 						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 								new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.NETHERRACK,
 										Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-								Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+								Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 					}
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.END_STONE) {
@@ -97,7 +97,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 						biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 								new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.END_STONE,
 										Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-								Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+								Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 					}
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.SAND_BEACH) {
@@ -105,20 +105,20 @@ public class RandomlyAddingAnything implements ModInitializer {
                         biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
                                 new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.SAND,
                                         Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-                                Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+                                Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 					}
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.SAND_ANY) {
 					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 							new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.SAND,
 									Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.SAND_ANY2) {
 					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
 							new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.SAND,
 									Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),
-							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(20, 30, 256)));
+							Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(5, 30, 256)));
 				}
 				if (material.getOreInformation().getGenerateIn() == AppearsIn.RED_SAND) {
 					biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
