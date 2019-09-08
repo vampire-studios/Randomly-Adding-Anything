@@ -41,7 +41,12 @@ public class StorageBlockBakedModel extends RAABakedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, false).find();
+        RenderMaterial mat;
+        if (material.isGlowing()) {
+             mat = renderer.materialFinder().disableDiffuse(0, false).emissive(0, true).find();
+        } else {
+            mat = renderer.materialFinder().disableDiffuse(0, false).find();
+        }
         int color = material.getRGBColor();
         Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getStorageBlockTexture());
 

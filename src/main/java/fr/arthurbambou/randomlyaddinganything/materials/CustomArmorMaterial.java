@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.ArmorMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -49,7 +48,7 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
     @Environment(EnvType.CLIENT)
     public String getName() {
-        return "raa:" + this.name;
+        return "raa";
     }
 
     public float getToughness() {

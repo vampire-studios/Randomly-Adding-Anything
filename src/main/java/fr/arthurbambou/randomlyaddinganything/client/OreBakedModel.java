@@ -150,30 +150,37 @@ public class OreBakedModel extends RAABakedModel {
         color = material.getRGBColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
 
-        emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3) ).emit();
-        emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
-        emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
-        emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
-        emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
-        emitter.square(Direction.UP, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + MutableQuadView.BAKE_ROTATE_90).emit();
+        if (material.getOreInformation().getGenerateIn() != AppearsIn.GRASS_BLOCK) {
+            emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3) ).emit();
+            emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
+            emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
+            emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
+            emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
+            emitter.square(Direction.UP, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + MutableQuadView.BAKE_ROTATE_90).emit();
+        } else {
+            emitter.square(Direction.UP, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + MutableQuadView.BAKE_ROTATE_90).emit();
+        }
 
         return builder.build();
     }
