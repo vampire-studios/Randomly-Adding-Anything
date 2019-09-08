@@ -36,7 +36,7 @@ public class Textures {
         OreTypes.GEM_TEXTURES.add(new Identifier("item/charcoal"));*/
 
 
-        OreTypes.METAL_ITEM_TEXTURES.add(new Identifier("item/iron_ingot"));
+        OreTypes.METAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/ingot_1"));
 
         OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/thing_1"));
         OreTypes.CRYSTAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/thing_2"));
@@ -82,7 +82,13 @@ public class Textures {
 
         OreTypes.CRYSTAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_1"));
 
-        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier("item/iron_nugget"));
-        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier("item/gold_nugget"));
+        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_1"));
+        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_2"));
+
+        OreTypes.HORSE_ARMOR_SADDLE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle_1"));
+        OreTypes.HORSE_ARMOR_SADDLE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle_2"));
+
+        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/armor_1"));
+        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "models/armor/horse/armor_2"));
     }
 }

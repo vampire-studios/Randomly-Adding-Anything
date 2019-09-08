@@ -16,6 +16,7 @@ import fr.arthurbambou.randomlyaddinganything.utils.RegistryUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.FoodComponents;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
@@ -134,6 +135,23 @@ public class Materials {
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe")
                 );
             }
+            RegistryUtils.registerItem(
+                    new RAAFoodItem(
+                            material.getName(),
+                            new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).food(FoodComponents.GOLDEN_APPLE),
+                            RAAFoodItem.SimpleItemType.APPLE
+                    ),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple")
+            );
+            RegistryUtils.registerItem(
+                    new RAAFoodItem(
+                            material.getName(),
+                            new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).food(FoodComponents.GOLDEN_CARROT),
+                            RAAFoodItem.SimpleItemType.CARROT
+                    ),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot")
+            );
+            RegistryUtils.registerItem(new RAAHorseArmorItem(material), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor"));
         }
     }
 

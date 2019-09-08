@@ -6,7 +6,8 @@
   "name": "Randomly Adding Anything",
   "description": "",
   "authors": [
-    "arthurbambou(aka Cat Core)"
+    "arthurbambou(aka Cat Core)",
+    "OliviaTheVampire"
   ],
   "contact": {
     "homepage": "",
@@ -25,8 +26,6 @@
       "fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnythingClient"
     ]
   },
-  "mixins": [
-  ],
 
   "depends": {
     "fabricloader": ">=0.4.0",
