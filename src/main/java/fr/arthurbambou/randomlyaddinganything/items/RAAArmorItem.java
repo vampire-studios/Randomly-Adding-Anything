@@ -14,8 +14,8 @@ public class RAAArmorItem extends DyeableArmorItem {
     private Material material;
     private EquipmentSlot equipmentSlot_1;
 
-    public RAAArmorItem(Material material, ArmorMaterial armorMaterial_1, EquipmentSlot equipmentSlot_1, Settings item$Settings_1) {
-        super(armorMaterial_1, equipmentSlot_1, item$Settings_1);
+    public RAAArmorItem(Material material, EquipmentSlot equipmentSlot_1, Settings item$Settings_1) {
+        super(material.getArmorMaterial(), equipmentSlot_1, item$Settings_1);
         this.material = material;
         this.equipmentSlot_1 = equipmentSlot_1;
     }
