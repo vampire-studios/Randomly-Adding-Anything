@@ -31,13 +31,15 @@ public class Materials {
 
     public static void init() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
-            Color RGB = new Color(Rands.rand(256),Rands.rand(256),Rands.rand(256));
+            Color RGB = new Color(Rands.randInt(256),Rands.randInt(256),Rands.randInt(256));
             Random random = new Random();
             Material material = MaterialBuilder.create()
                     .oreType(Rands.values(OreTypes.values())).name(NameGenerator.generate()).color(RGB.getColor())
                     .generatesIn(Rands.values(AppearsIn.values())).overlayTexture()
-                    .resourceItemTexture().storageBlockTexture().armor(random.nextBoolean())
-                    .tools(random.nextBoolean()).weapons(random.nextBoolean()).glowing(random.nextBoolean()).build();
+                    .resourceItemTexture().storageBlockTexture().armor((random.nextBoolean() && random.nextBoolean()))
+                    .tools((random.nextBoolean() && random.nextBoolean()))
+                    .weapons((random.nextBoolean() && random.nextBoolean())).glowing((random.nextBoolean() && random.nextBoolean()))
+                    .build();
             MATERIAL_LIST.add(material);
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
@@ -104,29 +106,29 @@ public class Materials {
             if (material.hasTools()) {
                 RegistryUtils.registerItem(
                         new RAAPickaxeItem(material,
-                                new CustomToolMaterial(Ingredient.ofItems(repairItem), 100, 1.0F, 1.0F, 3),
-                                10, 2.0F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
+                                material.getToolMaterial(),
+                                1, -2.8F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
                         ),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe")
                 );
                 RegistryUtils.registerItem(
                         new RAAAxeItem(material,
-                                new CustomToolMaterial(Ingredient.ofItems(repairItem), 100, 1.0F, 1.0F, 3),
-                                10, 2.0F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
+                                material.getToolMaterial(),
+                                (5.0F + material.getToolMaterial().getAxeAttackDamage()), (-3.2F + material.getToolMaterial().getAxeAttackSpeed()), new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
                         ),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe")
                 );
                 RegistryUtils.registerItem(
                         new RAAShovelItem(material,
-                                new CustomToolMaterial(Ingredient.ofItems(repairItem), 100, 1.0F, 1.0F, 3),
-                                10, 2.0F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
+                                material.getToolMaterial(),
+                                1.5F, -3.0F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
                         ),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel")
                 );
                 RegistryUtils.registerItem(
                         new RAAHoeItem(material,
-                                new CustomToolMaterial(Ingredient.ofItems(repairItem), 100, 1.0F, 1.0F, 3),
-                                2.0F, new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
+                                material.getToolMaterial(),
+                                (-3.0F + material.getToolMaterial().getHoeAttackSpeed()), new Item.Settings().group(RandomlyAddingAnything.ITEM_GROUP).recipeRemainder(repairItem)
                         ),
                         new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe")
                 );

@@ -24,7 +24,7 @@ public class MaterialBuilder {
 
     public static MaterialBuilder create() {
         MaterialBuilder materialBuilder = new MaterialBuilder();
-        materialBuilder.oreCount = Rands.rand(19) + 1;
+        materialBuilder.oreCount = Rands.randInt(19) + 1;
         return materialBuilder;
     }
 

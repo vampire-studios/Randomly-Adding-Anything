@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.materials.CustomToolMaterial;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.materials.OreInformation;
 import fr.arthurbambou.randomlyaddinganything.registries.Materials;
@@ -91,11 +92,11 @@ public class SavingSystem {
             if (materialJSON.nuggetTexture == "null") {
                 material = new Material(oreInformation, materialJSON.name, materialJSON.rgb,
                         new Identifier(materialJSON.storageBlockTexture), new Identifier(materialJSON.resourceItemTexture),
-                        materialJSON.armor, materialJSON.tools, materialJSON.weapons, materialJSON.glowing);
+                        materialJSON.armor, materialJSON.tools, materialJSON.weapons, materialJSON.toolMaterial, materialJSON.glowing);
             } else {
                 material = new Material(oreInformation, materialJSON.name, materialJSON.rgb,
                         new Identifier(materialJSON.storageBlockTexture), new Identifier(materialJSON.resourceItemTexture), new Identifier(materialJSON.nuggetTexture),
-                        materialJSON.armor, materialJSON.tools, materialJSON.weapons, materialJSON.glowing);
+                        materialJSON.armor, materialJSON.tools, materialJSON.weapons, materialJSON.toolMaterial, materialJSON.glowing);
             }
             materials.add(material);
         }
@@ -118,7 +119,7 @@ public class SavingSystem {
             }
             MaterialJSON materialJSON = new MaterialJSON(oreInformationJSON, material.getName(), material.getRGBColor(),
                     material.getStorageBlockTexture().toString(), material.getResourceItemTexture().toString(), nuggetTexture,
-                    material.hasArmor(), material.hasTools(), material.hasWeapons(), material.isGlowing());
+                    material.hasArmor(), material.hasTools(), material.hasWeapons(), material.getToolMaterial(), material.isGlowing());
             materialJSONS.add(materialJSON);
         }
 
@@ -135,10 +136,11 @@ public class SavingSystem {
         public boolean armor;
         public boolean tools;
         public boolean weapons;
+        public CustomToolMaterial toolMaterial;
         public boolean glowing;
 
         public MaterialJSON(OreInformationJSON oreInformationJSON, String name, int rgb, String storageBlockTexture,
-                            String resourceItemTexture, String nuggetTexture, boolean armor, boolean tools, boolean weapons, boolean glowing) {
+                            String resourceItemTexture, String nuggetTexture, boolean armor, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing) {
             this.oreInformationJSON = oreInformationJSON;
             this.name = name;
             this.rgb = rgb;
@@ -148,6 +150,7 @@ public class SavingSystem {
             this.armor = armor;
             this.tools = tools;
             this.weapons = weapons;
+            this.toolMaterial = toolMaterial;
             this.glowing = glowing;
         }
     }

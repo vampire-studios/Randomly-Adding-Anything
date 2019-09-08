@@ -1,5 +1,6 @@
 package fr.arthurbambou.randomlyaddinganything.materials;
 
+import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
 import net.minecraft.util.Identifier;
 
 public class Material {
@@ -13,6 +14,7 @@ public class Material {
     private Identifier gemTexture;
     private boolean armor;
     private boolean tools;
+    private CustomToolMaterial toolMaterial;
     private boolean weapons;
     private boolean glowing;
 
@@ -28,6 +30,11 @@ public class Material {
         this.tools = tools;
         this.weapons = weapons;
         this.glowing = glowing;
+
+        if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this,
+                Rands.randInt(1562), Rands.randFloat(12.0F), Rands.randFloat(3.0F),
+                Rands.randInt(4), Rands.randInt(23), Rands.randFloat(3.0F),
+                Rands.randFloat(2.0F), Rands.randFloat(0.2F));
     }
 
     public Material(OreInformation oreInformation, String name, int RGB, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
@@ -41,6 +48,41 @@ public class Material {
         this.armor = armor;
         this.tools = tools;
         this.weapons = weapons;
+        this.glowing = glowing;
+
+        if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this,
+                Rands.randInt(1562), Rands.randFloat(12.0F), Rands.randFloat(3.0F),
+                Rands.randInt(4), Rands.randInt(23), Rands.randFloat(3.0F),
+                Rands.randFloat(2.0F), Rands.randFloat(0.2F));
+    }
+
+    public Material(OreInformation oreInformation, String name, int RGB, Identifier storageBlockTexture, Identifier resourceItemTexture,
+                    boolean armor, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing) {
+        this.oreInformation = oreInformation;
+        this.name = name;
+        this.RGB = RGB;
+        this.storageBlockTexture = storageBlockTexture;
+        this.resourceItemTexture = resourceItemTexture;
+        this.nuggetTexture = null;
+        this.armor = armor;
+        this.tools = tools;
+        this.weapons = weapons;
+        this.toolMaterial = toolMaterial;
+        this.glowing = glowing;
+    }
+
+    public Material(OreInformation oreInformation, String name, int RGB, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
+                    boolean armor, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing) {
+        this.oreInformation = oreInformation;
+        this.name = name;
+        this.RGB = RGB;
+        this.storageBlockTexture = storageBlockTexture;
+        this.resourceItemTexture = resourceItemTexture;
+        this.nuggetTexture = nuggetTexture;
+        this.armor = armor;
+        this.tools = tools;
+        this.weapons = weapons;
+        this.toolMaterial = toolMaterial;
         this.glowing = glowing;
     }
 
@@ -82,5 +124,9 @@ public class Material {
 
     public Identifier getNuggetTexture() {
         return nuggetTexture;
+    }
+
+    public CustomToolMaterial getToolMaterial() {
+        return toolMaterial;
     }
 }
