@@ -2,6 +2,7 @@ package fr.arthurbambou.randomlyaddinganything.client;
 
 import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
+import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
@@ -14,6 +15,7 @@ import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.texture.Sprite;
@@ -91,7 +93,12 @@ public class OreBakedModel extends RAABakedModel {
             Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_top"));
             Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/dirt"));
             Biome biome = MinecraftClient.getInstance().world.getBiome(pos);
-            int color2 = biome.getGrassColorAt(pos);
+//            int color2 = biome.getGrassColorAt(pos);
+            int color2 = 0xffffff;
+            BlockColorProvider blockColor =  ColorProviderRegistry.BLOCK.get(material.getOreInformation().getGenerateIn().getBlock());
+            if (blockColor != null) {
+                color2 = 0xff000000 | blockColor.getColor(material.getOreInformation().getGenerateIn().getBlock().getDefaultState(), blockView, pos, 1);
+            }
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)

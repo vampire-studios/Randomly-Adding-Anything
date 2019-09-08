@@ -196,6 +196,34 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.texture("layer0", new Identifier("raa", "item/hoe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/hoe_stick"));
                 });
+
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer0", new Identifier("raa", "item/horse_armor_base"));
+                    modelBuilder.texture("layer1", new Identifier("raa", "item/horse_armor_saddle"));
+                });
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor1"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/handheld"));
+                    modelBuilder.texture("layer0", new Identifier("raa", "item/horse_armor_base"));
+                    modelBuilder.texture("layer1", new Identifier("raa", "item/horse_armor_saddle"));
+                });
+
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer0", new Identifier("raa", "item/apple"));
+                });
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple1"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/handheld"));
+                    modelBuilder.texture("layer0", new Identifier("raa", "item/apple"));
+                });
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer0", new Identifier("raa", "item/carrot"));
+                });
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot1"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/handheld"));
+                    modelBuilder.texture("layer0", new Identifier("raa", "item/carrot"));
+                });
             }
         });
 
@@ -205,6 +233,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot1"),"inventory"));
                 out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget1"),"inventory"));
                 out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot1"),"inventory"));
             }
         });
 
@@ -212,22 +242,20 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         for (Material material : Materials.MATERIAL_LIST) {
             ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                 if (layer == 0) return material.getRGBColor();
-                else return -1;
-            },
-                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")),
-                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")),
-                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")),
-                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots"))
-            );
-            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
-                        if (layer == 0) return material.getRGBColor();
-                        else return -1;
-                    },
-                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe")),
-                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel")),
-                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe")),
-                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe")),
-                    Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_sword"))
+                    else return -1;
+                },
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_sword")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot"))
             );
         }
 
