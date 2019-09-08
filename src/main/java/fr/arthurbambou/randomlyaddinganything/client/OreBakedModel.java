@@ -10,7 +10,9 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
@@ -23,6 +25,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 
 import java.util.Collections;
 import java.util.Random;
@@ -38,10 +41,10 @@ public class OreBakedModel extends RAABakedModel {
 
     @Override
     public void emitBlockQuads(ExtendedBlockView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-        context.meshConsumer().accept(mesh());
+        context.meshConsumer().accept(mesh(blockView, state, pos));
     }
 
-    private Mesh mesh() {
+    private Mesh mesh(ExtendedBlockView blockView, BlockState state, BlockPos pos) {
         Renderer renderer = RendererAccess.INSTANCE.getRenderer();
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
@@ -56,30 +59,81 @@ public class OreBakedModel extends RAABakedModel {
             sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/oak_planks"));
         }
         
-        emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        emitter.square(Direction.UP, 0, 0, 1, 1, 0)
-                .material(mat)
-                .spriteColor(0, color, color, color, color)
-                .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+        if (material.getOreInformation().getGenerateIn() != AppearsIn.GRASS_BLOCK) {
+            emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.UP, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
+        } else {
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlockRenderLayer.CUTOUT_MIPPED).find();
+            Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side"));
+            Sprite sideOverlaySprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side_overlay"));
+            Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_top"));
+            Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/dirt"));
+            Biome biome = MinecraftClient.getInstance().world.getBiome(pos);
+            int color2 = biome.getGrassColorAt(pos);
+            emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sideSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sideSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sideSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sideSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, bottomSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.UP, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color2, color2, color2, color2)
+                    .spriteBake(0, topSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+
+            emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color2, color2, color2, color2)
+                    .spriteBake(0, sideOverlaySprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color2, color2, color2, color2)
+                    .spriteBake(0, sideOverlaySprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color2, color2, color2, color2)
+                    .spriteBake(0, sideOverlaySprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color2, color2, color2, color2)
+                    .spriteBake(0, sideOverlaySprite, MutableQuadView.BAKE_LOCK_UV).emit();
+        }
 
         if (material.isGlowing()) {
             mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).emissive(0, true).find();
@@ -119,7 +173,7 @@ public class OreBakedModel extends RAABakedModel {
 
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-        context.meshConsumer().accept(mesh());
+        context.meshConsumer().accept(mesh(MinecraftClient.getInstance().world, Blocks.GRASS_BLOCK.getDefaultState(), MinecraftClient.getInstance().player.getBlockPos()));
     }
 
     protected class ItemProxy extends ModelItemPropertyOverrideList {
