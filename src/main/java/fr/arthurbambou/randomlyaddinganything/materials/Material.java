@@ -17,6 +17,7 @@ public class Material {
     private CustomToolMaterial toolMaterial;
     private boolean weapons;
     private boolean glowing;
+    private int horseArmorVariant;
 
     public Material(OreInformation oreInformation, String name, int RGB, Identifier storageBlockTexture, Identifier resourceItemTexture,
                     boolean armor, boolean tools, boolean weapons, boolean glowing) {

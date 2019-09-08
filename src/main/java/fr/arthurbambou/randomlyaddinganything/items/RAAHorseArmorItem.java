@@ -1,6 +1,8 @@
 package fr.arthurbambou.randomlyaddinganything.items;
 
 import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
+import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.minecraft.item.DyeableHorseArmorItem;
 import net.minecraft.item.Item;
@@ -15,7 +17,7 @@ public class RAAHorseArmorItem extends DyeableHorseArmorItem {
     public RAAHorseArmorItem(Material material) {
         super(5, material.getName().toLowerCase(), (new Item.Settings()).maxCount(1).group(RandomlyAddingAnything.ITEM_GROUP));
         this.material = material;
-        this.entityTexture = new Identifier(RandomlyAddingAnything.MOD_ID, "textures/entity/horse/armor/raa_horse_armor.png");
+        this.entityTexture = OreTypes.HORSE_ARMOR_MODEL_TEXTURES.get(Rands.randInt(OreTypes.HORSE_ARMOR_MODEL_TEXTURES.size()));
     }
 
     @Override
