@@ -1,0 +1,16 @@
+{
+  "text.raa.block.ore": "Minerai de %s",
+  "text.raa.block.block": "Block de %s",
+  "text.raa.item.gem": "Gemme de %s",
+  "text.raa.item.ingot": "Lingot de %s",
+  "text.raa.item.crystal": "Crystal de %s",
+  "text.raa.item.nugget": "Pépite de %s",
+  "text.raa.item.axe": "Hache en %s",
+  "text.raa.item.pickaxe": "Pioche en %s",
+  "text.raa.item.hoe": "Houe en %s",
+  "text.raa.item.shovel": "Pelle en %s",
+  "text.raa.item.armor_head": "Casque en %s",
+  "text.raa.item.armor_chest": "Plastron en %s",
+  "text.raa.item.armor_legs": "Jambière en %s",
+  "text.raa.item.armor_feet": "Bottes en %s"
+}
