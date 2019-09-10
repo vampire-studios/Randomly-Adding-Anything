@@ -30,6 +30,10 @@ public enum GeneratesIn {
     }
 
     public Block getBlock() {
-        return block;
+        if (block == null) {
+            return Blocks.STONE;
+        } else {
+            return block;
+        }
     }
 }

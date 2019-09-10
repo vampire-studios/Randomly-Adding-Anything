@@ -1,15 +1,18 @@
 package fr.arthurbambou.randomlyaddinganything.materials;
 
+import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
 import net.minecraft.util.Identifier;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Material {
     private OreInformation oreInformation;
     private String name;
     private int color;
-    private Identifier storageBlockTexture;
-    private Identifier resourceItemTexture;
-    private Identifier nuggetTexture;
+    public static Map<TextureType, Identifier> TEXTURES = new HashMap<>();
     private boolean armor;
     private CustomArmorMaterial armorMaterial;
     private boolean tools;
@@ -23,9 +26,9 @@ public class Material {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
-        this.storageBlockTexture = storageBlockTexture;
-        this.resourceItemTexture = resourceItemTexture;
-        this.nuggetTexture = null;
+        TEXTURES.put(TextureType.STORAGE_BLOCK, storageBlockTexture);
+        TEXTURES.put(TextureType.RESOURCE_ITEM, resourceItemTexture);
+        TEXTURES.put(TextureType.NUGGET, null);
         this.armor = armor;
         this.tools = tools;
         this.weapons = weapons;
@@ -53,9 +56,9 @@ public class Material {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
-        this.storageBlockTexture = storageBlockTexture;
-        this.resourceItemTexture = resourceItemTexture;
-        this.nuggetTexture = nuggetTexture;
+        TEXTURES.put(TextureType.STORAGE_BLOCK, storageBlockTexture);
+        TEXTURES.put(TextureType.RESOURCE_ITEM, resourceItemTexture);
+        TEXTURES.put(TextureType.NUGGET, nuggetTexture);
         this.armor = armor;
         this.tools = tools;
         this.weapons = weapons;
@@ -83,9 +86,9 @@ public class Material {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
-        this.storageBlockTexture = storageBlockTexture;
-        this.resourceItemTexture = resourceItemTexture;
-        this.nuggetTexture = null;
+        TEXTURES.put(TextureType.STORAGE_BLOCK, storageBlockTexture);
+        TEXTURES.put(TextureType.RESOURCE_ITEM, resourceItemTexture);
+        TEXTURES.put(TextureType.NUGGET, null);
         this.armor = armor;
         this.armorMaterial = armorMaterial;
         this.tools = tools;
@@ -100,9 +103,9 @@ public class Material {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
-        this.storageBlockTexture = storageBlockTexture;
-        this.resourceItemTexture = resourceItemTexture;
-        this.nuggetTexture = nuggetTexture;
+        TEXTURES.put(TextureType.STORAGE_BLOCK, storageBlockTexture);
+        TEXTURES.put(TextureType.RESOURCE_ITEM, resourceItemTexture);
+        TEXTURES.put(TextureType.NUGGET, nuggetTexture);
         this.armor = armor;
         this.armorMaterial = armorMaterial;
         this.tools = tools;
@@ -125,11 +128,11 @@ public class Material {
     }
 
     public Identifier getResourceItemTexture() {
-        return resourceItemTexture;
+        return TEXTURES.getOrDefault(TextureType.RESOURCE_ITEM, Rands.list(OreTypes.METAL_ITEM_TEXTURES));
     }
 
     public Identifier getStorageBlockTexture() {
-        return storageBlockTexture;
+        return TEXTURES.getOrDefault(TextureType.STORAGE_BLOCK, Rands.list(OreTypes.METAL_BLOCK_TEXTURES));
     }
 
     public boolean hasArmor() {
@@ -153,7 +156,7 @@ public class Material {
     }
 
     public Identifier getNuggetTexture() {
-        return nuggetTexture;
+        return TEXTURES.getOrDefault(TextureType.NUGGET, Rands.list(OreTypes.METAL_NUGGET_TEXTURES));
     }
 
     public CustomToolMaterial getToolMaterial() {

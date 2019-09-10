@@ -29,6 +29,7 @@ dependencies {
 
 	modImplementation "com.github.swordglowsblue:artifice:0.3.4"
 	include "com.github.swordglowsblue:artifice:0.3.4"
+	modApi "vampirelib:VampireLib:${project.vampirelib_version}"
 
 	modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
 		exclude(group: "io.github.prospector.modmenu", module: "ModMenu")

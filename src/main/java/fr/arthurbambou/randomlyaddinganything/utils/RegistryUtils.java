@@ -48,6 +48,16 @@ public class RegistryUtils {
         return block;
     }
 
+    public static Block register(Block block, Identifier name, ItemGroup itemGroup) {
+        if (!Registry.BLOCK.containsId(name)) {
+            Registry.register(Registry.BLOCK, name, block);
+            BlockItem item = new BlockItem(block, new Settings().group(itemGroup));
+            item.appendBlocks(Item.BLOCK_ITEMS, item);
+            Registry.register(Registry.ITEM, name, item);
+        }
+        return block;
+    }
+
     public static Block registerBlockWithoutItem(Block block, Identifier identifier) {
         Registry.register(Registry.BLOCK, identifier, block);
         return block;

@@ -4,6 +4,7 @@ import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
@@ -34,8 +35,8 @@ public class LayeredOreBlock extends OreBlock {
 	private boolean complainedAboutLoot = false;
 	private Material material;
 	
-	public LayeredOreBlock(Material material, Settings settings) {
-		super(settings);
+	public LayeredOreBlock(Material material) {
+		super(Block.Settings.copy(material.getOreInformation().getGenerateIn().getBlock()));
 		this.material = material;
 	}
 
@@ -54,19 +55,19 @@ public class LayeredOreBlock extends OreBlock {
 	}
 
 	@Override
+	public BlockSoundGroup getSoundGroup(BlockState blockState_1) {
+		return material.getOreInformation().getGenerateIn().getBlock().getSoundGroup(blockState_1);
+	}
+
+	@Override
 	public float getSlipperiness() {
 		return material.getOreInformation().getGenerateIn().getBlock().getSlipperiness();
 	}
 
 	@Override
-	public BlockSoundGroup getSoundGroup(BlockState blockState_1) {
-		return material.getOreInformation().getGenerateIn().getBlock().getSoundGroup(blockState_1);
-	}
-
-	/*@Override
 	public net.minecraft.block.Material getMaterial(BlockState blockState_1) {
 		return material.getOreInformation().getGenerateIn().getBlock().getMaterial(blockState_1);
-	}*/
+	}
 
 	@Override
 	public float getHardness(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {

@@ -18,7 +18,7 @@ public class RAASwordItem extends SwordItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.hoe", new LiteralText(material.getName()));
+        return new TranslatableText("text.raa.item.sword", new LiteralText(material.getName()));
     }
 
 }
