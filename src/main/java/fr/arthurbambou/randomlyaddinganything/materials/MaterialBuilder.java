@@ -1,6 +1,6 @@
 package fr.arthurbambou.randomlyaddinganything.materials;
 
-import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
+import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
 import net.minecraft.util.Identifier;
@@ -10,7 +10,7 @@ public class MaterialBuilder {
     private OreTypes oreType;
     private String name;
     private int RGB;
-    private AppearsIn generateIn;
+    private GeneratesIn generateIn;
     private int oreCount;
     private Identifier overlayTexture;
     private Identifier resourceItemTexture;
@@ -19,6 +19,7 @@ public class MaterialBuilder {
     private boolean tools;
     private boolean weapons;
     private boolean glowing;
+    private boolean oreFlower;
     private int minXPAmount = 0;
     private int maxXPAmount = 10;
 
@@ -43,7 +44,7 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder generatesIn(AppearsIn generateIn) {
+    public MaterialBuilder generatesIn(GeneratesIn generateIn) {
         this.generateIn = generateIn;
         return this;
     }
@@ -101,6 +102,11 @@ public class MaterialBuilder {
         return this;
     }
 
+    public MaterialBuilder oreFlower(boolean oreFlower) {
+        this.oreFlower = oreFlower;
+        return this;
+    }
+
     public MaterialBuilder minXPAmount(int minXPAmount) {
         this.minXPAmount = minXPAmount;
         return this;
@@ -113,8 +119,8 @@ public class MaterialBuilder {
 
     public Material build() {
         return oreType == OreTypes.METAL ?
-                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount), name, RGB, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing)
-                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount), name, RGB, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing);
+                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount), name, RGB, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower)
+                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount), name, RGB, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower);
     }
 
 }

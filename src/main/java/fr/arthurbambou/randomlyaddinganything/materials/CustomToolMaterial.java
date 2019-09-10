@@ -2,7 +2,6 @@ package fr.arthurbambou.randomlyaddinganything.materials;
 
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -19,9 +18,11 @@ public class CustomToolMaterial implements ToolMaterial {
     private float hoeAttackSpeed;
     private float axeAttackDamage;
     private float axeAttackSpeed;
+    private int swordAttackSpeed;
+    private float swordAttackDamage;
 
     public CustomToolMaterial(String name, OreTypes oreTypes, int durability, float miningSpeed, float attackDamage, int miningLevel,
-                              int enchantability, float hoeAttackSpeed, float axeAttackDamage, float axeAttackSpeed) {
+                              int enchantability, float hoeAttackSpeed, float axeAttackDamage, float axeAttackSpeed, int swordAttackSpeed, float swordAttackDamage) {
         this.name = name;
         this.oreTypes = oreTypes;
         this.durability = durability;
@@ -32,6 +33,8 @@ public class CustomToolMaterial implements ToolMaterial {
         this.hoeAttackSpeed = hoeAttackSpeed;
         this.axeAttackDamage = axeAttackDamage;
         this.axeAttackSpeed = axeAttackSpeed;
+        this.swordAttackSpeed = swordAttackSpeed;
+        this.swordAttackDamage = swordAttackDamage;
     }
 
     @Override
@@ -81,4 +84,13 @@ public class CustomToolMaterial implements ToolMaterial {
     public float getAxeAttackSpeed() {
         return axeAttackSpeed;
     }
+
+    public int getSwordAttackSpeed() {
+        return swordAttackSpeed;
+    }
+
+    public float getSwordAttackDamage() {
+        return swordAttackDamage;
+    }
+
 }

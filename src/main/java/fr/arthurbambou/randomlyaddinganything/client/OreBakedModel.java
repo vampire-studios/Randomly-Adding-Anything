@@ -1,6 +1,6 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
-import fr.arthurbambou.randomlyaddinganything.api.enums.AppearsIn;
+import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
@@ -53,14 +53,14 @@ public class OreBakedModel extends RAABakedModel {
         RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, false).find();
         int color = 0xFFFFFFFF;
         Sprite sprite;
-        if (material.getOreInformation().getGenerateIn() != AppearsIn.DOES_NOT_APPEAR) {
+        if (material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR) {
             sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/" + Registry.BLOCK.getId(material.getOreInformation()
                     .getGenerateIn().getBlock()).getPath()));
         } else {
             sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/oak_planks"));
         }
         
-        if (material.getOreInformation().getGenerateIn() != AppearsIn.GRASS_BLOCK) {
+        if (material.getOreInformation().getGenerateIn() != GeneratesIn.GRASS_BLOCK) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
@@ -150,7 +150,7 @@ public class OreBakedModel extends RAABakedModel {
         color = material.getRGBColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
 
-        if (material.getOreInformation().getGenerateIn() != AppearsIn.GRASS_BLOCK) {
+        if (material.getOreInformation().getGenerateIn() != GeneratesIn.GRASS_BLOCK) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)

@@ -1,18 +1,22 @@
 package fr.arthurbambou.randomlyaddinganything.blocks;
 
+import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
+import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
 import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.OreBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.loot.LootPool;
 import net.minecraft.world.loot.LootSupplier;
@@ -44,6 +48,31 @@ public class LayeredOreBlock extends OreBlock {
 		return MathHelper.nextInt(random_1, material.getOreInformation().getMinXPAmount(), material.getOreInformation().getMinXPAmount());
 	}
 
+	@Override
+	public float getBlastResistance() {
+		return material.getOreInformation().getGenerateIn().getBlock().getBlastResistance();
+	}
+
+	@Override
+	public float getSlipperiness() {
+		return material.getOreInformation().getGenerateIn().getBlock().getSlipperiness();
+	}
+
+	@Override
+	public BlockSoundGroup getSoundGroup(BlockState blockState_1) {
+		return material.getOreInformation().getGenerateIn().getBlock().getSoundGroup(blockState_1);
+	}
+
+	/*@Override
+	public net.minecraft.block.Material getMaterial(BlockState blockState_1) {
+		return material.getOreInformation().getGenerateIn().getBlock().getMaterial(blockState_1);
+	}*/
+
+	@Override
+	public float getHardness(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
+		return material.getOreInformation().getGenerateIn().getBlock().getHardness(blockState_1, blockView_1, blockPos_1);
+	}
+
 	public void onStacksDropped(BlockState blockState_1, World world_1, BlockPos blockPos_1, ItemStack itemStack_1) {
 		super.onStacksDropped(blockState_1, world_1, blockPos_1, itemStack_1);
 		if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, itemStack_1) == 0) {
@@ -52,7 +81,6 @@ public class LayeredOreBlock extends OreBlock {
 				this.dropExperience(world_1, blockPos_1, int_1);
 			}
 		}
-
 	}
 
 	/*@Environment(EnvType.CLIENT)
@@ -88,10 +116,19 @@ public class LayeredOreBlock extends OreBlock {
 							System.out.println("Loot pool '"+tableId+"' doesn't seem to be able to drop anything. Supplying the ore block instead. Please report this to the Cotton team!");
 							complainedAboutLoot = true;
 						}
-						result.add(new ItemStack(this.asItem()));
+						if (material.getOreInformation().getOreType() == OreTypes.METAL) {
+							result.add(new ItemStack(this.asItem()));
+						} else {
+							if (material.getOreInformation().getOreType() == OreTypes.GEM) {
+								result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"))));
+							} else {
+								result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"))));
+							}
+						}
 					}
 				}
 			}
+
 			
 			return result;
 		}

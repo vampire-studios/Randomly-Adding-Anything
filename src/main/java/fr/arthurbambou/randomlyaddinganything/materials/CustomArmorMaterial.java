@@ -20,14 +20,16 @@ public class CustomArmorMaterial implements ArmorMaterial {
     private final int[] protectionAmounts;
     private final int enchantability;
     private final float toughness;
+    private final int horseArmorBonus;
 
-    public CustomArmorMaterial(String name, OreTypes oreTypes, int int_1, int[] ints_1, int int_2, float float_1) {
+    public CustomArmorMaterial(String name, OreTypes oreTypes, int int_1, int[] ints_1, int int_2, float float_1, int horseArmorBonus) {
         this.name = name;
         this.oreTypes = oreTypes;
         this.durabilityMultiplier = int_1;
         this.protectionAmounts = ints_1;
         this.enchantability = int_2;
         this.toughness = float_1;
+        this.horseArmorBonus = horseArmorBonus;
     }
 
     public int getDurability(EquipmentSlot equipmentSlot_1) {
@@ -53,6 +55,10 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
     public float getToughness() {
         return this.toughness;
+    }
+
+    public int getHorseArmorBonus() {
+        return horseArmorBonus;
     }
 
     @Override

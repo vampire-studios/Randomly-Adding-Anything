@@ -5,6 +5,9 @@ plugins {
 
 repositories {
 	maven { url "https://jitpack.io"}
+	maven{ url="https://minecraft.curseforge.com/api/maven" }
+	maven{ url="https://maven.jamieswhiteshirt.com/libs-release/" }
+	maven{ url="https://maven.fabricmc.net" }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -26,6 +29,11 @@ dependencies {
 
 	modImplementation "com.github.swordglowsblue:artifice:0.3.4"
 	include "com.github.swordglowsblue:artifice:0.3.4"
+
+	modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
+		exclude(group: "io.github.prospector.modmenu", module: "ModMenu")
+	}
+	modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
 }
 
 processResources {
