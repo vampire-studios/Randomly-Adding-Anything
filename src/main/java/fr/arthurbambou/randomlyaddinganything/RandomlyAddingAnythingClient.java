@@ -6,7 +6,7 @@ import fr.arthurbambou.randomlyaddinganything.client.ItemResourceModel;
 import fr.arthurbambou.randomlyaddinganything.client.NuggetResourceModel;
 import fr.arthurbambou.randomlyaddinganything.client.OreBakedModel;
 import fr.arthurbambou.randomlyaddinganything.client.StorageBlockBakedModel;
-import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
+import fr.arthurbambou.randomlyaddinganything.utils.Rands;
 import fr.arthurbambou.randomlyaddinganything.items.RAABlockItem;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.registries.Materials;
@@ -266,7 +266,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             }
             Identifier identifier = new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath());
             if (!(BLOCKS_IDENTIFIERS.containsKey(identifier) || ITEM_IDENTIFIERS.containsKey(identifier))) return null;
-            System.out.println(modelIdentifier.toString());
             return new UnbakedModel() {
                 @Override
                 public Collection<Identifier> getModelDependencies() {

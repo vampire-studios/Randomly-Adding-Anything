@@ -2,7 +2,7 @@ package fr.arthurbambou.randomlyaddinganything.materials;
 
 import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
-import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
+import fr.arthurbambou.randomlyaddinganything.utils.Rands;
 import net.minecraft.util.Identifier;
 
 public class MaterialBuilder {

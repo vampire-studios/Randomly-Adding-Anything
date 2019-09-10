@@ -1,6 +1,6 @@
 package fr.arthurbambou.randomlyaddinganything.api;
 
-import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
+import fr.arthurbambou.randomlyaddinganything.utils.Rands;
 
 public class NameGenerator {
 

@@ -1,6 +1,6 @@
 package fr.arthurbambou.randomlyaddinganything.materials;
 
-import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
+import fr.arthurbambou.randomlyaddinganything.utils.Rands;
 import net.minecraft.util.Identifier;
 
 public class Material {
@@ -37,7 +37,7 @@ public class Material {
         if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
                 Rands.randInt(1562), Rands.randFloat(12.0F), Rands.randFloat(3.0F),
                 Rands.randInt(4), Rands.randInt(23), Rands.randFloat(3.0F),
-                Rands.randFloat(2.0F), Rands.randFloat(0.2F), Rands.randInt(6), Rands.randFloat(4.0F));
+                Rands.randFloat(2.0F), Rands.randFloat(0.2F), 3, -2.4F/*Rands.randInt(6), Rands.randFloat(4.0F)*/);
 
         if (this.armor) this.armorMaterial = new CustomArmorMaterial(
                 this.name, this.oreInformation.getOreType(), Rands.randInt(34),

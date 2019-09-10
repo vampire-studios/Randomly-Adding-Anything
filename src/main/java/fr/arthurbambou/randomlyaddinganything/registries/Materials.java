@@ -6,7 +6,7 @@ import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.blocks.LayeredOreBlock;
 import fr.arthurbambou.randomlyaddinganything.client.Color;
-import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
+import fr.arthurbambou.randomlyaddinganything.utils.Rands;
 import fr.arthurbambou.randomlyaddinganything.items.*;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.materials.MaterialBuilder;

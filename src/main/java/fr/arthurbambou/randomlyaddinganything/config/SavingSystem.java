@@ -20,7 +20,7 @@ public class SavingSystem {
 
     private static File CONFIG_PATH = FabricLoader.getInstance().getConfigDirectory();
 
-    private static final Gson DEFAULT_GSON = new GsonBuilder().setLenient().create();
+    private static final Gson DEFAULT_GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private static File configFile;
     private static File configPath;
@@ -35,9 +35,10 @@ public class SavingSystem {
             return true;
         }
         configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
+        if (!configFile.exists()) return true;
 
         fileNumber += 1;
-        return true;
+        return false;
     }
 
     public static void createFile() {
