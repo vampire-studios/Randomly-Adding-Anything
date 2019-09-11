@@ -1,4 +1,4 @@
-package fr.arthurbambou.randomlyaddinganything.helpers;
+package fr.arthurbambou.randomlyaddinganything.utils;
 
 import java.util.List;
 import java.util.Random;
@@ -6,6 +6,14 @@ import java.util.Random;
 public class Rands {
     public static int randInt(int bound) {
         return new Random().nextInt(bound);
+    }
+
+    public static int randIntRange(int min, int max) {
+        int random = randInt(max + 1);
+        if (random < min) {
+            random = min;
+        }
+        return random;
     }
     public static float randFloat(float bound) {
         return ((float) new Random().nextInt((int) (bound*10) + 1))/10;

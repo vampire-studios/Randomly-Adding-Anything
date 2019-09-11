@@ -1,5 +1,6 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
+import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
@@ -48,7 +49,7 @@ public class StorageBlockBakedModel extends RAABakedModel {
             mat = renderer.materialFinder().disableDiffuse(0, false).find();
         }
         int color = material.getRGBColor();
-        Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getStorageBlockTexture());
+        Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getTEXTURES().get(TextureType.STORAGE_BLOCK));
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
@@ -96,7 +97,7 @@ public class StorageBlockBakedModel extends RAABakedModel {
 
     @Override
     public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getStorageBlockTexture());
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getTEXTURES().get(TextureType.STORAGE_BLOCK));
     }
 
     @Override

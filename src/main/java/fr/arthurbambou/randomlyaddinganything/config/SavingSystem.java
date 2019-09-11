@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import fr.arthurbambou.randomlyaddinganything.materials.CustomArmorMaterial;
 import fr.arthurbambou.randomlyaddinganything.materials.CustomToolMaterial;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
@@ -14,7 +15,9 @@ import net.minecraft.util.Identifier;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SavingSystem {
 
@@ -35,9 +38,8 @@ public class SavingSystem {
             return true;
         }
         configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
-
-        fileNumber += 1;
-        return true;
+        if (!configFile.exists()) return true;
+        return false;
     }
 
     public static void createFile() {
@@ -87,19 +89,15 @@ public class SavingSystem {
         List<Material> materials = new ArrayList<>();
         for (MaterialJSON materialJSON : fromJson) {
             OreInformationJSON oreInformationJSON = materialJSON.oreInformationJSON;
-            OreInformation oreInformation = new OreInformation(oreInformationJSON.oreTypes, oreInformationJSON.generatesIn,
-                    new Identifier(oreInformationJSON.overlayTexture), oreInformationJSON.oreCount,
+            Map<TextureType, Identifier> TEXTURES = new HashMap<>();
+            TEXTURES.put(TextureType.ORE_OVERLAY, new Identifier(oreInformationJSON.overlayTexture));
+            OreInformation oreInformation = new OreInformation(oreInformationJSON.oreTypes, oreInformationJSON.generatesIn, oreInformationJSON.oreCount,
                     oreInformationJSON.minXPAmount, oreInformationJSON.maxXPAmount);
-            Material material;
-            if (materialJSON.nuggetTexture.equals("null")) {
-                material = new Material(oreInformation, materialJSON.name, materialJSON.rgb,
-                        new Identifier(materialJSON.storageBlockTexture), new Identifier(materialJSON.resourceItemTexture),
-                        materialJSON.armor, materialJSON.armorMaterial, materialJSON.tools, materialJSON.weapons, materialJSON.toolMaterial, materialJSON.glowing, materialJSON.oreFlower);
-            } else {
-                material = new Material(oreInformation, materialJSON.name, materialJSON.rgb,
-                        new Identifier(materialJSON.storageBlockTexture), new Identifier(materialJSON.resourceItemTexture), new Identifier(materialJSON.nuggetTexture),
-                        materialJSON.armor, materialJSON.armorMaterial, materialJSON.tools, materialJSON.weapons, materialJSON.toolMaterial, materialJSON.glowing, materialJSON.oreFlower);
-            }
+            TEXTURES.put(TextureType.RESOURCE_ITEM, new Identifier(materialJSON.resourceItemTexture));
+            TEXTURES.put(TextureType.STORAGE_BLOCK, new Identifier(materialJSON.storageBlockTexture));
+            TEXTURES.put(TextureType.NUGGET, new Identifier(materialJSON.nuggetTexture));
+            Material material = new Material(oreInformation, materialJSON.name, materialJSON.rgb, TEXTURES,
+                    materialJSON.armor, materialJSON.armorMaterial, materialJSON.tools, materialJSON.weapons, materialJSON.toolMaterial, materialJSON.glowing, materialJSON.oreFlower);
             materials.add(material);
         }
 
@@ -111,16 +109,16 @@ public class SavingSystem {
         for (Material material : Materials.MATERIAL_LIST) {
             OreInformation oreInformation = material.getOreInformation();
             OreInformationJSON oreInformationJSON = new OreInformationJSON(oreInformation.getOreType(),
-                    oreInformation.getGenerateIn(), oreInformation.getOverlayTexture().toString(), oreInformation.getOreCount(),
+                    oreInformation.getGenerateIn(), material.getTEXTURES().get(TextureType.ORE_OVERLAY).toString(), oreInformation.getOreCount(),
                     oreInformation.getMinXPAmount(), oreInformation.getMaxXPAmount());
             String nuggetTexture;
-            if (material.getNuggetTexture() == null) {
+            if (material.getTEXTURES().get(TextureType.NUGGET) == null) {
                 nuggetTexture = "null";
             } else {
-                nuggetTexture = material.getNuggetTexture().toString();
+                nuggetTexture = material.getTEXTURES().get(TextureType.ORE_OVERLAY).toString();
             }
             MaterialJSON materialJSON = new MaterialJSON(oreInformationJSON, material.getName(), material.getRGBColor(),
-                    material.getStorageBlockTexture().toString(), material.getResourceItemTexture().toString(), nuggetTexture,
+                    material.getTEXTURES().get(TextureType.STORAGE_BLOCK).toString(), material.getTEXTURES().get(TextureType.RESOURCE_ITEM).toString(), nuggetTexture,
                     material.hasArmor(), material.getArmorMaterial(), material.hasTools(), material.hasWeapons(), material.getToolMaterial(), material.isGlowing(), material.hasOreFlower());
             materialJSONS.add(materialJSON);
         }

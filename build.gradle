@@ -8,6 +8,7 @@ repositories {
 	maven{ url="https://minecraft.curseforge.com/api/maven" }
 	maven{ url="https://maven.jamieswhiteshirt.com/libs-release/" }
 	maven{ url="https://maven.fabricmc.net" }
+	maven { url = 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -30,6 +31,12 @@ dependencies {
 	modImplementation "com.github.swordglowsblue:artifice:0.3.4"
 	include "com.github.swordglowsblue:artifice:0.3.4"
 	modApi "vampirelib:VampireLib:${project.vampirelib_version}"
+	
+	include "cloth-config:ClothConfig:${project.cloth_config_version}"
+	modImplementation "cloth-config:ClothConfig:${project.cloth_config_version}"
+    include "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
+    modImplementation "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
+
 
 	modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
 		exclude(group: "io.github.prospector.modmenu", module: "ModMenu")

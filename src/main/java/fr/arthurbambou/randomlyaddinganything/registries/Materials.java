@@ -4,9 +4,10 @@ import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
 import fr.arthurbambou.randomlyaddinganything.api.NameGenerator;
 import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import fr.arthurbambou.randomlyaddinganything.blocks.LayeredOreBlock;
 import fr.arthurbambou.randomlyaddinganything.client.Color;
-import fr.arthurbambou.randomlyaddinganything.helpers.Rands;
+import fr.arthurbambou.randomlyaddinganything.utils.Rands;
 import fr.arthurbambou.randomlyaddinganything.items.*;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import fr.arthurbambou.randomlyaddinganything.materials.MaterialBuilder;
@@ -17,6 +18,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.FoodComponents;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +48,8 @@ public class Materials {
                         "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
                         "\nRGB color : " + RGB.getRed() + "," + RGB.getGreen() + "," + RGB.getBlue() +
                         "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
-                        "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
-                        "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
+                        "\nOverlay Texture : " + material.getTEXTURES().get(TextureType.ORE_OVERLAY).toString() +
+                        "\nResource Item Texture : " + material.getTEXTURES().get(TextureType.RESOURCE_ITEM).toString() +
                         "\nHas Armor : " + material.hasArmor() +
                         "\nHas Weapons : " + material.hasWeapons() +
                         "\nHas Tools : " + material.hasTools() +
@@ -66,6 +68,7 @@ public class Materials {
     public static void createMaterialResources() {
         for (Material material : MATERIAL_LIST) {
             Item repairItem;
+            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
                     new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_block"), RandomlyAddingAnything.RAA_ORES, material.getName(),
                     RAABlockItem.BlockType.BLOCK);
