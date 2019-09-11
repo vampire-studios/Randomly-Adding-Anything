@@ -287,7 +287,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 					}
 				}
 				if (material.getOreInformation().getGenerateIn() == GeneratesIn.SAND_BEACH) {
-					if (biome == Biomes.BEACH ) {
+					if (biome == Biomes.BEACH) {
                         biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
                                 new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(OreFeatureConfig.Target.SAND,
                                         Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore")).getDefaultState(), 9),

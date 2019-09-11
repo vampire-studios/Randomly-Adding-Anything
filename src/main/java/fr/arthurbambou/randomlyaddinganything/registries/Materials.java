@@ -18,6 +18,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.FoodComponents;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ public class Materials {
     public static void createMaterialResources() {
         for (Material material : MATERIAL_LIST) {
             Item repairItem;
+            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
                     new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_block"), RandomlyAddingAnything.RAA_ORES, material.getName(),
                     RAABlockItem.BlockType.BLOCK);
