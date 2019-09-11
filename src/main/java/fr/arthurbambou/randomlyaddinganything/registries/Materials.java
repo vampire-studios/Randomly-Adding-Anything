@@ -67,9 +67,11 @@ public class Materials {
         for (Material material : MATERIAL_LIST) {
             Item repairItem;
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_block"), RandomlyAddingAnything.RAA_ORES, material.getName(), RAABlockItem.BlockType.BLOCK);
-            RegistryUtils.register(new LayeredOreBlock(material, Block.Settings.copy(Blocks.IRON_ORE)),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore"), RandomlyAddingAnything.RAA_RESOURCES, material.getName(), RAABlockItem.BlockType.ORE);
+                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_block"), RandomlyAddingAnything.RAA_ORES, material.getName(),
+                    RAABlockItem.BlockType.BLOCK);
+            RegistryUtils.register(new LayeredOreBlock(material),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore"), RandomlyAddingAnything.RAA_RESOURCES, material.getName(),
+                    RAABlockItem.BlockType.ORE);
             if (material.getOreInformation().getOreType() == OreTypes.METAL) {
                 RegistryUtils.registerItem(repairItem = new RAASimpleItem(material.getName(), new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.INGOT), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"));
