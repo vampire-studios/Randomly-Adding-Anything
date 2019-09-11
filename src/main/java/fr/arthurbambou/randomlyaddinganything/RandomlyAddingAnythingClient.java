@@ -2,6 +2,7 @@ package fr.arthurbambou.randomlyaddinganything;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import fr.arthurbambou.randomlyaddinganything.client.ItemResourceModel;
 import fr.arthurbambou.randomlyaddinganything.client.NuggetResourceModel;
 import fr.arthurbambou.randomlyaddinganything.client.OreBakedModel;
@@ -46,8 +47,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     registry.register(new Identifier("block/sandstone"));
                     registry.register(new Identifier("block/red_sandstone"));
                     for (Material material : Materials.MATERIAL_LIST) {
-                        registry.register(material.getOreInformation().getOverlayTexture());
-                        registry.register(material.getStorageBlockTexture());
+                        registry.register(material.getTEXTURES().get(TextureType.ORE_OVERLAY));
+                        registry.register(material.getTEXTURES().get(TextureType.STORAGE_BLOCK));
                     }
                 });
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
@@ -59,7 +60,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     }));
                     clientResourcePackBuilder.addBlockModel(id, modelBuilder -> {
                         modelBuilder.parent(new Identifier("block/cube_all"));
-                        modelBuilder.texture("all", material.getStorageBlockTexture());
+                        modelBuilder.texture("all", material.getTEXTURES().get(TextureType.STORAGE_BLOCK));
                     });
                     clientResourcePackBuilder.addItemModel(id, modelBuilder -> {
                         modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath()));
@@ -71,35 +72,35 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 if (material.getOreInformation().getOreType() == OreTypes.GEM) {
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTEXTURES().get(TextureType.RESOURCE_ITEM));
                     });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTEXTURES().get(TextureType.RESOURCE_ITEM));
                     });
                     ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"), material);
                 }
                 if (material.getOreInformation().getOreType() == OreTypes.METAL) {
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTEXTURES().get(TextureType.RESOURCE_ITEM));
                     });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTEXTURES().get(TextureType.RESOURCE_ITEM));
                     });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
 //                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_ingot"));
-                        modelBuilder.texture("layer0", new Identifier(material.getResourceItemTexture().getNamespace(), material.getResourceItemTexture().getPath().toLowerCase()));
+                        modelBuilder.texture("layer0", new Identifier(material.getTEXTURES().get(TextureType.RESOURCE_ITEM).getNamespace(), material.getTEXTURES().get(TextureType.RESOURCE_ITEM).getPath().toLowerCase()));
                     });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getNuggetTexture());
+                        modelBuilder.texture("layer0", material.getTEXTURES().get(TextureType.NUGGET));
                     });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getNuggetTexture());
+                        modelBuilder.texture("layer0", material.getTEXTURES().get(TextureType.NUGGET));
                     });
                     ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"), material);
                     ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget"), material);
@@ -107,11 +108,11 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 if (material.getOreInformation().getOreType() == OreTypes.CRYSTAL) {
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTEXTURES().get(TextureType.RESOURCE_ITEM));
                     });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTEXTURES().get(TextureType.RESOURCE_ITEM));
                     });
                     ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"), material);
                 }

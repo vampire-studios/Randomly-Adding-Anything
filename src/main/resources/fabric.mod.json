@@ -24,6 +24,9 @@
     ],
     "client": [
       "fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnythingClient"
+    ],
+    "modmenu" : [
+      "fr.arthurbambou.randomlyaddinganything.utils.ModMenuCompat"
     ]
   },
 

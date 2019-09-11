@@ -13,10 +13,9 @@ public class OreInformation {
     private int minXPAmount;
     private int maxXPAmount;
 
-    public OreInformation(OreTypes oreType, GeneratesIn generateIn, Identifier overlayTexture, int oreCount, int minXPAmount, int maxXPAmount) {
+    public OreInformation(OreTypes oreType, GeneratesIn generateIn, int oreCount, int minXPAmount, int maxXPAmount) {
         this.oreType = oreType;
         this.generateIn = generateIn;
-        Material.TEXTURES.put(TextureType.ORE_OVERLAY, overlayTexture);
         this.oreCount = oreCount;
         this.minXPAmount = minXPAmount;
         this.maxXPAmount = maxXPAmount;
@@ -28,10 +27,6 @@ public class OreInformation {
 
     public GeneratesIn getGenerateIn() {
         return generateIn;
-    }
-
-    public Identifier getOverlayTexture() {
-        return Material.TEXTURES.get(TextureType.ORE_OVERLAY);
     }
 
     public int getMinXPAmount() {

@@ -11,6 +11,8 @@ import fr.arthurbambou.randomlyaddinganything.registries.Textures;
 import fr.arthurbambou.randomlyaddinganything.world.gen.feature.OreFeature;
 import fr.arthurbambou.randomlyaddinganything.world.gen.feature.OreFeatureConfig;
 import fr.arthurbambou.randomlyaddinganything.world.gen.feature.SimpleRangeDecoratorConfig;
+import me.sargunvohra.mcmods.autoconfig1.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Blocks;
@@ -33,14 +35,17 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static final ItemGroup RAA_ARMOR = FabricItemGroupBuilder.build(new Identifier("raa", "armor"), () -> new ItemStack(Items.IRON_HELMET));
 	public static final ItemGroup RAA_WEAPONS = FabricItemGroupBuilder.build(new Identifier("raa", "weapons"), () -> new ItemStack(Items.IRON_SWORD));
 	public static final String MOD_ID = "raa";
-	public static final Config CONFIG = new Config();
+	public static Config CONFIG;
 
 	@Override
 	public void onInitialize() {
+		AutoConfig.register(Config.class, JanksonConfigSerializer::new);
+		CONFIG = AutoConfig.getConfigHolder(Config.class).getConfig();
 		Textures.init();
-		if (SavingSystem.init()) {
+		if (SavingSystem.init() || CONFIG.regen) {
 			Materials.init();
 			SavingSystem.createFile();
+			CONFIG.regen = false;
 		} else {
 			SavingSystem.readFile();
 			Materials.isReady = true;

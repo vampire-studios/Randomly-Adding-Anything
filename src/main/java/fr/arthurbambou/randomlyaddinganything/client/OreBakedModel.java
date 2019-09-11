@@ -1,6 +1,7 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
 import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
+import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
@@ -148,7 +149,7 @@ public class OreBakedModel extends RAABakedModel {
             mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).find();
         }
         color = material.getRGBColor();
-        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
+        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getTEXTURES().get(TextureType.ORE_OVERLAY));
 
         if (material.getOreInformation().getGenerateIn() != GeneratesIn.GRASS_BLOCK) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
@@ -203,7 +204,7 @@ public class OreBakedModel extends RAABakedModel {
 
     @Override
     public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getTEXTURES().get(TextureType.ORE_OVERLAY));
     }
 
     @Override

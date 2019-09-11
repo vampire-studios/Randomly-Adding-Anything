@@ -4,6 +4,7 @@ import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
 import fr.arthurbambou.randomlyaddinganything.api.NameGenerator;
 import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
+import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import fr.arthurbambou.randomlyaddinganything.blocks.LayeredOreBlock;
 import fr.arthurbambou.randomlyaddinganything.client.Color;
 import fr.arthurbambou.randomlyaddinganything.utils.Rands;
@@ -46,8 +47,8 @@ public class Materials {
                         "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
                         "\nRGB color : " + RGB.getRed() + "," + RGB.getGreen() + "," + RGB.getBlue() +
                         "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
-                        "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
-                        "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
+                        "\nOverlay Texture : " + material.getTEXTURES().get(TextureType.ORE_OVERLAY).toString() +
+                        "\nResource Item Texture : " + material.getTEXTURES().get(TextureType.RESOURCE_ITEM).toString() +
                         "\nHas Armor : " + material.hasArmor() +
                         "\nHas Weapons : " + material.hasWeapons() +
                         "\nHas Tools : " + material.hasTools() +
