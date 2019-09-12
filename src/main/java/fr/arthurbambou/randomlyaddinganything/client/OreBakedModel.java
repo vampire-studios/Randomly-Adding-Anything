@@ -1,7 +1,6 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
 import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
-import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
@@ -27,7 +26,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 
 import java.util.Collections;
 import java.util.Random;
@@ -43,10 +41,10 @@ public class OreBakedModel extends RAABakedModel {
 
     @Override
     public void emitBlockQuads(ExtendedBlockView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-        context.meshConsumer().accept(mesh(blockView, randomSupplier, pos));
+        context.meshConsumer().accept(mesh(blockView, pos));
     }
 
-    private Mesh mesh(ExtendedBlockView blockView, Supplier<Random> randomSupplier, BlockPos pos) {
+    private Mesh mesh(ExtendedBlockView blockView, BlockPos pos) {
         Renderer renderer = RendererAccess.INSTANCE.getRenderer();
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
@@ -92,8 +90,6 @@ public class OreBakedModel extends RAABakedModel {
             Sprite sideOverlaySprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side_overlay"));
             Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_top"));
             Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/dirt"));
-            Biome biome = MinecraftClient.getInstance().world.getBiome(pos);
-//            int color2 = biome.getGrassColorAt(pos);
             int color2 = 0xffffff;
             BlockColorProvider blockColor =  ColorProviderRegistry.BLOCK.get(material.getOreInformation().getGenerateIn().getBlock());
             if (blockColor != null) {
@@ -149,38 +145,38 @@ public class OreBakedModel extends RAABakedModel {
             mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).find();
         }
         color = material.getRGBColor();
-        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getTEXTURES().get(TextureType.ORE_OVERLAY));
+        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
 
         if (material.getOreInformation().getGenerateIn() != GeneratesIn.GRASS_BLOCK) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3) ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
             emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
             emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
             emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
             emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + randomSupplier.get().nextInt(3)).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
             emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + MutableQuadView.BAKE_ROTATE_90).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
         } else {
             emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV  + MutableQuadView.BAKE_ROTATE_90).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
         }
 
         return builder.build();
@@ -188,7 +184,7 @@ public class OreBakedModel extends RAABakedModel {
 
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-        context.meshConsumer().accept(mesh(MinecraftClient.getInstance().world, randomSupplier, MinecraftClient.getInstance().player.getBlockPos()));
+        context.meshConsumer().accept(mesh(MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos()));
     }
 
     protected class ItemProxy extends ModelItemPropertyOverrideList {
@@ -204,7 +200,7 @@ public class OreBakedModel extends RAABakedModel {
 
     @Override
     public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getTEXTURES().get(TextureType.ORE_OVERLAY));
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
     }
 
     @Override

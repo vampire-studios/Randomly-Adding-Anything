@@ -1,3 +1,4 @@
+/*
 package fr.arthurbambou.randomlyaddinganything.utils;
 
 import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
@@ -21,3 +22,4 @@ public class ModMenuCompat implements ModMenuApi {
         return Optional.of(AutoConfig.getConfigScreen(Config.class, screen));
     }
 }
+*/

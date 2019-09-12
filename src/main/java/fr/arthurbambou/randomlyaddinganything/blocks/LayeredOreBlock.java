@@ -3,6 +3,7 @@ package fr.arthurbambou.randomlyaddinganything.blocks;
 import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
+import fr.arthurbambou.randomlyaddinganything.utils.Rands;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderLayer;
@@ -15,7 +16,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -45,8 +45,9 @@ public class LayeredOreBlock extends OreBlock {
 		return BlockRenderLayer.SOLID;
 	}
 
+	@Override
 	protected int getExperienceWhenMined(Random random_1) {
-		return MathHelper.nextInt(random_1, material.getOreInformation().getMinXPAmount(), material.getOreInformation().getMinXPAmount());
+		return Rands.randIntRange(material.getOreInformation().getMinXPAmount(), material.getOreInformation().getMaxXPAmount());
 	}
 
 	@Override

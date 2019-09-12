@@ -11,31 +11,6 @@ public class Textures {
     }
 
     private static void textures() {
-        /*OreTypes.METAL_TEXTURES.add(new Identifier("item/melon_seeds"));
-        OreTypes.METAL_TEXTURES.add(new Identifier("item/prismarine_crystals"));
-        OreTypes.METAL_TEXTURES.add(new Identifier("item/cocoa_beans"));
-        OreTypes.METAL_TEXTURES.add(new Identifier("item/blaze_powder"));
-        OreTypes.METAL_TEXTURES.add(new Identifier("item/iron_ingot"));
-        OreTypes.METAL_TEXTURES.add(new Identifier("item/gold_ingot"));
-        OreTypes.METAL_TEXTURES.add(new Identifier("item/gold_nugget"));
-        OreTypes.METAL_TEXTURES.add(new Identifier("item/iron_nugget"));
-
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/ghast_tear"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/coal"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/diamond"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/glowstone_dust"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/gunpowder"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/lapis_lazuli"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/prismarine_shard"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/quartz"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/redstone"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/ruby"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/sugar"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/emerald"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/ender_pearl"));
-        OreTypes.GEM_TEXTURES.add(new Identifier("item/charcoal"));*/
-
-
         OreTypes.METAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/ingot_1"));
         OreTypes.METAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/ingot_2"));
 
@@ -63,13 +38,10 @@ public class Textures {
         OreTypes.GEM_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_7"));
         OreTypes.GEM_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_10"));
         OreTypes.GEM_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_11"));
-        OreTypes.GEM_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_18"));
-
 
         OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_3"));
         OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_4"));
         OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_5"));
-        OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_6"));
         OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_8"));
         OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_9"));
         OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_16"));
@@ -82,10 +54,20 @@ public class Textures {
         OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_2"));
         OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_3"));
         OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_4"));
+        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_5"));
+        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_6"));
+        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_7"));
+        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_8"));
+        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_9"));
+        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_10"));
+        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_11"));
+        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_12"));
 
         OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_1"));
         OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_2"));
         OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_3"));
+        OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_4"));
+        OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_5"));
 
         OreTypes.CRYSTAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_1"));
 
@@ -103,5 +85,32 @@ public class Textures {
         OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_2.png"));
         OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_3.png"));
         OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_4.png"));
+
+        OreTypes.HORSE_ARMOR.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_1.png"));
+        OreTypes.HORSE_ARMOR.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle_2"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_2.png"));
+
+        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_1"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_1.png"));
+        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_2"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_2.png"));
+        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_3"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_3.png"));
+        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_4"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_4.png"));
+        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_5"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_5.png"));
+
+        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_1"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_1.png"));
+        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_2"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_2.png"));
+        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_3"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_3.png"));
+        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_4"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_4.png"));
+        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_5"),
+                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_5.png"));
     }
 }

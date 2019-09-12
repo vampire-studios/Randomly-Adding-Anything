@@ -1,8 +1,7 @@
 package fr.arthurbambou.randomlyaddinganything.items;
 
 import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
-import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
-import fr.arthurbambou.randomlyaddinganything.materials.Material;
+import fr.arthurbambou.randomlyaddinganything.api.enums.DebugMessagesBuilder;
 import fr.arthurbambou.randomlyaddinganything.registries.Materials;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -26,22 +25,12 @@ public class RAADebugItem extends Item {
         Block block = world.getBlockState(blockPos).getBlock();
         Identifier identifier = Registry.BLOCK.getId(block);
         if (identifier.getNamespace() != RandomlyAddingAnything.MOD_ID) return ActionResult.FAIL;
-        for (Material material : Materials.MATERIAL_LIST) {
+        Materials.MATERIALS.forEach(material -> {
             if (identifier.getPath().equals(material.getName().toLowerCase() + "_ore") || identifier.getPath().equals(material.getName().toLowerCase() + "_block")) {
-                System.out.println("\nname : " + material.getName() +
-                        "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
-                        "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
-                        "\nOverlay Texture : " + material.getTEXTURES().get(TextureType.ORE_OVERLAY).toString() +
-                        "\nResource Item Texture : " + material.getTEXTURES().get(TextureType.RESOURCE_ITEM).toString() +
-                        "\nHas Armor : " + material.hasArmor() +
-                        "\nHas Weapons : " + material.hasWeapons() +
-                        "\nHas Tools : " + material.hasTools() +
-                        "\nIs Glowing : " + material.isGlowing() +
-                        "\nHas Ore Flower : " + material.hasOreFlower()
-                );
-                return ActionResult.SUCCESS;
+                DebugMessagesBuilder.create(material, itemUsageContext_1.getPlayer())
+                        .name().oreType().generatesIn().textures().armor().weapons().tools().glowing().oreFlower();
             }
-        }
+        });
         return ActionResult.PASS;
     }
 }

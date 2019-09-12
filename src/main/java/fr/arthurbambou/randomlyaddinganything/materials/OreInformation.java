@@ -2,23 +2,26 @@ package fr.arthurbambou.randomlyaddinganything.materials;
 
 import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
-import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import net.minecraft.util.Identifier;
 
 public class OreInformation {
 
     private OreTypes oreType;
     private GeneratesIn generateIn;
+    private Identifier overlayTexture;
     private int oreCount;
     private int minXPAmount;
     private int maxXPAmount;
+    private int oreClusterSize;
 
-    public OreInformation(OreTypes oreType, GeneratesIn generateIn, int oreCount, int minXPAmount, int maxXPAmount) {
+    public OreInformation(OreTypes oreType, GeneratesIn generateIn, Identifier overlayTexture, int oreCount, int minXPAmount, int maxXPAmount, int oreClusterSize) {
         this.oreType = oreType;
         this.generateIn = generateIn;
+        this.overlayTexture = overlayTexture;
         this.oreCount = oreCount;
         this.minXPAmount = minXPAmount;
         this.maxXPAmount = maxXPAmount;
+        this.oreClusterSize = oreClusterSize;
     }
 
     public OreTypes getOreType() {
@@ -27,6 +30,10 @@ public class OreInformation {
 
     public GeneratesIn getGenerateIn() {
         return generateIn;
+    }
+
+    public Identifier getOverlayTexture() {
+        return overlayTexture;
     }
 
     public int getMinXPAmount() {
@@ -40,4 +47,9 @@ public class OreInformation {
     public int getOreCount() {
         return oreCount;
     }
+
+    public int getOreClusterSize() {
+        return oreClusterSize;
+    }
+
 }

@@ -43,14 +43,10 @@ public class OreFeatureConfig implements FeatureConfig {
         GRANITE("granite", new BlockPredicate(Blocks.GRANITE)),
         GRASS_BLOCK("grass_block", new BlockPredicate(Blocks.GRASS_BLOCK)),
         GRAVEL("gravel", new BlockPredicate(Blocks.GRAVEL)),
-        DIRT("dirt", (blockState_1) -> {
-            if (blockState_1 == null) {
-                return false;
-            } else {
-                Block block_1 = blockState_1.getBlock();
-                return block_1 == Blocks.DIRT || block_1 == Blocks.COARSE_DIRT ;
-            }
-        }),
+        DIRT("dirt", new BlockPredicate(Blocks.DIRT)),
+        COARSE_DIRT("coarse_dirt", new BlockPredicate(Blocks.COARSE_DIRT)),
+        PODZOL("podzol", new BlockPredicate(Blocks.PODZOL)),
+        CLAY("clay", new BlockPredicate(Blocks.CLAY )),
         SAND("sand", (blockState_1) -> {
             if (blockState_1 == null) {
                 return false;

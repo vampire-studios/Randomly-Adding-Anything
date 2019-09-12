@@ -1,6 +1,5 @@
 package fr.arthurbambou.randomlyaddinganything.client;
 
-import fr.arthurbambou.randomlyaddinganything.api.enums.TextureType;
 import fr.arthurbambou.randomlyaddinganything.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
@@ -49,7 +48,7 @@ public class ItemResourceModel extends ItemBakedModel {
 
     @Override
     public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(material.getTEXTURES().get(TextureType.RESOURCE_ITEM));
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(material.getResourceItemTexture());
     }
 
     @Override

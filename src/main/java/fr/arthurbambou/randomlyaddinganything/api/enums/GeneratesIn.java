@@ -21,7 +21,10 @@ public enum GeneratesIn {
     END_STONE(Blocks.END_STONE),
     NETHERRACK(Blocks.NETHERRACK),
     DOES_NOT_APPEAR(null),
-    BIOME_SPECIFIC(Blocks.STONE);
+    BIOME_SPECIFIC(Blocks.STONE),
+    CLAY(Blocks.CLAY),
+    PODZOL(Blocks.PODZOL),
+    COARSE_DIRT(Blocks.COARSE_DIRT);
 
     private Block block;
 

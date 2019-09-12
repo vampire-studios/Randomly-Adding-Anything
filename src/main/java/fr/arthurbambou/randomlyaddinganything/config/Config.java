@@ -7,7 +7,7 @@ import me.sargunvohra.mcmods.autoconfig1.ConfigData;
 public class Config implements ConfigData {
 
     public int materialNumber = 1000;
-    public boolean debug = false;
+    public boolean debug = true;
     public boolean regen = false;
 
 }
