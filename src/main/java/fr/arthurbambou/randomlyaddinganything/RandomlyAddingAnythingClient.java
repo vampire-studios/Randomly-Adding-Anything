@@ -96,7 +96,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-//                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_ingot"));
+///                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_ingot"));
                         modelBuilder.texture("layer0", new Identifier(material.getResourceItemTexture().getNamespace(), material.getResourceItemTexture().getPath().toLowerCase()));
                     });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget"), modelBuilder -> {
