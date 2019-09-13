@@ -1,8 +1,8 @@
-package fr.arthurbambou.randomlyaddinganything.api;
+package fr.arthurbambou.randomlyaddinganything.api.namegeneration;
 
 import fr.arthurbambou.randomlyaddinganything.utils.Rands;
 
-public class NameGenerator {
+public class English implements INameGenerator {
 
     private static String[] list1 = new String[]{"e","a","u","o","i","io","oi","ou","ee","oo","ia","ea","ao"};
     private static String[] list2 = new String[list1.length];
@@ -11,7 +11,7 @@ public class NameGenerator {
     private static String[] list5 = new String[]{"w","r","t","tr","tw","y","p","pw","pr","s","sr","sp","b"};
     private static String[] list6 = new String[]{"ite","ium","",""};
 
-    public static String generate() {
+    public String generate() {
         for (int o = 0; o < list1.length; o++) {
             String[] choice = {list5[o], list4[o],list3[o]};
             list2[o] = Rands.values(choice);

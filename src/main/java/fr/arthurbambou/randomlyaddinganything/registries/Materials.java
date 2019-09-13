@@ -1,7 +1,7 @@
 package fr.arthurbambou.randomlyaddinganything.registries;
 
 import fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything;
-import fr.arthurbambou.randomlyaddinganything.api.NameGenerator;
+import fr.arthurbambou.randomlyaddinganything.api.namegeneration.English;
 import fr.arthurbambou.randomlyaddinganything.api.enums.GeneratesIn;
 import fr.arthurbambou.randomlyaddinganything.api.enums.OreTypes;
 import fr.arthurbambou.randomlyaddinganything.blocks.LayeredOreBlock;
@@ -36,7 +36,7 @@ public class Materials {
             Color RGB = new Color(Rands.randIntRange(0, 255),Rands.randIntRange(0, 255),Rands.randIntRange(0, 255));
             Random random = new Random();
             Material material = MaterialBuilder.create()
-                    .oreType(Rands.values(OreTypes.values())).name(NameGenerator.generate()).color(RGB.getColor())
+                    .oreType(Rands.values(OreTypes.values())).name(RandomlyAddingAnything.CONFIG.namingLanguage.generate()).color(RGB.getColor())
                     .generatesIn(Rands.values(GeneratesIn.values())).overlayTexture()
                     .resourceItemTexture().storageBlockTexture().armor((random.nextBoolean() && random.nextBoolean()))
                     .tools((random.nextBoolean() && random.nextBoolean())).oreFlower(random.nextBoolean() && random.nextBoolean())
