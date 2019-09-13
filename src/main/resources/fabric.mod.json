@@ -6,8 +6,8 @@
   "name": "Randomly Adding Anything",
   "description": "",
   "authors": [
-    "arthurbambou(aka Cat Core)",
-    "OliviaTheVampire"
+    "OliviaTheVampire",
+    "arthurbambou(aka Cat Core)"
   ],
   "contact": {
     "homepage": "",
@@ -20,13 +20,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnything"
+      "io.github.vampirestudios.raa.RandomlyAddingAnything"
     ],
     "client": [
-      "fr.arthurbambou.randomlyaddinganything.RandomlyAddingAnythingClient"
+      "io.github.vampirestudios.raa.RandomlyAddingAnythingClient"
     ],
     "modmenu" : [
-//      "fr.arthurbambou.randomlyaddinganything.utils.ModMenuCompat"
+//      "io.github.vampirestudios.raa.utils.ModMenuCompat"
     ]
   },
 
