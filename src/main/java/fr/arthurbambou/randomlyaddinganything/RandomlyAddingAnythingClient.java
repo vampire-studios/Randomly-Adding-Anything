@@ -51,7 +51,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     registry.register(new Identifier("block/red_sandstone"));
                     registry.register(new Identifier("block/red_sandstone"));
                     registry.register(new Identifier("block/red_sandstone"));
-                    for (Material material : Materials.MATERIAL_LIST) {
+                    for (Material material : Materials.MATERIALS) {
                         registry.register(material.getOreInformation().getOverlayTexture());
                         registry.register(material.getStorageBlockTexture());
                     }
