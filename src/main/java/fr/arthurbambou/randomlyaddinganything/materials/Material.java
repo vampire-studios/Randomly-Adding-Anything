@@ -35,16 +35,18 @@ public class Material {
         this.toolMaterial = null;
 
         if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
-                Rands.randInt(1562), Rands.randFloat(12.0F), Rands.randFloat(3.0F),
-                Rands.randInt(4), Rands.randInt(23), Rands.randFloat(3.0F),
-                Rands.randFloat(2.0F), Rands.randFloat(0.2F), Rands.randInt(6), Rands.randFloat(4.0F));
+                Rands.randIntRange(15,2000), Rands.randFloat(12.0F)+1.5F,
+                Rands.randFloat(5.0F), Rands.randInt(4),
+                Rands.randIntRange(2,30), Rands.randFloat(4.0F),
+                Rands.randFloat(3.0F), Rands.randFloat(0.8F),
+                Rands.randInt(8), Rands.randFloat(5.0F));
 
         if (this.armor) this.armorMaterial = new CustomArmorMaterial(
-                this.name, this.oreInformation.getOreType(), Rands.randInt(34),
-                new int[]{Rands.randInt(4),Rands.randInt(7),
-                        Rands.randInt(9), Rands.randInt(4)},
-                Rands.randInt(26),
-                Rands.randFloat(2.0F),
+                this.name, this.oreInformation.getOreType(), Rands.randIntRange(2,50),
+                new int[]{Rands.randIntRange(1,6),Rands.randIntRange(1,10),
+                        Rands.randIntRange(2,12), Rands.randIntRange(1,6)},
+                Rands.randIntRange(7,30),
+                Rands.randFloat(4.0F),
                 Rands.randInt(30)
         );
     }
@@ -66,16 +68,18 @@ public class Material {
         this.toolMaterial = null;
 
         if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
-                Rands.randInt(1562), Rands.randFloat(12.0F), Rands.randFloat(3.0F),
-                Rands.randInt(4), Rands.randInt(23), Rands.randFloat(3.0F),
-                Rands.randFloat(2.0F), Rands.randFloat(0.2F), Rands.randInt(6), Rands.randFloat(4.0F));
+                Rands.randIntRange(15,2000), Rands.randFloat(12.0F)+1.5F,
+                Rands.randFloat(5.0F), Rands.randInt(4),
+                Rands.randIntRange(2,30), Rands.randFloat(4.0F),
+                Rands.randFloat(3.0F), Rands.randFloat(0.8F),
+                Rands.randInt(8), Rands.randFloat(5.0F));
 
         if (this.armor) this.armorMaterial = new CustomArmorMaterial(
-                this.name, this.oreInformation.getOreType(), Rands.randInt(34),
-                new int[]{Rands.randInt(4),Rands.randInt(7),
-                        Rands.randInt(9), Rands.randInt(4)},
-                Rands.randInt(26),
-                Rands.randFloat(2.0F),
+                this.name, this.oreInformation.getOreType(), Rands.randIntRange(2,50),
+                new int[]{Rands.randIntRange(1,6),Rands.randIntRange(1,10),
+                        Rands.randIntRange(2,12), Rands.randIntRange(1,6)},
+                Rands.randIntRange(7,30),
+                Rands.randFloat(4.0F),
                 Rands.randInt(30)
         );
     }
