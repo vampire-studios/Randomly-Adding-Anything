@@ -58,8 +58,12 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
             Materials.MATERIALS.forEach(material -> {
+                String bid = material.getName().toLowerCase();
+                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+                    bid = bid.replace(entry.getKey(), entry.getValue());
+                }
                 for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
-                    Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + blockType.getString());
+                    Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, bid + blockType.getString());
                     clientResourcePackBuilder.addBlockState(id, blockStateBuilder -> blockStateBuilder.variant("", variant -> {
                         variant.model(new Identifier(id.getNamespace(), "block/" + id.getPath()));
                     }));
@@ -75,159 +79,159 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     BLOCKS_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
                 }
                 if (material.getOreInformation().getOreType() == OreTypes.GEM) {
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_gem"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem1"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_gem1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
-                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"), material);
+                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_gem"), material);
                 }
                 if (material.getOreInformation().getOreType() == OreTypes.METAL) {
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_ingot"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot1"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_ingot1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot1"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_ingot1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
 ///                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_ingot"));
                         modelBuilder.texture("layer0", new Identifier(material.getResourceItemTexture().getNamespace(), material.getResourceItemTexture().getPath().toLowerCase()));
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_nugget"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getNuggetTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget1"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_nugget1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getNuggetTexture());
                     });
-                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"), material);
-                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget"), material);
+                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_ingot"), material);
+                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_nugget"), material);
                 }
                 if (material.getOreInformation().getOreType() == OreTypes.CRYSTAL) {
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_crystal"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal1"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_crystal1"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
-                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"), material);
+                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_crystal"), material);
                 }
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_helmet"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_helmet"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_helmet1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_helmet"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_chestplate"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_chestplate"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_chestplate1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_chestplate"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_leggings"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_leggings"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_leggings1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_leggings"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_boots"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_boots"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_boots1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_boots"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/axe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/axe_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_axe1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/axe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/axe_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/shovel_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/shovel_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_shovel1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/shovel_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/shovel_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/pickaxe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/pickaxe_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_pickaxe1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/pickaxe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/pickaxe_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_sword"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_sword"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/sword_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/sword_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_sword1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_sword1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/sword_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/sword_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_hoe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/hoe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/hoe_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_hoe1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/hoe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/hoe_stick"));
                 });
 
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_horse_armor"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/horse_armor_base"));
                     modelBuilder.texture("layer1", Rands.list(OreTypes.HORSE_ARMOR_SADDLE_TEXTURES));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_horse_armor1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/horse_armor_base"));
                     modelBuilder.texture("layer1", Rands.list(OreTypes.HORSE_ARMOR_SADDLE_TEXTURES));
                 });
 
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_apple"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/apple"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_apple1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/apple"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_carrot"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/carrot"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot1"), modelBuilder -> {
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_carrot1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/carrot"));
                 });
@@ -236,37 +240,45 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
         ModelLoadingRegistry.INSTANCE.registerAppender((manager, out) -> {
             Materials.MATERIALS.forEach(material -> {
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot1"),"inventory"));
+                String id = material.getName().toLowerCase();
+                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+                    id = id.replace(entry.getKey(), entry.getValue());
+                }
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_gem1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_nugget1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_crystal1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_apple1"),"inventory"));
+                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot1"),"inventory"));
             });
         });
 
 
         Materials.MATERIALS.forEach(material -> {
+            String id = material.getName().toLowerCase();
+            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+                id = id.replace(entry.getKey(), entry.getValue());
+            }
             ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                 if (layer == 0) return material.getRGBColor();
                     else return -1;
                 },
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_sword")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot"))/*,
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"))*/
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_helmet")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_chestplate")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_leggings")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_boots")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_axe")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_shovel")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_pickaxe")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_hoe")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_sword")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_horse_armor")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_apple")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot"))/*,
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_nugget")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_gem")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_crystal")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot"))*/
             );
         });
 

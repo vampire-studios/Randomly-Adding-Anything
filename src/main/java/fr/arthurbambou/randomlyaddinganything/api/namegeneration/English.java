@@ -2,6 +2,9 @@ package fr.arthurbambou.randomlyaddinganything.api.namegeneration;
 
 import fr.arthurbambou.randomlyaddinganything.utils.Rands;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class English implements INameGenerator {
 
     private static String[] list1 = new String[]{"e","a","u","o","i","io","oi","ou","ee","oo","ia","ea","ao"};
@@ -29,6 +32,12 @@ public class English implements INameGenerator {
         String[] l5 = new String[]{"",Rands.values(list2)};
         String[] l6 = new String[]{"",Rands.values(list6)};
         return lf(l1[aa],l2[ab]) + l3[b] + l4[c] + l5[d] + l6[e];
+    }
+
+    @Override
+    public Map<String, String> getSpecialCharatersMap() {
+        Map<String, String> map = new HashMap<>();
+        return map;
     }
 
     private static String lf(String string, String string1) {

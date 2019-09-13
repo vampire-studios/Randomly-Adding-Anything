@@ -17,6 +17,7 @@ import net.minecraft.util.registry.Registry;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SavingSystem {
 
@@ -76,9 +77,12 @@ public class SavingSystem {
         configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
         try {
             FileReader fileReader = new FileReader(configFile);
-//            Materials.MATERIAL_LIST.clear();
             for (Material material : fromJSON(gson.fromJson(fileReader, MaterialJSON[].class))) {
-                Registry.register(Materials.MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase()), material);
+                String id = material.getName().toLowerCase();
+                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+                    id = id.replace(entry.getKey(), entry.getValue());
+                }
+                Registry.register(Materials.MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
             }
         } catch (IOException e) {
             e.printStackTrace();

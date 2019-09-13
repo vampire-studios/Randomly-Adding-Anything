@@ -22,6 +22,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Materials {
@@ -43,8 +44,12 @@ public class Materials {
                     .weapons((random.nextBoolean() && random.nextBoolean())).glowing((random.nextBoolean() && random.nextBoolean()))
                     .minXPAmount(0).maxXPAmount(Rands.randIntRange(0, 100)).oreClusterSize(Rands.randIntRange(4, 20))
                     .build();
-            if (!MATERIALS.containsId(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase())))
-                Registry.register(MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase()), material);
+            String id = material.getName().toLowerCase();
+            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+                id = id.replace(entry.getKey(), entry.getValue());
+            }
+            if (!MATERIALS.containsId(new Identifier(RandomlyAddingAnything.MOD_ID, id)))
+                Registry.register(MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
             // Debug Only
             System.out.println("\nname : " + material.getName() +
                     "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
@@ -68,46 +73,50 @@ public class Materials {
 
     public static void createMaterialResources() {
         MATERIALS.forEach(material -> {
+            String id = material.getName().toLowerCase();
+            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+                id = id.replace(entry.getKey(), entry.getValue());
+            }
             Item repairItem;
             RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_block"), RandomlyAddingAnything.RAA_RESOURCES, material.getName(),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block"), RandomlyAddingAnything.RAA_RESOURCES, material.getName(),
                     RAABlockItem.BlockType.BLOCK);
             RegistryUtils.register(new LayeredOreBlock(material),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ore"), RandomlyAddingAnything.RAA_ORES, material.getName(),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ore"), RandomlyAddingAnything.RAA_ORES, material.getName(),
                     RAABlockItem.BlockType.ORE);
             if (material.getOreInformation().getOreType() == OreTypes.METAL) {
                 RegistryUtils.registerItem(repairItem = new RAASimpleItem(material.getName(), new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
-                        RAASimpleItem.SimpleItemType.INGOT), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_ingot"));
+                        RAASimpleItem.SimpleItemType.INGOT), new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot"));
                 RegistryUtils.registerItem(new RAASimpleItem(material.getName(), new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
-                        RAASimpleItem.SimpleItemType.NUGGET), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_nugget"));
+                        RAASimpleItem.SimpleItemType.NUGGET), new Identifier(RandomlyAddingAnything.MOD_ID, id + "_nugget"));
             } else if (material.getOreInformation().getOreType() == OreTypes.GEM) {
                 RegistryUtils.registerItem(repairItem = new RAASimpleItem(material.getName(), new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
-                        RAASimpleItem.SimpleItemType.GEM), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"));
+                        RAASimpleItem.SimpleItemType.GEM), new Identifier(RandomlyAddingAnything.MOD_ID, id + "_gem"));
             } else {
                 RegistryUtils.registerItem(repairItem = new RAASimpleItem(material.getName(), new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
-                        RAASimpleItem.SimpleItemType.CRYSTAL), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"));
+                        RAASimpleItem.SimpleItemType.CRYSTAL), new Identifier(RandomlyAddingAnything.MOD_ID, id + "_crystal"));
             }
             if (material.hasArmor()) {
                 RegistryUtils.registerItem(
                         new RAAArmorItem(material,
                                 EquipmentSlot.HEAD, (new Item.Settings()).group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_helmet")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_helmet")
                 );
                 RegistryUtils.registerItem(
                         new RAAArmorItem(material,
                                 EquipmentSlot.CHEST, (new Item.Settings()).group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_chestplate")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_chestplate")
                 );
                 RegistryUtils.registerItem(
                         new RAAArmorItem(material,
                                 EquipmentSlot.LEGS, (new Item.Settings()).group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_leggings")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_leggings")
                 );
                 RegistryUtils.registerItem(
                         new RAAArmorItem(material,
                                 EquipmentSlot.FEET, (new Item.Settings()).group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_boots")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_boots")
                 );
             }
             if (material.hasTools()) {
@@ -116,7 +125,7 @@ public class Materials {
                                 material.getToolMaterial(),
                                 1, -2.8F, new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_pickaxe")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_pickaxe")
                 );
                 RegistryUtils.registerItem(
                         new RAAAxeItem(material,
@@ -124,21 +133,21 @@ public class Materials {
                                 (5.0F + material.getToolMaterial().getAxeAttackDamage()), (-3.2F + material.getToolMaterial().getAxeAttackSpeed()),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_axe")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_axe")
                 );
                 RegistryUtils.registerItem(
                         new RAAShovelItem(material,
                                 material.getToolMaterial(),
                                 1.5F, -3.0F, new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_shovel")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_shovel")
                 );
                 RegistryUtils.registerItem(
                         new RAAHoeItem(material,
                                 material.getToolMaterial(),
                                 (-3.0F + material.getToolMaterial().getHoeAttackSpeed()), new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_hoe")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_hoe")
                 );
             }
             if (material.hasWeapons()) {
@@ -147,7 +156,7 @@ public class Materials {
                                 material,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(repairItem)
                         ),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_sword")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_sword")
                 );
             }
             RegistryUtils.registerItem(
@@ -156,7 +165,7 @@ public class Materials {
                             new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES).food(FoodComponents.GOLDEN_APPLE),
                             RAAFoodItem.SimpleItemType.APPLE
                     ),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_apple")
+                    new Identifier(RandomlyAddingAnything.MOD_ID, id + "_apple")
             );
             RegistryUtils.registerItem(
                     new RAAFoodItem(
@@ -164,9 +173,9 @@ public class Materials {
                             new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES).food(FoodComponents.GOLDEN_CARROT),
                             RAAFoodItem.SimpleItemType.CARROT
                     ),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_carrot")
+                    new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot")
             );
-            RegistryUtils.registerItem(new RAAHorseArmorItem(material), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_horse_armor"));
+            RegistryUtils.registerItem(new RAAHorseArmorItem(material), new Identifier(RandomlyAddingAnything.MOD_ID, id + "_horse_armor"));
         });
     }
 
