@@ -8,7 +8,7 @@ install:
 script:
 #  - node buildscript.js
 #  - ./buildscriptcmd.bash
-  - ./gradlew build githubRelease
+  - ./gradlew build
 cache:
   directories:
     .gradle/
