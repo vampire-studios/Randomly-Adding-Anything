@@ -1,4 +1,9 @@
 {
+  "itemGroup.raa.ores": "RAA: Minerais",
+  "itemGroup.raa.resources": "RAA: Ressources",
+  "itemGroup.raa.tools": "RAA: Outils",
+  "itemGroup.raa.armor": "RAA: Armures",
+  "itemGroup.raa.weapons": "RAA: Weapons",
   "text.raa.block.ore": "Minerai de %s",
   "text.raa.block.block": "Block de %s",
   "text.raa.item.gem": "Gemme de %s",
@@ -12,5 +17,11 @@
   "text.raa.item.armor_head": "Casque en %s",
   "text.raa.item.armor_chest": "Plastron en %s",
   "text.raa.item.armor_legs": "Jambière en %s",
-  "text.raa.item.armor_feet": "Bottes en %s"
+  "text.raa.item.armor_feet": "Bottes en %s",
+  "text.raa.item.horse_armor": "Armure pour cheval en %s",
+  "text.raa.item.food.apple": "Pomme en %s",
+  "text.raa.item.food.carrot": "Carrotte en %s",
+  "text.autoconfig.raa.category.default": "Défaut",
+  "text.autoconfig.raa.option.materialnumber": "Nombre de Matériaux",
+  "text.autoconfig.raa.option.debug": "Mode Débug"
 }
