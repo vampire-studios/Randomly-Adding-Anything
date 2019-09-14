@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '0.2.5-SNAPSHOT'
 	id 'maven-publish'
+	id "co.riiid.gradle" version "0.4.2"
 }
 
 repositories {
@@ -22,6 +23,8 @@ repositories {
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
+
+def gittoken = System.getenv('GH_TOKEN')
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
@@ -70,6 +73,22 @@ dependencies {
 	modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
 		exclude group: "io.github.prospector.modmenu"
 	}
+}
+
+github {
+	owner = 'arthurbambou'
+	repo = 'PaintingMod-Builds-Fabric'
+	token = gittoken ?: "a key"
+	tagName = project.mod_version + "-" + project.minecraft_version.replace(" ", "-")
+	name = project.mod_version + "-" + "MC" + project.minecraft_version.replace(" ", "-")
+	targetCommitish = "master"
+	prerelease = true
+	assets = [
+			"build/libs/${archivesBaseName}-${version}-dev.jar",
+			"build/libs/${archivesBaseName}-${version}.jar",
+			"build/libs/${archivesBaseName}-${version}-sources-dev.jar",
+			"build/libs/${archivesBaseName}-${version}-sources.jar"
+	]
 }
 
 processResources {
