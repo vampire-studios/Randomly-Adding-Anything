@@ -24,7 +24,7 @@ public class RAADebugItem extends Item {
         World world = itemUsageContext_1.getWorld();
         Block block = world.getBlockState(blockPos).getBlock();
         Identifier identifier = Registry.BLOCK.getId(block);
-        if (identifier.getNamespace() != RandomlyAddingAnything.MOD_ID) return ActionResult.FAIL;
+        if (!identifier.getNamespace().equals(RandomlyAddingAnything.MOD_ID)) return ActionResult.FAIL;
         Materials.MATERIALS.forEach(material -> {
             if (identifier.getPath().equals(material.getName().toLowerCase() + "_ore") || identifier.getPath().equals(material.getName().toLowerCase() + "_block")) {
                 DebugMessagesBuilder.create(material, itemUsageContext_1.getPlayer())
