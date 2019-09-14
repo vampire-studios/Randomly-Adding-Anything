@@ -14,7 +14,7 @@ public class MaterialRecipes {
 
     public static void init() {
         Artifice.registerData(new Identifier(MOD_ID, "recipe_pack"), serverResourcePackBuilder -> {
-            for (Material material : Materials.MATERIAL_LIST) {
+            Materials.MATERIALS.forEach(material -> {
                 Item repairItem;
                 if (material.getOreInformation().getOreType() == OreTypes.METAL) {
                     repairItem = Registry.ITEM.get(new Identifier(MOD_ID, material.getName().toLowerCase() + "_ingot"));
