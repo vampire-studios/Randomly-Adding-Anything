@@ -143,3 +143,28 @@ publishing {
 		// mavenLocal()
 	}
 }
+
+curseforge {
+	apiKey = System.getenv('CURSEKEY') ?: "a key"
+	project {
+		id = "341464"
+		releaseType = "release"
+		changelog = "https://github.com/vampire-studios/Randomly-Adding-Anything"
+		gameVersionStrings.clear()
+		gameVersionStrings.add("1.14.4")
+		gameVersionStrings.add("Fabric")
+		mainArtifact(file("build/libs/${archivesBaseName}-${version}.jar")) {
+			displayName = "[" + minecraft_version + "] " + version
+			relations {
+				requiredDependency "fabric"
+				embeddedLibrary "auto-config"
+			}
+		}
+//		addArtifact file("build/libs/${archivesBaseName}-${version}-dev.jar")
+//		addArtifact file("build/libs/${archivesBaseName}-${version}-sources.jar")
+//		addArtifact file("build/libs/${archivesBaseName}-${version}-sources-dev.jar")
+	}
+	options{
+		forgeGradleIntegration = false
+	}
+}

@@ -1,14 +1,13 @@
 language: java
 jdk: openjdk8
 if: tag IS blank
-#before_install:
-#  - chmod +x buildscriptcmd.bash
+before_install:
+  - chmod +x buildscriptcmd.bash
 install:
   - ./gradlew
 script:
-#  - node buildscript.js
-#  - ./buildscriptcmd.bash
-  - ./gradlew build
+  - node buildscript.js
+  - ./buildscript.bash
 cache:
   directories:
     .gradle/
