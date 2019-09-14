@@ -34,15 +34,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         }
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
-//                    registry.register(new Identifier("block/stone"));
-//                    registry.register(new Identifier("block/dirt"));
-//                    registry.register(new Identifier("block/sand"));
-//                    registry.register(new Identifier("block/red_sand"));
-//                    registry.register(new Identifier("block/sandstone"));
-//                    registry.register(new Identifier("block/red_sandstone"));
-//                    registry.register(new Identifier("block/netherrack"));
-//                    registry.register(new Identifier("block/end_stone"));
-//                    registry.register(new Identifier("block/red_sandstone"));
                     for (Material material : Materials.MATERIALS) {
                         registry.register(material.getOreInformation().getOverlayTexture());
                         registry.register(material.getStorageBlockTexture());
@@ -178,10 +169,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_crystal")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot"))
             );
-            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> {
-                if (layer == 0) return material.getRGBColor();
-                else return -1;
-            }, Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block")));
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
+                    Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block")));
         });
 
         ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {
