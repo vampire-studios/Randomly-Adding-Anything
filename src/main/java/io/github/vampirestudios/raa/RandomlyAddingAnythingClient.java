@@ -2,10 +2,7 @@ package io.github.vampirestudios.raa;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
-import io.github.vampirestudios.raa.client.ItemResourceModel;
-import io.github.vampirestudios.raa.client.NuggetResourceModel;
 import io.github.vampirestudios.raa.client.OreBakedModel;
-import io.github.vampirestudios.raa.client.StorageBlockBakedModel;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -20,7 +17,6 @@ import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -30,7 +26,6 @@ import java.util.function.Function;
 public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
     private static final Map<Identifier, Map.Entry<Material, RAABlockItem.BlockType>> BLOCKS_IDENTIFIERS = new HashMap<>();
-    private static final Map<Identifier, Material> ITEM_IDENTIFIERS = new HashMap<>();
 
     @Override
     public void onInitializeClient() {
@@ -39,18 +34,15 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         }
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
-                    registry.register(new Identifier("block/stone"));
-                    registry.register(new Identifier("block/dirt"));
-                    registry.register(new Identifier("block/sand"));
-                    registry.register(new Identifier("block/red_sand"));
-                    registry.register(new Identifier("block/sandstone"));
-                    registry.register(new Identifier("block/red_sandstone"));
-                    registry.register(new Identifier("block/netherrack"));
-                    registry.register(new Identifier("block/end_stone"));
-                    registry.register(new Identifier("block/red_sandstone"));
-                    registry.register(new Identifier("block/red_sandstone"));
-                    registry.register(new Identifier("block/red_sandstone"));
-                    registry.register(new Identifier("block/red_sandstone"));
+//                    registry.register(new Identifier("block/stone"));
+//                    registry.register(new Identifier("block/dirt"));
+//                    registry.register(new Identifier("block/sand"));
+//                    registry.register(new Identifier("block/red_sand"));
+//                    registry.register(new Identifier("block/sandstone"));
+//                    registry.register(new Identifier("block/red_sandstone"));
+//                    registry.register(new Identifier("block/netherrack"));
+//                    registry.register(new Identifier("block/end_stone"));
+//                    registry.register(new Identifier("block/red_sandstone"));
                     for (Material material : Materials.MATERIALS) {
                         registry.register(material.getOreInformation().getOverlayTexture());
                         registry.register(material.getStorageBlockTexture());
@@ -83,53 +75,24 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_gem1"), modelBuilder -> {
-                        modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
-                    });
-                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_gem"), material);
                 }
                 if (material.getOreInformation().getOreType() == OreTypes.METAL) {
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_ingot"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_ingot1"), modelBuilder -> {
-                        modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
-                    });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_ingot1"), modelBuilder -> {
-                        modelBuilder.parent(new Identifier("item/generated"));
-///                        modelBuilder.texture("layer0", new Identifier(id.getNamespace(), "item/" + id.getPath() + "_ingot"));
-                        modelBuilder.texture("layer0", new Identifier(material.getResourceItemTexture().getNamespace(), material.getResourceItemTexture().getPath().toLowerCase()));
-                    });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_nugget"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getNuggetTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_nugget1"), modelBuilder -> {
-                        modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getNuggetTexture());
-                    });
-                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_ingot"), material);
-                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_nugget"), material);
                 }
                 if (material.getOreInformation().getOreType() == OreTypes.CRYSTAL) {
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_crystal"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_crystal1"), modelBuilder -> {
-                        modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
-                    });
-                    ITEM_IDENTIFIERS.put(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_crystal"), material);
                 }
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_helmet"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", new Identifier("item/iron_helmet"));
-                });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_helmet1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_helmet"));
                 });
@@ -137,15 +100,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_chestplate"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_chestplate1"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", new Identifier("item/iron_chestplate"));
-                });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_leggings"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", new Identifier("item/iron_leggings"));
-                });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_leggings1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_leggings"));
                 });
@@ -153,16 +108,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("item/iron_boots"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_boots1"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", new Identifier("item/iron_boots"));
-                });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_axe"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier("raa", "item/axe_head"));
-                    modelBuilder.texture("layer1", new Identifier("raa", "item/axe_stick"));
-                });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_axe1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/axe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/axe_stick"));
@@ -172,17 +118,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.texture("layer0", new Identifier("raa", "item/shovel_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/shovel_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_shovel1"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier("raa", "item/shovel_head"));
-                    modelBuilder.texture("layer1", new Identifier("raa", "item/shovel_stick"));
-                });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_pickaxe"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier("raa", "item/pickaxe_head"));
-                    modelBuilder.texture("layer1", new Identifier("raa", "item/pickaxe_stick"));
-                });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_pickaxe1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/pickaxe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/pickaxe_stick"));
@@ -192,17 +128,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.texture("layer0", new Identifier("raa", "item/sword_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/sword_stick"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_sword1"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier("raa", "item/sword_head"));
-                    modelBuilder.texture("layer1", new Identifier("raa", "item/sword_stick"));
-                });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_hoe"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier("raa", "item/hoe_head"));
-                    modelBuilder.texture("layer1", new Identifier("raa", "item/hoe_stick"));
-                });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_hoe1"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/hoe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/hoe_stick"));
@@ -213,43 +139,15 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.texture("layer0", new Identifier("raa", "item/horse_armor_base"));
                     modelBuilder.texture("layer1", Rands.list(OreTypes.HORSE_ARMOR_SADDLE_TEXTURES));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_horse_armor1"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier("raa", "item/horse_armor_base"));
-                    modelBuilder.texture("layer1", Rands.list(OreTypes.HORSE_ARMOR_SADDLE_TEXTURES));
-                });
 
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_apple"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", new Identifier("raa", "item/apple"));
-                });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_apple1"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/apple"));
                 });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_carrot"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/carrot"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_carrot1"), modelBuilder -> {
-                    modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier("raa", "item/carrot"));
-                });
-            });
-        });
-
-        ModelLoadingRegistry.INSTANCE.registerAppender((manager, out) -> {
-            Materials.MATERIALS.forEach(material -> {
-                String id = material.getName().toLowerCase();
-                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
-                    id = id.replace(entry.getKey(), entry.getValue());
-                }
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_gem1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_nugget1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_crystal1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_apple1"),"inventory"));
-                out.accept(new ModelIdentifier(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot1"),"inventory"));
             });
         });
 
@@ -274,12 +172,16 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_sword")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_horse_armor")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_apple")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot"))/*,
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_nugget")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_gem")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_crystal")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot"))*/
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot"))
             );
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> {
+                if (layer == 0) return material.getRGBColor();
+                else return -1;
+            }, Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block")));
         });
 
         ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {
@@ -287,7 +189,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 return null;
             }
             Identifier identifier = new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath());
-            if (!(BLOCKS_IDENTIFIERS.containsKey(identifier) || ITEM_IDENTIFIERS.containsKey(identifier))) return null;
+            if (!BLOCKS_IDENTIFIERS.containsKey(identifier)) return null;
+            if (BLOCKS_IDENTIFIERS.get(identifier).getValue() == RAABlockItem.BlockType.BLOCK) return null;
             return new UnbakedModel() {
                 @Override
                 public Collection<Identifier> getModelDependencies() {
@@ -301,18 +204,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
                 @Override
                 public BakedModel bake(ModelLoader var1, Function<Identifier, Sprite> var2, ModelBakeSettings var3) {
-                    if (ITEM_IDENTIFIERS.containsKey(identifier)) {
-                        if (identifier.getPath().endsWith("nugget")) {
-                            return new NuggetResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
-                        } else {
-                            return new ItemResourceModel(identifier, ITEM_IDENTIFIERS.get(identifier));
-                        }
-                    }
-                    if (BLOCKS_IDENTIFIERS.get(identifier).getValue() == RAABlockItem.BlockType.BLOCK) {
-                        return new StorageBlockBakedModel(BLOCKS_IDENTIFIERS.get(identifier).getKey());
-                    } else {
-                        return new OreBakedModel(BLOCKS_IDENTIFIERS.get(identifier).getKey());
-                    }
+                    return new OreBakedModel(BLOCKS_IDENTIFIERS.get(identifier).getKey());
                 }
             };
         });
