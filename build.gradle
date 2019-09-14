@@ -27,6 +27,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 def gittoken = System.getenv('GH_TOKEN')
 def buildnumber = System.getenv('TRAVIS_BUILD_NUMBER')
+def buildbranch = System.getenv('TRAVIS_BRANCH')
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version + "+build." + buildnumber
@@ -83,7 +84,7 @@ github {
 	token = gittoken ?: "a key"
 	tagName = project.mod_version + "-" + project.minecraft_version.replace(" ", "-")
 	name = project.mod_version + "-" + "MC" + project.minecraft_version.replace(" ", "-")
-	targetCommitish = "master"
+	targetCommitish = buildbranch
 	prerelease = true
 	assets = [
 			"build/libs/${archivesBaseName}-${version}-dev.jar",
