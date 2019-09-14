@@ -25,9 +25,10 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 def gittoken = System.getenv('GH_TOKEN')
+def buildnumber = System.getenv('TRAVIS_BUILD_NUMBER')
 
 archivesBaseName = project.archives_base_name
-version = project.mod_version
+version = project.mod_version + "+build." + buildnumber
 group = project.maven_group
 
 minecraft {

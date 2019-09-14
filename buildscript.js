@@ -4,7 +4,7 @@ const consts = {
     travis_branch: process.env.TRAVIS_BRANCH
 }
 
-fs.writeFile("./buildscriptcmd.bash", texttowrite(), (err) => {
+fs.writeFile("./buildscript.bash", texttowrite(), (err) => {
     if (err) {
         console.log(err)
     }
