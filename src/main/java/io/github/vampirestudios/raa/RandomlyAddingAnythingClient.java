@@ -51,7 +51,11 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         variant.model(new Identifier(id.getNamespace(), "block/" + id.getPath()));
                     }));
                     clientResourcePackBuilder.addBlockModel(id, modelBuilder -> {
-                        modelBuilder.parent(new Identifier("block/cube_all"));
+                        if (blockType == RAABlockItem.BlockType.BLOCK) {
+                            modelBuilder.parent(new Identifier("block/leaves"));
+                        } else {
+                            modelBuilder.parent(new Identifier("block/cube_all"));
+                        }
                         modelBuilder.texture("all", material.getStorageBlockTexture());
                     });
                     clientResourcePackBuilder.addItemModel(id, modelBuilder -> {
@@ -167,9 +171,12 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_nugget")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_gem")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_crystal")),
-                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot"))
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot")),
+                Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block"))
             );
-            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> {
+                        return material.getRGBColor();
+                    },
                     Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block")));
         });
 

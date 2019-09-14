@@ -78,8 +78,8 @@ dependencies {
 }
 
 github {
-	owner = 'arthurbambou'
-	repo = 'PaintingMod-Builds-Fabric'
+	owner = 'vampire-studios'
+	repo = 'Randomly-Adding-Anything'
 	token = gittoken ?: "a key"
 	tagName = project.mod_version + "-" + project.minecraft_version.replace(" ", "-")
 	name = project.mod_version + "-" + "MC" + project.minecraft_version.replace(" ", "-")
