@@ -183,7 +183,7 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.result(new Identifier(MOD_ID, material.getName().toLowerCase() + "_block"), 1);
                     });
                 }
-            }
+            });
         });
     }
 
