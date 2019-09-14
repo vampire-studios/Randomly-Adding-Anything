@@ -158,7 +158,7 @@ curseforge {
 		mainArtifact(file("build/libs/${archivesBaseName}-${version}.jar")) {
 			displayName = "[" + minecraft_version + "] " + version
 			relations {
-				requiredDependency "fabric"
+				requiredDependency "fabric-api"
 				embeddedLibrary "auto-config"
 			}
 		}
