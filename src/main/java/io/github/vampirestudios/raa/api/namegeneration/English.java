@@ -36,8 +36,7 @@ public class English implements INameGenerator {
 
     @Override
     public Map<String, String> getSpecialCharatersMap() {
-        Map<String, String> map = new HashMap<>();
-        return map;
+        return new HashMap<>();
     }
 
     private static String lf(String string, String string1) {

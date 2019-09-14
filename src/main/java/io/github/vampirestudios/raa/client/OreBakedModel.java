@@ -59,7 +59,7 @@ public class OreBakedModel extends RAABakedModel {
             sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/oak_planks"));
         }
         
-        if (material.getOreInformation().getGenerateIn() != GeneratesIn.GRASS_BLOCK) {
+        if (material.getOreInformation().getGenerateIn() != GeneratesIn.GRASS_BLOCK && material.getOreInformation().getGenerateIn() != GeneratesIn.PODZOL) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
@@ -84,7 +84,7 @@ public class OreBakedModel extends RAABakedModel {
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
                     .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        } else {
+        } else if (material.getOreInformation().getGenerateIn() == GeneratesIn.GRASS_BLOCK) {
             mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlockRenderLayer.CUTOUT_MIPPED).find();
             Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side"));
             Sprite sideOverlaySprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side_overlay"));
@@ -137,6 +137,36 @@ public class OreBakedModel extends RAABakedModel {
                     .material(mat)
                     .spriteColor(0, color2, color2, color2, color2)
                     .spriteBake(0, sideOverlaySprite, MutableQuadView.BAKE_LOCK_UV).emit();
+        } else {
+            mat = renderer.materialFinder().disableDiffuse(0, false).find();
+            Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/podzol_side"));
+            Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/podzol_top"));
+            Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/dirt"));
+
+            emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sideSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sideSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sideSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, sideSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, bottomSprite, MutableQuadView.BAKE_LOCK_UV).emit();
+            emitter.square(Direction.UP, 0, 0, 1, 1, 0)
+                    .material(mat)
+                    .spriteColor(0, color, color, color, color)
+                    .spriteBake(0, topSprite, MutableQuadView.BAKE_LOCK_UV).emit();
         }
 
         if (material.isGlowing()) {
@@ -147,7 +177,7 @@ public class OreBakedModel extends RAABakedModel {
         color = material.getRGBColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
 
-        if (material.getOreInformation().getGenerateIn() != GeneratesIn.GRASS_BLOCK) {
+        if (material.getOreInformation().getGenerateIn() != GeneratesIn.GRASS_BLOCK && material.getOreInformation().getGenerateIn() != GeneratesIn.PODZOL) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)

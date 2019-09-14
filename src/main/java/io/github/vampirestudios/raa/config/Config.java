@@ -10,6 +10,6 @@ public class Config implements ConfigData {
     public int materialNumber = 1000;
     public boolean debug = true;
     public boolean regen = false;
-    public LangEnum namingLanguage = LangEnum.en;
+    public LangEnum namingLanguage = LangEnum.ENGLISH;
 
 }

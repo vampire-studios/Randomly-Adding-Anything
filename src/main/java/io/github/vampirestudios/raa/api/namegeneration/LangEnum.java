@@ -3,8 +3,9 @@ package io.github.vampirestudios.raa.api.namegeneration;
 import java.util.Map;
 
 public enum LangEnum {
-    en(new English()),
-    fr(new French());
+    ENGLISH(new English()),
+    FRENCH(new French()),
+    NORWEGIAN(new Norwegian());
 
     private INameGenerator nameGenerator;
 
