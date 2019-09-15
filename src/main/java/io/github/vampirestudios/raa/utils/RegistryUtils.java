@@ -39,22 +39,18 @@ import net.minecraft.util.registry.Registry;
 public class RegistryUtils {
 
     public static Block register(Block block, Identifier name, ItemGroup itemGroup, String upperCaseName, RAABlockItem.BlockType blockType) {
-        if (!Registry.BLOCK.containsId(name)) {
-            Registry.register(Registry.BLOCK, name, block);
-            BlockItem item = new RAABlockItem(upperCaseName, block, (new Settings()).group(itemGroup), blockType);
-            item.appendBlocks(Item.BLOCK_ITEMS, item);
-            Registry.register(Registry.ITEM, name, item);
-        }
+        Registry.register(Registry.BLOCK, name, block);
+        BlockItem item = new RAABlockItem(upperCaseName, block, (new Settings()).group(itemGroup), blockType);
+        item.appendBlocks(Item.BLOCK_ITEMS, item);
+        Registry.register(Registry.ITEM, name, item);
         return block;
     }
 
     public static Block register(Block block, Identifier name, ItemGroup itemGroup) {
-        if (!Registry.BLOCK.containsId(name)) {
-            Registry.register(Registry.BLOCK, name, block);
-            BlockItem item = new BlockItem(block, new Settings().group(itemGroup));
-            item.appendBlocks(Item.BLOCK_ITEMS, item);
-            Registry.register(Registry.ITEM, name, item);
-        }
+        Registry.register(Registry.BLOCK, name, block);
+        BlockItem item = new BlockItem(block, new Settings().group(itemGroup));
+        item.appendBlocks(Item.BLOCK_ITEMS, item);
+        Registry.register(Registry.ITEM, name, item);
         return block;
     }
 
@@ -64,10 +60,7 @@ public class RegistryUtils {
     }
 
     public static Item registerItem(Item item, Identifier name) {
-        if (!Registry.ITEM.containsId(name)) {
-            return Registry.register(Registry.ITEM, name, item);
-        }
-        return item;
+        return Registry.register(Registry.ITEM, name, item);
     }
 
     public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(Builder<T> builder, Identifier name) {

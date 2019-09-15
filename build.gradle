@@ -82,8 +82,8 @@ github {
 	owner = 'vampire-studios'
 	repo = 'Randomly-Adding-Anything'
 	token = gittoken ?: "a key"
-	tagName = project.mod_version + "-" + project.minecraft_version.replace(" ", "-")
-	name = project.mod_version + "-" + "MC" + project.minecraft_version.replace(" ", "-")
+	tagName = version + "-" + project.minecraft_version.replace(" ", "-")
+	name = version + "-" + "MC" + project.minecraft_version.replace(" ", "-")
 	targetCommitish = buildbranch
 	prerelease = true
 	assets = [
