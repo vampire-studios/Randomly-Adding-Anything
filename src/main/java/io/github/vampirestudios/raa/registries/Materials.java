@@ -38,10 +38,10 @@ public class Materials {
             Material material = MaterialBuilder.create()
                     .oreType(Rands.values(OreTypes.values())).name(RandomlyAddingAnything.CONFIG.namingLanguage.generate()).color(RGB.getColor())
                     .generatesIn(Rands.values(GeneratesIn.values())).overlayTexture()
-                    .resourceItemTexture().storageBlockTexture().armor((random.nextBoolean() && random.nextBoolean()))
-                    .tools((random.nextBoolean() && random.nextBoolean())).oreFlower(random.nextBoolean() && random.nextBoolean())
-                    .weapons((random.nextBoolean() && random.nextBoolean())).glowing((random.nextBoolean() && random.nextBoolean()))
-                    .minXPAmount(0).maxXPAmount(Rands.randIntRange(0, 100)).oreClusterSize(Rands.randIntRange(4, 20))
+                    .resourceItemTexture().storageBlockTexture().armor(random.nextBoolean())
+                    .tools(random.nextBoolean()).oreFlower(random.nextBoolean() && random.nextBoolean())
+                    .weapons(random.nextBoolean()).glowing((random.nextBoolean() && random.nextBoolean()))
+                    .minXPAmount(0).maxXPAmount(Rands.randIntRange(0, 15)).oreClusterSize(Rands.randIntRange(4, 20))
                     .build();
             String id = material.getName().toLowerCase();
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
