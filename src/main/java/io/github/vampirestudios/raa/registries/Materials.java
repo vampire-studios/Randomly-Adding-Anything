@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Materials {
-    public static final List<Material> MATERIAL_LIST = new ArrayList<>();
+    public static final List<Identifier> MATERIAL_NAME_LIST = new ArrayList<>();
     public static final Registry<Material> MATERIALS = new DefaultedRegistry<>("materials");
 
     public static boolean isReady = false;
@@ -47,8 +47,9 @@ public class Materials {
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
             }
-            if (!MATERIALS.containsId(new Identifier(RandomlyAddingAnything.MOD_ID, id)))
+            if (!MATERIAL_NAME_LIST.contains(new Identifier(RandomlyAddingAnything.MOD_ID, id)))
                 Registry.register(MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
+                MATERIAL_NAME_LIST.add(new Identifier(RandomlyAddingAnything.MOD_ID, id));
             // Debug Only
             System.out.println("\nname : " + material.getName() +
                     "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
