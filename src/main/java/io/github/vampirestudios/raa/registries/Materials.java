@@ -51,18 +51,20 @@ public class Materials {
                 Registry.register(MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
                 MATERIAL_NAME_LIST.add(new Identifier(RandomlyAddingAnything.MOD_ID, id));
             // Debug Only
-            System.out.println("\nname : " + material.getName() +
-                    "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
-                    "\nRGB color : " + RGB.getRed() + "," + RGB.getGreen() + "," + RGB.getBlue() +
-                    "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
-                    "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
-                    "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
-                    "\nHas Armor : " + material.hasArmor() +
-                    "\nHas Weapons : " + material.hasWeapons() +
-                    "\nHas Tools : " + material.hasTools() +
-                    "\nIs Glowing : " + material.isGlowing() +
-                    "\nHas Ore Flower : " + material.hasOreFlower()
-            );
+            if (RandomlyAddingAnything.CONFIG.debug) {
+                System.out.println("\nname : " + material.getName() +
+                        "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
+                        "\nRGB color : " + RGB.getRed() + "," + RGB.getGreen() + "," + RGB.getBlue() +
+                        "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
+                        "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
+                        "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
+                        "\nHas Armor : " + material.hasArmor() +
+                        "\nHas Weapons : " + material.hasWeapons() +
+                        "\nHas Tools : " + material.hasTools() +
+                        "\nIs Glowing : " + material.isGlowing() +
+                        "\nHas Ore Flower : " + material.hasOreFlower()
+                );
+            }
         }
         isReady = true;
     }

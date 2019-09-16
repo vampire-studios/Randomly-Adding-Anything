@@ -42,12 +42,14 @@ public class LayeredOreBlock extends OreBlock {
 
 	@Override
 	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT_MIPPED;
+		return BlockRenderLayer.SOLID;
 	}
 
 	@Override
 	protected int getExperienceWhenMined(Random random_1) {
-		return Rands.randIntRange(material.getOreInformation().getMinXPAmount(), material.getOreInformation().getMaxXPAmount());
+		if (this.material.getOreInformation().getOreType() != OreTypes.METAL)
+			return Rands.randIntRange(material.getOreInformation().getMinXPAmount(), material.getOreInformation().getMaxXPAmount());
+		return 0;
 	}
 
 	@Override

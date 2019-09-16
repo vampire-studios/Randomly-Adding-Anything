@@ -12,7 +12,7 @@ public class RAASwordItem extends SwordItem {
     private Material material;
 
     public RAASwordItem(Material material, Settings settings) {
-        super(material.getToolMaterial(), material.getToolMaterial().getSwordAttackSpeed(), material.getToolMaterial().getSwordAttackDamage(), settings);
+        super(material.getToolMaterial(), (int) material.getToolMaterial().getSwordAttackDamage(), -2.4F, settings);
         this.material = material;
     }
 

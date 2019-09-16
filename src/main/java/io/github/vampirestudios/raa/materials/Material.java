@@ -39,7 +39,7 @@ public class Material {
                 Rands.randFloat(5.0F), Rands.randInt(4),
                 Rands.randIntRange(2,30), Rands.randFloat(4.0F),
                 Rands.randFloat(3.0F), Rands.randFloat(0.8F),
-                Rands.randInt(8), Rands.randFloat(5.0F));
+                Rands.randFloat(5.0F));
 
         if (this.armor) this.armorMaterial = new CustomArmorMaterial(
                 this.name, this.oreInformation.getOreType(), Rands.randIntRange(2,50),
@@ -72,7 +72,7 @@ public class Material {
                 Rands.randFloat(5.0F), Rands.randInt(4),
                 Rands.randIntRange(2,30), Rands.randFloat(4.0F),
                 Rands.randFloat(3.0F), Rands.randFloat(0.8F),
-                Rands.randInt(8), Rands.randFloat(5.0F));
+                Rands.randFloat(5.0F));
 
         if (this.armor) this.armorMaterial = new CustomArmorMaterial(
                 this.name, this.oreInformation.getOreType(), Rands.randIntRange(2,50),
