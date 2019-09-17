@@ -7,6 +7,7 @@ public class Material {
     private OreInformation oreInformation;
     private String name;
     private int color;
+    private int miningLevel;
     private Identifier storageBlockTexture;
     private Identifier resourceItemTexture;
     private Identifier nuggetTexture;
@@ -19,11 +20,12 @@ public class Material {
     private boolean oreFlower;
     private boolean food;
 
-    public Material(OreInformation oreInformation, String name, int color, Identifier storageBlockTexture, Identifier resourceItemTexture,
+    public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
                     boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
+        this.miningLevel = miningLevel;
         this.storageBlockTexture = storageBlockTexture;
         this.resourceItemTexture = resourceItemTexture;
         this.nuggetTexture = null;
@@ -38,7 +40,7 @@ public class Material {
 
         if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
                 Rands.randIntRange(15,2000), Rands.randFloat(12.0F)+1.5F,
-                Rands.randFloat(5.0F), Rands.randInt(4),
+                Rands.randFloat(5.0F), this.miningLevel,
                 Rands.randIntRange(2,30), Rands.randFloat(4.0F),
                 Rands.randFloat(3.0F), Rands.randFloat(0.8F),
                 Rands.randFloat(5.0F));
@@ -53,11 +55,12 @@ public class Material {
         );
     }
 
-    public Material(OreInformation oreInformation, String name, int color, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
+    public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
                     boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
+        this.miningLevel = miningLevel;
         this.storageBlockTexture = storageBlockTexture;
         this.resourceItemTexture = resourceItemTexture;
         this.nuggetTexture = nuggetTexture;
@@ -72,7 +75,7 @@ public class Material {
 
         if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
                 Rands.randIntRange(15,2000), Rands.randFloat(12.0F)+1.5F,
-                Rands.randFloat(5.0F), Rands.randInt(4),
+                Rands.randFloat(5.0F), this.miningLevel,
                 Rands.randIntRange(2,30), Rands.randFloat(4.0F),
                 Rands.randFloat(3.0F), Rands.randFloat(0.8F),
                 Rands.randFloat(5.0F));
@@ -82,16 +85,17 @@ public class Material {
                 new int[]{Rands.randIntRange(1,6),Rands.randIntRange(1,10),
                         Rands.randIntRange(2,12), Rands.randIntRange(1,6)},
                 Rands.randIntRange(7,30),
-                Rands.randFloat(4.0F),
+                (Rands.chance(4)?Rands.randFloat(4.0F):0.0F),
                 Rands.randInt(30)
         );
     }
 
-    public Material(OreInformation oreInformation, String name, int color, Identifier storageBlockTexture, Identifier resourceItemTexture,
+    public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
                     boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
+        this.miningLevel = miningLevel;
         this.storageBlockTexture = storageBlockTexture;
         this.resourceItemTexture = resourceItemTexture;
         this.nuggetTexture = null;
@@ -105,11 +109,12 @@ public class Material {
         this.food = food;
     }
 
-    public Material(OreInformation oreInformation, String name, int color, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
+    public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
                     boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
         this.name = name;
         this.color = color;
+        this.miningLevel = miningLevel;
         this.storageBlockTexture = storageBlockTexture;
         this.resourceItemTexture = resourceItemTexture;
         this.nuggetTexture = nuggetTexture;
@@ -177,5 +182,9 @@ public class Material {
 
     public CustomArmorMaterial getArmorMaterial() {
         return armorMaterial;
+    }
+
+    public int getMiningLevel() {
+        return miningLevel;
     }
 }

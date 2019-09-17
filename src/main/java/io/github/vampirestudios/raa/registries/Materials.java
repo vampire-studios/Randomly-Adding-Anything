@@ -10,6 +10,8 @@ import io.github.vampirestudios.raa.materials.Material;
 import io.github.vampirestudios.raa.materials.MaterialBuilder;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
+import net.fabricmc.fabric.api.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
@@ -83,10 +85,22 @@ public class Materials {
                 id = id.replace(entry.getKey(), entry.getValue());
             }
             Item repairItem;
+            FabricBlockSettings blockSettings;
+            if (material.getOreInformation().getGenerateIn() == GeneratesIn.DOES_NOT_APPEAR) blockSettings = FabricBlockSettings.copy(Blocks.STONE);
+            else blockSettings = FabricBlockSettings.copy(material.getOreInformation().getGenerateIn().getBlock());
+
+            if (material.getOreInformation().getGenerateIn() == GeneratesIn.ANDESITE
+                    || material.getOreInformation().getGenerateIn() == GeneratesIn.DIORITE
+                    || material.getOreInformation().getGenerateIn() == GeneratesIn.END_STONE
+                    || material.getOreInformation().getGenerateIn() == GeneratesIn.GRANITE
+                    || material.getOreInformation().getGenerateIn() == GeneratesIn.NETHERRACK
+                    || material.getOreInformation().getGenerateIn() == GeneratesIn.STONE) blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
+            else blockSettings.breakByTool(FabricToolTags.SHOVELS, material.getMiningLevel());
+            blockSettings.breakByHand(false);
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
                     new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block"), RandomlyAddingAnything.RAA_RESOURCES, material.getName(),
                     RAABlockItem.BlockType.BLOCK);
-            RegistryUtils.register(new LayeredOreBlock(material),
+            RegistryUtils.register(new LayeredOreBlock(material, blockSettings.build()),
                     new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ore"), RandomlyAddingAnything.RAA_ORES, material.getName(),
                     RAABlockItem.BlockType.ORE);
             if (material.getOreInformation().getOreType() == OreTypes.METAL) {

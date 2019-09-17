@@ -95,7 +95,7 @@ public class SavingSystem {
             OreInformationJSON oreInformationJSON = materialJSON.oreInformationJSON;
             OreInformation oreInformation = new OreInformation(oreInformationJSON.oreTypes, oreInformationJSON.generatesIn, new Identifier(oreInformationJSON.overlayTexture),
                     oreInformationJSON.oreCount, oreInformationJSON.minXPAmount, oreInformationJSON.maxXPAmount, oreInformationJSON.oreClusterSize);
-            Material material = new Material(oreInformation, materialJSON.name, materialJSON.rgb, new Identifier(materialJSON.storageBlockTexture), new Identifier(materialJSON.resourceItemTexture),
+            Material material = new Material(oreInformation, materialJSON.name, materialJSON.rgb, materialJSON.miningLevel, new Identifier(materialJSON.storageBlockTexture), new Identifier(materialJSON.resourceItemTexture),
                     new Identifier(materialJSON.nuggetTexture), materialJSON.armor, materialJSON.armorMaterial, materialJSON.tools, materialJSON.weapons, materialJSON.toolMaterial,
                     materialJSON.glowing, materialJSON.oreFlower, materialJSON.food);
             materials.add(material);
@@ -117,7 +117,7 @@ public class SavingSystem {
             } else {
                 nuggetTexture = material.getNuggetTexture().toString();
             }
-            MaterialJSON materialJSON = new MaterialJSON(oreInformationJSON, material.getName(), material.getRGBColor(),
+            MaterialJSON materialJSON = new MaterialJSON(oreInformationJSON, material.getName(), material.getRGBColor(), material.getMiningLevel(),
                     material.getStorageBlockTexture().toString(), material.getResourceItemTexture().toString(), nuggetTexture, material.hasArmor(), material.getArmorMaterial(), material.hasTools(),
                     material.hasWeapons(), material.getToolMaterial(), material.isGlowing(), material.hasOreFlower(), material.hasFood());
             materialJSONS.add(materialJSON);
@@ -130,6 +130,7 @@ public class SavingSystem {
         OreInformationJSON oreInformationJSON;
         public String name;
         int rgb;
+        int miningLevel;
         String storageBlockTexture;
         String resourceItemTexture;
         String nuggetTexture;
@@ -142,12 +143,13 @@ public class SavingSystem {
         boolean oreFlower;
         boolean food;
 
-        MaterialJSON(OreInformationJSON oreInformationJSON, String name, int rgb, String storageBlockTexture,
+        MaterialJSON(OreInformationJSON oreInformationJSON, String name, int rgb, int miningLevel, String storageBlockTexture,
                      String resourceItemTexture, String nuggetTexture, boolean armor, CustomArmorMaterial armorMaterial,
                      boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
             this.oreInformationJSON = oreInformationJSON;
             this.name = name;
             this.rgb = rgb;
+            this.miningLevel = miningLevel;
             this.storageBlockTexture = storageBlockTexture;
             this.resourceItemTexture = resourceItemTexture;
             this.nuggetTexture = nuggetTexture;

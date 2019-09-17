@@ -131,8 +131,8 @@ public class MaterialBuilder {
 
     public Material build() {
         return oreType == OreTypes.METAL ?
-                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower, food)
-                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower, food);
+                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, Rands.randInt(4), storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower, food)
+                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, Rands.randInt(4), storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower, food);
     }
 
 }
