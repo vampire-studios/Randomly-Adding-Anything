@@ -20,6 +20,7 @@ public class MaterialBuilder {
     private boolean weapons;
     private boolean glowing;
     private boolean oreFlower;
+    private boolean food;
     private int minXPAmount = 0;
     private int maxXPAmount = 10;
     private int oreClusterSize = 9;
@@ -107,6 +108,11 @@ public class MaterialBuilder {
         this.oreFlower = oreFlower;
         return this;
     }
+    
+    public MaterialBuilder food(boolean food) {
+        this.food = food;
+        return this;
+    }
 
     public MaterialBuilder minXPAmount(int minXPAmount) {
         this.minXPAmount = minXPAmount;
@@ -125,8 +131,8 @@ public class MaterialBuilder {
 
     public Material build() {
         return oreType == OreTypes.METAL ?
-                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower)
-                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower);
+                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower, food)
+                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower, food);
     }
 
 }

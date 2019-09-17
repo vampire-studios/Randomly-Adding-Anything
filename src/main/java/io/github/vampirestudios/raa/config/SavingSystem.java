@@ -97,7 +97,7 @@ public class SavingSystem {
                     oreInformationJSON.oreCount, oreInformationJSON.minXPAmount, oreInformationJSON.maxXPAmount, oreInformationJSON.oreClusterSize);
             Material material = new Material(oreInformation, materialJSON.name, materialJSON.rgb, new Identifier(materialJSON.storageBlockTexture), new Identifier(materialJSON.resourceItemTexture),
                     new Identifier(materialJSON.nuggetTexture), materialJSON.armor, materialJSON.armorMaterial, materialJSON.tools, materialJSON.weapons, materialJSON.toolMaterial,
-                    materialJSON.glowing, materialJSON.oreFlower);
+                    materialJSON.glowing, materialJSON.oreFlower, materialJSON.food);
             materials.add(material);
         }
 
@@ -119,7 +119,7 @@ public class SavingSystem {
             }
             MaterialJSON materialJSON = new MaterialJSON(oreInformationJSON, material.getName(), material.getRGBColor(),
                     material.getStorageBlockTexture().toString(), material.getResourceItemTexture().toString(), nuggetTexture, material.hasArmor(), material.getArmorMaterial(), material.hasTools(),
-                    material.hasWeapons(), material.getToolMaterial(), material.isGlowing(), material.hasOreFlower());
+                    material.hasWeapons(), material.getToolMaterial(), material.isGlowing(), material.hasOreFlower(), material.hasFood());
             materialJSONS.add(materialJSON);
         });
 
@@ -140,10 +140,11 @@ public class SavingSystem {
         CustomToolMaterial toolMaterial;
         boolean glowing;
         boolean oreFlower;
+        boolean food;
 
         MaterialJSON(OreInformationJSON oreInformationJSON, String name, int rgb, String storageBlockTexture,
                      String resourceItemTexture, String nuggetTexture, boolean armor, CustomArmorMaterial armorMaterial,
-                     boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower) {
+                     boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
             this.oreInformationJSON = oreInformationJSON;
             this.name = name;
             this.rgb = rgb;
@@ -157,6 +158,7 @@ public class SavingSystem {
             this.toolMaterial = toolMaterial;
             this.glowing = glowing;
             this.oreFlower = oreFlower;
+            this.food = food;
         }
     }
 

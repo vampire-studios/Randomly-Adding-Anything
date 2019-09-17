@@ -39,9 +39,10 @@ public class Materials {
                     .oreType(Rands.values(OreTypes.values())).name(RandomlyAddingAnything.CONFIG.namingLanguage.generate()).color(RGB.getColor())
                     .generatesIn(Rands.values(GeneratesIn.values())).overlayTexture()
                     .resourceItemTexture().storageBlockTexture().armor(random.nextBoolean())
-                    .tools(random.nextBoolean()).oreFlower(random.nextBoolean() && random.nextBoolean())
-                    .weapons(random.nextBoolean()).glowing((random.nextBoolean() && random.nextBoolean()))
+                    .tools(random.nextBoolean()).oreFlower(Rands.chance(4))
+                    .weapons(random.nextBoolean()).glowing(Rands.chance(4))
                     .minXPAmount(0).maxXPAmount(Rands.randIntRange(0, 15)).oreClusterSize(Rands.randIntRange(4, 20))
+                    .food(Rands.chance(4))
                     .build();
             String id = material.getName().toLowerCase();
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
@@ -52,8 +53,8 @@ public class Materials {
                 MATERIAL_NAME_LIST.add(new Identifier(RandomlyAddingAnything.MOD_ID, id));
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
-                System.out.println("\nname : " + material.getName() +
-                        "\noreType : " + material.getOreInformation().getOreType().name().toLowerCase() +
+                System.out.println("\nName : " + material.getName() +
+                        "\nOre Type : " + material.getOreInformation().getOreType().name().toLowerCase() +
                         "\nRGB color : " + RGB.getRed() + "," + RGB.getGreen() + "," + RGB.getBlue() +
                         "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
                         "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
@@ -62,7 +63,8 @@ public class Materials {
                         "\nHas Weapons : " + material.hasWeapons() +
                         "\nHas Tools : " + material.hasTools() +
                         "\nIs Glowing : " + material.isGlowing() +
-                        "\nHas Ore Flower : " + material.hasOreFlower()
+                        "\nHas Ore Flower : " + material.hasOreFlower() +
+                        "\nHas Food : " + material.hasFood()
                 );
             }
         }
@@ -120,6 +122,7 @@ public class Materials {
                                 EquipmentSlot.FEET, (new Item.Settings()).group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)),
                         new Identifier(RandomlyAddingAnything.MOD_ID, id + "_boots")
                 );
+                RegistryUtils.registerItem(new RAAHorseArmorItem(material), new Identifier(RandomlyAddingAnything.MOD_ID, id + "_horse_armor"));
             }
             if (material.hasTools()) {
                 RegistryUtils.registerItem(
@@ -161,23 +164,24 @@ public class Materials {
                         new Identifier(RandomlyAddingAnything.MOD_ID, id + "_sword")
                 );
             }
-            RegistryUtils.registerItem(
-                    new RAAFoodItem(
-                            material.getName(),
-                            new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES).food(FoodComponents.GOLDEN_APPLE),
-                            RAAFoodItem.SimpleItemType.APPLE
-                    ),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, id + "_apple")
-            );
-            RegistryUtils.registerItem(
-                    new RAAFoodItem(
-                            material.getName(),
-                            new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES).food(FoodComponents.GOLDEN_CARROT),
-                            RAAFoodItem.SimpleItemType.CARROT
-                    ),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot")
-            );
-            RegistryUtils.registerItem(new RAAHorseArmorItem(material), new Identifier(RandomlyAddingAnything.MOD_ID, id + "_horse_armor"));
+            if (material.hasFood()) {
+                RegistryUtils.registerItem(
+                        new RAAFoodItem(
+                                material.getName(),
+                                new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(FoodComponents.GOLDEN_APPLE),
+                                RAAFoodItem.SimpleItemType.APPLE
+                        ),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_apple")
+                );
+                RegistryUtils.registerItem(
+                        new RAAFoodItem(
+                                material.getName(),
+                                new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(FoodComponents.GOLDEN_CARROT),
+                                RAAFoodItem.SimpleItemType.CARROT
+                        ),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot")
+                );
+            }
         });
     }
 
