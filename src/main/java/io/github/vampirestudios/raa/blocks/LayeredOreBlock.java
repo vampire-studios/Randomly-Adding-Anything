@@ -1,14 +1,12 @@
 package io.github.vampirestudios.raa.blocks;
 
+import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.materials.Material;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderLayer;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.OreBlock;
+import net.minecraft.block.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
@@ -36,7 +34,7 @@ public class LayeredOreBlock extends OreBlock {
 	private Material material;
 	
 	public LayeredOreBlock(Material material) {
-		super(Block.Settings.copy(material.getOreInformation().getGenerateIn().getBlock()));
+		super(material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR ? Block.Settings.copy(material.getOreInformation().getGenerateIn().getBlock()) : Block.Settings.copy(Blocks.STONE));
 		this.material = material;
 	}
 
