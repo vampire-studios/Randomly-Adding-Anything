@@ -1,14 +1,12 @@
 package io.github.vampirestudios.raa.blocks;
 
+import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.materials.Material;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderLayer;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.OreBlock;
+import net.minecraft.block.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
@@ -35,19 +33,21 @@ public class LayeredOreBlock extends OreBlock {
 	private boolean complainedAboutLoot = false;
 	private Material material;
 	
-	public LayeredOreBlock(Material material) {
-		super(Block.Settings.copy(material.getOreInformation().getGenerateIn().getBlock()));
+	public LayeredOreBlock(Material material, Settings settings) {
+		super(settings);
 		this.material = material;
 	}
 
 	@Override
 	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT_MIPPED;
+		return BlockRenderLayer.SOLID;
 	}
 
 	@Override
 	protected int getExperienceWhenMined(Random random_1) {
-		return Rands.randIntRange(material.getOreInformation().getMinXPAmount(), material.getOreInformation().getMaxXPAmount());
+		if (this.material.getOreInformation().getOreType() != OreTypes.METAL)
+			return Rands.randIntRange(material.getOreInformation().getMinXPAmount(), material.getOreInformation().getMaxXPAmount());
+		return 0;
 	}
 
 	@Override

@@ -18,6 +18,10 @@ public class Rands {
     public static float randFloat(float bound) {
         return ((float) new Random().nextInt((int) (bound*10) + 1))/10;
     }
+    
+    public static boolean chance(int bound) {
+        return randInt(bound) == 0;
+    }
 
     public static <O extends Object> O values(O[] values) {
         return values[randInt(values.length)];
