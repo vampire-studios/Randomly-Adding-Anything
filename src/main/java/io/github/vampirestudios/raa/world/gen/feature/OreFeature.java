@@ -37,7 +37,7 @@ public class OreFeature extends Feature<OreFeatureConfig> {
 
         for(int int_8 = int_3; int_8 <= int_3 + int_6; ++int_8) {
             for(int int_9 = int_5; int_9 <= int_5 + int_6; ++int_9) {
-                if (int_4 <= iWorld_1.getTopY(Type.OCEAN_FLOOR_WG, int_8, int_9)) {
+                if (int_4 <= iWorld_1.getTop(Type.OCEAN_FLOOR_WG, int_8, int_9)) {
                     return this.generateVeinPart(iWorld_1, random_1, oreFeatureConfig_1, double_1, double_2, double_3, double_4, double_5, double_6, int_3, int_4, int_5, int_6, int_7);
                 }
             }

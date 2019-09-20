@@ -68,10 +68,10 @@ dependencies {
 	}
 
 	// For dev env testing
-//	modRuntime ("com.jamieswhiteshirt:developer-mode:${project.devmode_version}") {
-//		exclude group :"net.fabricmc.fabric-api"
-//		exclude group :"io.github.prospector.modmenu"
-//	}
+	modRuntime ("com.jamieswhiteshirt:developer-mode:${project.devmode_version}") {
+		exclude group :"net.fabricmc.fabric-api"
+		exclude group :"io.github.prospector.modmenu"
+	}
 
 	modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
 		exclude group: "io.github.prospector.modmenu"
@@ -154,7 +154,7 @@ curseforge {
 		releaseType = "release"
 		changelog = "https://github.com/vampire-studios/Randomly-Adding-Anything"
 		gameVersionStrings.clear()
-		gameVersionStrings.add("1.15-Snapshot")
+		gameVersionStrings.add("1.14.4")
 		gameVersionStrings.add("Fabric")
 		mainArtifact(file("build/libs/${archivesBaseName}-${version}.jar")) {
 			displayName = "[" + minecraft_version + "] " + version
