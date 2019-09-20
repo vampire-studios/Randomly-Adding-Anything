@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import io.github.vampirestudios.raa.materials.CustomArmorMaterial;
 import io.github.vampirestudios.raa.materials.CustomToolMaterial;
 import io.github.vampirestudios.raa.materials.Material;
@@ -47,9 +48,15 @@ public class SavingSystem {
             try {
                 BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
                 MaterialJSON[] materialJSONS = toJSON();
+                JsonObject configInformation = new JsonObject();
+                configInformation.addProperty("config_version", 1);
+                fileWriter.write(gson.toJson(configInformation));
+                fileWriter.newLine();
+                fileWriter.flush();
+
                 for (int a = 0; a < materialJSONS.length; a++) {
                     if (a == 0) {
-                        fileWriter.write("[" + "\n" + gson.toJson(materialJSONS[a]) + ",");
+                        fileWriter.write("[" + "\n" + "    " + gson.toJson(materialJSONS[a]) + ",");
                         fileWriter.newLine();
                         fileWriter.flush();
                         continue;

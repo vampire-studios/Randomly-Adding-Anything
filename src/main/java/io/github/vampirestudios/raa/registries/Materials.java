@@ -43,7 +43,7 @@ public class Materials {
                     .resourceItemTexture().storageBlockTexture().armor(random.nextBoolean())
                     .tools(random.nextBoolean()).oreFlower(Rands.chance(4))
                     .weapons(random.nextBoolean()).glowing(Rands.chance(4))
-                    .minXPAmount(0).maxXPAmount(Rands.randIntRange(0, 15)).oreClusterSize(Rands.randIntRange(4, 20))
+                    .minXPAmount(0).maxXPAmount(Rands.randIntRange(0, 4)).oreClusterSize(Rands.randIntRange(2, 6))
                     .food(Rands.chance(4))
                     .build();
             String id = material.getName().toLowerCase();
