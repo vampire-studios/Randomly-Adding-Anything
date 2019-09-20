@@ -24,7 +24,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.ExtendedBlockView;
+import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.World;
 
 import java.util.Collections;
@@ -40,11 +40,11 @@ public class OreBakedModel extends RAABakedModel {
     }
 
     @Override
-    public void emitBlockQuads(ExtendedBlockView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+    public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
         context.meshConsumer().accept(mesh(blockView, pos));
     }
 
-    private Mesh mesh(ExtendedBlockView blockView, BlockPos pos) {
+    private Mesh mesh(BlockRenderView blockView, BlockPos pos) {
         Renderer renderer = RendererAccess.INSTANCE.getRenderer();
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
