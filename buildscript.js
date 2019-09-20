@@ -10,7 +10,7 @@ fs.writeFile("./buildscript.bash", texttowrite(), (err) => {
     }
 })
 function texttowrite() {
-    if (consts.travis_pull_request === true) {
+    if (consts.travis_pull_request === "true") {
         return "./gradlew build"
     } else {
         if (consts.travis_branch === "release/1.15") {
