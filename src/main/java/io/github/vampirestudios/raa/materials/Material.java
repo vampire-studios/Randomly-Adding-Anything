@@ -20,6 +20,8 @@ public class Material {
     private boolean oreFlower;
     private boolean food;
 
+    public Material() {}
+
     public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
                     boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
