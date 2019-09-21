@@ -212,8 +212,11 @@ public class MaterialBuilder {
     }
 
     public Material buildFromJSON() {
-        return new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize),
-                name, RGB, miningLevel, resourceItemTexture, nuggetTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
+        return oreType == OreTypes.METAL ?
+                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize),
+                name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food) :
+                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize),
+                        name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
     }
 
 }
