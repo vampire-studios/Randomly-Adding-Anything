@@ -78,6 +78,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     });
                     clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_nugget"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
+                        System.out.println(material.getOreInformation().getOreType() + "=" + material.getNuggetTexture());
                         modelBuilder.texture("layer0", material.getNuggetTexture());
                     });
                 }

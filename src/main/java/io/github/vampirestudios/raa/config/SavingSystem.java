@@ -7,8 +7,6 @@ import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.SyntaxError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.github.vampirestudios.raa.materials.CustomArmorMaterial;
-import io.github.vampirestudios.raa.materials.CustomToolMaterial;
 import io.github.vampirestudios.raa.materials.Material;
 import io.github.vampirestudios.raa.materials.OreInformation;
 import io.github.vampirestudios.raa.registries.Materials;
