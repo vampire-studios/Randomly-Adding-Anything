@@ -52,36 +52,36 @@ public class SavingSystem {
     }
 
     public static void createFile() {
-//        configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
-//        if (!configFile.exists()) {
-//            try {
-//                BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
-//                MaterialJSON[] materialJSONS = toJSON();
-//                fileWriter.write("{\"configVersion\":1,");
-//                fileWriter.newLine();
-//                fileWriter.flush();
-//                fileWriter.write("\"materials\": [");
-//                fileWriter.newLine();
-//                fileWriter.flush();
-//
-//                for (int a = 0; a < materialJSONS.length; a++) {
-//                    if (a == materialJSONS.length - 1) {
-//                        fileWriter.write(gson.toJson(materialJSONS[a]));
-//                        fileWriter.newLine();
-//                        fileWriter.flush();
-//                        continue;
-//                    }
-//                    fileWriter.write(gson.toJson(materialJSONS[a]) + ",");
-//                    fileWriter.newLine();
-//                    fileWriter.flush();
-//                }
-//                fileWriter.write("]}");
-//                fileWriter.flush();
-//                fileWriter.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
+        if (!configFile.exists()) {
+            try {
+                BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
+                Material[] materialJSONS = toJSON();
+                fileWriter.write("{\"configVersion\":1,");
+                fileWriter.newLine();
+                fileWriter.flush();
+                fileWriter.write("\"materials\": [");
+                fileWriter.newLine();
+                fileWriter.flush();
+
+                for (int a = 0; a < materialJSONS.length; a++) {
+                    if (a == materialJSONS.length - 1) {
+                        fileWriter.write(gson.toJson(materialJSONS[a]));
+                        fileWriter.newLine();
+                        fileWriter.flush();
+                        continue;
+                    }
+                    fileWriter.write(gson.toJson(materialJSONS[a]) + ",");
+                    fileWriter.newLine();
+                    fileWriter.flush();
+                }
+                fileWriter.write("]}");
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void readFile() {
@@ -138,27 +138,11 @@ public class SavingSystem {
 //        return materials;
 //    }
 
-//    private static MaterialJSON[] toJSON() {
-////        List<MaterialJSON> materialJSONS = new ArrayList<>();
-////        Materials.MATERIALS.forEach(material -> {
-////            OreInformation oreInformation = material.getOreInformation();
-////            OreInformationJSON oreInformationJSON = new OreInformationJSON(oreInformation.getOreType(),
-////                    oreInformation.getGenerateIn(), material.getOreInformation().getOverlayTexture().toString(), oreInformation.getOreCount(),
-////                    oreInformation.getMinXPAmount(), oreInformation.getMaxXPAmount(), oreInformation.getOreClusterSize());
-////            String nuggetTexture;
-////            if (material.getNuggetTexture() == null) {
-////                nuggetTexture = "null";
-////            } else {
-////                nuggetTexture = material.getNuggetTexture().toString();
-////            }
-////            MaterialJSON materialJSON = new MaterialJSON(oreInformationJSON, material.getName(), material.getRGBColor(), material.getMiningLevel(),
-////                    material.getStorageBlockTexture().toString(), material.getResourceItemTexture().toString(), nuggetTexture, material.hasArmor(), material.getArmorMaterial(), material.hasTools(),
-////                    material.hasWeapons(), material.getToolMaterial(), material.isGlowing(), material.hasOreFlower(), material.hasFood());
-////            materialJSONS.add(materialJSON);
-////        });
-////
-////        return materialJSONS.toArray(new MaterialJSON[0]);
-//    }
+    private static Material[] toJSON() {
+        List<Material> materials = new ArrayList<>();
+        Materials.MATERIALS.forEach(materials::add);
+        return materials.toArray(new Material[0]);
+    }
 
 //    protected static class MaterialJSON {
 ////        OreInformationJSON oreInformationJSON;
