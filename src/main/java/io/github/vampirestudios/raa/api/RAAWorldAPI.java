@@ -18,17 +18,34 @@ public class RAAWorldAPI {
 
     /**
      * @param biome The biome you generate the ores in.
+     * @param target The block targeted by the ore generator.
+     */
+    public static void addRandomOres(Biome biome, OreFeatureConfig.Target target) {
+        addRandomOres(new OreGenerationSupport(biome, target));
+    }
+
+    /**
+     * @param biome The biome you generate the ores in.
      * @param generatesIn The block targeted by the ore generator.
      */
+    @Deprecated
     public static void addRandomOres(Biome biome, GeneratesIn generatesIn) {
+        addRandomOres(new OreGenerationSupport(biome, generatesIn.getTarget()));
+    }
+
+    /**
+     * Goes through each of the materials and generates them in the world based on the biome and target block set in ${@link OreGenerationSupport}
+        @param generationSupport Adds support for generation of ores in the world
+     */
+    public static void addRandomOres(OreGenerationSupport generationSupport) {
         Materials.MATERIALS.forEach(material -> {
             String id = material.getName().toLowerCase();
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
             }
-            if (material.getOreInformation().getGenerateIn() == generatesIn) {
-                biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
-                        new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(generatesIn.getTarget(),
+            if (material.getOreInformation().getGenerateIn().getTarget() == generationSupport.getTarget()) {
+                generationSupport.getGenerationBiome().addFeature(GenerationStep.Feature.UNDERGROUND_ORES, Biome.configureFeature(
+                        new OreFeature(OreFeatureConfig::deserialize), new OreFeatureConfig(generationSupport.getTarget(),
                                 Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ore")).getDefaultState(), 9),
                         Decorator.COUNT_RANGE, new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(), 0, 256)));
             }
