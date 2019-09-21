@@ -12,11 +12,11 @@ fs.writeFile("./buildscript.bash", texttowrite(), (err) => {
 function texttowrite() {
     if (consts.travis_pull_request === "true") {
         return "./gradlew build"
+    } else if (consts.travis_branch === "release/1.15") {
+        return "./gradlew build githubRelease curseforge"
+    } else if (consts.travis_branch === "dev/1.15") {
+        return "./gradlew build githubRelease"
     } else {
-        if (consts.travis_branch === "release/1.15") {
-            return "./gradlew build githubRelease curseforge"
-        } else {
-            return "./gradlew build githubRelease"
-        }
+        return "./gradlew build"
     }
 }
