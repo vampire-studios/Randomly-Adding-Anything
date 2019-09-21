@@ -83,17 +83,16 @@ public class SavingSystem {
     public static void readFile() {
         configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
         try {
-            JsonObject jsonObject = jackson.load(configFile);
-            if (jsonObject.containsKey("configVersion")) {
-                int configVersion = jsonObject.get(int.class, "configVersion");
-                System.out.println(configVersion);
+            JsonObject jsonObject1 = jackson.load(configFile);
+            if (jsonObject1.containsKey("configVersion")) {
+                int configVersion = jsonObject1.get(int.class, "configVersion");
                 if (configVersion != 1) return;
-                if (!jsonObject.containsKey("materials")) {
+                if (!jsonObject1.containsKey("materials")) {
                     Materials.init();
                     SavingSystem.createFile();
                     return;
                 }
-                JsonArray jsonArray = jsonObject.get(JsonArray.class, "materials");
+                JsonArray jsonArray = jsonObject1.get(JsonArray.class, "materials");
                 if (jsonArray.size() == 0) {
                     Materials.init();
                     SavingSystem.createFile();
@@ -101,19 +100,91 @@ public class SavingSystem {
                 }
 
                 for (int s = 0; s < jsonArray.size(); s++) {
-                    Material material = jsonArray.get(Material.class, s);
-                    assert material != null;
+                    JsonObject jsonObject = (JsonObject) jsonArray.get(s);
+                    String name = jsonObject.get(String.class, "name");
+                    int miningLevel = jsonObject.get(int.class, "miningLevel");
+                    MaterialBuilder materialBuilder = MaterialBuilder.create();
+                    materialBuilder.name(name)
+                            .color(jsonObject.get(int.class,"color"))
+                            .storageBlockTexture(idFromJson(jsonObject,"storageBlockTexture"))
+                            .resourceItemTexture(idFromJson(jsonObject, "resourceItemTexture"))
+                            .armor(jsonObject.get(boolean.class, "armor"))
+                            .tools(jsonObject.get(boolean.class, "tools"))
+                            .weapons(jsonObject.get(boolean.class, "weapons"))
+                            .glowing(jsonObject.get(boolean.class, "glowing"))
+                            .oreFlower(jsonObject.get(boolean.class, "oreFlower"))
+                            .miningLevel(miningLevel)
+                            .food(jsonObject.get(boolean.class, "food"));
+                    JsonObject oreInfo = jsonObject.getObject("oreInformation");
+                    OreTypes oreTypes = oreInfo.get(OreTypes.class, "oreType");
+                    materialBuilder.oreType(oreTypes)
+                            .generatesIn(oreInfo.get(GeneratesIn.class, "generateIn"))
+                            .overlayTexture(idFromJson(oreInfo,"overlayTexture"))
+                            .minXPAmount(0)
+                            .maxXPAmount(oreInfo.get(int.class, "maxXPAmount"))
+                            .oreClusterSize(oreInfo.get(int.class, "oreClusterSize"));
+
+                    if (!jsonObject.containsKey("nuggetTexture")) {
+                        materialBuilder.nuggetTexture(null);
+                    } else materialBuilder.nuggetTexture(idFromJson(jsonObject, "nuggetTexture"));
+
+                    if (jsonObject.get(boolean.class, "armor")) {
+                        JsonObject armorObject = jsonObject.getObject("armorMaterial");
+                        int durabilityMultiplier = armorObject.get(int.class, "durabilityMultiplier");
+                        int[] protectionAmounts = armorObject.get(int[].class, "protectionAmounts");
+                        int enchantability = armorObject.get(int.class, "enchantability");
+                        float toughness = armorObject.get(float.class, "toughness");
+                        int horseArmorBonus = armorObject.get(int.class, "horseArmorBonus");
+                        CustomArmorMaterial armorMaterial = new CustomArmorMaterial(
+                                name, oreTypes, durabilityMultiplier, protectionAmounts,
+                                enchantability, toughness, horseArmorBonus
+                        );
+                        materialBuilder.armor(armorMaterial);
+                    }
+
+                    if (jsonObject.get(boolean.class, "tools")) {
+                        JsonObject toolObject = jsonObject.getObject("toolMaterial");
+                        int durability = toolObject.get(int.class, "durability");
+                        int enchantability = toolObject.get(int.class, "enchantability");
+                        float miningSpeed = toolObject.get(float.class, "miningSpeed");
+                        float attackDamage = toolObject.get(float.class, "attackDamage");
+                        float hoeAttackSpeed = toolObject.get(float.class, "hoeAttackSpeed");
+                        float axeAttackDamage = toolObject.get(float.class, "axeAttackDamage");
+                        float axeAttackSpeed = toolObject.get(float.class, "axeAttackSpeed");
+                        float swordAttackDamage = toolObject.get(float.class, "swordAttackDamage");
+                        CustomToolMaterial toolMaterial = new CustomToolMaterial(
+                                name, oreTypes, durability, miningSpeed, attackDamage,
+                                miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
+                                axeAttackSpeed, swordAttackDamage
+                        );
+                        materialBuilder.tools(toolMaterial);
+                    }
+
+                    if (jsonObject.get(boolean.class, "weapons")) {
+                        JsonObject toolObject = jsonObject.getObject("toolMaterial");
+                        int durability = toolObject.get(int.class, "durability");
+                        int enchantability = toolObject.get(int.class, "enchantability");
+                        float miningSpeed = toolObject.get(float.class, "miningSpeed");
+                        float attackDamage = toolObject.get(float.class, "attackDamage");
+                        float hoeAttackSpeed = toolObject.get(float.class, "hoeAttackSpeed");
+                        float axeAttackDamage = toolObject.get(float.class, "axeAttackDamage");
+                        float axeAttackSpeed = toolObject.get(float.class, "axeAttackSpeed");
+                        float swordAttackDamage = toolObject.get(float.class, "swordAttackDamage");
+                        CustomToolMaterial toolMaterial = new CustomToolMaterial(
+                                name, oreTypes, durability, miningSpeed, attackDamage,
+                                miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
+                                axeAttackSpeed, swordAttackDamage
+                        );
+                        materialBuilder.weapons(toolMaterial);
+                    }
+
+                    Material material = materialBuilder.buildFromJSON();
                     String id = material.getName().toLowerCase();
                     for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
                         id = id.replace(entry.getKey(), entry.getValue());
                     }
                     Registry.register(Materials.MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
                 }
-//                JsonObject jsonElement = (JsonObject) jsonArray.get(0);
-//                System.out.println(jsonElement.toString());
-//                for (Map.Entry<String, JsonElement> entry : jsonElement.entrySet()) {
-//                    System.out.println(entry.getKey() + "=" + entry.getValue().toString());
-//                }
             } else {
                 Materials.init();
                 SavingSystem.createFile();
@@ -124,6 +195,11 @@ public class SavingSystem {
         }
     }
 
+    private static Identifier idFromJson(JsonObject jsonObject, String name) {
+        JsonObject jsonObject1 = jsonObject.getObject(name);
+        return new Identifier(jsonObject1.get(String.class, "namespace"), jsonObject1.get(String.class, "path"));
+    }
+
     private static void fromOldFile(File file) {
         try {
             Object[] objects = gson.fromJson(new FileReader(file),Object[].class);
@@ -132,8 +208,6 @@ public class SavingSystem {
                 MaterialBuilder materialBuilder = MaterialBuilder.create();
                 materialBuilder.name(jsonObject.get(String.class, "name"))
                         .color(jsonObject.get(int.class,"rgb"))
-                        .storageBlockTexture(new Identifier(jsonObject.get(String.class, "storageBlockTexture")))
-                        .resourceItemTexture(new Identifier(jsonObject.get(String.class, "resourceItemTexture")))
                         .armor(jsonObject.get(boolean.class, "armor"))
                         .tools(jsonObject.get(boolean.class, "tools"))
                         .weapons(jsonObject.get(boolean.class, "weapons"))
@@ -175,6 +249,21 @@ public class SavingSystem {
                             .maxXPAmount(Rands.randIntRange(0, 4))
                             .oreClusterSize(Rands.randIntRange(2, 6));
                 }
+
+                Identifier resourceItem = new Identifier(jsonObject.get(String.class, "resourceItemTexture"));
+                if (OreTypes.METAL_ITEM_TEXTURES.contains(resourceItem) || OreTypes.CRYSTAL_ITEM_TEXTURES.contains(resourceItem) || OreTypes.GEM_ITEM_TEXTURES.contains(resourceItem)) {
+                    materialBuilder.resourceItemTexture(resourceItem);
+                } else {
+                    materialBuilder.resourceItemTexture();
+                }
+
+                Identifier storageBlock = new Identifier(jsonObject.get(String.class, "storageBlockTexture"));
+                if (OreTypes.METAL_BLOCK_TEXTURES.contains(storageBlock) || OreTypes.CRYSTAL_BLOCK_TEXTURES.contains(storageBlock) || OreTypes.GEM_BLOCK_TEXTURES.contains(storageBlock)) {
+                    materialBuilder.storageBlockTexture(storageBlock);
+                } else {
+                    materialBuilder.storageBlockTexture();
+                }
+
                 Material material = materialBuilder.buildFromJSON();
                 String id = material.getName().toLowerCase();
                 for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {

@@ -148,6 +148,12 @@ public class MaterialBuilder {
         return this;
     }
 
+    public MaterialBuilder tools(CustomToolMaterial toolMaterial) {
+        this.tools = true;
+        this.toolMaterial = toolMaterial;
+        return this;
+    }
+
     public MaterialBuilder tools() {
         this.tools = true;
         this.toolMaterial = new CustomToolMaterial(this.name, this.oreType,
@@ -161,6 +167,12 @@ public class MaterialBuilder {
 
     public MaterialBuilder weapons(boolean weapons) {
         this.weapons = weapons;
+        return this;
+    }
+
+    public MaterialBuilder weapons(CustomToolMaterial toolMaterial) {
+        this.weapons = true;
+        this.toolMaterial = toolMaterial;
         return this;
     }
 
