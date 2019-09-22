@@ -4,17 +4,22 @@
   "version": "${version}",
 
   "name": "Randomly Adding Anything",
-  "description": "",
+  "description": "A mod adding anything randomly to Minecraft",
   "authors": [
     "OliviaTheVampire",
     "arthurbambou(aka Cat Core)"
   ],
+  "contributors": [
+    "Shnupbups",
+    "Kiroto"
+  ],
   "contact": {
-    "homepage": "",
-    "sources": ""
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/randomly-adding-anything",
+    "sources": "https://github.com/vampire-studios/Randomly-Adding-Anything",
+    "discord": "https://discord.gg/t4Tbm7r"
   },
 
-  "license": "",
+  "license": "MIT",
   "icon": "assets/raa/icon.png",
 
   "environment": "*",
@@ -24,14 +29,11 @@
     ],
     "client": [
       "io.github.vampirestudios.raa.RandomlyAddingAnythingClient"
-    ],
-    "modmenu" : [
-//      "io.github.vampirestudios.raa.utils.ModMenuCompat"
     ]
   },
 
   "depends": {
-    "fabricloader": ">=0.4.0",
+    "fabricloader": ">=0.6.0",
     "fabric": "*"
   }
 }
