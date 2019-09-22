@@ -117,6 +117,14 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
                         shapedRecipeBuilder.result(new Identifier(MOD_ID, finalId5 + "_pickaxe"), 1);
                     });
+                    serverResourcePackBuilder.addItemTag(new Identifier("fabric","pickaxes"), tagBuilder -> {
+                        tagBuilder.replace(false);
+                        tagBuilder.value(new Identifier(MOD_ID, finalId5 + "_pickaxe"));
+                    });
+                    serverResourcePackBuilder.addItemTag(new Identifier("fabric","shovels"), tagBuilder -> {
+                        tagBuilder.replace(false);
+                        tagBuilder.value(new Identifier(MOD_ID, finalId5 + "_shovel"));
+                    });
                 }
                 if (material.hasWeapons()) {
                     String finalId4 = id;

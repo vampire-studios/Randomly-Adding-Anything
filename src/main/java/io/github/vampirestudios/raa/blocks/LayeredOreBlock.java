@@ -33,8 +33,8 @@ public class LayeredOreBlock extends OreBlock {
 	private boolean complainedAboutLoot = false;
 	private Material material;
 	
-	public LayeredOreBlock(Material material) {
-		super(material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR ? Block.Settings.copy(material.getOreInformation().getGenerateIn().getBlock()) : Block.Settings.copy(Blocks.STONE));
+	public LayeredOreBlock(Material material, Settings settings) {
+		super(settings);
 		this.material = material;
 	}
 
