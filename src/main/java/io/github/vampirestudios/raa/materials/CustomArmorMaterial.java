@@ -22,13 +22,13 @@ public class CustomArmorMaterial implements ArmorMaterial {
     private final float toughness;
     private final int horseArmorBonus;
 
-    public CustomArmorMaterial(String name, OreTypes oreTypes, int int_1, int[] ints_1, int int_2, float float_1, int horseArmorBonus) {
+    public CustomArmorMaterial(String name, OreTypes oreTypes, int durabilityMultiplier, int[] protectionAmounts, int enchantability, float toughness, int horseArmorBonus) {
         this.name = name;
         this.oreTypes = oreTypes;
-        this.durabilityMultiplier = int_1;
-        this.protectionAmounts = ints_1;
-        this.enchantability = int_2;
-        this.toughness = float_1;
+        this.durabilityMultiplier = durabilityMultiplier;
+        this.protectionAmounts = protectionAmounts;
+        this.enchantability = enchantability;
+        this.toughness = toughness;
         this.horseArmorBonus = horseArmorBonus;
     }
 

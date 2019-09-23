@@ -20,6 +20,8 @@ public class Material {
     private boolean oreFlower;
     private boolean food;
 
+    public Material() {}
+
     public Material(OreInformation oreInformation, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
                     boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
@@ -39,9 +41,9 @@ public class Material {
         this.toolMaterial = null;
 
         if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
-                Rands.randIntRange(15,2000), Rands.randFloat(12.0F)+1.5F,
-                Rands.randFloat(5.0F), this.miningLevel,
-                Rands.randIntRange(2,30), Rands.randFloat(4.0F),
+                Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
+                Rands.randFloat(3.0F), this.miningLevel,
+                Rands.randIntRange(2,10), Rands.randFloat(4.0F),
                 Rands.randFloat(3.0F), Rands.randFloat(0.8F),
                 Rands.randFloat(5.0F));
 
@@ -74,9 +76,9 @@ public class Material {
         this.toolMaterial = null;
 
         if (this.tools || this.weapons) this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
-                Rands.randIntRange(15,2000), Rands.randFloat(12.0F)+1.5F,
-                Rands.randFloat(5.0F), this.miningLevel,
-                Rands.randIntRange(2,30), Rands.randFloat(4.0F),
+                Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
+                Rands.randFloat(3.0F), this.miningLevel,
+                Rands.randIntRange(2,10), Rands.randFloat(4.0F),
                 Rands.randFloat(3.0F), Rands.randFloat(0.8F),
                 Rands.randFloat(5.0F));
 
