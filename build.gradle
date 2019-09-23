@@ -6,12 +6,16 @@ plugins {
 }
 
 repositories {
-	maven { url "https://jitpack.io"}
+	maven { url = "https://jitpack.io"}
 	maven{ url="https://minecraft.curseforge.com/api/maven" }
 	maven{ url="https://maven.jamieswhiteshirt.com/libs-release/" }
 	maven{ url="https://maven.fabricmc.net" }
-	maven { url "https://maven.swordglowsblue.com" }
+	maven { url = "https://maven.swordglowsblue.com" }
 	maven { url = 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
+	maven {
+		name = "Cotton"
+		url = "http://server.bbkr.space:8081/artifactory/libs-release"
+	}
 	// Grondag's crappy maven repo...
 	maven {
 		name = "grondag"
@@ -52,6 +56,13 @@ dependencies {
 	include "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
 	modImplementation "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
     include "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
+
+	modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
+		exclude group :"net.fabricmc.fabric-api"
+	}
+	include ("io.github.cottonmc:Jankson:1.0.0+j1.1.2") {
+		exclude group :"net.fabricmc.fabric-api"
+	}
 
 //	 modImplementation ("grondag:exotic-matter:${project.exotic_matter_version}.+") {
 //		exclude group :"net.fabricmc.fabric-api"
