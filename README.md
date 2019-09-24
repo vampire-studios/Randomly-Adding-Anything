@@ -1,6 +1,7 @@
 # Randomly Adding Anything
 
 ## Why is this?
+
 After a while, Minecraft's boundaries are massive. From surviving to fighting, from exploring to building to travelling across dimensions; Minecraft has many things and the only thing limiting you is your imagination.
 However, once you learn it, it becomes kind of the same every time; always mine the same minerals, with always the same tools, always the same biomes.
 
@@ -18,8 +19,14 @@ Each mineral has it's uses, and some are better than others in some situations.
 ## FAQ
 
 #### Q: How do I re-randomize ores?
-In the configs folder there is a `raa.json5` document. If you set the `"regen"` property to `true`, new ores will generate each time you boot up minecraft until that setting is turned back to `false`.
+
+A: In the configs folder there is a `raa.json5` document. If you set the `"regen"` property to `true`, new ores will generate each time you boot up minecraft until that setting is turned back to `false`.
+
 **TL;DR** Set `.minecraft/config/raa.json5`'s `"regen"` to `true` until you get whatever ores you like.
+
+#### Q: Is there any way I can suggest my ideas or anythying of the sort? Is there a chat?
+
+A: Yes, there is! The team has a Discord server that you can join through this link: https://discord.gg/t4Tbm7r. _Remember to be respectful and read the rules~_
 
 #### More to come!
 
