@@ -80,7 +80,7 @@ public class Dimensions {
                             new BlockPattern.TeleportTarget(new Vec3d(100, destination.getSeaLevel(), 100), teleported.getVelocity(), (int) teleported.yaw))
                     .buildAndRegister(new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase()));
             Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase());
-            if (!DIMENSION_NAME_LIST.contains(id)) {
+            if (DIMENSION_NAME_LIST.contains(id)) {
                 Registry.register(Registry.DIMENSION, id, type);
             }
             if (Registry.DIMENSION.containsId(id)) {
