@@ -27,16 +27,21 @@ public class Dimensions {
 
     public static void init() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
+            float hue = Rands.randFloatRange(0, 1.0F);
+            float foliageColor = hue + 0.05F;
+            float fogHue = hue + 0.3333f;
+            float skyHue = fogHue + 0.3333f;
+
             float saturation = Rands.randFloatRange(0.5F, 1.0F);
             float value = Rands.randFloatRange(0.5F, 1.0F);
-            Color FOG_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0, 360), saturation, value));
-            Color GRASS_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0, 360), saturation, value));
-            Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0, 360), saturation, value));
-            Color SKY_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0, 360), saturation, value));
+            Color GRASS_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
+            Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
+            Color FOG_COLOR = new Color(Color.HSBtoRGB(fogHue, saturation, value));
+            Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
             Dimension dimension = DimensionBuilder.create()
                     .fogColor(FOG_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).foliageColor(FOLIAGE_COLOR.getColor())
                     .hasLight(Rands.chance(1)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())
-                    .hasSky(Rands.chance(5)).canSleep(Rands.chance(10)).shouldRenderFog(Rands.chance(100))
+                    .hasSky(Rands.chance(2)).canSleep(Rands.chance(10)).shouldRenderFog(Rands.chance(100))
                     .skyColor(SKY_COLOR.getColor()).build();
             String id = dimension.getName().toLowerCase();
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {

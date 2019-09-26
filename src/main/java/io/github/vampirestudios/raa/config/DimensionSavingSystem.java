@@ -110,7 +110,7 @@ public class DimensionSavingSystem {
                             .hasSky(jsonObject.get(boolean.class, "hasSky"))
                             .hasLight(jsonObject.get(boolean.class, "hasLight"))
                             .canSleep(jsonObject.get(boolean.class, "canSleep"))
-                            .shouldRenderFog(jsonObject.get(boolean.class, "shouldRenderFog"));
+                            .shouldRenderFog(jsonObject.get(boolean.class, "renderFog"));
 
                     Dimension material = materialBuilder.buildFromJSON();
                     String id = material.getName().toLowerCase();

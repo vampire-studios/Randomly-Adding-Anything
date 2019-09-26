@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Random;
 
 public class Rands {
+
     public static int randInt(int bound) {
         return new Random().nextInt(bound);
     }
-
     public static int randIntRange(int min, int max) {
         int random = randInt(max + 1);
         if (random < min) {
@@ -15,6 +15,7 @@ public class Rands {
         }
         return random;
     }
+
     public static float randFloatRange(float min, float max) {
         float random = randFloat(max + 1);
         if (random < min) {
@@ -22,11 +23,10 @@ public class Rands {
         }
         return random;
     }
-
     public static float randFloat(float bound) {
         return ((float) new Random().nextInt((int) (bound*10) + 1))/10;
     }
-    
+
     public static boolean chance(int bound) {
         return randInt(bound) == 0;
     }

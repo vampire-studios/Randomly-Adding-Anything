@@ -227,7 +227,7 @@ public class Color {
     public static int HSBtoRGB(float hue, float saturation, float brightness) {
         int r = 0, g = 0, b = 0;
         if (saturation == 0) {
-            r = g = b = (int) (brightness * 255.0f + 0.5f);
+            r = g = b = (int) (brightness * 255.0f + 1f);
         } else {
             float h = (hue - (float)Math.floor(hue)) * 6.0f;
             float f = h - (float)java.lang.Math.floor(h);
@@ -236,34 +236,34 @@ public class Color {
             float t = brightness * (1.0f - (saturation * (1.0f - f)));
             switch ((int) h) {
                 case 0:
-                    r = (int) (brightness * 255.0f + 0.5f);
-                    g = (int) (t * 255.0f + 0.5f);
-                    b = (int) (p * 255.0f + 0.5f);
+                    r = (int) (brightness * 255.0f + 1f);
+                    g = (int) (t * 255.0f + 1f);
+                    b = (int) (p * 255.0f + 1f);
                     break;
                 case 1:
-                    r = (int) (q * 255.0f + 0.5f);
-                    g = (int) (brightness * 255.0f + 0.5f);
-                    b = (int) (p * 255.0f + 0.5f);
+                    r = (int) (q * 255.0f + 1f);
+                    g = (int) (brightness * 255.0f + 1f);
+                    b = (int) (p * 255.0f + 1f);
                     break;
                 case 2:
-                    r = (int) (p * 255.0f + 0.5f);
-                    g = (int) (brightness * 255.0f + 0.5f);
-                    b = (int) (t * 255.0f + 0.5f);
+                    r = (int) (p * 255.0f + 1f);
+                    g = (int) (brightness * 255.0f + 1f);
+                    b = (int) (t * 255.0f + 1f);
                     break;
                 case 3:
-                    r = (int) (p * 255.0f + 0.5f);
-                    g = (int) (q * 255.0f + 0.5f);
-                    b = (int) (brightness * 255.0f + 0.5f);
+                    r = (int) (p * 255.0f + 1f);
+                    g = (int) (q * 255.0f + 1f);
+                    b = (int) (brightness * 255.0f + 1f);
                     break;
                 case 4:
-                    r = (int) (t * 255.0f + 0.5f);
-                    g = (int) (p * 255.0f + 0.5f);
-                    b = (int) (brightness * 255.0f + 0.5f);
+                    r = (int) (t * 255.0f + 1f);
+                    g = (int) (p * 255.0f + 1f);
+                    b = (int) (brightness * 255.0f + 1f);
                     break;
                 case 5:
-                    r = (int) (brightness * 255.0f + 0.5f);
-                    g = (int) (p * 255.0f + 0.5f);
-                    b = (int) (q * 255.0f + 0.5f);
+                    r = (int) (brightness * 255.0f + 1f);
+                    g = (int) (p * 255.0f + 1f);
+                    b = (int) (q * 255.0f + 1f);
                     break;
             }
         }
@@ -287,9 +287,8 @@ public class Color {
      * @return    an array of three elements containing the hue, saturation,
      *                     and brightness (in that order), of the color with
      *                     the indicated red, green, and blue components.
-     * @see       Color#getRGB()
+     * @see       Color#getColor() ()
      * @see       Color#Color(int)
-     * @see       image.ColorModel#getRGBdefault()
      * @since     JDK1.0
      */
     public static float[] RGBtoHSB(int r, int g, int b, float[] hsbvals) {
