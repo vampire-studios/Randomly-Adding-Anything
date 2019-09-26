@@ -106,8 +106,11 @@ public class DimensionSavingSystem {
                             .fogColor(jsonObject.get(int.class,"fogColor"))
                             .grassColor(jsonObject.get(int.class,"grassColor"))
                             .foliageColor(jsonObject.get(int.class,"foliageColor"))
+                            .skyColor(jsonObject.get(int.class,"skyColor"))
                             .hasSky(jsonObject.get(boolean.class, "hasSky"))
-                            .hasLight(jsonObject.get(boolean.class, "hasLight"));
+                            .hasLight(jsonObject.get(boolean.class, "hasLight"))
+                            .canSleep(jsonObject.get(boolean.class, "canSleep"))
+                            .shouldRenderFog(jsonObject.get(boolean.class, "shouldRenderFog"));
 
                     Dimension material = materialBuilder.buildFromJSON();
                     String id = material.getName().toLowerCase();

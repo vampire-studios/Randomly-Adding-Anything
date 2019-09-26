@@ -6,8 +6,11 @@ public class DimensionBuilder {
     private int grassColor;
     private int fogColor;
     private int foliageColor;
+    private int skyColor;
     private boolean hasLight;
     private boolean hasSky;
+    private boolean canSleep;
+    private boolean renderFog;
 
     public static DimensionBuilder create() {
         return new DimensionBuilder();
@@ -33,6 +36,11 @@ public class DimensionBuilder {
         return this;
     }
 
+    public DimensionBuilder skyColor(int skyColor) {
+        this.skyColor = skyColor;
+        return this;
+    }
+
     public DimensionBuilder hasLight(boolean hasLight) {
         this.hasLight = hasLight;
         return this;
@@ -43,12 +51,22 @@ public class DimensionBuilder {
         return this;
     }
 
+    public DimensionBuilder canSleep(boolean canSleep) {
+        this.canSleep = canSleep;
+        return this;
+    }
+
+    public DimensionBuilder shouldRenderFog(boolean renderFog) {
+        this.renderFog = renderFog;
+        return this;
+    }
+
     public Dimension build() {
-        return new Dimension(name, grassColor, fogColor, foliageColor, hasLight, hasSky);
+        return new Dimension(name, grassColor, fogColor, foliageColor, skyColor, hasLight, hasSky, canSleep, renderFog);
     }
 
     public Dimension buildFromJSON() {
-        return new Dimension(name, grassColor, fogColor, foliageColor, hasLight, hasSky);
+        return new Dimension(name, grassColor, fogColor, foliageColor, skyColor, hasLight, hasSky, canSleep, renderFog);
     }
 
 }

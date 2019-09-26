@@ -25,6 +25,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.items.RAABlockItem;
+import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -35,6 +36,10 @@ import net.minecraft.item.Item.Settings;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.Feature;
+
+import java.util.function.Consumer;
 
 public class RegistryUtils {
 
@@ -57,6 +62,20 @@ public class RegistryUtils {
     public static Block registerBlockWithoutItem(Block block, Identifier identifier) {
         Registry.register(Registry.BLOCK, identifier, block);
         return block;
+    }
+
+    public static void register(Identifier name, Biome biome) {
+        Registry.register(Registry.BIOME, name, biome);
+    }
+
+    public static void forEveryBiome(Consumer<Biome> biomes) {
+        Registry.BIOME.forEach(biomes);
+        RegistryEntryAddedCallback.event(Registry.BIOME).register((rawId, id, biome) -> biomes.accept(biome));
+    }
+
+    public static void forEveryFeature(Consumer<Feature> features) {
+        Registry.FEATURE.forEach(features);
+        RegistryEntryAddedCallback.event(Registry.FEATURE).register((rawId, id, feature) -> features.accept(feature));
     }
 
     public static Item registerItem(Item item, Identifier name) {
