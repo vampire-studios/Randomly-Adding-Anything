@@ -190,6 +190,7 @@ public class SavingSystem {
                 SavingSystem.createFile();
             }
         } catch (IOException | SyntaxError e) {
+            System.out.println(e);
             fromOldFile(configFile);
         }
     }
