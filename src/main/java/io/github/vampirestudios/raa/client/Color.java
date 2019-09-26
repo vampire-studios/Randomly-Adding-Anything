@@ -35,4 +35,14 @@ public class Color {
     public int getAlpha() {
         return (getColor() >> 24) & 0xff;
     }
+
+    public static int[] intToRgb(int color) {
+        int r = (color>>16)&0xFF;
+        int g = (color>>8)&0xFF;
+        int b = (color>>0)&0xFF;
+        return new int[] {
+                r, g, b
+        };
+    }
+
 }

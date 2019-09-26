@@ -4,7 +4,7 @@ import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.client.OreBakedModel;
 import io.github.vampirestudios.raa.items.RAABlockItem;
-import io.github.vampirestudios.raa.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.api.ClientModInitializer;
@@ -42,7 +42,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
             Materials.MATERIALS.forEach(material -> {
                 String bid = material.getName().toLowerCase();
-                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
                     bid = bid.replace(entry.getKey(), entry.getValue());
                 }
                 for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
@@ -149,7 +149,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
         Materials.MATERIALS.forEach(material -> {
             String id = material.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
             }
             ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {

@@ -40,7 +40,7 @@ public class RAAWorldAPI {
     public static void addRandomOres(OreGenerationSupport generationSupport) {
         Materials.MATERIALS.forEach(material -> {
             String id = material.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
             }
             if (material.getOreInformation().getGenerateIn().getTarget() == generationSupport.getTarget()) {
