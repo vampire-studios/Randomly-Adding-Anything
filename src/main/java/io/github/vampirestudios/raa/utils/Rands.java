@@ -5,8 +5,10 @@ import java.util.Random;
 
 public class Rands {
 
+    public static Random rand = new Random();
+
     public static int randInt(int bound) {
-        return new Random().nextInt(bound);
+        return rand.nextInt(bound);
     }
     public static int randIntRange(int min, int max) {
         int random = randInt(max + 1);
@@ -24,7 +26,7 @@ public class Rands {
         return random;
     }
     public static float randFloat(float bound) {
-        return ((float) new Random().nextInt((int) (bound*10) + 1))/10;
+        return ((float) rand.nextInt((int) (bound*10) + 1))/10;
     }
 
     public static boolean chance(int bound) {

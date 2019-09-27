@@ -1,22 +1,28 @@
-package io.github.vampirestudios.raa.init;
+package io.github.vampirestudios.raa.generation.dimensions;
 
-import io.github.vampirestudios.raa.generation.dimensions.Dimension;
+import io.github.vampirestudios.raa.client.Color;
+import io.github.vampirestudios.raa.utils.Rands;
+import net.minecraft.client.render.Frustum;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
+import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
+import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 
 public class CustomDimensionBiome extends Biome {
 
-    private Dimension dimension;
+    private DimensionData dimensionData;
 
-    public CustomDimensionBiome(Dimension dimension) {
-        super((new Biome.Settings()).configureSurfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_CONFIG).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.PLAINS).depth(0.125F).scale(0.05F).temperature(0.8F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String)null));
-        this.dimension = dimension;
+    public CustomDimensionBiome(DimensionData dimensionData) {
+        super((new Biome.Settings()).configureSurfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_CONFIG).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.PLAINS).depth(Rands.randFloat(1F)).scale(Rands.randFloat(1F)).temperature(Rands.randFloat(1F)).downfall(Rands.randFloat(1F)).waterColor(new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.5F, 1.0F), Rands.randFloatRange(0.5F, 1.0F))).getColor()).waterFogColor(new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.5F, 1.0F), Rands.randFloatRange(0.5F, 1.0F))).getColor()).parent(null));
+        this.dimensionData = dimensionData;
 
+        Frustum
         this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
         this.addStructureFeature(Feature.PILLAGER_OUTPOST, new PillagerOutpostFeatureConfig(0.004D));
         this.addStructureFeature(Feature.MINESHAFT, new MineshaftFeatureConfig(0.004D, MineshaftFeature.Type.NORMAL));
@@ -29,6 +35,7 @@ public class CustomDimensionBiome extends Biome {
         DefaultBiomeFeatures.addMineables(this);
         DefaultBiomeFeatures.addDefaultOres(this);
         DefaultBiomeFeatures.addDefaultDisks(this);
+        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
         DefaultBiomeFeatures.addPlainsFeatures(this);
         DefaultBiomeFeatures.addDefaultMushrooms(this);
         DefaultBiomeFeatures.addDefaultVegetation(this);
@@ -53,17 +60,17 @@ public class CustomDimensionBiome extends Biome {
 
     @Override
     public int getSkyColor(float float_1) {
-        return dimension.getSkyColor();
+        return dimensionData.getSkyColor();
     }
 
     @Override
     public int getFoliageColorAt(BlockPos blockPos_1) {
-        return dimension.getFoliageColor();
+        return dimensionData.getFoliageColor();
     }
 
     @Override
     public int getGrassColorAt(BlockPos blockPos_1) {
-        return dimension.getGrassColor();
+        return dimensionData.getGrassColor();
     }
 
 }

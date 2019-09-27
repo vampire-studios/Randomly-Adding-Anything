@@ -7,7 +7,7 @@ import blue.endless.jankson.impl.SyntaxError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.generation.dimensions.Dimension;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionBuilder;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -52,7 +52,7 @@ public class DimensionSavingSystem {
         configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
         try {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
-            Dimension[] materialJSONS = toJSON();
+            DimensionData[] materialJSONS = toJSON();
             fileWriter.write("{\"configVersion\":1,");
             fileWriter.newLine();
             fileWriter.flush();
@@ -112,7 +112,7 @@ public class DimensionSavingSystem {
                             .canSleep(jsonObject.get(boolean.class, "canSleep"))
                             .shouldRenderFog(jsonObject.get(boolean.class, "renderFog"));
 
-                    Dimension material = materialBuilder.buildFromJSON();
+                    DimensionData material = materialBuilder.buildFromJSON();
                     String id = material.getName().toLowerCase();
                     for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
                         id = id.replace(entry.getKey(), entry.getValue());
@@ -128,9 +128,9 @@ public class DimensionSavingSystem {
         }
     }
 
-    private static Dimension[] toJSON() {
-        List<Dimension> materials = new ArrayList<>();
+    private static DimensionData[] toJSON() {
+        List<DimensionData> materials = new ArrayList<>();
         Dimensions.DIMENSIONS.forEach(materials::add);
-        return materials.toArray(new Dimension[0]);
+        return materials.toArray(new DimensionData[0]);
     }
 }

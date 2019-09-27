@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.client.Color;
-import io.github.vampirestudios.raa.init.CustomDimensionBiome;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.tag.BlockTags;
@@ -26,18 +25,18 @@ import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 public class CustomDimension extends Dimension {
 
     private DimensionType dimensionType;
-    private io.github.vampirestudios.raa.generation.dimensions.Dimension dimension;
+    private DimensionData dimensionData;
 
-    public CustomDimension(World world_1, DimensionType dimensionType_1, io.github.vampirestudios.raa.generation.dimensions.Dimension dimension) {
+    public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData) {
         super(world_1, dimensionType_1);
         this.dimensionType = dimensionType_1;
-        this.dimension = dimension;
+        this.dimensionData = dimensionData;
     }
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-        CustomDimensionBiome biome = new CustomDimensionBiome(dimension);
-        RegistryUtils.register(new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_biome"), biome);
+        CustomDimensionBiome biome = new CustomDimensionBiome(dimensionData);
+        RegistryUtils.register(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_biome"), biome);
         return new OverworldChunkGenerator(world, new FixedBiomeSource(new FixedBiomeSourceConfig(world.getLevelProperties()).setBiome(biome)), new OverworldChunkGeneratorConfig());
     }
 
@@ -96,24 +95,24 @@ public class CustomDimension extends Dimension {
 
     @Override
     public boolean hasVisibleSky() {
-        return dimension.hasSky();
+        return dimensionData.hasSky();
     }
 
     @Override
     public Vec3d getFogColor(float v, float v1) {
-        int fogColor = dimension.getFogColor();
+        int fogColor = dimensionData.getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor);
         return new Vec3d(rgbColor[0], rgbColor[1], rgbColor[2]);
     }
 
     @Override
     public boolean canPlayersSleep() {
-        return dimension.canSleep();
+        return dimensionData.canSleep();
     }
 
     @Override
     public boolean shouldRenderFog(int i, int i1) {
-        return dimension.shouldRenderFog();
+        return dimensionData.shouldRenderFog();
     }
 
     @Override
