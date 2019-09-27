@@ -28,6 +28,21 @@ A: In the configs folder there is a `raa.json5` document. If you set the `"regen
 
 A: Yes, there is! The team has a Discord server that you can join through this link: https://discord.gg/t4Tbm7r. _Remember to be respectful and read the rules~_
 
+#### Q: AAAAA I FOUND A BUG, How do I report it?
+
+A: You have two options. If the bug seems like something minor and doesn't heavily impact gameplay, you may want to ask in the Discord Server first! (#raa-mod-talk or #raa-brainstorming).
+
+However, if the bug causes a crash or heavily impacts gameplay, you should post an issue that contains:
+
+- Operative System (Commonly Windows)
+- Minecraft Console Log
+
+The contents of these files:
+- config/raa.json5
+- config/raa/materials/materials_0.json
+- config/raa/dimensions/dimensions_0.json
+- config/raa/entities/entities_0.json
+
 #### More to come!
 
 ## Planned Features
