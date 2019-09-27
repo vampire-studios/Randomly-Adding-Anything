@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.client.Color;
 import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
-import io.github.vampirestudios.raa.generation.dimensions.Dimension;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionBuilder;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class Dimensions {
     public static final List<Identifier> DIMENSION_NAME_LIST = new ArrayList<>();
-    public static final Registry<Dimension> DIMENSIONS = new DefaultedRegistry<>("raa:dimensions");
+    public static final Registry<DimensionData> DIMENSIONS = new DefaultedRegistry<>("raa:dimensions");
 
     public static boolean isReady = false;
 
@@ -38,9 +38,9 @@ public class Dimensions {
             Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
             Color FOG_COLOR = new Color(Color.HSBtoRGB(fogHue, saturation, value));
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
-            Dimension dimension = DimensionBuilder.create()
+            DimensionData dimension = DimensionBuilder.create()
                     .fogColor(FOG_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).foliageColor(FOLIAGE_COLOR.getColor())
-                    .hasLight(Rands.chance(1)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())
+                    .hasLight(!Rands.chance(1)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())
                     .hasSky(Rands.chance(2)).canSleep(Rands.chance(10)).shouldRenderFog(Rands.chance(100))
                     .skyColor(SKY_COLOR.getColor()).build();
             String id = dimension.getName().toLowerCase();
@@ -81,6 +81,7 @@ public class Dimensions {
                     .buildAndRegister(new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase()));
             Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase());
             if (DIMENSION_NAME_LIST.contains(id)) {
+                if (Registry.DIMENSION.get(id) == null)
                 Registry.register(Registry.DIMENSION, id, type);
             }
             if (Registry.DIMENSION.containsId(id)) {

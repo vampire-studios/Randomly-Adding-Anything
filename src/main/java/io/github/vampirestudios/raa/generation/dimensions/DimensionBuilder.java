@@ -61,12 +61,12 @@ public class DimensionBuilder {
         return this;
     }
 
-    public Dimension build() {
-        return new Dimension(name, grassColor, fogColor, foliageColor, skyColor, hasLight, hasSky, canSleep, renderFog);
+    public DimensionData build() {
+        return new DimensionData(name, grassColor, fogColor, foliageColor, skyColor, hasLight, hasSky, canSleep, renderFog);
     }
 
-    public Dimension buildFromJSON() {
-        return new Dimension(name, grassColor, fogColor, foliageColor, skyColor, hasLight, hasSky, canSleep, renderFog);
+    public DimensionData buildFromJSON() {
+        return new DimensionData(name, grassColor, fogColor, foliageColor, skyColor, hasLight, hasSky, canSleep, renderFog);
     }
 
 }

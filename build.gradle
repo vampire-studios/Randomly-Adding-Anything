@@ -76,9 +76,9 @@ dependencies {
 //		exclude group :"io.github.prospector.modmenu"
 //	 }
 
-	modRuntime ("io.github.prospector:modmenu:${project.modmenu_version}") {
-		exclude group :"net.fabricmc.fabric-api"
-	}
+	//modRuntime ("io.github.prospector:modmenu:${project.modmenu_version}") {
+	//	exclude group :"net.fabricmc.fabric-api"
+	//}
 
 	// For dev env testing
 //	modRuntime ("com.jamieswhiteshirt:developer-mode:${project.devmode_version}") {

@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -26,9 +27,9 @@ import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 public class CustomDimension extends Dimension {
 
     private DimensionType dimensionType;
-    private io.github.vampirestudios.raa.generation.dimensions.Dimension dimension;
+    private DimensionData dimension;
 
-    public CustomDimension(World world_1, DimensionType dimensionType_1, io.github.vampirestudios.raa.generation.dimensions.Dimension dimension) {
+    public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimension) {
         super(world_1, dimensionType_1);
         this.dimensionType = dimensionType_1;
         this.dimension = dimension;
@@ -36,6 +37,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
+        //Biome biome = Registry.BIOME.get(new Identifier("randombiomes", Integer.toString(dimension.rID)));
         CustomDimensionBiome biome = new CustomDimensionBiome(dimension);
         RegistryUtils.register(new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_biome"), biome);
         return new OverworldChunkGenerator(world, new FixedBiomeSource(new FixedBiomeSourceConfig(world.getLevelProperties()).setBiome(biome)), new OverworldChunkGeneratorConfig());

@@ -1,20 +1,24 @@
 package io.github.vampirestudios.raa.init;
 
-import io.github.vampirestudios.raa.generation.dimensions.Dimension;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
+import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
+import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 
 public class CustomDimensionBiome extends Biome {
 
-    private Dimension dimension;
+    private DimensionData dimension;
 
-    public CustomDimensionBiome(Dimension dimension) {
-        super((new Biome.Settings()).configureSurfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_CONFIG).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.PLAINS).depth(0.125F).scale(0.05F).temperature(0.8F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String)null));
+    public CustomDimensionBiome(DimensionData dimension) {
+        super((new Biome.Settings()).configureSurfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_CONFIG).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.PLAINS).depth(Rands.randFloat(1F)).scale(Rands.randFloat(1F)).temperature(Rands.randFloat(1F)).downfall(Rands.randFloat(1F)).waterColor(4159204).waterFogColor(329011).parent((String)null));
         this.dimension = dimension;
 
         this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
@@ -29,6 +33,7 @@ public class CustomDimensionBiome extends Biome {
         DefaultBiomeFeatures.addMineables(this);
         DefaultBiomeFeatures.addDefaultOres(this);
         DefaultBiomeFeatures.addDefaultDisks(this);
+        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
         DefaultBiomeFeatures.addPlainsFeatures(this);
         DefaultBiomeFeatures.addDefaultMushrooms(this);
         DefaultBiomeFeatures.addDefaultVegetation(this);

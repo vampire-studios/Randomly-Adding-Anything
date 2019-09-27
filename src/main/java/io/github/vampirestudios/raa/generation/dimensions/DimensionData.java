@@ -1,6 +1,8 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
-public class Dimension {
+import io.github.vampirestudios.raa.utils.Rands;
+
+public class DimensionData {
     private String name;
     private int grassColor;
     private int fogColor;
@@ -11,7 +13,7 @@ public class Dimension {
     private boolean canSleep;
     private boolean renderFog;
 
-    public Dimension(String name, int grassColor, int fogColor, int foliageColor, int skyColor, boolean hasLight, boolean hasSky, boolean canSleep, boolean renderFog) {
+    public DimensionData(String name, int grassColor, int fogColor, int foliageColor, int skyColor, boolean hasLight, boolean hasSky, boolean canSleep, boolean renderFog) {
         this.name = name;
         this.grassColor = grassColor;
         this.fogColor = fogColor;

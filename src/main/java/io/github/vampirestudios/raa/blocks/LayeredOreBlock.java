@@ -37,10 +37,10 @@ public class LayeredOreBlock extends OreBlock {
 		this.material = material;
 	}
 
-	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.SOLID;
-	}
+//	@Override
+//	public BlockRenderLayer getRenderLayer() {
+//		return BlockRenderLayer.field_9178;
+//	}
 
 	@Override
 	protected int getExperienceWhenMined(Random random_1) {
