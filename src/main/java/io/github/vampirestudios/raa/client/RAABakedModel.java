@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.client;
 
-import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.model.ModelHelper;
 import net.minecraft.block.BlockState;

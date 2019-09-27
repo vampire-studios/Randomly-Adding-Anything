@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.materials;
+package io.github.vampirestudios.raa.materials;
 
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import net.minecraft.item.ToolMaterial;

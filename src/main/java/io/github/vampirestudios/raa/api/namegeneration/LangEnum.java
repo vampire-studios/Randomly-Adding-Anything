@@ -1,73 +1,23 @@
 package io.github.vampirestudios.raa.api.namegeneration;
 
-import io.github.vampirestudios.raa.api.namegeneration.material.English;
-import io.github.vampirestudios.raa.api.namegeneration.material.French;
-import io.github.vampirestudios.raa.api.namegeneration.material.Norwegian;
-
 import java.util.Map;
 
 public enum LangEnum {
-    ENGLISH(
-            new English(),
-            new io.github.vampirestudios.raa.api.namegeneration.biomes.English(),
-            new io.github.vampirestudios.raa.api.namegeneration.dimensions.English(),
-            new io.github.vampirestudios.raa.api.namegeneration.entities.English()
-    ),
-    FRENCH(
-            new French(),
-            new io.github.vampirestudios.raa.api.namegeneration.biomes.French(),
-            new io.github.vampirestudios.raa.api.namegeneration.dimensions.French(),
-            new io.github.vampirestudios.raa.api.namegeneration.entities.French()
-    ),
-    NORWEGIAN(
-            new Norwegian(),
-            new io.github.vampirestudios.raa.api.namegeneration.biomes.Norwegian(),
-            new io.github.vampirestudios.raa.api.namegeneration.dimensions.Norwegian(),
-            new io.github.vampirestudios.raa.api.namegeneration.entities.Norwegian()
-    );
+    ENGLISH(new English()),
+    FRENCH(new French()),
+    NORWEGIAN(new Norwegian());
 
-    private INameGenerator materialNameGenerator;
-    private INameGenerator biomeNameGenerator;
-    private INameGenerator dimensionNameGenerator;
-    private INameGenerator entityNameGenerator;
+    private INameGenerator nameGenerator;
 
-    LangEnum(INameGenerator material, INameGenerator biomes, INameGenerator dimensions, INameGenerator entities) {
-        this.materialNameGenerator = material;
-        this.biomeNameGenerator = biomes;
-        this.dimensionNameGenerator = dimensions;
-        this.entityNameGenerator = entities;
+    LangEnum(INameGenerator nameGenerator) {
+        this.nameGenerator = nameGenerator;
     }
 
-    public String generateMaterialNames() {
-        return materialNameGenerator.generate();
+    public String generate() {
+        return nameGenerator.generate();
     }
 
-    public Map<String, String> getMaterialCharMap() {
-        return materialNameGenerator.getSpecialCharatersMap();
+    public Map<String, String> getCharMap() {
+        return nameGenerator.getSpecialCharatersMap();
     }
-
-    public String generateBiomeNames() {
-        return biomeNameGenerator.generate();
-    }
-
-    public Map<String, String> getBiomeCharMap() {
-        return biomeNameGenerator.getSpecialCharatersMap();
-    }
-
-    public String generateDimensionNames() {
-        return dimensionNameGenerator.generate();
-    }
-
-    public Map<String, String> getDimensionCharMap() {
-        return dimensionNameGenerator.getSpecialCharatersMap();
-    }
-
-    public String generateEntityNames() {
-        return entityNameGenerator.generate();
-    }
-
-    public Map<String, String> getEntityCharMap() {
-        return entityNameGenerator.getSpecialCharatersMap();
-    }
-
 }

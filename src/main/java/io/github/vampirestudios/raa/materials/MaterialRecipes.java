@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.woodTypes;
+package io.github.vampirestudios.raa.materials;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
@@ -19,7 +19,7 @@ public class MaterialRecipes {
         Artifice.registerData(new Identifier(MOD_ID, "recipe_pack"), serverResourcePackBuilder -> {
             Materials.MATERIALS.forEach(material -> {
                 String id = material.getName().toLowerCase();
-                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
+                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
                     id = id.replace(entry.getKey(), entry.getValue());
                 }
                 Item repairItem;
