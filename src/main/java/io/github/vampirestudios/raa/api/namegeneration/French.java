@@ -1,6 +1,5 @@
-package io.github.vampirestudios.raa.api.namegeneration.dimensions;
+package io.github.vampirestudios.raa.api.namegeneration;
 
-import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.utils.Rands;
 
 import java.util.HashMap;

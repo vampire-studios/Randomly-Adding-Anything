@@ -1,11 +1,9 @@
 package io.github.vampirestudios.raa;
 
 import io.github.vampirestudios.raa.config.Config;
-import io.github.vampirestudios.raa.config.DimensionSavingSystem;
 import io.github.vampirestudios.raa.config.SavingSystem;
-import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
-import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
-import io.github.vampirestudios.raa.registries.Dimensions;
+import io.github.vampirestudios.raa.materials.MaterialRecipes;
+import io.github.vampirestudios.raa.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.registries.Textures;
 import me.sargunvohra.mcmods.autoconfig1.AutoConfig;
@@ -36,23 +34,12 @@ public class RandomlyAddingAnything implements ModInitializer {
 		Textures.init();
 		if (SavingSystem.init() || CONFIG.regen) {
 			Materials.init();
-			Dimensions.init();
-			SavingSystem.createFile();
 			SavingSystem.createFile();
 			CONFIG.regen = false;
 		} else {
 			SavingSystem.readFile();
 			Materials.isReady = true;
 		}
-		if (DimensionSavingSystem.init() || CONFIG.regen) {
-			Dimensions.init();
-			DimensionSavingSystem.createFile();
-			CONFIG.regen = false;
-		} else {
-			DimensionSavingSystem.readFile();
-			Dimensions.isReady = true;
-		}
-		Dimensions.createDimensions();
 		Materials.createMaterialResources();
 		MaterialRecipes.init();
 		MaterialWorldSpawning.init();

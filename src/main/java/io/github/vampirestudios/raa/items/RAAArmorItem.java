@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.items;
 
-import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.materials.Material;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.DyeableArmorItem;
 import net.minecraft.item.ItemStack;
