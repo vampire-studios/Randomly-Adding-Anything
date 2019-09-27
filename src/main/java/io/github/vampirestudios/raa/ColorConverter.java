@@ -5,7 +5,8 @@ import io.github.vampirestudios.raa.client.Color;
 public class ColorConverter {
 
     public static void main(String[] args) {
-        System.out.println(new Color(75, 29, 82).getColor());
+        Color color = new Color(-11728847);
+        System.out.println(String.format("R: %s, G: %s, B: %s", color.getRed(), color.getGreen(), color.getBlue()));
     }
 
 }

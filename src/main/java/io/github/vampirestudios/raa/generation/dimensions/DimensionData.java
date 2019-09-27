@@ -6,20 +6,24 @@ public class DimensionData {
     private int fogColor;
     private int foliageColor;
     private int skyColor;
+    private int stoneColor;
     private boolean hasLight;
     private boolean hasSky;
     private boolean canSleep;
+    private boolean waterVaporize;
     private boolean renderFog;
 
-    public DimensionData(String name, int grassColor, int fogColor, int foliageColor, int skyColor, boolean hasLight, boolean hasSky, boolean canSleep, boolean renderFog) {
+    public DimensionData(String name, int grassColor, int fogColor, int foliageColor, int skyColor, int stoneColor, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog) {
         this.name = name;
         this.grassColor = grassColor;
         this.fogColor = fogColor;
         this.foliageColor = foliageColor;
         this.skyColor = skyColor;
+        this.stoneColor = stoneColor;
         this.hasLight = hasLight;
         this.hasSky = hasSky;
         this.canSleep = canSleep;
+        this.waterVaporize = waterVaporize;
         this.renderFog = renderFog;
     }
 
@@ -39,6 +43,10 @@ public class DimensionData {
         return foliageColor;
     }
 
+    public int getStoneColor() {
+        return stoneColor;
+    }
+
     public boolean hasSkyLight() {
         return hasLight;
     }
@@ -55,7 +63,12 @@ public class DimensionData {
         return canSleep;
     }
 
+    public boolean doesWaterVaporize() {
+        return waterVaporize;
+    }
+
     public boolean shouldRenderFog() {
         return renderFog;
     }
+
 }

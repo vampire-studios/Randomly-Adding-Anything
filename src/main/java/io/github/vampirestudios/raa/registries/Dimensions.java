@@ -6,9 +6,13 @@ import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionBuilder;
 import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.class_4547;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.DefaultedRegistry;
@@ -38,11 +42,12 @@ public class Dimensions {
             Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
             Color FOG_COLOR = new Color(Color.HSBtoRGB(fogHue, saturation, value));
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
+            Color STONE_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.1F, 0.3F), Rands.randFloatRange(0.25F, 0.75F)));
             DimensionData dimensionData = DimensionBuilder.create()
                     .fogColor(FOG_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).foliageColor(FOLIAGE_COLOR.getColor())
                     .hasLight(Rands.chance(1)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())
-                    .hasSky(!Rands.chance(2)).canSleep(Rands.chance(10)).shouldRenderFog(Rands.chance(100))
-                    .skyColor(SKY_COLOR.getColor()).build();
+                    .hasSky(!Rands.chance(2)).canSleep(Rands.chance(10)).doesWaterVaporize(Rands.chance(100))
+                    .shouldRenderFog(Rands.chance(100)).skyColor(SKY_COLOR.getColor()).stoneColor(STONE_COLOR.getColor()).build();
             String id = dimensionData.getName().toLowerCase();
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
@@ -58,10 +63,10 @@ public class Dimensions {
                         "\nGrass Color : " + GRASS_COLOR.getRed() + "," + GRASS_COLOR.getGreen() + "," + GRASS_COLOR.getBlue() +
                         "\nFoliage Color : " + FOLIAGE_COLOR.getRed() + "," + FOLIAGE_COLOR.getGreen() + "," + FOLIAGE_COLOR.getBlue() +
                         "\nSky Color : " + SKY_COLOR.getRed() + "," + SKY_COLOR.getGreen() + "," + SKY_COLOR.getBlue() +
+                        "\nStone Color : " + STONE_COLOR.getRed() + "," + STONE_COLOR.getGreen() + "," + STONE_COLOR.getBlue() +
                         "\nHas Skylight : " + dimensionData.hasSkyLight() +
                         "\nHas Sky : " + dimensionData.hasSky() +
-                        "\nCan Sleep : " + dimensionData.canSleep() +
-                        "\nShould Render Fog : " + dimensionData.shouldRenderFog()
+                        "\nCan Sleep : " + dimensionData.canSleep()
                 );
             }
         }
@@ -87,6 +92,9 @@ public class Dimensions {
             if (Registry.DIMENSION.containsId(id)) {
                 System.out.println(String.format("Registered a dimension called: %s", dimension.getName().toLowerCase()));
             }
+
+            RegistryUtils.register(new Block(Block.Settings.copy(Blocks.STONE)), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone"),
+                    ItemGroup.BUILDING_BLOCKS);
         });
     }
 
