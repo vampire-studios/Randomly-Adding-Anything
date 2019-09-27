@@ -40,7 +40,7 @@ public class Dimensions {
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
             DimensionData dimension = DimensionBuilder.create()
                     .fogColor(FOG_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).foliageColor(FOLIAGE_COLOR.getColor())
-                    .hasLight(!Rands.chance(1)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())
+                    .hasLight(Rands.chance(1)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())
                     .hasSky(Rands.chance(2)).canSleep(Rands.chance(10)).shouldRenderFog(Rands.chance(100))
                     .skyColor(SKY_COLOR.getColor()).build();
             String id = dimension.getName().toLowerCase();
