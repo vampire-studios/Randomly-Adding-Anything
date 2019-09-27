@@ -349,5 +349,4 @@ public class Color {
     public static Color getHSBColor(float h, float s, float b) {
         return new Color(HSBtoRGB(h, s, b));
     }
-
 }

@@ -47,7 +47,6 @@ dependencies {
 
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modCompile "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
 
 	modImplementation "artificemc:artifice:0.3.5"
 	include "artificemc:artifice:0.3.5"
@@ -165,7 +164,7 @@ curseforge {
 	project {
 		id = "341464"
 		releaseType = "release"
-		changelog = "https://github.com/vampire-studios/Randomly-Adding-Anything"
+		changelog = "Fix crash again."
 		gameVersionStrings.clear()
 		gameVersionStrings.add("1.15-Snapshot")
 		gameVersionStrings.add("Fabric")

@@ -53,7 +53,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
             Materials.MATERIALS.forEach(material -> {
                 String bid = material.getName().toLowerCase();
-                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
+                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
                     bid = bid.replace(entry.getKey(), entry.getValue());
                 }
                 for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
@@ -160,7 +160,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
         Materials.MATERIALS.forEach(material -> {
             String id = material.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
+            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
             }
             ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {

@@ -1,6 +1,4 @@
-package io.github.vampirestudios.raa.api.namegeneration.entities;
-
-import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+package io.github.vampirestudios.raa.api.namegeneration;
 
 import java.util.Map;
 
