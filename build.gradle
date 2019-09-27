@@ -165,7 +165,7 @@ curseforge {
 	project {
 		id = "341464"
 		releaseType = "release"
-		changelog = "https://github.com/vampire-studios/Randomly-Adding-Anything"
+		changelog = "Fix crash again."
 		gameVersionStrings.clear()
 		gameVersionStrings.add("1.15-Snapshot")
 		gameVersionStrings.add("Fabric")

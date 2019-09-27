@@ -58,5 +58,4 @@ public class DimensionData {
     public boolean shouldRenderFog() {
         return renderFog;
     }
-
 }

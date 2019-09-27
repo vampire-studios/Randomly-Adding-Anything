@@ -197,7 +197,8 @@ public class SavingSystem {
 
     private static Identifier idFromJson(JsonObject jsonObject, String name) {
         JsonObject jsonObject1 = jsonObject.getObject(name);
-        return new Identifier(jsonObject1.get(String.class, "namespace"), jsonObject1.get(String.class, "path"));
+        if (jsonObject1.containsKey("namespace")) return new Identifier(jsonObject1.get(String.class, "namespace"), jsonObject1.get(String.class, "path"));
+        else return new Identifier(jsonObject1.get(String.class, "field_13353"), jsonObject1.get(String.class, "field_13355"));
     }
 
     private static void fromOldFile(File file) {
