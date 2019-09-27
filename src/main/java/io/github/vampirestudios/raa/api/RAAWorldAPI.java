@@ -30,7 +30,7 @@ public class RAAWorldAPI {
      */
     @Deprecated
     public static void addRandomOres(Biome biome, GeneratesIn generatesIn) {
-        addRandomOres(new OreGenerationSupport(biome, generatesIn.getTarget()));
+        addRandomOres(biome, generatesIn.getTarget());
     }
 
     /**

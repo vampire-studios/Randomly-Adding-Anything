@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.materials;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.minecraft.item.Item;
@@ -142,7 +143,7 @@ public class MaterialRecipes {
                 }
                 if (material.getOreInformation().getOreType() == OreTypes.METAL) {
                     String finalId1 = id;
-                    serverResourcePackBuilder.addSmeltingRecipe(new Identifier(MOD_ID, id + "_ingot"), cookingRecipeBuilder -> {
+                    if (material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR) serverResourcePackBuilder.addSmeltingRecipe(new Identifier(MOD_ID, id + "_ingot"), cookingRecipeBuilder -> {
                         cookingRecipeBuilder.cookingTime(200);
                         cookingRecipeBuilder.ingredientItem(new Identifier(MOD_ID, finalId1 + "_ore"));
                         cookingRecipeBuilder.experience(0.7);
