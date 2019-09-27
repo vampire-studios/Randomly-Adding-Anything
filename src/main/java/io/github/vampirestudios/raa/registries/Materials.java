@@ -6,8 +6,8 @@ import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.client.Color;
 import io.github.vampirestudios.raa.items.*;
-import io.github.vampirestudios.raa.materials.Material;
-import io.github.vampirestudios.raa.materials.MaterialBuilder;
+import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
@@ -38,7 +38,7 @@ public class Materials {
             Color RGB = new Color(Rands.randIntRange(0, 255),Rands.randIntRange(0, 255),Rands.randIntRange(0, 255));
             Random random = new Random();
             Material material = MaterialBuilder.create()
-                    .oreType(Rands.values(OreTypes.values())).name(RandomlyAddingAnything.CONFIG.namingLanguage.generate()).color(RGB.getColor())
+                    .oreType(Rands.values(OreTypes.values())).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateMaterialNames()).color(RGB.getColor())
                     .generatesIn(Rands.values(GeneratesIn.values())).overlayTexture()
                     .resourceItemTexture().storageBlockTexture().armor(random.nextBoolean())
                     .tools(random.nextBoolean()).oreFlower(Rands.chance(4))
@@ -47,7 +47,7 @@ public class Materials {
                     .food(Rands.chance(4))
                     .build();
             String id = material.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
             }
             if (!MATERIAL_NAME_LIST.contains(new Identifier(RandomlyAddingAnything.MOD_ID, id)))
@@ -81,7 +81,7 @@ public class Materials {
         if (RandomlyAddingAnything.CONFIG.debug) RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
         MATERIALS.forEach(material -> {
             String id = material.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
             }
             Item repairItem;

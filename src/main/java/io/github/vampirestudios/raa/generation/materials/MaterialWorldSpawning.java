@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.materials;
+package io.github.vampirestudios.raa.generation.materials;
 
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
