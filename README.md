@@ -39,9 +39,9 @@ However, if the bug causes a crash or heavily impacts gameplay, you should post 
 
 The contents of these files:
 - config/raa.json5
-- config/raa/materials_0.json
-- config/raa/dimensions_0.json
-- config/raa/entities_0.json
+- config/raa/materials/materials_0.json
+- config/raa/dimensions/dimensions_0.json
+- config/raa/entities/entities_0.json
 
 #### More to come!
 
