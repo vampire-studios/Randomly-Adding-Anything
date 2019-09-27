@@ -58,5 +58,4 @@ public class Dimension {
     public boolean shouldRenderFog() {
         return renderFog;
     }
-
 }

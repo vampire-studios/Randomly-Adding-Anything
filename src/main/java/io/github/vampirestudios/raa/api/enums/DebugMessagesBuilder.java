@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.api.enums;
 
-import io.github.vampirestudios.raa.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;

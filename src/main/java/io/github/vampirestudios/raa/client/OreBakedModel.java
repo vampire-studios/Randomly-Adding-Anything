@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.client;
 
-import io.github.vampirestudios.raa.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;

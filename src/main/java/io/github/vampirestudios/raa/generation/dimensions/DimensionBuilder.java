@@ -40,7 +40,6 @@ public class DimensionBuilder {
         this.skyColor = skyColor;
         return this;
     }
-
     public DimensionBuilder hasLight(boolean hasLight) {
         this.hasLight = hasLight;
         return this;

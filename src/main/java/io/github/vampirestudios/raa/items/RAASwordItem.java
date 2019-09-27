@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.items;
 
-import io.github.vampirestudios.raa.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.text.LiteralText;

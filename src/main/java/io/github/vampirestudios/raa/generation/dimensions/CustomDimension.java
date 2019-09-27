@@ -51,7 +51,6 @@ public class CustomDimension extends Dimension {
                 }
             }
         }
-
         return null;
     }
 

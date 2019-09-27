@@ -2,24 +2,24 @@ package io.github.vampirestudios.raa.config;
 
 import blue.endless.jankson.Jankson;
 import blue.endless.jankson.JsonArray;
-import blue.endless.jankson.JsonElement;
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.SyntaxError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.github.vampirestudios.raa.materials.*;
-import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.generation.materials.CustomArmorMaterial;
+import io.github.vampirestudios.raa.generation.materials.CustomToolMaterial;
+import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
+import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.UncaughtExceptionHandler;
 import net.minecraft.util.registry.Registry;
 
 import java.io.*;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -180,7 +180,7 @@ public class SavingSystem {
 
                     Material material = materialBuilder.buildFromJSON();
                     String id = material.getName().toLowerCase();
-                    for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+                    for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
                         id = id.replace(entry.getKey(), entry.getValue());
                     }
                     Registry.register(Materials.MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
@@ -188,7 +188,6 @@ public class SavingSystem {
             } else {
                 Materials.init();
                 SavingSystem.createFile();
-                return;
             }
         } catch (IOException | SyntaxError e) {
             System.out.println(e);
@@ -268,7 +267,7 @@ public class SavingSystem {
 
                 Material material = materialBuilder.buildFromJSON();
                 String id = material.getName().toLowerCase();
-                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getCharMap().entrySet()) {
+                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
                     id = id.replace(entry.getKey(), entry.getValue());
                 }
                 Registry.register(Materials.MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
