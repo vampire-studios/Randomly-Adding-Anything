@@ -2,8 +2,9 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.client.Color;
-import io.github.vampirestudios.raa.init.CustomDimensionBiome;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
@@ -27,18 +28,18 @@ import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 public class CustomDimension extends Dimension {
 
     private DimensionType dimensionType;
-    private DimensionData dimension;
+    private DimensionData dimensionData;
 
-    public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimension) {
+    public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData) {
         super(world_1, dimensionType_1);
         this.dimensionType = dimensionType_1;
-        this.dimension = dimension;
+        this.dimensionData = dimensionData;
     }
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-        CustomDimensionBiome biome = new CustomDimensionBiome(dimension);
-        RegistryUtils.register(new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_biome"), biome);
+        CustomDimensionBiome biome = new CustomDimensionBiome(dimensionData);
+        RegistryUtils.register(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_biome"), biome);
         return new OverworldChunkGenerator(world, new FixedBiomeSource(new FixedBiomeSourceConfig(world.getLevelProperties()).setBiome(biome)), new OverworldChunkGeneratorConfig());
     }
 
@@ -52,7 +53,6 @@ public class CustomDimension extends Dimension {
                 }
             }
         }
-
         return null;
     }
 
@@ -90,31 +90,50 @@ public class CustomDimension extends Dimension {
 
     @Override
     public float getSkyAngle(long l, float v) {
-        double double_1 = MathHelper.fractionalPart((double)l / 24000.0D - 0.25D);
-        double double_2 = 0.5D - Math.cos(double_1 * 3.141592653589793D) / 2.0D;
-        return (float)(double_1 * 2.0D + double_2) / 3.0F;
+        if (dimensionData.hasSky()) {
+            double double_1 = MathHelper.fractionalPart((double)l / 24000.0D - 0.25D);
+            double double_2 = 0.5D - Math.cos(double_1 * 3.141592653589793D) / 2.0D;
+            return (float)(double_1 * 2.0D + double_2) / 3.0F;
+        } else {
+            return 0.0F;
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public float[] getBackgroundColor(float float_1, float float_2) {
+        return null;
     }
 
     @Override
     public boolean hasVisibleSky() {
-        return dimension.hasSky();
+        return dimensionData.hasSky();
+    }
+
+    @Override
+    public boolean method_12449() {
+        return dimensionType.hasSkyLight();
     }
 
     @Override
     public Vec3d getFogColor(float v, float v1) {
-        int fogColor = dimension.getFogColor();
+        int fogColor = dimensionData.getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor);
-        return dimension.skyColorRGB;
+        return new Vec3d(rgbColor[0]/255.0, rgbColor[1]/255.0, rgbColor[2]/255.0);
     }
 
     @Override
     public boolean canPlayersSleep() {
-        return dimension.canSleep();
+        return dimensionData.canSleep();
     }
 
     @Override
-    public boolean shouldRenderFog(int i, int i1) {
-        return dimension.shouldRenderFog();
+    public boolean doesWaterVaporize() {
+        return dimensionData.doesWaterVaporize();
+    }
+
+    @Override
+    public boolean shouldRenderFog(int var1, int var2) {
+        return dimensionData.shouldRenderFog();
     }
 
     @Override

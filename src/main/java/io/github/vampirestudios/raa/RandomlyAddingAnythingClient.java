@@ -5,6 +5,7 @@ import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.client.OreBakedModel;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.RAABlockItem;
+import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.api.ClientModInitializer;
@@ -12,6 +13,7 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.impl.client.render.ColorProviderRegistryImpl;
+import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.ModelBakeSettings;
@@ -43,6 +45,9 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         while (!Materials.isIsReady()) {
             System.out.println("Not Ready");
         }
+        while (!Dimensions.isReady()) {
+            System.out.println("Not Ready");
+        }
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
                     for (Material material : Materials.MATERIALS) {
@@ -69,9 +74,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         }
                         modelBuilder.texture("all", material.getStorageBlockTexture());
                     });
-                    clientResourcePackBuilder.addItemModel(id, modelBuilder -> {
-                        modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath()));
-                    });
+                    clientResourcePackBuilder.addItemModel(id, modelBuilder ->
+                            modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
                     Map<Material, RAABlockItem.BlockType> map = new HashMap<>();
                     map.put(material, blockType);
                     BLOCKS_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
@@ -155,6 +159,18 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.texture("layer0", new Identifier("raa", "item/carrot"));
                 });
             });
+            Dimensions.DIMENSIONS.forEach(dimensionData -> {
+                clientResourcePackBuilder.addBlockState(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone"), blockStateBuilder ->
+                        blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(RandomlyAddingAnything.MOD_ID, "block/" + dimensionData.getName().toLowerCase() + "_stone")))
+                );
+                clientResourcePackBuilder.addBlockModel(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", new Identifier(RandomlyAddingAnything.MOD_ID, "block/stone"));
+                });
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone"),
+                        modelBuilder -> modelBuilder.parent(new Identifier(RandomlyAddingAnything.MOD_ID, "block/" + dimensionData.getName().toLowerCase() + "_stone")));
+            });
         });
 
 
@@ -185,10 +201,24 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot")),
                 Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block"))
             );
-            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> {
-                        return material.getRGBColor();
-                    },
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
                     Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block")));
+        });
+
+        Dimensions.DIMENSIONS.forEach(dimensionData -> {
+            String id = dimensionData.getName().toLowerCase();
+            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
+                id = id.replace(entry.getKey(), entry.getValue());
+            }
+            Block block = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_stone"));
+
+            System.out.println(Registry.BLOCK.getId(block).toString());
+
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
+                if (layer == 0) return dimensionData.getStoneColor();
+                    else return -1;
+            }, block);
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> dimensionData.getStoneColor(), block);
         });
 
         ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {

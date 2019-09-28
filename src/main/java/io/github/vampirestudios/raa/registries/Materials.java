@@ -100,7 +100,7 @@ public class Materials {
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
                     new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block"), RandomlyAddingAnything.RAA_RESOURCES, material.getName(),
                     RAABlockItem.BlockType.BLOCK);
-            RegistryUtils.register(new LayeredOreBlock(material, blockSettings.build()),
+            if (material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR) RegistryUtils.register(new LayeredOreBlock(material, blockSettings.build()),
                     new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ore"), RandomlyAddingAnything.RAA_ORES, material.getName(),
                     RAABlockItem.BlockType.ORE);
             if (material.getOreInformation().getOreType() == OreTypes.METAL) {

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Random;
 
 public class Rands {
+
     public static Random rand = new Random();
+
     public static int randInt(int bound) {
         return rand.nextInt(bound);
     }

@@ -50,7 +50,6 @@ public class Color {
                 r, g, b
         };
     }
-
     /** Gets the chroma value, which is related to the length of the vector in projected (hexagonal) space. */
     public int getChroma() {
         int r = getRed();
@@ -349,5 +348,4 @@ public class Color {
     public static Color getHSBColor(float h, float s, float b) {
         return new Color(HSBtoRGB(h, s, b));
     }
-
 }
