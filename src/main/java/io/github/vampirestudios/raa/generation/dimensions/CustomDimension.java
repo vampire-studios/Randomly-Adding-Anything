@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.client.Color;
+import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

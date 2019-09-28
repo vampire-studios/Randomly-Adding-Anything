@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.client.Color;
+import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.generation.dimensions.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
@@ -34,27 +34,24 @@ public class Dimensions {
             float fogHue = hue + 0.3333f;
             float skyHue = fogHue + 0.3333f;
 
+            float waterHue = hue + 0.3333f;
+            float stoneHue = hue + 0.3333f;
+
             float saturation = Rands.randFloatRange(0.5F, 1.0F);
             float value = Rands.randFloatRange(0.5F, 1.0F);
             Color GRASS_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
             Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
             Color FOG_COLOR = new Color(Color.HSBtoRGB(fogHue, saturation, value));
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
-            saturation *= 0.5f;
-            Color STONE_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
+            Color WATER_COLOR = new Color(Color.HSBtoRGB(waterHue, saturation, value));
+            Color STONE_COLOR = new Color(Color.HSBtoRGB(stoneHue, saturation, value));
             DimensionBiomeData biomeData = DimensionBiomeBuilder.create()
                     .surfaceBuilderVariantChance(Rands.randInt(100))
                     .depth(Rands.randFloatRange(-0.75F, 3F))
                     .scale(Rands.randFloat(2F))
                     .temperature(Rands.randFloat(1F))
                     .downfall(Rands.randFloat(1F))
-                    .waterColor(new Color(
-                            Color.HSBtoRGB(
-                                    Rands.randFloatRange(0.0F, 1.0F),
-                                    Rands.randFloatRange(0.5F, 1.0F),
-                                    Rands.randFloatRange(0.5F, 1.0F))
-                            ).getColor()
-                    ).build();
+                    .waterColor(WATER_COLOR.getColor()).build();
             DimensionData dimensionData = DimensionBuilder.create()
                     .fogColor(FOG_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).foliageColor(FOLIAGE_COLOR.getColor())
                     .hasLight(Rands.chance(1)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())

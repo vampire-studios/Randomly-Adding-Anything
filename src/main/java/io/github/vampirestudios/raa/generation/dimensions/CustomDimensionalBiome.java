@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.client.Color;
+import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.generation.decoration.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -28,7 +28,7 @@ public class CustomDimensionalBiome extends Biome {
                 .category(Biome.Category.PLAINS)
                 .depth(dimensionData.getBiomeData().getDepth())
                 .scale(dimensionData.getBiomeData().getScale())
-                .temperature(dimensionData.getBiomeData().getTemperature())
+                .temperature(dimensionData.getBiomeData().getScale() > 1.3F ? -1.0F : dimensionData.getBiomeData().getTemperature())
                 .downfall(dimensionData.getBiomeData().getDownfall())
                 .waterColor(dimensionData.getBiomeData().getWaterColor())
                 .waterFogColor(new Color(
@@ -39,9 +39,9 @@ public class CustomDimensionalBiome extends Biome {
         ));
         this.dimensionData = dimensionData;
 
-        this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
-        this.addStructureFeature(Feature.PILLAGER_OUTPOST, new PillagerOutpostFeatureConfig(0.004D));
-        this.addStructureFeature(Feature.MINESHAFT, new MineshaftFeatureConfig(0.004D, MineshaftFeature.Type.NORMAL));
+//        this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
+//        this.addStructureFeature(Feature.PILLAGER_OUTPOST, new PillagerOutpostFeatureConfig(0.004D));
+        this.addStructureFeature(Feature.MINESHAFT, new MineshaftFeatureConfig(0.004D * Rands.randInt(4), MineshaftFeature.Type.NORMAL));
         this.addStructureFeature(Feature.STRONGHOLD, FeatureConfig.DEFAULT);
         DefaultBiomeFeatures.addLandCarvers(this);
         DefaultBiomeFeatures.addDefaultStructures(this);
@@ -53,12 +53,10 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addDefaultDisks(this);
         if(Rands.chance(8))
             DefaultBiomeFeatures.addMossyRocks(this);
-        if(Rands.chance(8))
+        if(Rands.chance(20))
             DefaultBiomeFeatures.addGiantSpruceTaigaTrees(this);
-        if(Rands.chance(10))
-            DefaultBiomeFeatures.addIcebergs(this);
-        if(Rands.chance(4))
-            DefaultBiomeFeatures.addTaigaTrees(this);
+        if(Rands.chance(10) && dimensionData.getBiomeData().getScale() > 1.0F)
+            DefaultBiomeFeatures.addMountainTrees(this);
         this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
 
         if (Rands.chance(2)) { //50% chance of full forest, 50% chance of patchy forest

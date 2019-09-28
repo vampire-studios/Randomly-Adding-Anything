@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa;
 
-import io.github.vampirestudios.raa.client.Color;
+import io.github.vampirestudios.raa.utils.Color;
 
 public class ColorConverter {
 
