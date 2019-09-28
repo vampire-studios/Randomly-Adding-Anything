@@ -3,11 +3,11 @@ package io.github.vampirestudios.raa;
 import io.github.vampirestudios.raa.config.Config;
 import io.github.vampirestudios.raa.config.DimensionSavingSystem;
 import io.github.vampirestudios.raa.config.SavingSystem;
-import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecorator;
-import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
-import io.github.vampirestudios.raa.generation.feature.TestFeature;
+import io.github.vampirestudios.raa.generation.decoration.BiasedNoiseBasedDecorator;
+import io.github.vampirestudios.raa.generation.decoration.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
+import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.registries.Textures;
@@ -22,6 +22,8 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
+import io.github.vampirestudios.raa.generation.feature.TestFeature;
 
 public class RandomlyAddingAnything implements ModInitializer {
 
@@ -35,6 +37,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static Config CONFIG;
 	public static TestFeature TEST_FEATURE;
 	public static BiasedNoiseBasedDecorator DECORATOR;
+	public static CustomDimensionSurfaceBuilder SURFACE_BUILDER;
 
 	@Override
 	public void onInitialize() {
@@ -59,8 +62,10 @@ public class RandomlyAddingAnything implements ModInitializer {
 			DimensionSavingSystem.readFile();
 			Dimensions.isReady = true;
 		}
-		TEST_FEATURE = Registry.register(Registry.FEATURE, new Identifier("raa", "test"), new TestFeature(DefaultFeatureConfig::deserialize));
-		DECORATOR = Registry.register(Registry.DECORATOR, new Identifier("raa", "testdec"), new BiasedNoiseBasedDecorator(BiasedNoiseBasedDecoratorConfig::deserialize));
+		SURFACE_BUILDER = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "custom_surface_builder"),
+				new CustomDimensionSurfaceBuilder(TernarySurfaceConfig::deserialize));
+		TEST_FEATURE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "test_feature"), new TestFeature(DefaultFeatureConfig::deserialize));
+		DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "test_decorator"), new BiasedNoiseBasedDecorator(BiasedNoiseBasedDecoratorConfig::deserialize));
 		Dimensions.createDimensions();
 		Materials.createMaterialResources();
 		MaterialRecipes.init();

@@ -7,8 +7,9 @@ import blue.endless.jankson.impl.SyntaxError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionBiomeBuilder;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionBuilder;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.fabricmc.loader.api.FabricLoader;
@@ -101,22 +102,32 @@ public class DimensionSavingSystem {
                 for (int s = 0; s < jsonArray.size(); s++) {
                     JsonObject jsonObject = (JsonObject) jsonArray.get(s);
                     String name = jsonObject.get(String.class, "name");
-                    DimensionBuilder materialBuilder = DimensionBuilder.create();
-                    materialBuilder.name(name)
+                    DimensionBuilder dimensionBuilder = DimensionBuilder.create();
+                    dimensionBuilder.name(name)
                             .fogColor(jsonObject.get(int.class,"fogColor"))
                             .grassColor(jsonObject.get(int.class,"grassColor"))
                             .foliageColor(jsonObject.get(int.class,"foliageColor"))
                             .skyColor(jsonObject.get(int.class,"skyColor"))
+                            .stoneColor(jsonObject.get(int.class,"stoneColor"))
                             .hasSky(jsonObject.get(boolean.class, "hasSky"))
                             .hasLight(jsonObject.get(boolean.class, "hasLight"))
                             .canSleep(jsonObject.get(boolean.class, "canSleep"));
-
-                    DimensionData material = materialBuilder.buildFromJSON();
-                    String id = material.getName().toLowerCase();
-                    for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
+                    JsonObject biomeData = jsonObject.getObject("biomeData");
+                    DimensionBiomeBuilder biomeBuilder = DimensionBiomeBuilder.create();
+                    biomeBuilder
+                            .surfaceBuilderVariantChance(biomeData.get(int.class, "surfaceBuilderVariantChance"))
+                            .depth(biomeData.get(int.class, "depth"))
+                            .scale(biomeData.get(int.class, "scale"))
+                            .temperature(biomeData.get(int.class, "temperature"))
+                            .downfall(biomeData.get(int.class, "downfall"))
+                            .waterColor(biomeData.get(int.class, "waterColor"));
+                    dimensionBuilder.biome(biomeBuilder.build());
+                    DimensionData dimensionData = dimensionBuilder.buildFromJSON();
+                    String id = dimensionData.getName().toLowerCase();
+                    for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
                         id = id.replace(entry.getKey(), entry.getValue());
                     }
-                    Registry.register(Dimensions.DIMENSIONS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
+                    Registry.register(Dimensions.DIMENSIONS, new Identifier(RandomlyAddingAnything.MOD_ID, id), dimensionData);
                 }
             } else {
                 Materials.init();

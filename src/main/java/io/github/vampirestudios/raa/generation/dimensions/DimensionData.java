@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 public class DimensionData {
     private String name;
+    private DimensionBiomeData biomeData;
     private int grassColor;
     private int fogColor;
     private int foliageColor;
@@ -13,8 +14,9 @@ public class DimensionData {
     private boolean waterVaporize;
     private boolean renderFog;
 
-    public DimensionData(String name, int grassColor, int fogColor, int foliageColor, int skyColor, int stoneColor, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog) {
+    public DimensionData(String name, DimensionBiomeData biomeData, int grassColor, int fogColor, int foliageColor, int skyColor, int stoneColor, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog) {
         this.name = name;
+        this.biomeData = biomeData;
         this.grassColor = grassColor;
         this.fogColor = fogColor;
         this.foliageColor = foliageColor;
@@ -29,6 +31,10 @@ public class DimensionData {
 
     public String getName() {
         return name;
+    }
+
+    public DimensionBiomeData getBiomeData() {
+        return biomeData;
     }
 
     public int getGrassColor() {
