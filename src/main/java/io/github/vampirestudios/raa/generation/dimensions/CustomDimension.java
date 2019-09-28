@@ -104,7 +104,7 @@ public class CustomDimension extends Dimension {
     public Vec3d getFogColor(float v, float v1) {
         int fogColor = dimension.getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor);
-        return new Vec3d(rgbColor[0], rgbColor[1], rgbColor[2]);
+        return dimension.skyColorRGB;
     }
 
     @Override

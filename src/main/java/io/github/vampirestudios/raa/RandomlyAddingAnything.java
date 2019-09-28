@@ -3,6 +3,9 @@ package io.github.vampirestudios.raa;
 import io.github.vampirestudios.raa.config.Config;
 import io.github.vampirestudios.raa.config.DimensionSavingSystem;
 import io.github.vampirestudios.raa.config.SavingSystem;
+import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecorator;
+import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
+import io.github.vampirestudios.raa.generation.feature.TestFeature;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.registries.Dimensions;
@@ -17,6 +20,8 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 
 public class RandomlyAddingAnything implements ModInitializer {
 
@@ -28,6 +33,8 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static final ItemGroup RAA_FOOD = FabricItemGroupBuilder.build(new Identifier("raa", "food"), () -> new ItemStack(Items.GOLDEN_APPLE));
 	public static final String MOD_ID = "raa";
 	public static Config CONFIG;
+	public static TestFeature TEST_FEATURE;
+	public static BiasedNoiseBasedDecorator DECORATOR;
 
 	@Override
 	public void onInitialize() {
@@ -52,6 +59,8 @@ public class RandomlyAddingAnything implements ModInitializer {
 			DimensionSavingSystem.readFile();
 			Dimensions.isReady = true;
 		}
+		TEST_FEATURE = Registry.register(Registry.FEATURE, new Identifier("raa", "test"), new TestFeature(DefaultFeatureConfig::deserialize));
+		DECORATOR = Registry.register(Registry.DECORATOR, new Identifier("raa", "testdec"), new BiasedNoiseBasedDecorator(BiasedNoiseBasedDecoratorConfig::deserialize));
 		Dimensions.createDimensions();
 		Materials.createMaterialResources();
 		MaterialRecipes.init();

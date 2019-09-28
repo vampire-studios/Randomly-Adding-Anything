@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.utils.Rands;
+import net.minecraft.util.math.Vec3d;
 
 public class DimensionData {
     private String name;
@@ -12,6 +13,7 @@ public class DimensionData {
     private boolean hasSky;
     private boolean canSleep;
     private boolean renderFog;
+    public Vec3d skyColorRGB;
 
     public DimensionData(String name, int grassColor, int fogColor, int foliageColor, int skyColor, boolean hasLight, boolean hasSky, boolean canSleep, boolean renderFog) {
         this.name = name;
@@ -23,6 +25,7 @@ public class DimensionData {
         this.hasSky = hasSky;
         this.canSleep = canSleep;
         this.renderFog = renderFog;
+        this.skyColorRGB = new Vec3d(Rands.randInt(255),Rands.randInt(255),Rands.randInt(255));
     }
 
     public String getName() {
