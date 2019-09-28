@@ -160,16 +160,16 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
             });
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
-                clientResourcePackBuilder.addBlockState(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone"), blockStateBuilder ->
-                        blockStateBuilder.variant("", variant ->
-                        variant.model(new Identifier(RandomlyAddingAnything.MOD_ID, "block/" + dimensionData.getName().toLowerCase() + "_stone")))
+                Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone");
+                clientResourcePackBuilder.addBlockState(id, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                    variant.model(new Identifier(id.getNamespace(), "block/" + id.getPath())))
                 );
-                clientResourcePackBuilder.addBlockModel(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone"), modelBuilder -> {
+                clientResourcePackBuilder.addBlockModel(id, modelBuilder -> {
                     modelBuilder.parent(new Identifier("block/leaves"));
                     modelBuilder.texture("all", new Identifier(RandomlyAddingAnything.MOD_ID, "block/stone"));
                 });
-                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone"),
-                        modelBuilder -> modelBuilder.parent(new Identifier(RandomlyAddingAnything.MOD_ID, "block/" + dimensionData.getName().toLowerCase() + "_stone")));
+                clientResourcePackBuilder.addItemModel(id,
+                        modelBuilder -> modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
             });
         });
 

@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.client.Color;
 import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +19,18 @@ public class CustomDimensionBiome extends Biome {
     private DimensionData dimensionData;
 
     public CustomDimensionBiome(DimensionData dimensionData) {
-        super((new Biome.Settings()).configureSurfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_CONFIG).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.PLAINS).depth(Rands.randFloat(1F)).scale(Rands.randFloat(1F)).temperature(Rands.randFloat(1F)).downfall(Rands.randFloat(1F)).waterColor(new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.5F, 1.0F), Rands.randFloatRange(0.5F, 1.0F))).getColor()).waterFogColor(new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.5F, 1.0F), Rands.randFloatRange(0.5F, 1.0F))).getColor()).parent(null));
+        super((new Biome.Settings()
+                .configureSurfaceBuilder(Utils.random(100), SurfaceBuilder.GRASS_CONFIG)
+                .precipitation(Biome.Precipitation.RAIN)
+                .category(Biome.Category.PLAINS)
+                .depth(Rands.randFloatRange(-0.75F, 3F))
+                .scale(Rands.randFloat(2F))
+                .temperature(Rands.randFloat(1F))
+                .downfall(Rands.randFloat(1F))
+                .waterColor(new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.5F, 1.0F), Rands.randFloatRange(0.5F, 1.0F))).getColor())
+                .waterFogColor(new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.5F, 1.0F), Rands.randFloatRange(0.5F, 1.0F))).getColor())
+                .parent(null)
+        ));
         this.dimensionData = dimensionData;
 
         this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
