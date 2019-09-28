@@ -37,7 +37,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-        CustomDimensionBiome biome = new CustomDimensionBiome(dimensionData);
+        CustomDimensionalBiome biome = new CustomDimensionalBiome(dimensionData);
         RegistryUtils.register(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_biome"), biome);
         return new OverworldChunkGenerator(world, new FixedBiomeSource(new FixedBiomeSourceConfig(world.getLevelProperties()).setBiome(biome)), new OverworldChunkGeneratorConfig());
     }

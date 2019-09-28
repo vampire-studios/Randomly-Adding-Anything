@@ -2,9 +2,7 @@ package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.client.Color;
-import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionBuilder;
+import io.github.vampirestudios.raa.generation.dimensions.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
@@ -42,12 +40,27 @@ public class Dimensions {
             Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
             Color FOG_COLOR = new Color(Color.HSBtoRGB(fogHue, saturation, value));
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
-            Color STONE_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.1F, 0.3F), Rands.randFloatRange(0.25F, 0.75F)));
+            saturation *= 0.5f;
+            Color STONE_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
+            DimensionBiomeData biomeData = DimensionBiomeBuilder.create()
+                    .surfaceBuilderVariantChance(Rands.randInt(100))
+                    .depth(Rands.randFloatRange(-0.75F, 3F))
+                    .scale(Rands.randFloat(2F))
+                    .temperature(Rands.randFloat(1F))
+                    .downfall(Rands.randFloat(1F))
+                    .waterColor(new Color(
+                            Color.HSBtoRGB(
+                                    Rands.randFloatRange(0.0F, 1.0F),
+                                    Rands.randFloatRange(0.5F, 1.0F),
+                                    Rands.randFloatRange(0.5F, 1.0F))
+                            ).getColor()
+                    ).build();
             DimensionData dimensionData = DimensionBuilder.create()
                     .fogColor(FOG_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).foliageColor(FOLIAGE_COLOR.getColor())
                     .hasLight(Rands.chance(1)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())
                     .hasSky(!Rands.chance(2)).canSleep(Rands.chance(10)).doesWaterVaporize(Rands.chance(100))
-                    .shouldRenderFog(Rands.chance(100)).skyColor(SKY_COLOR.getColor()).stoneColor(STONE_COLOR.getColor()).build();
+                    .shouldRenderFog(Rands.chance(100)).skyColor(SKY_COLOR.getColor()).stoneColor(STONE_COLOR.getColor())
+                    .biome(biomeData).build();
             String id = dimensionData.getName().toLowerCase();
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
