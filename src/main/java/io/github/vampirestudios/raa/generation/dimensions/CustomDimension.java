@@ -2,7 +2,9 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.utils.Color;
+import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -21,8 +23,6 @@ import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.OverworldChunkGenerator;
-import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 
 public class CustomDimension extends Dimension {
 
@@ -39,7 +39,7 @@ public class CustomDimension extends Dimension {
     public ChunkGenerator<?> createChunkGenerator() {
         CustomDimensionalBiome biome = new CustomDimensionalBiome(dimensionData);
         RegistryUtils.register(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_biome"), biome);
-        return new OverworldChunkGenerator(world, new FixedBiomeSource(new FixedBiomeSourceConfig(world.getLevelProperties()).setBiome(biome)), new OverworldChunkGeneratorConfig());
+        return Utils.randomCG(Rands.randInt(100), world, new FixedBiomeSource(new FixedBiomeSourceConfig(world.getLevelProperties()).setBiome(biome)));
     }
 
     @Override
@@ -114,6 +114,7 @@ public class CustomDimension extends Dimension {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public Vec3d getFogColor(float v, float v1) {
         int fogColor = dimensionData.getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor);

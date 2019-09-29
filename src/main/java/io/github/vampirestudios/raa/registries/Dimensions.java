@@ -43,8 +43,8 @@ public class Dimensions {
             Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
             Color FOG_COLOR = new Color(Color.HSBtoRGB(fogHue, saturation, value));
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
-            Color WATER_COLOR = new Color(Color.HSBtoRGB(waterHue, saturation, value));
-            Color STONE_COLOR = new Color(Color.HSBtoRGB(stoneHue, saturation, value));
+            Color WATER_COLOR = new Color(Color.HSBtoRGB(GRASS_COLOR.getHue(), saturation, value));
+            Color STONE_COLOR = new Color(Color.HSBtoRGB(GRASS_COLOR.getHue(), saturation, value));
             DimensionBiomeData biomeData = DimensionBiomeBuilder.create()
                     .surfaceBuilderVariantChance(Rands.randInt(100))
                     .depth(Rands.randFloatRange(-0.75F, 3F))
@@ -98,9 +98,6 @@ public class Dimensions {
             if (DIMENSION_NAME_LIST.contains(id)) {
                 if (Registry.DIMENSION.get(id) == null)
                 Registry.register(Registry.DIMENSION, id, type);
-            }
-            if (Registry.DIMENSION.containsId(id)) {
-                System.out.println(String.format("Registered a dimension called: %s", dimension.getName().toLowerCase()));
             }
 
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.STONE)), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone"),

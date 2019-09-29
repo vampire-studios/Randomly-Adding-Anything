@@ -1,6 +1,9 @@
 package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.source.BiomeSource;
+import net.minecraft.world.gen.chunk.*;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
@@ -23,6 +26,16 @@ public class Utils {
             return SurfaceBuilder.WOODED_BADLANDS;
         } else {
             return RandomlyAddingAnything.SURFACE_BUILDER;
+        }
+    }
+
+    public static SurfaceChunkGenerator randomCG(int chance, World world, BiomeSource biomeSource) {
+        if (chance == 22) {
+            return new CavesChunkGenerator(world, biomeSource, new CavesChunkGeneratorConfig());
+        } else if(chance == 44) {
+            return new FloatingIslandsChunkGenerator(world, biomeSource, new FloatingIslandsChunkGeneratorConfig());
+        } else {
+            return new OverworldChunkGenerator(world, biomeSource, new OverworldChunkGeneratorConfig());
         }
     }
 
