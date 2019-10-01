@@ -5,6 +5,8 @@ import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.generation.decoration.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
@@ -96,16 +98,24 @@ public class CustomDimensionalBiome extends Biome {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public int getSkyColor(float float_1) {
-        return dimensionData.getSkyColor();
+        System.out.println(dimensionData.getSkyColor());
+        if(dimensionData.getSkyColor() != 0) {
+            return dimensionData.getSkyColor();
+        } else {
+            return Color.WHITE.getColor();
+        }
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public int getFoliageColorAt(BlockPos blockPos_1) {
         return dimensionData.getFoliageColor();
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public int getGrassColorAt(BlockPos blockPos_1) {
         return dimensionData.getGrassColor();
     }

@@ -8,6 +8,7 @@ import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
+import io.github.vampirestudios.raa.utils.DebugUtils;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
@@ -55,19 +56,7 @@ public class Materials {
                 MATERIAL_NAME_LIST.add(new Identifier(RandomlyAddingAnything.MOD_ID, id));
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
-                System.out.println("\nName : " + material.getName() +
-                        "\nOre Type : " + material.getOreInformation().getOreType().name().toLowerCase() +
-                        "\nRGB color : " + RGB.getRed() + "," + RGB.getGreen() + "," + RGB.getBlue() +
-                        "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
-                        "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
-                        "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
-                        "\nHas Armor : " + material.hasArmor() +
-                        "\nHas Weapons : " + material.hasWeapons() +
-                        "\nHas Tools : " + material.hasTools() +
-                        "\nIs Glowing : " + material.isGlowing() +
-                        "\nHas Ore Flower : " + material.hasOreFlower() +
-                        "\nHas Food : " + material.hasFood()
-                );
+                DebugUtils.materialDebug(material, RGB);
             }
         }
         isReady = true;

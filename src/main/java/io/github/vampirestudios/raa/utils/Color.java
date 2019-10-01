@@ -5,6 +5,7 @@ public class Color {
     private static final double FACTOR = 0.7;
 
     private final int color;
+    public final static Color WHITE = new Color(255, 255, 255);
 
     public Color(int r, int g, int b, int a) {
         color = ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | ((b & 0xFF));

@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 public class DimensionBiomeData {
 
-    private String name;
+    private String biomeName;
     private int surfaceBuilderVariantChance;
     private float depth;
     private float scale;
@@ -10,8 +10,8 @@ public class DimensionBiomeData {
     private float downfall;
     private int waterColor;
 
-    public DimensionBiomeData(String name, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor) {
-        this.name = name;
+    public DimensionBiomeData(String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor) {
+        this.biomeName = biomeName;
         this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
         this.depth = depth;
         this.scale = scale;
@@ -21,7 +21,7 @@ public class DimensionBiomeData {
     }
 
     public String getName() {
-        return name;
+        return biomeName;
     }
 
     public int getSurfaceBuilderVariantChance() {

@@ -104,6 +104,7 @@ public class DimensionSavingSystem {
                     String name = jsonObject.get(String.class, "name");
                     DimensionBuilder dimensionBuilder = DimensionBuilder.create();
                     dimensionBuilder.name(name)
+                            .dimensionId(jsonObject.get(int.class, "dimensionId"))
                             .fogColor(jsonObject.get(int.class,"fogColor"))
                             .grassColor(jsonObject.get(int.class,"grassColor"))
                             .foliageColor(jsonObject.get(int.class,"foliageColor"))
@@ -115,6 +116,7 @@ public class DimensionSavingSystem {
                     JsonObject biomeData = jsonObject.getObject("biomeData");
                     DimensionBiomeBuilder biomeBuilder = DimensionBiomeBuilder.create();
                     biomeBuilder
+                            .name(biomeData.get(String.class, "biomeName"))
                             .surfaceBuilderVariantChance(biomeData.get(int.class, "surfaceBuilderVariantChance"))
                             .depth(biomeData.get(int.class, "depth"))
                             .scale(biomeData.get(int.class, "scale"))
