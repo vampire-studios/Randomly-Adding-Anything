@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.generation.decoration.BiasedNoiseBasedDecoratorConfig;
+import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.client.Color;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -55,19 +55,25 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addDefaultOres(this);
         DefaultBiomeFeatures.addDefaultDisks(this);
         int forestConfig = Rands.randInt(3);
-        if (forestConfig == 0) { //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(3), 0.02F, 1)));
-        } else if (forestConfig == 1){
-            //Small, inbetween forests
-            float chance = Rands.randInt(24) * 10F + 80F;
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(4), chance, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
-
-            //Large, thinner forests
-            float chance2 = Rands.randInt(12) * 10F + 120F;
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(2), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
+        System.out.println(dimensionData.getName() + " : " + forestConfig);
+        switch (forestConfig) {
+            case 0: //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(3), 0.02F, 1)));
+                break;
+            case 1:
+                //Small, inbetween forests
+                float chance = Rands.randInt(24) * 10F + 80F;
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(4), chance, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
+                //Large, thinner forests
+                float chance2 = Rands.randInt(12) * 10F + 120F;
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(2), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
+                break;
+            case 2:
+                DefaultBiomeFeatures.addPlainsFeatures(this);
+                break;
         }
 //      this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(RandomlyAddingAnything.TEST_FEATURE, FeatureConfig.DEFAULT, Decorator.TOP_SOLID_HEIGHTMAP, new NopeDecoratorConfig()));
         if(Rands.chance(8))
@@ -76,10 +82,10 @@ public class CustomDimensionalBiome extends Biome {
             DefaultBiomeFeatures.addGiantSpruceTaigaTrees(this);
         if(Rands.chance(10))
             DefaultBiomeFeatures.addIcebergs(this);
-        if(Rands.chance(4))
+        if(Rands.chance(8))
             DefaultBiomeFeatures.addTaigaTrees(this);
 
-        DefaultBiomeFeatures.addPlainsFeatures(this);
+
         DefaultBiomeFeatures.addDefaultMushrooms(this);
         DefaultBiomeFeatures.addDefaultVegetation(this);
         DefaultBiomeFeatures.addSprings(this);

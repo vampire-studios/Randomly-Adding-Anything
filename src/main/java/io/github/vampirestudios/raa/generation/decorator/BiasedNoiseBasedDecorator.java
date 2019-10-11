@@ -15,14 +15,14 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class BiasedNoiseBasedDecorator extends Decorator<BiasedNoiseBasedDecoratorConfig> {
-    public static final OctaveSimplexNoiseSampler TEST_NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), 4, 0);
+    public static final OctaveSimplexNoiseSampler NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), 2, 0);
     public BiasedNoiseBasedDecorator(Function<Dynamic<?>, ? extends BiasedNoiseBasedDecoratorConfig> function_1) {
         super(function_1);
     }
 
     @Override
     public Stream<BlockPos> getPositions(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> var2, Random random, BiasedNoiseBasedDecoratorConfig config, BlockPos pos) {
-        double noise = TEST_NOISE.sample((double)pos.getX() / config.noiseFactor, (double)pos.getZ() / config.noiseFactor, false);
+        double noise = NOISE.sample((double)pos.getX() / config.noiseFactor, (double)pos.getZ() / config.noiseFactor, false);
         int int_1 = (int)Math.ceil((noise + config.noiseOffset) * (double)config.noiseToCountRatio);
         //System.out.println(int_1 + " : " + noise);
         return IntStream.range(0, int_1).mapToObj((int_1x) -> {
