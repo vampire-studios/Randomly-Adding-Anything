@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.generation.dimensions;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
-import io.github.vampirestudios.raa.client.Color;
+import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.EnvType;

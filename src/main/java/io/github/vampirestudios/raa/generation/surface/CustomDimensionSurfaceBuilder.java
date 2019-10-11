@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class CustomDimensionSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
-    public static final OctaveSimplexNoiseSampler MOUNTAIN_NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), 4, 0);
+    public static final OctaveSimplexNoiseSampler MOUNTAIN_NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), 2, 0);
     public CustomDimensionSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function_1) {
         super(function_1);
     }
@@ -22,8 +22,8 @@ public class CustomDimensionSurfaceBuilder extends SurfaceBuilder<TernarySurface
     public void generate(Random rand, Chunk chunk, Biome biome, int x, int height, int z, double noise, BlockState state, BlockState state2, int int1, long long1, TernarySurfaceConfig config) {
         double noiseMountain = MOUNTAIN_NOISE.sample(x, z, false);
         System.out.println(noiseMountain);
-        if (noiseMountain> 1.0D) {
-            SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, height, z, noise, state, state2, int1, long1, SurfaceBuilder.STONE_CONFIG);
+        if (noiseMountain > 1.0D) {
+            SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, height, z, noise, state, state2, int1, long1, SurfaceBuilder.SAND_CONFIG);
         } else {
             SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, height, z, noise, state, state2, int1, long1, config);
         }
