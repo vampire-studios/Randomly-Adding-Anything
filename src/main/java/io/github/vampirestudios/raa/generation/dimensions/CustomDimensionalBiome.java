@@ -6,6 +6,8 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.client.Color;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
@@ -29,7 +31,7 @@ public class CustomDimensionalBiome extends Biome {
                 .category(Biome.Category.PLAINS)
                 .depth(dimensionData.getBiomeData().getDepth())
                 .scale(dimensionData.getBiomeData().getScale())
-                .temperature(dimensionData.getBiomeData().getTemperature())
+                .temperature(dimensionData.getBiomeData().getScale() > 1.3F ? -1.0F : dimensionData.getBiomeData().getTemperature())
                 .downfall(dimensionData.getBiomeData().getDownfall())
                 .waterColor(dimensionData.getBiomeData().getWaterColor())
                 .waterFogColor(new Color(
@@ -40,10 +42,10 @@ public class CustomDimensionalBiome extends Biome {
         ));
         this.dimensionData = dimensionData;
 
-        //this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
-        //this.addStructureFeature(Feature.PILLAGER_OUTPOST, new PillagerOutpostFeatureConfig(0.004D));
-        this.addStructureFeature(Feature.MINESHAFT, new MineshaftFeatureConfig(0.004D*Rands.randInt(4), MineshaftFeature.Type.NORMAL));
-        //this.addStructureFeature(Feature.STRONGHOLD, FeatureConfig.DEFAULT);
+//        this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
+//        this.addStructureFeature(Feature.PILLAGER_OUTPOST, new PillagerOutpostFeatureConfig(0.004D));
+        this.addStructureFeature(Feature.MINESHAFT, new MineshaftFeatureConfig(0.004D * Rands.randInt(4), MineshaftFeature.Type.NORMAL));
+        this.addStructureFeature(Feature.STRONGHOLD, FeatureConfig.DEFAULT);
         DefaultBiomeFeatures.addLandCarvers(this);
         DefaultBiomeFeatures.addDefaultStructures(this);
         DefaultBiomeFeatures.addDefaultLakes(this);
@@ -78,12 +80,15 @@ public class CustomDimensionalBiome extends Biome {
 //      this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(RandomlyAddingAnything.TEST_FEATURE, FeatureConfig.DEFAULT, Decorator.TOP_SOLID_HEIGHTMAP, new NopeDecoratorConfig()));
         if(Rands.chance(8))
             DefaultBiomeFeatures.addMossyRocks(this);
-        if(Rands.chance(8))
+        if(Rands.chance(20))
             DefaultBiomeFeatures.addGiantSpruceTaigaTrees(this);
         if(Rands.chance(10))
             DefaultBiomeFeatures.addIcebergs(this);
         if(Rands.chance(8))
             DefaultBiomeFeatures.addTaigaTrees(this);
+        if(Rands.chance(10) && dimensionData.getBiomeData().getScale() > 1.0F)
+            DefaultBiomeFeatures.addMountainTrees(this);
+        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
 
 
         DefaultBiomeFeatures.addDefaultMushrooms(this);
@@ -109,16 +114,24 @@ public class CustomDimensionalBiome extends Biome {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public int getSkyColor(float float_1) {
-        return dimensionData.getSkyColor();
+        System.out.println(dimensionData.getSkyColor());
+        if(dimensionData.getSkyColor() != 0) {
+            return dimensionData.getSkyColor();
+        } else {
+            return Color.WHITE.getColor();
+        }
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public int getFoliageColorAt(BlockPos blockPos_1) {
         return dimensionData.getFoliageColor();
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public int getGrassColorAt(BlockPos blockPos_1) {
         return dimensionData.getGrassColor();
     }

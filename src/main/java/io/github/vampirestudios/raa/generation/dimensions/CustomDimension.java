@@ -1,13 +1,12 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.client.Color;
-import io.github.vampirestudios.raa.utils.RegistryUtils;
+import io.github.vampirestudios.raa.utils.Color;
+import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -22,25 +21,23 @@ import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.OverworldChunkGenerator;
-import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 
 public class CustomDimension extends Dimension {
 
     private DimensionType dimensionType;
     private DimensionData dimensionData;
+    private CustomDimensionalBiome dimensionalBiome;
 
-    public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData) {
+    public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData, CustomDimensionalBiome dimensionalBiome) {
         super(world_1, dimensionType_1);
         this.dimensionType = dimensionType_1;
         this.dimensionData = dimensionData;
+        this.dimensionalBiome = dimensionalBiome;
     }
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-        CustomDimensionalBiome biome = new CustomDimensionalBiome(dimensionData);
-        RegistryUtils.register(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_biome"), biome);
-        return new OverworldChunkGenerator(world, new FixedBiomeSource(new FixedBiomeSourceConfig(world.getLevelProperties()).setBiome(biome)), new OverworldChunkGeneratorConfig());
+        return Utils.randomCG(Rands.randInt(100), world, new FixedBiomeSource(new FixedBiomeSourceConfig(world.getLevelProperties()).setBiome(dimensionalBiome)));
     }
 
     @Override
@@ -110,11 +107,7 @@ public class CustomDimension extends Dimension {
     }
 
     @Override
-    public boolean method_12449() {
-        return dimensionType.hasSkyLight();
-    }
-
-    @Override
+    @Environment(EnvType.CLIENT)
     public Vec3d getFogColor(float v, float v1) {
         int fogColor = dimensionData.getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor);
@@ -132,6 +125,7 @@ public class CustomDimension extends Dimension {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public boolean shouldRenderFog(int var1, int var2) {
         return dimensionData.shouldRenderFog();
     }

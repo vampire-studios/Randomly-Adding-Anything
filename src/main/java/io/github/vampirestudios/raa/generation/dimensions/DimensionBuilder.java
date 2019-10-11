@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.generation.dimensions;
 public class DimensionBuilder {
 
     private String name;
+    private int dimensionId;
     private DimensionBiomeData biomeData;
     private int grassColor;
     private int fogColor;
@@ -21,6 +22,11 @@ public class DimensionBuilder {
 
     public DimensionBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public DimensionBuilder dimensionId(int dimensionId) {
+        this.dimensionId = dimensionId;
         return this;
     }
 
@@ -80,12 +86,12 @@ public class DimensionBuilder {
     }
 
     public DimensionData build() {
-        return new DimensionData(name, biomeData,
+        return new DimensionData(name, dimensionId, biomeData,
                 grassColor, fogColor, foliageColor, skyColor, stoneColor, hasLight, hasSky, canSleep, waterVaporize, renderFog);
     }
 
     public DimensionData buildFromJSON() {
-        return new DimensionData(name, biomeData,
+        return new DimensionData(name, dimensionId, biomeData,
                 grassColor, fogColor, foliageColor, skyColor, stoneColor, hasLight, hasSky, canSleep, waterVaporize, renderFog);
     }
 
