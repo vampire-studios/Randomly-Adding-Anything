@@ -175,7 +175,7 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.ingredientItem('#', new Identifier(MOD_ID, finalId1 + "_ingot"));
                         shapedRecipeBuilder.result(new Identifier(MOD_ID, finalId1 + "_block"), 1);
                     });
-                    serverResourcePackBuilder.addLootTable(new Identifier());
+//                    serverResourcePackBuilder.addLootTable(new Identifier());
                     serverResourcePackBuilder.addShapelessRecipe(new Identifier(MOD_ID, id + "_ingot_from_" + id + "_block"), shapelessRecipeBuilder -> {
                         shapelessRecipeBuilder.group(new Identifier("raa:ingots"));
                         shapelessRecipeBuilder.ingredientItem(new Identifier(MOD_ID, finalId1 + "_block"));

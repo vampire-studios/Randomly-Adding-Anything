@@ -15,6 +15,7 @@ import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.decorator.CountDecoratorConfig;
 import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.feature.*;
@@ -31,7 +32,7 @@ public class CustomDimensionalBiome extends Biome {
                 .category(Biome.Category.PLAINS)
                 .depth(dimensionData.getBiomeData().getDepth())
                 .scale(dimensionData.getBiomeData().getScale())
-                .temperature(dimensionData.getBiomeData().getScale() > 1.3F ? -1.0F : dimensionData.getBiomeData().getTemperature())
+                .temperature(dimensionData.getBiomeData().getTemperature())
                 .downfall(dimensionData.getBiomeData().getDownfall())
                 .waterColor(dimensionData.getBiomeData().getWaterColor())
                 .waterFogColor(new Color(
@@ -57,7 +58,7 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addDefaultOres(this);
         DefaultBiomeFeatures.addDefaultDisks(this);
         int forestConfig = Rands.randInt(3);
-        System.out.println(dimensionData.getName() + " : " + forestConfig);
+//        System.out.println(dimensionData.getName() + " : " + forestConfig);
         switch (forestConfig) {
             case 0: //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
                 this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
@@ -77,6 +78,7 @@ public class CustomDimensionalBiome extends Biome {
                 DefaultBiomeFeatures.addPlainsFeatures(this);
                 break;
         }
+        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.CACTUS, FeatureConfig.DEFAULT, Decorator.COUNT_HEIGHTMAP_DOUBLE, new CountDecoratorConfig(50)));
 //      this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(RandomlyAddingAnything.TEST_FEATURE, FeatureConfig.DEFAULT, Decorator.TOP_SOLID_HEIGHTMAP, new NopeDecoratorConfig()));
         if(Rands.chance(8))
             DefaultBiomeFeatures.addMossyRocks(this);
@@ -116,7 +118,7 @@ public class CustomDimensionalBiome extends Biome {
     @Override
     @Environment(EnvType.CLIENT)
     public int getSkyColor(float float_1) {
-        System.out.println(dimensionData.getSkyColor());
+//        System.out.println(dimensionData.getSkyColor());
         if(dimensionData.getSkyColor() != 0) {
             return dimensionData.getSkyColor();
         } else {

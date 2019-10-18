@@ -50,7 +50,7 @@ public class Dimensions {
             DimensionBiomeData biomeData = DimensionBiomeBuilder.create()
                     .name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames().toLowerCase() + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
-                    .depth(Rands.randFloatRange(-0.75F, 3F))
+                    .depth(Rands.randFloatRange(-3F, 3F))
                     .scale(Rands.randFloat(2F))
                     .temperature(Rands.randFloat(1F))
                     .downfall(Rands.randFloat(1F))
