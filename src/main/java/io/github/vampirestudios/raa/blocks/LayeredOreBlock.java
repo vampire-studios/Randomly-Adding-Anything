@@ -1,11 +1,12 @@
 package io.github.vampirestudios.raa.blocks;
 
-import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
-import net.minecraft.block.*;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.OreBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.loot.LootPool;
-import net.minecraft.world.loot.LootSupplier;
+import net.minecraft.world.loot.LootTable;
 import net.minecraft.world.loot.LootTables;
 import net.minecraft.world.loot.context.LootContext;
 import net.minecraft.world.loot.context.LootContextParameters;
@@ -103,7 +104,7 @@ public class LayeredOreBlock extends OreBlock {
 		} else {
 			LootContext context = builder.put(LootContextParameters.BLOCK_STATE, state).build(LootContextTypes.BLOCK);
 			ServerWorld world = context.getWorld();
-			LootSupplier lootSupplier = world.getServer().getLootManager().getSupplier(tableId);
+			LootTable lootSupplier = world.getServer().getLootManager().getSupplier(tableId);
 			
 			List<ItemStack> result = lootSupplier.getDrops(context);
 			if (result.isEmpty()) {
