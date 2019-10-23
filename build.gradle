@@ -50,8 +50,8 @@ dependencies {
 	modCompile "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
 	include "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
 
-	modImplementation "artificemc:artifice:0.3.5"
-	include "artificemc:artifice:0.3.5"
+	modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
+	include "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
 	modApi "vampirelib:VampireLib:${project.vampirelib_version}"
 
 	modImplementation "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
