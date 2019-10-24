@@ -80,7 +80,7 @@ public class CustomDimensionalBiome extends Biome {
                 DefaultBiomeFeatures.addPlainsFeatures(this);
                 break;
         }
-        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.field_21219, FeatureConfig.DEFAULT, Decorator.COUNT_HEIGHTMAP_DOUBLE, new CountDecoratorConfig(50)));
+        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.field_21219.method_23397(DefaultBiomeFeatures.field_21089).method_23388(Decorator.COUNT_HEIGHTMAP_DOUBLE.method_23475(new CountDecoratorConfig(50))));
 //      this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(RandomlyAddingAnything.TEST_FEATURE, FeatureConfig.DEFAULT, Decorator.TOP_SOLID_HEIGHTMAP, new NopeDecoratorConfig()));
         if(Rands.chance(8))
             DefaultBiomeFeatures.addMossyRocks(this);
@@ -92,7 +92,7 @@ public class CustomDimensionalBiome extends Biome {
             DefaultBiomeFeatures.addTaigaTrees(this);
         if(Rands.chance(10) && dimensionData.getBiomeData().getScale() > 1.0F)
             DefaultBiomeFeatures.addMountainTrees(this);
-        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
+        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
 
 
         DefaultBiomeFeatures.addDefaultMushrooms(this);
