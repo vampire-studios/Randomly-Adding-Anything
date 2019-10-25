@@ -4,6 +4,8 @@ import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.utils.Rands;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
@@ -38,10 +40,23 @@ public class LayeredOreBlock extends OreBlock {
 		this.material = material;
 	}
 
-//	@Override
+	//	@Override
 //	public BlockRenderLayer getRenderLayer() {
 //		return BlockRenderLayer.field_9178;
 //	}
+
+	@Environment(EnvType.CLIENT)
+	public float getAmbientOcclusionLightLevel(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
+		return 1.0F;
+	}
+
+	public boolean isTranslucent(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
+		return true;
+	}
+
+	public boolean isSimpleFullBlock(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
+		return false;
+	}
 
 	@Override
 	protected int getExperienceWhenMined(Random random_1) {

@@ -55,12 +55,13 @@ public class Dimensions {
                     .temperature(Rands.randFloat(1F))
                     .downfall(Rands.randFloat(1F))
                     .waterColor(WATER_COLOR.getColor()).build();
+            DimensionColorPallet colorPallet = DimensionColorPalletBuilder.create()
+                    .skyColor(SKY_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).fogColor(FOG_COLOR.getColor())
+                    .foliageColor(FOLIAGE_COLOR.getColor()).stoneColor(FOLIAGE_COLOR.getColor()).build();
             DimensionData dimensionData = DimensionBuilder.create()
                     .dimensionId(Rands.randIntRange(1000, 30000)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())
-                    .fogColor(FOG_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).foliageColor(FOLIAGE_COLOR.getColor())
-                    .hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
-                    .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100)).skyColor(SKY_COLOR.getColor())
-                    .stoneColor(STONE_COLOR.getColor()).biome(biomeData).build();
+                    .colorPallet(colorPallet).hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
+                    .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100)).biome(biomeData).build();
             String id = dimensionData.getName().toLowerCase();
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
@@ -76,7 +77,7 @@ public class Dimensions {
                 DIMENSION_BIOME_NAME_LIST.add(new Identifier(RandomlyAddingAnything.MOD_ID, biomeId));
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
-                DebugUtils.dimensionDebug(dimensionData, FOG_COLOR, GRASS_COLOR, FOLIAGE_COLOR, SKY_COLOR, STONE_COLOR);
+                DebugUtils.dimensionDebug(dimensionData);
             }
         }
         isReady = true;

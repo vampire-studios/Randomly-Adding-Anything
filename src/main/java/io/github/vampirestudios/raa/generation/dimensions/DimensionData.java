@@ -4,6 +4,7 @@ public class DimensionData {
     private String name;
     private int dimensionId;
     private DimensionBiomeData biomeData;
+    private DimensionColorPallet dimensionColorPallet;
     private int grassColor;
     private int fogColor;
     private int foliageColor;
@@ -15,10 +16,11 @@ public class DimensionData {
     private boolean waterVaporize;
     private boolean renderFog;
 
-    public DimensionData(String name, int dimensionId, DimensionBiomeData biomeData, int grassColor, int fogColor, int foliageColor, int skyColor, int stoneColor, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog) {
+    public DimensionData(String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPallet dimensionColorPallet, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog) {
         this.name = name;
         this.dimensionId = dimensionId;
         this.biomeData = biomeData;
+        this.dimensionColorPallet = dimensionColorPallet;
         this.grassColor = grassColor;
         this.fogColor = fogColor;
         this.foliageColor = foliageColor;
@@ -41,6 +43,10 @@ public class DimensionData {
 
     public DimensionBiomeData getBiomeData() {
         return biomeData;
+    }
+
+    public DimensionColorPallet getDimensionColorPallet() {
+        return dimensionColorPallet;
     }
 
     public int getGrassColor() {

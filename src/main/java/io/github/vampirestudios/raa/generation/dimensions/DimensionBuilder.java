@@ -5,6 +5,7 @@ public class DimensionBuilder {
     private String name;
     private int dimensionId;
     private DimensionBiomeData biomeData;
+    private DimensionColorPallet dimensionColorPallet;
     private int grassColor;
     private int fogColor;
     private int foliageColor;
@@ -32,6 +33,11 @@ public class DimensionBuilder {
 
     public DimensionBuilder biome(DimensionBiomeData biomeData) {
         this.biomeData = biomeData;
+        return this;
+    }
+
+    public DimensionBuilder colorPallet(DimensionColorPallet dimensionColorPallet) {
+        this.dimensionColorPallet = dimensionColorPallet;
         return this;
     }
 
@@ -87,12 +93,12 @@ public class DimensionBuilder {
 
     public DimensionData build() {
         return new DimensionData(name, dimensionId, biomeData,
-                grassColor, fogColor, foliageColor, skyColor, stoneColor, hasLight, hasSky, canSleep, waterVaporize, renderFog);
+                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog);
     }
 
     public DimensionData buildFromJSON() {
         return new DimensionData(name, dimensionId, biomeData,
-                grassColor, fogColor, foliageColor, skyColor, stoneColor, hasLight, hasSky, canSleep, waterVaporize, renderFog);
+                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog);
     }
 
 }

@@ -47,7 +47,7 @@ public class OreBakedModel extends RAABakedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, false).find();
+        RenderMaterial mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.SOLID).find();
         int color = 0xFFFFFFFF;
         Sprite sprite;
         if (material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR) {
@@ -83,7 +83,7 @@ public class OreBakedModel extends RAABakedModel {
                     .spriteColor(0, color, color, color, color)
                     .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         } else if (material.getOreInformation().getGenerateIn() == GeneratesIn.GRASS_BLOCK) {
-            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.TRANSLUCENT).find();
             Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side"));
             Sprite sideOverlaySprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side_overlay"));
             Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_top"));
@@ -168,9 +168,9 @@ public class OreBakedModel extends RAABakedModel {
         }
 
         if (material.isGlowing()) {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.CUTOUT).emissive(0, true).find();
+            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.TRANSLUCENT).emissive(0, true).find();
         } else {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.CUTOUT).find();
+            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.TRANSLUCENT).find();
         }
         color = material.getRGBColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());

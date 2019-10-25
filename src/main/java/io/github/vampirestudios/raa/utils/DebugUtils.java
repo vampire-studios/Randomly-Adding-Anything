@@ -5,10 +5,15 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 
 public class DebugUtils {
 
-    public static void dimensionDebug(DimensionData dimensionData, Color fogColor, Color grassColor, Color foliageColor, Color skyColor, Color stoneColor) {
+    public static void dimensionDebug(DimensionData dimensionData) {
 //        StringBuilder builder = new StringBuilder();
 //        builder.append("\nDimension Information")
 //        .append("##########################");
+        int[] fog = Color.intToRgb(dimensionData.getDimensionColorPallet().getFogColor());
+        int[] grass = Color.intToRgb(dimensionData.getDimensionColorPallet().getGrassColor());
+        int[] foliage = Color.intToRgb(dimensionData.getDimensionColorPallet().getFoliageColor());
+        int[] sky = Color.intToRgb(dimensionData.getDimensionColorPallet().getSkyColor());
+        int[] stone = Color.intToRgb(dimensionData.getDimensionColorPallet().getStoneColor());
         String text =
                 "\n\nTechnical Dimension Information" +
                 "\n##########################" +
@@ -17,11 +22,11 @@ public class DebugUtils {
                 "\n   Dimension ID : " + dimensionData.getDimensionId() +
                 "\n\nDimension Design Information" +
                 "\n##########################" +
-                "\n   Fog Color : " + fogColor.getRed() + "," + fogColor.getGreen() + "," + fogColor.getBlue() +
-                "\n   Grass Color : " + grassColor.getRed() + "," + grassColor.getGreen() + "," + grassColor.getBlue() +
-                "\n   Foliage Color : " + foliageColor.getRed() + "," + foliageColor.getGreen() + "," + foliageColor.getBlue() +
-                "\n   Sky Color : " + skyColor.getRed() + "," + skyColor.getGreen() + "," + skyColor.getBlue() +
-                "\n   Stone Color : " + stoneColor.getRed() + "," + stoneColor.getGreen() + "," + stoneColor.getBlue() +
+                "\n   Fog Color : " + fog[0] + "," + fog[1] + "," + fog[2] +
+                "\n   Grass Color : " + grass[0] + "," + grass[1] + "," + grass[2] +
+                "\n   Foliage Color : " + foliage[0] + "," + foliage[1] + "," + foliage[2] +
+                "\n   Sky Color : " + sky[0] + "," + sky[1] + "," + sky[2] +
+                "\n   Stone Color : " + stone[0] + "," + stone[1] + "," + stone[2] +
                 "\n   Has Skylight : " + dimensionData.hasSkyLight() +
                 "\n   Has Sky : " + dimensionData.hasSky() +
                 "\n   Can Sleep : " + dimensionData.canSleep() + "\n";
