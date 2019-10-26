@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -8,10 +10,12 @@ import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.CountDecoratorConfig;
+import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
@@ -57,9 +61,10 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addDefaultDisks(this);
         int forestConfig = Rands.randInt(3);
 //        System.out.println(dimensionData.getName() + " : " + forestConfig);
-        /*switch (forestConfig) {
+        switch (forestConfig) {
             case 0: //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
-                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
+
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.method_23397(), FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
                 this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(3), 0.02F, 1)));
                 break;
             case 1:
@@ -75,10 +80,10 @@ public class CustomDimensionalBiome extends Biome {
             case 2:
                 DefaultBiomeFeatures.addPlainsFeatures(this);
                 break;
-        }*/
+        }
         this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.field_21219.method_23397(DefaultBiomeFeatures.field_21089).method_23388(Decorator.COUNT_HEIGHTMAP_DOUBLE.method_23475(new CountDecoratorConfig(50))));
 //      this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(RandomlyAddingAnything.TEST_FEATURE, FeatureConfig.DEFAULT, Decorator.TOP_SOLID_HEIGHTMAP, new NopeDecoratorConfig()));
-        if(Rands.chance(8))
+        /*if(Rands.chance(8))
             DefaultBiomeFeatures.addMossyRocks(this);
         if(Rands.chance(20))
             DefaultBiomeFeatures.addGiantSpruceTaigaTrees(this);
@@ -87,7 +92,7 @@ public class CustomDimensionalBiome extends Biome {
         if(Rands.chance(8))
             DefaultBiomeFeatures.addTaigaTrees(this);
         if(Rands.chance(10) && dimensionData.getBiomeData().getScale() > 1.0F)
-            DefaultBiomeFeatures.addMountainTrees(this);
+            DefaultBiomeFeatures.addMountainTrees(this);*/
 //        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
 
 
@@ -117,11 +122,12 @@ public class CustomDimensionalBiome extends Biome {
     @Environment(EnvType.CLIENT)
     public int getSkyColor(float float_1) {
 //        System.out.println(dimensionData.getSkyColor());
-        if(dimensionData.getDimensionColorPallet().getSkyColor() != 0) {
+        /*if(dimensionData.getDimensionColorPallet().getSkyColor() != 0) {
             return dimensionData.getDimensionColorPallet().getSkyColor();
         } else {
             return Color.WHITE.getColor();
-        }
+        }*/
+        return Color.WHITE.getColor();
     }
 
     @Override

@@ -19,40 +19,11 @@ public class English implements INameGenerator {
             "sic", "sit", "tan", "tor", "tri", "vi", "w", "x", "z"
     };
 
-    public static final String[] ORE_SUFFIXES = { //Except "ium" and "ite" which will carry about 86% of the generated items
-            "um", "ule", "ion", "ment", "icle", "ile", "ole", "ule", "ate", "and", "ant", "yn", "ice", "ixe"
-    };
-
-    public static final String[] CONSONANT_FILL = { //Stuffed between consonants
-            "u", "o"
-    };
-
     public String generate() {
         Random rnd = new Random();
-        String ending = "";
-        int endingRoll = rnd.nextInt(100);
-         if (endingRoll< 30) {
-            ending = "ice";
-        } else if (endingRoll< 34) {
-            ending = "ise";
-        } else if (endingRoll<43) {
-            ending = "ium";
-        } else if (endingRoll< 69) {
-            ending = "ix";
-        } else if (endingRoll<90) {
-            ending = "ite";
-        } else if (endingRoll<96) {
-            ending = ORE_SUFFIXES[rnd.nextInt(ORE_SUFFIXES.length)];
-        }
-
         String prefix = LATIN_PREFIXES[rnd.nextInt(LATIN_PREFIXES.length)];
-
-        if (prefix.length()+ending.length()<5 || prefix.equals("super") || rnd.nextInt(3)<2) {
-            String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
-            return combine(combine(prefix,middle),ending);
-        }
-
-        return combine(prefix, ending);
+        String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
+        return combine(prefix, middle);
     }
 
     public Collection<String> generate(int count) {
@@ -93,12 +64,10 @@ public class English implements INameGenerator {
     }
 
     public char fillConsonant(char src) {
-        switch(src) {
-            case 'd':
-                return 'o';
-            default:
-                return 'u';
+        if (src == 'd') {
+            return 'o';
         }
+        return 'u';
     }
 
     @Override

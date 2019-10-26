@@ -43,7 +43,7 @@ public class Materials {
                     .generatesIn(Rands.values(GeneratesIn.values())).overlayTexture()
                     .resourceItemTexture().storageBlockTexture().armor(random.nextBoolean())
                     .tools(random.nextBoolean()).oreFlower(Rands.chance(4))
-                    .weapons(random.nextBoolean()).glowing(Rands.chance(4))
+                    .weapons(Rands.chance(10)).glowing(Rands.chance(4))
                     .minXPAmount(0).maxXPAmount(Rands.randIntRange(0, 4)).oreClusterSize(Rands.randIntRange(2, 6))
                     .food(Rands.chance(4))
                     .build();
@@ -156,6 +156,13 @@ public class Materials {
                                 (-3.0F + material.getToolMaterial().getHoeAttackSpeed()), new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
                         new Identifier(RandomlyAddingAnything.MOD_ID, id + "_hoe")
+                );
+                RegistryUtils.registerItem(
+                        new RAAShearItem(
+                                material,
+                                new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
+                        ),
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_shears")
                 );
             }
             if (material.hasWeapons()) {

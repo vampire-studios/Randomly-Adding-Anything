@@ -11,7 +11,7 @@ public enum TextureType {
 
     PLANT,
 
-    MUSROOM_ITEM,
+    MUSHROOM_ITEM,
     MUSHROOM_STEM,
     MUSHROOM_INSIDE,
     MUSHROOM_OUTSIDE,

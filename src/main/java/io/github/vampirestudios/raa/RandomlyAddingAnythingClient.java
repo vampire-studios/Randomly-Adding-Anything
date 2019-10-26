@@ -104,19 +104,19 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 }
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_helmet"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", new Identifier("item/iron_helmet"));
+                    modelBuilder.texture("layer0", Rands.list(OreTypes.HELMET_TEXTURES));
                 });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_chestplate"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", new Identifier("item/iron_chestplate"));
+                    modelBuilder.texture("layer0", Rands.list(OreTypes.CHESTPLATE_TEXTURES));
                 });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_leggings"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", new Identifier("item/iron_leggings"));
+                    modelBuilder.texture("layer0", Rands.list(OreTypes.LEGGINGS_TEXTURES));
                 });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_boots"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", new Identifier("item/iron_boots"));
+                    modelBuilder.texture("layer0", Rands.list(OreTypes.BOOTS_TEXTURES));
                 });
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
@@ -142,6 +142,11 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier("raa", "item/hoe_head"));
                     modelBuilder.texture("layer1", new Identifier("raa", "item/hoe_stick"));
+                });
+                clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_shears"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/shears_base"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/shears_metal"));
                 });
 
                 clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_horse_armor"), modelBuilder -> {
@@ -199,7 +204,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_gem")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_crystal")),
                 Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ingot")),
-                Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block"))
+                Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block")),
+                Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_shears"))
             );
             ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
                     Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_block")));

@@ -31,4 +31,9 @@ public enum OreTypes {
 
     public static List<Identifier> HORSE_ARMOR_SADDLE_TEXTURES = new ArrayList<>();
     public static List<Identifier> HORSE_ARMOR_MODEL_TEXTURES = new ArrayList<>();
+
+    public static List<Identifier> HELMET_TEXTURES = new ArrayList<>();
+    public static List<Identifier> CHESTPLATE_TEXTURES = new ArrayList<>();
+    public static List<Identifier> LEGGINGS_TEXTURES = new ArrayList<>();
+    public static List<Identifier> BOOTS_TEXTURES = new ArrayList<>();
 }
