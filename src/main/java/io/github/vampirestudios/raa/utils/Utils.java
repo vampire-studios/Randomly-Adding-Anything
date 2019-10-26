@@ -14,24 +14,22 @@ public class Utils {
     }
 
     public static SurfaceBuilder<TernarySurfaceConfig> random(int chance) {
-//        if (chance == 10) {
-//            return SurfaceBuilder.BADLANDS;
-//        } else if(chance == 5) {
-//            return SurfaceBuilder.GIANT_TREE_TAIGA;
-//        } else if(chance == 30) {
-//            return SurfaceBuilder.SHATTERED_SAVANNA;
-//        } else if(chance == 2) {
-//            return SurfaceBuilder.MOUNTAIN;
-//        } else if(chance == 40) {
-//            return SurfaceBuilder.WOODED_BADLANDS;
-//        } else {
-
-        //This is just for testing
+        if (chance == 10) {
+            return SurfaceBuilder.BADLANDS;
+        } else if(chance == 5) {
+            return SurfaceBuilder.GIANT_TREE_TAIGA;
+        } else if(chance == 30) {
+            return SurfaceBuilder.SHATTERED_SAVANNA;
+        } else if(chance == 2) {
+            return SurfaceBuilder.MOUNTAIN;
+        } else if(chance == 40) {
+            return SurfaceBuilder.WOODED_BADLANDS;
+        } else {
             return RandomlyAddingAnything.SURFACE_BUILDER;
-//        }
+        }
     }
 
-    public static SurfaceChunkGenerator randomCG(int chance, World world, BiomeSource biomeSource) {
+    public static ChunkGenerator<?> randomCG(int chance, World world, BiomeSource biomeSource) {
         if (chance == 22) {
             return new CavesChunkGenerator(world, biomeSource, new CavesChunkGeneratorConfig());
         } else if(chance == 44) {

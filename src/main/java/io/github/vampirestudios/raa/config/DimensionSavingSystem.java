@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionBiomeBuilder;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionBuilder;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionColorPalletBuilder;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -105,14 +106,18 @@ public class DimensionSavingSystem {
                     DimensionBuilder dimensionBuilder = DimensionBuilder.create();
                     dimensionBuilder.name(name)
                             .dimensionId(jsonObject.get(int.class, "dimensionId"))
-                            .fogColor(jsonObject.get(int.class,"fogColor"))
-                            .grassColor(jsonObject.get(int.class,"grassColor"))
-                            .foliageColor(jsonObject.get(int.class,"foliageColor"))
-                            .skyColor(jsonObject.get(int.class,"skyColor"))
-                            .stoneColor(jsonObject.get(int.class,"stoneColor"))
                             .hasSky(jsonObject.get(boolean.class, "hasSky"))
                             .hasLight(jsonObject.get(boolean.class, "hasLight"))
                             .canSleep(jsonObject.get(boolean.class, "canSleep"));
+                    JsonObject colorPalletData = jsonObject.getObject("dimensionColorPallet");
+                    DimensionColorPalletBuilder colorPalletBuilder = DimensionColorPalletBuilder.create();
+                    colorPalletBuilder
+                            .fogColor(colorPalletData.get(int.class, "fogColor"))
+                            .grassColor(colorPalletData.get(int.class,"grassColor"))
+                            .foliageColor(colorPalletData.get(int.class,"foliageColor"))
+                            .skyColor(colorPalletData.get(int.class,"skyColor"))
+                            .stoneColor(colorPalletData.get(int.class,"stoneColor"));
+                    dimensionBuilder.colorPallet(colorPalletBuilder.build());
                     JsonObject biomeData = jsonObject.getObject("biomeData");
                     DimensionBiomeBuilder biomeBuilder = DimensionBiomeBuilder.create();
                     biomeBuilder

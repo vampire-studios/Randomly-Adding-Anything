@@ -7,6 +7,10 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.Blocks;
+import net.minecraft.class_4640;
+import net.minecraft.class_4650;
+import net.minecraft.class_4656;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
@@ -61,21 +65,22 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addDefaultDisks(this);
         int forestConfig = Rands.randInt(3);
 //        System.out.println(dimensionData.getName() + " : " + forestConfig);
+        class_4640 config = (new class_4640.class_4641(new class_4656(Blocks.OAK_LOG.getDefaultState()), new class_4656(Blocks.OAK_LEAVES.getDefaultState()), new class_4650(2, 1)))
+                .method_23428(6).method_23430(3).method_23433(1).method_23434(1).method_23436(2).method_23427().method_23431();
         switch (forestConfig) {
             case 0: //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
-
-                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.method_23397(), FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
-                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(3), 0.02F, 1)));
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.method_23397(config).method_23388(Decorator.COUNT_EXTRA_HEIGHTMAP.method_23475(new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1))));
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FANCY_TREE.method_23397(config).method_23388(Decorator.COUNT_EXTRA_HEIGHTMAP.method_23475(new CountExtraChanceDecoratorConfig(Rands.randInt(3), 0.02F, 1))));
                 break;
             case 1:
                 //Small, inbetween forests
                 float chance = Rands.randInt(24) * 10F + 80F;
-                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
-                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(4), chance, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.method_23397(config).method_23388(RandomlyAddingAnything.DECORATOR.method_23475(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FANCY_TREE.method_23397(config).method_23388(RandomlyAddingAnything.DECORATOR.method_23475(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(3), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
                 //Large, thinner forests
                 float chance2 = Rands.randInt(12) * 10F + 120F;
-                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.NORMAL_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
-                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(Feature.FANCY_TREE, FeatureConfig.DEFAULT, RandomlyAddingAnything.DECORATOR, new BiasedNoiseBasedDecoratorConfig(Rands.randInt(2), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)));
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.method_23397(config).method_23388(RandomlyAddingAnything.DECORATOR.method_23475(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FANCY_TREE.method_23397(config).method_23388(RandomlyAddingAnything.DECORATOR.method_23475(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(2), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
                 break;
             case 2:
                 DefaultBiomeFeatures.addPlainsFeatures(this);
