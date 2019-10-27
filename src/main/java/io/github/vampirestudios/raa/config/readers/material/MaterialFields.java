@@ -3,9 +3,10 @@ package io.github.vampirestudios.raa.config.readers.material;
 import blue.endless.jankson.JsonObject;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
-import io.github.vampirestudios.raa.materials.CustomArmorMaterial;
-import io.github.vampirestudios.raa.materials.CustomToolMaterial;
-import io.github.vampirestudios.raa.materials.MaterialBuilder;
+import io.github.vampirestudios.raa.api.enums.TextureTypes;
+import io.github.vampirestudios.raa.generation.materials.CustomArmorMaterial;
+import io.github.vampirestudios.raa.generation.materials.CustomToolMaterial;
+import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 
@@ -170,7 +171,7 @@ public enum MaterialFields {
             builder.resourceItemTexture(idFromJson(jsonObject, "resourceItemTexture"));
         } else {
             Identifier resourceItem = new Identifier(jsonObject.get(String.class, "resourceItemTexture"));
-            if (OreTypes.METAL_ITEM_TEXTURES.contains(resourceItem) || OreTypes.CRYSTAL_ITEM_TEXTURES.contains(resourceItem) || OreTypes.GEM_ITEM_TEXTURES.contains(resourceItem)) {
+            if (TextureTypes.INGOT_TEXTURES.contains(resourceItem) || TextureTypes.CRYSTAL_ITEM_TEXTURES.contains(resourceItem) || TextureTypes.GEM_ITEM_TEXTURES.contains(resourceItem)) {
                 builder.resourceItemTexture(resourceItem);
             } else {
                 builder.resourceItemTexture();
@@ -183,7 +184,7 @@ public enum MaterialFields {
             builder.storageBlockTexture(idFromJson(jsonObject,"storageBlockTexture"));
         } else {
             Identifier storageBlock = new Identifier(jsonObject.get(String.class, "storageBlockTexture"));
-            if (OreTypes.METAL_BLOCK_TEXTURES.contains(storageBlock) || OreTypes.CRYSTAL_BLOCK_TEXTURES.contains(storageBlock) || OreTypes.GEM_BLOCK_TEXTURES.contains(storageBlock)) {
+            if (TextureTypes.METAL_BLOCK_TEXTURES.contains(storageBlock) || TextureTypes.CRYSTAL_BLOCK_TEXTURES.contains(storageBlock) || TextureTypes.GEM_BLOCK_TEXTURES.contains(storageBlock)) {
                 builder.storageBlockTexture(storageBlock);
             } else {
                 builder.storageBlockTexture();

@@ -1,14 +1,13 @@
 package io.github.vampirestudios.raa.registries;
 
-import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
-import io.github.vampirestudios.raa.utils.Color;
-import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
+import io.github.vampirestudios.raa.items.*;
+import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.DebugUtils;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
@@ -43,8 +42,8 @@ public class Materials {
                     .oreType(Rands.values(OreTypes.values())).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateMaterialNames()).color(RGB.getColor())
                     .generatesIn(Rands.values(GeneratesIn.values())).overlayTexture()
                     .resourceItemTexture().storageBlockTexture().armor(random.nextBoolean())
-                    .tools(random.nextBoolean()).oreFlower(Rands.chance(4))
-                    .weapons(Rands.chance(10)).glowing(Rands.chance(4))
+                    .tools(Rands.chance(3)).oreFlower(Rands.chance(4))
+                    .weapons(Rands.chance(7)).glowing(Rands.chance(4))
                     .minXPAmount(0).maxXPAmount(Rands.randIntRange(0, 4)).oreClusterSize(Rands.randIntRange(2, 6))
                     .food(Rands.chance(4))
                     .build();
