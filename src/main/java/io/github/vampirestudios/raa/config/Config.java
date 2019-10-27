@@ -7,7 +7,7 @@ import me.sargunvohra.mcmods.autoconfig1.ConfigData;
 @me.sargunvohra.mcmods.autoconfig1.annotation.Config(name = RandomlyAddingAnything.MOD_ID)
 public class Config implements ConfigData {
 
-    public int materialNumber = 100;
+    public int materialNumber = 20;
     public int dimensionNumber = 50;
     public boolean debug = false;
     public boolean regen = false;

@@ -56,12 +56,12 @@ public enum DimensionFields {
         return name;
     }
 
-    public DimensionBuilder read(Versions configVersion, DimensionBuilder builder, JsonObject jsonObject) {
+    public DimensionDataBuilder read(Versions configVersion, DimensionDataBuilder builder, JsonObject jsonObject) {
         return this.fieldsInterface.read(configVersion, builder, jsonObject);
     }
 
     protected interface MaterialFieldsInterface {
-        DimensionBuilder read(Versions configVersion, DimensionBuilder builder, JsonObject jsonObject);
+        DimensionDataBuilder read(Versions configVersion, DimensionDataBuilder builder, JsonObject jsonObject);
     }
 
     private static Identifier idFromJson(JsonObject jsonObject, String name) {

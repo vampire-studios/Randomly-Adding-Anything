@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.config.readers.Versions;
 import io.github.vampirestudios.raa.config.readers.dimensions.DimensionFields;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionBuilder;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionDataBuilder;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -107,13 +107,13 @@ public class DimensionSavingSystem {
 
                 for (int s = 0; s < jsonArray.size(); s++) {
                     JsonObject jsonObject = (JsonObject) jsonArray.get(s);
-                    DimensionBuilder dimensionBuilder = DimensionBuilder.create();
+                    DimensionDataBuilder dimensionDataBuilder = DimensionDataBuilder.create();
 
                     for (DimensionFields dimensionFields : DimensionFields.values()) {
-                        dimensionFields.read(versions, dimensionBuilder, jsonObject);
+                        dimensionFields.read(versions, dimensionDataBuilder, jsonObject);
                     }
 
-                    DimensionData dimensionData = dimensionBuilder.buildFromJSON();
+                    DimensionData dimensionData = dimensionDataBuilder.buildFromJSON();
                     String id = dimensionData.getName().toLowerCase();
                     for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
                         id = id.replace(entry.getKey(), entry.getValue());

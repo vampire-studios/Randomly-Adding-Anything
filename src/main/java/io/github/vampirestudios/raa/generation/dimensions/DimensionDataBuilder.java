@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
-public class DimensionBuilder {
+public class DimensionDataBuilder {
 
     private String name;
     private int dimensionId;
@@ -12,51 +12,51 @@ public class DimensionBuilder {
     private boolean waterVaporize;
     private boolean renderFog;
 
-    public static DimensionBuilder create() {
-        return new DimensionBuilder();
+    public static DimensionDataBuilder create() {
+        return new DimensionDataBuilder();
     }
 
-    public DimensionBuilder name(String name) {
+    public DimensionDataBuilder name(String name) {
         this.name = name;
         return this;
     }
 
-    public DimensionBuilder dimensionId(int dimensionId) {
+    public DimensionDataBuilder dimensionId(int dimensionId) {
         this.dimensionId = dimensionId;
         return this;
     }
 
-    public DimensionBuilder biome(DimensionBiomeData biomeData) {
+    public DimensionDataBuilder biome(DimensionBiomeData biomeData) {
         this.biomeData = biomeData;
         return this;
     }
 
-    public DimensionBuilder colorPallet(DimensionColorPallet dimensionColorPallet) {
+    public DimensionDataBuilder colorPallet(DimensionColorPallet dimensionColorPallet) {
         this.dimensionColorPallet = dimensionColorPallet;
         return this;
     }
 
-    public DimensionBuilder hasLight(boolean hasLight) {
+    public DimensionDataBuilder hasLight(boolean hasLight) {
         this.hasLight = hasLight;
         return this;
     }
 
-    public DimensionBuilder hasSky(boolean hasSky) {
+    public DimensionDataBuilder hasSky(boolean hasSky) {
         this.hasSky = hasSky;
         return this;
     }
 
-    public DimensionBuilder canSleep(boolean canSleep) {
+    public DimensionDataBuilder canSleep(boolean canSleep) {
         this.canSleep = canSleep;
         return this;
     }
 
-    public DimensionBuilder doesWaterVaporize(boolean waterVaporize) {
+    public DimensionDataBuilder doesWaterVaporize(boolean waterVaporize) {
         this.waterVaporize = waterVaporize;
         return this;
     }
 
-    public DimensionBuilder shouldRenderFog(boolean renderFog) {
+    public DimensionDataBuilder shouldRenderFog(boolean renderFog) {
         this.renderFog = renderFog;
         return this;
     }

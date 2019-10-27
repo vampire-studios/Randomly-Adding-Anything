@@ -47,21 +47,27 @@ public class Dimensions {
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
             Color WATER_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.5F, 1.0F), Rands.randFloatRange(0.5F, 1.0F)));
             Color STONE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
+
+            String dimensionName = RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionName().toLowerCase();
+            DimensionDataBuilder dimensionDataBuilder = DimensionDataBuilder.create()
+                    .dimensionId(Rands.randIntRange(1000, 30000)).name(dimensionName)
+                    .hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
+                    .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100));
             DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
-                    .name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames().toLowerCase() + "_biome")
+                    .name(dimensionName + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
                     .depth(Rands.randFloatRange(-3F, 3F))
                     .scale(Rands.randFloat(2F))
                     .temperature(Rands.randFloat(2.0F))
                     .downfall(Rands.randFloat(1F))
                     .waterColor(WATER_COLOR.getColor()).build();
+            dimensionDataBuilder.biome(biomeData);
             DimensionColorPallet colorPallet = DimensionColorPalletBuilder.create()
                     .skyColor(SKY_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).fogColor(FOG_COLOR.getColor())
                     .foliageColor(FOLIAGE_COLOR.getColor()).stoneColor(FOLIAGE_COLOR.getColor()).build();
-            DimensionData dimensionData = DimensionBuilder.create()
-                    .dimensionId(Rands.randIntRange(1000, 30000)).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames())
-                    .colorPallet(colorPallet).hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
-                    .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100)).biome(biomeData).build();
+            dimensionDataBuilder.colorPallet(colorPallet);
+
+            DimensionData dimensionData = dimensionDataBuilder.build();
             String id = dimensionData.getName().toLowerCase();
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());

@@ -54,7 +54,7 @@ public enum LangEnum {
         return biomeNameGenerator.getSpecialCharatersMap();
     }
 
-    public String generateDimensionNames() {
+    public String generateDimensionName() {
         return dimensionNameGenerator.generate();
     }
 
