@@ -32,10 +32,10 @@ public enum MaterialFields {
         return builder.weapons(jsonObject.get(boolean.class, "weapons"));
     }),
     GLOW(Versions.OLD, "glowing", (configVersion, builder, jsonObject) -> {
-        return builder.weapons(jsonObject.get(boolean.class, "glowing"));
+        return builder.glowing(jsonObject.get(boolean.class, "glowing"));
     }),
     ORE_FLOWERS(Versions.OLD, "oreFlower", (configVersion, builder, jsonObject) -> {
-        return builder.weapons(jsonObject.get(boolean.class, "oreFlower"));
+        return builder.oreFlower(jsonObject.get(boolean.class, "oreFlower"));
     }),
     MINING_LEVEL(Versions.OLD, "miningLevel", (configVersion, builder, jsonObject) -> {
         if (!jsonObject.containsKey("miningLevel")) {
@@ -95,6 +95,9 @@ public enum MaterialFields {
             int miningLevel = jsonObject.get(int.class, "miningLevel");
             JsonObject oreInfo = jsonObject.getObject("oreInformation");
             OreTypes oreTypes = oreInfo.get(OreTypes.class, "oreType");
+            System.out.println(name);
+            System.out.println(jsonObject.get(boolean.class, "tools"));
+            System.out.println(jsonObject.get(boolean.class, "weapons"));
 
             if (jsonObject.get(boolean.class, "tools")) {
                 JsonObject toolObject = jsonObject.getObject("toolMaterial");
@@ -111,6 +114,7 @@ public enum MaterialFields {
                         miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
                         axeAttackSpeed, swordAttackDamage
                 );
+                System.out.println("tools");
                 builder.tools(toolMaterial);
             }
 
@@ -129,8 +133,10 @@ public enum MaterialFields {
                         miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
                         axeAttackSpeed, swordAttackDamage
                 );
+                System.out.println("weapons");
                 builder.weapons(toolMaterial);
             }
+            System.out.println("");
         } else {
             if (jsonObject.get(boolean.class, "tools")) {
                 builder.tools();
