@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.config.readers.material;
+package io.github.vampirestudios.raa.config.readers;
 
 public enum Versions {
     OLD(0),
@@ -18,7 +18,7 @@ public enum Versions {
         for (Versions versions : values())
             if (versions.getNumber() == number)
                 return versions;
-        System.out.println("Unknow material config version : " + number);
+        System.out.println("Unknown config version : " + number);
         return null;
     }
 }

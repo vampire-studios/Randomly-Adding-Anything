@@ -4,6 +4,7 @@ import blue.endless.jankson.JsonObject;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
+import io.github.vampirestudios.raa.config.readers.Versions;
 import io.github.vampirestudios.raa.generation.materials.CustomArmorMaterial;
 import io.github.vampirestudios.raa.generation.materials.CustomToolMaterial;
 import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
@@ -114,7 +115,7 @@ public enum MaterialFields {
                         miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
                         axeAttackSpeed, swordAttackDamage
                 );
-                System.out.println("tools");
+//                System.out.println("tools");
                 builder.tools(toolMaterial);
             }
 
@@ -133,10 +134,10 @@ public enum MaterialFields {
                         miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
                         axeAttackSpeed, swordAttackDamage
                 );
-                System.out.println("weapons");
+//                System.out.println("weapons");
                 builder.weapons(toolMaterial);
             }
-            System.out.println("");
+//            System.out.println("");
         } else {
             if (jsonObject.get(boolean.class, "tools")) {
                 builder.tools();

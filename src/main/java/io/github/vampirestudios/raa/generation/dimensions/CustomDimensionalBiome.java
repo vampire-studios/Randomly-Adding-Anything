@@ -41,10 +41,7 @@ public class CustomDimensionalBiome extends Biome {
                 .temperature(dimensionData.getBiomeData().getTemperature())
                 .downfall(dimensionData.getBiomeData().getDownfall())
                 .waterColor(dimensionData.getBiomeData().getWaterColor())
-                .waterFogColor(new Color(
-                        Color.intToRgb(dimensionData.getBiomeData().getWaterColor())[0]/255 + 10,
-                        Color.intToRgb(dimensionData.getBiomeData().getWaterColor())[1]/255 + 10,
-                        Color.intToRgb(dimensionData.getBiomeData().getWaterColor())[2]/255 + 10).getColor())
+                .waterFogColor(dimensionData.getBiomeData().getWaterColor())
                 .parent(null)
         ));
         this.dimensionData = dimensionData;

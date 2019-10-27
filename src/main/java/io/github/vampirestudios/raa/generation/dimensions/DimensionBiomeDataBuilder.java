@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
-public class DimensionBiomeBuilder {
+public class DimensionBiomeDataBuilder {
 
     private String name;
     private int surfaceBuilderVariantChance;
@@ -10,41 +10,41 @@ public class DimensionBiomeBuilder {
     private float downfall;
     private int waterColor;
 
-    public static DimensionBiomeBuilder create() {
-        return new DimensionBiomeBuilder();
+    public static DimensionBiomeDataBuilder create() {
+        return new DimensionBiomeDataBuilder();
     }
 
-    public DimensionBiomeBuilder name(String name) {
+    public DimensionBiomeDataBuilder name(String name) {
         this.name = name;
         return this;
     }
 
-    public DimensionBiomeBuilder surfaceBuilderVariantChance(int surfaceBuilderVariantChance) {
+    public DimensionBiomeDataBuilder surfaceBuilderVariantChance(int surfaceBuilderVariantChance) {
         this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
         return this;
     }
 
-    public DimensionBiomeBuilder depth(float depth) {
+    public DimensionBiomeDataBuilder depth(float depth) {
         this.depth = depth;
         return this;
     }
 
-    public DimensionBiomeBuilder scale(float scale) {
+    public DimensionBiomeDataBuilder scale(float scale) {
         this.scale = scale;
         return this;
     }
 
-    public DimensionBiomeBuilder temperature(float temperature) {
+    public DimensionBiomeDataBuilder temperature(float temperature) {
         this.temperature = temperature;
         return this;
     }
 
-    public DimensionBiomeBuilder downfall(float downfall) {
+    public DimensionBiomeDataBuilder downfall(float downfall) {
         this.downfall = downfall;
         return this;
     }
 
-    public DimensionBiomeBuilder waterColor(int waterColor) {
+    public DimensionBiomeDataBuilder waterColor(int waterColor) {
         this.waterColor = waterColor;
         return this;
     }

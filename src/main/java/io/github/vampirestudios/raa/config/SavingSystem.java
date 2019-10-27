@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.config.readers.material.MaterialFields;
-import io.github.vampirestudios.raa.config.readers.material.Versions;
+import io.github.vampirestudios.raa.config.readers.Versions;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -33,27 +33,29 @@ public class SavingSystem {
 
     private static File configFile;
     private static File configPath;
-    private static String configFilename = "materials";
+    private static String configFilename = "material_config";
     private static Gson gson = DEFAULT_GSON;
     private static int fileNumber = 0;
 
     public static boolean init() {
         jackson = Jankson.builder().build();
-        configPath = new File(new File(CONFIG_PATH, "raa"), "materials");
+        configPath = new File(new File(CONFIG_PATH, RandomlyAddingAnything.MOD_ID), "materials");
         if (!configPath.exists()) {
             configPath.mkdirs();
             return true;
         }
-        configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
+        configFile = new File(configPath, configFilename + ".json");
         return !configFile.exists();
     }
 
     public static void createFile() {
-        configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
+        configFile = new File(configPath, configFilename+ ".json");
         try {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
             Material[] materialJSONS = toJSON();
-            fileWriter.write("{\"configVersion\":1,");
+            fileWriter.write("{");
+            fileWriter.newLine();
+            fileWriter.write("\"configVersion\":1,");
             fileWriter.newLine();
             fileWriter.flush();
             fileWriter.write("\"materials\": [");

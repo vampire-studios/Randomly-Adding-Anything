@@ -6,11 +6,6 @@ public class DimensionBuilder {
     private int dimensionId;
     private DimensionBiomeData biomeData;
     private DimensionColorPallet dimensionColorPallet;
-    private int grassColor;
-    private int fogColor;
-    private int foliageColor;
-    private int skyColor;
-    private int stoneColor;
     private boolean hasLight;
     private boolean hasSky;
     private boolean canSleep;
@@ -38,31 +33,6 @@ public class DimensionBuilder {
 
     public DimensionBuilder colorPallet(DimensionColorPallet dimensionColorPallet) {
         this.dimensionColorPallet = dimensionColorPallet;
-        return this;
-    }
-
-    public DimensionBuilder grassColor(int grassColor) {
-        this.grassColor = grassColor;
-        return this;
-    }
-
-    public DimensionBuilder fogColor(int fogColor) {
-        this.fogColor = fogColor;
-        return this;
-    }
-
-    public DimensionBuilder foliageColor(int foliageColor) {
-        this.foliageColor = foliageColor;
-        return this;
-    }
-
-    public DimensionBuilder skyColor(int skyColor) {
-        this.skyColor = skyColor;
-        return this;
-    }
-
-    public DimensionBuilder stoneColor(int stoneColor) {
-        this.stoneColor = stoneColor;
         return this;
     }
 

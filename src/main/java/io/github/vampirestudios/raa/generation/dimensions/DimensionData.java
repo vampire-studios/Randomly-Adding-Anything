@@ -5,11 +5,6 @@ public class DimensionData {
     private int dimensionId;
     private DimensionBiomeData biomeData;
     private DimensionColorPallet dimensionColorPallet;
-    private int grassColor;
-    private int fogColor;
-    private int foliageColor;
-    private int skyColor;
-    private int stoneColor;
     private boolean hasLight;
     private boolean hasSky;
     private boolean canSleep;
@@ -21,11 +16,6 @@ public class DimensionData {
         this.dimensionId = dimensionId;
         this.biomeData = biomeData;
         this.dimensionColorPallet = dimensionColorPallet;
-        this.grassColor = grassColor;
-        this.fogColor = fogColor;
-        this.foliageColor = foliageColor;
-        this.skyColor = skyColor;
-        this.stoneColor = stoneColor;
         this.hasLight = hasLight;
         this.hasSky = hasSky;
         this.canSleep = canSleep;
@@ -49,32 +39,12 @@ public class DimensionData {
         return dimensionColorPallet;
     }
 
-    public int getGrassColor() {
-        return grassColor;
-    }
-
-    public int getFogColor() {
-        return fogColor;
-    }
-
-    public int getFoliageColor() {
-        return foliageColor;
-    }
-
-    public int getStoneColor() {
-        return stoneColor;
-    }
-
     public boolean hasSkyLight() {
         return hasLight;
     }
 
     public boolean hasSky() {
         return hasSky;
-    }
-
-    public int getSkyColor() {
-        return skyColor;
     }
 
     public boolean canSleep() {

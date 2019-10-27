@@ -7,9 +7,9 @@ import blue.endless.jankson.impl.SyntaxError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionBiomeBuilder;
+import io.github.vampirestudios.raa.config.readers.Versions;
+import io.github.vampirestudios.raa.config.readers.dimensions.DimensionFields;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionBuilder;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionColorPalletBuilder;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -35,23 +35,23 @@ public class DimensionSavingSystem {
 
     private static File configFile;
     private static File configPath;
-    private static String configFilename = "dimensions";
+    private static String configFilename = "dimension_config";
     private static Gson gson = DEFAULT_GSON;
     private static int fileNumber = 0;
 
     public static boolean init() {
         jackson = Jankson.builder().build();
-        configPath = new File(new File(CONFIG_PATH, "raa"), "dimensions");
+        configPath = new File(new File(CONFIG_PATH, RandomlyAddingAnything.MOD_ID), "dimensions");
         if (!configPath.exists()) {
             configPath.mkdirs();
             return true;
         }
-        configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
+        configFile = new File(configPath, configFilename  + ".json");
         return !configFile.exists();
     }
 
     public static void createFile() {
-        configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
+        configFile = new File(configPath, configFilename + ".json");
         try {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
             DimensionData[] materialJSONS = toJSON();
@@ -87,7 +87,12 @@ public class DimensionSavingSystem {
             JsonObject jsonObject1 = jackson.load(configFile);
             if (jsonObject1.containsKey("configVersion")) {
                 int configVersion = jsonObject1.get(int.class, "configVersion");
-                if (configVersion != 1) return;
+                Versions versions = Versions.getFromInt(configVersion);
+                if (versions == null) {
+                    Dimensions.init();
+                    DimensionSavingSystem.createFile();
+                    return;
+                }
                 if (!jsonObject1.containsKey("dimensions")) {
                     Dimensions.init();
                     DimensionSavingSystem.createFile();
@@ -102,33 +107,12 @@ public class DimensionSavingSystem {
 
                 for (int s = 0; s < jsonArray.size(); s++) {
                     JsonObject jsonObject = (JsonObject) jsonArray.get(s);
-                    String name = jsonObject.get(String.class, "name");
                     DimensionBuilder dimensionBuilder = DimensionBuilder.create();
-                    dimensionBuilder.name(name)
-                            .dimensionId(jsonObject.get(int.class, "dimensionId"))
-                            .hasSky(jsonObject.get(boolean.class, "hasSky"))
-                            .hasLight(jsonObject.get(boolean.class, "hasLight"))
-                            .canSleep(jsonObject.get(boolean.class, "canSleep"));
-                    JsonObject colorPalletData = jsonObject.getObject("dimensionColorPallet");
-                    DimensionColorPalletBuilder colorPalletBuilder = DimensionColorPalletBuilder.create();
-                    colorPalletBuilder
-                            .fogColor(colorPalletData.get(int.class, "fogColor"))
-                            .grassColor(colorPalletData.get(int.class,"grassColor"))
-                            .foliageColor(colorPalletData.get(int.class,"foliageColor"))
-                            .skyColor(colorPalletData.get(int.class,"skyColor"))
-                            .stoneColor(colorPalletData.get(int.class,"stoneColor"));
-                    dimensionBuilder.colorPallet(colorPalletBuilder.build());
-                    JsonObject biomeData = jsonObject.getObject("biomeData");
-                    DimensionBiomeBuilder biomeBuilder = DimensionBiomeBuilder.create();
-                    biomeBuilder
-                            .name(biomeData.get(String.class, "biomeName"))
-                            .surfaceBuilderVariantChance(biomeData.get(int.class, "surfaceBuilderVariantChance"))
-                            .depth(biomeData.get(int.class, "depth"))
-                            .scale(biomeData.get(int.class, "scale"))
-                            .temperature(biomeData.get(int.class, "temperature"))
-                            .downfall(biomeData.get(int.class, "downfall"))
-                            .waterColor(biomeData.get(int.class, "waterColor"));
-                    dimensionBuilder.biome(biomeBuilder.build());
+
+                    for (DimensionFields dimensionFields : DimensionFields.values()) {
+                        dimensionFields.read(versions, dimensionBuilder, jsonObject);
+                    }
+
                     DimensionData dimensionData = dimensionBuilder.buildFromJSON();
                     String id = dimensionData.getName().toLowerCase();
                     for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {

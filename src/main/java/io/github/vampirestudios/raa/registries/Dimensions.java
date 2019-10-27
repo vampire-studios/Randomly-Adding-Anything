@@ -47,12 +47,12 @@ public class Dimensions {
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
             Color WATER_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.5F, 1.0F), Rands.randFloatRange(0.5F, 1.0F)));
             Color STONE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
-            DimensionBiomeData biomeData = DimensionBiomeBuilder.create()
+            DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
                     .name(RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionNames().toLowerCase() + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
                     .depth(Rands.randFloatRange(-3F, 3F))
                     .scale(Rands.randFloat(2F))
-                    .temperature(Rands.randFloat(1F))
+                    .temperature(Rands.randFloat(2.0F))
                     .downfall(Rands.randFloat(1F))
                     .waterColor(WATER_COLOR.getColor()).build();
             DimensionColorPallet colorPallet = DimensionColorPalletBuilder.create()
