@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.utils;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Rands {
 
@@ -39,5 +38,10 @@ public class Rands {
 
     public static <O extends Object> O list(List<O> list) {
         return list.get(randInt(list.size()));
+    }
+
+    public static <K,V extends Object> Map.Entry<K,V> map(Map<K,V> map) {
+        Set<Map.Entry<K, V>> entry = map.entrySet();
+        return new ArrayList<>(entry).get(randInt(entry.size()));
     }
 }

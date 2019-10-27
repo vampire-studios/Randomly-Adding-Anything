@@ -42,9 +42,9 @@ public class CustomDimensionalBiome extends Biome {
                 .downfall(dimensionData.getBiomeData().getDownfall())
                 .waterColor(dimensionData.getBiomeData().getWaterColor())
                 .waterFogColor(new Color(
-                        Color.intToRgb(dimensionData.getBiomeData().getWaterColor())[0]/255 + 1,
-                        Color.intToRgb(dimensionData.getBiomeData().getWaterColor())[1]/255 + 1,
-                        Color.intToRgb(dimensionData.getBiomeData().getWaterColor())[2]/255 + 1).getColor())
+                        Color.intToRgb(dimensionData.getBiomeData().getWaterColor())[0]/255 + 10,
+                        Color.intToRgb(dimensionData.getBiomeData().getWaterColor())[1]/255 + 10,
+                        Color.intToRgb(dimensionData.getBiomeData().getWaterColor())[2]/255 + 10).getColor())
                 .parent(null)
         ));
         this.dimensionData = dimensionData;
@@ -127,24 +127,24 @@ public class CustomDimensionalBiome extends Biome {
     @Environment(EnvType.CLIENT)
     public int getSkyColor(float float_1) {
 //        System.out.println(dimensionData.getSkyColor());
-        /*if(dimensionData.getDimensionColorPallet().getSkyColor() != 0) {
+        if(dimensionData.getDimensionColorPallet().getSkyColor() != 0) {
             return dimensionData.getDimensionColorPallet().getSkyColor();
         } else {
             return Color.WHITE.getColor();
-        }*/
-        return Color.WHITE.getColor();
+        }
+//        return Color.WHITE.getColor();
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getFoliageColorAt(BlockPos blockPos_1) {
-        return dimensionData.getFoliageColor();
+        return dimensionData.getDimensionColorPallet().getFoliageColor();
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getGrassColorAt(BlockPos blockPos_1) {
-        return dimensionData.getGrassColor();
+        return dimensionData.getDimensionColorPallet().getGrassColor();
     }
 
 }

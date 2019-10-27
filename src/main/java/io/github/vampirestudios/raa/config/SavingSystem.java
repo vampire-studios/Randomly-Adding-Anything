@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.generation.materials.CustomArmorMaterial;
 import io.github.vampirestudios.raa.generation.materials.CustomToolMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
@@ -252,14 +253,14 @@ public class SavingSystem {
                 }
 
                 Identifier resourceItem = new Identifier(jsonObject.get(String.class, "resourceItemTexture"));
-                if (OreTypes.METAL_ITEM_TEXTURES.contains(resourceItem) || OreTypes.CRYSTAL_ITEM_TEXTURES.contains(resourceItem) || OreTypes.GEM_ITEM_TEXTURES.contains(resourceItem)) {
+                if (TextureTypes.INGOT_TEXTURES.contains(resourceItem) || TextureTypes.CRYSTAL_ITEM_TEXTURES.contains(resourceItem) || TextureTypes.GEM_ITEM_TEXTURES.contains(resourceItem)) {
                     materialBuilder.resourceItemTexture(resourceItem);
                 } else {
                     materialBuilder.resourceItemTexture();
                 }
 
                 Identifier storageBlock = new Identifier(jsonObject.get(String.class, "storageBlockTexture"));
-                if (OreTypes.METAL_BLOCK_TEXTURES.contains(storageBlock) || OreTypes.CRYSTAL_BLOCK_TEXTURES.contains(storageBlock) || OreTypes.GEM_BLOCK_TEXTURES.contains(storageBlock)) {
+                if (TextureTypes.METAL_BLOCK_TEXTURES.contains(storageBlock) || TextureTypes.CRYSTAL_BLOCK_TEXTURES.contains(storageBlock) || TextureTypes.GEM_BLOCK_TEXTURES.contains(storageBlock)) {
                     materialBuilder.storageBlockTexture(storageBlock);
                 } else {
                     materialBuilder.storageBlockTexture();

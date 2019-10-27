@@ -1,133 +1,145 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
+import java.util.Map;
 
 public class Textures {
 
     public static void init() {
-        textures();
+        itemTextures();
+        blockTextures();
     }
 
-    private static void textures() {
-        OreTypes.METAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/ingot_1"));
-        OreTypes.METAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/ingot_2"));
-        OreTypes.METAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/ingot_3"));
+    private static void itemTextures() {
+        for (int i = 1; i < 4; i++) {
+            addTextureToList(TextureTypes.INGOT_TEXTURES, "item/ingots/ingot_" + i);
+        }
+        for (int i = 1; i < 10; i++) {
+            addTextureToList(TextureTypes.GEM_ITEM_TEXTURES, "item/gems/gem_" + i);
+        }
+        for (int i = 1; i < 8; i++) {
+            addTextureToList(TextureTypes.CRYSTAL_ITEM_TEXTURES, "item/crystals/crystal_" + i);
+        }
+        for (int i = 1; i < 7; i++) {
+            addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/nuggets/nugget_" + i);
+        }
+        addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/special/infernal_iron_nugget");
+        addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/special/lumen_iron_nugget");
+        addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/special/radioactive_iron_nugget");
+        addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/special/super_iron_nugget");
 
-        OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/gem_1"));
-        OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/gem_2"));
-        OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/gem_3"));
-        OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/gem_4"));
-        OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/gem_5"));
-        OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/gem_6"));
-        OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/gem_7"));
-        OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/gem_8"));
-        OreTypes.GEM_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/gem_10"));
+        addTextureToList(TextureTypes.INGOT_TEXTURES, "item/special/infernal_iron_ingot");
+        addTextureToList(TextureTypes.INGOT_TEXTURES, "item/special/lumen_iron_ingot");
+        addTextureToList(TextureTypes.INGOT_TEXTURES, "item/special/radioactive_iron_ingot");
+        addTextureToList(TextureTypes.INGOT_TEXTURES, "item/special/super_iron_ingot");
 
-        OreTypes.CRYSTAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/crystal_1"));
-        OreTypes.CRYSTAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/crystal_2"));
-        OreTypes.CRYSTAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/crystal_4"));
-        OreTypes.CRYSTAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/crystal_5"));
-        OreTypes.CRYSTAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/crystal_6"));
-        OreTypes.CRYSTAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/crystal_7"));
-        OreTypes.CRYSTAL_ITEM_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/crystal_8"));
+        for (int i = 1; i < 4; i++) {
+            addTextureToList(TextureTypes.HELMET_TEXTURES, "item/armor/helmet_" + i);
+        }
+        for (int i = 1; i < 4; i++) {
+            addTextureToList(TextureTypes.CHESTPLATE_TEXTURES, "item/armor/chestplate_" + i);
+        }
+        for (int i = 1; i < 4; i++) {
+            addTextureToList(TextureTypes.LEGGINGS_TEXTURES, "item/armor/leggings_" + i);
+        }
+        for (int i = 1; i < 4; i++) {
+            addTextureToList(TextureTypes.BOOTS_TEXTURES, "item/armor/boots_" + i);
+        }
 
-        OreTypes.METAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_1"));
-        OreTypes.METAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_10"));
-        OreTypes.METAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_11"));
-        OreTypes.METAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_13"));
-        OreTypes.METAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_17"));
+        addTextureToList(TextureTypes.HELMET_TEXTURES, "item/special/infernal_iron_helmet");
+        addTextureToList(TextureTypes.HELMET_TEXTURES, "item/special/super_iron_helmet");
 
-        OreTypes.GEM_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_2"));
-        OreTypes.GEM_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_7"));
-        OreTypes.GEM_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_10"));
-        OreTypes.GEM_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_11"));
+        addTextureToList(TextureTypes.CHESTPLATE_TEXTURES, "item/special/infernal_iron_chestplate");
+        addTextureToList(TextureTypes.CHESTPLATE_TEXTURES, "item/special/super_iron_chestplate");
 
-        OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_3"));
-        OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_4"));
-        OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_8"));
-        OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_9"));
-        OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_16"));
-        OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_15"));
-        OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_14"));
-        OreTypes.CRYSTAL_ORE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/ore_12"));
+        addTextureToList(TextureTypes.LEGGINGS_TEXTURES, "item/special/infernal_iron_leggings");
+        addTextureToList(TextureTypes.LEGGINGS_TEXTURES, "item/special/super_iron_leggings");
 
-        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_1"));
-        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_2"));
-        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_3"));
-        OreTypes.METAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/metal_4"));
+        addTextureToList(TextureTypes.BOOTS_TEXTURES, "item/special/infernal_iron_boots");
+        addTextureToList(TextureTypes.BOOTS_TEXTURES, "item/special/super_iron_boots");
 
-        OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_1"));
-        OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_2"));
-        OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_3"));
-        OreTypes.GEM_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/gem_4"));
+        addTextureToList(TextureTypes.HORSE_ARMOR_SADDLE_TEXTURES, "item/armor/horse_armor_saddle");
+        addTextureToList(TextureTypes.HORSE_ARMOR_SADDLE_TEXTURES, "item/armor/horse_armor_saddle_2");
 
-        OreTypes.CRYSTAL_BLOCK_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "block/crystal_1"));
+        TextureTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_1.png"));
+        TextureTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_2.png"));
+        TextureTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_3.png"));
+        TextureTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_4.png"));
 
-        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_1"));
-        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_2"));
-        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_3"));
-        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_4"));
-        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_5"));
-        OreTypes.METAL_NUGGET_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/nugget_6"));
+        addTexturesToMap(TextureTypes.HORSE_ARMOR, "item/armor/horse_armor_saddle",
+                "textures/models/armor/horse/horse_armor_1.png");
+        addTexturesToMap(TextureTypes.HORSE_ARMOR, "item/armor/horse_armor_saddle_2",
+                "textures/models/armor/horse/horse_armor_2.png");
 
-        OreTypes.HORSE_ARMOR_SADDLE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle"));
-        OreTypes.HORSE_ARMOR_SADDLE_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle_2"));
+        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head","item/tools/axe/axe_stick");
+        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head_2","item/tools/axe/axe_stick_2");
+        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head_3","item/tools/axe/axe_stick_3");
+        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head_4","item/tools/axe/axe_stick_4");
 
-        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_1.png"));
-        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_2.png"));
-        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_3.png"));
-        OreTypes.HORSE_ARMOR_MODEL_TEXTURES.add(new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_4.png"));
+        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_1","item/tools/pickaxe/pickaxe_1_handle");
+        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_2","item/tools/pickaxe/pickaxe_2_handle");
+        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_3","item/tools/pickaxe/pickaxe_3_handle");
+        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_4","item/tools/pickaxe/pickaxe_4_handle");
+        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_5","item/tools/pickaxe/pickaxe_5_handle");
 
-        addTextureToList(OreTypes.HELMET_TEXTURES, "item/helmet_1");
-        addTextureToList(OreTypes.HELMET_TEXTURES, "item/helmet_2");
-        addTextureToList(OreTypes.HELMET_TEXTURES, "item/helmet_3");
-
-        addTextureToList(OreTypes.CHESTPLATE_TEXTURES, "item/chestplate_1");
-        addTextureToList(OreTypes.CHESTPLATE_TEXTURES, "item/chestplate_2");
-        addTextureToList(OreTypes.CHESTPLATE_TEXTURES, "item/chestplate_3");
-
-        addTextureToList(OreTypes.LEGGINGS_TEXTURES, "item/leggings_1");
-        addTextureToList(OreTypes.LEGGINGS_TEXTURES, "item/leggings_2");
-        addTextureToList(OreTypes.LEGGINGS_TEXTURES, "item/leggings_3");
-
-        addTextureToList(OreTypes.BOOTS_TEXTURES, "item/boots_1");
-        addTextureToList(OreTypes.BOOTS_TEXTURES, "item/boots_2");
-        addTextureToList(OreTypes.BOOTS_TEXTURES, "item/boots_3");
-
-        OreTypes.HORSE_ARMOR.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_1.png"));
-        OreTypes.HORSE_ARMOR.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/horse_armor_saddle_2"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "textures/models/armor/horse/horse_armor_2.png"));
-
-        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_1"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_1.png"));
-        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_2"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_2.png"));
-        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_3"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_3.png"));
-        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_4"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_4.png"));
-        OreTypes.AXES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_head_5"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/axe_stick_5.png"));
-
-        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_1"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_1.png"));
-        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_2"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_2.png"));
-        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_3"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_3.png"));
-        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_4"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_4.png"));
-        OreTypes.HOES.put(new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_head_5"),
-                new Identifier(RandomlyAddingAnything.MOD_ID, "item/hoe_stick_5.png"));
+        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_1","item/tools/hoe/hoe_stick_1");
+        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_2","item/tools/hoe/hoe_stick_2");
+        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_3","item/tools/hoe/hoe_stick_3");
+        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_4","item/tools/hoe/hoe_stick_4");
+        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_5","item/tools/hoe/hoe_stick_5");
     }
 
-    private static void addTextureToList (List<Identifier> textures, String name) {
+    private static void blockTextures() {
+        for (int i = 1; i < 7; i++) {
+            addTextureToList(TextureTypes.METAL_ORE_TEXTURES, "block/ores/metals/ore_" + i);
+        }
+        for (int i = 1; i < 5; i++) {
+            addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/gems/ore_" + i);
+        }
+        for (int i = 1; i < 10; i++) {
+            addTextureToList(TextureTypes.CRYSTAL_ORE_TEXTURES, "block/ores/crystals/ore_" + i);
+        }
+        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/archaic_ore");
+        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/dark_pearl_ore");
+        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/ebonite_ore");
+        addTextureToList(TextureTypes.METAL_ORE_TEXTURES, "block/ores/infernal_iron_ore_glow");
+        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/lumen_iron_ore_glow");
+        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/nagrilite_ore");
+        addTextureToList(TextureTypes.CRYSTAL_ORE_TEXTURES, "block/ores/radioactive_iron_ore_glow");
+        addTextureToList(TextureTypes.METAL_ORE_TEXTURES, "block/ores/super_iron_ore");
+        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/tenebrum_ore");
+
+        for (int i = 1; i < 5; i++) {
+            addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/metals/metal_" + i);
+        }
+        for (int i = 1; i < 5; i++) {
+            addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/gems/gem_" + i);
+        }
+        addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/crystals/crystal_1");
+
+        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/dark_pearl_block");
+        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/ebonite_block");
+        addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/infernal_iron_block");
+        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/lumen_iron_block");
+        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/nagrilite_block");
+        addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/radioactive_iron_block");
+        addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/super_iron_block");
+        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/tenebrum_block");
+    }
+
+    private static void addTextureToList(List<Identifier> textures, String name) {
         textures.add(new Identifier(RandomlyAddingAnything.MOD_ID, name));
+    }
+
+    private static void addTexturesToMap(Map<Identifier, Identifier> textureSets, String texture1, String texture2) {
+        textureSets.put(
+                new Identifier(RandomlyAddingAnything.MOD_ID, texture1),
+                new Identifier(RandomlyAddingAnything.MOD_ID, texture2)
+        );
     }
 
 }

@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.api.enums;
 
-public enum TextureType {
+public enum TextureTypeWIP {
 
     ORE_OVERLAY,
     STORAGE_BLOCK,

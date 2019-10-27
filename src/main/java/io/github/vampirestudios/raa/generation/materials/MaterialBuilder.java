@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.materials;
 
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 
@@ -68,11 +69,11 @@ public class MaterialBuilder {
 
     public MaterialBuilder overlayTexture() {
         if (oreType == OreTypes.METAL) {
-            this.overlayTexture = Rands.list(OreTypes.METAL_ORE_TEXTURES);
+            this.overlayTexture = Rands.list(TextureTypes.METAL_ORE_TEXTURES);
         } else if (oreType == OreTypes.GEM) {
-            this.overlayTexture = Rands.list(OreTypes.GEM_ORE_TEXTURES);
+            this.overlayTexture = Rands.list(TextureTypes.GEM_ORE_TEXTURES);
         } else {
-            this.overlayTexture = Rands.list(OreTypes.CRYSTAL_ORE_TEXTURES);
+            this.overlayTexture = Rands.list(TextureTypes.CRYSTAL_ORE_TEXTURES);
         }
         return this;
     }
@@ -89,11 +90,11 @@ public class MaterialBuilder {
 
     public MaterialBuilder storageBlockTexture() {
         if (oreType == OreTypes.METAL) {
-            this.storageBlockTexture = Rands.list(OreTypes.METAL_BLOCK_TEXTURES);
+            this.storageBlockTexture = Rands.list(TextureTypes.METAL_BLOCK_TEXTURES);
         } else if (oreType == OreTypes.GEM) {
-            this.storageBlockTexture = Rands.list(OreTypes.GEM_BLOCK_TEXTURES);
+            this.storageBlockTexture = Rands.list(TextureTypes.GEM_BLOCK_TEXTURES);
         } else {
-            this.storageBlockTexture = Rands.list(OreTypes.CRYSTAL_BLOCK_TEXTURES);
+            this.storageBlockTexture = Rands.list(TextureTypes.CRYSTAL_BLOCK_TEXTURES);
         }
         return this;
     }
@@ -105,11 +106,11 @@ public class MaterialBuilder {
 
     public MaterialBuilder resourceItemTexture() {
         if (oreType == OreTypes.METAL) {
-            this.resourceItemTexture = Rands.list(OreTypes.METAL_ITEM_TEXTURES);
+            this.resourceItemTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
         } else if (oreType == OreTypes.GEM) {
-            this.resourceItemTexture = Rands.list(OreTypes.GEM_ITEM_TEXTURES);
+            this.resourceItemTexture = Rands.list(TextureTypes.GEM_ITEM_TEXTURES);
         } else {
-            this.resourceItemTexture = Rands.list(OreTypes.CRYSTAL_ITEM_TEXTURES);
+            this.resourceItemTexture = Rands.list(TextureTypes.CRYSTAL_ITEM_TEXTURES);
         }
         return this;
     }
@@ -219,7 +220,7 @@ public class MaterialBuilder {
 
     public Material build() {
         return oreType == OreTypes.METAL ?
-                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, Rands.list(OreTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower, food)
+                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, Rands.list(TextureTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower, food)
                 : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower, food);
     }
 
