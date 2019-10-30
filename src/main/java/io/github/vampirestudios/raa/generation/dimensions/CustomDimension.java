@@ -36,7 +36,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-        return Utils.randomCG(Rands.randInt(60), world, new FixedBiomeSource(new FixedBiomeSourceConfig(world.getLevelProperties()).setBiome(dimensionalBiome)));
+        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, new FixedBiomeSource(new FixedBiomeSourceConfig(this.world.getLevelProperties()).setBiome(this.dimensionalBiome)));
     }
 
     @Override

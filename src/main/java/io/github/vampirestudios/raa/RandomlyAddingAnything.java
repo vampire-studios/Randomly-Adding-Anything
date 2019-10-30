@@ -5,7 +5,6 @@ import io.github.vampirestudios.raa.config.DimensionSavingSystem;
 import io.github.vampirestudios.raa.config.SavingSystem;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecorator;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
-import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecorator;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;

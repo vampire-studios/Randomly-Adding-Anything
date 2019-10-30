@@ -1,11 +1,10 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.enums.PlayerPlacementHandlers;
+import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.*;
-import io.github.vampirestudios.raa.utils.Color;
-import io.github.vampirestudios.raa.utils.DebugUtils;
-import io.github.vampirestudios.raa.utils.Rands;
-import io.github.vampirestudios.raa.utils.RegistryUtils;
+import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -16,6 +15,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.HorizontalVoronoiBiomeAccessType;
+import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 
 import java.util.ArrayList;
@@ -52,7 +52,8 @@ public class Dimensions {
             DimensionDataBuilder dimensionDataBuilder = DimensionDataBuilder.create()
                     .dimensionId(Rands.randIntRange(1000, 30000)).name(dimensionName)
                     .hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
-                    .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100));
+                    .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100))
+                    .chunkGenerator(Utils.randomCG(60));
             DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
                     .name(dimensionName + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
@@ -103,17 +104,20 @@ public class Dimensions {
             }
             DimensionType type = FabricDimensionType.builder().biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE).desiredRawId(dimension.getDimensionId())
                     .skyLight(dimension.hasSkyLight()).factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome))
-                    .defaultPlacer((teleported, destination, portalDir, horizontalOffset, verticalOffset) ->
-                            new BlockPattern.TeleportTarget(new Vec3d(100, destination.getSeaLevel(), 100), teleported.getVelocity(), (int) teleported.yaw))
+//                    .defaultPlacer((teleported, destination, portalDir, horizontalOffset, verticalOffset) ->
+//                            new BlockPattern.TeleportTarget(new Vec3d(100, destination.getSeaLevel(), 100), teleported.getVelocity(), (int) teleported.yaw))
+                    .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
                     .buildAndRegister(new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase()));
             Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase());
+            DimensionType dimensionType = null;
             if (DIMENSION_NAME_LIST.contains(id)) {
                 if (Registry.DIMENSION.get(id) == null)
-                Registry.register(Registry.DIMENSION, id, type);
+                dimensionType = Registry.register(Registry.DIMENSION, id, type);
             }
 
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.STONE)), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone"),
                     ItemGroup.BUILDING_BLOCKS);
+            RegistryUtils.register(new PortalBlock(dimensionType), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"), ItemGroup.TRANSPORTATION);
         });
     }
 
