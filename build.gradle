@@ -6,7 +6,6 @@ plugins {
 }
 
 repositories {
-	maven { url = "https://jitpack.io"}
 	maven{ url="https://minecraft.curseforge.com/api/maven" }
 	maven{ url="https://maven.jamieswhiteshirt.com/libs-release/" }
 	maven{ url="https://maven.fabricmc.net" }
@@ -25,6 +24,7 @@ repositories {
 			password ""
 		}
 	}
+	maven { url = "https://jitpack.io"}
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
