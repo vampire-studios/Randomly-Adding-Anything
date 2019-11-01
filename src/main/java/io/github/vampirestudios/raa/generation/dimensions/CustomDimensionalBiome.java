@@ -19,6 +19,8 @@ import net.minecraft.world.gen.decorator.CountDecoratorConfig;
 import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
+import net.minecraft.world.gen.stateprovider.SimpleStateProvider;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 
 public class CustomDimensionalBiome extends Biome {
@@ -56,7 +58,7 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addDefaultDisks(this);
         int forestConfig = Rands.randInt(3);
 //        System.out.println(dimensionData.getName() + " : " + forestConfig);
-        NormalTreeFeatureConfig config = (new class_4640.class_4641(new class_4656(Blocks.OAK_LOG.getDefaultState()), new class_4656(Blocks.OAK_LEAVES.getDefaultState()), new class_4650(2, 1)))
+        NormalTreeFeatureConfig config = (new NormalTreeFeatureConfig.Builder(new SimpleStateProvider(Blocks.OAK_LOG.getDefaultState()), new SimpleStateProvider(Blocks.OAK_LEAVES.getDefaultState()), new SpruceFoliagePlacer(2, 1)))
                 .method_23428(6).method_23430(3).method_23433(1).method_23434(1).method_23436(2).method_23427().method_23431();
         switch (forestConfig) {
             case 0: //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
@@ -77,7 +79,8 @@ public class CustomDimensionalBiome extends Biome {
                 DefaultBiomeFeatures.addPlainsFeatures(this);
                 break;
         }
-        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.field_21219.configure(DefaultBiomeFeatures.field_21089).method_23388(Decorator.COUNT_HEIGHTMAP_DOUBLE.configure(new CountDecoratorConfig(50))));
+        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.field_21089)
+                .createDecoratedFeature(Decorator.COUNT_HEIGHTMAP_DOUBLE.configure(new CountDecoratorConfig(50))));
 //      this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(RandomlyAddingAnything.TEST_FEATURE, FeatureConfig.DEFAULT, Decorator.TOP_SOLID_HEIGHTMAP, new NopeDecoratorConfig()));
         /*if(Rands.chance(8))
             DefaultBiomeFeatures.addMossyRocks(this);
