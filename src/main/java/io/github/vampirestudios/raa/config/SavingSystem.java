@@ -82,7 +82,7 @@ public class SavingSystem {
     }
 
     public static void readFile() {
-        configFile = new File(configPath, configFilename + "_" + fileNumber + ".json");
+        configFile = new File(configPath, configFilename + ".json");
         try {
             JsonObject jsonObject1 = jackson.load(configFile);
             if (jsonObject1.containsKey("configVersion")) {

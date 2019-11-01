@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
+import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
+
 public class DimensionDataBuilder {
 
     private String name;
@@ -11,6 +13,7 @@ public class DimensionDataBuilder {
     private boolean canSleep;
     private boolean waterVaporize;
     private boolean renderFog;
+    private DimensionChunkGenerators dimensionChunkGenerator;
 
     public static DimensionDataBuilder create() {
         return new DimensionDataBuilder();
@@ -18,6 +21,11 @@ public class DimensionDataBuilder {
 
     public DimensionDataBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public DimensionDataBuilder chunkGenerator(DimensionChunkGenerators dimensionChunkGenerator) {
+        this.dimensionChunkGenerator = dimensionChunkGenerator;
         return this;
     }
 
@@ -63,12 +71,12 @@ public class DimensionDataBuilder {
 
     public DimensionData build() {
         return new DimensionData(name, dimensionId, biomeData,
-                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog);
+                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator);
     }
 
     public DimensionData buildFromJSON() {
         return new DimensionData(name, dimensionId, biomeData,
-                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog);
+                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator);
     }
 
 }

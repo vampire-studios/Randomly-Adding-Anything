@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.chunk.*;
@@ -29,13 +30,13 @@ public class Utils {
         }
     }
 
-    public static ChunkGenerator<?> randomCG(int chance, World world, BiomeSource biomeSource) {
+    public static DimensionChunkGenerators randomCG(int chance) {
         if (chance == 22) {
-            return new CavesChunkGenerator(world, biomeSource, new CavesChunkGeneratorConfig());
+            return DimensionChunkGenerators.CAVE;
         } else if(chance == 44) {
-            return new FloatingIslandsChunkGenerator(world, biomeSource, new FloatingIslandsChunkGeneratorConfig());
+            return DimensionChunkGenerators.FLOATING;
         } else {
-            return new OverworldChunkGenerator(world, biomeSource, new OverworldChunkGeneratorConfig());
+            return DimensionChunkGenerators.OVERWORLD;
         }
     }
 

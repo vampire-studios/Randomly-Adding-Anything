@@ -1,8 +1,10 @@
 package io.github.vampirestudios.raa.config.readers.dimensions;
 
 import blue.endless.jankson.JsonObject;
+import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.config.readers.Versions;
 import io.github.vampirestudios.raa.generation.dimensions.*;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.util.Identifier;
 
 public enum DimensionFields {
@@ -13,12 +15,13 @@ public enum DimensionFields {
         return builder.dimensionId(jsonObject.get(int.class, "dimensionId"));
     }),
     DIMENSION_PALLETS(Versions.V1, "dimensionColorPallet", (configVersion, builder, jsonObject) -> {
+        JsonObject colorPalletObject = jsonObject.getObject("dimensionColorPallet");
         DimensionColorPallet pallet = DimensionColorPalletBuilder.create()
-                .skyColor(jsonObject.get(int.class, "skyColor"))
-                .grassColor(jsonObject.get(int.class, "grassColor"))
-                .fogColor(jsonObject.get(int.class, "fogColor"))
-                .foliageColor(jsonObject.get(int.class, "foliageColor"))
-                .stoneColor(jsonObject.get(int.class, "stoneColor")).build();
+                .skyColor(colorPalletObject.get(int.class, "skyColor"))
+                .grassColor(colorPalletObject.get(int.class, "grassColor"))
+                .fogColor(colorPalletObject.get(int.class, "fogColor"))
+                .foliageColor(colorPalletObject.get(int.class, "foliageColor"))
+                .stoneColor(colorPalletObject.get(int.class, "stoneColor")).build();
         return builder.colorPallet(pallet);
     }),
     HAS_LIGHT(Versions.V1, "hasLight", (configVersion, builder, jsonObject) -> {
@@ -31,15 +34,22 @@ public enum DimensionFields {
         return builder.canSleep(jsonObject.get(boolean.class, "canSleep"));
     }),
     BIOME_DATA(Versions.OLD, "tools", (configVersion, builder, jsonObject) -> {
+        JsonObject biomeDataObject = jsonObject.getObject("biomeData");
         DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
-                .name(jsonObject.get(String.class, "biomeName"))
-                .surfaceBuilderVariantChance(jsonObject.get(int.class, "surfaceBuilderVariantChance"))
-                .depth(jsonObject.get(int.class, "depth"))
-                .scale(jsonObject.get(int.class, "scale"))
-                .temperature(jsonObject.get(int.class, "temperature"))
-                .downfall(jsonObject.get(int.class, "downfall"))
-                .waterColor(jsonObject.get(int.class, "waterColor")).build();
+                .name(biomeDataObject.get(String.class, "biomeName"))
+                .surfaceBuilderVariantChance(biomeDataObject.get(int.class, "surfaceBuilderVariantChance"))
+                .depth(biomeDataObject.get(int.class, "depth"))
+                .scale(biomeDataObject.get(int.class, "scale"))
+                .temperature(biomeDataObject.get(int.class, "temperature"))
+                .downfall(biomeDataObject.get(int.class, "downfall"))
+                .waterColor(biomeDataObject.get(int.class, "waterColor")).build();
         return builder.biome(biomeData);
+    }),
+    CHUNK_GENERATOR(Versions.V1, "dimensionChunkGenerator", (configVersion, builder, jsonObject) -> {
+        DimensionChunkGenerators dimensionChunkGenerators = jsonObject.get(DimensionChunkGenerators.class, "dimensionChunkGenerator");
+        if (dimensionChunkGenerators != null) builder.chunkGenerator(dimensionChunkGenerators);
+        else builder.chunkGenerator(Utils.randomCG(60));
+        return builder;
     });
 
     private Versions implementedVersion;
