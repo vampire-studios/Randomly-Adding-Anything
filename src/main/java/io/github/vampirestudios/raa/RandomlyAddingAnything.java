@@ -9,6 +9,7 @@ import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;
 import io.github.vampirestudios.raa.registries.Dimensions;
+import io.github.vampirestudios.raa.registries.Features;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.registries.Textures;
 import me.sargunvohra.mcmods.autoconfig1.AutoConfig;
@@ -35,7 +36,6 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static final ItemGroup RAA_FOOD = FabricItemGroupBuilder.build(new Identifier("raa", "food"), () -> new ItemStack(Items.GOLDEN_APPLE));
 	public static final String MOD_ID = "raa";
 	public static Config CONFIG;
-	public static TestFeature TEST_FEATURE;
 	public static BiasedNoiseBasedDecorator DECORATOR;
 	public static CustomDimensionSurfaceBuilder SURFACE_BUILDER;
 
@@ -44,6 +44,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 		AutoConfig.register(Config.class, JanksonConfigSerializer::new);
 		CONFIG = AutoConfig.getConfigHolder(Config.class).getConfig();
 		Textures.init();
+		Features.init();
 		if (SavingSystem.init() || CONFIG.regen) {
 			Materials.init();
 			Dimensions.init();
@@ -64,7 +65,6 @@ public class RandomlyAddingAnything implements ModInitializer {
 		}
 		SURFACE_BUILDER = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "custom_surface_builder"),
 				new CustomDimensionSurfaceBuilder(TernarySurfaceConfig::deserialize));
-		TEST_FEATURE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "test_feature"), new TestFeature(DefaultFeatureConfig::deserialize));
 		DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "test_decorator"), new BiasedNoiseBasedDecorator(BiasedNoiseBasedDecoratorConfig::deserialize));
 		Dimensions.createDimensions();
 		Materials.createMaterialResources();
