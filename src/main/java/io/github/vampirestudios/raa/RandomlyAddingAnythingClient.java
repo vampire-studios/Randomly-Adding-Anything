@@ -199,7 +199,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 }
 
                 @Override
-                public BakedModel bake(ModelLoader var1, Function<Identifier, Sprite> var2, ModelBakeSettings var3) {
+                public BakedModel bake(ModelLoader modelLoader, Function<Identifier, Sprite> function, ModelBakeSettings modelBakeSettings, Identifier identifier) {
                     return new OreBakedModel(BLOCKS_IDENTIFIERS.get(identifier).getKey());
                 }
             };

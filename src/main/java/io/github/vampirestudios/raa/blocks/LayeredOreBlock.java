@@ -1,15 +1,21 @@
 package io.github.vampirestudios.raa.blocks;
 
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
-import io.github.vampirestudios.raa.materials.Material;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.materials.Material;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
-import net.minecraft.block.*;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.OreBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.LootTables;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
@@ -17,12 +23,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.loot.LootPool;
-import net.minecraft.world.loot.LootSupplier;
-import net.minecraft.world.loot.LootTables;
-import net.minecraft.world.loot.context.LootContext;
-import net.minecraft.world.loot.context.LootContextParameters;
-import net.minecraft.world.loot.context.LootContextTypes;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,11 +36,6 @@ public class LayeredOreBlock extends OreBlock {
 	public LayeredOreBlock(Material material, Settings settings) {
 		super(settings);
 		this.material = material;
-	}
-
-	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.SOLID;
 	}
 
 	@Override
@@ -104,7 +99,7 @@ public class LayeredOreBlock extends OreBlock {
 		} else {
 			LootContext context = builder.put(LootContextParameters.BLOCK_STATE, state).build(LootContextTypes.BLOCK);
 			ServerWorld world = context.getWorld();
-			LootSupplier lootSupplier = world.getServer().getLootManager().getSupplier(tableId);
+			LootTable lootSupplier = world.getServer().getLootManager().getSupplier(tableId);
 			
 			List<ItemStack> result = lootSupplier.getDrops(context);
 			if (result.isEmpty()) {
