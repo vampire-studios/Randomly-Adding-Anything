@@ -22,9 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
-import io.github.vampirestudios.raa.generation.feature.TestFeature;
 
 public class RandomlyAddingAnything implements ModInitializer {
 

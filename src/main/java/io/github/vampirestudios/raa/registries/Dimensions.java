@@ -53,7 +53,8 @@ public class Dimensions {
                     .dimensionId(Rands.randIntRange(1000, 30000)).name(dimensionName)
                     .hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
                     .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100))
-                    .chunkGenerator(Utils.randomCG(60));
+                    .chunkGenerator(Utils.randomCG(60))
+                    .isCorrupted(Rands.chance(20));
             DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
                     .name(dimensionName + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
