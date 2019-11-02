@@ -19,6 +19,7 @@ public class TextureTypes {
     public static List<Identifier> CRYSTAL_ORE_TEXTURES = new ArrayList<>();
     public static List<Identifier> CRYSTAL_BLOCK_TEXTURES = new ArrayList<>();
     public static List<Identifier> CRYSTAL_ITEM_TEXTURES = new ArrayList<>();
+    public static List<Identifier> FRUIT_TEXTURES = new ArrayList<>();
 
     public static Map<Identifier, Identifier> HORSE_ARMOR = new HashMap<>();
     public static Map<Identifier, Identifier> PICKAXES = new HashMap<>();

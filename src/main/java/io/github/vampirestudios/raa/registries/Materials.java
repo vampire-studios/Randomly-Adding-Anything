@@ -178,18 +178,9 @@ public class Materials {
                 RegistryUtils.registerItem(
                         new RAAFoodItem(
                                 material.getName(),
-                                new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(FoodComponents.GOLDEN_APPLE),
-                                RAAFoodItem.SimpleItemType.APPLE
+                                new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(FoodComponents.GOLDEN_CARROT)
                         ),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_apple")
-                );
-                RegistryUtils.registerItem(
-                        new RAAFoodItem(
-                                material.getName(),
-                                new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(FoodComponents.GOLDEN_CARROT),
-                                RAAFoodItem.SimpleItemType.CARROT
-                        ),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot")
+                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_fruit")
                 );
             }
         });
