@@ -52,7 +52,7 @@ public class English implements INameGenerator {
             return combine(combine(prefix,middle),ending);
         }
 
-        return combine(prefix, ending);
+        return combine(prefix, ending).replace("ı", "i");
     }
 
     public Collection<String> generate(int count) {
