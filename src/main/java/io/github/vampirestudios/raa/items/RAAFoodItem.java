@@ -8,24 +8,15 @@ import net.minecraft.text.TranslatableText;
 
 public class RAAFoodItem extends Item {
     private String name;
-    private SimpleItemType itemType;
 
-    public RAAFoodItem(String name, Settings item$Settings_1, SimpleItemType itemType) {
+    public RAAFoodItem(String name, Settings item$Settings_1) {
         super(item$Settings_1);
         this.name = name;
-        this.itemType = itemType;
     }
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.food." + getItemType().name().toLowerCase(), new LiteralText(name));
+        return new TranslatableText("text.raa.item.food", new LiteralText(name));
     }
 
-    public SimpleItemType getItemType() {
-        return itemType;
-    }
-
-    public enum SimpleItemType {
-        APPLE,CARROT
-    }
 }

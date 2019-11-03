@@ -162,23 +162,35 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
 
                 if (material.hasFood()) {
-                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_food"), modelBuilder -> {
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, bid + "_fruit"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", new Identifier("raa", "item/apple"));
+                        modelBuilder.texture("layer0", Rands.list(TextureTypes.FRUIT_TEXTURES));
                     });
                 }
             });
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
-                Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone");
-                clientResourcePackBuilder.addBlockState(id, blockStateBuilder -> blockStateBuilder.variant("", variant ->
-                    variant.model(new Identifier(id.getNamespace(), "block/" + id.getPath())))
+                Identifier stoneId = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone");
+                Identifier portalId = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_portal");
+                clientResourcePackBuilder.addBlockState(stoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                    variant.model(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())))
                 );
-                clientResourcePackBuilder.addBlockModel(id, modelBuilder -> {
+                clientResourcePackBuilder.addBlockModel(stoneId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("block/leaves"));
                     modelBuilder.texture("all", new Identifier(RandomlyAddingAnything.MOD_ID, "block/stone"));
                 });
-                clientResourcePackBuilder.addItemModel(id,
-                        modelBuilder -> modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
+                clientResourcePackBuilder.addItemModel(stoneId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())));
+
+
+                clientResourcePackBuilder.addBlockState(portalId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(stoneId.getNamespace(), "block/" + portalId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(portalId, modelBuilder -> modelBuilder.parent(new Identifier("raa:block/portal")));
+                clientResourcePackBuilder.addItemModel(portalId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(portalId.getNamespace(), "block/" + portalId.getPath())));
+
+                ColorProviderRegistryImpl.ITEM.register((stack, layer) -> dimensionData.getDimensionColorPallet().getFogColor(), Registry.ITEM.get(portalId));
+                ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> dimensionData.getDimensionColorPallet().getFogColor(), Registry.BLOCK.get(portalId));
             });
         });
 

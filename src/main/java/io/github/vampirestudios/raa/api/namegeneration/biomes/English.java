@@ -23,7 +23,7 @@ public class English implements INameGenerator {
         Random rnd = new Random();
         String prefix = LATIN_PREFIXES[rnd.nextInt(LATIN_PREFIXES.length)];
         String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
-        return combine(prefix, middle);
+        return combine(prefix, middle).replace("ı", "i");
     }
 
     public Collection<String> generate(int count) {

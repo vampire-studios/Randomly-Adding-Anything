@@ -41,6 +41,10 @@ public class Textures {
             addTextureToList(TextureTypes.BOOTS_TEXTURES, "item/armor/boots_" + i);
         }
 
+        for (int i = 1; i < 5; i++) {
+            addTextureToList(TextureTypes.FRUIT_TEXTURES, "item/fruits/fruit_" + i);
+        }
+
         addTextureToList(TextureTypes.HORSE_ARMOR_SADDLE_TEXTURES, "item/armor/horse_armor_saddle");
         addTextureToList(TextureTypes.HORSE_ARMOR_SADDLE_TEXTURES, "item/armor/horse_armor_saddle_2");
 
