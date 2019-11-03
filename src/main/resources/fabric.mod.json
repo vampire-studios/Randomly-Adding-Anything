@@ -32,6 +32,10 @@
     ]
   },
 
+  "mixins": [
+    "raa.mixins.json"
+  ],
+
   "depends": {
     "fabricloader": ">=0.6.0",
     "fabric": "*"
