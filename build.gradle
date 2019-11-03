@@ -57,7 +57,7 @@ dependencies {
 	modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
 		exclude group :"net.fabricmc.fabric-api"
 	}
-	include ("io.github.cottonmc:Jankson:1.0.0+j1.1.2") {
+	include ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
 		exclude group :"net.fabricmc.fabric-api"
 	}
 
