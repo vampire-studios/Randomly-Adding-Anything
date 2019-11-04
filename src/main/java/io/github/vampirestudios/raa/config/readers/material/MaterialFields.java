@@ -31,10 +31,10 @@ public enum MaterialFields {
         return builder.weapons(jsonObject.get(boolean.class, "weapons"));
     }),
     GLOW(Versions.OLD, "glowing", (configVersion, builder, jsonObject) -> {
-        return builder.weapons(jsonObject.get(boolean.class, "glowing"));
+        return builder.glowing(jsonObject.get(boolean.class, "glowing"));
     }),
     ORE_FLOWERS(Versions.OLD, "oreFlower", (configVersion, builder, jsonObject) -> {
-        return builder.weapons(jsonObject.get(boolean.class, "oreFlower"));
+        return builder.oreFlower(jsonObject.get(boolean.class, "oreFlower"));
     }),
     MINING_LEVEL(Versions.OLD, "miningLevel", (configVersion, builder, jsonObject) -> {
         if (!jsonObject.containsKey("miningLevel")) {

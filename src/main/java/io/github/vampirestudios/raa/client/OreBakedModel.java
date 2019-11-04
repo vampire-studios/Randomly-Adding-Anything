@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.client;
 
-import io.github.vampirestudios.raa.materials.Material;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
+import io.github.vampirestudios.raa.materials.Material;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
@@ -11,10 +11,10 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.texture.Sprite;
@@ -30,8 +30,6 @@ import net.minecraft.world.World;
 import java.util.Collections;
 import java.util.Random;
 import java.util.function.Supplier;
-
-import static net.minecraft.block.BlockRenderLayer.CUTOUT;
 
 public class OreBakedModel extends RAABakedModel {
 
@@ -85,7 +83,7 @@ public class OreBakedModel extends RAABakedModel {
                     .spriteColor(0, color, color, color, color)
                     .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         } else if (material.getOreInformation().getGenerateIn() == GeneratesIn.GRASS_BLOCK) {
-            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlockRenderLayer.CUTOUT_MIPPED).find();
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, RenderLayer.getCutoutMipped()).find();
             Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side"));
             Sprite sideOverlaySprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side_overlay"));
             Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_top"));
@@ -170,9 +168,9 @@ public class OreBakedModel extends RAABakedModel {
         }
 
         if (material.isGlowing()) {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).emissive(0, true).find();
+            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, RenderLayer.getCutout()).emissive(0, true).find();
         } else {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, CUTOUT).find();
+            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, RenderLayer.getCutout()).find();
         }
         color = material.getRGBColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
