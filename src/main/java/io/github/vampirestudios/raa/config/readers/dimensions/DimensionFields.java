@@ -51,7 +51,7 @@ public enum DimensionFields {
     CHUNK_GENERATOR(Versions.V1, "dimensionChunkGenerator", (configVersion, builder, jsonObject) -> {
         DimensionChunkGenerators dimensionChunkGenerators = jsonObject.get(DimensionChunkGenerators.class, "dimensionChunkGenerator");
         if (dimensionChunkGenerators != null) builder.chunkGenerator(dimensionChunkGenerators);
-        else builder.chunkGenerator(Utils.randomCG(60));
+        else builder.chunkGenerator(Utils.randomCG(100));
         return builder;
     });
 
