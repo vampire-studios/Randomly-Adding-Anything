@@ -3,6 +3,7 @@ plugins {
 	id 'maven-publish'
 	id "co.riiid.gradle" version "0.4.2"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
+	id "com.wynprice.cursemaven" version "2.1.0"
 }
 
 repositories {
@@ -15,16 +16,6 @@ repositories {
 		name = "Cotton"
 		url = "http://server.bbkr.space:8081/artifactory/libs-release"
 	}
-	// Grondag's crappy maven repo...
-	maven {
-		name = "grondag"
-		url = "https://grondag-repo.appspot.com"
-		credentials {
-			username "guest"
-			password ""
-		}
-	}
-	maven { url = "https://jitpack.io"}
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -52,40 +43,22 @@ dependencies {
 
 	modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
 	include "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
-	modApi "vampirelib:VampireLib:${project.vampirelib_version}"
 
-	modImplementation "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
-	include "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
+//	modImplementation "curse.maven:cloth-config:${project.cc_version}"
+//	include "curse.maven:cloth-config:${project.cc_version}"
+
+	modImplementation "curse.maven:vampirelib:${project.vampirelib_version}"
+	include "curse.maven:vampirelib:${project.vampirelib_version}"
+
 	modImplementation "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
     include "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
 
 	modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
 		exclude group :"net.fabricmc.fabric-api"
 	}
-	include ("io.github.cottonmc:Jankson:1.0.0+j1.1.2") {
+	include ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
 		exclude group :"net.fabricmc.fabric-api"
 	}
-
-//	 modImplementation ("grondag:exotic-matter:${project.exotic_matter_version}.+") {
-//		exclude group :"net.fabricmc.fabric-api"
-//	 	exclude group :"io.github.prospector.modmenu"
-//	 }
-
-	// recommended but not required
-//	 modRuntime ("grondag:canvas:${project.canvas_version}.+") {
-//		exclude group :"net.fabricmc.fabric-api"
-//		exclude group :"io.github.prospector.modmenu"
-//	 }
-
-	//modRuntime ("io.github.prospector:modmenu:${project.modmenu_version}") {
-	//	exclude group :"net.fabricmc.fabric-api"
-	//}
-
-	// For dev env testing
-//	modRuntime ("com.jamieswhiteshirt:developer-mode:${project.devmode_version}") {
-//		exclude group :"net.fabricmc.fabric-api"
-//		exclude group :"io.github.prospector.modmenu"
-//	}
 
 	modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
 		exclude group: "io.github.prospector.modmenu"

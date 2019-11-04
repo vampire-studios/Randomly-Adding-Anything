@@ -45,9 +45,9 @@ public class RAAWorldAPI {
             }
             if (material.getOreInformation().getGenerateIn().getTarget() == generationSupport.getTarget()) {
                 generationSupport.getGenerationBiome().addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
-                        new OreFeature(OreFeatureConfig::deserialize).method_23397(new OreFeatureConfig(generationSupport.getTarget(),
+                        new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(generationSupport.getTarget(),
                                 Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ore")).getDefaultState(), 9))
-                                .method_23388(Decorator.COUNT_RANGE.method_23475(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(), 0, 256))));
+                                .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(), 0, 256))));
             }
         });
     }

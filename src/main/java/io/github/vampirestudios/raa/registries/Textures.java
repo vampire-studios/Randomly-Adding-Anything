@@ -27,15 +27,6 @@ public class Textures {
         for (int i = 1; i < 7; i++) {
             addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/nuggets/nugget_" + i);
         }
-        addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/special/infernal_iron_nugget");
-        addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/special/lumen_iron_nugget");
-        addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/special/radioactive_iron_nugget");
-        addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/special/super_iron_nugget");
-
-        addTextureToList(TextureTypes.INGOT_TEXTURES, "item/special/infernal_iron_ingot");
-        addTextureToList(TextureTypes.INGOT_TEXTURES, "item/special/lumen_iron_ingot");
-        addTextureToList(TextureTypes.INGOT_TEXTURES, "item/special/radioactive_iron_ingot");
-        addTextureToList(TextureTypes.INGOT_TEXTURES, "item/special/super_iron_ingot");
 
         for (int i = 1; i < 4; i++) {
             addTextureToList(TextureTypes.HELMET_TEXTURES, "item/armor/helmet_" + i);
@@ -50,17 +41,9 @@ public class Textures {
             addTextureToList(TextureTypes.BOOTS_TEXTURES, "item/armor/boots_" + i);
         }
 
-        addTextureToList(TextureTypes.HELMET_TEXTURES, "item/special/infernal_iron_helmet");
-        addTextureToList(TextureTypes.HELMET_TEXTURES, "item/special/super_iron_helmet");
-
-        addTextureToList(TextureTypes.CHESTPLATE_TEXTURES, "item/special/infernal_iron_chestplate");
-        addTextureToList(TextureTypes.CHESTPLATE_TEXTURES, "item/special/super_iron_chestplate");
-
-        addTextureToList(TextureTypes.LEGGINGS_TEXTURES, "item/special/infernal_iron_leggings");
-        addTextureToList(TextureTypes.LEGGINGS_TEXTURES, "item/special/super_iron_leggings");
-
-        addTextureToList(TextureTypes.BOOTS_TEXTURES, "item/special/infernal_iron_boots");
-        addTextureToList(TextureTypes.BOOTS_TEXTURES, "item/special/super_iron_boots");
+        for (int i = 1; i < 5; i++) {
+            addTextureToList(TextureTypes.FRUIT_TEXTURES, "item/fruits/fruit_" + i);
+        }
 
         addTextureToList(TextureTypes.HORSE_ARMOR_SADDLE_TEXTURES, "item/armor/horse_armor_saddle");
         addTextureToList(TextureTypes.HORSE_ARMOR_SADDLE_TEXTURES, "item/armor/horse_armor_saddle_2");
@@ -119,15 +102,6 @@ public class Textures {
         for (int i = 1; i < 10; i++) {
             addTextureToList(TextureTypes.CRYSTAL_ORE_TEXTURES, "block/ores/crystals/ore_" + i);
         }
-        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/archaic_ore");
-        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/dark_pearl_ore");
-        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/ebonite_ore");
-        addTextureToList(TextureTypes.METAL_ORE_TEXTURES, "block/ores/infernal_iron_ore_glow");
-        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/lumen_iron_ore_glow");
-        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/nagrilite_ore");
-        addTextureToList(TextureTypes.CRYSTAL_ORE_TEXTURES, "block/ores/radioactive_iron_ore_glow");
-        addTextureToList(TextureTypes.METAL_ORE_TEXTURES, "block/ores/super_iron_ore");
-        addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/tenebrum_ore");
 
         for (int i = 1; i < 5; i++) {
             addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/metals/metal_" + i);
@@ -137,14 +111,6 @@ public class Textures {
         }
         addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/crystals/crystal_1");
 
-        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/dark_pearl_block");
-        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/ebonite_block");
-        addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/infernal_iron_block");
-        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/lumen_iron_block");
-        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/nagrilite_block");
-        addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/radioactive_iron_block");
-        addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/super_iron_block");
-        addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/tenebrum_block");
     }
 
     private static void addTextureToList(List<Identifier> textures, String name) {

@@ -2,9 +2,6 @@ package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.gen.chunk.*;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
@@ -15,7 +12,7 @@ public class Utils {
     }
 
     public static SurfaceBuilder<TernarySurfaceConfig> random(int chance) {
-        if (chance == 10) {
+        /*if (chance == 10) {
             return SurfaceBuilder.BADLANDS;
         } else if(chance == 5) {
             return SurfaceBuilder.GIANT_TREE_TAIGA;
@@ -27,13 +24,14 @@ public class Utils {
             return SurfaceBuilder.WOODED_BADLANDS;
         } else {
             return RandomlyAddingAnything.SURFACE_BUILDER;
-        }
+        }*/
+        return RandomlyAddingAnything.SURFACE_BUILDER;
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {
-        if (chance == 22) {
+        if (chance > 15) {
             return DimensionChunkGenerators.CAVE;
-        } else if(chance == 44) {
+        } else if(chance > 15 && chance == 30) {
             return DimensionChunkGenerators.FLOATING;
         } else {
             return DimensionChunkGenerators.OVERWORLD;

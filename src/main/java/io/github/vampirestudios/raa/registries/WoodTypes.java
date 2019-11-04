@@ -4,10 +4,10 @@ import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
-import io.github.vampirestudios.raa.utils.Color;
-import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
+import io.github.vampirestudios.raa.items.*;
+import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
@@ -15,7 +15,6 @@ import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.FoodComponents;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
@@ -176,24 +175,6 @@ public class WoodTypes {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(repairItem)
                         ),
                         new Identifier(RandomlyAddingAnything.MOD_ID, id + "_sword")
-                );
-            }
-            if (material.hasFood()) {
-                RegistryUtils.registerItem(
-                        new RAAFoodItem(
-                                material.getName(),
-                                new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(FoodComponents.GOLDEN_APPLE),
-                                RAAFoodItem.SimpleItemType.APPLE
-                        ),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_apple")
-                );
-                RegistryUtils.registerItem(
-                        new RAAFoodItem(
-                                material.getName(),
-                                new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(FoodComponents.GOLDEN_CARROT),
-                                RAAFoodItem.SimpleItemType.CARROT
-                        ),
-                        new Identifier(RandomlyAddingAnything.MOD_ID, id + "_carrot")
                 );
             }
         });

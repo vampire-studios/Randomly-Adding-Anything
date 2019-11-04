@@ -8,14 +8,11 @@ import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.HorizontalVoronoiBiomeAccessType;
-import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 
 import java.util.ArrayList;
@@ -53,7 +50,8 @@ public class Dimensions {
                     .dimensionId(Rands.randIntRange(1000, 30000)).name(dimensionName)
                     .hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
                     .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100))
-                    .chunkGenerator(Utils.randomCG(60));
+                    .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
+                    .isCorrupted(Rands.chance(20));
             DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
                     .name(dimensionName + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
@@ -104,8 +102,6 @@ public class Dimensions {
             }
             DimensionType type = FabricDimensionType.builder().biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE).desiredRawId(dimension.getDimensionId())
                     .skyLight(dimension.hasSkyLight()).factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome))
-//                    .defaultPlacer((teleported, destination, portalDir, horizontalOffset, verticalOffset) ->
-//                            new BlockPattern.TeleportTarget(new Vec3d(100, destination.getSeaLevel(), 100), teleported.getVelocity(), (int) teleported.yaw))
                     .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
                     .buildAndRegister(new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase()));
             Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase());
