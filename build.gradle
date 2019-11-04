@@ -1,22 +1,22 @@
 plugins {
-	id 'fabric-loom' version '0.2.6-SNAPSHOT'
-	id 'maven-publish'
-	id "co.riiid.gradle" version "0.4.2"
-	id "com.matthewprenger.cursegradle" version "1.4.0"
-	id "com.wynprice.cursemaven" version "2.1.0"
+    id 'fabric-loom' version '0.2.6-SNAPSHOT'
+    id 'maven-publish'
+    id "co.riiid.gradle" version "0.4.2"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "com.wynprice.cursemaven" version "2.1.0"
 }
 
 repositories {
-	maven { url = "https://jitpack.io"}
-	maven{ url="https://minecraft.curseforge.com/api/maven" }
-	maven{ url="https://maven.jamieswhiteshirt.com/libs-release/" }
-	maven{ url="https://maven.fabricmc.net" }
-	maven { url = "https://maven.swordglowsblue.com" }
-	maven { url = 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
-	maven {
-		name = "Cotton"
-		url = "http://server.bbkr.space:8081/artifactory/libs-release"
-	}
+    maven{ url="https://minecraft.curseforge.com/api/maven" }
+    maven{ url="https://maven.jamieswhiteshirt.com/libs-release/" }
+    maven{ url="https://maven.fabricmc.net" }
+    maven { url = "https://maven.swordglowsblue.com" }
+    maven { url = 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
+    maven {
+        name = "Cotton"
+        url = "http://server.bbkr.space:8081/artifactory/libs-release"
+    }
+    maven { url = "https://jitpack.io"}
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -34,128 +34,128 @@ minecraft {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 
-	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
-	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modCompile "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
-	include "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
+    modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
+    include "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
 
-	modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
-	include "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
+    modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
+    include "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
 
 //	modImplementation "curse.maven:cloth-config:${project.cc_version}"
 //	include "curse.maven:cloth-config:${project.cc_version}"
 
-	modImplementation "curse.maven:vampirelib:${project.vampirelib_version}"
-	include "curse.maven:vampirelib:${project.vampirelib_version}"
+    modImplementation "curse.maven:vampirelib:${project.vampirelib_version}"
+    include "curse.maven:vampirelib:${project.vampirelib_version}"
 
-	modImplementation "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
+    modImplementation "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
     include "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
 
-	modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
-		exclude group :"net.fabricmc.fabric-api"
-	}
-	include ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
-		exclude group :"net.fabricmc.fabric-api"
-	}
+    modImplementation ("io.github.cottonmc:Jankson-Fabric:1.0.0+j1.2.0") {
+        exclude group :"net.fabricmc.fabric-api"
+    }
+    include ("io.github.cottonmc:Jankson-Fabric:1.0.0+j1.2.0") {
+        exclude group :"net.fabricmc.fabric-api"
+    }
 
-	modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
-		exclude group: "io.github.prospector.modmenu"
-	}
+    modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
+        exclude group: "io.github.prospector.modmenu"
+    }
 }
 
 github {
-	owner = 'vampire-studios'
-	repo = 'Randomly-Adding-Anything'
-	token = gittoken ?: "a key"
-	tagName = version + "-" + project.minecraft_version.replace(" ", "-")
-	name = version + "-" + "MC" + project.minecraft_version.replace(" ", "-")
-	targetCommitish = buildbranch
-	prerelease = true
-	assets = [
-			"build/libs/${archivesBaseName}-${version}-dev.jar",
-			"build/libs/${archivesBaseName}-${version}.jar",
-			"build/libs/${archivesBaseName}-${version}-sources-dev.jar",
-			"build/libs/${archivesBaseName}-${version}-sources.jar"
-	]
+    owner = 'vampire-studios'
+    repo = 'Randomly-Adding-Anything'
+    token = gittoken ?: "a key"
+    tagName = version + "-" + project.minecraft_version.replace(" ", "-")
+    name = version + "-" + "MC" + project.minecraft_version.replace(" ", "-")
+    targetCommitish = buildbranch
+    prerelease = true
+    assets = [
+            "build/libs/${archivesBaseName}-${version}-dev.jar",
+            "build/libs/${archivesBaseName}-${version}.jar",
+            "build/libs/${archivesBaseName}-${version}-sources-dev.jar",
+            "build/libs/${archivesBaseName}-${version}-sources.jar"
+    ]
 }
 
 processResources {
-	inputs.property "version", project.version
+    inputs.property "version", project.version
 
-	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
-		expand "version": project.version
-	}
+    from(sourceSets.main.resources.srcDirs) {
+        include "fabric.mod.json"
+        expand "version": project.version
+    }
 
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
-	}
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "fabric.mod.json"
+    }
 }
 
 // ensure that the encoding is set to UTF-8, no matter what the system default is
 // this fixes some edge cases with special characters not displaying correctly
 // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
 tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
+    options.encoding = "UTF-8"
 }
 
 // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
 // if it is present.
 // If you remove this task, sources will not be generated.
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
+    classifier = "sources"
+    from sourceSets.main.allSource
 }
 
 jar {
-	from "LICENSE"
+    from "LICENSE"
 }
 
 // configure the maven publication
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			// add all the jars that should be included when publishing to maven
-			artifact(remapJar) {
-				builtBy remapJar
-			}
-			artifact(sourcesJar) {
-				builtBy remapSourcesJar
-			}
-		}
-	}
+    publications {
+        mavenJava(MavenPublication) {
+            // add all the jars that should be included when publishing to maven
+            artifact(remapJar) {
+                builtBy remapJar
+            }
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+        }
+    }
 
-	// select the repositories you want to publish to
-	repositories {
-		// uncomment to publish to the local maven
-		// mavenLocal()
-	}
+    // select the repositories you want to publish to
+    repositories {
+        // uncomment to publish to the local maven
+        // mavenLocal()
+    }
 }
 
 curseforge {
-	apiKey = System.getenv('CURSEKEY') ?: "a key"
-	project {
-		id = "341464"
-		releaseType = "release"
-		changelog = "Fix crash again."
-		gameVersionStrings.clear()
-		gameVersionStrings.add("1.15-Snapshot")
-		gameVersionStrings.add("Fabric")
-		mainArtifact(file("build/libs/${archivesBaseName}-${version}.jar")) {
-			displayName = "[" + minecraft_version + "] " + version
-			relations {
-				requiredDependency "fabric-api"
-				embeddedLibrary "auto-config"
-			}
-		}
+    apiKey = System.getenv('CURSEKEY') ?: "a key"
+    project {
+        id = "341464"
+        releaseType = "release"
+        changelog = "Fix crash again."
+        gameVersionStrings.clear()
+        gameVersionStrings.add("1.15-Snapshot")
+        gameVersionStrings.add("Fabric")
+        mainArtifact(file("build/libs/${archivesBaseName}-${version}.jar")) {
+            displayName = "[" + minecraft_version + "] " + version
+            relations {
+                requiredDependency "fabric-api"
+                embeddedLibrary "auto-config"
+            }
+        }
 //		addArtifact file("build/libs/${archivesBaseName}-${version}-dev.jar")
 //		addArtifact file("build/libs/${archivesBaseName}-${version}-sources.jar")
 //		addArtifact file("build/libs/${archivesBaseName}-${version}-sources-dev.jar")
-	}
-	options{
-		forgeGradleIntegration = false
-	}
+    }
+    options{
+        forgeGradleIntegration = false
+    }
 }

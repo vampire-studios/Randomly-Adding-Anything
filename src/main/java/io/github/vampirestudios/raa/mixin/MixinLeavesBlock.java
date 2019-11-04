@@ -8,7 +8,6 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.IWorld;
-import org.lwjgl.system.CallbackI;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,8 +29,7 @@ public class MixinLeavesBlock {
                     Direction[] var6 = Direction.values();
                     int var7 = var6.length;
 
-                    for (int var8 = 0; var8 < var7; ++var8) {
-                        Direction direction_1 = var6[var8];
+                    for (Direction direction_1 : var6) {
                         blockPos$PooledMutable_1.method_10114(pos).method_10118(direction_1);
                         int_1 = Math.min(int_1, getDistanceFromLog(world.getBlockState(blockPos$PooledMutable_1)) + 1);
                         if (int_1 == 1) {
