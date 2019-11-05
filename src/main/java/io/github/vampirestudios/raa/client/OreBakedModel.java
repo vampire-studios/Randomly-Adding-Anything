@@ -221,8 +221,7 @@ public class OreBakedModel extends RAABakedModel {
 
     protected class ItemProxy extends ModelItemPropertyOverrideList {
         public ItemProxy() {
-            super(null, null,
-                    identifier -> (UnbakedModel) OreBakedModel.this, Collections.emptyList());
+            super(null, null, null, Collections.emptyList());
         }
 
         @Override
