@@ -55,7 +55,7 @@ public class DimensionSavingSystem {
         try {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
             DimensionData[] materialJSONS = toJSON();
-            fileWriter.write("{\"configVersion\":1,");
+            fileWriter.write("{\"configVersion\": 1,");
             fileWriter.newLine();
             fileWriter.flush();
             fileWriter.write("\"dimensions\": [");

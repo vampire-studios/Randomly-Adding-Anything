@@ -69,11 +69,10 @@ public class Textures {
         addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_4","item/tools/pickaxe/pickaxe_4_handle");
         addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_5","item/tools/pickaxe/pickaxe_5_handle");
 
-        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_1","item/tools/hoe/hoe_stick_1");
+        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head","item/tools/hoe/hoe_stick");
         addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_2","item/tools/hoe/hoe_stick_2");
         addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_3","item/tools/hoe/hoe_stick_3");
         addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_4","item/tools/hoe/hoe_stick_4");
-        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_5","item/tools/hoe/hoe_stick_5");
 
         addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_head","item/tools/shovel/shovel_stick");
         addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_1","item/tools/shovel/shovel_1_handle");
