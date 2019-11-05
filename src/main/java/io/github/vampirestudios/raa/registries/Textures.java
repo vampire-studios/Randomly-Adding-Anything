@@ -41,7 +41,7 @@ public class Textures {
             addTextureToList(TextureTypes.BOOTS_TEXTURES, "item/armor/boots_" + i);
         }
 
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 15; i++) {
             addTextureToList(TextureTypes.FRUIT_TEXTURES, "item/fruits/fruit_" + i);
         }
 

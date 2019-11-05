@@ -29,9 +29,9 @@ public class Utils {
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {
-        if (chance > 15) {
+        if (chance < 15) {
             return DimensionChunkGenerators.CAVE;
-        } else if(chance > 15 && chance == 30) {
+        } else if(chance > 15 && chance < 30) {
             return DimensionChunkGenerators.FLOATING;
         } else {
             return DimensionChunkGenerators.OVERWORLD;
