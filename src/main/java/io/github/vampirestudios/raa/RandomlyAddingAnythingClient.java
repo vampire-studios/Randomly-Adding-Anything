@@ -15,7 +15,10 @@ import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.impl.client.render.ColorProviderRegistryImpl;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.client.render.model.ModelLoader;
@@ -24,7 +27,9 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.BlockRenderView;
 
 import java.util.*;
 import java.util.function.Function;
@@ -41,7 +46,10 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register((var1, var2) -> MinecraftClient.getInstance().world.getBiome(MinecraftClient.getInstance().player.getBlockPos())
                 .getFoliageColorAt(MinecraftClient.getInstance().player.getBlockPos()), Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES,
                 Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS,
-                Items.TALL_GRASS);
+                Items.TALL_GRASS, Items.VINE);
+
+        ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
+                blockRenderView.getBiome(blockPos).getFoliageColorAt(blockPos), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
 
         while (!Materials.isIsReady()) {
             System.out.println("Not Ready");

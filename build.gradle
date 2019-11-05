@@ -7,6 +7,7 @@ plugins {
 }
 
 repositories {
+    maven { url = "https://jitpack.io"}
     maven{ url="https://minecraft.curseforge.com/api/maven" }
     maven{ url="https://maven.jamieswhiteshirt.com/libs-release/" }
     maven{ url="https://maven.fabricmc.net" }
@@ -16,7 +17,7 @@ repositories {
         name = "Cotton"
         url = "http://server.bbkr.space:8081/artifactory/libs-release"
     }
-    maven { url = "https://jitpack.io"}
+    maven { url "https://dl.bintray.com/shedaniel/autoconfig1u/" }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -51,8 +52,11 @@ dependencies {
     modImplementation "curse.maven:vampirelib:${project.vampirelib_version}"
     include "curse.maven:vampirelib:${project.vampirelib_version}"
 
-    modImplementation "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
-    include "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
+    modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
+    include "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
+
+    modCompile "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
+    include "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
 
     modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
         exclude group :"net.fabricmc.fabric-api"

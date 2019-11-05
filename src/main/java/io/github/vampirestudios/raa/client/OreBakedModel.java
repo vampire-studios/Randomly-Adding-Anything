@@ -17,6 +17,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.entity.LivingEntity;
@@ -30,6 +31,7 @@ import net.minecraft.world.World;
 
 import java.util.Collections;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class OreBakedModel extends RAABakedModel {
