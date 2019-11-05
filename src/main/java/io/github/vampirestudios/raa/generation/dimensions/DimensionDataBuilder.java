@@ -15,6 +15,7 @@ public class DimensionDataBuilder {
     private boolean renderFog;
     private DimensionChunkGenerators dimensionChunkGenerator;
     private boolean corrupted;
+    private int flags;
 
     public static DimensionDataBuilder create() {
         return new DimensionDataBuilder();
@@ -70,19 +71,18 @@ public class DimensionDataBuilder {
         return this;
     }
 
-    public DimensionDataBuilder isCorrupted(boolean corrupted) {
-        this.corrupted = corrupted;
+    public DimensionDataBuilder setFlags(int flags) {
+        this.flags = flags;
         return this;
     }
 
     public DimensionData build() {
         return new DimensionData(name, dimensionId, biomeData,
-                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, corrupted);
+                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags);
     }
 
     public DimensionData buildFromJSON() {
         return new DimensionData(name, dimensionId, biomeData,
-                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, corrupted);
+                dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags);
     }
-
 }

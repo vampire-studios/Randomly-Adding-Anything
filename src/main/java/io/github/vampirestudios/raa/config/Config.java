@@ -2,9 +2,9 @@ package io.github.vampirestudios.raa.config;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.namegeneration.LangEnum;
-import me.sargunvohra.mcmods.autoconfig1.ConfigData;
+import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
 
-@me.sargunvohra.mcmods.autoconfig1.annotation.Config(name = RandomlyAddingAnything.MOD_ID)
+@me.sargunvohra.mcmods.autoconfig1u.annotation.Config(name = RandomlyAddingAnything.MOD_ID)
 public class Config implements ConfigData {
 
     public int materialNumber = 20;

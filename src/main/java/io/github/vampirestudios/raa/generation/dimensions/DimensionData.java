@@ -13,9 +13,9 @@ public class DimensionData {
     private boolean waterVaporize;
     private boolean renderFog;
     private DimensionChunkGenerators dimensionChunkGenerator;
-    private boolean corrupted;
+    private int flags;
 
-    public DimensionData(String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPallet dimensionColorPallet, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, boolean corrupted) {
+    public DimensionData(String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPallet dimensionColorPallet, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags) {
         this.name = name;
         this.dimensionId = dimensionId;
         this.biomeData = biomeData;
@@ -26,7 +26,7 @@ public class DimensionData {
         this.waterVaporize = waterVaporize;
         this.renderFog = renderFog;
         this.dimensionChunkGenerator = dimensionChunkGenerator;
-        this.corrupted = corrupted;
+        this.flags = flags;
     }
 
     public String getName() {
@@ -69,7 +69,7 @@ public class DimensionData {
         return dimensionChunkGenerator;
     }
 
-    public boolean getCorrupted() {
-        return corrupted;
+    public int getFlags() {
+        return flags;
     }
 }

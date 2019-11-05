@@ -33,8 +33,8 @@ public enum DimensionFields {
     CAN_SLEEP(Versions.V1, "canSleep", (configVersion, builder, jsonObject) -> {
         return builder.canSleep(jsonObject.get(boolean.class, "canSleep"));
     }),
-    CORRUPTED(Versions.V1, "corrupted", (configVersion, builder, jsonObject) -> {
-        return builder.isCorrupted(jsonObject.get(boolean.class, "corrupted"));
+    FLAGS(Versions.V1, "flags", (configVersion, builder, jsonObject) -> {
+        return builder.setFlags(jsonObject.get(int.class, "flags"));
     }),
     BIOME_DATA(Versions.OLD, "tools", (configVersion, builder, jsonObject) -> {
         JsonObject biomeDataObject = jsonObject.getObject("biomeData");
