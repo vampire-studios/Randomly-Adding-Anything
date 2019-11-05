@@ -14,11 +14,7 @@ public class Rands {
     }
 
     public static float randFloatRange(float min, float max) {
-        float random = randFloat(max + 1);
-        if (random < min) {
-            random = min;
-        }
-        return random;
+        return min + rand.nextFloat() * (max - min);
     }
     public static float randFloat(float bound) {
         return ((float) rand.nextInt((int) (bound*10) + 1))/10;

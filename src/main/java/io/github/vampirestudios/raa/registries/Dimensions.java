@@ -55,9 +55,9 @@ public class Dimensions {
             DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
                     .name(dimensionName + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
-                    .depth(Rands.randFloatRange(-3F, 3F))
+                    .depth(Rands.randFloatRange(-1F, 3F))
                     .scale(Rands.randFloat(2F))
-                    .temperature(Rands.randFloat(2.0F))
+                    .temperature(Rands.randFloat(2F))
                     .downfall(Rands.randFloat(1F))
                     .waterColor(WATER_COLOR.getColor()).build();
             dimensionDataBuilder.biome(biomeData);

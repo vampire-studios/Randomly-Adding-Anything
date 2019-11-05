@@ -135,7 +135,7 @@ public class Material {
     }
 
     public String getName() {
-        return name;
+        return name.toLowerCase();
     }
 
     public int getRGBColor() {

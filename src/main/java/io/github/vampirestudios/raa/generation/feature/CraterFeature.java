@@ -27,9 +27,8 @@ public class CraterFeature extends Feature<CorruptedFeatureConfig> {
 
     @Override
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, CorruptedFeatureConfig config) {
-//        if (!(ALLOWED_STATES.contains(world.getBlockState(pos)))) {
-//            return true;
-//        }
+        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque())
+            return true;
         if (canSpawn(world, pos.add(0, -1, 0))) {
             int amtMax = Rands.randIntRange(1, 3);
             int scale = Rands.randIntRange(1, 3);
