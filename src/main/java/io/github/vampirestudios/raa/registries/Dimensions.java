@@ -38,14 +38,14 @@ public class Dimensions {
             float stoneHue = hue + 0.3333f;
 
             float saturation = Rands.randFloatRange(0.5F, 1.0F);
-            if (Utils.checkBitFlag(flags, Utils.DEAD)) saturation = Rands.randFloatRange(0.0F, 0.3F);
+            if (Utils.checkBitFlag(flags, Utils.DEAD)) saturation = Rands.randFloatRange(0.0F, 0.2F);
             if (Utils.checkBitFlag(flags, Utils.LUSH)) saturation = Rands.randFloatRange(0.7F, 1.0F);
             float value = Rands.randFloatRange(0.5F, 1.0F);
             Color GRASS_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
             Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
             Color FOG_COLOR = new Color(Color.HSBtoRGB(fogHue, saturation, value));
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
-            Color WATER_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), Rands.randFloatRange(0.5F, 1.0F), Rands.randFloatRange(0.5F, 1.0F)));
+            Color WATER_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), saturation, Rands.randFloatRange(0.5F, 1.0F)));
             Color STONE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
 
             String dimensionName = RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionName().toLowerCase();
@@ -130,11 +130,23 @@ public class Dimensions {
             if (Rands.chance(5)) {
                 flags |= Utils.DEAD;
             }
+            if (Rands.chance(3)) {
+                flags |= Utils.MOLTEN;
+            }
+            if (Rands.chance(5)) {
+                flags |= Utils.DRY;
+            }
         } else {
             if (Rands.chance(5)) {
                 flags |= Utils.DEAD;
                 if (Rands.chance(3)) {
                     flags |= Utils.ABANDONED;
+                }
+                if (Rands.chance(3)) {
+                    flags |= Utils.MOLTEN;
+                }
+                if (Rands.chance(5)) {
+                    flags |= Utils.DRY;
                 }
             } else {
                 if (Rands.chance(4)) {
@@ -148,6 +160,9 @@ public class Dimensions {
                     }
                 }
             }
+        }
+        if (Rands.chance(15)) {
+            flags |= Utils.TECTONIC;
         }
         return flags;
     }

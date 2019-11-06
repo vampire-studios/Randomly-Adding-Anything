@@ -12,6 +12,9 @@ public class Utils {
     public static final int ABANDONED = 4; //only ruins of old civilizations, no living "smart" creatures (like villagers)
     public static final int LUSH = 8; //A lush overgrowth of plants
     public static final int CIVILIZED = 16; //Villages/towns of "smart" creatures who will trade with you
+    public static final int MOLTEN = 32; //Instead of water oceans, there are lava oceans.
+    public static final int DRY = 64; //No oceans exist at all.
+    public static final int TECTONIC = 128; //Creates lots of caves and ravines. Usually not visible on the surface.
 
     public static String toTitleCase(String lowerCase) {
         return "" + Character.toUpperCase(lowerCase.charAt(0))+lowerCase.substring(1);

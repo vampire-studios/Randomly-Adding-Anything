@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa;
 import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.DimensionSavingSystem;
 import io.github.vampirestudios.raa.config.SavingSystem;
+import io.github.vampirestudios.raa.generation.chunkgenerator.CustomDimensionChunkGenerator;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;
@@ -17,7 +18,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.gen.chunk.*;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
+
+import java.util.function.Supplier;
 
 public class RandomlyAddingAnything implements ModInitializer {
 
