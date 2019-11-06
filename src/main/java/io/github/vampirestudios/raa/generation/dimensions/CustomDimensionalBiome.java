@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
+import io.github.vampirestudios.raa.registries.Decorators;
 import io.github.vampirestudios.raa.registries.Features;
 import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -63,7 +64,7 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addMineables(this);
         DefaultBiomeFeatures.addDefaultOres(this);
         DefaultBiomeFeatures.addDefaultDisks(this);
-        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED) || !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
+        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
 //            int forestConfig = Rands.randInt(3);
             int forestConfig = 0; //TODO: implement new trees for other types
             NormalTreeFeatureConfig config = getTreeConfig();
@@ -97,12 +98,12 @@ public class CustomDimensionalBiome extends Biome {
                 case 1:
                     //Small, inbetween forests
                     float chance = Rands.randInt(24) * 10F + 80F;
-                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.configure(config).createDecoratedFeature(RandomlyAddingAnything.DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
-                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FANCY_TREE.configure(config).createDecoratedFeature(RandomlyAddingAnything.DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(3), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
+                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
+                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FANCY_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(3), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
                     //Large, thinner forests
                     float chance2 = Rands.randInt(12) * 10F + 120F;
-                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.configure(config).createDecoratedFeature(RandomlyAddingAnything.DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
-                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FANCY_TREE.configure(config).createDecoratedFeature(RandomlyAddingAnything.DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(2), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
+                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
+                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FANCY_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(2), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
                     break;
                 case 2:
                     DefaultBiomeFeatures.addPlainsFeatures(this);
@@ -122,11 +123,11 @@ public class CustomDimensionalBiome extends Biome {
             }
         }
 
-        float towerChance = Rands.randFloatRange(0.002F, 0.004F);
-        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) towerChance = Rands.randFloatRange(0.004F, 0.008F);
+        float towerChance = Rands.randFloatRange(0.001F, 0.003F);
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) towerChance = Rands.randFloatRange(0.002F, 0.006F);
 
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.TOWER.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, towerChance, 1))));
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.003F, 0.006F), 1))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.TOWER.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, towerChance, 1))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.003F, 0.006F), 1))));
 
         if (Rands.chance(6)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(

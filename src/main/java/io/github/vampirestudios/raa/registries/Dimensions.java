@@ -46,7 +46,7 @@ public class Dimensions {
             Color STONE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
 
             String dimensionName = RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionName().toLowerCase();
-            DimensionDataBuilder dimensionDataBuilder = DimensionDataBuilder.create()
+            DimensionData.Builder dimensionDataBuilder = DimensionData.Builder.create()
                     .dimensionId(Rands.randIntRange(1000, 30000)).name(dimensionName)
                     .hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
                     .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100))

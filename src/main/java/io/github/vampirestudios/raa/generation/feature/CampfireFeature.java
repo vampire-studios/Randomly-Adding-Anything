@@ -80,6 +80,9 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
             world.setBlockState(pos.add(4, 0, 1), carpetBlock.getDefaultState(), 2);
             world.setBlockState(pos.add(2, 0, 0), carpetBlock.getDefaultState(), 2);
 
+            // 1/2 chance for a lantern
+            if (Rands.chance(2)) world.setBlockState(pos.add(3, 1, -1), Blocks.LANTERN.getDefaultState().with(Properties.HANGING, true), 2);
+
             world.setBlockState(pos.add(3, 0, 2), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST)), 2);
             LootableContainerBlockEntity.setLootTable(world, Rands.rand, pos.add(3, 0, 2), RAALootTables.CAMPFIRE_TENT_LOOT);
         }
