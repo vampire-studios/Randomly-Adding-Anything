@@ -23,7 +23,20 @@
   "text.raa.item.armor_chest": "%s Chestplate",
   "text.raa.item.armor_legs": "%s Leggings",
   "text.raa.item.armor_feet": "%s Boots",
-  "text.autoconfig.raa.category.default": "Default",
-  "text.autoconfig.raa.option.materialnumber": "Material Number",
-  "text.autoconfig.raa.option.debug": "Debug Mode"
+  "text.autoconfig.raa.title": "Randomly Adding Anything Config",
+  "text.autoconfig.raa.option.materialNumber": "Material Number",
+  "text.autoconfig.raa.option.dimensionNumber": "Dimension Number",
+  "text.autoconfig.raa.option.debug": "Debug Mode",
+  "text.autoconfig.raa.option.regen": "Regen Files",
+  "text.autoconfig.raa.option.namingLanguage": "Mod Language",
+
+  "config.title.raa": "RAA Config",
+
+  "config.text.raa.identifier": "Identifier: %s",
+  "config.text.raa.color": "§7Color: ",
+  "config.text.raa.enchantability": "§7Enchantability: %d",
+  "config.text.raa.durability": "§7Durability: %d",
+  "config.text.raa.mining_level": "§7Mining Level: %d",
+  "config.text.raa.tool_speed": "§7Tool Speed: %s",
+  "config.text.raa.attack_damage": "§7Attack Damage: %s"
 }

@@ -29,6 +29,9 @@
     ],
     "client": [
       "io.github.vampirestudios.raa.RandomlyAddingAnythingClient"
+    ],
+    "modmenu": [
+      "io.github.vampirestudios.raa.utils.ModMenuCompat"
     ]
   },
 

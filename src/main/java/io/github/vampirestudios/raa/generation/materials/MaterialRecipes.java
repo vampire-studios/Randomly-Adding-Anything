@@ -149,7 +149,7 @@ public class MaterialRecipes {
                         cookingRecipeBuilder.experience(0.7);
                         cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
                     });
-                    serverResourcePackBuilder.addBlastingRecipe(new Identifier(MOD_ID, id + "_ingot_from_blasting"), cookingRecipeBuilder -> {
+                    if (material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR) serverResourcePackBuilder.addBlastingRecipe(new Identifier(MOD_ID, id + "_ingot_from_blasting"), cookingRecipeBuilder -> {
                         cookingRecipeBuilder.cookingTime(100);
                         cookingRecipeBuilder.ingredientItem(new Identifier(MOD_ID, finalId1 + "_ore"));
                         cookingRecipeBuilder.experience(0.7);
@@ -175,7 +175,6 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.ingredientItem('#', new Identifier(MOD_ID, finalId1 + "_ingot"));
                         shapedRecipeBuilder.result(new Identifier(MOD_ID, finalId1 + "_block"), 1);
                     });
-//                    serverResourcePackBuilder.addLootTable(new Identifier());
                     serverResourcePackBuilder.addShapelessRecipe(new Identifier(MOD_ID, id + "_ingot_from_" + id + "_block"), shapelessRecipeBuilder -> {
                         shapelessRecipeBuilder.group(new Identifier("raa:ingots"));
                         shapelessRecipeBuilder.ingredientItem(new Identifier(MOD_ID, finalId1 + "_block"));

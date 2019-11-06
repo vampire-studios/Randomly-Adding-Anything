@@ -19,15 +19,11 @@ public class MixinLeavesBlock {
     @Inject(method = "updateDistanceFromLogs", at = @At("HEAD"), cancellable = true)
     private static void updateDistanceFromLogs(BlockState state, IWorld world, BlockPos pos, CallbackInfoReturnable<BlockState> info) {
         if (world.getDimension() instanceof CustomDimension) {
-//            if (!Rands.chance(5)) {
-//                info.setReturnValue(state.with(LeavesBlock.DISTANCE, 1));
-//            }
             if (Rands.chance(20)) {
                 int int_1 = 20;
                 BlockPos.PooledMutable blockPos$PooledMutable_1 = BlockPos.PooledMutable.get();
                 try {
                     Direction[] var6 = Direction.values();
-                    int var7 = var6.length;
 
                     for (Direction direction_1 : var6) {
                         blockPos$PooledMutable_1.method_10114(pos).method_10118(direction_1);
@@ -39,7 +35,7 @@ public class MixinLeavesBlock {
                 } catch (Throwable var17) {
                     var17.printStackTrace();
                 }
-//                System.out.println("t1 " + int_1);
+
                 info.setReturnValue(state.with(LeavesBlock.DISTANCE, (int_1 > 7 && int_1 < 21) ? 6 : Math.min(int_1, 7)));
             } else {
                 info.setReturnValue(state.with(LeavesBlock.DISTANCE, 1));
@@ -51,7 +47,7 @@ public class MixinLeavesBlock {
         if (BlockTags.LOGS.contains(blockState_1.getBlock())) {
             return 0;
         } else {
-            return blockState_1.getBlock() instanceof LeavesBlock ? (Integer)blockState_1.get(LeavesBlock.DISTANCE) : 7;
+            return blockState_1.getBlock() instanceof LeavesBlock ? blockState_1.get(LeavesBlock.DISTANCE) : 7;
         }
     }
 }
