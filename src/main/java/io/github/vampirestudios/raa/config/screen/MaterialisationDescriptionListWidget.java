@@ -87,7 +87,7 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
 
         @Override
         public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x, y, 16777215);
+            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(String.format(s, color), x, y, 16777215);
             fillGradient(i + 1, y + 1, i + 1 + entryHeight, y + 1 + entryHeight, color, color);
         }
 
@@ -109,17 +109,17 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
         public TitleMaterialOverrideEntry(MaterialListScreen og, Material partMaterial, Text text) {
             this.s = text.asFormattedString();
             String btnText = I18n.translate("config.button.raa.create_override");
-            /*overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText, widget -> {
-                MinecraftClient.getInstance().openScreen(new MaterialisationCreateOverrideNameScreen(og, MinecraftClient.getInstance().currentScreen, partMaterial));
-            });*/
+            overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText, widget -> {
+//                MinecraftClient.getInstance().openScreen(new MaterialisationCreateOverrideNameScreen(og, MinecraftClient.getInstance().currentScreen, partMaterial));
+            });
         }
 
         @Override
         public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
             MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x, y + 10, 16777215);
-//            overrideButton.x = x + entryWidth - overrideButton.getWidth();
-//            overrideButton.y = y;
-//            overrideButton.render(mouseX, mouseY, delta);
+            overrideButton.x = x + entryWidth - overrideButton.getWidth();
+            overrideButton.y = y;
+            overrideButton.render(mouseX, mouseY, delta);
         }
 
         @Override
@@ -129,7 +129,7 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
 
         @Override
         public List<? extends Element> children() {
-            return Collections.emptyList();
+            return Collections.singletonList(overrideButton);
         }
     }
 

@@ -40,14 +40,9 @@ dependencies {
 
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modCompile "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
-    include "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
 
     modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
     include "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
-
-//	modImplementation "curse.maven:cloth-config:${project.cc_version}"
-//	include "curse.maven:cloth-config:${project.cc_version}"
 
     modImplementation "curse.maven:vampirelib:${project.vampirelib_version}"
     include "curse.maven:vampirelib:${project.vampirelib_version}"
@@ -64,6 +59,8 @@ dependencies {
     include ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
         exclude group :"net.fabricmc.fabric-api"
     }
+
+    include "me.zeroeightsix:fiber:0.6.0-7"
 
     modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
         exclude group: "io.github.prospector.modmenu"
