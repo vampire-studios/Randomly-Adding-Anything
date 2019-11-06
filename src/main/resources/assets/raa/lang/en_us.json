@@ -33,7 +33,7 @@
   "config.title.raa": "RAA Config",
 
   "config.text.raa.identifier": "Identifier: %s",
-  "config.text.raa.color": "§7Color: ",
+  "config.text.raa.color": "§7Color: %d",
   "config.text.raa.enchantability": "§7Enchantability: %d",
   "config.text.raa.durability": "§7Durability: %d",
   "config.text.raa.mining_level": "§7Mining Level: %d",

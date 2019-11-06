@@ -40,8 +40,6 @@ dependencies {
 
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modCompile "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
-    include "net.fabricmc.fabric-api:fabric-dimensions-v1:0.2.0+969462033c"
 
     modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
     include "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"

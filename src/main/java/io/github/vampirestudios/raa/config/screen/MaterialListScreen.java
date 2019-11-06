@@ -67,9 +67,7 @@ public class MaterialListScreen extends Screen {
                 CompletableFuture.runAsync(ConfigHelper::loadConfig, ConfigHelper.EXECUTOR_SERVICE);
             }
         }));*/
-        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> {
-            minecraft.openScreen(parent);
-        }));
+        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
         children.add(materialList = new MaterialisationMaterialListWidget(minecraft, width / 2 - 10, height - 38, 28 + 5, height - 5, DrawableHelper.BACKGROUND_LOCATION));
         children.add(descriptionList = new MaterialisationDescriptionListWidget(minecraft, width / 2 - 10, height - 38, 28 + 5, height - 5, DrawableHelper.BACKGROUND_LOCATION));
         materialList.setLeftPos(5);
