@@ -28,8 +28,9 @@ public class Dimensions {
 
     public static void init() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
+            int flags = generateDimensionFlags();
             float hue = Rands.randFloatRange(0, 1.0F);
-            float foliageColor = hue + 0.05F;
+            float foliageColor = hue + Rands.randFloatRange(0.01F, 0.1F);
             float fogHue = hue + 0.3333f;
             float skyHue = fogHue + 0.3333f;
 
@@ -37,6 +38,8 @@ public class Dimensions {
             float stoneHue = hue + 0.3333f;
 
             float saturation = Rands.randFloatRange(0.5F, 1.0F);
+            if (Utils.checkBitFlag(flags, Utils.DEAD)) saturation = Rands.randFloatRange(0.0F, 0.3F);
+            if (Utils.checkBitFlag(flags, Utils.LUSH)) saturation = Rands.randFloatRange(0.7F, 1.0F);
             float value = Rands.randFloatRange(0.5F, 1.0F);
             Color GRASS_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
             Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
@@ -51,7 +54,7 @@ public class Dimensions {
                     .hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
                     .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100))
                     .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
-                    .setFlags(generateDimensionFlags());
+                    .setFlags(flags);
             DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
                     .name(dimensionName + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
@@ -124,10 +127,13 @@ public class Dimensions {
             if (Rands.chance(4)) {
                 flags |= Utils.ABANDONED;
             }
+            if (Rands.chance(5)) {
+                flags |= Utils.DEAD;
+            }
         } else {
             if (Rands.chance(5)) {
                 flags |= Utils.DEAD;
-                if (Rands.chance(4)) {
+                if (Rands.chance(3)) {
                     flags |= Utils.ABANDONED;
                 }
             } else {

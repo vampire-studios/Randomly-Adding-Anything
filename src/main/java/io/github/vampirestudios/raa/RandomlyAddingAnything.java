@@ -3,8 +3,6 @@ package io.github.vampirestudios.raa;
 import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.DimensionSavingSystem;
 import io.github.vampirestudios.raa.config.SavingSystem;
-import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecorator;
-import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;
@@ -31,7 +29,6 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static final ItemGroup RAA_FOOD = FabricItemGroupBuilder.build(new Identifier("raa", "food"), () -> new ItemStack(Items.GOLDEN_APPLE));
 	public static final String MOD_ID = "raa";
 	public static GeneralConfig CONFIG;
-	public static BiasedNoiseBasedDecorator DECORATOR;
 	public static CustomDimensionSurfaceBuilder SURFACE_BUILDER;
 
 	@Override

@@ -110,9 +110,10 @@ public class CustomDimensionalBiome extends Biome {
                     break;
             }
         }
-
-        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.field_21089)
-                .createDecoratedFeature(Decorator.COUNT_HEIGHTMAP_DOUBLE.configure(new CountDecoratorConfig(50))));
+        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
+            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.field_21089)
+                    .createDecoratedFeature(Decorator.COUNT_HEIGHTMAP_DOUBLE.configure(new CountDecoratorConfig(50))));
+        }
 
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.CRATER_FEATURE.configure(new CorruptedFeatureConfig(true)).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 1F), 1))));
@@ -124,10 +125,13 @@ public class CustomDimensionalBiome extends Biome {
         }
 
         float towerChance = Rands.randFloatRange(0.001F, 0.003F);
-        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) towerChance = Rands.randFloatRange(0.002F, 0.006F);
+        float campfireChance = Rands.randFloatRange(0.003F, 0.005F);
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED) || Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) towerChance = Rands.randFloatRange(0.002F, 0.006F);
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED) || Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) campfireChance = 0;
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) campfireChance = Rands.randFloatRange(0.005F, 0.007F);
 
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.TOWER.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, towerChance, 1))));
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.003F, 0.006F), 1))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, campfireChance, 1))));
 
         if (Rands.chance(6)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(
@@ -159,12 +163,21 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addSprings(this);
         DefaultBiomeFeatures.addFrozenTopLayer(this);
 
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, Rands.randInt(300), 4, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.PIG, Rands.randInt(300), 4, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.CHICKEN, Rands.randInt(300), 4, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.COW, Rands.randInt(300), 4, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.HORSE, Rands.randInt(300), 2, 6));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.DONKEY, Rands.randInt(300),  1, 3));
+        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
+            if (Rands.chance(2))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, Rands.randInt(300), 4, 4));
+            if (Rands.chance(2))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.PIG, Rands.randInt(300), 4, 4));
+            if (Rands.chance(2))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.CHICKEN, Rands.randInt(300), 4, 4));
+            if (Rands.chance(2))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.COW, Rands.randInt(300), 4, 4));
+            if (Rands.chance(2))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.HORSE, Rands.randInt(300), 2, 6));
+            if (Rands.chance(2))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.DONKEY, Rands.randInt(300), 1, 3));
+        }
+
         if (Rands.chance(2)) this.addSpawn(EntityCategory.AMBIENT, new Biome.SpawnEntry(EntityType.BAT, Rands.randInt(300), 8, 8));
         if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.SPIDER, Rands.randInt(300), 4, 4));
         if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.ZOMBIE, Rands.randInt(300), 4, 4));
@@ -179,7 +192,7 @@ public class CustomDimensionalBiome extends Biome {
     public static NormalTreeFeatureConfig getTreeConfig() {
         NormalTreeFeatureConfig config;
         int height = Rands.randIntRange(2, 24);
-        int foliageHeight = Rands.randIntRange(1, 6);
+        int foliageHeight = Rands.randIntRange(1, 5);
         BlockState logState;
         BlockState leafState;
         int leafType = Rands.randInt(4);
@@ -210,7 +223,7 @@ public class CustomDimensionalBiome extends Biome {
         if (Rands.chance(3)) decoratorsRaw.add(new LeaveVineTreeDecorator());
         if (Rands.chance(3)) decoratorsRaw.add(new TrunkVineTreeDecorator());
         if (Rands.chance(3)) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
-        if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
+        //if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
         if (Rands.chance(3)) decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleStateProvider(Blocks.PODZOL.getDefaultState())));
         ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
 
@@ -242,11 +255,11 @@ public class CustomDimensionalBiome extends Biome {
             break;
             case 2:
                 config = (new NormalTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new PineFoliagePlacer(Rands.randIntRange(1, 3), 0)))
-                        .method_23428(Rands.randIntRange(1, 6))
+                        .method_23428(Rands.randIntRange(1, 4))
                         .method_23430(height - 1)
                         .method_23435(Rands.randIntRange(1, 2))
                         .method_23437(foliageHeight)
-                        .method_23438(Rands.randIntRange(1, 6))
+                        .method_23438(Rands.randIntRange(1, 4))
                         .method_23439(Rands.randIntRange(0, 8)) //water depth
                         .method_23427()
                         .method_23429(decorators)
@@ -311,7 +324,7 @@ public class CustomDimensionalBiome extends Biome {
         if (Rands.chance(3)) decoratorsRaw.add(new LeaveVineTreeDecorator());
         if (Rands.chance(3)) decoratorsRaw.add(new TrunkVineTreeDecorator());
         if (Rands.chance(3)) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
-        if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
+        //if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
         if (Rands.chance(3)) decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleStateProvider(Blocks.PODZOL.getDefaultState())));
         ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
         config = (new MegaTreeFeatureConfig.class_4637(new SimpleStateProvider(logState), new SimpleStateProvider(leafState)))
