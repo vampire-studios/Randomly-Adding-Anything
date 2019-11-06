@@ -8,10 +8,7 @@ import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecorat
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;
-import io.github.vampirestudios.raa.registries.Dimensions;
-import io.github.vampirestudios.raa.registries.Features;
-import io.github.vampirestudios.raa.registries.Materials;
-import io.github.vampirestudios.raa.registries.Textures;
+import io.github.vampirestudios.raa.registries.*;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -62,7 +59,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 		}
 		SURFACE_BUILDER = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "custom_surface_builder"),
 				new CustomDimensionSurfaceBuilder(TernarySurfaceConfig::deserialize));
-		DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "test_decorator"), new BiasedNoiseBasedDecorator(BiasedNoiseBasedDecoratorConfig::deserialize));
+		Decorators.init();
 		Dimensions.createDimensions();
 		Materials.createMaterialResources();
 		MaterialRecipes.init();

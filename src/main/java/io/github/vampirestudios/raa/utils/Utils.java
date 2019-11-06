@@ -6,6 +6,12 @@ import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 public class Utils {
+    //dimension bit flags
+    public static final int CORRUPTED = 1; //nether corruption, same as the old corruption feature
+    public static final int DEAD = 2; //No plants or passive animals at all, very harsh
+    public static final int ABANDONED = 4; //only ruins of old civilizations, no living "smart" creatures (like villagers)
+    public static final int LUSH = 8; //A lush overgrowth of plants
+    public static final int CIVILIZED = 16; //Villages/towns of "smart" creatures who will trade with you
 
     public static String toTitleCase(String lowerCase) {
         return "" + Character.toUpperCase(lowerCase.charAt(0))+lowerCase.substring(1);
@@ -36,6 +42,10 @@ public class Utils {
         } else {
             return DimensionChunkGenerators.OVERWORLD;
         }
+    }
+
+    public static boolean checkBitFlag(int toCheck, int flag) {
+        return (toCheck & flag) == flag;
     }
 
 }

@@ -33,8 +33,8 @@ public enum DimensionFields {
     CAN_SLEEP(Versions.V1, "canSleep", (configVersion, builder, jsonObject) -> {
         return builder.canSleep(jsonObject.get(boolean.class, "canSleep"));
     }),
-    CORRUPTED(Versions.V1, "corrupted", (configVersion, builder, jsonObject) -> {
-        return builder.isCorrupted(jsonObject.get(boolean.class, "corrupted"));
+    FLAGS(Versions.V1, "flags", (configVersion, builder, jsonObject) -> {
+        return builder.setFlags(jsonObject.get(int.class, "flags"));
     }),
     BIOME_DATA(Versions.OLD, "tools", (configVersion, builder, jsonObject) -> {
         JsonObject biomeDataObject = jsonObject.getObject("biomeData");
@@ -69,12 +69,12 @@ public enum DimensionFields {
         return name;
     }
 
-    public DimensionDataBuilder read(Versions configVersion, DimensionDataBuilder builder, JsonObject jsonObject) {
+    public DimensionData.Builder read(Versions configVersion, DimensionData.Builder builder, JsonObject jsonObject) {
         return this.fieldsInterface.read(configVersion, builder, jsonObject);
     }
 
     protected interface MaterialFieldsInterface {
-        DimensionDataBuilder read(Versions configVersion, DimensionDataBuilder builder, JsonObject jsonObject);
+        DimensionData.Builder read(Versions configVersion, DimensionData.Builder builder, JsonObject jsonObject);
     }
 
     private static Identifier idFromJson(JsonObject jsonObject, String name) {

@@ -46,12 +46,12 @@ public class Dimensions {
             Color STONE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
 
             String dimensionName = RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionName().toLowerCase();
-            DimensionDataBuilder dimensionDataBuilder = DimensionDataBuilder.create()
+            DimensionData.Builder dimensionDataBuilder = DimensionData.Builder.create()
                     .dimensionId(Rands.randIntRange(1000, 30000)).name(dimensionName)
                     .hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
                     .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100))
                     .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
-                    .isCorrupted(Rands.chance(20));
+                    .setFlags(generateDimensionFlags());
             DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
                     .name(dimensionName + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
@@ -117,4 +117,32 @@ public class Dimensions {
         });
     }
 
+    public static int generateDimensionFlags() {
+        int flags = 0;
+        if (Rands.chance(20)) {
+            flags |= Utils.CORRUPTED;
+            if (Rands.chance(4)) {
+                flags |= Utils.ABANDONED;
+            }
+        } else {
+            if (Rands.chance(5)) {
+                flags |= Utils.DEAD;
+                if (Rands.chance(4)) {
+                    flags |= Utils.ABANDONED;
+                }
+            } else {
+                if (Rands.chance(4)) {
+                    flags |= Utils.LUSH;
+                }
+                if (Rands.chance(8)) {
+                    flags |= Utils.CIVILIZED;
+                } else {
+                    if (Rands.chance(4)) {
+                        flags |= Utils.ABANDONED;
+                    }
+                }
+            }
+        }
+        return flags;
+    }
 }
