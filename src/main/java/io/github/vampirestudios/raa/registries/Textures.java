@@ -110,6 +110,22 @@ public class Textures {
         }
         addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/crystals/crystal_1");
 
+        for (int i = 1; i < 5; i++) {
+            addTextureToList(TextureTypes.STONE_BRICKS_TEXTURES, "block/stone/bricks_" + i);
+        }
+        for (int i = 1; i < 6; i++) {
+            addTextureToList(TextureTypes.CHISELED_STONE_TEXTURES, "block/stone/chiseled_" + i);
+        }
+        for (int i = 1; i < 5; i++) {
+            addTextureToList(TextureTypes.COBBLESTONE_TEXTURES, "block/stone/cobblestone_" + i);
+        }
+        for (int i = 1; i < 4; i++) {
+            addTextureToList(TextureTypes.POLISHED_STONE_TEXTURES, "block/stone/polished_" + i);
+        }
+        addTextureToList(TextureTypes.STONE_TEXTURES, "block/stone/stone");
+        for (int i = 1; i < 5; i++) {
+            addTextureToList(TextureTypes.STONE_TEXTURES, "block/stone/stone_" + i);
+        }
     }
 
     private static void addTextureToList(List<Identifier> textures, String name) {

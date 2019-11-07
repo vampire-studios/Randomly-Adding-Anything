@@ -5,6 +5,7 @@ import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.api.namegeneration.LangEnum;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
+import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
 import io.github.vampirestudios.raa.items.*;
@@ -14,7 +15,6 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.FoodComponents;
@@ -84,12 +84,11 @@ public class Materials {
                     || material.getOreInformation().getGenerateIn() == GeneratesIn.STONE) blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
             else blockSettings.breakByTool(FabricToolTags.SHOVELS, material.getMiningLevel());
             blockSettings.breakByHand(false);
-            RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_block"), RandomlyAddingAnything.RAA_RESOURCES, material.getName(),
-                    RAABlockItem.BlockType.BLOCK);
-            if (material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR) RegistryUtils.register(new LayeredOreBlock(material, blockSettings.build()),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ore"), RandomlyAddingAnything.RAA_ORES, material.getName(),
-                    RAABlockItem.BlockType.ORE);
+            RegistryUtils.register(new RAABlock(), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_block"),
+                    RandomlyAddingAnything.RAA_RESOURCES, material.getName(), RAABlockItem.BlockType.BLOCK);
+            if (material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR)
+                RegistryUtils.register(new LayeredOreBlock(material, blockSettings.build()), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ore"),
+                        RandomlyAddingAnything.RAA_ORES, material.getName(), RAABlockItem.BlockType.ORE);
             if (material.getOreInformation().getOreType() == OreTypes.METAL) {
                 RegistryUtils.registerItem(repairItem = new RAASimpleItem(material.getName(), new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                         RAASimpleItem.SimpleItemType.INGOT), new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"));
