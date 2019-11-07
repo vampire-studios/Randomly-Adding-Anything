@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
-public class DimensionColorPallet {
+public class DimensionColorPalette {
 
     private int skyColor;
     private int grassColor;
@@ -8,7 +8,7 @@ public class DimensionColorPallet {
     private int foliageColor;
     private int stoneColor;
 
-    public DimensionColorPallet(int skyColor, int grassColor, int fogColor, int foliageColor, int stoneColor) {
+    public DimensionColorPalette(int skyColor, int grassColor, int fogColor, int foliageColor, int stoneColor) {
         this.skyColor = skyColor;
         this.grassColor = grassColor;
         this.fogColor = fogColor;

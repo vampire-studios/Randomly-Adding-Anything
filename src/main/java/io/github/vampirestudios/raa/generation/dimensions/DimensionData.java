@@ -2,11 +2,13 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 
+import java.util.HashMap;
+
 public class DimensionData {
     private String name;
     private int dimensionId;
     private DimensionBiomeData biomeData;
-    private DimensionColorPallet dimensionColorPallet;
+    private DimensionColorPalette dimensionColorPalette;
     private boolean hasLight;
     private boolean hasSky;
     private boolean canSleep;
@@ -14,12 +16,13 @@ public class DimensionData {
     private boolean renderFog;
     private DimensionChunkGenerators dimensionChunkGenerator;
     private int flags;
+    private HashMap<String, int[]> mobs;
 
-    public DimensionData(String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPallet dimensionColorPallet, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags) {
+    public DimensionData(String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs) {
         this.name = name;
         this.dimensionId = dimensionId;
         this.biomeData = biomeData;
-        this.dimensionColorPallet = dimensionColorPallet;
+        this.dimensionColorPalette = dimensionColorPalette;
         this.hasLight = hasLight;
         this.hasSky = hasSky;
         this.canSleep = canSleep;
@@ -27,6 +30,7 @@ public class DimensionData {
         this.renderFog = renderFog;
         this.dimensionChunkGenerator = dimensionChunkGenerator;
         this.flags = flags;
+        this.mobs = mobs;
     }
 
     public String getName() {
@@ -41,8 +45,8 @@ public class DimensionData {
         return biomeData;
     }
 
-    public DimensionColorPallet getDimensionColorPallet() {
-        return dimensionColorPallet;
+    public DimensionColorPalette getDimensionColorPallet() {
+        return dimensionColorPalette;
     }
 
     public boolean hasSkyLight() {
@@ -73,11 +77,15 @@ public class DimensionData {
         return flags;
     }
 
+    public HashMap<String, int[]> getMobs() {
+        return mobs;
+    }
+
     public static class Builder {
         private String name;
         private int dimensionId;
         private DimensionBiomeData biomeData;
-        private DimensionColorPallet dimensionColorPallet;
+        private DimensionColorPalette dimensionColorPalette;
         private boolean hasLight;
         private boolean hasSky;
         private boolean canSleep;
@@ -85,6 +93,7 @@ public class DimensionData {
         private boolean renderFog;
         private DimensionChunkGenerators dimensionChunkGenerator;
         private int flags;
+        private HashMap<String, int[]> mobs;
 
         public static Builder create() {
             return new Builder();
@@ -110,8 +119,8 @@ public class DimensionData {
             return this;
         }
 
-        public Builder colorPallet(DimensionColorPallet dimensionColorPallet) {
-            this.dimensionColorPallet = dimensionColorPallet;
+        public Builder colorPallet(DimensionColorPalette dimensionColorPalette) {
+            this.dimensionColorPalette = dimensionColorPalette;
             return this;
         }
 
@@ -145,9 +154,14 @@ public class DimensionData {
             return this;
         }
 
+        public Builder mobs(HashMap<String, int[]> mobs) {
+            this.mobs = mobs;
+            return this;
+        }
+
         public DimensionData build() {
             return new DimensionData(name, dimensionId, biomeData,
-                    dimensionColorPallet, hasLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags);
+                    dimensionColorPalette, hasLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags, mobs);
         }
     }
 }

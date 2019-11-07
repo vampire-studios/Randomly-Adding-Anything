@@ -37,8 +37,8 @@ public class DimensionColorPalletBuilder {
         return this;
     }
 
-    public DimensionColorPallet build() {
-        return new DimensionColorPallet(skyColor, grassColor, fogColor, foliageColor, stoneColor);
+    public DimensionColorPalette build() {
+        return new DimensionColorPalette(skyColor, grassColor, fogColor, foliageColor, stoneColor);
     }
 
 }

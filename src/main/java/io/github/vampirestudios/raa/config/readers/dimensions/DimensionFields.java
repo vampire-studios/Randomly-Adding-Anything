@@ -1,11 +1,15 @@
 package io.github.vampirestudios.raa.config.readers.dimensions;
 
 import blue.endless.jankson.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.config.readers.Versions;
 import io.github.vampirestudios.raa.generation.dimensions.*;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.util.Identifier;
+
+import java.util.HashMap;
 
 public enum DimensionFields {
     NAME(Versions.V1, "name", (configVersion, builder, jsonObject) -> {
@@ -14,9 +18,9 @@ public enum DimensionFields {
     DIMENSION_ID(Versions.V1, "dimensionId", (configVersion, builder, jsonObject) -> {
         return builder.dimensionId(jsonObject.get(int.class, "dimensionId"));
     }),
-    DIMENSION_PALLETS(Versions.V1, "dimensionColorPallet", (configVersion, builder, jsonObject) -> {
-        JsonObject colorPalletObject = jsonObject.getObject("dimensionColorPallet");
-        DimensionColorPallet pallet = DimensionColorPalletBuilder.create()
+    DIMENSION_PALLETS(Versions.V1, "dimensionColorPalette", (configVersion, builder, jsonObject) -> {
+        JsonObject colorPalletObject = jsonObject.getObject("dimensionColorPalette");
+        DimensionColorPalette pallet = DimensionColorPalletBuilder.create()
                 .skyColor(colorPalletObject.get(int.class, "skyColor"))
                 .grassColor(colorPalletObject.get(int.class, "grassColor"))
                 .fogColor(colorPalletObject.get(int.class, "fogColor"))
@@ -35,6 +39,13 @@ public enum DimensionFields {
     }),
     FLAGS(Versions.V1, "flags", (configVersion, builder, jsonObject) -> {
         return builder.setFlags(jsonObject.get(int.class, "flags"));
+    }),
+    MOBS(Versions.V1, "mobs", (configVersion, builder, jsonObject) -> {
+        //this disaster is needed because Jankson can't deseralize hashmaps for whatever reason
+        //TODO: Optimize this
+        HashMap<String, int[]> map = new Gson().fromJson(jsonObject.get("mobs").toJson(), new TypeToken<HashMap<String, int[]>>(){}.getType());
+        System.out.println(map);
+        return builder.mobs(map);
     }),
     BIOME_DATA(Versions.OLD, "tools", (configVersion, builder, jsonObject) -> {
         JsonObject biomeDataObject = jsonObject.getObject("biomeData");

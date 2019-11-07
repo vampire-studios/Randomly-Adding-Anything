@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import com.google.common.collect.ImmutableList;
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.registries.Decorators;
@@ -152,16 +151,16 @@ public class CustomDimensionalBiome extends Biome {
                     Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.field_21126)
             )).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.01F, 1F), 1))));
         }
-        /*if(Rands.chance(8))
-            DefaultBiomeFeatures.addMossyRocks(this);
-        if(Rands.chance(20))
-            DefaultBiomeFeatures.addGiantSpruceTaigaTrees(this);
-        if(Rands.chance(10))
-            DefaultBiomeFeatures.addIcebergs(this);
         if(Rands.chance(8))
-            DefaultBiomeFeatures.addTaigaTrees(this);
-        if(Rands.chance(10) && dimensionData.getBiomeData().getScale() > 1.0F)
-            DefaultBiomeFeatures.addMountainTrees(this);*/
+            DefaultBiomeFeatures.addMossyRocks(this);
+//        if(Rands.chance(20))
+//            DefaultBiomeFeatures.addGiantSpruceTaigaTrees(this);
+//        if(Rands.chance(10))
+//            DefaultBiomeFeatures.addIcebergs(this);
+//        if(Rands.chance(8))
+//            DefaultBiomeFeatures.addTaigaTrees(this);
+//        if(Rands.chance(10) && dimensionData.getBiomeData().getScale() > 1.0F)
+//            DefaultBiomeFeatures.addMountainTrees(this);
 //        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
 
 
@@ -171,29 +170,30 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addFrozenTopLayer(this);
 
         if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
-            if (Rands.chance(2))
-                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, Rands.randInt(300), 4, 4));
-            if (Rands.chance(2))
-                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.PIG, Rands.randInt(300), 4, 4));
-            if (Rands.chance(2))
-                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.CHICKEN, Rands.randInt(300), 4, 4));
-            if (Rands.chance(2))
-                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.COW, Rands.randInt(300), 4, 4));
-            if (Rands.chance(2))
-                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.HORSE, Rands.randInt(300), 2, 6));
-            if (Rands.chance(2))
-                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.DONKEY, Rands.randInt(300), 1, 3));
+            if (dimensionData.getMobs().containsKey("sheep"))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, dimensionData.getMobs().get("sheep")[0], dimensionData.getMobs().get("sheep")[1], dimensionData.getMobs().get("sheep")[2]));
+            if (dimensionData.getMobs().containsKey("pig"))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.PIG, dimensionData.getMobs().get("pig")[0], dimensionData.getMobs().get("pig")[1], dimensionData.getMobs().get("pig")[2]));
+            if (dimensionData.getMobs().containsKey("chicken"))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.CHICKEN, dimensionData.getMobs().get("chicken")[0], dimensionData.getMobs().get("chicken")[1], dimensionData.getMobs().get("chicken")[2]));
+            if (dimensionData.getMobs().containsKey("cow"))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.COW, dimensionData.getMobs().get("cow")[0], dimensionData.getMobs().get("cow")[1], dimensionData.getMobs().get("cow")[2]));
+            if (dimensionData.getMobs().containsKey("horse"))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.HORSE, dimensionData.getMobs().get("horse")[0], dimensionData.getMobs().get("horse")[1], dimensionData.getMobs().get("horse")[2]));
+            if (dimensionData.getMobs().containsKey("donkey"))
+                this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.DONKEY, dimensionData.getMobs().get("donkey")[0], dimensionData.getMobs().get("donkey")[1], dimensionData.getMobs().get("donkey")[2]));
         }
 
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.AMBIENT, new Biome.SpawnEntry(EntityType.BAT, Rands.randInt(300), 8, 8));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.SPIDER, Rands.randInt(300), 4, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.ZOMBIE, Rands.randInt(300), 4, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.ZOMBIE_VILLAGER, Rands.randInt(300), 1, 1));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.SKELETON, Rands.randInt(300), 4, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.CREEPER, Rands.randInt(300), 4, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.SLIME, Rands.randInt(300), 4, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.ENDERMAN, Rands.randInt(300), 1, 4));
-        if (Rands.chance(2)) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.WITCH, Rands.randInt(300), 1, 1));
+        if (dimensionData.getMobs().containsKey("bat")) this.addSpawn(EntityCategory.AMBIENT, new Biome.SpawnEntry(EntityType.BAT, dimensionData.getMobs().get("bat")[0], dimensionData.getMobs().get("bat")[1], dimensionData.getMobs().get("bat")[2]));
+
+        if (dimensionData.getMobs().containsKey("spider")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.SPIDER, dimensionData.getMobs().get("spider")[0], dimensionData.getMobs().get("spider")[1], dimensionData.getMobs().get("spider")[2]));
+        if (dimensionData.getMobs().containsKey("zombie")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.ZOMBIE, dimensionData.getMobs().get("zombie")[0], dimensionData.getMobs().get("zombie")[1], dimensionData.getMobs().get("zombie")[2]));
+        if (dimensionData.getMobs().containsKey("zombie_villager")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.ZOMBIE_VILLAGER, dimensionData.getMobs().get("zombie_villager")[0], dimensionData.getMobs().get("zombie_villager")[1], dimensionData.getMobs().get("zombie_villager")[2]));
+        if (dimensionData.getMobs().containsKey("skeleton")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.SKELETON, dimensionData.getMobs().get("skeleton")[0], dimensionData.getMobs().get("skeleton")[1], dimensionData.getMobs().get("skeleton")[2]));
+        if (dimensionData.getMobs().containsKey("creeper")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.CREEPER, dimensionData.getMobs().get("creeper")[0], dimensionData.getMobs().get("creeper")[1], dimensionData.getMobs().get("creeper")[2]));
+        if (dimensionData.getMobs().containsKey("slime")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.SLIME, dimensionData.getMobs().get("slime")[0], dimensionData.getMobs().get("slime")[1], dimensionData.getMobs().get("slime")[2]));
+        if (dimensionData.getMobs().containsKey("enderman")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.ENDERMAN, dimensionData.getMobs().get("enderman")[0], dimensionData.getMobs().get("enderman")[1], dimensionData.getMobs().get("enderman")[2]));
+        if (dimensionData.getMobs().containsKey("witch")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("witch")[0], dimensionData.getMobs().get("witch")[1], dimensionData.getMobs().get("witch")[2]));
     }
 
     public static NormalTreeFeatureConfig getTreeConfig() {
