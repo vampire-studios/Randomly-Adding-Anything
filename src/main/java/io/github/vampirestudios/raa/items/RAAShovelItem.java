@@ -7,6 +7,7 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class RAAShovelItem extends ShovelItem {
 
@@ -19,7 +20,7 @@ public class RAAShovelItem extends ShovelItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.shovel", new LiteralText(material.getName()));
+        return new TranslatableText("text.raa.item.shovel", new LiteralText(WordUtils.capitalize(material.getName())));
     }
 
 }

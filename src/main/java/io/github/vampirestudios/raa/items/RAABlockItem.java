@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class RAABlockItem extends BlockItem {
     private String name;
@@ -25,7 +25,7 @@ public class RAABlockItem extends BlockItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.block." + getBlockType().name().toLowerCase(), new LiteralText(name));
+        return new TranslatableText("text.raa.block." + getBlockType().name().toLowerCase(), new LiteralText(WordUtils.capitalize(name)));
     }
 
     public BlockType getBlockType() {

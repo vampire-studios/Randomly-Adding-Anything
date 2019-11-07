@@ -40,9 +40,19 @@ public class CustomToolMaterial implements ToolMaterial {
         return durability;
     }
 
+    @Deprecated
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
     @Override
     public float getMiningSpeed() {
         return miningSpeed;
+    }
+
+    @Deprecated
+    public void setMiningSpeed(float miningSpeed) {
+        this.miningSpeed = miningSpeed;
     }
 
     @Override
@@ -50,14 +60,29 @@ public class CustomToolMaterial implements ToolMaterial {
         return attackDamage;
     }
 
+    @Deprecated
+    public void setAttackDamage(float attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
     @Override
     public int getMiningLevel() {
         return miningLevel;
     }
 
+    @Deprecated
+    public void setMiningLevel(int miningLevel) {
+        this.miningLevel = miningLevel;
+    }
+
     @Override
     public int getEnchantability() {
         return this.enchantability;
+    }
+
+    @Deprecated
+    public void setEnchantability(int enchantability) {
+        this.enchantability = enchantability;
     }
 
     @Override

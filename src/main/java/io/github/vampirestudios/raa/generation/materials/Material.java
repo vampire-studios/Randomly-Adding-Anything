@@ -138,6 +138,11 @@ public class Material {
         return name.toLowerCase();
     }
 
+    @Deprecated
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getRGBColor() {
         return color;
     }

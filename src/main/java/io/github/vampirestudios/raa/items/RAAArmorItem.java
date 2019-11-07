@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class RAAArmorItem extends DyeableArmorItem {
 
@@ -26,7 +27,7 @@ public class RAAArmorItem extends DyeableArmorItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.armor_" + this.equipmentSlot_1.getName(), new LiteralText(material.getName()));
+        return new TranslatableText("text.raa.item.armor_" + this.equipmentSlot_1.getName(), new LiteralText(WordUtils.capitalize(material.getName())));
     }
 
 }

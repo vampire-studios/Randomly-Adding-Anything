@@ -1,9 +1,13 @@
 package io.github.vampirestudios.raa.blocks;
 
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -13,10 +17,17 @@ import net.minecraft.world.dimension.DimensionType;
 
 public class PortalBlock extends Block {
     private DimensionType dimensionType;
+    private DimensionData dimensionData;
 
-    public PortalBlock(DimensionType dimensionType) {
+    public PortalBlock(DimensionData  dimensionData, DimensionType dimensionType) {
         super(Block.Settings.of(Material.PORTAL));
         this.dimensionType = dimensionType;
+        this.dimensionData = dimensionData;
+    }
+
+    @Override
+    public Text getName() {
+        return new TranslatableText("text.raa.block.portal" , new LiteralText(dimensionData.getName()));
     }
 
     @Override

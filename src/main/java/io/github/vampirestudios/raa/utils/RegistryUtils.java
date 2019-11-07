@@ -25,6 +25,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.items.RAABlockItem;
+import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -46,6 +47,14 @@ public class RegistryUtils {
     public static Block register(Block block, Identifier name, ItemGroup itemGroup, String upperCaseName, RAABlockItem.BlockType blockType) {
         Registry.register(Registry.BLOCK, name, block);
         BlockItem item = new RAABlockItem(upperCaseName, block, (new Settings()).group(itemGroup), blockType);
+        item.appendBlocks(Item.BLOCK_ITEMS, item);
+        Registry.register(Registry.ITEM, name, item);
+        return block;
+    }
+
+    public static Block register(Block block, Identifier name, ItemGroup itemGroup, String upperCaseName, String type) {
+        Registry.register(Registry.BLOCK, name, block);
+        BlockItem item = new RAABlockItemAlt(upperCaseName, type, block, (new Settings()).group(itemGroup));
         item.appendBlocks(Item.BLOCK_ITEMS, item);
         Registry.register(Registry.ITEM, name, item);
         return block;

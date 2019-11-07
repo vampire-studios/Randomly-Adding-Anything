@@ -18,18 +18,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.BlockRenderView;
 
 import java.util.*;
 import java.util.function.Function;
@@ -40,16 +38,25 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ColorProviderRegistry.ITEM.register((var1, var2) -> MinecraftClient.getInstance().world.getBiome(MinecraftClient.getInstance().player.getBlockPos())
-                .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos()), Items.GRASS_BLOCK);
+        ColorProviderRegistry.ITEM.register((var1, var2) -> {
+            if(MinecraftClient.getInstance().world != null) {
+                return MinecraftClient.getInstance().world.getBiome(MinecraftClient.getInstance().player.getBlockPos())
+                        .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos());
+            } else {
+                BlockState blockState_1 = ((BlockItem)var1.getItem()).getBlock().getDefaultState();
+                return MinecraftClient.getInstance().getBlockColorMap().getColorMultiplier(blockState_1, null, null, var2);
+            }
+        }, Items.GRASS_BLOCK);
 
-        ColorProviderRegistry.ITEM.register((var1, var2) -> MinecraftClient.getInstance().world.getBiome(MinecraftClient.getInstance().player.getBlockPos())
+        ColorProviderRegistry.ITEM.register((var1, var2) -> MinecraftClient.getInstance().world.getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos())
                 .getFoliageColorAt(MinecraftClient.getInstance().player.getBlockPos()), Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES,
                 Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS,
                 Items.TALL_GRASS, Items.VINE);
 
-        ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
-                blockRenderView.getBiome(blockPos).getFoliageColorAt(blockPos), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
+        ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) -> {
+            assert blockRenderView != null;
+            return blockRenderView.getBiome(blockPos).getFoliageColorAt(blockPos);
+        }, Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
 
         while (!Materials.isIsReady()) {
             System.out.println("Not Ready");
@@ -178,18 +185,65 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             });
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
                 Identifier stoneId = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone");
-                Identifier portalId = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_portal");
                 clientResourcePackBuilder.addBlockState(stoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                     variant.model(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())))
                 );
                 clientResourcePackBuilder.addBlockModel(stoneId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("block/leaves"));
-                    modelBuilder.texture("all", new Identifier(RandomlyAddingAnything.MOD_ID, "block/stone/stone"));
+                    modelBuilder.texture("all", Rands.list(TextureTypes.STONE_TEXTURES));
                 });
                 clientResourcePackBuilder.addItemModel(stoneId,
                         modelBuilder -> modelBuilder.parent(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())));
 
 
+                Identifier stoneBricksId = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone_bricks");
+                clientResourcePackBuilder.addBlockState(stoneBricksId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(stoneBricksId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", Rands.list(TextureTypes.STONE_BRICKS_TEXTURES));
+                });
+                clientResourcePackBuilder.addItemModel(stoneBricksId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())));
+
+
+                Identifier cobblestoneId = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_cobblestone");
+                clientResourcePackBuilder.addBlockState(cobblestoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(cobblestoneId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", Rands.list(TextureTypes.COBBLESTONE_TEXTURES));
+                });
+                clientResourcePackBuilder.addItemModel(cobblestoneId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())));
+
+
+                Identifier chiseledId = new Identifier(RandomlyAddingAnything.MOD_ID, "chiseled_" + dimensionData.getName().toLowerCase());
+                clientResourcePackBuilder.addBlockState(chiseledId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(chiseledId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", Rands.list(TextureTypes.CHISELED_STONE_TEXTURES));
+                });
+                clientResourcePackBuilder.addItemModel(chiseledId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())));
+
+
+                Identifier polishedId = new Identifier(RandomlyAddingAnything.MOD_ID, "polished_" + dimensionData.getName().toLowerCase());
+                clientResourcePackBuilder.addBlockState(polishedId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(polishedId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", Rands.list(TextureTypes.POLISHED_STONE_TEXTURES));
+                });
+                clientResourcePackBuilder.addItemModel(polishedId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())));
+
+                Identifier portalId = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_portal");
                 clientResourcePackBuilder.addBlockState(portalId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(stoneId.getNamespace(), "block/" + portalId.getPath())))
                 );
@@ -198,7 +252,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder -> modelBuilder.parent(new Identifier(portalId.getNamespace(), "block/" + portalId.getPath())));
 
                 ColorProviderRegistryImpl.ITEM.register((stack, layer) -> dimensionData.getDimensionColorPallet().getFogColor(), Registry.ITEM.get(portalId));
-                ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> dimensionData.getDimensionColorPallet().getFogColor(), Registry.BLOCK.get(portalId));
+                ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+                        dimensionData.getDimensionColorPallet().getFogColor(), Registry.BLOCK.get(portalId));
             });
         });
 
@@ -239,13 +294,18 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
                 id = id.replace(entry.getKey(), entry.getValue());
             }
-            Block block = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_stone"));
+            Block stone = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_stone"));
+            Block stoneBricks = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_stone_bricks"));
+            Block cobblestone = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_cobblestone"));
+            Block chiseled = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, "chiseled_" + id));
+            Block polished = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, "polished_" + id));
 
             ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                 if (layer == 0) return dimensionData.getDimensionColorPallet().getStoneColor();
                     else return -1;
-            }, block);
-            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> dimensionData.getDimensionColorPallet().getStoneColor(), block);
+            }, stone, stoneBricks, cobblestone, chiseled, polished);
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+                    dimensionData.getDimensionColorPallet().getStoneColor(), stone, stoneBricks, cobblestone, chiseled, polished);
         });
 
         ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {

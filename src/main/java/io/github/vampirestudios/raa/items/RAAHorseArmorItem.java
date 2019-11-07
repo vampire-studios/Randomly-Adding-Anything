@@ -11,6 +11,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class RAAHorseArmorItem extends DyeableHorseArmorItem {
 
@@ -25,7 +26,7 @@ public class RAAHorseArmorItem extends DyeableHorseArmorItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.horse_armor", new LiteralText(material.getName()));
+        return new TranslatableText("text.raa.item.horse_armor", new LiteralText(WordUtils.capitalize(material.getName())));
     }
 
     @Override
