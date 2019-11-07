@@ -1,6 +1,8 @@
 package io.github.vampirestudios.raa.config.screen;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -11,7 +13,11 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
+import org.apache.commons.lang3.text.WordUtils;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 public class MaterialListScreen extends Screen {
@@ -29,7 +35,7 @@ public class MaterialListScreen extends Screen {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBufferBuilder();
         Objects.requireNonNull(MinecraftClient.getInstance()).getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         buffer.begin(7, VertexFormats.POSITION_UV_COLOR);
         buffer.vertex(x1, y2, 0.0D).texture(x1 / 32.0F, y2 / 32.0F).color(red, green, blue, endAlpha).next();
         buffer.vertex(x2, y2, 0.0D).texture(x2 / 32.0F, y2 / 32.0F).color(red, green, blue, endAlpha).next();
@@ -68,16 +74,22 @@ public class MaterialListScreen extends Screen {
             }
         }));*/
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
-        children.add(materialList = new MaterialisationMaterialListWidget(minecraft, width / 2 - 10, height - 38, 28 + 5, height - 5, DrawableHelper.BACKGROUND_LOCATION));
-        children.add(descriptionList = new MaterialisationDescriptionListWidget(minecraft, width / 2 - 10, height - 38, 28 + 5, height - 5, DrawableHelper.BACKGROUND_LOCATION));
+        children.add(materialList = new MaterialisationMaterialListWidget(minecraft, width / 2 - 10, height, 28 + 5, height - 5, DrawableHelper.BACKGROUND_LOCATION));
+        children.add(descriptionList = new MaterialisationDescriptionListWidget(minecraft, width / 2 - 10, height, 28 + 5, height - 5, DrawableHelper.BACKGROUND_LOCATION));
         materialList.setLeftPos(5);
         descriptionList.setLeftPos(width / 2 + 5);
-        Materials.MATERIALS.forEach(material -> materialList.addItem(new MaterialisationMaterialListWidget.PackEntry(material) {
-            @Override
-            public void onClick() {
-                descriptionList.addMaterial(MaterialListScreen.this, material);
-            }
-        }));
+        List<Material> materials = new ArrayList<>();
+        for (Material material : Materials.MATERIALS) materials.add(material);
+        materials.sort(Comparator.comparing(material -> WordUtils.capitalizeFully(material.getName()), String::compareToIgnoreCase));
+        for (Material material : materials) {
+            materialList.addItem(new MaterialisationMaterialListWidget.PackEntry(material) {
+                @Override
+                public void onClick() {
+                    descriptionList.addMaterial(MaterialListScreen.this, material);
+                }
+            });
+        }
+        if (!materials.isEmpty()) materialList.addItem(new MaterialisationMaterialListWidget.EmptyEntry(10));
     }
 
     @Override
@@ -87,12 +99,13 @@ public class MaterialListScreen extends Screen {
         descriptionList.render(mouseX, mouseY, delta);
         overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
         overlayBackground(0, height - 5, width, height, 64, 64, 64, 255, 255);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value,
-                GlStateManager.SourceFactor.ZERO.value, GlStateManager.DestFactor.ONE.value);
-        GlStateManager.disableAlphaTest();
-        GlStateManager.shadeModel(7425);
-        GlStateManager.disableTexture();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value,
+                                       GlStateManager.SourceFactor.ZERO.value, GlStateManager.DestFactor.ONE.value
+        );
+        RenderSystem.disableAlphaTest();
+        RenderSystem.shadeModel(7425);
+        RenderSystem.disableTexture();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBufferBuilder();
         buffer.begin(7, VertexFormats.POSITION_UV_COLOR);
@@ -101,10 +114,10 @@ public class MaterialListScreen extends Screen {
         buffer.vertex(this.width, 28, 0.0D).texture(1.0F, 0.0F).color(0, 0, 0, 255).next();
         buffer.vertex(0, 28, 0.0D).texture(0.0F, 0.0F).color(0, 0, 0, 255).next();
         tessellator.draw();
-        GlStateManager.enableTexture();
-        GlStateManager.shadeModel(7424);
-        GlStateManager.enableAlphaTest();
-        GlStateManager.disableBlend();
+        RenderSystem.enableTexture();
+        RenderSystem.shadeModel(7424);
+        RenderSystem.enableAlphaTest();
+        RenderSystem.disableBlend();
         drawCenteredString(font, title.asFormattedString(), width / 2, 10, 16777215);
         super.render(mouseX, mouseY, delta);
     }

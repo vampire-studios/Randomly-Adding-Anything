@@ -1,6 +1,10 @@
 package io.github.vampirestudios.raa.config.screen;
 
+import io.github.vampirestudios.raa.config.SavingSystem;
 import io.github.vampirestudios.raa.generation.materials.Material;
+import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import me.shedaniel.clothconfig2.api.ConfigCategory;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
@@ -16,6 +20,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class MaterialisationDescriptionListWidget extends DynamicElementListWidget<MaterialisationDescriptionListWidget.Entry> {
     public MaterialisationDescriptionListWidget(MinecraftClient client, int width, int height, int top, int bottom, Identifier backgroundLocation) {
@@ -41,39 +46,19 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
         clearItems();
     }
 
-    public void addPack(Material materialsPack) {
+    public void addMaterial(MaterialListScreen og, Material material) {
         clearItems();
-        addItem(new TextEntry(new LiteralText(materialsPack.getName()).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
-        addItem(new EmptyEntry(5));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", materialsPack.toString()).formatted(Formatting.GRAY)));
-    }
-
-    public void addMaterial(MaterialListScreen og, Material partMaterial) {
-        clearItems();
-        addItem(new TitleMaterialOverrideEntry(og, partMaterial, new TranslatableText(WordUtils.capitalizeFully(partMaterial.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+        addItem(new TitleMaterialOverrideEntry(og, material, new LiteralText(WordUtils.capitalizeFully(material.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DecimalFormat df = new DecimalFormat("#.##");
-        addItem(new ColorEntry(I18n.translate("config.text.raa.color"), partMaterial.getRGBColor()));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", partMaterial.getName()).formatted(Formatting.GRAY)));
-        if (partMaterial.hasTools()) {
-            addItem(new TextEntry(I18n.translate("config.text.raa.enchantability", partMaterial.getToolMaterial().getEnchantability())));
-            addItem(new TextEntry(I18n.translate("config.text.raa.durability", partMaterial.getToolMaterial().getDurability())));
-            addItem(new TextEntry(I18n.translate("config.text.raa.mining_level", partMaterial.getToolMaterial().getMiningLevel())));
-            addItem(new TextEntry(I18n.translate("config.text.raa.tool_speed", df.format(partMaterial.getToolMaterial().getMiningSpeed()))));
-            addItem(new TextEntry(I18n.translate("config.text.raa.attack_damage", df.format(partMaterial.getToolMaterial().getAttackDamage()))));
+        addItem(new ColorEntry("config.text.raa.color", material.getRGBColor()));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getName()).formatted(Formatting.GRAY)));
+        if (material.hasTools()) {
+            addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.durability", material.getToolMaterial().getDurability())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.mining_level", material.getToolMaterial().getMiningLevel())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.tool_speed", df.format(material.getToolMaterial().getMiningSpeed()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.attack_damage", df.format(material.getToolMaterial().getAttackDamage()))));
         }
-//        addItem(new TextEntry(I18n.translate("config.text.raa.tool_speed_multiplier", df.format(partMaterial.getToolMaterial().brea()))));
-//        addItem(new TextEntry(I18n.translate("config.text.raa.durability_multiplier", df.format(partMaterial.getDurabilityMultiplier()))));
-    }
-
-    public int darkerColor(int color) {
-        int r = (color >> 16) & 0xFF;
-        int g = (color >> 8) & 0xFF;
-        int b = (color) & 0xFF;
-        int a = (color >> 24) & 0xFF;
-        return ((a & 0xFF) << 24) |
-                ((Math.max((int) (r * 0.7), 0) & 0xFF) << 16) |
-                ((Math.max((int) (g * 0.7), 0) & 0xFF) << 8) |
-                ((Math.max((int) (b * 0.7), 0) & 0xFF));
     }
 
     public static class ColorEntry extends Entry {
@@ -87,7 +72,7 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
 
         @Override
         public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(String.format(s, color), x, y, 16777215);
+            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(I18n.translate(s, color), x, y, 16777215);
             fillGradient(i + 1, y + 1, i + 1 + entryHeight, y + 1 + entryHeight, color, color);
         }
 
@@ -106,12 +91,69 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
         protected String s;
         private ButtonWidget overrideButton;
 
-        public TitleMaterialOverrideEntry(MaterialListScreen og, Material partMaterial, Text text) {
+        public TitleMaterialOverrideEntry(MaterialListScreen og, Material material, Text text) {
             this.s = text.asFormattedString();
-            String btnText = I18n.translate("config.button.raa.create_override");
+            String btnText = I18n.translate("config.button.raa.edit");
             overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText, widget -> {
-//                MinecraftClient.getInstance().openScreen(new MaterialisationCreateOverrideNameScreen(og, MinecraftClient.getInstance().currentScreen, partMaterial));
+                openClothConfigForMaterial(og, material);
             });
+        }
+
+        private static void openClothConfigForMaterial(MaterialListScreen og, Material material) {
+            ConfigBuilder builder = ConfigBuilder.create()
+                    .setParentScreen(new MaterialListScreen(og))
+                    .setTitle(I18n.translate("config.title.raa.material", WordUtils.capitalizeFully(material.getName())));
+            ConfigCategory category = builder.getOrCreateCategory("null"); // The name is not required if we only have 1 category in Cloth Config 1.8+
+            ConfigEntryBuilder eb = builder.entryBuilder();
+            category.addEntry(
+                    eb.startStrField("config.field.raa.identifier", material.getName())
+                            .setDefaultValue(material.getName())
+                            .setSaveConsumer(str -> material.setName(str))
+                            .setErrorSupplier(str -> {
+                                if (str.toLowerCase().equals(str))
+                                    return Optional.empty();
+                                return Optional.of(I18n.translate("config.error.raa.identifier.no.caps"));
+                            })
+                            .build()
+            );
+            if (material.hasTools()) {
+                category.addEntry(
+                        eb.startIntField("config.field.raa.enchantability", material.getToolMaterial().getEnchantability())
+                                .setDefaultValue(material.getToolMaterial().getEnchantability())
+                                .setSaveConsumer(i -> material.getToolMaterial().setEnchantability(i))
+                                .setMin(0)
+                                .build()
+                );
+                category.addEntry(
+                        eb.startIntField("config.field.raa.durability", material.getToolMaterial().getDurability())
+                                .setDefaultValue(material.getToolMaterial().getDurability())
+                                .setSaveConsumer(i -> material.getToolMaterial().setDurability(i))
+                                .setMin(1)
+                                .build()
+                );
+                category.addEntry(
+                        eb.startIntField("config.field.raa.mining_level", material.getToolMaterial().getMiningLevel())
+                                .setDefaultValue(material.getToolMaterial().getMiningLevel())
+                                .setSaveConsumer(i -> material.getToolMaterial().setMiningLevel(i))
+                                .setMin(0)
+                                .build()
+                );
+                category.addEntry(
+                        eb.startFloatField("config.field.raa.tool_speed", material.getToolMaterial().getMiningSpeed())
+                                .setDefaultValue(material.getToolMaterial().getMiningSpeed())
+                                .setSaveConsumer(i -> material.getToolMaterial().setMiningSpeed(i))
+                                .setMin(0)
+                                .build()
+                );
+                category.addEntry(
+                        eb.startFloatField("config.field.raa.attack_damage", material.getToolMaterial().getAttackDamage())
+                                .setDefaultValue(material.getToolMaterial().getAttackDamage())
+                                .setSaveConsumer(i -> material.getToolMaterial().setAttackDamage(i))
+                                .build()
+                );
+            }
+            builder.setSavingRunnable(SavingSystem::createFile);
+            MinecraftClient.getInstance().openScreen(builder.build());
         }
 
         @Override
