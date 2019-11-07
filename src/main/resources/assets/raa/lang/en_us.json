@@ -31,6 +31,7 @@
   "text.autoconfig.raa.option.namingLanguage": "Mod Language",
 
   "config.title.raa": "RAA Config",
+  "config.title.raa.material": "Config for %d",
 
   "config.text.raa.identifier": "Identifier: %s",
   "config.text.raa.color": "§7Color: %d",
@@ -38,5 +39,14 @@
   "config.text.raa.durability": "§7Durability: %d",
   "config.text.raa.mining_level": "§7Mining Level: %d",
   "config.text.raa.tool_speed": "§7Tool Speed: %s",
-  "config.text.raa.attack_damage": "§7Attack Damage: %s"
+  "config.text.raa.attack_damage": "§7Attack Damage: %s",
+
+  "config.error.raa.identifier.no.caps": "No capital letters!",
+  "config.field.raa.identifier": "Identifier:",
+  "config.field.raa.enchantability": "Enchantability:",
+  "config.field.raa.durability": "Durability:",
+  "config.field.raa.mining_level": "Mining Level:",
+  "config.field.raa.tool_speed": "Tool Speed:",
+  "config.field.raa.attack_damage": "Attack Damage:",
+  "config.button.raa.edit": "Edit"
 }

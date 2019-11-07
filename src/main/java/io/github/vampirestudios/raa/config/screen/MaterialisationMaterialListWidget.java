@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.config.screen;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
 import net.minecraft.client.MinecraftClient;
@@ -38,11 +38,11 @@ public class MaterialisationMaterialListWidget extends DynamicElementListWidget<
 
     public abstract static class PackEntry extends Entry {
         private PackWidget widget;
-        private Material packInfo;
+        private Material material;
 
-        public PackEntry(Material packInfo) {
+        public PackEntry(Material material) {
             this.widget = new PackWidget();
-            this.packInfo = packInfo;
+            this.material = material;
         }
 
         @Override
@@ -53,7 +53,7 @@ public class MaterialisationMaterialListWidget extends DynamicElementListWidget<
 
         @Override
         public int getItemHeight() {
-            return 40;
+            return 12;
         }
 
         @Override
@@ -69,11 +69,11 @@ public class MaterialisationMaterialListWidget extends DynamicElementListWidget<
 
             @Override
             public void render(int mouseX, int mouseY, float delta) {
-                GlStateManager.disableAlphaTest();
-                fill(bounds.getX(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), 0x15FFFFFF);
+                RenderSystem.disableAlphaTest();
                 boolean isHovered = focused || bounds.contains(mouseX, mouseY);
-                drawString(MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + WordUtils.capitalizeFully(packInfo.getName()),
-                        bounds.getX() + 5, bounds.getY() + 6, 16777215);
+                drawString(MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + WordUtils.capitalizeFully(material.getName()),
+                           bounds.getX() + 5, bounds.getY() + 6, 16777215
+                );
             }
 
             @Override
@@ -185,6 +185,29 @@ public class MaterialisationMaterialListWidget extends DynamicElementListWidget<
             }
         }
     }*/
+
+    public static class EmptyEntry extends Entry {
+        private int height;
+
+        public EmptyEntry(int height) {
+            this.height = height;
+        }
+
+        @Override
+        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+
+        }
+
+        @Override
+        public int getItemHeight() {
+            return height;
+        }
+
+        @Override
+        public List<? extends Element> children() {
+            return Collections.emptyList();
+        }
+    }
 
     public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
 
