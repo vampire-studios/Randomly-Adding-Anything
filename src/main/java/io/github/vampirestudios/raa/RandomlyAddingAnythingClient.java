@@ -13,7 +13,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.fabricmc.fabric.impl.client.render.ColorProviderRegistryImpl;
+import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -28,6 +28,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.level.ColorResolver;
 
 import java.util.*;
 import java.util.function.Function;
@@ -40,22 +42,27 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     public void onInitializeClient() {
         ColorProviderRegistry.ITEM.register((var1, var2) -> {
             if(MinecraftClient.getInstance().world != null) {
-                return MinecraftClient.getInstance().world.getBiome(MinecraftClient.getInstance().player.getBlockPos())
-                        .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos());
+                return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getBlockPos())
+                        .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos().getX(), MinecraftClient.getInstance().player.getBlockPos().getZ());
             } else {
                 BlockState blockState_1 = ((BlockItem)var1.getItem()).getBlock().getDefaultState();
-                return MinecraftClient.getInstance().getBlockColorMap().getColorMultiplier(blockState_1, null, null, var2);
+                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, null, null, var2);
             }
         }, Items.GRASS_BLOCK);
 
-        ColorProviderRegistry.ITEM.register((var1, var2) -> MinecraftClient.getInstance().world.getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos())
-                .getFoliageColorAt(MinecraftClient.getInstance().player.getBlockPos()), Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES,
+        ColorProviderRegistry.ITEM.register((var1, var2) -> MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos())
+                .getFoliageColorAt(), Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES,
                 Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS,
                 Items.TALL_GRASS, Items.VINE);
 
         ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) -> {
             assert blockRenderView != null;
-            return blockRenderView.getBiome(blockPos).getFoliageColorAt(blockPos);
+            return blockRenderView.method_23752(blockPos, new ColorResolver() {
+                @Override
+                public int getColor(Biome var1, double var2, double var4) {
+                    return var1.getFoliageColorAt();
+                }
+            });
         }, Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
 
         while (!Materials.isIsReady()) {
