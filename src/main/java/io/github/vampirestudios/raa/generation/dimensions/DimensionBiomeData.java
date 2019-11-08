@@ -56,7 +56,7 @@ public class DimensionBiomeData {
     }
 
     public static class Builder {
-
+        private Identifier id;
         private String name;
         private int surfaceBuilderVariantChance;
         private float depth;
@@ -65,8 +65,25 @@ public class DimensionBiomeData {
         private float downfall;
         private int waterColor;
 
+        public static Builder create(Identifier id, String name) {
+            Builder builder = new Builder();
+            builder.id = id;
+            builder.name = name;
+            return builder;
+        }
+
+        @Deprecated
         public static Builder create() {
             return new Builder();
+        }
+
+        private Builder() {
+
+        }
+
+        public Builder id(Identifier id) {
+            this.id = id;
+            return this;
         }
 
         public Builder name(String name) {
@@ -105,9 +122,8 @@ public class DimensionBiomeData {
         }
 
         public DimensionBiomeData build() {
-            return new DimensionBiomeData(name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor);
+            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor);
         }
 
     }
-
 }

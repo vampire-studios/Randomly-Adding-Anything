@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.PlayerPlacementHandlers;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.*;
 import io.github.vampirestudios.raa.utils.*;
@@ -15,10 +16,9 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Dimensions {
     public static final Set<Identifier> DIMENSION_NAMES = new HashSet<>();
@@ -52,7 +52,7 @@ public class Dimensions {
             Pair<String, Identifier> name = nameGenerator.generateUnique(DIMENSION_NAMES, RandomlyAddingAnything.MOD_ID);
             DIMENSION_NAMES.add(name.getRight());
 
-            DimensionDataBuilder dimensionDataBuilder = DimensionDataBuilder.create(name.getRight(), name.getLeft())
+            DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
                 .dimensionId(Rands.randIntRange(1000, 30000))
                 .hasLight(Rands.chance(1))
                 .hasSky(!Rands.chance(2))
@@ -60,9 +60,9 @@ public class Dimensions {
                 .doesWaterVaporize(Rands.chance(100))
                 .shouldRenderFog(Rands.chance(100))
                 .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
-				.setFlags(flags)
+				.flags(flags)
 				.mobs(generateDimensionMobs());
-            DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create(Utils.append(name.getRight(), "_biome"), name.getLeft())
+            DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.append(name.getRight(), "_biome"), name.getLeft())
                 .surfaceBuilderVariantChance(Rands.randInt(100))
                 .depth(Rands.randFloatRange(-3F, 3F))
                 .scale(Rands.randFloat(2F))
@@ -70,16 +70,16 @@ public class Dimensions {
                 .downfall(Rands.randFloat(1F))
                 .waterColor(WATER_COLOR.getColor())
                 .build();
-            dimensionDataBuilder.biome(biomeData);
-            DimensionColorPallete colorPallete = DimensionColorPalletBuilder.create()
+            builder.biome(biomeData);
+            DimensionColorPalette colorPalette = DimensionColorPalette.Builder.create()
                 .skyColor(SKY_COLOR.getColor())
                 .grassColor(GRASS_COLOR.getColor())
                 .fogColor(FOG_COLOR.getColor())
                 .foliageColor(FOLIAGE_COLOR.getColor())
                 .stoneColor(FOLIAGE_COLOR.getColor()).build();
-            dimensionDataBuilder.colorPallet(colorPallet);
+            builder.colorPalette(colorPalette);
 
-            DimensionData dimensionData = dimensionDataBuilder.build();
+            DimensionData dimensionData = builder.build();
 
             Registry.register(DIMENSIONS, dimensionData.getId(), dimensionData);
             Registry.register(Registry.BIOME, dimensionData.getId(), new CustomDimensionalBiome(dimensionData));

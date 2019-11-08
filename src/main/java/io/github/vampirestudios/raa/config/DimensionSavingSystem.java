@@ -9,9 +9,7 @@ import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.config.readers.Version;
 import io.github.vampirestudios.raa.config.readers.dimensions.DimensionFields;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionDataBuilder;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionDataBuilder;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.fabricmc.loader.api.FabricLoader;
@@ -23,7 +21,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DimensionSavingSystem {
 
@@ -107,13 +104,13 @@ public class DimensionSavingSystem {
 
                 for (int s = 0; s < jsonArray.size(); s++) {
                     JsonObject jsonObject = (JsonObject) jsonArray.get(s);
-                    DimensionDataBuilder dimensionDataBuilder = DimensionDataBuilder.create();
+                    DimensionData.Builder builder = DimensionData.Builder.create();
 
                     for (DimensionFields dimensionFields : DimensionFields.values()) {
-                        dimensionFields.read(version, dimensionDataBuilder, jsonObject);
+                        dimensionFields.read(version, builder, jsonObject);
                     }
 
-                    DimensionData dimensionData = dimensionDataBuilder.build();
+                    DimensionData dimensionData = builder.build();
                     Registry.register(Dimensions.DIMENSIONS, dimensionData.getId(), dimensionData);
                 }
             } else {

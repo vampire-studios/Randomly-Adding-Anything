@@ -9,11 +9,11 @@ public class DebugUtils {
 //        StringBuilder builder = new StringBuilder();
 //        builder.append("\nDimension Information")
 //        .append("##########################");
-        int[] fog = Color.intToRgb(dimensionData.getDimensionColorPallet().getFogColor());
-        int[] grass = Color.intToRgb(dimensionData.getDimensionColorPallet().getGrassColor());
-        int[] foliage = Color.intToRgb(dimensionData.getDimensionColorPallet().getFoliageColor());
-        int[] sky = Color.intToRgb(dimensionData.getDimensionColorPallet().getSkyColor());
-        int[] stone = Color.intToRgb(dimensionData.getDimensionColorPallet().getStoneColor());
+        int[] fog = Color.intToRgb(dimensionData.getDimensionColorPalette().getFogColor());
+        int[] grass = Color.intToRgb(dimensionData.getDimensionColorPalette().getGrassColor());
+        int[] foliage = Color.intToRgb(dimensionData.getDimensionColorPalette().getFoliageColor());
+        int[] sky = Color.intToRgb(dimensionData.getDimensionColorPalette().getSkyColor());
+        int[] stone = Color.intToRgb(dimensionData.getDimensionColorPalette().getStoneColor());
         String text =
                 "\n\nTechnical Dimension Information" +
                 "\n##########################" +

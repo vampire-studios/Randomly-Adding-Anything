@@ -1,12 +1,14 @@
 package io.github.vampirestudios.raa.config.readers.dimensions;
 
 import blue.endless.jankson.JsonObject;
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.config.readers.Version;
-import io.github.vampirestudios.raa.generation.dimensions.*;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionBiomeData;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionColorPalette;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.util.Identifier;
 
@@ -26,15 +28,15 @@ public enum DimensionFields {
     DIMENSION_ID(Version.V1, "dimensionId", (configVersion, builder, jsonObject) -> {
         return builder.dimensionId(jsonObject.get(int.class, "dimensionId"));
     }),
-    DIMENSION_PALLETS(Version.V1, "dimensionColorPalette", (configVersion, builder, jsonObject) -> {
-        JsonObject colorPalletObject = jsonObject.getObject("dimensionColorPalette");
+    DIMENSION_PALETTE(Version.V1, "dimensionColorPalette", (configVersion, builder, jsonObject) -> {
+        JsonObject colorPalletObject = jsonObject.getObject("dimensionColorPallet");
         DimensionColorPalette pallet = DimensionColorPalette.Builder.create()
                 .skyColor(colorPalletObject.get(int.class, "skyColor"))
                 .grassColor(colorPalletObject.get(int.class, "grassColor"))
                 .fogColor(colorPalletObject.get(int.class, "fogColor"))
                 .foliageColor(colorPalletObject.get(int.class, "foliageColor"))
                 .stoneColor(colorPalletObject.get(int.class, "stoneColor")).build();
-        return builder.colorPallet(pallet);
+        return builder.colorPalette(pallet);
     }),
     HAS_LIGHT(Version.V1, "hasLight", (configVersion, builder, jsonObject) -> {
         return builder.hasLight(jsonObject.get(boolean.class, "hasLight"));
@@ -46,14 +48,21 @@ public enum DimensionFields {
         return builder.canSleep(jsonObject.get(boolean.class, "canSleep"));
     }),
     FLAGS(Version.V1, "flags", (configVersion, builder, jsonObject) -> {
-        return builder.setFlags(jsonObject.get(int.class, "flags"));
+        return builder.flags(jsonObject.get(int.class, "flags"));
     }),
     MOBS(Version.V1, "mobs", (configVersion, builder, jsonObject) -> {
-        //this disaster is needed because Jankson can't deseralize hashmaps for whatever reason
+        //this disaster is needed because Jankson can't deserialize hashmaps for whatever reason
         //TODO: Optimize this
-        HashMap<String, int[]> map = new Gson().fromJson(jsonObject.get("mobs").toJson(), new TypeToken<HashMap<String, int[]>>(){}.getType());
-        System.out.println(map);
-        return builder.mobs(map);
+		try {
+            HashMap<String, int[]> map = new Gson().fromJson(jsonObject.get("mobs").toJson(), new TypeToken<HashMap<String, int[]>>() {
+            }.getType());
+            System.out.println(map);
+            return builder.mobs(map);
+        } catch (Throwable e) {
+		    System.out.println("Failed to read mobs from config!");
+		    e.printStackTrace();
+            return builder.mobs(new HashMap<>());
+        }
     }),
     BIOME_DATA(Version.OLD, "tools", (configVersion, builder, jsonObject) -> {
         JsonObject biomeDataObject = jsonObject.getObject("biomeData");
@@ -64,7 +73,7 @@ public enum DimensionFields {
         } else {
             id = new Identifier(RandomlyAddingAnything.MOD_ID, RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator().asId(name));
         }
-        DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create(id, name)
+        DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(id, name)
                 .surfaceBuilderVariantChance(biomeDataObject.get(int.class, "surfaceBuilderVariantChance"))
                 .depth(biomeDataObject.get(int.class, "depth"))
                 .scale(biomeDataObject.get(int.class, "scale"))
@@ -94,12 +103,18 @@ public enum DimensionFields {
         return name;
     }
 
-    public DimensionDataBuilder read(Version configVersion, DimensionDataBuilder builder, JsonObject jsonObject) {
-        return this.fieldsInterface.read(configVersion, builder, jsonObject);
+    public DimensionData.Builder read(Version configVersion, DimensionData.Builder builder, JsonObject jsonObject) {
+        try {
+            return this.fieldsInterface.read(configVersion, builder, jsonObject);
+        } catch (Throwable e) {
+            System.out.println("Failed to read config property");
+            e.printStackTrace();
+        }
+        return builder;
     }
 
     protected interface MaterialFieldsInterface {
-        DimensionDataBuilder read(Version configVersion, DimensionDataBuilder builder, JsonObject jsonObject);
+        DimensionData.Builder read(Version configVersion, DimensionData.Builder builder, JsonObject jsonObject);
     }
 
     private static Identifier idFromJson(JsonObject jsonObject, String name) {

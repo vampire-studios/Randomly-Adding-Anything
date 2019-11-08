@@ -139,7 +139,7 @@ public class MaterialRecipes {
                         cookingRecipeBuilder.experience(0.7);
                         cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
                     });
-                    if (material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR) {
+                    if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
 						serverResourcePackBuilder.addBlastingRecipe(Utils.append(material.getId(), "_ingot_from_blasting"), cookingRecipeBuilder -> {
 							cookingRecipeBuilder.cookingTime(100);
 							cookingRecipeBuilder.ingredientItem(Utils.append(material.getId(), "_ore"));

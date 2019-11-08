@@ -14,7 +14,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -38,23 +37,19 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ColorProviderRegistry.ITEM.register((var1, var2) -> {
+        ColorProviderRegistry.ITEM.register((stack, layer) -> {
             if(MinecraftClient.getInstance().world != null) {
                 return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getBlockPos())
                         .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos().getX(), MinecraftClient.getInstance().player.getBlockPos().getZ());
             } else {
-                BlockState blockState_1 = ((BlockItem)var1.getItem()).getBlock().getDefaultState();
-                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, null, null, var2);
+                BlockState blockState_1 = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
+                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos());
             }
         }, Items.GRASS_BLOCK);
 
-        ColorProviderRegistry.ITEM.register((var1, var2) -> MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos())
-                .getFoliageColorAt(), Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES,
-                Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS,
-                Items.TALL_GRASS, Items.VINE);
-
-        /*ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
-                blockRenderView.method_23752(blockPos, (var1, var2, var4) -> var1.getFoliageColorAt()), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);*/
+        ColorProviderRegistry.ITEM.register((stack, var2) ->
+                MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColorAt(),
+			Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
 
         while (!Materials.isReady()) {
             System.out.println("Not Ready");
@@ -246,16 +241,16 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 clientResourcePackBuilder.addItemModel(portalId,
                         modelBuilder -> modelBuilder.parent(new Identifier(portalId.getNamespace(), "block/" + portalId.getPath())));
 
-                ColorProviderRegistryImpl.ITEM.register((stack, layer) -> dimensionData.getDimensionColorPallet().getFogColor(), Registry.ITEM.get(portalId));
-                ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->
-                        dimensionData.getDimensionColorPallet().getFogColor(), Registry.BLOCK.get(portalId));
+                ColorProviderRegistry.ITEM.register((stack, layer) -> dimensionData.getDimensionColorPalette().getFogColor(), Registry.ITEM.get(portalId));
+                ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+                        dimensionData.getDimensionColorPalette().getFogColor(), Registry.BLOCK.get(portalId));
             });
         });
 
 
         Materials.MATERIALS.forEach(material -> {
             Identifier id = material.getId();
-            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
                 if (layer == 0) return material.getRGBColor();
                     else return -1;
                 },
@@ -277,23 +272,23 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 Registry.BLOCK.get(Utils.append(id, "_block")),
                 Registry.ITEM.get(Utils.append(id, "_shears"))
             );
-            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
+            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
                     Registry.BLOCK.get(Utils.append(id, "_block")));
         });
 
         Dimensions.DIMENSIONS.forEach(dimensionData -> {
-            Block block = Registry.BLOCK.get(Utils.append(dimensionData.getId(), "_stone"));
-			Block block = Registry.BLOCK.get(Utils.append(dimensionData.getId(), "_stone_bricks"));
-			Block block = Registry.BLOCK.get(Utils.append(dimensionData.getId(), "_cobblestone"));
-			Block block = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "chiseled_" + dimensionData.getId().getPath()));
-			Block block = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath()));
+            Block stone = Registry.BLOCK.get(Utils.append(dimensionData.getId(), "_stone"));
+			Block stoneBricks = Registry.BLOCK.get(Utils.append(dimensionData.getId(), "_stone_bricks"));
+			Block cobblestone = Registry.BLOCK.get(Utils.append(dimensionData.getId(), "_cobblestone"));
+			Block chiseled = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "chiseled_" + dimensionData.getId().getPath()));
+			Block polished = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath()));
 
-			ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
-                if (layer == 0) return dimensionData.getDimensionColorPallet().getStoneColor();
+			ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;
             }, stone, stoneBricks, cobblestone, chiseled, polished);
-            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->
-                    dimensionData.getDimensionColorPallet().getStoneColor(), stone, stoneBricks, cobblestone, chiseled, polished);
+            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+                    dimensionData.getDimensionColorPalette().getStoneColor(), stone, stoneBricks, cobblestone, chiseled, polished);
         });
 
         ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {
