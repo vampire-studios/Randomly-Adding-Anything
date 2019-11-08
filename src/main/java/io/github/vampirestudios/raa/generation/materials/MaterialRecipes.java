@@ -139,12 +139,14 @@ public class MaterialRecipes {
                         cookingRecipeBuilder.experience(0.7);
                         cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
                     });
-                    serverResourcePackBuilder.addBlastingRecipe(Utils.append(material.getId(), "_ingot_from_blasting"), cookingRecipeBuilder -> {
-                        cookingRecipeBuilder.cookingTime(100);
-                        cookingRecipeBuilder.ingredientItem(Utils.append(material.getId(), "_ore"));
-                        cookingRecipeBuilder.experience(0.7);
-                        cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
-                    });
+                    if (material.getOreInformation().getGenerateIn() != GeneratesIn.DOES_NOT_APPEAR) {
+						serverResourcePackBuilder.addBlastingRecipe(Utils.append(material.getId(), "_ingot_from_blasting"), cookingRecipeBuilder -> {
+							cookingRecipeBuilder.cookingTime(100);
+							cookingRecipeBuilder.ingredientItem(Utils.append(material.getId(), "_ore"));
+							cookingRecipeBuilder.experience(0.7);
+							cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
+						});
+					}
                     serverResourcePackBuilder.addShapedRecipe(Utils.append(material.getId(), "_ingot_from_nuggets"), shapedRecipeBuilder -> {
                         shapedRecipeBuilder.group(new Identifier("raa:ingots"));
                         shapedRecipeBuilder.pattern(
@@ -165,7 +167,6 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.ingredientItem('#', Utils.append(material.getId(), "_ingot"));
                         shapedRecipeBuilder.result(Utils.append(material.getId(), "_block"), 1);
                     });
-//                    serverResourcePackBuilder.addLootTable(new Identifier());
                     serverResourcePackBuilder.addShapelessRecipe(Utils.append(material.getId(), "_ingot_from_" + material.getId().getPath() + "_block"), shapelessRecipeBuilder -> {
                         shapelessRecipeBuilder.group(new Identifier("raa:ingots"));
                         shapelessRecipeBuilder.ingredientItem(Utils.append(material.getId(), "_block"));

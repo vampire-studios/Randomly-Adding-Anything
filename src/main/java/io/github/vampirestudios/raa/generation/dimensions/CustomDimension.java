@@ -28,7 +28,7 @@ public class CustomDimension extends Dimension {
     private CustomDimensionalBiome dimensionalBiome;
 
     public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData, CustomDimensionalBiome dimensionalBiome) {
-        super(world_1, dimensionType_1);
+        super(world_1, dimensionType_1, 0.0F);
         this.dimensionType = dimensionType_1;
         this.dimensionData = dimensionData;
         this.dimensionalBiome = dimensionalBiome;
@@ -36,7 +36,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, new FixedBiomeSource(new FixedBiomeSourceConfig(this.world.getLevelProperties()).setBiome(this.dimensionalBiome)));
+        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, new FixedBiomeSource(new FixedBiomeSourceConfig(this.world.getLevelProperties()).setBiome(this.dimensionalBiome)), this.dimensionData);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class CustomDimension extends Dimension {
     @Override
     public BlockPos getTopSpawningBlockPosition(int int_1, int int_2, boolean boolean_1) {
         BlockPos.Mutable blockPos$Mutable_1 = new BlockPos.Mutable(int_1, 0, int_2);
-        Biome biome_1 = this.world.getBiome(blockPos$Mutable_1);
+        Biome biome_1 = this.world.getBiomeAccess().getBiome(blockPos$Mutable_1);
         BlockState blockState_1 = biome_1.getSurfaceConfig().getTopMaterial();
         if (boolean_1 && !blockState_1.getBlock().matches(BlockTags.VALID_SPAWN)) {
             return null;
@@ -125,7 +125,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public boolean shouldRenderFog(int var1, int var2) {
+    public boolean isFogThick(int var1, int var2) {
         return dimensionData.shouldRenderFog();
     }
 

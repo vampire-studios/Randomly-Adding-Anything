@@ -40,11 +40,6 @@ public class LayeredOreBlock extends OreBlock {
 		this.material = material;
 	}
 
-	//	@Override
-//	public BlockRenderLayer getRenderLayer() {
-//		return BlockRenderLayer.field_9178;
-//	}
-
 	@Environment(EnvType.CLIENT)
 	public float getAmbientOcclusionLightLevel(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
 		return 1.0F;

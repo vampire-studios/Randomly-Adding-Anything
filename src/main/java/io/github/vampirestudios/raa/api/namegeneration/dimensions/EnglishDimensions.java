@@ -7,15 +7,15 @@ import java.util.*;
 
 public class EnglishDimensions implements INameGenerator {
     public static final String[] LATIN_PREFIXES = {
-            "ab", "ad", "ambi", "ante", "circum", "co", "com", "contra", "de", "dis", "di", "ex", "extra",
-            "in", "en", "infra", "inter", "intra", "juxta", "ne", "non", "ob", "per", "post", "prae", "preter",
-            "pro", "quasi", "re", "red", "retro", "se", "sed", "sin", "sub", "subter", "super", "supra", "trans",
-            "ultra", "outr"
+            "ab", "ad", "ambi", "ante", "circum", "co", "com", "con", "contra", "de", "den", "dis", "di", "ex", "extra",
+            "in", "en", "infra", "inter", "intra", "juxta", "me", "ne", "non", "ob", "ox", "per", "post", "prae", "preter",
+            "pro", "quasi", "ques", "re", "red", "retro", "se", "sed", "sen", "sin", "sod", "sub", "subter", "super", "supra",
+            "tran", "trans", "ult", "ultra", "out", "outr"
     };
 
     public static final String[] MIDDLES = {
             "al", "am", "an", "be", "bor", "cal", "co", "de", "duo", "eth", "en", "for", "gal", "in", "kary",
-            "li", "lo", "la", "mi", "ma", "mun", "nat", "nor", "nit", "or", "om", "per", "rhen", "rho", "ri",
+            "li", "lo", "la", "mi", "ma", "mun", "nat", "net", "nor", "nit", "or", "om", "per", "rhen", "rho", "ri",
             "sic", "sit", "tan", "tor", "tri", "vi", "w", "x", "z"
     };
 
@@ -34,7 +34,7 @@ public class EnglishDimensions implements INameGenerator {
 
     public Collection<String> generate(int count) {
         HashSet<String> result = new HashSet<>(count);
-        while(result.size()<count) {
+        while(result.size() < count) {
             String cur = generate();
             result.add(cur); //Nothing happens on duplicates
         }

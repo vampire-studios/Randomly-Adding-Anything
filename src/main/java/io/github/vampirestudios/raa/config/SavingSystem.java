@@ -6,6 +6,7 @@ import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.SyntaxError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.github.cottonmc.jankson.JanksonFactory;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.config.readers.Version;
 import io.github.vampirestudios.raa.config.readers.material.MaterialFields;
@@ -37,7 +38,7 @@ public class SavingSystem {
     private static int fileNumber = 0;
 
     public static boolean init() {
-        jackson = Jankson.builder().build();
+        jackson = JanksonFactory.builder().build();
         configPath = new File(new File(CONFIG_PATH, RandomlyAddingAnything.MOD_ID), "materials");
         if (!configPath.exists()) {
             configPath.mkdirs();
@@ -118,9 +119,9 @@ public class SavingSystem {
                 Materials.init();
                 SavingSystem.createFile();
             }
+
         } catch (IOException | SyntaxError e) {
-            System.out.println(e);
-            fromOldFile(configFile);
+            e.printStackTrace();
         }
     }
 

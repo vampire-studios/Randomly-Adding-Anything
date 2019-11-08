@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.config.readers.Version;
 import io.github.vampirestudios.raa.config.readers.dimensions.DimensionFields;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionDataBuilder;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionDataBuilder;
 import io.github.vampirestudios.raa.registries.Dimensions;
@@ -22,6 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DimensionSavingSystem {
 
@@ -53,7 +55,7 @@ public class DimensionSavingSystem {
         try {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(configFile));
             DimensionData[] materialJSONS = toJSON();
-            fileWriter.write("{\"configVersion\":1,");
+            fileWriter.write("{\"configVersion\": 1,");
             fileWriter.newLine();
             fileWriter.flush();
             fileWriter.write("\"dimensions\": [");

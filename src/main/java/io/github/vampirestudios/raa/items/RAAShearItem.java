@@ -6,6 +6,7 @@ import net.minecraft.item.ShearsItem;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class RAAShearItem extends ShearsItem {
 
@@ -18,7 +19,7 @@ public class RAAShearItem extends ShearsItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.shears", new LiteralText(material.getName()));
+        return new TranslatableText("text.raa.item.shears", new LiteralText(WordUtils.capitalize(material.getName())));
     }
 
 }

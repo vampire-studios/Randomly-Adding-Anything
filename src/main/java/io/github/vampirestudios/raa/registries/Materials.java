@@ -5,13 +5,13 @@ import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
+import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.FoodComponents;
@@ -95,7 +95,7 @@ public class Materials {
             }
 
             RegistryUtils.register(
-                new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),
+                new RAABlock(Block.Settings.copy(Blocks.IRON_BLOCK)),
                 Utils.append(identifier, "_block"),
                 RandomlyAddingAnything.RAA_RESOURCES,
                 material.getName(),

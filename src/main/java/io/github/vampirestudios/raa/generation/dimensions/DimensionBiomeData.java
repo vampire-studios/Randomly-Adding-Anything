@@ -55,4 +55,59 @@ public class DimensionBiomeData {
         return waterColor;
     }
 
+    public static class Builder {
+
+        private String name;
+        private int surfaceBuilderVariantChance;
+        private float depth;
+        private float scale;
+        private float temperature;
+        private float downfall;
+        private int waterColor;
+
+        public static Builder create() {
+            return new Builder();
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder surfaceBuilderVariantChance(int surfaceBuilderVariantChance) {
+            this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
+            return this;
+        }
+
+        public Builder depth(float depth) {
+            this.depth = depth;
+            return this;
+        }
+
+        public Builder scale(float scale) {
+            this.scale = scale;
+            return this;
+        }
+
+        public Builder temperature(float temperature) {
+            this.temperature = temperature;
+            return this;
+        }
+
+        public Builder downfall(float downfall) {
+            this.downfall = downfall;
+            return this;
+        }
+
+        public Builder waterColor(int waterColor) {
+            this.waterColor = waterColor;
+            return this;
+        }
+
+        public DimensionBiomeData build() {
+            return new DimensionBiomeData(name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor);
+        }
+
+    }
+
 }

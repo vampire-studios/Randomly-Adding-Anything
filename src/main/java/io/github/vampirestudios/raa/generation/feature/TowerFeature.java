@@ -6,8 +6,10 @@ import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.loot.LootTables;
+import net.minecraft.state.property.Properties;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
@@ -23,8 +25,8 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
-//        if (!world.getBlockState(pos.add(0, -1, 0)).isOpaque())
-//            return false;
+        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque())
+            return true;
         int height = Rands.randIntRange(6, 15);
         for (int i = 0; i < height; i++) {
             for (int j = -2; j <= 2; j++) {
@@ -42,7 +44,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                         placeBlockAt(world, pos.add(j, i, k));
                     }
                     if (j == -2 && k == -2 && i == height) {
-                        world.setBlockState(pos.add(j, i, k), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState()), 2);
+                        world.setBlockState(pos.add(j, i, k), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH)), 2);
                         LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(j, i, k), (Rands.chance(5)) ? LootTables.SIMPLE_DUNGEON_CHEST : RAALootTables.TOWER_LOOT);
                     }
                 }

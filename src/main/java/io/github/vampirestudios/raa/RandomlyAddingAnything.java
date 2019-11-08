@@ -1,19 +1,14 @@
 package io.github.vampirestudios.raa;
 
-import io.github.vampirestudios.raa.config.Config;
 import io.github.vampirestudios.raa.config.DimensionSavingSystem;
+import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.SavingSystem;
-import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecorator;
-import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;
-import io.github.vampirestudios.raa.registries.Dimensions;
-import io.github.vampirestudios.raa.registries.Features;
-import io.github.vampirestudios.raa.registries.Materials;
-import io.github.vampirestudios.raa.registries.Textures;
-import me.sargunvohra.mcmods.autoconfig1.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1.serializer.JanksonConfigSerializer;
+import io.github.vampirestudios.raa.registries.*;
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Blocks;
@@ -32,21 +27,20 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static final ItemGroup RAA_ARMOR = FabricItemGroupBuilder.build(new Identifier("raa", "armor"), () -> new ItemStack(Items.IRON_HELMET));
 	public static final ItemGroup RAA_WEAPONS = FabricItemGroupBuilder.build(new Identifier("raa", "weapons"), () -> new ItemStack(Items.IRON_SWORD));
 	public static final ItemGroup RAA_FOOD = FabricItemGroupBuilder.build(new Identifier("raa", "food"), () -> new ItemStack(Items.GOLDEN_APPLE));
+	public static final ItemGroup RAA_DIMENSION_BLOCKS = FabricItemGroupBuilder.build(new Identifier("raa", "dimension_blocks"), () -> new ItemStack(Items.STONE));
 	public static final String MOD_ID = "raa";
-	public static Config CONFIG;
-	public static BiasedNoiseBasedDecorator DECORATOR;
+	public static GeneralConfig CONFIG;
 	public static CustomDimensionSurfaceBuilder SURFACE_BUILDER;
 
 	@Override
 	public void onInitialize() {
-		AutoConfig.register(Config.class, JanksonConfigSerializer::new);
-		CONFIG = AutoConfig.getConfigHolder(Config.class).getConfig();
+		AutoConfig.register(GeneralConfig.class, JanksonConfigSerializer::new);
+		CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
 		Textures.init();
 		Features.init();
 		if (SavingSystem.init() || CONFIG.regen) {
 			Materials.init();
 			Dimensions.init();
-			SavingSystem.createFile();
 			SavingSystem.createFile();
 			CONFIG.regen = false;
 		} else {
@@ -63,7 +57,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 		}
 		SURFACE_BUILDER = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "custom_surface_builder"),
 				new CustomDimensionSurfaceBuilder(TernarySurfaceConfig::deserialize));
-		DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "test_decorator"), new BiasedNoiseBasedDecorator(BiasedNoiseBasedDecoratorConfig::deserialize));
+		Decorators.init();
 		Dimensions.createDimensions();
 		Materials.createMaterialResources();
 		MaterialRecipes.init();
