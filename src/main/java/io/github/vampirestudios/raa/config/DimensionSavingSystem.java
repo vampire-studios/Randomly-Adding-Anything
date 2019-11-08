@@ -7,14 +7,13 @@ import blue.endless.jankson.impl.SyntaxError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.config.readers.Versions;
+import io.github.vampirestudios.raa.config.readers.Version;
 import io.github.vampirestudios.raa.config.readers.dimensions.DimensionFields;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionDataBuilder;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionDataBuilder;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.io.BufferedWriter;
@@ -23,7 +22,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DimensionSavingSystem {
 
@@ -87,8 +85,8 @@ public class DimensionSavingSystem {
             JsonObject jsonObject1 = jackson.load(configFile);
             if (jsonObject1.containsKey("configVersion")) {
                 int configVersion = jsonObject1.get(int.class, "configVersion");
-                Versions versions = Versions.getFromInt(configVersion);
-                if (versions == null) {
+                Version version = Version.getFromInt(configVersion);
+                if (version == null) {
                     Dimensions.init();
                     DimensionSavingSystem.createFile();
                     return;
@@ -110,15 +108,11 @@ public class DimensionSavingSystem {
                     DimensionDataBuilder dimensionDataBuilder = DimensionDataBuilder.create();
 
                     for (DimensionFields dimensionFields : DimensionFields.values()) {
-                        dimensionFields.read(versions, dimensionDataBuilder, jsonObject);
+                        dimensionFields.read(version, dimensionDataBuilder, jsonObject);
                     }
 
-                    DimensionData dimensionData = dimensionDataBuilder.buildFromJSON();
-                    String id = dimensionData.getName().toLowerCase();
-                    for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
-                        id = id.replace(entry.getKey(), entry.getValue());
-                    }
-                    Registry.register(Dimensions.DIMENSIONS, new Identifier(RandomlyAddingAnything.MOD_ID, id), dimensionData);
+                    DimensionData dimensionData = dimensionDataBuilder.build();
+                    Registry.register(Dimensions.DIMENSIONS, dimensionData.getId(), dimensionData);
                 }
             } else {
                 Materials.init();

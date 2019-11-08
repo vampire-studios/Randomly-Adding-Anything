@@ -1,11 +1,11 @@
-package io.github.vampirestudios.raa.api.namegeneration.entities;
+package io.github.vampirestudios.raa.api.namegeneration.material;
 
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.utils.Utils;
 
 import java.util.*;
 
-public class English implements INameGenerator {
+public class EnglishMaterials implements INameGenerator {
     public static final String[] LATIN_PREFIXES = {
             "ab", "ad", "ambi", "ante", "circum", "co", "com", "contra", "de", "dis", "di", "ex", "extra",
             "in", "en", "infra", "inter", "intra", "juxta", "ne", "non", "ob", "per", "post", "prae", "preter",
@@ -52,7 +52,7 @@ public class English implements INameGenerator {
             return combine(combine(prefix,middle),ending);
         }
 
-        return combine(prefix, ending).replace("ı", "i");
+        return combine(prefix, ending);
     }
 
     public Collection<String> generate(int count) {
@@ -102,12 +102,12 @@ public class English implements INameGenerator {
     }
 
     @Override
-    public Map<String, String> getSpecialCharatersMap() {
+    public Map<String, String> getSpecialCharactersMap() {
         return new HashMap<>();
     }
 
     public static void main(String[] args) {
-        English gen = new English();
+        EnglishMaterials gen = new EnglishMaterials();
         Collection<String> generated = gen.generate(100);
 
         System.out.println("Lowercase:" + generated);

@@ -1,8 +1,10 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
+import net.minecraft.util.Identifier;
 
 public class DimensionData {
+    private Identifier id;
     private String name;
     private int dimensionId;
     private DimensionBiomeData biomeData;
@@ -15,7 +17,8 @@ public class DimensionData {
     private DimensionChunkGenerators dimensionChunkGenerator;
     private boolean corrupted;
 
-    public DimensionData(String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPallet dimensionColorPallet, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, boolean corrupted) {
+    DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPallet dimensionColorPallet, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, boolean corrupted) {
+        this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
         this.biomeData = biomeData;
@@ -27,6 +30,10 @@ public class DimensionData {
         this.renderFog = renderFog;
         this.dimensionChunkGenerator = dimensionChunkGenerator;
         this.corrupted = corrupted;
+    }
+
+    public Identifier getId() {
+        return id;
     }
 
     public String getName() {

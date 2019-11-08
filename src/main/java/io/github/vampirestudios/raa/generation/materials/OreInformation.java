@@ -28,7 +28,7 @@ public class OreInformation {
         return oreType;
     }
 
-    public GeneratesIn getGenerateIn() {
+    public GeneratesIn getGeneratesIn() {
         return generateIn;
     }
 

@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
 
 public class RAABlockItem extends BlockItem {
     private String name;
@@ -36,14 +35,14 @@ public class RAABlockItem extends BlockItem {
         ORE("_ore"),
         BLOCK("_block");
 
-        private String string;
+        private String suffix;
 
-        BlockType(String id) {
-            this.string = id;
+        BlockType(String suffix) {
+            this.suffix = suffix;
         }
 
-        public String getString() {
-            return string;
+        public String getSuffix() {
+            return suffix;
         }
     }
 }

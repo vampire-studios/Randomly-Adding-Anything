@@ -54,10 +54,10 @@ dependencies {
     modImplementation "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
     include "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
 
-    modImplementation ("io.github.cottonmc:Jankson-Fabric:1.0.0+j1.2.0") {
+    modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
         exclude group :"net.fabricmc.fabric-api"
     }
-    include ("io.github.cottonmc:Jankson-Fabric:1.0.0+j1.2.0") {
+    include ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
         exclude group :"net.fabricmc.fabric-api"
     }
 

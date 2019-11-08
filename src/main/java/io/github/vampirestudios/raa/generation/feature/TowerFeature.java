@@ -43,7 +43,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     }
                     if (j == -2 && k == -2 && i == height) {
                         world.setBlockState(pos.add(j, i, k), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState()), 2);
-                        LootableContainerBlockEntity.setLootTable(world, Rands.rand, pos.add(j, i, k), (Rands.chance(5)) ? LootTables.SIMPLE_DUNGEON_CHEST : RAALootTables.TOWER_LOOT);
+                        LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(j, i, k), (Rands.chance(5)) ? LootTables.SIMPLE_DUNGEON_CHEST : RAALootTables.TOWER_LOOT);
                     }
                 }
             }

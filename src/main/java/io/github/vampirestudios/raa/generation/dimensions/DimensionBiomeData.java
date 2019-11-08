@@ -1,7 +1,9 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
-public class DimensionBiomeData {
+import net.minecraft.util.Identifier;
 
+public class DimensionBiomeData {
+    private Identifier id;
     private String biomeName;
     private int surfaceBuilderVariantChance;
     private float depth;
@@ -10,7 +12,8 @@ public class DimensionBiomeData {
     private float downfall;
     private int waterColor;
 
-    public DimensionBiomeData(String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor) {
+    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor) {
+        this.id = id;
         this.biomeName = biomeName;
         this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
         this.depth = depth;
@@ -18,6 +21,10 @@ public class DimensionBiomeData {
         this.temperature = temperature;
         this.downfall = downfall;
         this.waterColor = waterColor;
+    }
+
+    public Identifier getId() {
+        return id;
     }
 
     public String getName() {

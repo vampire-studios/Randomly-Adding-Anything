@@ -4,7 +4,11 @@ import java.util.*;
 
 public class Rands {
 
-    public static Random rand = new Random();
+    private static final Random rand = new Random();
+
+    public static Random getRandom() {
+        return rand;
+    }
 
     public static int randInt(int bound) {
         return rand.nextInt(bound);
@@ -22,6 +26,10 @@ public class Rands {
     }
     public static float randFloat(float bound) {
         return ((float) rand.nextInt((int) (bound*10) + 1))/10;
+    }
+
+    public static Color randColor() {
+        return new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
     }
 
     public static boolean chance(int bound) {
