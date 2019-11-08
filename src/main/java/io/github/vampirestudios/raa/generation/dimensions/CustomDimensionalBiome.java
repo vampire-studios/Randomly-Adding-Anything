@@ -68,7 +68,7 @@ public class CustomDimensionalBiome extends Biome {
         if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
 //            int forestConfig = Rands.randInt(3);
             int forestConfig = 0; //TODO: implement new trees for other types
-            BranchedTreeFeatureConfig config = getTreeConfig();
+            NormalTreeFeatureConfig config = getTreeConfig();
             switch (forestConfig) {
                 case 0: //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
                     for (int i = 0; i< Rands.randInt((Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH)) ? 7 : 3)+1;i++) {
@@ -85,7 +85,7 @@ public class CustomDimensionalBiome extends Biome {
                                     break;
                             }
                         } else {
-                            BranchedTreeFeatureConfig treeConfig = getTreeConfig();
+                            NormalTreeFeatureConfig treeConfig = getTreeConfig();
                             if (treeConfig.foliagePlacer instanceof AcaciaFoliagePlacer) {
                                 if (!Rands.chance(4)) {
                                     this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.ACACIA_TREE.configure(config).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.05F, 0.6F), 1))));
@@ -196,8 +196,8 @@ public class CustomDimensionalBiome extends Biome {
         if (dimensionData.getMobs().containsKey("witch")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("witch")[0], dimensionData.getMobs().get("witch")[1], dimensionData.getMobs().get("witch")[2]));
     }
 
-    public static BranchedTreeFeatureConfig getTreeConfig() {
-        BranchedTreeFeatureConfig config;
+    public static NormalTreeFeatureConfig getTreeConfig() {
+        NormalTreeFeatureConfig config;
         int height = Rands.randIntRange(2, 24);
         int foliageHeight = Rands.randIntRange(1, 5);
         BlockState logState;
@@ -236,7 +236,7 @@ public class CustomDimensionalBiome extends Biome {
 
         switch (Rands.randInt(4)) {
             case 0:
-                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new BlobFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                config = (new NormalTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new BlobFoliagePlacer(Rands.randIntRange(1, 3), 0)))
                         .method_23428(Rands.randIntRange(1, 6)) //
                         .method_23430(height - 1) //trunk height
                         .method_23437(foliageHeight) //foliage amount
@@ -247,7 +247,7 @@ public class CustomDimensionalBiome extends Biome {
                         .method_23431();
             break;
             case 1:
-                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new SpruceFoliagePlacer(Rands.randIntRange(1, 4), 0)))
+                config = (new NormalTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new SpruceFoliagePlacer(Rands.randIntRange(1, 4), 0)))
                         .method_23428(Rands.randIntRange(1, 6)) //trunk height rand 1
                         .method_23430(height - 1) //trunk height rand 2
                         .method_23437(foliageHeight) //foliage amount
@@ -261,7 +261,7 @@ public class CustomDimensionalBiome extends Biome {
                         .method_23431();
             break;
             case 2:
-                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new PineFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                config = (new NormalTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new PineFoliagePlacer(Rands.randIntRange(1, 3), 0)))
                         .method_23428(Rands.randIntRange(1, 4))
                         .method_23430(height - 1)
                         .method_23435(Rands.randIntRange(1, 2))
@@ -273,7 +273,7 @@ public class CustomDimensionalBiome extends Biome {
                         .method_23431();
             break;
             case 3:
-                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new AcaciaFoliagePlacer(Rands.randIntRange(1, 4), 0)))
+                config = (new NormalTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new AcaciaFoliagePlacer(Rands.randIntRange(1, 4), 0)))
                         .method_23428(Rands.randIntRange(1, 6))
                         .method_23430(height - 1)
                         .method_23432(height + Rands.randIntRange(1, 4))
@@ -285,7 +285,7 @@ public class CustomDimensionalBiome extends Biome {
                         .method_23431();
             break;
             default:
-                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new BlobFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                config = (new NormalTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new BlobFoliagePlacer(Rands.randIntRange(1, 3), 0)))
                         .method_23428(Rands.randIntRange(1, 6)) //
                         .method_23430(height - 1) //trunk height
                         .method_23437(foliageHeight) //foliage amount
@@ -334,14 +334,14 @@ public class CustomDimensionalBiome extends Biome {
         //if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
         if (Rands.chance(3)) decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleStateProvider(Blocks.PODZOL.getDefaultState())));
         ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
-        config = (new MegaTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState)))
+        config = (new MegaTreeFeatureConfig.class_4637(new SimpleStateProvider(logState), new SimpleStateProvider(leafState)))
                 .method_23410(height-2).method_23412(height + 4).method_23411(decorators).method_23409();
         return config;
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public int getSkyColor() {
+    public int getSkyColor(float float_1) {
 //        System.out.println(dimensionData.getSkyColor());
         if(dimensionData.getDimensionColorPallet().getSkyColor() != 0) {
             return dimensionData.getDimensionColorPallet().getSkyColor();
@@ -353,13 +353,13 @@ public class CustomDimensionalBiome extends Biome {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public int getFoliageColorAt() {
+    public int getFoliageColorAt(BlockPos blockPos_1) {
         return dimensionData.getDimensionColorPallet().getFoliageColor();
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public int getGrassColorAt(double double_1, double double_2) {
+    public int getGrassColorAt(BlockPos blockPos_1) {
         return dimensionData.getDimensionColorPallet().getGrassColor();
     }
 
