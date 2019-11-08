@@ -20,7 +20,7 @@ public enum DimensionFields {
     }),
     DIMENSION_PALLETS(Versions.V1, "dimensionColorPalette", (configVersion, builder, jsonObject) -> {
         JsonObject colorPalletObject = jsonObject.getObject("dimensionColorPalette");
-        DimensionColorPalette pallet = DimensionColorPalletBuilder.create()
+        DimensionColorPalette pallet = DimensionColorPalette.Builder.create()
                 .skyColor(colorPalletObject.get(int.class, "skyColor"))
                 .grassColor(colorPalletObject.get(int.class, "grassColor"))
                 .fogColor(colorPalletObject.get(int.class, "fogColor"))
@@ -49,7 +49,7 @@ public enum DimensionFields {
     }),
     BIOME_DATA(Versions.OLD, "tools", (configVersion, builder, jsonObject) -> {
         JsonObject biomeDataObject = jsonObject.getObject("biomeData");
-        DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
+        DimensionBiomeData biomeData = DimensionBiomeData.Builder.create()
                 .name(biomeDataObject.get(String.class, "biomeName"))
                 .surfaceBuilderVariantChance(biomeDataObject.get(int.class, "surfaceBuilderVariantChance"))
                 .depth(biomeDataObject.get(int.class, "depth"))

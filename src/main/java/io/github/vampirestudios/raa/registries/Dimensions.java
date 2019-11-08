@@ -56,7 +56,7 @@ public class Dimensions {
                     .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
                     .setFlags(flags)
                     .mobs(generateDimensionMobs());
-            DimensionBiomeData biomeData = DimensionBiomeDataBuilder.create()
+            DimensionBiomeData biomeData = DimensionBiomeData.Builder.create()
                     .name(dimensionName + "_biome")
                     .surfaceBuilderVariantChance(Rands.randInt(100))
                     .depth(Rands.randFloatRange(-1F, 3F))
@@ -65,7 +65,7 @@ public class Dimensions {
                     .downfall(Rands.randFloat(1F))
                     .waterColor(WATER_COLOR.getColor()).build();
             dimensionDataBuilder.biome(biomeData);
-            DimensionColorPalette colorPallet = DimensionColorPalletBuilder.create()
+            DimensionColorPalette colorPallet = DimensionColorPalette.Builder.create()
                     .skyColor(SKY_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).fogColor(FOG_COLOR.getColor())
                     .foliageColor(FOLIAGE_COLOR.getColor()).stoneColor(FOLIAGE_COLOR.getColor()).build();
             dimensionDataBuilder.colorPallet(colorPallet);

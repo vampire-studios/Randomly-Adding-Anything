@@ -53,6 +53,15 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
         addItem(new ColorEntry("config.text.raa.color", material.getRGBColor()));
         addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getName()).formatted(Formatting.GRAY)));
         if (material.hasTools()) {
+            addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.durability", material.getToolMaterial().getDurability())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.mining_level", material.getToolMaterial().getMiningLevel())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.tool_speed", df.format(material.getToolMaterial().getMiningSpeed()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.attack_damage", df.format(material.getToolMaterial().getAttackDamage()))));
+        }
+        if (material.hasWeapons()) {
+            addItem(new TitleEntry(new TranslatableText("config.title.raa.weapons").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.durability", material.getToolMaterial().getDurability())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.mining_level", material.getToolMaterial().getMiningLevel())));
@@ -72,7 +81,7 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
 
         @Override
         public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(I18n.translate(s, color), x, y, 16777215);
+            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(I18n.translate(s, Integer.toHexString(color)), x, y, 16777215);
             fillGradient(i + 1, y + 1, i + 1 + entryHeight, y + 1 + entryHeight, color, color);
         }
 
@@ -152,6 +161,9 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
                                 .build()
                 );
             }
+            if (material.hasWeapons()) {
+
+            }
             builder.setSavingRunnable(SavingSystem::createFile);
             MinecraftClient.getInstance().openScreen(builder.build());
         }
@@ -194,6 +206,33 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
         @Override
         public int getItemHeight() {
             return 11;
+        }
+
+        @Override
+        public List<? extends Element> children() {
+            return Collections.emptyList();
+        }
+    }
+
+    public static class TitleEntry extends Entry {
+        protected String s;
+
+        public TitleEntry(String s) {
+            this.s = s;
+        }
+
+        public TitleEntry(Text text) {
+            this.s = text.asFormattedString();
+        }
+
+        @Override
+        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x, y + 10, 16777215);
+        }
+
+        @Override
+        public int getItemHeight() {
+            return 21;
         }
 
         @Override
