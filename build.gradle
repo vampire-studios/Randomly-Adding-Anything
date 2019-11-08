@@ -41,8 +41,8 @@ dependencies {
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial"
-    include ("com.github.vampire-studios:artifice-unofficial:0.3.6-unofficial") {
+    modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.7-unofficial"
+    include ("com.github.vampire-studios:artifice-unofficial:0.3.7-unofficial") {
         exclude group :"net.fabricmc.fabric-api"
     }
 
