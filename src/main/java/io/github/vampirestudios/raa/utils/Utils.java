@@ -19,7 +19,7 @@ public class Utils {
     public static final int MOLTEN = 32; //Instead of water oceans, there are lava oceans.
     public static final int DRY = 64; //No oceans exist at all.
     public static final int TECTONIC = 128; //Creates lots of caves and ravines. Usually not visible on the surface.
-    public static final int POST_APOCALYPTIC =  CORRUPTED | DEAD | ABANDONED | DRY; //A combination of corrupted, dead, abandoned and dry
+    public static final int POST_APOCALYPTIC =  CORRUPTED | DEAD | ABANDONED | DRY | TECTONIC; //A combination of corrupted, dead, abandoned, dry, and tectonic
 
     public static String toTitleCase(String lowerCase) {
         return "" + Character.toUpperCase(lowerCase.charAt(0))+lowerCase.substring(1);

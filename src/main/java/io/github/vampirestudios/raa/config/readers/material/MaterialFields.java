@@ -104,9 +104,6 @@ public enum MaterialFields {
             int miningLevel = jsonObject.get(int.class, "miningLevel");
             JsonObject oreInfo = jsonObject.getObject("oreInformation");
             OreTypes oreTypes = oreInfo.get(OreTypes.class, "oreType");
-            System.out.println(name);
-            System.out.println(jsonObject.get(boolean.class, "tools"));
-            System.out.println(jsonObject.get(boolean.class, "weapons"));
 
             if (jsonObject.get(boolean.class, "tools")) {
                 JsonObject toolObject = jsonObject.getObject("toolMaterial");
