@@ -108,10 +108,10 @@ public class Dimensions {
                 .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
                 .buildAndRegister(dimension.getId());
             DimensionType dimensionType = null;
-            if (Registry.DIMENSION.get(dimension.getId()) == null)
-                dimensionType = Registry.register(Registry.DIMENSION, dimension.getId(), type);
+            if (Registry.DIMENSION_TYPE.get(dimension.getId()) == null)
+                dimensionType = Registry.register(Registry.DIMENSION_TYPE, dimension.getId(), type);
             else
-                dimensionType = Registry.DIMENSION.get(dimension.getId());
+                dimensionType = Registry.DIMENSION_TYPE.get(dimension.getId());
 
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
