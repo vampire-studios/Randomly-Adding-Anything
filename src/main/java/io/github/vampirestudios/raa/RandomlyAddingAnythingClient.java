@@ -11,6 +11,8 @@ import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
@@ -36,6 +38,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     private static final Map<Identifier, Map.Entry<Material, RAABlockItem.BlockType>> BLOCKS_IDENTIFIERS = new HashMap<>();
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
         ColorProviderRegistry.ITEM.register((stack, layer) -> {
             if(MinecraftClient.getInstance().world != null) {
