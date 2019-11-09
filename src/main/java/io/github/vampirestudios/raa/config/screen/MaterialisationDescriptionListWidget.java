@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.config.screen;
 
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.vampirestudios.raa.config.SavingSystem;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -165,7 +165,7 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
             if (material.hasWeapons()) {
 
             }
-            builder.setSavingRunnable(SavingSystem::createFile);
+            builder.setSavingRunnable(RandomlyAddingAnything.MATERIALS_CONFIG::save);
             MinecraftClient.getInstance().openScreen(builder.build());
         }
 

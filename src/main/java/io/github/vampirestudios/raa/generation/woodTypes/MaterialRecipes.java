@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.generation.woodTypes;
 
 import com.swordglowsblue.artifice.api.Artifice;
-import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.item.Item;
@@ -17,9 +17,9 @@ public class MaterialRecipes {
         Artifice.registerData(new Identifier(MOD_ID, "recipe_pack"), serverResourcePackBuilder -> {
             Materials.MATERIALS.forEach(material -> {
                 Item repairItem;
-                if (material.getOreInformation().getOreType() == OreTypes.METAL) {
+                if (material.getOreInformation().getOreType() == OreType.METAL) {
                     repairItem = Registry.ITEM.get(Utils.append(material.getId(), "_ingot"));
-                } else if (material.getOreInformation().getOreType() == OreTypes.CRYSTAL) {
+                } else if (material.getOreInformation().getOreType() == OreType.CRYSTAL) {
                     repairItem = Registry.ITEM.get(Utils.append(material.getId(), "_crystal"));
                 } else {
                     repairItem = Registry.ITEM.get(Utils.append(material.getId(), "_gem"));
@@ -131,7 +131,7 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.result(Utils.append(material.getId(), "_sword"), 1);
                     });
                 }
-                if (material.getOreInformation().getOreType() == OreTypes.METAL) {
+                if (material.getOreInformation().getOreType() == OreType.METAL) {
                     serverResourcePackBuilder.addSmeltingRecipe(Utils.append(material.getId(), "_ingot"), cookingRecipeBuilder -> {
                         cookingRecipeBuilder.cookingTime(200);
                         cookingRecipeBuilder.ingredientItem(Utils.append(material.getId(), "_ore"));
@@ -169,7 +169,7 @@ public class MaterialRecipes {
                         shapelessRecipeBuilder.ingredientItem(Utils.append(material.getId(), "_block"));
                         shapelessRecipeBuilder.result(Utils.append(material.getId(), "_ingot"), 9);
                     });
-                } else if (material.getOreInformation().getOreType() == OreTypes.GEM) {
+                } else if (material.getOreInformation().getOreType() == OreType.GEM) {
                     serverResourcePackBuilder.addShapedRecipe(Utils.append(material.getId(), "_block"), shapedRecipeBuilder -> {
                         shapedRecipeBuilder.group(new Identifier("raa:storage_blocks"));
                         shapedRecipeBuilder.pattern(

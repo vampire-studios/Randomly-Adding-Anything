@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.blocks;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.api.EnvType;
@@ -55,7 +55,7 @@ public class LayeredOreBlock extends OreBlock {
 
 	@Override
 	protected int getExperienceWhenMined(Random random_1) {
-		if (this.material.getOreInformation().getOreType() != OreTypes.METAL)
+		if (this.material.getOreInformation().getOreType() != OreType.METAL)
 			return Rands.randIntRange(material.getOreInformation().getMinXPAmount(), material.getOreInformation().getMaxXPAmount());
 		return 0;
 	}
@@ -128,10 +128,10 @@ public class LayeredOreBlock extends OreBlock {
 							System.out.println("Loot pool '"+tableId+"' doesn't seem to be able to drop anything. Supplying the ore block instead. Please report this to the Cotton team!");
 							complainedAboutLoot = true;
 						}
-						if (material.getOreInformation().getOreType() == OreTypes.METAL) {
+						if (material.getOreInformation().getOreType() == OreType.METAL) {
 							result.add(new ItemStack(this.asItem()));
 						} else {
-							if (material.getOreInformation().getOreType() == OreTypes.GEM) {
+							if (material.getOreInformation().getOreType() == OreType.GEM) {
 								result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"))));
 							} else {
 								result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"))));

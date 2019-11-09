@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa;
 
 import com.swordglowsblue.artifice.api.Artifice;
-import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.client.OreBakedModel;
 import io.github.vampirestudios.raa.generation.materials.Material;
@@ -89,13 +89,13 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     map.put(material, blockType);
                     BLOCKS_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
                 }
-                if (material.getOreInformation().getOreType() == OreTypes.GEM) {
+                if (material.getOreInformation().getOreType() == OreType.GEM) {
                     clientResourcePackBuilder.addItemModel(Utils.append(bid, "_gem"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
                     });
                 }
-                if (material.getOreInformation().getOreType() == OreTypes.METAL) {
+                if (material.getOreInformation().getOreType() == OreType.METAL) {
                     clientResourcePackBuilder.addItemModel(Utils.append(bid, "_ingot"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());
@@ -105,7 +105,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder.texture("layer0", material.getNuggetTexture());
                     });
                 }
-                if (material.getOreInformation().getOreType() == OreTypes.CRYSTAL) {
+                if (material.getOreInformation().getOreType() == OreType.CRYSTAL) {
                     clientResourcePackBuilder.addItemModel(Utils.append(bid, "_crystal"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getResourceItemTexture());

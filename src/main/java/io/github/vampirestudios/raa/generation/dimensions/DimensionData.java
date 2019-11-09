@@ -12,7 +12,7 @@ public class DimensionData {
     private int dimensionId;
     private DimensionBiomeData biomeData;
     private DimensionColorPalette dimensionColorPalette;
-    private boolean hasLight;
+    private boolean hasSkyLight;
     private boolean hasSky;
     private boolean canSleep;
     private boolean waterVaporize;
@@ -21,13 +21,13 @@ public class DimensionData {
     private int flags;
     private HashMap<String, int[]> mobs;
 
-    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs) {
+    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs) {
     	this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
         this.biomeData = biomeData;
         this.dimensionColorPalette = dimensionColorPalette;
-        this.hasLight = hasLight;
+        this.hasSkyLight = hasSkyLight;
         this.hasSky = hasSky;
         this.canSleep = canSleep;
         this.waterVaporize = waterVaporize;
@@ -58,7 +58,7 @@ public class DimensionData {
     }
 
     public boolean hasSkyLight() {
-        return hasLight;
+        return hasSkyLight;
     }
 
     public boolean hasSky() {
@@ -95,7 +95,7 @@ public class DimensionData {
 		private int dimensionId;
 		private DimensionBiomeData biomeData;
 		private DimensionColorPalette dimensionColorPalette;
-		private boolean hasLight;
+		private boolean hasSkyLight;
 		private boolean hasSky;
 		private boolean canSleep;
 		private boolean waterVaporize;
@@ -153,8 +153,8 @@ public class DimensionData {
 			return this;
 		}
 
-		public Builder hasLight(boolean hasLight) {
-			this.hasLight = hasLight;
+		public Builder hasSkyLight(boolean hasSkyLight) {
+			this.hasSkyLight = hasSkyLight;
 			return this;
 		}
 
@@ -168,7 +168,7 @@ public class DimensionData {
 			return this;
 		}
 
-		public Builder doesWaterVaporize(boolean waterVaporize) {
+		public Builder waterVaporize(boolean waterVaporize) {
 			this.waterVaporize = waterVaporize;
 			return this;
 		}
@@ -189,7 +189,7 @@ public class DimensionData {
 		}
 
 		public DimensionData build() {
-			return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, hasLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags, mobs);
+			return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags, mobs);
 		}
 	}
 }
