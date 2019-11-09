@@ -36,14 +36,14 @@ public class RAABlockItem extends BlockItem {
         ORE("_ore"),
         BLOCK("_block");
 
-        private String string;
+        private String suffix;
 
-        BlockType(String id) {
-            this.string = id;
+        BlockType(String suffix) {
+            this.suffix = suffix;
         }
 
-        public String getString() {
-            return string;
+        public String getSuffix() {
+            return suffix;
         }
     }
 }

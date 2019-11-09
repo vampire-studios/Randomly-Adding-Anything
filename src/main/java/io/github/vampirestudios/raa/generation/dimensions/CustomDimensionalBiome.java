@@ -342,8 +342,8 @@ public class CustomDimensionalBiome extends Biome {
     @Environment(EnvType.CLIENT)
     public int getSkyColor() {
 //        System.out.println(dimensionData.getSkyColor());
-        if(dimensionData.getDimensionColorPallet().getSkyColor() != 0) {
-            return dimensionData.getDimensionColorPallet().getSkyColor();
+        if(dimensionData.getDimensionColorPalette().getSkyColor() != 0) {
+            return dimensionData.getDimensionColorPalette().getSkyColor();
         } else {
             return Color.WHITE.getColor();
         }
@@ -353,13 +353,13 @@ public class CustomDimensionalBiome extends Biome {
     @Override
     @Environment(EnvType.CLIENT)
     public int getFoliageColorAt() {
-        return dimensionData.getDimensionColorPallet().getFoliageColor();
+        return dimensionData.getDimensionColorPalette().getFoliageColor();
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getGrassColorAt(double double_1, double double_2) {
-        return dimensionData.getDimensionColorPallet().getGrassColor();
+        return dimensionData.getDimensionColorPalette().getGrassColor();
     }
 
 }

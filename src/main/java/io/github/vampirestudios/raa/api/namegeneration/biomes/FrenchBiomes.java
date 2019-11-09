@@ -6,7 +6,7 @@ import io.github.vampirestudios.raa.utils.Rands;
 import java.util.HashMap;
 import java.util.Map;
 
-public class French implements INameGenerator {
+public class FrenchBiomes implements INameGenerator {
 
     private static String[] vowels = new String[]{
             "a","e","i","o","u","y","ou","oi","au","ai","ei","eu","eau","é","è"
@@ -39,7 +39,7 @@ public class French implements INameGenerator {
     }
 
     @Override
-    public Map<String, String> getSpecialCharatersMap() {
+    public Map<String, String> getSpecialCharactersMap() {
         Map<String, String> map = new HashMap<>();
         map.put("é","e");
         map.put("è","e");

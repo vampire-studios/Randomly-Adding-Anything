@@ -62,27 +62,27 @@ public class LayeredOreBlock extends OreBlock {
 
 	@Override
 	public float getBlastResistance() {
-		return material.getOreInformation().getGenerateIn().getBlock().getBlastResistance();
+		return material.getOreInformation().getGeneratesIn().getBlock().getBlastResistance();
 	}
 
 	@Override
 	public BlockSoundGroup getSoundGroup(BlockState blockState_1) {
-		return material.getOreInformation().getGenerateIn().getBlock().getSoundGroup(blockState_1);
+		return material.getOreInformation().getGeneratesIn().getBlock().getSoundGroup(blockState_1);
 	}
 
 	@Override
 	public float getSlipperiness() {
-		return material.getOreInformation().getGenerateIn().getBlock().getSlipperiness();
+		return material.getOreInformation().getGeneratesIn().getBlock().getSlipperiness();
 	}
 
 	@Override
 	public net.minecraft.block.Material getMaterial(BlockState blockState_1) {
-		return material.getOreInformation().getGenerateIn().getBlock().getMaterial(blockState_1);
+		return material.getOreInformation().getGeneratesIn().getBlock().getMaterial(blockState_1);
 	}
 
 	@Override
 	public float getHardness(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
-		return material.getOreInformation().getGenerateIn().getBlock().getHardness(blockState_1, blockView_1, blockPos_1);
+		return material.getOreInformation().getGeneratesIn().getBlock().getHardness(blockState_1, blockView_1, blockPos_1);
 	}
 
 	public void onStacksDropped(BlockState blockState_1, World world_1, BlockPos blockPos_1, ItemStack itemStack_1) {

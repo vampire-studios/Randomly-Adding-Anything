@@ -8,8 +8,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.cottonmc.jankson.JanksonFactory;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.config.readers.Version;
 import io.github.vampirestudios.raa.config.readers.material.MaterialFields;
-import io.github.vampirestudios.raa.config.readers.Versions;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -20,11 +20,10 @@ import net.minecraft.util.registry.Registry;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SavingSystem {
 
-    public static final Versions latestVersion = Versions.V1;
+    public static final Version latestVersion = Version.V1;
 
     private static File CONFIG_PATH = FabricLoader.getInstance().getConfigDirectory();
 
@@ -88,8 +87,8 @@ public class SavingSystem {
             JsonObject jsonObject1 = jackson.load(configFile);
             if (jsonObject1.containsKey("configVersion")) {
                 int configVersion = jsonObject1.get(int.class, "configVersion");
-                Versions versions = Versions.getFromInt(configVersion);
-                if (versions == null) {
+                Version version = Version.getFromInt(configVersion);
+                if (version == null) {
                     Materials.init();
                     SavingSystem.createFile();
                     return;
@@ -100,7 +99,7 @@ public class SavingSystem {
                     return;
                 }
                 JsonArray jsonArray = jsonObject1.get(JsonArray.class, "materials");
-                if (jsonArray.size() == 0) {
+                if (jsonArray.isEmpty()) {
                     Materials.init();
                     SavingSystem.createFile();
                     return;
@@ -110,15 +109,11 @@ public class SavingSystem {
                     JsonObject jsonObject = (JsonObject) jsonArray.get(s);
                     MaterialBuilder materialBuilder = MaterialBuilder.create();
                     for (MaterialFields materialFields : MaterialFields.values()) {
-                        materialFields.read(versions, materialBuilder, jsonObject);
+                        materialFields.read(version, materialBuilder, jsonObject);
                     }
 
-                    Material material = materialBuilder.buildFromJSON();
-                    String id = material.getName().toLowerCase();
-                    for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
-                        id = id.replace(entry.getKey(), entry.getValue());
-                    }
-                    Registry.register(Materials.MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
+                    Material material = materialBuilder.build();
+                    Registry.register(Materials.MATERIALS, material.getId(), material);
                 }
             } else {
                 Materials.init();
@@ -143,15 +138,11 @@ public class SavingSystem {
                 JsonObject jsonObject = jackson.load(gson.toJson(object));
                 MaterialBuilder materialBuilder = MaterialBuilder.create();
                 for (MaterialFields materialFields : MaterialFields.values()) {
-                    materialFields.read(Versions.OLD, materialBuilder, jsonObject);
+                    materialFields.read(Version.OLD, materialBuilder, jsonObject);
                 }
 
-                Material material = materialBuilder.buildFromJSON();
-                String id = material.getName().toLowerCase();
-                for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
-                    id = id.replace(entry.getKey(), entry.getValue());
-                }
-                Registry.register(Materials.MATERIALS, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
+                Material material = materialBuilder.build();
+                Registry.register(Materials.MATERIALS, material.getId(), material);
             }
             createFile();
         } catch (FileNotFoundException | SyntaxError e) {
