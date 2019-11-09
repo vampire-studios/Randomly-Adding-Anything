@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.UUID;
 
 @Mixin(ItemEntity.class)
-public class MixinItemEntity {
+public class ItemEntityMixin {
 
     @Shadow
     private int pickupDelay;
