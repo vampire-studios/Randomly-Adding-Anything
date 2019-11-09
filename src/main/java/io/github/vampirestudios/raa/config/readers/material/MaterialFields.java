@@ -1,52 +1,37 @@
 package io.github.vampirestudios.raa.config.readers.material;
 
 import blue.endless.jankson.JsonObject;
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
-import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
-import io.github.vampirestudios.raa.config.readers.Version;
+import io.github.vampirestudios.raa.config.readers.ConfigVersion;
 import io.github.vampirestudios.raa.generation.materials.CustomArmorMaterial;
 import io.github.vampirestudios.raa.generation.materials.CustomToolMaterial;
-import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
+import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 
 @SuppressWarnings("ConstantConditions")
 public enum MaterialFields {
-    ID(Version.V1, "id", (configVersion, builder, jsonObject) -> {
-        if(jsonObject.containsKey("id"))
-            return builder.id(Identifier.tryParse(jsonObject.get(String.class, "id")));
-        else
-            return builder.id(new Identifier(RandomlyAddingAnything.MOD_ID, RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator().asId(jsonObject.get(String.class, "name"))));
-    }),
-    NAME(Version.OLD, "name", (configVersion, builder, jsonObject) -> {
-        return builder.name(jsonObject.get(String.class, "name"));
-    }),
-    RGB(Version.OLD, "rgb", (configVersion, builder, jsonObject) -> {
-        if (configVersion.getNumber() > 0) return builder;
-        return builder.color(jsonObject.get(int.class, "rgb"));
-    }),
-    COLOR(Version.V1, "color", (configVersion, builder, jsonObject) -> {
-        if (configVersion.getNumber() == 0) return builder;
+    COLOR("color", (configVersion, builder, jsonObject) -> {
         return builder.color(jsonObject.get(int.class, "color"));
     }),
-    ARMOR(Version.OLD, "armor", (configVersion, builder, jsonObject) -> {
+    ARMOR("armor", (configVersion, builder, jsonObject) -> {
         return builder.armor(jsonObject.get(boolean.class, "armor"));
     }),
-    TOOLS(Version.OLD, "tools", (configVersion, builder, jsonObject) -> {
+    TOOLS("tools", (configVersion, builder, jsonObject) -> {
         return builder.tools(jsonObject.get(boolean.class, "tools"));
     }),
-    WEAPONS(Version.OLD, "weapons", (configVersion, builder, jsonObject) -> {
+    WEAPONS("weapons", (configVersion, builder, jsonObject) -> {
         return builder.weapons(jsonObject.get(boolean.class, "weapons"));
     }),
-    GLOW(Version.OLD, "glowing", (configVersion, builder, jsonObject) -> {
+    GLOW("glowing", (configVersion, builder, jsonObject) -> {
         return builder.glowing(jsonObject.get(boolean.class, "glowing"));
     }),
-    ORE_FLOWERS(Version.OLD, "oreFlower", (configVersion, builder, jsonObject) -> {
+    ORE_FLOWERS("oreFlower", (configVersion, builder, jsonObject) -> {
         return builder.oreFlower(jsonObject.get(boolean.class, "oreFlower"));
     }),
-    MINING_LEVEL(Version.OLD, "miningLevel", (configVersion, builder, jsonObject) -> {
+    MINING_LEVEL("miningLevel", (configVersion, builder, jsonObject) -> {
         if (!jsonObject.containsKey("miningLevel")) {
             builder.miningLevel(Rands.randInt(4));
         } else {
@@ -54,7 +39,7 @@ public enum MaterialFields {
         }
         return builder;
     }),
-    NUGGET(Version.OLD, "nuggetTexture", (configVersion, builder, jsonObject) -> {
+    NUGGET("nuggetTexture", (configVersion, builder, jsonObject) -> {
         if (configVersion.getNumber() > 0) {
             if (!jsonObject.containsKey("nuggetTexture")) {
                 builder.nuggetTexture(null);
@@ -66,7 +51,7 @@ public enum MaterialFields {
         }
         return builder;
     }),
-    FOOD(Version.OLD, "food", (configVersion, builder, jsonObject) -> {
+    FOOD("food", (configVersion, builder, jsonObject) -> {
         if (!jsonObject.containsKey("food")) {
             builder.food(Rands.chance(4));
         } else {
@@ -74,12 +59,12 @@ public enum MaterialFields {
         }
         return builder;
     }),
-    ARMOR_MATERIAL(Version.OLD, "armorMaterial", (configVersion, builder, jsonObject) -> {
+    ARMOR_MATERIAL("armorMaterial", (configVersion, builder, jsonObject) -> {
         if (jsonObject.get(boolean.class, "armor")) {
             if (configVersion.getNumber() > 0) {
                 String name = jsonObject.get(String.class, "name");
                 JsonObject oreInfo = jsonObject.getObject("oreInformation");
-                OreTypes oreTypes = oreInfo.get(OreTypes.class, "oreType");
+                OreType oreType = oreInfo.get(OreType.class, "oreType");
 
                 JsonObject armorObject = jsonObject.getObject("armorMaterial");
                 int durabilityMultiplier = armorObject.get(int.class, "durabilityMultiplier");
@@ -88,7 +73,7 @@ public enum MaterialFields {
                 float toughness = armorObject.get(float.class, "toughness");
                 int horseArmorBonus = armorObject.get(int.class, "horseArmorBonus");
                 CustomArmorMaterial armorMaterial = new CustomArmorMaterial(
-                        name, oreTypes, durabilityMultiplier, protectionAmounts,
+                        name, oreType, durabilityMultiplier, protectionAmounts,
                         enchantability, toughness, horseArmorBonus
                 );
                 builder.armor(armorMaterial);
@@ -98,12 +83,12 @@ public enum MaterialFields {
         }
         return builder;
     }),
-    TOOL_MATERIAL(Version.OLD, "toolMaterial", (configVersion, builder, jsonObject) -> {
+    TOOL_MATERIAL("toolMaterial", (configVersion, builder, jsonObject) -> {
         if (configVersion.getNumber() > 0) {
             String name = jsonObject.get(String.class, "name");
             int miningLevel = jsonObject.get(int.class, "miningLevel");
             JsonObject oreInfo = jsonObject.getObject("oreInformation");
-            OreTypes oreTypes = oreInfo.get(OreTypes.class, "oreType");
+            OreType oreType = oreInfo.get(OreType.class, "oreType");
             System.out.println(name);
             System.out.println(jsonObject.get(boolean.class, "tools"));
             System.out.println(jsonObject.get(boolean.class, "weapons"));
@@ -119,7 +104,7 @@ public enum MaterialFields {
                 float axeAttackSpeed = toolObject.get(float.class, "axeAttackSpeed");
                 float swordAttackDamage = toolObject.get(float.class, "swordAttackDamage");
                 CustomToolMaterial toolMaterial = new CustomToolMaterial(
-                        name, oreTypes, durability, miningSpeed, attackDamage,
+                        name, oreType, durability, miningSpeed, attackDamage,
                         miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
                         axeAttackSpeed, swordAttackDamage
                 );
@@ -138,7 +123,7 @@ public enum MaterialFields {
                 float axeAttackSpeed = toolObject.get(float.class, "axeAttackSpeed");
                 float swordAttackDamage = toolObject.get(float.class, "swordAttackDamage");
                 CustomToolMaterial toolMaterial = new CustomToolMaterial(
-                        name, oreTypes, durability, miningSpeed, attackDamage,
+                        name, oreType, durability, miningSpeed, attackDamage,
                         miningLevel, enchantability, hoeAttackSpeed, axeAttackDamage,
                         axeAttackSpeed, swordAttackDamage
                 );
@@ -155,11 +140,11 @@ public enum MaterialFields {
         }
         return builder;
     }),
-    ORE_INFO_OLD(Version.OLD, "oreInformationJSON", (configVersion, builder, jsonObject) -> {
+    ORE_INFO_OLD("oreInformationJSON", (configVersion, builder, jsonObject) -> {
         if (configVersion.getNumber() > 0) return builder;
         if (jsonObject.containsKey("oreInformationJSON")) {
             JsonObject oreInfo = jsonObject.getObject("oreInformationJSON");
-            builder.oreType(oreInfo.get(OreTypes.class, "oreTypes"))
+            builder.oreType(oreInfo.get(OreType.class, "oreTypes"))
                     .generatesIn(oreInfo.get(GeneratesIn.class, "generatesIn"))
                     .overlayTexture(new Identifier(oreInfo.get(String.class, "overlayTexture")))
                     .minXPAmount(0)
@@ -168,11 +153,11 @@ public enum MaterialFields {
         }
         return builder;
     }),
-    ORE_INFO(Version.V1, "oreInformation", (configVersion, builder, jsonObject) -> {
+    ORE_INFO("oreInformation", (configVersion, builder, jsonObject) -> {
         if (configVersion.getNumber() > 0) {
             JsonObject oreInfo = jsonObject.getObject("oreInformation");
-            OreTypes oreTypes = oreInfo.get(OreTypes.class, "oreType");
-            builder.oreType(oreTypes)
+            OreType oreType = oreInfo.get(OreType.class, "oreType");
+            builder.oreType(oreType)
                     .generatesIn(oreInfo.get(GeneratesIn.class, "generateIn"))
                     .overlayTexture(idFromJson(oreInfo,"overlayTexture"))
                     .minXPAmount(0)
@@ -181,7 +166,7 @@ public enum MaterialFields {
         }
         return builder;
     }),
-    RESOURCE_ITEM(Version.OLD, "resourceItemTexture", (configVersion, builder, jsonObject) -> {
+    RESOURCE_ITEM("resourceItemTexture", (configVersion, builder, jsonObject) -> {
         if (configVersion.getNumber() > 0) {
             builder.resourceItemTexture(idFromJson(jsonObject, "resourceItemTexture"));
         } else {
@@ -192,7 +177,7 @@ public enum MaterialFields {
         }
         return builder;
     }),
-    STORAGE_BLOCK(Version.OLD, "storageBlockTexture", (configVersion, builder, jsonObject) -> {
+    STORAGE_BLOCK("storageBlockTexture", (configVersion, builder, jsonObject) -> {
         if (configVersion.getNumber() > 0) {
             builder.storageBlockTexture(idFromJson(jsonObject,"storageBlockTexture"));
         } else {
@@ -204,12 +189,10 @@ public enum MaterialFields {
         return builder;
     });
 
-    private Version implementedVersion;
     private String name;
     private MaterialFieldsInterface fieldsInterface;
 
-    MaterialFields(Version implementedVersion, String name, MaterialFieldsInterface fieldsInterface) {
-        this.implementedVersion = implementedVersion;
+    MaterialFields(String name, MaterialFieldsInterface fieldsInterface) {
         this.name = name;
         this.fieldsInterface = fieldsInterface;
     }
@@ -218,12 +201,12 @@ public enum MaterialFields {
         return name;
     }
 
-    public MaterialBuilder read(Version configVersion, MaterialBuilder builder, JsonObject jsonObject) {
+    public Material.Builder read(ConfigVersion configVersion, Material.Builder builder, JsonObject jsonObject) {
         return this.fieldsInterface.read(configVersion, builder, jsonObject);
     }
 
     protected interface MaterialFieldsInterface {
-        MaterialBuilder read(Version configVersion, MaterialBuilder builder, JsonObject jsonObject);
+        Material.Builder read(ConfigVersion configVersion, Material.Builder builder, JsonObject jsonObject);
     }
 
     private static Identifier idFromJson(JsonObject jsonObject, String name) {

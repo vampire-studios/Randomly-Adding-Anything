@@ -2,12 +2,11 @@ package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
-import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.materials.Material;
-import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
@@ -45,8 +44,8 @@ public class Materials {
             } while (MATERIAL_IDS.contains(id));
 			MATERIAL_IDS.add(id);
 
-            Material material = MaterialBuilder.create(id, name)
-                    .oreType(Rands.values(OreTypes.values()))
+            Material material = Material.Builder.create(id, name)
+                    .oreType(Rands.values(OreType.values()))
                     .color(RGB.getColor())
                     .generatesIn(Rands.values(GeneratesIn.values()))
                     .armor(random.nextBoolean())
@@ -109,7 +108,7 @@ public class Materials {
                     material.getName(),
                     RAABlockItem.BlockType.ORE);
             }
-            if (material.getOreInformation().getOreType() == OreTypes.METAL) {
+            if (material.getOreInformation().getOreType() == OreType.METAL) {
                 RegistryUtils.registerItem(
                     repairItem = new RAASimpleItem(
                         material.getName(),
@@ -126,7 +125,7 @@ public class Materials {
                     ),
                     Utils.append(identifier, "_nugget")
                 );
-            } else if (material.getOreInformation().getOreType() == OreTypes.GEM) {
+            } else if (material.getOreInformation().getOreType() == OreType.GEM) {
                 RegistryUtils.registerItem(
                     repairItem = new RAASimpleItem(
                         material.getName(),

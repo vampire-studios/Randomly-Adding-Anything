@@ -8,10 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.cottonmc.jankson.JanksonFactory;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.config.readers.Version;
+import io.github.vampirestudios.raa.config.readers.ConfigVersion;
 import io.github.vampirestudios.raa.config.readers.material.MaterialFields;
 import io.github.vampirestudios.raa.generation.materials.Material;
-import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public class SavingSystem {
 
-    public static final Version latestVersion = Version.V1;
+    public static final ConfigVersion LATEST_CONFIG_VERSION = ConfigVersion.V1;
 
     private static File CONFIG_PATH = FabricLoader.getInstance().getConfigDirectory();
 
@@ -87,7 +86,7 @@ public class SavingSystem {
             JsonObject jsonObject1 = jackson.load(configFile);
             if (jsonObject1.containsKey("configVersion")) {
                 int configVersion = jsonObject1.get(int.class, "configVersion");
-                Version version = Version.getFromInt(configVersion);
+                ConfigVersion version = ConfigVersion.getFromInt(configVersion);
                 if (version == null) {
                     Materials.init();
                     SavingSystem.createFile();
@@ -107,12 +106,12 @@ public class SavingSystem {
 
                 for (int s = 0; s < jsonArray.size(); s++) {
                     JsonObject jsonObject = (JsonObject) jsonArray.get(s);
-                    MaterialBuilder materialBuilder = MaterialBuilder.create();
+                    Material.Builder builder = Material.Builder.create();
                     for (MaterialFields materialFields : MaterialFields.values()) {
-                        materialFields.read(version, materialBuilder, jsonObject);
+                        materialFields.read(version, builder, jsonObject);
                     }
 
-                    Material material = materialBuilder.build();
+                    Material material = builder.build();
                     Registry.register(Materials.MATERIALS, material.getId(), material);
                 }
             } else {
@@ -136,12 +135,12 @@ public class SavingSystem {
             Object[] objects = gson.fromJson(new FileReader(file),Object[].class);
             for (Object object : objects) {
                 JsonObject jsonObject = jackson.load(gson.toJson(object));
-                MaterialBuilder materialBuilder = MaterialBuilder.create();
+                Material.Builder builder = Material.Builder.create();
                 for (MaterialFields materialFields : MaterialFields.values()) {
-                    materialFields.read(Version.OLD, materialBuilder, jsonObject);
+                    materialFields.read(ConfigVersion.OLD, builder, jsonObject);
                 }
 
-                Material material = materialBuilder.build();
+                Material material = builder.build();
                 Registry.register(Materials.MATERIALS, material.getId(), material);
             }
             createFile();

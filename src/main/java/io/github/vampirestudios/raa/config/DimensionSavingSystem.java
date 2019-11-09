@@ -7,7 +7,7 @@ import blue.endless.jankson.impl.SyntaxError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.config.readers.Version;
+import io.github.vampirestudios.raa.config.readers.ConfigVersion;
 import io.github.vampirestudios.raa.config.readers.dimensions.DimensionFields;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
@@ -84,7 +84,7 @@ public class DimensionSavingSystem {
             JsonObject jsonObject1 = jackson.load(configFile);
             if (jsonObject1.containsKey("configVersion")) {
                 int configVersion = jsonObject1.get(int.class, "configVersion");
-                Version version = Version.getFromInt(configVersion);
+                ConfigVersion version = ConfigVersion.getFromInt(configVersion);
                 if (version == null) {
                     Dimensions.init();
                     DimensionSavingSystem.createFile();

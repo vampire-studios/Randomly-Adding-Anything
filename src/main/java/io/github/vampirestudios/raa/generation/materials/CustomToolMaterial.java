@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.generation.materials;
 
-import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.enums.OreType;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
@@ -9,7 +9,7 @@ import net.minecraft.util.registry.Registry;
 public class CustomToolMaterial implements ToolMaterial {
 
     private String name;
-    private OreTypes oreTypes;
+    private OreType oreType;
     private int durability;
     private float miningSpeed;
     private float attackDamage;
@@ -20,10 +20,10 @@ public class CustomToolMaterial implements ToolMaterial {
     private float axeAttackSpeed;
     private float swordAttackDamage;
 
-    public CustomToolMaterial(String name, OreTypes oreTypes, int durability, float miningSpeed, float attackDamage, int miningLevel,
+    public CustomToolMaterial(String name, OreType oreType, int durability, float miningSpeed, float attackDamage, int miningLevel,
                               int enchantability, float hoeAttackSpeed, float axeAttackDamage, float axeAttackSpeed, float swordAttackDamage) {
         this.name = name;
-        this.oreTypes = oreTypes;
+        this.oreType = oreType;
         this.durability = durability;
         this.miningSpeed = miningSpeed;
         this.attackDamage = attackDamage;
@@ -87,9 +87,9 @@ public class CustomToolMaterial implements ToolMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        if (oreTypes == OreTypes.CRYSTAL) {
+        if (oreType == OreType.CRYSTAL) {
             return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_crystal")));
-        } else if (oreTypes == OreTypes.GEM) {
+        } else if (oreType == OreType.GEM) {
             return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_gem")));
         } else {
             return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_crystal")));

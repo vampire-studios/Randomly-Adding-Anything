@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa;
 
 import io.github.vampirestudios.raa.config.DimensionSavingSystem;
 import io.github.vampirestudios.raa.config.GeneralConfig;
-import io.github.vampirestudios.raa.config.SavingSystem;
+import io.github.vampirestudios.raa.config.MaterialsData;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;
@@ -18,6 +18,8 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RandomlyAddingAnything implements ModInitializer {
 
@@ -29,6 +31,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static final ItemGroup RAA_FOOD = FabricItemGroupBuilder.build(new Identifier("raa", "food"), () -> new ItemStack(Items.GOLDEN_APPLE));
 	public static final ItemGroup RAA_DIMENSION_BLOCKS = FabricItemGroupBuilder.build(new Identifier("raa", "dimension_blocks"), () -> new ItemStack(Items.STONE));
 	public static final String MOD_ID = "raa";
+	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	public static GeneralConfig CONFIG;
 	public static CustomDimensionSurfaceBuilder SURFACE_BUILDER;
 
@@ -38,15 +41,17 @@ public class RandomlyAddingAnything implements ModInitializer {
 		CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
 		Textures.init();
 		Features.init();
-		if (SavingSystem.init() || CONFIG.regen) {
-			Materials.init();
-			Dimensions.init();
-			SavingSystem.createFile();
-			CONFIG.regen = false;
-		} else {
-			SavingSystem.readFile();
-			Materials.ready = true;
-		}
+	//	if (SavingSystem.init() || CONFIG.regen) {
+	//		Materials.init();
+	//		Dimensions.init();
+	//		SavingSystem.createFile();
+	//		CONFIG.regen = false;
+	//	} else {
+	//		SavingSystem.readFile();
+	//		Materials.ready = true;
+	//	}
+		new MaterialsData("materials_test").load();
+		System.exit(0);
 		if (DimensionSavingSystem.init() || CONFIG.regen) {
 			Dimensions.init();
 			DimensionSavingSystem.createFile();

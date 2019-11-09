@@ -54,10 +54,10 @@ public class Dimensions {
 
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
                 .dimensionId(Rands.randIntRange(1000, 30000))
-                .hasLight(Rands.chance(1))
+                .hasSkyLight(Rands.chance(1))
                 .hasSky(!Rands.chance(2))
                 .canSleep(Rands.chance(10))
-                .doesWaterVaporize(Rands.chance(100))
+                .waterVaporize(Rands.chance(100))
                 .shouldRenderFog(Rands.chance(100))
                 .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
 				.flags(flags)
