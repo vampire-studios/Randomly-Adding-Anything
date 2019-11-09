@@ -45,7 +45,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 			CONFIG.regen = false;
 		} else {
 			SavingSystem.readFile();
-			Materials.isReady = true;
+			Materials.ready = true;
 		}
 		if (DimensionSavingSystem.init() || CONFIG.regen) {
 			Dimensions.init();

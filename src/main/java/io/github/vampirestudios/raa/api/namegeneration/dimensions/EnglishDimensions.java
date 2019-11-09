@@ -1,11 +1,11 @@
-package io.github.vampirestudios.raa.api.namegeneration.biomes;
+package io.github.vampirestudios.raa.api.namegeneration.dimensions;
 
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.utils.Utils;
 
 import java.util.*;
 
-public class English implements INameGenerator {
+public class EnglishDimensions implements INameGenerator {
     public static final String[] LATIN_PREFIXES = {
             "ab", "ad", "ambi", "ante", "circum", "co", "com", "con", "contra", "de", "den", "dis", "di", "ex", "extra",
             "in", "en", "infra", "inter", "intra", "juxta", "me", "ne", "non", "ob", "ox", "per", "post", "prae", "preter",
@@ -19,16 +19,22 @@ public class English implements INameGenerator {
             "sic", "sit", "tan", "tor", "tri", "vi", "w", "x", "z"
     };
 
+    public static final String[] CONSONANT_FILL = { //Stuffed between consonants
+            "u", "o"
+    };
+
     public String generate() {
         Random rnd = new Random();
+
         String prefix = LATIN_PREFIXES[rnd.nextInt(LATIN_PREFIXES.length)];
         String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
-        return combine(prefix, middle).replace("ı", "i");
+
+        return combine(prefix, middle);
     }
 
     public Collection<String> generate(int count) {
         HashSet<String> result = new HashSet<>(count);
-        while(result.size()<count) {
+        while(result.size() < count) {
             String cur = generate();
             result.add(cur); //Nothing happens on duplicates
         }
@@ -71,12 +77,12 @@ public class English implements INameGenerator {
     }
 
     @Override
-    public Map<String, String> getSpecialCharatersMap() {
+    public Map<String, String> getSpecialCharactersMap() {
         return new HashMap<>();
     }
 
     public static void main(String[] args) {
-        English gen = new English();
+        EnglishDimensions gen = new EnglishDimensions();
         Collection<String> generated = gen.generate(100);
 
         System.out.println("Lowercase:" + generated);

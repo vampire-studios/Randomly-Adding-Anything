@@ -1,18 +1,15 @@
 package io.github.vampirestudios.raa.api;
 
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.registries.Materials;
+import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeature;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import io.github.vampirestudios.raa.world.gen.feature.SimpleRangeDecoratorConfig;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.Decorator;
-
-import java.util.Map;
 
 public class RAAWorldAPI {
 
@@ -39,14 +36,10 @@ public class RAAWorldAPI {
      */
     public static void addRandomOres(OreGenerationSupport generationSupport) {
         Materials.MATERIALS.forEach(material -> {
-            String id = material.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
-                id = id.replace(entry.getKey(), entry.getValue());
-            }
-            if (material.getOreInformation().getGenerateIn().getTarget() == generationSupport.getTarget()) {
+            if (material.getOreInformation().getGeneratesIn().getTarget() == generationSupport.getTarget()) {
                 generationSupport.getGenerationBiome().addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
                         new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(generationSupport.getTarget(),
-                                Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, id + "_ore")).getDefaultState(), 9))
+                                Registry.BLOCK.get(Utils.append(material.getId(), "_ore")).getDefaultState(), 9))
                                 .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(), 0, 256))));
             }
         });

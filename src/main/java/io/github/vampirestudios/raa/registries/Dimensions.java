@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.PlayerPlacementHandlers;
+import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.*;
@@ -9,20 +10,19 @@ import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Dimensions {
-    public static final List<Identifier> DIMENSION_NAME_LIST = new ArrayList<>();
+    public static final Set<Identifier> DIMENSION_NAMES = new HashSet<>();
     public static final Registry<DimensionData> DIMENSIONS = new DefaultedRegistry<>("raa:dimensions");
-    public static final List<Identifier> DIMENSION_BIOME_NAME_LIST = new ArrayList<>();
 
     public static boolean isReady = false;
 
@@ -48,42 +48,42 @@ public class Dimensions {
             Color WATER_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), saturation, Rands.randFloatRange(0.5F, 1.0F)));
             Color STONE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
 
-            String dimensionName = RandomlyAddingAnything.CONFIG.namingLanguage.generateDimensionName().toLowerCase();
-            DimensionData.Builder dimensionDataBuilder = DimensionData.Builder.create()
-                    .dimensionId(Rands.randIntRange(1000, 30000)).name(dimensionName)
-                    .hasLight(Rands.chance(1)).hasSky(!Rands.chance(2)).canSleep(Rands.chance(10))
-                    .doesWaterVaporize(Rands.chance(100)).shouldRenderFog(Rands.chance(100))
-                    .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
-                    .setFlags(flags)
-                    .mobs(generateDimensionMobs());
-            DimensionBiomeData biomeData = DimensionBiomeData.Builder.create()
-                    .name(dimensionName + "_biome")
-                    .surfaceBuilderVariantChance(Rands.randInt(100))
-                    .depth(Rands.randFloatRange(-1F, 3F))
-                    .scale(Rands.randFloat(2F))
-                    .temperature(Rands.randFloat(2F))
-                    .downfall(Rands.randFloat(1F))
-                    .waterColor(WATER_COLOR.getColor()).build();
-            dimensionDataBuilder.biome(biomeData);
-            DimensionColorPalette colorPallet = DimensionColorPalette.Builder.create()
-                    .skyColor(SKY_COLOR.getColor()).grassColor(GRASS_COLOR.getColor()).fogColor(FOG_COLOR.getColor())
-                    .foliageColor(FOLIAGE_COLOR.getColor()).stoneColor(FOLIAGE_COLOR.getColor()).build();
-            dimensionDataBuilder.colorPallet(colorPallet);
+            INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
+            Pair<String, Identifier> name = nameGenerator.generateUnique(DIMENSION_NAMES, RandomlyAddingAnything.MOD_ID);
+            DIMENSION_NAMES.add(name.getRight());
 
-            DimensionData dimensionData = dimensionDataBuilder.build();
-            String id = dimensionData.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
-                id = id.replace(entry.getKey(), entry.getValue());
-            }
-            if (!DIMENSION_NAME_LIST.contains(new Identifier(RandomlyAddingAnything.MOD_ID, id)))
-                Registry.register(DIMENSIONS, new Identifier(RandomlyAddingAnything.MOD_ID, id), dimensionData);
-            DIMENSION_NAME_LIST.add(new Identifier(RandomlyAddingAnything.MOD_ID, id));
-            String biomeId = biomeData.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionCharMap().entrySet()) {
-                biomeId = biomeId.replace(entry.getKey(), entry.getValue());
-            }
-            if (!DIMENSION_BIOME_NAME_LIST.contains(new Identifier(RandomlyAddingAnything.MOD_ID, biomeId)))
-                DIMENSION_BIOME_NAME_LIST.add(new Identifier(RandomlyAddingAnything.MOD_ID, biomeId));
+            DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
+                .dimensionId(Rands.randIntRange(1000, 30000))
+                .hasLight(Rands.chance(1))
+                .hasSky(!Rands.chance(2))
+                .canSleep(Rands.chance(10))
+                .doesWaterVaporize(Rands.chance(100))
+                .shouldRenderFog(Rands.chance(100))
+                .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
+				.flags(flags)
+				.mobs(generateDimensionMobs());
+            DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.append(name.getRight(), "_biome"), name.getLeft())
+                .surfaceBuilderVariantChance(Rands.randInt(100))
+                .depth(Rands.randFloatRange(-3F, 3F))
+                .scale(Rands.randFloat(2F))
+                .temperature(Rands.randFloat(2.0F))
+                .downfall(Rands.randFloat(1F))
+                .waterColor(WATER_COLOR.getColor())
+                .build();
+            builder.biome(biomeData);
+            DimensionColorPalette colorPalette = DimensionColorPalette.Builder.create()
+                .skyColor(SKY_COLOR.getColor())
+                .grassColor(GRASS_COLOR.getColor())
+                .fogColor(FOG_COLOR.getColor())
+                .foliageColor(FOLIAGE_COLOR.getColor())
+                .stoneColor(FOLIAGE_COLOR.getColor()).build();
+            builder.colorPalette(colorPalette);
+
+            DimensionData dimensionData = builder.build();
+
+            Registry.register(DIMENSIONS, dimensionData.getId(), dimensionData);
+            Registry.register(Registry.BIOME, dimensionData.getId(), new CustomDimensionalBiome(dimensionData));
+
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
                 DebugUtils.dimensionDebug(dimensionData);
@@ -99,21 +99,17 @@ public class Dimensions {
     public static void createDimensions() {
         DIMENSIONS.forEach(dimension -> {
             CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension);
-            Identifier biomeId = new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getBiomeData().getName().toLowerCase());
-            if (DIMENSION_BIOME_NAME_LIST.contains(biomeId)) {
-                if (Registry.BIOME.get(biomeId) == null)
-                    Registry.register(Registry.BIOME, biomeId, biome);
-            }
-            DimensionType type = FabricDimensionType.builder().biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
-                    .skyLight(dimension.hasSkyLight()).factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome))
-                    .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
-                    .buildAndRegister(new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase()));
-            Identifier id = new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase());
+            Identifier biomeId = dimension.getBiomeData().getId();
+            DimensionType type = FabricDimensionType.builder()
+                .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
+                .desiredRawId(dimension.getDimensionId())
+                .skyLight(dimension.hasSkyLight())
+                .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome))
+                .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
+                .buildAndRegister(dimension.getId());
             DimensionType dimensionType = null;
-            if (DIMENSION_NAME_LIST.contains(id)) {
-                if (Registry.DIMENSION.get(id) == null)
-                dimensionType = Registry.register(Registry.DIMENSION, id, type);
-            }
+            if (Registry.DIMENSION.get(dimension.getId()) == null)
+                dimensionType = Registry.register(Registry.DIMENSION, dimension.getId(), type);
 
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");

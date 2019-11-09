@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.MaterialBuilder;
@@ -20,44 +21,53 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class WoodTypes {
-    public static final List<Identifier> WOOD_TYPE_NAME_LIST = new ArrayList<>();
+    public static final Set<Identifier> WOOD_TYPE_IDS = new HashSet<>();
+
     public static final Registry<Material> WOOD_TYPES = new DefaultedRegistry<>("wood_types");
 
-    public static boolean isReady = false;
+    public static boolean ready = false;
     public static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
 
     public static void init() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
             Color RGB = new Color(Rands.randIntRange(0, 255),Rands.randIntRange(0, 255),Rands.randIntRange(0, 255));
             Random random = new Random();
-            Material material = MaterialBuilder.create()
-                    .oreType(Rands.values(OreTypes.values())).name(RandomlyAddingAnything.CONFIG.namingLanguage.generateMaterialNames()).color(RGB.getColor())
-                    .generatesIn(Rands.values(GeneratesIn.values())).overlayTexture()
-                    .resourceItemTexture().storageBlockTexture().armor(random.nextBoolean())
-                    .tools(random.nextBoolean()).oreFlower(Rands.chance(4))
-                    .weapons(random.nextBoolean()).glowing(Rands.chance(4))
-                    .minXPAmount(0).maxXPAmount(Rands.randIntRange(0, 4)).oreClusterSize(Rands.randIntRange(2, 6))
+            INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
+
+            String name;
+            Identifier id;
+            do {
+                name = nameGenerator.generate();
+                id = new Identifier(RandomlyAddingAnything.MOD_ID, nameGenerator.asId(name));
+            } while (WOOD_TYPE_IDS.contains(id));
+            WOOD_TYPE_IDS.add(id);
+
+            Material material = MaterialBuilder.create(id, name)
+                    .oreType(Rands.values(OreTypes.values()))
+                    .color(RGB.getColor())
+                    .generatesIn(Rands.values(GeneratesIn.values()))
+                    .armor(random.nextBoolean())
+                    .tools(random.nextBoolean())
+                    .oreFlower(Rands.chance(4))
+                    .weapons(random.nextBoolean())
+                    .glowing(Rands.chance(4))
+                    .minXPAmount(0)
+                    .maxXPAmount(Rands.randIntRange(0, 4))
+                    .oreClusterSize(Rands.randIntRange(2, 6))
                     .food(Rands.chance(4))
                     .build();
-            String id = material.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
-                id = id.replace(entry.getKey(), entry.getValue());
-            }
-            if (!WOOD_TYPE_NAME_LIST.contains(new Identifier(RandomlyAddingAnything.MOD_ID, id)))
-                Registry.register(WOOD_TYPES, new Identifier(RandomlyAddingAnything.MOD_ID, id), material);
-            WOOD_TYPE_NAME_LIST.add(new Identifier(RandomlyAddingAnything.MOD_ID, id));
+
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
                 System.out.println("\nName : " + material.getName() +
                         "\nOre Type : " + material.getOreInformation().getOreType().name().toLowerCase() +
                         "\nRGB color : " + RGB.getRed() + "," + RGB.getGreen() + "," + RGB.getBlue() +
-                        "\nGenerate in : " + material.getOreInformation().getGenerateIn().name().toLowerCase() +
+                        "\nGenerate in : " + material.getOreInformation().getGeneratesIn().name().toLowerCase() +
                         "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
                         "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
                         "\nHas Armor : " + material.hasArmor() +
@@ -69,31 +79,30 @@ public class WoodTypes {
                 );
             }
         }
-        isReady = true;
+        ready = true;
     }
 
-    public static boolean isIsReady() {
-        return isReady;
+    public static boolean isReady() {
+        return ready;
     }
 
     public static void createMaterialResources() {
-        if (RandomlyAddingAnything.CONFIG.debug) RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
+        if (RandomlyAddingAnything.CONFIG.debug) {
+            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
+        }
         WOOD_TYPES.forEach(material -> {
-            String id = material.getName().toLowerCase();
-            for (Map.Entry<String, String> entry : RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialCharMap().entrySet()) {
-                id = id.replace(entry.getKey(), entry.getValue());
-            }
+            Identifier id = material.getId();
             Item repairItem;
             FabricBlockSettings blockSettings;
-            if (material.getOreInformation().getGenerateIn() == GeneratesIn.DOES_NOT_APPEAR) blockSettings = FabricBlockSettings.copy(Blocks.STONE);
-            else blockSettings = FabricBlockSettings.copy(material.getOreInformation().getGenerateIn().getBlock());
+            if (material.getOreInformation().getGeneratesIn() == GeneratesIn.DOES_NOT_APPEAR) blockSettings = FabricBlockSettings.copy(Blocks.STONE);
+            else blockSettings = FabricBlockSettings.copy(material.getOreInformation().getGeneratesIn().getBlock());
 
-            if (material.getOreInformation().getGenerateIn() == GeneratesIn.ANDESITE
-                    || material.getOreInformation().getGenerateIn() == GeneratesIn.DIORITE
-                    || material.getOreInformation().getGenerateIn() == GeneratesIn.END_STONE
-                    || material.getOreInformation().getGenerateIn() == GeneratesIn.GRANITE
-                    || material.getOreInformation().getGenerateIn() == GeneratesIn.NETHERRACK
-                    || material.getOreInformation().getGenerateIn() == GeneratesIn.STONE) blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
+            if (material.getOreInformation().getGeneratesIn() == GeneratesIn.ANDESITE
+                    || material.getOreInformation().getGeneratesIn() == GeneratesIn.DIORITE
+                    || material.getOreInformation().getGeneratesIn() == GeneratesIn.END_STONE
+                    || material.getOreInformation().getGeneratesIn() == GeneratesIn.GRANITE
+                    || material.getOreInformation().getGeneratesIn() == GeneratesIn.NETHERRACK
+                    || material.getOreInformation().getGeneratesIn() == GeneratesIn.STONE) blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
             else blockSettings.breakByTool(FabricToolTags.SHOVELS, material.getMiningLevel());
             blockSettings.breakByHand(false);
             RegistryUtils.register(new Block(Block.Settings.copy(Blocks.IRON_BLOCK)),

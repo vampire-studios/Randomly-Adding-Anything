@@ -7,7 +7,6 @@ plugins {
 }
 
 repositories {
-    maven { url = "https://jitpack.io"}
     maven{ url="https://minecraft.curseforge.com/api/maven" }
     maven{ url="https://maven.jamieswhiteshirt.com/libs-release/" }
     maven{ url="https://maven.fabricmc.net" }
@@ -17,7 +16,9 @@ repositories {
         name = "Cotton"
         url = "http://server.bbkr.space:8081/artifactory/libs-release"
     }
-    maven { url "https://dl.bintray.com/shedaniel/autoconfig1u/" }
+	maven { url "https://dl.bintray.com/shedaniel/autoconfig1u/" }
+
+	maven { url = "https://jitpack.io"}
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8

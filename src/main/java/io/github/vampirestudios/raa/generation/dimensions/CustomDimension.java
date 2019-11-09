@@ -1,8 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.utils.Color;
-import io.github.vampirestudios.raa.utils.Rands;
-import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -108,7 +106,7 @@ public class CustomDimension extends Dimension {
     @Override
     @Environment(EnvType.CLIENT)
     public Vec3d getFogColor(float v, float v1) {
-        int fogColor = dimensionData.getDimensionColorPallet().getFogColor();
+        int fogColor = dimensionData.getDimensionColorPalette().getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor);
         return new Vec3d(rgbColor[0]/255.0, rgbColor[1]/255.0, rgbColor[2]/255.0);
     }

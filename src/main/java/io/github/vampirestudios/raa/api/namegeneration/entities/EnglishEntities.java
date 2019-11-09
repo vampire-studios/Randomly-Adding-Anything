@@ -1,22 +1,26 @@
-package io.github.vampirestudios.raa.api.namegeneration.dimensions;
+package io.github.vampirestudios.raa.api.namegeneration.entities;
 
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.utils.Utils;
 
 import java.util.*;
 
-public class English implements INameGenerator {
+public class EnglishEntities implements INameGenerator {
     public static final String[] LATIN_PREFIXES = {
-            "ab", "ad", "ambi", "ante", "circum", "co", "com", "con", "contra", "de", "den", "dis", "di", "ex", "extra",
-            "in", "en", "infra", "inter", "intra", "juxta", "me", "ne", "non", "ob", "ox", "per", "post", "prae", "preter",
-            "pro", "quasi", "ques", "re", "red", "retro", "se", "sed", "sen", "sin", "sod", "sub", "subter", "super", "supra",
-            "tran", "trans", "ult", "ultra", "out", "outr"
+            "ab", "ad", "ambi", "ante", "circum", "co", "com", "contra", "de", "dis", "di", "ex", "extra",
+            "in", "en", "infra", "inter", "intra", "juxta", "ne", "non", "ob", "per", "post", "prae", "preter",
+            "pro", "quasi", "re", "red", "retro", "se", "sed", "sin", "sub", "subter", "super", "supra", "trans",
+            "ultra", "outr"
     };
 
     public static final String[] MIDDLES = {
             "al", "am", "an", "be", "bor", "cal", "co", "de", "duo", "eth", "en", "for", "gal", "in", "kary",
-            "li", "lo", "la", "mi", "ma", "mun", "nat", "net", "nor", "nit", "or", "om", "per", "rhen", "rho", "ri",
+            "li", "lo", "la", "mi", "ma", "mun", "nat", "nor", "nit", "or", "om", "per", "rhen", "rho", "ri",
             "sic", "sit", "tan", "tor", "tri", "vi", "w", "x", "z"
+    };
+
+    public static final String[] ORE_SUFFIXES = { //Except "ium" and "ite" which will carry about 86% of the generated items
+            "um", "ule", "ion", "ment", "icle", "ile", "ole", "ule", "ate", "and", "ant", "yn", "ice", "ixe"
     };
 
     public static final String[] CONSONANT_FILL = { //Stuffed between consonants
@@ -25,16 +29,35 @@ public class English implements INameGenerator {
 
     public String generate() {
         Random rnd = new Random();
+        String ending = "";
+        int endingRoll = rnd.nextInt(100);
+         if (endingRoll< 30) {
+            ending = "ice";
+        } else if (endingRoll< 34) {
+            ending = "ise";
+        } else if (endingRoll<43) {
+            ending = "ium";
+        } else if (endingRoll< 69) {
+            ending = "ix";
+        } else if (endingRoll<90) {
+            ending = "ite";
+        } else if (endingRoll<96) {
+            ending = ORE_SUFFIXES[rnd.nextInt(ORE_SUFFIXES.length)];
+        }
 
         String prefix = LATIN_PREFIXES[rnd.nextInt(LATIN_PREFIXES.length)];
-        String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
 
-        return combine(prefix, middle).replace("ı", "i");
+        if (prefix.length()+ending.length()<5 || prefix.equals("super") || rnd.nextInt(3)<2) {
+            String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
+            return combine(combine(prefix,middle),ending);
+        }
+
+        return combine(prefix, ending);
     }
 
     public Collection<String> generate(int count) {
         HashSet<String> result = new HashSet<>(count);
-        while(result.size() < count) {
+        while(result.size()<count) {
             String cur = generate();
             result.add(cur); //Nothing happens on duplicates
         }
@@ -70,19 +93,21 @@ public class English implements INameGenerator {
     }
 
     public char fillConsonant(char src) {
-        if (src == 'd') {
-            return 'o';
+        switch(src) {
+            case 'd':
+                return 'o';
+            default:
+                return 'u';
         }
-        return 'u';
     }
 
     @Override
-    public Map<String, String> getSpecialCharatersMap() {
+    public Map<String, String> getSpecialCharactersMap() {
         return new HashMap<>();
     }
 
     public static void main(String[] args) {
-        English gen = new English();
+        EnglishEntities gen = new EnglishEntities();
         Collection<String> generated = gen.generate(100);
 
         System.out.println("Lowercase:" + generated);

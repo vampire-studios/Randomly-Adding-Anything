@@ -4,10 +4,8 @@ import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.registries.RAALootTables;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.loot.LootTables;
 import net.minecraft.state.property.Properties;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.util.math.BlockPos;
@@ -44,7 +42,7 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
         //half of all campfires have chests
         if (Rands.chance(2)) {
             world.setBlockState(pos.add(-2, 0, 0), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST)), 2);
-            LootableContainerBlockEntity.setLootTable(world, Rands.rand, pos.add(-2, 0, 0), RAALootTables.CAMPFIRE_LOOT);
+            LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(-2, 0, 0), RAALootTables.CAMPFIRE_LOOT);
         }
 
         Block woolBlock = Rands.values(new Block[]{Blocks.WHITE_WOOL, Blocks.ORANGE_WOOL, Blocks.MAGENTA_WOOL, Blocks.LIGHT_BLUE_WOOL,
@@ -84,7 +82,7 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
             if (Rands.chance(2)) world.setBlockState(pos.add(3, 1, -1), Blocks.LANTERN.getDefaultState().with(Properties.HANGING, true), 2);
 
             world.setBlockState(pos.add(3, 0, 2), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST)), 2);
-            LootableContainerBlockEntity.setLootTable(world, Rands.rand, pos.add(3, 0, 2), RAALootTables.CAMPFIRE_TENT_LOOT);
+            LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(3, 0, 2), RAALootTables.CAMPFIRE_TENT_LOOT);
         }
         return true;
     }

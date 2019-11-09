@@ -2,8 +2,12 @@ package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
+
+import java.util.Locale;
+import java.util.Map;
 
 public class Utils {
     //dimension bit flags
@@ -18,6 +22,18 @@ public class Utils {
 
     public static String toTitleCase(String lowerCase) {
         return "" + Character.toUpperCase(lowerCase.charAt(0))+lowerCase.substring(1);
+    }
+
+    public static String nameToId(String name, Map<String, String> specialCharMap) {
+        // strip name of special chars
+        for(Map.Entry<String, String> specialChar : specialCharMap.entrySet()) {
+            name = name.replace(specialChar.getKey(), specialChar.getValue());
+        }
+        return name.toLowerCase(Locale.ENGLISH);
+    }
+
+    public static Identifier append(Identifier identifier, String suffix) {
+        return new Identifier(identifier.getNamespace(), identifier.getPath() + suffix);
     }
 
     public static SurfaceBuilder<TernarySurfaceConfig> random(int chance) {

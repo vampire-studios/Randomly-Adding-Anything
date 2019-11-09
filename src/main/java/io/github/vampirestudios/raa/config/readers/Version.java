@@ -1,12 +1,12 @@
 package io.github.vampirestudios.raa.config.readers;
 
-public enum Versions {
+public enum Version {
     OLD(0),
     V1(1);
 
     private int number;
 
-    Versions(int number) {
+    Version(int number) {
         this.number = number;
     }
 
@@ -14,10 +14,10 @@ public enum Versions {
         return number;
     }
 
-    public static Versions getFromInt(int number) {
-        for (Versions versions : values())
-            if (versions.getNumber() == number)
-                return versions;
+    public static Version getFromInt(int number) {
+        for (Version version : values())
+            if (version.getNumber() == number)
+                return version;
         System.out.println("Unknown config version : " + number);
         return null;
     }
