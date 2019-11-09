@@ -2,16 +2,16 @@ package io.github.vampirestudios.raa.api.namegeneration;
 
 import io.github.vampirestudios.raa.api.namegeneration.biomes.EnglishBiomes;
 import io.github.vampirestudios.raa.api.namegeneration.biomes.FrenchBiomes;
-import io.github.vampirestudios.raa.api.namegeneration.biomes.NorwegianBiomes;
+import io.github.vampirestudios.raa.api.namegeneration.biomes.SpanishBiomes;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.EnglishDimensions;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.FrenchDimensions;
-import io.github.vampirestudios.raa.api.namegeneration.dimensions.NorwegianDimensions;
+import io.github.vampirestudios.raa.api.namegeneration.dimensions.SpanishDimensions;
 import io.github.vampirestudios.raa.api.namegeneration.entities.EnglishEntities;
 import io.github.vampirestudios.raa.api.namegeneration.entities.FrenchEntities;
-import io.github.vampirestudios.raa.api.namegeneration.entities.NorwegianEntities;
+import io.github.vampirestudios.raa.api.namegeneration.entities.SpanishEntities;
 import io.github.vampirestudios.raa.api.namegeneration.material.EnglishMaterials;
 import io.github.vampirestudios.raa.api.namegeneration.material.FrenchMaterials;
-import io.github.vampirestudios.raa.api.namegeneration.material.NorwegianMaterials;
+import io.github.vampirestudios.raa.api.namegeneration.material.SpanishMaterials;
 
 public enum LangEnum {
     ENGLISH(
@@ -26,11 +26,17 @@ public enum LangEnum {
             new FrenchDimensions(),
             new FrenchEntities()
     ),
-    NORWEGIAN(
-            new NorwegianMaterials(),
-            new NorwegianBiomes(),
-            new NorwegianDimensions(),
-            new NorwegianEntities()
+//    NORWEGIAN(
+//            new NorwegianMaterials(),
+//            new NorwegianBiomes(),
+//            new NorwegianDimensions(),
+//            new NorwegianEntities()
+//    ),
+    SPANISH(
+            new SpanishMaterials(),
+            new SpanishBiomes(),
+            new SpanishDimensions(),
+            new SpanishEntities()
     );
 
     private INameGenerator materialNameGenerator;
