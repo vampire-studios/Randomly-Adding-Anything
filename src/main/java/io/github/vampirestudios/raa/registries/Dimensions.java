@@ -65,7 +65,7 @@ public class Dimensions {
 				.mobs(generateDimensionMobs());
             DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.append(name.getRight(), "_biome"), name.getLeft())
                 .surfaceBuilderVariantChance(Rands.randInt(100))
-                .depth(Rands.randFloatRange(-3F, 3F))
+                .depth(Rands.randFloatRange(-1F, 3F))
                 .scale(Rands.randFloat(2F))
                 .temperature(Rands.randFloat(2.0F))
                 .downfall(Rands.randFloat(1F))
@@ -107,7 +107,7 @@ public class Dimensions {
                 .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome))
                 .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
                 .buildAndRegister(dimension.getId());
-            DimensionType dimensionType = null;
+            DimensionType dimensionType;
             if (Registry.DIMENSION.get(dimension.getId()) == null)
                 dimensionType = Registry.register(Registry.DIMENSION, dimension.getId(), type);
             else
@@ -199,6 +199,10 @@ public class Dimensions {
 
     public static int generateDimensionFlags() {
         int flags = 0;
+        if (Rands.chance(30)) {
+            flags = Utils.POST_APOCALYPTIC;
+            return flags;
+        }
         if (Rands.chance(20)) {
             flags |= Utils.CORRUPTED;
             if (Rands.chance(4)) {
