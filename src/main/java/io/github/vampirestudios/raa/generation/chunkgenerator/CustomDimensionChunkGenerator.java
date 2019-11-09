@@ -17,7 +17,6 @@ import net.minecraft.world.gen.CatSpawner;
 import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.PhantomSpawner;
 import net.minecraft.world.gen.PillagerSpawner;
-import net.minecraft.world.gen.chunk.OverworldChunkGenerator;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
@@ -63,14 +62,14 @@ public class CustomDimensionChunkGenerator extends SurfaceChunkGenerator<Overwor
         double double_2 = 684.4119873046875D;
         double double_3 = 8.555149841308594D;
         double double_4 = 4.277574920654297D;
-        int int_3 = 1;
-        int int_4 = 1;
-        this.sampleNoiseColumn(doubles_1, int_1, int_2, 684.4119873046875D, 684.4119873046875D, 8.555149841308594D, 4.277574920654297D, 3, -10);
+        int int_3 = 3;
+        int int_4 = -10;
+        this.sampleNoiseColumn(doubles_1, int_1, int_2, double_1, double_2, double_3, double_4, int_3, int_4);
     }
 
     protected double computeNoiseFalloff(double double_1, double double_2, int int_1) {
         double double_3 = 8.5D;
-        double double_4 = ((double)int_1 - (8.5D + double_1 * 8.5D / 8.0D * 4.0D)) * 12.0D * 128.0D / 256.0D / double_2;
+        double double_4 = ((double)int_1 - (double_3 + double_1 * double_3 / 8.0D * 4.0D)) * 12.0D * 128.0D / 256.0D / double_2;
         if (double_4 < 0.0D) {
             double_4 *= 4.0D;
         }
@@ -83,7 +82,6 @@ public class CustomDimensionChunkGenerator extends SurfaceChunkGenerator<Overwor
         float float_1 = 0.0F;
         float float_2 = 0.0F;
         float float_3 = 0.0F;
-        int int_3 = 1;
         int int_4 = this.getSeaLevel();
         float float_4 = this.biomeSource.getStoredBiome(int_1, int_4, int_2).getDepth();
 
@@ -113,12 +111,12 @@ public class CustomDimensionChunkGenerator extends SurfaceChunkGenerator<Overwor
         float_1 = float_1 * 0.9F + 0.1F;
         float_2 = (float_2 * 4.0F - 1.0F) / 8.0F;
         doubles_1[0] = (double)float_2 + this.sampleNoise(int_1, int_2);
-        doubles_1[1] = (double)float_1;
+        doubles_1[1] = float_1;
         return doubles_1;
     }
 
     private double sampleNoise(int int_1, int int_2) {
-        double double_1 = this.noiseSampler.sample((double)(int_1 * 200), 10.0D, (double)(int_2 * 200), 1.0D, 0.0D, true) * 65535.0D / 8000.0D;
+        double double_1 = this.noiseSampler.sample(int_1 * 200, 10.0D, int_2 * 200, 1.0D, 0.0D, true) * 65535.0D / 8000.0D;
         if (double_1 < 0.0D) {
             double_1 = -double_1 * 0.3D;
         }

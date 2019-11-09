@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import net.minecraft.util.Identifier;
 
@@ -126,6 +127,9 @@ public class DimensionData {
 
 		public Builder name(String name) {
 			this.name = name;
+			if (id == null) {
+				this.id = new Identifier(RandomlyAddingAnything.MOD_ID, name.toLowerCase());
+			}
 			return this;
 		}
 

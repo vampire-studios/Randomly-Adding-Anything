@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.config.screen;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.config.SavingSystem;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -51,7 +52,7 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
         addItem(new TitleMaterialOverrideEntry(og, material, new LiteralText(WordUtils.capitalizeFully(material.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DecimalFormat df = new DecimalFormat("#.##");
         addItem(new ColorEntry("config.text.raa.color", material.getRGBColor()));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getName()).formatted(Formatting.GRAY)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getId().toString()).formatted(Formatting.GRAY)));
         if (material.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
@@ -81,7 +82,7 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
 
         @Override
         public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(I18n.translate(s, Integer.toHexString(color)), x, y, 16777215);
+            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(I18n.translate(s, "#" + Integer.toHexString(color).replace("ff", "")), x, y, 16777215);
             fillGradient(i + 1, y + 1, i + 1 + entryHeight, y + 1 + entryHeight, color, color);
         }
 
@@ -117,7 +118,7 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
             category.addEntry(
                     eb.startStrField("config.field.raa.identifier", material.getName())
                             .setDefaultValue(material.getName())
-                            .setSaveConsumer(str -> material.setName(str))
+                            .setSaveConsumer(material::setName)
                             .setErrorSupplier(str -> {
                                 if (str.toLowerCase().equals(str))
                                     return Optional.empty();
@@ -170,7 +171,15 @@ public class MaterialisationDescriptionListWidget extends DynamicElementListWidg
 
         @Override
         public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+            RenderSystem.pushMatrix();
+            RenderSystem.scalef(1.4F, 1.4F, 1.4F);
+            x = 175;
+            y = 20;
             MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x, y + 10, 16777215);
+            RenderSystem.scalef(1.0F, 1.0F, 1.0F);
+            RenderSystem.popMatrix();
+            x = 245;
+            y = 37;
             overrideButton.x = x + entryWidth - overrideButton.getWidth();
             overrideButton.y = y;
             overrideButton.render(mouseX, mouseY, delta);

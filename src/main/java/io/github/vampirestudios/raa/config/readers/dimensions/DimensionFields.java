@@ -29,7 +29,7 @@ public enum DimensionFields {
         return builder.dimensionId(jsonObject.get(int.class, "dimensionId"));
     }),
     DIMENSION_PALETTE(Version.V1, "dimensionColorPalette", (configVersion, builder, jsonObject) -> {
-        JsonObject colorPalletObject = jsonObject.getObject("dimensionColorPallet");
+        JsonObject colorPalletObject = jsonObject.getObject("dimensionColorPalette");
         DimensionColorPalette pallet = DimensionColorPalette.Builder.create()
                 .skyColor(colorPalletObject.get(int.class, "skyColor"))
                 .grassColor(colorPalletObject.get(int.class, "grassColor"))

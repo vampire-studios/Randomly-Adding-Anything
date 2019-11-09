@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.generation.materials;
 
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
@@ -64,7 +65,10 @@ public class MaterialBuilder {
     }
 
     public MaterialBuilder name(String name) {
-        this.name = name;
+        this.name = name.toLowerCase();
+        if (id == null) {
+            this.id = new Identifier(RandomlyAddingAnything.MOD_ID, name.toLowerCase());
+        }
         return this;
     }
 

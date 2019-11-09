@@ -50,7 +50,8 @@ public class Dimensions {
 
             INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
             Pair<String, Identifier> name = nameGenerator.generateUnique(DIMENSION_NAMES, RandomlyAddingAnything.MOD_ID);
-            DIMENSION_NAMES.add(name.getRight());
+            if (!DIMENSION_NAMES.contains(name.getRight()))
+                DIMENSION_NAMES.add(name.getRight());
 
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
                 .dimensionId(Rands.randIntRange(1000, 30000))
@@ -99,7 +100,6 @@ public class Dimensions {
     public static void createDimensions() {
         DIMENSIONS.forEach(dimension -> {
             CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension);
-            Identifier biomeId = dimension.getBiomeData().getId();
             DimensionType type = FabricDimensionType.builder()
                 .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
                 .desiredRawId(dimension.getDimensionId())

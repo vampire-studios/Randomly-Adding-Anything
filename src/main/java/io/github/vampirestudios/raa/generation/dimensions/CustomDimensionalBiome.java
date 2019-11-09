@@ -156,16 +156,6 @@ public class CustomDimensionalBiome extends Biome {
         }
         if(Rands.chance(8))
             DefaultBiomeFeatures.addMossyRocks(this);
-//        if(Rands.chance(20))
-//            DefaultBiomeFeatures.addGiantSpruceTaigaTrees(this);
-//        if(Rands.chance(10))
-//            DefaultBiomeFeatures.addIcebergs(this);
-//        if(Rands.chance(8))
-//            DefaultBiomeFeatures.addTaigaTrees(this);
-//        if(Rands.chance(10) && dimensionData.getBiomeData().getScale() > 1.0F)
-//            DefaultBiomeFeatures.addMountainTrees(this);
-//        this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE, FeatureConfig.DEFAULT, Decorator.COUNT_EXTRA_HEIGHTMAP, new CountExtraChanceDecoratorConfig(Rands.randInt(4), 0.1F, 1)));
-
 
         DefaultBiomeFeatures.addDefaultMushrooms(this);
         DefaultBiomeFeatures.addDefaultVegetation(this);
@@ -207,10 +197,6 @@ public class CustomDimensionalBiome extends Biome {
         BlockState leafState;
         int leafType = Rands.randInt(4);
         switch (leafType) {
-            case 0:
-                logState = Blocks.OAK_LOG.getDefaultState();
-                leafState = Blocks.OAK_LEAVES.getDefaultState();
-                break;
             case 1:
                 logState = Blocks.BIRCH_LOG.getDefaultState();
                 leafState = Blocks.BIRCH_LEAVES.getDefaultState();
@@ -223,6 +209,7 @@ public class CustomDimensionalBiome extends Biome {
                 logState = Blocks.JUNGLE_LOG.getDefaultState();
                 leafState = Blocks.JUNGLE_LEAVES.getDefaultState();
                 break;
+            case 0:
             default:
                 logState = Blocks.OAK_LOG.getDefaultState();
                 leafState = Blocks.OAK_LEAVES.getDefaultState();
@@ -238,17 +225,6 @@ public class CustomDimensionalBiome extends Biome {
         ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
 
         switch (Rands.randInt(4)) {
-            case 0:
-                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new BlobFoliagePlacer(Rands.randIntRange(1, 3), 0)))
-                        .method_23428(Rands.randIntRange(1, 6)) //
-                        .method_23430(height - 1) //trunk height
-                        .method_23437(foliageHeight) //foliage amount
-                        .method_23438(Rands.randIntRange(1, 6)) //random foliage offset
-                        .method_23439(Rands.randIntRange(0, 8)) //water depth
-                        .method_23427()
-                        .method_23429(decorators)
-                        .method_23431();
-            break;
             case 1:
                 config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new SpruceFoliagePlacer(Rands.randIntRange(1, 4), 0)))
                         .method_23428(Rands.randIntRange(1, 6)) //trunk height rand 1
@@ -287,6 +263,7 @@ public class CustomDimensionalBiome extends Biome {
                         .method_23429(decorators)
                         .method_23431();
             break;
+            case 0:
             default:
                 config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new BlobFoliagePlacer(Rands.randIntRange(1, 3), 0)))
                         .method_23428(Rands.randIntRange(1, 6)) //
@@ -308,10 +285,6 @@ public class CustomDimensionalBiome extends Biome {
         BlockState leafState;
         int leafType = Rands.randInt(4);
         switch (leafType) {
-            case 0:
-                logState = Blocks.OAK_LOG.getDefaultState();
-                leafState = Blocks.OAK_LEAVES.getDefaultState();
-                break;
             case 1:
                 logState = Blocks.BIRCH_LOG.getDefaultState();
                 leafState = Blocks.BIRCH_LEAVES.getDefaultState();
@@ -324,6 +297,7 @@ public class CustomDimensionalBiome extends Biome {
                 logState = Blocks.JUNGLE_LOG.getDefaultState();
                 leafState = Blocks.JUNGLE_LEAVES.getDefaultState();
                 break;
+            case 0:
             default:
                 logState = Blocks.OAK_LOG.getDefaultState();
                 leafState = Blocks.OAK_LEAVES.getDefaultState();
@@ -345,13 +319,11 @@ public class CustomDimensionalBiome extends Biome {
     @Override
     @Environment(EnvType.CLIENT)
     public int getSkyColor() {
-//        System.out.println(dimensionData.getSkyColor());
         if(dimensionData.getDimensionColorPalette().getSkyColor() != 0) {
             return dimensionData.getDimensionColorPalette().getSkyColor();
         } else {
             return Color.WHITE.getColor();
         }
-//        return Color.WHITE.getColor();
     }
 
     @Override

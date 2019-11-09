@@ -13,28 +13,30 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 public class MaterialListScreen extends Screen {
 
     Screen parent;
     private MaterialisationMaterialListWidget materialList;
     private MaterialisationDescriptionListWidget descriptionList;
+    private static Identifier background;
 
     public MaterialListScreen(Screen parent) {
         super(new TranslatableText("config.title.raa"));
         this.parent = parent;
+        background = DrawableHelper.BACKGROUND_LOCATION;
     }
 
     public static void overlayBackground(int x1, int y1, int x2, int y2, int red, int green, int blue, int startAlpha, int endAlpha) {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        Objects.requireNonNull(MinecraftClient.getInstance()).getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
+        MinecraftClient.getInstance().getTextureManager().bindTexture(background);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         buffer.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
         buffer.vertex(x1, y2, 0.0D).texture(x1 / 32.0F, y2 / 32.0F).color(red, green, blue, endAlpha).next();
@@ -74,8 +76,10 @@ public class MaterialListScreen extends Screen {
             }
         }));*/
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
-        children.add(materialList = new MaterialisationMaterialListWidget(minecraft, width / 2 - 10, height, 28 + 5, height - 5, DrawableHelper.BACKGROUND_LOCATION));
-        children.add(descriptionList = new MaterialisationDescriptionListWidget(minecraft, width / 2 - 10, height, 28 + 5, height - 5, DrawableHelper.BACKGROUND_LOCATION));
+        children.add(materialList = new MaterialisationMaterialListWidget(minecraft, width / 2 - 10, height,
+                28 + 5, height - 5, background));
+        children.add(descriptionList = new MaterialisationDescriptionListWidget(minecraft, width / 2 - 10, height,
+                28 + 5, height - 5, background));
         materialList.setLeftPos(5);
         descriptionList.setLeftPos(width / 2 + 5);
         List<Material> materials = new ArrayList<>();
