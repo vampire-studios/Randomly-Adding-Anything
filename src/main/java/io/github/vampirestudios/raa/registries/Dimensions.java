@@ -24,9 +24,9 @@ public class Dimensions {
     public static final Set<Identifier> DIMENSION_NAMES = new HashSet<>();
     public static final Registry<DimensionData> DIMENSIONS = new DefaultedRegistry<>("raa:dimensions");
 
-    public static boolean isReady = false;
+    public static boolean ready = false;
 
-    public static void init() {
+    public static void generate() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
             int flags = generateDimensionFlags();
             float hue = Rands.randFloatRange(0, 1.0F);
@@ -89,11 +89,11 @@ public class Dimensions {
                 DebugUtils.dimensionDebug(dimensionData);
             }
         }
-        isReady = true;
+        ready = true;
     }
 
     public static boolean isReady() {
-        return isReady;
+        return ready;
     }
 
     public static void createDimensions() {

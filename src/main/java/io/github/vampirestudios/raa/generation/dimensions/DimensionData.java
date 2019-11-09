@@ -12,7 +12,7 @@ public class DimensionData {
     private DimensionBiomeData biomeData;
     private DimensionColorPalette dimensionColorPalette;
     private boolean hasSkyLight;
-    private boolean sky;
+    private boolean hasSky;
     private boolean canSleep;
     private boolean waterVaporize;
     private boolean renderFog;
@@ -20,14 +20,14 @@ public class DimensionData {
     private int flags;
     private HashMap<String, int[]> mobs;
 
-    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean sky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs) {
+    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs) {
     	this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
         this.biomeData = biomeData;
         this.dimensionColorPalette = dimensionColorPalette;
         this.hasSkyLight = hasSkyLight;
-        this.sky = sky;
+        this.hasSky = hasSky;
         this.canSleep = canSleep;
         this.waterVaporize = waterVaporize;
         this.renderFog = renderFog;
@@ -61,7 +61,7 @@ public class DimensionData {
     }
 
     public boolean hasSky() {
-        return sky;
+        return hasSky;
     }
 
     public boolean canSleep() {

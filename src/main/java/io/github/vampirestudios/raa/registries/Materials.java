@@ -30,7 +30,7 @@ public class Materials {
     public static boolean ready = false;
     public static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
 
-    public static void init() {
+    public static void generate() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
             Color RGB = Rands.randColor();
             Random random = Rands.getRandom();

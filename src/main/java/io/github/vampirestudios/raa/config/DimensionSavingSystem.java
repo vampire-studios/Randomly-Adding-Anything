@@ -86,18 +86,18 @@ public class DimensionSavingSystem {
                 int configVersion = jsonObject1.get(int.class, "configVersion");
                 ConfigVersion version = ConfigVersion.getFromInt(configVersion);
                 if (version == null) {
-                    Dimensions.init();
+                    Dimensions.generate();
                     DimensionSavingSystem.createFile();
                     return;
                 }
                 if (!jsonObject1.containsKey("dimensions")) {
-                    Dimensions.init();
+                    Dimensions.generate();
                     DimensionSavingSystem.createFile();
                     return;
                 }
                 JsonArray jsonArray = jsonObject1.get(JsonArray.class, "dimensions");
                 if (jsonArray.size() == 0) {
-                    Dimensions.init();
+                    Dimensions.generate();
                     DimensionSavingSystem.createFile();
                     return;
                 }
@@ -114,7 +114,7 @@ public class DimensionSavingSystem {
                     Registry.register(Dimensions.DIMENSIONS, dimensionData.getId(), dimensionData);
                 }
             } else {
-                Materials.init();
+                Materials.generate();
                 DimensionSavingSystem.createFile();
             }
         } catch (IOException | SyntaxError e) {

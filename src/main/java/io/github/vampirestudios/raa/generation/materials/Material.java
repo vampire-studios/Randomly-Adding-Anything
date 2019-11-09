@@ -34,23 +34,10 @@ public class Material {
     	this(oreInformation, id, name, color, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, null, tools, weapons, null, glowing, oreFlower, food);
 
         if (this.tools || this.weapons) {
-            this.toolMaterial = new CustomToolMaterial(this.name, this.oreInformation.getOreType(),
-                Rands.randIntRange(15, 2000), Rands.randFloat(4.0F) + 1.5F,
-                Rands.randFloat(3.0F), this.miningLevel,
-                Rands.randIntRange(2, 10), Rands.randFloat(4.0F),
-                Rands.randFloat(3.0F), Rands.randFloat(0.8F),
-                Rands.randFloat(5.0F));
+            this.toolMaterial = CustomToolMaterial.generate(id, getOreInformation().getOreType(), miningLevel);
         }
-
         if (this.armor) {
-            this.armorMaterial = new CustomArmorMaterial(
-                this.name, this.oreInformation.getOreType(), Rands.randIntRange(2,50),
-                new int[]{Rands.randIntRange(1,6),Rands.randIntRange(1,10),
-                    Rands.randIntRange(2,12), Rands.randIntRange(1,6)},
-                Rands.randIntRange(7,30),
-                (Rands.chance(4)?Rands.randFloat(4.0F):0.0F),
-                Rands.randInt(30)
-            );
+            this.armorMaterial = CustomArmorMaterial.generate(id, getOreInformation().getOreType());
         }
     }
 
@@ -154,7 +141,7 @@ public class Material {
 		private Identifier id;
 		private String name;
 		private int RGB = -1;
-		private GeneratesIn generateIn;
+		private GeneratesIn generatesIn;
 		private int oreCount;
 		private Identifier overlayTexture;
 		private Identifier resourceItemTexture;
@@ -220,8 +207,8 @@ public class Material {
 			return this;
 		}
 
-		public Builder generatesIn(GeneratesIn generateIn) {
-			this.generateIn = generateIn;
+		public Builder generatesIn(GeneratesIn generatesIn) {
+			this.generatesIn = generatesIn;
 			return this;
 		}
 
@@ -314,22 +301,10 @@ public class Material {
 			}
 
 			if(armor && armorMaterial == null) {
-				this.armorMaterial = new CustomArmorMaterial(
-					this.name, this.oreType, Rands.randIntRange(2,50),
-					new int[]{Rands.randIntRange(1,6),Rands.randIntRange(1,10),
-						Rands.randIntRange(2,12), Rands.randIntRange(1,6)},
-					Rands.randIntRange(7,30),
-					(Rands.chance(4)?Rands.randFloat(4.0F):0.0F),
-					Rands.randInt(30)
-				);
+				this.armorMaterial = CustomArmorMaterial.generate(id, oreType);
 			}
 			if((tools || weapons) && toolMaterial == null) {
-				this.toolMaterial = new CustomToolMaterial(this.name, this.oreType,
-					Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
-					Rands.randFloat(3.0F), this.miningLevel,
-					Rands.randIntRange(2,10), Rands.randFloat(4.0F),
-					Rands.randFloat(3.0F), Rands.randFloat(0.8F),
-					Rands.randFloat(5.0F));
+				this.toolMaterial = CustomToolMaterial.generate(id, oreType, miningLevel);
 			}
 
 			if(overlayTexture == null) {
@@ -360,7 +335,7 @@ public class Material {
 				}
 			}
 
-			OreInformation oreInformation = new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
+			OreInformation oreInformation = new OreInformation(oreType, generatesIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 			if(oreType == OreType.METAL) {
 				return new Material(oreInformation, id, name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture == null ? Rands.list(TextureTypes.METAL_NUGGET_TEXTURES) : nuggetTexture, armor, tools, weapons, glowing, oreFlower, food);
 			} else {

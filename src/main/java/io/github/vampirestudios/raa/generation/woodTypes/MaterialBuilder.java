@@ -13,6 +13,7 @@ public class MaterialBuilder {
 
     private OreType oreType;
     private String name;
+    private Identifier id;
     private int RGB;
     private GeneratesIn generateIn;
     private int oreCount;
@@ -137,7 +138,7 @@ public class MaterialBuilder {
     public MaterialBuilder armor() {
         this.armor = true;
         this.armorMaterial = new CustomArmorMaterial(
-                this.name, this.oreType, Rands.randIntRange(2,50),
+                this.id, this.oreType, Rands.randIntRange(2,50),
                 new int[]{Rands.randIntRange(1,6),Rands.randIntRange(1,10),
                         Rands.randIntRange(2,12), Rands.randIntRange(1,6)},
                 Rands.randIntRange(7,30),
@@ -160,7 +161,7 @@ public class MaterialBuilder {
 
     public MaterialBuilder tools() {
         this.tools = true;
-        this.toolMaterial = new CustomToolMaterial(this.name, this.oreType,
+        this.toolMaterial = new CustomToolMaterial(this.id, this.oreType,
                 Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
                 Rands.randFloat(3.0F), this.miningLevel,
                 Rands.randIntRange(2,10), Rands.randFloat(4.0F),
@@ -182,7 +183,7 @@ public class MaterialBuilder {
 
     public MaterialBuilder weapons() {
         this.weapons = true;
-        this.toolMaterial = new CustomToolMaterial(this.name, this.oreType,
+        this.toolMaterial = new CustomToolMaterial(this.id, this.oreType,
                 Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
                 Rands.randFloat(3.0F), this.miningLevel,
                 Rands.randIntRange(2,10), Rands.randFloat(4.0F),
@@ -223,16 +224,16 @@ public class MaterialBuilder {
 
     public Material build() {
         return oreType == OreType.METAL ?
-                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, Rands.list(TextureTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower, food)
-                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), name, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower, food);
+                new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), id, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, Rands.list(TextureTypes.METAL_NUGGET_TEXTURES), armor, tools, weapons, glowing, oreFlower, food)
+                : new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize), id, RGB, this.miningLevel, storageBlockTexture, resourceItemTexture, armor, tools, weapons, glowing, oreFlower, food);
     }
 
     public Material buildFromJSON() {
         return oreType == OreType.METAL ?
                 new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize),
-                name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food) :
+                id, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food) :
                 new Material(new OreInformation(oreType, generateIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize),
-                        name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
+                        id, RGB, miningLevel, storageBlockTexture, resourceItemTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
     }
 
 }

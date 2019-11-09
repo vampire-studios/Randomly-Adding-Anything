@@ -1,8 +1,10 @@
 package io.github.vampirestudios.raa;
 
 import io.github.vampirestudios.raa.config.DimensionSavingSystem;
+import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
-import io.github.vampirestudios.raa.config.MaterialsData;
+import io.github.vampirestudios.raa.config.MaterialsConfig;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;
@@ -32,7 +34,10 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static final ItemGroup RAA_DIMENSION_BLOCKS = FabricItemGroupBuilder.build(new Identifier("raa", "dimension_blocks"), () -> new ItemStack(Items.STONE));
 	public static final String MOD_ID = "raa";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+
 	public static GeneralConfig CONFIG;
+	public static MaterialsConfig MATERIALS_CONFIG;
+	public static DimensionsConfig DIMENSIONS_CONFIG;
 	public static CustomDimensionSurfaceBuilder SURFACE_BUILDER;
 
 	@Override
@@ -41,25 +46,24 @@ public class RandomlyAddingAnything implements ModInitializer {
 		CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
 		Textures.init();
 		Features.init();
-	//	if (SavingSystem.init() || CONFIG.regen) {
-	//		Materials.init();
-	//		Dimensions.init();
-	//		SavingSystem.createFile();
-	//		CONFIG.regen = false;
-	//	} else {
-	//		SavingSystem.readFile();
-	//		Materials.ready = true;
-	//	}
-		new MaterialsData("materials_test").load();
-		System.exit(0);
-		if (DimensionSavingSystem.init() || CONFIG.regen) {
-			Dimensions.init();
-			DimensionSavingSystem.createFile();
-			CONFIG.regen = false;
+
+		MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
+		if(CONFIG.regen) {
+			MATERIALS_CONFIG.generate();
+			MATERIALS_CONFIG.save();
 		} else {
-			DimensionSavingSystem.readFile();
-			Dimensions.isReady = true;
+			MATERIALS_CONFIG.load();
 		}
+		Materials.ready = true;
+		DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
+		if(CONFIG.regen) {
+			DIMENSIONS_CONFIG.generate();
+			DIMENSIONS_CONFIG.save();
+		} else {
+			DIMENSIONS_CONFIG.load();
+		}
+		Dimensions.ready = true;
+
 		SURFACE_BUILDER = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "custom_surface_builder"),
 				new CustomDimensionSurfaceBuilder(TernarySurfaceConfig::deserialize));
 		Decorators.init();

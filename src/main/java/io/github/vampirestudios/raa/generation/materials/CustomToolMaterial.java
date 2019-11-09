@@ -1,6 +1,8 @@
 package io.github.vampirestudios.raa.generation.materials;
 
 import io.github.vampirestudios.raa.api.enums.OreType;
+import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
@@ -8,8 +10,8 @@ import net.minecraft.util.registry.Registry;
 
 public class CustomToolMaterial implements ToolMaterial {
 
-    private String name;
-    private OreType oreType;
+    private transient Identifier materialId;
+    private transient OreType oreType;
     private int durability;
     private float miningSpeed;
     private float attackDamage;
@@ -20,9 +22,18 @@ public class CustomToolMaterial implements ToolMaterial {
     private float axeAttackSpeed;
     private float swordAttackDamage;
 
-    public CustomToolMaterial(String name, OreType oreType, int durability, float miningSpeed, float attackDamage, int miningLevel,
+    public static CustomToolMaterial generate(Identifier materialId, OreType oreType, int miningLevel) {
+        return new CustomToolMaterial(materialId, oreType,
+            Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
+            Rands.randFloat(3.0F), miningLevel,
+            Rands.randIntRange(2,10), Rands.randFloat(4.0F),
+            Rands.randFloat(3.0F), Rands.randFloat(0.8F),
+            Rands.randFloat(5.0F));
+    }
+
+    public CustomToolMaterial(Identifier materialId, OreType oreType, int durability, float miningSpeed, float attackDamage, int miningLevel,
                               int enchantability, float hoeAttackSpeed, float axeAttackDamage, float axeAttackSpeed, float swordAttackDamage) {
-        this.name = name;
+        this.materialId = materialId;
         this.oreType = oreType;
         this.durability = durability;
         this.miningSpeed = miningSpeed;
@@ -33,6 +44,14 @@ public class CustomToolMaterial implements ToolMaterial {
         this.axeAttackDamage = axeAttackDamage;
         this.axeAttackSpeed = axeAttackSpeed;
         this.swordAttackDamage = swordAttackDamage;
+    }
+
+    public void setMaterialId(Identifier materialId) {
+        this.materialId = materialId;
+    }
+
+    public void setOreType(OreType oreType) {
+        this.oreType = oreType;
     }
 
     @Override
@@ -87,13 +106,7 @@ public class CustomToolMaterial implements ToolMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        if (oreType == OreType.CRYSTAL) {
-            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_crystal")));
-        } else if (oreType == OreType.GEM) {
-            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_gem")));
-        } else {
-            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_crystal")));
-        }
+        return Ingredient.ofItems(Registry.ITEM.get(Utils.append(materialId, oreType.getSuffix())));
     }
 
     public float getHoeAttackSpeed() {
