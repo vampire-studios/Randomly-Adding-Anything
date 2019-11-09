@@ -1,7 +1,9 @@
 package io.github.vampirestudios.raa.generation.materials;
 
+import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.registries.Materials;
-import io.github.vampirestudios.raa.api.enums.OreTypes;
+import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EquipmentSlot;
@@ -14,22 +16,41 @@ import net.minecraft.util.registry.Registry;
 
 public class CustomArmorMaterial implements ArmorMaterial {
 
-    private final String name;
-    private final OreTypes oreTypes;
+    private transient Identifier materialId;
+    private transient OreType oreType;
     private final int durabilityMultiplier;
     private final int[] protectionAmounts;
     private final int enchantability;
     private final float toughness;
     private final int horseArmorBonus;
 
-    public CustomArmorMaterial(String name, OreTypes oreTypes, int durabilityMultiplier, int[] protectionAmounts, int enchantability, float toughness, int horseArmorBonus) {
-        this.name = name;
-        this.oreTypes = oreTypes;
+    public static CustomArmorMaterial generate(Identifier materialId, OreType oreType) {
+        return new CustomArmorMaterial(
+            materialId, oreType, Rands.randIntRange(2,50),
+            new int[]{Rands.randIntRange(1,6),Rands.randIntRange(1,10),
+                Rands.randIntRange(2,12), Rands.randIntRange(1,6)},
+            Rands.randIntRange(7,30),
+            (Rands.chance(4)?Rands.randFloat(4.0F):0.0F),
+            Rands.randInt(30)
+        );
+    }
+
+    public CustomArmorMaterial(Identifier materialId, OreType oreType, int durabilityMultiplier, int[] protectionAmounts, int enchantability, float toughness, int horseArmorBonus) {
+        this.materialId = materialId;
+        this.oreType = oreType;
         this.durabilityMultiplier = durabilityMultiplier;
         this.protectionAmounts = protectionAmounts;
         this.enchantability = enchantability;
         this.toughness = toughness;
         this.horseArmorBonus = horseArmorBonus;
+    }
+
+    public void setMaterialId(Identifier materialId) {
+        this.materialId = materialId;
+    }
+
+    public void setOreType(OreType oreType) {
+        this.oreType = oreType;
     }
 
     public int getDurability(EquipmentSlot equipmentSlot_1) {
@@ -63,13 +84,7 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        if (oreTypes == OreTypes.CRYSTAL) {
-            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_crystal")));
-        } else if (oreTypes == OreTypes.GEM) {
-            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_gem")));
-        } else {
-            return Ingredient.ofItems(Registry.ITEM.get(new Identifier("raa", name.toLowerCase() + "_crystal")));
-        }
+        return Ingredient.ofItems(Registry.ITEM.get(Utils.append(materialId, oreType.getSuffix())));
     }
 
 }

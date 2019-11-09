@@ -24,9 +24,9 @@ public class Dimensions {
     public static final Set<Identifier> DIMENSION_NAMES = new HashSet<>();
     public static final Registry<DimensionData> DIMENSIONS = new DefaultedRegistry<>("raa:dimensions");
 
-    public static boolean isReady = false;
+    public static boolean ready = false;
 
-    public static void init() {
+    public static void generate() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
             int flags = generateDimensionFlags();
             float hue = Rands.randFloatRange(0, 1.0F);
@@ -55,10 +55,10 @@ public class Dimensions {
 
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
                 .dimensionId(Rands.randIntRange(1000, 30000))
-                .hasLight(Rands.chance(1))
+                .hasSkyLight(Rands.chance(1))
                 .hasSky(!Rands.chance(2))
                 .canSleep(Rands.chance(10))
-                .doesWaterVaporize(Rands.chance(100))
+                .waterVaporize(Rands.chance(100))
                 .shouldRenderFog(Rands.chance(100))
                 .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
 				.flags(flags)
@@ -90,11 +90,11 @@ public class Dimensions {
                 DebugUtils.dimensionDebug(dimensionData);
             }
         }
-        isReady = true;
+        ready = true;
     }
 
     public static boolean isReady() {
-        return isReady;
+        return ready;
     }
 
     public static void createDimensions() {
