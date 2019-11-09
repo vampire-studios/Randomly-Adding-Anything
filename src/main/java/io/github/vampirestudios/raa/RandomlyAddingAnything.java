@@ -38,6 +38,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 		CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
 		Textures.init();
 		Features.init();
+		Decorators.init();
 		if (SavingSystem.init() || CONFIG.regen) {
 			Materials.init();
 			Dimensions.init();
@@ -57,7 +58,6 @@ public class RandomlyAddingAnything implements ModInitializer {
 		}
 		SURFACE_BUILDER = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "custom_surface_builder"),
 				new CustomDimensionSurfaceBuilder(TernarySurfaceConfig::deserialize));
-		Decorators.init();
 		Dimensions.createDimensions();
 		Materials.createMaterialResources();
 		MaterialRecipes.init();
