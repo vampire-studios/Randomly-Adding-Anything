@@ -122,6 +122,7 @@ public class SavingSystem {
 
         } catch (IOException | SyntaxError e) {
             e.printStackTrace();
+            fromOldFile(configFile);
         }
     }
 
