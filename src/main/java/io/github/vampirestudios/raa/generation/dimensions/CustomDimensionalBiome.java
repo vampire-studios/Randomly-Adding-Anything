@@ -14,7 +14,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -66,8 +65,8 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addDefaultOres(this);
         DefaultBiomeFeatures.addDefaultDisks(this);
         if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
-//            int forestConfig = Rands.randInt(3);
-            int forestConfig = 0; //TODO: implement new trees for other types
+            int forestConfig = Rands.randInt(3);
+//            int forestConfig = 0; //TODO: implement new trees for other types
             BranchedTreeFeatureConfig config = getTreeConfig();
             switch (forestConfig) {
                 case 0: //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
