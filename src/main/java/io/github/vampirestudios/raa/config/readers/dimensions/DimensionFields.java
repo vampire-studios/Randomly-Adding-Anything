@@ -56,7 +56,6 @@ public enum DimensionFields {
 		try {
             HashMap<String, int[]> map = new Gson().fromJson(jsonObject.get("mobs").toJson(), new TypeToken<HashMap<String, int[]>>() {
             }.getType());
-            System.out.println(map);
             return builder.mobs(map);
         } catch (Throwable e) {
 		    System.out.println("Failed to read mobs from config!");

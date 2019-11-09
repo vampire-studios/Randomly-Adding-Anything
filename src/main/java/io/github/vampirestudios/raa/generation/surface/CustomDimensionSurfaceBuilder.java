@@ -22,12 +22,13 @@ public class CustomDimensionSurfaceBuilder extends SurfaceBuilder<TernarySurface
 
     @Override
     public void generate(Random rand, Chunk chunk, Biome biome, int x, int height, int z, double noise, BlockState state, BlockState state2, int int1, long long1, TernarySurfaceConfig config) {
-        double noiseMountain = DESERT_NOISE.sample(x*0.049765625D, height*0.049765625D, false);
-        if (SHATTERED_NOISE.sample(x*0.049765625D, height*0.049765625D, false) > 0.0D) {
-            SurfaceBuilder.SHATTERED_SAVANNA.generate(rand, chunk, biome, x, height, z, noise, state, state2, int1, long1, SurfaceBuilder.GRASS_CONFIG);
-        } else if (GRAVEL_NOISE.sample(x*0.049765625D, height*0.049765625D, false) > 0.0D) {
-            SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, height, z, noise, state, state2, int1, long1, SurfaceBuilder.GRAVEL_CONFIG);
-        } else if (noiseMountain > 0.0D) {
+        double desertNoise = DESERT_NOISE.sample(x*0.049765625D, height*0.049765625D, false);
+//        if (SHATTERED_NOISE.sample(x*0.049765625D, height*0.049765625D, false) > 0.0D) {
+//            SurfaceBuilder.SHATTERED_SAVANNA.generate(rand, chunk, biome, x, height, z, noise, state, state2, int1, long1, SurfaceBuilder.GRASS_CONFIG);
+//        } else if (GRAVEL_NOISE.sample(x*0.049765625D, height*0.049765625D, false) > 0.0D) {
+//            SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, height, z, noise, state, state2, int1, long1, SurfaceBuilder.GRAVEL_CONFIG);
+//        }
+         if (desertNoise > 0.4D) {
             SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, height, z, noise, state, state2, int1, long1, SurfaceBuilder.SAND_CONFIG);
         } else {
             SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, height, z, noise, state, state2, int1, long1, config);
