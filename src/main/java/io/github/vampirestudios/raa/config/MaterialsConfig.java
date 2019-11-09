@@ -32,8 +32,7 @@ public class MaterialsConfig extends RAADataConfig {
 		JsonArray materialsArray = JsonHelper.getArray(json, "materials");
 		switch(version) {
 			case 0:
-				for(JsonElement jsonElement : materialsArray) {
-					JsonObject material = jsonElement.getAsJsonObject();
+				iterateArrayObjects(materialsArray, material -> {
 					material.addProperty("color", JsonHelper.getInt(material, "rgb"));
 
 					if(JsonHelper.getBoolean(material, "armor")) {
@@ -55,12 +54,10 @@ public class MaterialsConfig extends RAADataConfig {
 					oreInformationNew.add("overlayTexture", oreInformationOld.get("overlayTexture"));
 					oreInformationNew.addProperty("maxXPAmount", Rands.randIntRange(0, 4));
 					oreInformationNew.addProperty("oreClusterSize", Rands.randIntRange(2, 6));
-				}
+				});
 				break;
 			case 1:
-				for(JsonElement jsonElement : materialsArray) {
-					JsonObject material = jsonElement.getAsJsonObject();
-
+				iterateArrayObjects(materialsArray, material -> {
 					if(!material.has("id") || !JsonHelper.isString(material.get("id"))) {
 						material.addProperty("id", RandomlyAddingAnything.MOD_ID + ":" + RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator().asId(JsonHelper.getString(material, "name")));
 					}
@@ -83,7 +80,7 @@ public class MaterialsConfig extends RAADataConfig {
 						material.addProperty("resourceItemTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(material, "resourceItemTexture")).toString());
 					if(!JsonHelper.isString(material.get("storageBlockTexture")))
 						material.addProperty("storageBlockTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(material, "storageBlockTexture")).toString());
-				}
+				});
 				break;
 			default:
 				break;

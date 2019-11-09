@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.config;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.utils.GsonUtils;
@@ -10,6 +12,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public abstract class RAADataConfig {
 	public static final int CURRENT_VERSION = 2;
@@ -49,6 +52,22 @@ public abstract class RAADataConfig {
 			fileWriter.close();
 		} catch (IOException e) {
 			throw new RuntimeException("Couldn't save RAA data file: " + configFile.toString(), e);
+		}
+	}
+
+	protected static void iterateArrayObjects(JsonArray jsonArray, Consumer<JsonObject> runnable) {
+		for(JsonElement jsonElement : jsonArray) {
+			if(jsonElement.isJsonObject()) {
+				JsonObject jsonObject = jsonElement.getAsJsonObject();
+				try {
+					runnable.accept(jsonObject);
+				} catch(Throwable e) {
+					RandomlyAddingAnything.LOGGER.warn("Couldn't process array entry: " + jsonObject);
+					e.printStackTrace();
+				}
+			} else {
+				RandomlyAddingAnything.LOGGER.warn(jsonElement.toString() + " is not an object. Skipping to next json element.");
+			}
 		}
 	}
 

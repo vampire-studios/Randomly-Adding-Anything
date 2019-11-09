@@ -32,9 +32,7 @@ public class DimensionsConfig extends RAADataConfig {
 			case 0:
 				break;
 			case 1:
-				for(JsonElement jsonElement : dimensions) {
-					JsonObject dimension = jsonElement.getAsJsonObject();
-
+				iterateArrayObjects(dimensions, dimension -> {
 					if(!JsonHelper.isString(dimension.get("id")))
 						dimension.addProperty("id", GsonUtils.idFromOldStyle(dimension.getAsJsonObject("id")).toString());
 					if(dimension.has("dimensionColorPallet")) {
@@ -49,7 +47,7 @@ public class DimensionsConfig extends RAADataConfig {
 					if(!dimension.has("dimensionChunkGenerator")) {
 						dimension.addProperty("dimensionChunkGenerator", Utils.randomCG(100).name());
 					}
-				}
+				});
 				break;
 		}
 

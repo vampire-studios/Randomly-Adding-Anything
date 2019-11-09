@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.2.6-SNAPSHOT'
+    id 'fabric-loom' version '0.2.5-SNAPSHOT'
     id 'maven-publish'
     id "co.riiid.gradle" version "0.4.2"
     id "com.matthewprenger.cursegradle" version "1.4.0"
