@@ -31,7 +31,8 @@ public class Dimensions {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
             int flags = generateDimensionFlags();
             float hue = Rands.randFloatRange(0, 1.0F);
-            float foliageColor = hue + Rands.randFloatRange(0.01F, 0.1F);
+            float foliageColor = hue + Rands.randFloatRange(-0.15F, 0.15F);
+            float stoneColor = hue + Rands.randFloatRange(-0.45F, 0.45F);
             float fogHue = hue + 0.3333f;
             float skyHue = fogHue + 0.3333f;
 
@@ -39,7 +40,11 @@ public class Dimensions {
             float stoneHue = hue + 0.3333f;
 
             float saturation = Rands.randFloatRange(0.5F, 1.0F);
-            if (Utils.checkBitFlag(flags, Utils.DEAD)) saturation = Rands.randFloatRange(0.0F, 0.2F);
+            float stoneSaturation = Rands.randFloatRange(0.2F, 1.0F);
+            if (Utils.checkBitFlag(flags, Utils.DEAD)) {
+                saturation = Rands.randFloatRange(0.0F, 0.2F);
+                stoneSaturation = saturation;
+            }
             if (Utils.checkBitFlag(flags, Utils.LUSH)) saturation = Rands.randFloatRange(0.7F, 1.0F);
             float value = Rands.randFloatRange(0.5F, 1.0F);
             Color GRASS_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
@@ -47,7 +52,7 @@ public class Dimensions {
             Color FOG_COLOR = new Color(Color.HSBtoRGB(fogHue, saturation, value));
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
             Color WATER_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), saturation, Rands.randFloatRange(0.5F, 1.0F)));
-            Color STONE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
+            Color STONE_COLOR = new Color(Color.HSBtoRGB(stoneColor, stoneSaturation, value));
 
             INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
             Pair<String, Identifier> name = nameGenerator.generateUnique(DIMENSION_NAMES, RandomlyAddingAnything.MOD_ID);
@@ -77,7 +82,7 @@ public class Dimensions {
                 .grassColor(GRASS_COLOR.getColor())
                 .fogColor(FOG_COLOR.getColor())
                 .foliageColor(FOLIAGE_COLOR.getColor())
-                .stoneColor(FOLIAGE_COLOR.getColor()).build();
+                .stoneColor(STONE_COLOR.getColor()).build();
             builder.colorPalette(colorPalette);
 
             DimensionData dimensionData = builder.build();
@@ -115,7 +120,7 @@ public class Dimensions {
             else
                 dimensionType = Registry.DIMENSION.get(dimension.getId());
 
-            
+
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBricks");
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_cobblestone"),

@@ -32,11 +32,10 @@ public class PortalBlock extends Block {
     }
 
     @Override
-    public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos blockPos_1, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
+    public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos pos, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
         if (!world_1.isClient) {
-            System.out.println("Space1");
-            if ((int) playerEntity_1.getPos().getX() == blockPos_1.up().down().getX() && (int) playerEntity_1.getPos().getZ() == blockPos_1.up().down().getZ() && (int) playerEntity_1.getPos().getY() == blockPos_1.up().down().getY() + 1) {
-                System.out.println("Space");
+            BlockPos playerPos = playerEntity_1.getBlockPos();
+            if (playerPos.getX() == pos.getX() && playerPos.getZ() == pos.getZ() && playerPos.getY() == pos.getY() + 1) {
                 if(playerEntity_1.world.dimension.getType() == this.dimensionType) {
                     // coming from our custom dimension
                     FabricDimensions.teleport(playerEntity_1, DimensionType.OVERWORLD, null);
@@ -46,6 +45,6 @@ public class PortalBlock extends Block {
                 }
             }
         }
-        return super.onUse(blockState_1, world_1, blockPos_1, playerEntity_1, hand_1, blockHitResult_1);
+        return super.onUse(blockState_1, world_1, pos, playerEntity_1, hand_1, blockHitResult_1);
     }
 }

@@ -139,7 +139,7 @@ public class CustomDimensionalBiome extends Biome {
                     break;
             }
         }
-        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) || !Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
+        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.field_21089)
                     .createDecoratedFeature(Decorator.COUNT_HEIGHTMAP_DOUBLE.configure(new CountDecoratorConfig(Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH) ? 20 : 50))));
         }
@@ -271,11 +271,11 @@ public class CustomDimensionalBiome extends Biome {
                         .method_23431();
             break;
             case 2:
-                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new PineFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new PineFoliagePlacer(Rands.randIntRange(1, 2), 0)))
                         .method_23428(Rands.randIntRange(1, 4))
                         .method_23430(height - 1)
                         .method_23435(Rands.randIntRange(1, 2))
-                        .method_23437(foliageHeight)
+                        .method_23437(foliageHeight/2)
                         .method_23438(Rands.randIntRange(1, 4))
                         .method_23439(Rands.randIntRange(0, 8)) //water depth
                         .method_23427()

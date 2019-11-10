@@ -24,7 +24,9 @@ public enum DimensionChunkGenerators implements DimensionChunkGenerator {
         if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) caveConfig.setDefaultFluid(Blocks.LAVA.getDefaultState());
         if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) caveConfig.setDefaultFluid(Blocks.AIR.getDefaultState());
         if (this == CAVE) return ChunkGeneratorType.CAVES.create(world, biomeSource, caveConfig);
-        if (this == FLOATING) return ChunkGeneratorType.FLOATING_ISLANDS.create(world, biomeSource, new FloatingIslandsChunkGeneratorConfig());
+        FloatingIslandsChunkGeneratorConfig floatingConfig = new FloatingIslandsChunkGeneratorConfig();
+        floatingConfig.setDefaultBlock(stoneBlock.getDefaultState());
+        if (this == FLOATING) return ChunkGeneratorType.FLOATING_ISLANDS.create(world, biomeSource, floatingConfig);
         OverworldChunkGeneratorConfig config = new OverworldChunkGeneratorConfig();
         if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) config.setDefaultFluid(Blocks.LAVA.getDefaultState());
         if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) config.setDefaultFluid(Blocks.AIR.getDefaultState());
