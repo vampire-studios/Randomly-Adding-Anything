@@ -35,7 +35,7 @@ public abstract class ServerWorldMixin extends World implements PlayerMaterialDi
 
     @Inject(at = @At("RETURN"), method = "<init>")
     private void init(MinecraftServer minecraftServer, Executor executor, WorldSaveHandler worldSaveHandler, LevelProperties levelProperties, DimensionType dimensionType, Profiler profiler, WorldGenerationProgressListener worldGenerationProgressListener, CallbackInfo ci) {
-        materialDiscoverState = this.getPersistentStateManager().getOrCreate(PlayerMaterialDiscoverState::new, "materialDiscover");
+        materialDiscoverState = this.getPersistentStateManager().getOrCreate(() -> new PlayerMaterialDiscoverState(), "materialDiscover");
     }
 
     @Override

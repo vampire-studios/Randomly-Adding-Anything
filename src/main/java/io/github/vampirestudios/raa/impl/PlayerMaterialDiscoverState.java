@@ -17,8 +17,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayerMaterialDiscoverState extends PersistentState {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     private Map<UUID, List<OreDiscoverState>> playerMap = new HashMap();
 
     public PlayerMaterialDiscoverState() {
@@ -78,5 +76,44 @@ public class PlayerMaterialDiscoverState extends PersistentState {
 
     public Map<UUID, List<OreDiscoverState>> getPlayerMap() {
         return playerMap;
+    }
+
+    @Override
+    public void save(File file_1) {
+        if (this.isDirty()) {
+            CompoundTag compoundTag_1 = new CompoundTag();
+            compoundTag_1.put("data", this.toTag(new CompoundTag()));
+            compoundTag_1.putInt("DataVersion", SharedConstants.getGameVersion().getWorldVersion());
+            System.out.println(compoundTag_1.toString());
+
+            try {
+                FileOutputStream fileOutputStream_1 = new FileOutputStream(file_1);
+                Throwable var4 = null;
+
+                try {
+                    NbtIo.writeCompressed(compoundTag_1, fileOutputStream_1);
+                } catch (Throwable var14) {
+                    var4 = var14;
+                    throw var14;
+                } finally {
+                    if (fileOutputStream_1 != null) {
+                        if (var4 != null) {
+                            try {
+                                fileOutputStream_1.close();
+                            } catch (Throwable var13) {
+                                var4.addSuppressed(var13);
+                            }
+                        } else {
+                            fileOutputStream_1.close();
+                        }
+                    }
+
+                }
+            } catch (IOException var16) {
+//                System.out.println("Could not save data {}", this, var16);
+            }
+
+            this.setDirty(false);
+        }
     }
 }
