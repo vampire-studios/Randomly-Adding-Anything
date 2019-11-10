@@ -55,5 +55,18 @@
 
   "config.button.raa.generalConfig": "General Configuration",
   "config.button.raa.materialConfiguration": "Material Configuration",
-  "config.button.raa.dimensionConfiguration": "Dimension Configuration"
+  "config.button.raa.dimensionConfiguration": "Dimension Configuration",
+
+  "config.text.raa.hasSky": "Has a sky: %s",
+  "config.text.raa.hasSkyLight": "Has skylight: %s",
+  "config.text.raa.canSleep": "Can sleep: %s",
+  "config.text.raa.waterVaporize": "Water vaporize: %s",
+  "config.text.raa.renderFog": "Fog rendering: %s",
+
+  "config.title.raa.colors": "Color Pallet",
+  "config.text.raa.skyColor": "Sky Color: %d",
+  "config.text.raa.grassColor": "Grass Color: %d",
+  "config.text.raa.fogColor": "Fog Color: %d",
+  "config.text.raa.foliageColor": "Foliage Color: %d",
+  "config.text.raa.stoneColor": "Stone Color: %d"
 }
