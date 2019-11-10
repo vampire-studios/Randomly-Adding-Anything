@@ -25,7 +25,7 @@ public abstract class PlayerManagerMixin {
     private void onPlayerConnect(ClientConnection clientConnection, ServerPlayerEntity player, CallbackInfo ci) {
         PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider)player.getServerWorld()).getMaterialDiscoverState();
         Map<UUID, List<OreDiscoverState>> map = discoverState.getPlayerMap();
-        if (map.containsKey(player.getUuid())) {
+        if (!map.containsKey(player.getUuid())) {
             List<OreDiscoverState> list = new ArrayList<>();
             for (Material material : Materials.MATERIALS) {
                 list.add(new OreDiscoverState(material));

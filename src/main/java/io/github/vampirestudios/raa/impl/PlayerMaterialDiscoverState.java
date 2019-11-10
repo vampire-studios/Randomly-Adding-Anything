@@ -20,12 +20,12 @@ public class PlayerMaterialDiscoverState extends PersistentState {
 
     @Override
     public void fromTag(CompoundTag compoundTag) {
-        this.playerMap = new Gson().fromJson(compoundTag.getString("playerMap"), Map.class);
+        this.playerMap = new Gson().fromJson(compoundTag.getString("playerMap"), playerMap.getClass());
     }
 
     @Override
     public CompoundTag toTag(CompoundTag compoundTag) {
-        compoundTag.putString("playerMap", playerMap.toString());
+        compoundTag.putString("playerMap", new Gson().toJson(playerMap));
         return compoundTag;
     }
 
