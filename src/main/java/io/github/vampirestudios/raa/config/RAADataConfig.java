@@ -78,4 +78,8 @@ public abstract class RAADataConfig {
 	protected abstract void load(JsonObject jsonObject);
 
 	protected abstract void save(FileWriter fileWriter);
+
+	public boolean fileExist() {
+		return this.configFile.exists();
+	}
 }
