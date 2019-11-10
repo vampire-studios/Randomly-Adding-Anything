@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.config.screen;
+package io.github.vampirestudios.raa.config.screen.materials;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -23,8 +23,8 @@ import java.util.List;
 public class MaterialListScreen extends Screen {
 
     Screen parent;
-    private MaterialisationMaterialListWidget materialList;
-    private MaterialisationDescriptionListWidget descriptionList;
+    private RAAMaterialListWidget materialList;
+    private RAAMaterialDescriptionListWidget descriptionList;
     private static Identifier background;
 
     public MaterialListScreen(Screen parent) {
@@ -76,9 +76,9 @@ public class MaterialListScreen extends Screen {
             }
         }));*/
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
-        children.add(materialList = new MaterialisationMaterialListWidget(minecraft, width / 2 - 10, height,
+        children.add(materialList = new RAAMaterialListWidget(minecraft, width / 2 - 10, height,
                 28 + 5, height - 5, background));
-        children.add(descriptionList = new MaterialisationDescriptionListWidget(minecraft, width / 2 - 10, height,
+        children.add(descriptionList = new RAAMaterialDescriptionListWidget(minecraft, width / 2 - 10, height,
                 28 + 5, height - 5, background));
         materialList.setLeftPos(5);
         descriptionList.setLeftPos(width / 2 + 5);
@@ -86,14 +86,14 @@ public class MaterialListScreen extends Screen {
         for (Material material : Materials.MATERIALS) materials.add(material);
         materials.sort(Comparator.comparing(material -> WordUtils.capitalizeFully(material.getName()), String::compareToIgnoreCase));
         for (Material material : materials) {
-            materialList.addItem(new MaterialisationMaterialListWidget.PackEntry(material) {
+            materialList.addItem(new RAAMaterialListWidget.MaterialEntry(material) {
                 @Override
                 public void onClick() {
                     descriptionList.addMaterial(MaterialListScreen.this, material);
                 }
             });
         }
-        if (!materials.isEmpty()) materialList.addItem(new MaterialisationMaterialListWidget.EmptyEntry(10));
+        if (!materials.isEmpty()) materialList.addItem(new RAAMaterialListWidget.EmptyEntry(10));
     }
 
     @Override

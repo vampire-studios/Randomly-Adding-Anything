@@ -47,6 +47,8 @@ public abstract class RAADataConfig {
 
 	public void save() {
 		try {
+			new File(configFile.getParent()).mkdir();
+			configFile.createNewFile();
 			FileWriter fileWriter = new FileWriter(configFile);
 			save(fileWriter);
 			fileWriter.close();
@@ -78,4 +80,8 @@ public abstract class RAADataConfig {
 	protected abstract void load(JsonObject jsonObject);
 
 	protected abstract void save(FileWriter fileWriter);
+
+	public boolean fileExist() {
+		return this.configFile.exists();
+	}
 }

@@ -47,7 +47,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 		Decorators.init();
 
 		MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
-		if(CONFIG.regen) {
+		if(CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
 			MATERIALS_CONFIG.generate();
 			MATERIALS_CONFIG.save();
 		} else {
@@ -55,7 +55,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 		}
 		Materials.ready = true;
 		DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-		if(CONFIG.regen) {
+		if(CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
 			DIMENSIONS_CONFIG.generate();
 			DIMENSIONS_CONFIG.save();
 		} else {

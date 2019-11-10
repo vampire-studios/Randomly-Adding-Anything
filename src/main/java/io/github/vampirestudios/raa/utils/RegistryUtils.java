@@ -93,7 +93,7 @@ public class RegistryUtils {
 
     public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(Builder<T> builder, Identifier name) {
         BlockEntityType<T> blockEntityType = builder.build(null);
-        Registry.register(Registry.BLOCK_ENTITY, name, blockEntityType);
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, name, blockEntityType);
         return blockEntityType;
     }
 }

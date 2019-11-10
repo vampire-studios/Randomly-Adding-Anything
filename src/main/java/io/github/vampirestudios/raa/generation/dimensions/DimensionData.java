@@ -45,7 +45,11 @@ public class DimensionData {
         return name;
     }
 
-    public int getDimensionId() {
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getDimensionId() {
         return dimensionId;
     }
 
