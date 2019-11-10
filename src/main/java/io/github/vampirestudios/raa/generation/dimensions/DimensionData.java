@@ -142,6 +142,7 @@ public class DimensionData {
 			return this;
 		}
 
+		@Deprecated
 		public Builder dimensionId(int dimensionId) {
 			this.dimensionId = dimensionId;
 			return this;

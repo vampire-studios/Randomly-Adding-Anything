@@ -8,6 +8,7 @@ import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.*;
 import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -54,7 +55,6 @@ public class Dimensions {
                 DIMENSION_NAMES.add(name.getRight());
 
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
-                .dimensionId(Rands.randIntRange(1000, 30000))
                 .hasSkyLight(Rands.chance(1))
                 .hasSky(!Rands.chance(2))
                 .canSleep(Rands.chance(10))
@@ -100,11 +100,13 @@ public class Dimensions {
     public static void createDimensions() {
         DIMENSIONS.forEach(dimension -> {
             CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension);
+            Block stoneBlock = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
             DimensionType type = FabricDimensionType.builder()
                 .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
                 .desiredRawId(dimension.getDimensionId())
                 .skyLight(dimension.hasSkyLight())
-                .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome))
+                .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome, stoneBlock))
                 .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
                 .buildAndRegister(dimension.getId());
             DimensionType dimensionType = null;
@@ -113,8 +115,7 @@ public class Dimensions {
             else
                 dimensionType = Registry.DIMENSION.get(dimension.getId());
 
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
+            
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBricks");
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_cobblestone"),
