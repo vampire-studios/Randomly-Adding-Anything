@@ -1,11 +1,12 @@
 package io.github.vampirestudios.raa.client;
 
-import io.github.vampirestudios.raa.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.model.ModelHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
+import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.util.math.Direction;
 
@@ -50,4 +51,10 @@ public abstract class RAABakedModel implements BakedModel, FabricBakedModel {
     public ModelTransformation getTransformation() {
         return ModelHelper.MODEL_TRANSFORM_BLOCK;
     }
+
+    @Override
+    public ModelItemPropertyOverrideList getItemPropertyOverrides() {
+        return ModelItemPropertyOverrideList.EMPTY;
+    }
+
 }

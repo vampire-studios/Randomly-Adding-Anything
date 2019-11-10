@@ -29,8 +29,15 @@
     ],
     "client": [
       "io.github.vampirestudios.raa.RandomlyAddingAnythingClient"
+    ],
+    "modmenu": [
+      "io.github.vampirestudios.raa.utils.ModMenuCompat"
     ]
   },
+
+  "mixins": [
+    "raa.mixins.json"
+  ],
 
   "depends": {
     "fabricloader": ">=0.6.0",

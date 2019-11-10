@@ -1,25 +1,22 @@
-/*
-package fr.arthurbambou.randomlyaddinganything.utils;
+package io.github.vampirestudios.raa.utils;
 
-import RandomlyAddingAnything;
-import Config;
 import io.github.prospector.modmenu.api.ModMenuApi;
-import me.sargunvohra.mcmods.autoconfig1.AutoConfig;
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.config.screen.ConfigScreen;
 import net.minecraft.client.gui.screen.Screen;
 
-import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class ModMenuCompat implements ModMenuApi {
+
     @Override
     public String getModId() {
         return RandomlyAddingAnything.MOD_ID;
     }
 
     @Override
-    public Optional<Supplier<Screen>> getConfigScreen(Screen screen) {
-        return Optional.of(AutoConfig.getConfigScreen(Config.class, screen));
+    public Function<Screen, ? extends Screen> getConfigScreenFactory() {
+        return ConfigScreen::new;
     }
+
 }
-*/
