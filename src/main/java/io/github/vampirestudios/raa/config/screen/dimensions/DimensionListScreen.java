@@ -5,7 +5,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.BufferBuilder;
@@ -30,7 +29,7 @@ public class DimensionListScreen extends Screen {
     public DimensionListScreen(Screen parent) {
         super(new TranslatableText("config.title.raa"));
         this.parent = parent;
-        background = DrawableHelper.BACKGROUND_LOCATION;
+        background = new Identifier("textures/block/gray_concrete.png");
     }
 
     public static void overlayBackground(int x1, int y1, int x2, int y2, int red, int green, int blue, int startAlpha, int endAlpha) {

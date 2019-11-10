@@ -41,13 +41,13 @@ public class DimensionData {
         return id;
     }
 
-    public String getName() {
+	public void setId(String id) {
+		this.id = new Identifier(RandomlyAddingAnything.MOD_ID, id);
+	}
+
+	public String getName() {
         return name;
     }
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public int getDimensionId() {
         return dimensionId;

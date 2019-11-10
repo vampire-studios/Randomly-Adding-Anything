@@ -19,7 +19,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.text.WordUtils;
 
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -52,13 +51,23 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
     public void addMaterial(DimensionListScreen og, DimensionData dimensionData) {
         clearItems();
         addItem(new TitleMaterialOverrideEntry(og, dimensionData, new LiteralText(WordUtils.capitalizeFully(dimensionData.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
-        DecimalFormat df = new DecimalFormat("#.##");
         DimensionColorPalette colorPalette = dimensionData.getDimensionColorPalette();
-        addItem(new ColorEntry("config.text.raa.color", colorPalette.getFogColor()));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", dimensionData.getId().toString()).formatted(Formatting.GRAY)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", dimensionData.getId()).formatted(Formatting.GRAY)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.hasSky", dimensionData.hasSky()).formatted(Formatting.GRAY)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.hasSkyLight", dimensionData.hasSkyLight()).formatted(Formatting.GRAY)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.canSleep", dimensionData.canSleep()).formatted(Formatting.GRAY)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.waterVaporize", dimensionData.doesWaterVaporize()).formatted(Formatting.GRAY)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog", dimensionData.shouldRenderFog()).formatted(Formatting.GRAY)));
+
+        addItem(new TitleEntry(new TranslatableText("config.title.raa.colors").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         if (dimensionData.hasSky()) {
-            addItem(new TextEntry(new TranslatableText("config.text.raa.skyColor", dimensionData.getDimensionColorPalette().getSkyColor())));
+            addItem(new ColorEntry("config.text.raa.skyColor", colorPalette.getSkyColor()));
         }
+        addItem(new ColorEntry("config.text.raa.grassColor", colorPalette.getGrassColor()));
+        addItem(new ColorEntry("config.text.raa.fogColor", colorPalette.getFogColor()));
+        addItem(new ColorEntry("config.text.raa.foliageColor", colorPalette.getFoliageColor()));
+        addItem(new ColorEntry("config.text.raa.stoneColor", colorPalette.getStoneColor()));
+
         /*if (dimensionData.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", dimensionData.getToolMaterial().getEnchantability())));
@@ -122,9 +131,9 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
             ConfigCategory category = builder.getOrCreateCategory("null"); // The name is not required if we only have 1 category in Cloth Config 1.8+
             ConfigEntryBuilder eb = builder.entryBuilder();
             category.addEntry(
-                    eb.startStrField("config.field.raa.identifier", material.getName())
-                            .setDefaultValue(material.getName())
-                            .setSaveConsumer(material::setName)
+                    eb.startStrField("config.field.raa.identifier", material.getId().getPath())
+                            .setDefaultValue(material.getId().getPath())
+                            .setSaveConsumer(material::setId)
                             .setErrorSupplier(str -> {
                                 if (str.toLowerCase().equals(str))
                                     return Optional.empty();
@@ -132,13 +141,38 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                             })
                             .build()
             );
+            category.addEntry(
+                    eb.startBooleanToggle("config.field.raa.hasSky", material.hasSky())
+                            .setDefaultValue(material.hasSky())
+                            .build()
+            );
+            category.addEntry(
+                    eb.startBooleanToggle("config.field.raa.hasSkyLight", material.hasSkyLight())
+                            .setDefaultValue(material.hasSkyLight())
+                            .build()
+            );
             if (material.hasSky()) {
                 category.addEntry(
-                        eb.startIntField("config.field.raa.skyColor", material.getDimensionColorPalette().getSkyColor())
-                                .setDefaultValue(material.getDimensionColorPalette().getSkyColor())
+                        eb.startStrField("config.field.raa.skyColor", Integer.toHexString(material.getDimensionColorPalette().getSkyColor()).replace("ff", ""))
+                                .setDefaultValue(Integer.toHexString(material.getDimensionColorPalette().getSkyColor()).replace("ff", ""))
                                 .build()
                 );
             }
+            category.addEntry(
+                    eb.startBooleanToggle("config.field.raa.canSleep", material.canSleep())
+                            .setDefaultValue(material.canSleep())
+                            .build()
+            );
+            category.addEntry(
+                    eb.startBooleanToggle("config.field.raa.doesWaterVaporize", material.doesWaterVaporize())
+                            .setDefaultValue(material.doesWaterVaporize())
+                            .build()
+            );
+            category.addEntry(
+                    eb.startBooleanToggle("config.field.raa.shouldRenderFog", material.shouldRenderFog())
+                            .setDefaultValue(material.shouldRenderFog())
+                            .build()
+            );
             builder.setSavingRunnable(RandomlyAddingAnything.MATERIALS_CONFIG::save);
             MinecraftClient.getInstance().openScreen(builder.build());
         }
