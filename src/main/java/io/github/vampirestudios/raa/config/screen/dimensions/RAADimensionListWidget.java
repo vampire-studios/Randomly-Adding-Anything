@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.config.screen;
+package io.github.vampirestudios.raa.config.screen.dimensions;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.generation.materials.Material;
@@ -16,8 +16,8 @@ import org.apache.commons.lang3.text.WordUtils;
 import java.util.Collections;
 import java.util.List;
 
-public class MaterialisationMaterialListWidget extends DynamicElementListWidget<MaterialisationMaterialListWidget.Entry> {
-    public MaterialisationMaterialListWidget(MinecraftClient client, int width, int height, int top, int bottom, Identifier backgroundLocation) {
+public class RAADimensionListWidget extends DynamicElementListWidget<RAADimensionListWidget.Entry> {
+    public RAADimensionListWidget(MinecraftClient client, int width, int height, int top, int bottom, Identifier backgroundLocation) {
         super(client, width, height, top, bottom, backgroundLocation);
     }
 
@@ -36,11 +36,11 @@ public class MaterialisationMaterialListWidget extends DynamicElementListWidget<
         return super.addItem(item);
     }
 
-    public abstract static class PackEntry extends Entry {
+    public abstract static class MaterialEntry extends Entry {
         private PackWidget widget;
         private Material material;
 
-        public PackEntry(Material material) {
+        public MaterialEntry(Material material) {
             this.widget = new PackWidget();
             this.material = material;
         }
@@ -209,7 +209,7 @@ public class MaterialisationMaterialListWidget extends DynamicElementListWidget<
         }
     }
 
-    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
+    public static abstract class Entry extends ElementEntry<Entry> {
 
     }
 

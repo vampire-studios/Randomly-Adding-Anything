@@ -51,5 +51,9 @@
   "config.field.raa.mining_level": "Mining Level:",
   "config.field.raa.tool_speed": "Tool Speed:",
   "config.field.raa.attack_damage": "Attack Damage:",
-  "config.button.raa.edit": "Edit"
+  "config.button.raa.edit": "Edit",
+
+  "config.button.raa.generalConfig": "General Configuration",
+  "config.button.raa.materialConfiguration": "Material Configuration",
+  "config.button.raa.dimensionConfiguration": "Dimension Configuration"
 }

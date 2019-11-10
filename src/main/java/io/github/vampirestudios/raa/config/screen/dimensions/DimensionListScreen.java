@@ -1,7 +1,9 @@
-package io.github.vampirestudios.raa.config.screen;
+package io.github.vampirestudios.raa.config.screen.dimensions;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.github.vampirestudios.raa.config.screen.materials.RAAMaterialDescriptionListWidget;
+import io.github.vampirestudios.raa.config.screen.materials.RAAMaterialListWidget;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.minecraft.client.MinecraftClient;
@@ -20,14 +22,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class MaterialListScreen extends Screen {
+public class DimensionListScreen extends Screen {
 
     Screen parent;
-    private MaterialisationMaterialListWidget materialList;
-    private MaterialisationDescriptionListWidget descriptionList;
+    private RAADimensionListWidget materialList;
+    private RAAMaterialDescriptionListWidget descriptionList;
     private static Identifier background;
 
-    public MaterialListScreen(Screen parent) {
+    public DimensionListScreen(Screen parent) {
         super(new TranslatableText("config.title.raa"));
         this.parent = parent;
         background = DrawableHelper.BACKGROUND_LOCATION;
@@ -49,9 +51,6 @@ public class MaterialListScreen extends Screen {
     @Override
     public void tick() {
         super.tick();
-        /*if (ConfigHelper.loading) {
-            MinecraftClient.getInstance().openScreen(new MaterialisationLoadingConfigScreen(this, parent));
-        }*/
     }
 
     @Override
@@ -66,19 +65,10 @@ public class MaterialListScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        /*addButton(new ButtonWidget(width - 104, 4, 100, 20, I18n.translate("config.button.materialisation.install"), var1 -> {
-            minecraft.openScreen(new MaterialisationInstallScreen(this));
-        }));
-        addButton(new ButtonWidget(59, 4, 85, 20, I18n.translate("config.button.materialisation.reload"), var1 -> {
-            if (!ConfigHelper.loading) {
-                MinecraftClient.getInstance().openScreen(new MaterialisationLoadingConfigScreen(this, parent));
-                CompletableFuture.runAsync(ConfigHelper::loadConfig, ConfigHelper.EXECUTOR_SERVICE);
-            }
-        }));*/
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
-        children.add(materialList = new MaterialisationMaterialListWidget(minecraft, width / 2 - 10, height,
+        children.add(materialList = new RAADimensionListWidget(minecraft, width / 2 - 10, height,
                 28 + 5, height - 5, background));
-        children.add(descriptionList = new MaterialisationDescriptionListWidget(minecraft, width / 2 - 10, height,
+        children.add(descriptionList = new RAAMaterialDescriptionListWidget(minecraft, width / 2 - 10, height,
                 28 + 5, height - 5, background));
         materialList.setLeftPos(5);
         descriptionList.setLeftPos(width / 2 + 5);
@@ -86,14 +76,14 @@ public class MaterialListScreen extends Screen {
         for (Material material : Materials.MATERIALS) materials.add(material);
         materials.sort(Comparator.comparing(material -> WordUtils.capitalizeFully(material.getName()), String::compareToIgnoreCase));
         for (Material material : materials) {
-            materialList.addItem(new MaterialisationMaterialListWidget.PackEntry(material) {
+            materialList.addItem(new RAAMaterialListWidget.MaterialEntry(material) {
                 @Override
                 public void onClick() {
-                    descriptionList.addMaterial(MaterialListScreen.this, material);
+                    descriptionList.addMaterial(DimensionListScreen.this, material);
                 }
             });
         }
-        if (!materials.isEmpty()) materialList.addItem(new MaterialisationMaterialListWidget.EmptyEntry(10));
+        if (!materials.isEmpty()) materialList.addItem(new RAADimensionListWidget.EmptyEntry(10));
     }
 
     @Override
