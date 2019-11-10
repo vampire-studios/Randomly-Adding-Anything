@@ -1,16 +1,18 @@
 package io.github.vampirestudios.raa.impl;
 
 import com.google.gson.Gson;
-import io.github.vampirestudios.raa.state.PlayerDiscoverState;
+import io.github.vampirestudios.raa.state.OreDiscoverState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.PersistentState;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class PlayerMaterialDiscoverState extends PersistentState {
 
-    private List<PlayerDiscoverState> playerMap = new ArrayList<>();
+    private Map<UUID, List<OreDiscoverState>> playerMap = new HashMap();
 
     public PlayerMaterialDiscoverState() {
         super("materialDiscover");
@@ -18,16 +20,16 @@ public class PlayerMaterialDiscoverState extends PersistentState {
 
     @Override
     public void fromTag(CompoundTag compoundTag) {
-        this.playerMap = new Gson().fromJson(compoundTag.getString("playerMap"), List.class);
+        this.playerMap = new Gson().fromJson(compoundTag.getString("playerMap"), playerMap.getClass());
     }
 
     @Override
     public CompoundTag toTag(CompoundTag compoundTag) {
-        compoundTag.putString("playerMap", playerMap.toString());
+        compoundTag.putString("playerMap", new Gson().toJson(playerMap));
         return compoundTag;
     }
 
-    public List<PlayerDiscoverState> getPlayerMap() {
+    public Map<UUID, List<OreDiscoverState>> getPlayerMap() {
         return playerMap;
     }
 }

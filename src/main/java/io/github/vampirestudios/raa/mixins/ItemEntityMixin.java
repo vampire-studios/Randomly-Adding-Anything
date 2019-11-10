@@ -5,7 +5,6 @@ import io.github.vampirestudios.raa.impl.PlayerMaterialDiscoverProvider;
 import io.github.vampirestudios.raa.impl.PlayerMaterialDiscoverState;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.state.OreDiscoverState;
-import io.github.vampirestudios.raa.state.PlayerDiscoverState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -19,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Mixin(ItemEntity.class)
@@ -51,33 +51,21 @@ public class ItemEntityMixin {
                     World world = playerEntity_1.getEntityWorld();
                     if (world instanceof ServerWorld && world instanceof PlayerMaterialDiscoverProvider) {
                         PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider) world).getMaterialDiscoverState();
-                        List<PlayerDiscoverState> map = discoverState.getPlayerMap();
-                        PlayerDiscoverState playerDiscoverState = null;
-                        int c =0;
-                        for (PlayerDiscoverState playerDiscoverState1 : map) {
-                            if (playerDiscoverState1.getUuid() == playerEntity_1.getUuid()) {
-                                playerDiscoverState = playerDiscoverState1;
-                                c++;
-                                break;
-                            }
-                        }
-                        if (playerDiscoverState != null) {
-                            List<OreDiscoverState> list = playerDiscoverState.getDiscoverStateList();
-                            System.out.println(list.toString());
-                            for (int i = 0; i < list.size(); i++) {
-                                if (list.get(i).getMaterial() == material) {
-                                    if (!list.get(i).isDiscovered()) {
-                                        System.out.println("You Discovered a new material!");
-                                        list.set(i, list.get(i).discover());
-                                    } else {
-                                        for (int z = 0; z < itemStack.getCount(); z++)
-                                            System.out.println("You already discovered this material " + list.get(i).getDiscoverTimes() + " time before");
+                        Map<UUID, List<OreDiscoverState>> map = discoverState.getPlayerMap();
+                        List<OreDiscoverState> list = map.get(playerEntity_1.getUuid());
+                        for (int i = 0; i < list.size(); i++) {
+                            if (list.get(i).getMaterial() == material) {
+                                if (!list.get(i).isDiscovered()) {
+                                    System.out.println("You Discovered a new material!");
+                                    list.set(i, list.get(i).discover());
+                                } else {
+                                    for (int z = 0; z < itemStack.getCount(); z++)
+                                        System.out.println("You already discovered this material " + list.get(i).getDiscoverTimes() + " time before");
                                         list.set(i, list.get(i).alreadyDiscovered());
-                                    }
                                 }
                             }
-                            map.set(c, new PlayerDiscoverState(playerEntity_1.getUuid(), list));
                         }
+                        map.replace(playerEntity_1.getUuid(), list);
                     }
                 }
             }
