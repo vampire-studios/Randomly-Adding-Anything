@@ -28,4 +28,8 @@ public class PlayerMaterialDiscoverState extends PersistentState {
         compoundTag.putString("playerMap", playerMap.toString());
         return compoundTag;
     }
+
+    public Map<UUID, List<OreDiscoverState>> getPlayerMap() {
+        return playerMap;
+    }
 }
