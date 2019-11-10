@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.config.screen.dimensions;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
@@ -36,11 +36,11 @@ public class RAADimensionListWidget extends DynamicElementListWidget<RAADimensio
         return super.addItem(item);
     }
 
-    public abstract static class MaterialEntry extends Entry {
+    public abstract static class DimensionEntry extends Entry {
         private PackWidget widget;
-        private Material material;
+        private DimensionData material;
 
-        public MaterialEntry(Material material) {
+        public DimensionEntry(DimensionData material) {
             this.widget = new PackWidget();
             this.material = material;
         }
@@ -209,7 +209,7 @@ public class RAADimensionListWidget extends DynamicElementListWidget<RAADimensio
         }
     }
 
-    public static abstract class Entry extends ElementEntry<Entry> {
+    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
 
     }
 

@@ -2,8 +2,8 @@ package io.github.vampirestudios.raa.config.screen.dimensions;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.config.screen.materials.MaterialListScreen;
-import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionColorPalette;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -49,28 +49,32 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         clearItems();
     }
 
-    public void addMaterial(MaterialListScreen og, Material material) {
+    public void addMaterial(DimensionListScreen og, DimensionData dimensionData) {
         clearItems();
-        addItem(new TitleMaterialOverrideEntry(og, material, new LiteralText(WordUtils.capitalizeFully(material.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+        addItem(new TitleMaterialOverrideEntry(og, dimensionData, new LiteralText(WordUtils.capitalizeFully(dimensionData.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DecimalFormat df = new DecimalFormat("#.##");
-        addItem(new ColorEntry("config.text.raa.color", material.getRGBColor()));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getId().toString()).formatted(Formatting.GRAY)));
-        if (material.hasTools()) {
+        DimensionColorPalette colorPalette = dimensionData.getDimensionColorPalette();
+        addItem(new ColorEntry("config.text.raa.color", colorPalette.getFogColor()));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", dimensionData.getId().toString()).formatted(Formatting.GRAY)));
+        if (dimensionData.hasSky()) {
+            addItem(new TextEntry(new TranslatableText("config.text.raa.skyColor", dimensionData.getDimensionColorPalette().getSkyColor())));
+        }
+        /*if (dimensionData.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.durability", material.getToolMaterial().getDurability())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.mining_level", material.getToolMaterial().getMiningLevel())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.tool_speed", df.format(material.getToolMaterial().getMiningSpeed()))));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.attack_damage", df.format(material.getToolMaterial().getAttackDamage()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", dimensionData.getToolMaterial().getEnchantability())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.durability", dimensionData.getToolMaterial().getDurability())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.mining_level", dimensionData.getToolMaterial().getMiningLevel())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.tool_speed", df.format(dimensionData.getToolMaterial().getMiningSpeed()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.attack_damage", df.format(dimensionData.getToolMaterial().getAttackDamage()))));
         }
-        if (material.hasWeapons()) {
+        if (dimensionData.hasWeapons()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.weapons").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.durability", material.getToolMaterial().getDurability())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.mining_level", material.getToolMaterial().getMiningLevel())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.tool_speed", df.format(material.getToolMaterial().getMiningSpeed()))));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.attack_damage", df.format(material.getToolMaterial().getAttackDamage()))));
-        }
+            addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", dimensionData.getToolMaterial().getEnchantability())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.durability", dimensionData.getToolMaterial().getDurability())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.mining_level", dimensionData.getToolMaterial().getMiningLevel())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.tool_speed", df.format(dimensionData.getToolMaterial().getMiningSpeed()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.attack_damage", df.format(dimensionData.getToolMaterial().getAttackDamage()))));
+        }*/
     }
 
     public static class ColorEntry extends Entry {
@@ -103,7 +107,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         protected String s;
         private ButtonWidget overrideButton;
 
-        public TitleMaterialOverrideEntry(MaterialListScreen og, Material material, Text text) {
+        public TitleMaterialOverrideEntry(DimensionListScreen og, DimensionData material, Text text) {
             this.s = text.asFormattedString();
             String btnText = I18n.translate("config.button.raa.edit");
             overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText, widget -> {
@@ -111,9 +115,9 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
             });
         }
 
-        private static void openClothConfigForMaterial(MaterialListScreen og, Material material) {
+        private static void openClothConfigForMaterial(DimensionListScreen og, DimensionData material) {
             ConfigBuilder builder = ConfigBuilder.create()
-                    .setParentScreen(new MaterialListScreen(og))
+                    .setParentScreen(new DimensionListScreen(og))
                     .setTitle(I18n.translate("config.title.raa.material", WordUtils.capitalizeFully(material.getName())));
             ConfigCategory category = builder.getOrCreateCategory("null"); // The name is not required if we only have 1 category in Cloth Config 1.8+
             ConfigEntryBuilder eb = builder.entryBuilder();
@@ -128,44 +132,12 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                             })
                             .build()
             );
-            if (material.hasTools()) {
+            if (material.hasSky()) {
                 category.addEntry(
-                        eb.startIntField("config.field.raa.enchantability", material.getToolMaterial().getEnchantability())
-                                .setDefaultValue(material.getToolMaterial().getEnchantability())
-                                .setSaveConsumer(i -> material.getToolMaterial().setEnchantability(i))
-                                .setMin(0)
+                        eb.startIntField("config.field.raa.skyColor", material.getDimensionColorPalette().getSkyColor())
+                                .setDefaultValue(material.getDimensionColorPalette().getSkyColor())
                                 .build()
                 );
-                category.addEntry(
-                        eb.startIntField("config.field.raa.durability", material.getToolMaterial().getDurability())
-                                .setDefaultValue(material.getToolMaterial().getDurability())
-                                .setSaveConsumer(i -> material.getToolMaterial().setDurability(i))
-                                .setMin(1)
-                                .build()
-                );
-                category.addEntry(
-                        eb.startIntField("config.field.raa.mining_level", material.getToolMaterial().getMiningLevel())
-                                .setDefaultValue(material.getToolMaterial().getMiningLevel())
-                                .setSaveConsumer(i -> material.getToolMaterial().setMiningLevel(i))
-                                .setMin(0)
-                                .build()
-                );
-                category.addEntry(
-                        eb.startFloatField("config.field.raa.tool_speed", material.getToolMaterial().getMiningSpeed())
-                                .setDefaultValue(material.getToolMaterial().getMiningSpeed())
-                                .setSaveConsumer(i -> material.getToolMaterial().setMiningSpeed(i))
-                                .setMin(0)
-                                .build()
-                );
-                category.addEntry(
-                        eb.startFloatField("config.field.raa.attack_damage", material.getToolMaterial().getAttackDamage())
-                                .setDefaultValue(material.getToolMaterial().getAttackDamage())
-                                .setSaveConsumer(i -> material.getToolMaterial().setAttackDamage(i))
-                                .build()
-                );
-            }
-            if (material.hasWeapons()) {
-
             }
             builder.setSavingRunnable(RandomlyAddingAnything.MATERIALS_CONFIG::save);
             MinecraftClient.getInstance().openScreen(builder.build());
@@ -275,7 +247,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
     }
 
-    public static abstract class Entry extends ElementEntry<Entry> {
+    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
 
     }
 
