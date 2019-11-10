@@ -1,16 +1,23 @@
 package io.github.vampirestudios.raa.impl;
 
-import com.google.gson.Gson;
+import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.state.OreDiscoverState;
+import net.minecraft.SharedConstants;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
 import net.minecraft.world.PersistentState;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayerMaterialDiscoverState extends PersistentState {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private Map<UUID, List<OreDiscoverState>> playerMap = new HashMap();
 
@@ -20,12 +27,52 @@ public class PlayerMaterialDiscoverState extends PersistentState {
 
     @Override
     public void fromTag(CompoundTag compoundTag) {
-        this.playerMap = new Gson().fromJson(compoundTag.getString("playerMap"), playerMap.getClass());
+        CompoundTag compoundTag_2 = compoundTag.getCompound("playerMap");
+        System.out.println(compoundTag.toString());
+        Iterator var3 = compoundTag_2.getKeys().iterator();
+
+        while(var3.hasNext()) {
+            String string_1 = (String)var3.next();
+            CompoundTag compoundTag1 = compoundTag_2.getCompound(string_1);
+            Iterator var4 = compoundTag1.getKeys().iterator();
+            List<OreDiscoverState> list = new ArrayList<>();
+            while (var4.hasNext()) {
+                String string = (String)var4.next();
+                int index = Integer.getInteger(string);
+                CompoundTag compoundTag2 = compoundTag1.getCompound(string);
+                AtomicReference<Material> material = null;
+                Materials.MATERIALS.forEach((materiale) -> {
+                    String string7 = compoundTag2.getString("name");
+                    if (materiale.getName() == string7) {
+                        material.set(materiale);
+                        return;
+                    }
+                });
+                int discoveredTimes = compoundTag2.getInt("discoverTimes");
+                boolean discovered = compoundTag2.getBoolean("discovered");
+                list.set(index, new OreDiscoverState(material.get(), discoveredTimes, discovered));
+            }
+            this.playerMap.put(UUID.fromString(string_1), list);
+        }
     }
 
     @Override
     public CompoundTag toTag(CompoundTag compoundTag) {
-        compoundTag.putString("playerMap", new Gson().toJson(playerMap));
+        CompoundTag compoundTag_2 = new CompoundTag();
+        this.playerMap.forEach((uuid, list) -> {
+            CompoundTag compoundTag_3 = new CompoundTag();
+            CompoundTag compoundTag_4;
+            for (int c = 0; c < list.size(); c++) {
+                compoundTag_4 = new CompoundTag();
+                compoundTag_4.putString("name", list.get(c).getMaterial().getName());
+                compoundTag_4.putInt("discoverTimes", list.get(c).getDiscoverTimes());
+                compoundTag_4.putBoolean("discovered", list.get(c).isDiscovered());
+                compoundTag_3.put(""+c+"", compoundTag_4.method_10553());
+            }
+            compoundTag_2.put(uuid.toString(), compoundTag_3.method_10553());
+        });
+        compoundTag.put("playerMap", compoundTag_2);
+        System.out.println(compoundTag.toString());
         return compoundTag;
     }
 

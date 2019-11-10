@@ -13,6 +13,12 @@ public class OreDiscoverState {
         this.discoverTimes = 0;
     }
 
+    public OreDiscoverState(Material material, int discoverTimes, boolean discovered) {
+        this.material = material;
+        this.discovered = discovered;
+        this.discoverTimes = discoverTimes;
+    }
+
     public OreDiscoverState discover() {
         this.setDiscovered(true);
         this.discoverTimes++;
