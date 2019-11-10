@@ -33,6 +33,8 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
                     world.setBlockState(pos.add(i, -1, j), Blocks.GRASS_PATH.getDefaultState(), 2);
             }
         }
+        if (Rands.chance(2)) world.setBlockState(pos.add(0, 0, 2), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH), 2);
+        if (Rands.chance(2)) world.setBlockState(pos.add(0, 0, -2), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH), 2);
         if (Rands.chance(4)) {
             world.setBlockState(pos, Blocks.CAMPFIRE.getDefaultState(), 2);
         } else {
@@ -43,6 +45,8 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
         if (Rands.chance(2)) {
             world.setBlockState(pos.add(-2, 0, 0), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST)), 2);
             LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(-2, 0, 0), RAALootTables.CAMPFIRE_LOOT);
+        } else {
+            if (Rands.chance(2)) world.setBlockState(pos.add(-2, 0, 0), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST), 2);
         }
 
         Block woolBlock = Rands.values(new Block[]{Blocks.WHITE_WOOL, Blocks.ORANGE_WOOL, Blocks.MAGENTA_WOOL, Blocks.LIGHT_BLUE_WOOL,
@@ -83,6 +87,8 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
 
             world.setBlockState(pos.add(3, 0, 2), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST)), 2);
             LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(3, 0, 2), RAALootTables.CAMPFIRE_TENT_LOOT);
+        } else {
+            if (Rands.chance(2)) world.setBlockState(pos.add(2, 0, 0), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST), 2);
         }
         return true;
     }
