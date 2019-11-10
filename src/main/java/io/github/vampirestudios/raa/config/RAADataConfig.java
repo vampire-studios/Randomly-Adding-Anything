@@ -47,6 +47,8 @@ public abstract class RAADataConfig {
 
 	public void save() {
 		try {
+			new File(configFile.getParent()).mkdir();
+			configFile.createNewFile();
 			FileWriter fileWriter = new FileWriter(configFile);
 			save(fileWriter);
 			fileWriter.close();
