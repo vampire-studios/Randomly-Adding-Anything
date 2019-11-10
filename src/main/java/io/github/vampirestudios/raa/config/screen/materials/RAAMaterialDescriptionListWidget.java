@@ -1,8 +1,7 @@
 package io.github.vampirestudios.raa.config.screen.materials;
 
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.vampirestudios.raa.config.screen.dimensions.DimensionListScreen;
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -49,7 +48,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         clearItems();
     }
 
-    public void addMaterial(DimensionListScreen og, Material material) {
+    public void addMaterial(MaterialListScreen og, Material material) {
         clearItems();
         addItem(new TitleMaterialOverrideEntry(og, material, new LiteralText(WordUtils.capitalizeFully(material.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DecimalFormat df = new DecimalFormat("#.##");
@@ -103,7 +102,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         protected String s;
         private ButtonWidget overrideButton;
 
-        public TitleMaterialOverrideEntry(DimensionListScreen og, Material material, Text text) {
+        public TitleMaterialOverrideEntry(MaterialListScreen og, Material material, Text text) {
             this.s = text.asFormattedString();
             String btnText = I18n.translate("config.button.raa.edit");
             overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText, widget -> {
@@ -111,7 +110,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
             });
         }
 
-        private static void openClothConfigForMaterial(DimensionListScreen og, Material material) {
+        private static void openClothConfigForMaterial(MaterialListScreen og, Material material) {
             ConfigBuilder builder = ConfigBuilder.create()
                     .setParentScreen(new MaterialListScreen(og))
                     .setTitle(I18n.translate("config.title.raa.material", WordUtils.capitalizeFully(material.getName())));

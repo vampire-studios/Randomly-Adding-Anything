@@ -2,10 +2,8 @@ package io.github.vampirestudios.raa.config.screen.dimensions;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.vampirestudios.raa.config.screen.materials.RAAMaterialDescriptionListWidget;
-import io.github.vampirestudios.raa.config.screen.materials.RAAMaterialListWidget;
-import io.github.vampirestudios.raa.generation.materials.Material;
-import io.github.vampirestudios.raa.registries.Materials;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.registries.Dimensions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -25,8 +23,8 @@ import java.util.List;
 public class DimensionListScreen extends Screen {
 
     Screen parent;
-    private RAADimensionListWidget materialList;
-    private RAAMaterialDescriptionListWidget descriptionList;
+    private RAADimensionListWidget dimensionList;
+    private RAADimensionDescriptionListWidget descriptionList;
     private static Identifier background;
 
     public DimensionListScreen(Screen parent) {
@@ -66,30 +64,30 @@ public class DimensionListScreen extends Screen {
     protected void init() {
         super.init();
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
-        children.add(materialList = new RAADimensionListWidget(minecraft, width / 2 - 10, height,
+        children.add(dimensionList = new RAADimensionListWidget(minecraft, width / 2 - 10, height,
                 28 + 5, height - 5, background));
-        children.add(descriptionList = new RAAMaterialDescriptionListWidget(minecraft, width / 2 - 10, height,
+        children.add(descriptionList = new RAADimensionDescriptionListWidget(minecraft, width / 2 - 10, height,
                 28 + 5, height - 5, background));
-        materialList.setLeftPos(5);
+        dimensionList.setLeftPos(5);
         descriptionList.setLeftPos(width / 2 + 5);
-        List<Material> materials = new ArrayList<>();
-        for (Material material : Materials.MATERIALS) materials.add(material);
+        List<DimensionData> materials = new ArrayList<>();
+        for (DimensionData material : Dimensions.DIMENSIONS) materials.add(material);
         materials.sort(Comparator.comparing(material -> WordUtils.capitalizeFully(material.getName()), String::compareToIgnoreCase));
-        for (Material material : materials) {
-            materialList.addItem(new RAAMaterialListWidget.MaterialEntry(material) {
+        for (DimensionData material : materials) {
+            dimensionList.addItem(new RAADimensionListWidget.DimensionEntry(material) {
                 @Override
                 public void onClick() {
                     descriptionList.addMaterial(DimensionListScreen.this, material);
                 }
             });
         }
-        if (!materials.isEmpty()) materialList.addItem(new RAADimensionListWidget.EmptyEntry(10));
+        if (!materials.isEmpty()) dimensionList.addItem(new RAADimensionListWidget.EmptyEntry(10));
     }
 
     @Override
     public void render(int mouseX, int mouseY, float delta) {
         renderDirtBackground(0);
-        materialList.render(mouseX, mouseY, delta);
+        dimensionList.render(mouseX, mouseY, delta);
         descriptionList.render(mouseX, mouseY, delta);
         overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
         overlayBackground(0, height - 5, width, height, 64, 64, 64, 255, 255);

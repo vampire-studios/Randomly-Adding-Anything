@@ -40,13 +40,13 @@ public class ConfigScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        addButton(new ButtonWidget(width / 2, height / 2, 145, 20, I18n.translate("config.button.raa.generalConfig"), var1 -> {
+        addButton(new ButtonWidget(width / 2, 100, 145, 20, I18n.translate("config.button.raa.generalConfig"), var1 -> {
             minecraft.openScreen(AutoConfig.getConfigScreen(GeneralConfig.class, this).get());
         }));
-        addButton(new ButtonWidget(width / 2, height / 2, 145, 20, I18n.translate("config.button.raa.materialConfiguration"), var1 -> {
+        addButton(new ButtonWidget(width / 2, 150, 145, 20, I18n.translate("config.button.raa.materialConfiguration"), var1 -> {
             minecraft.openScreen(new MaterialListScreen(this));
         }));
-        addButton(new ButtonWidget(width / 2, height / 2, 145, 20, I18n.translate("config.button.raa.dimensionConfiguration"), var1 -> {
+        addButton(new ButtonWidget(width / 2, 200, 145, 20, I18n.translate("config.button.raa.dimensionConfiguration"), var1 -> {
             minecraft.openScreen(new DimensionListScreen(this));
         }));
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
