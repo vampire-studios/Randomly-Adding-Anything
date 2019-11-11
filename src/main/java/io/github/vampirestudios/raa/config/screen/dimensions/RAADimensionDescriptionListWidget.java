@@ -58,8 +58,9 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         addItem(new TextEntry(new TranslatableText("config.text.raa.canSleep", dimensionData.canSleep()).formatted(Formatting.GRAY)));
         addItem(new TextEntry(new TranslatableText("config.text.raa.waterVaporize", dimensionData.doesWaterVaporize()).formatted(Formatting.GRAY)));
         addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog", dimensionData.shouldRenderFog()).formatted(Formatting.GRAY)));
-
+        addItem(new TextEntry(new TranslatableText("config.text.raa.difficulty", dimensionData.getDifficulty()).formatted(Formatting.GRAY)));
         addItem(new TitleEntry(new TranslatableText("config.title.raa.colors").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+
         if (dimensionData.hasSky()) {
             addItem(new ColorEntry("config.text.raa.skyColor", colorPalette.getSkyColor()));
         }

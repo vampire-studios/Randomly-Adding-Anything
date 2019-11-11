@@ -60,8 +60,9 @@
   "config.text.raa.hasSky": "Has a sky: %s",
   "config.text.raa.hasSkyLight": "Has skylight: %s",
   "config.text.raa.canSleep": "Can sleep: %s",
-  "config.text.raa.waterVaporize": "Water vaporize: %s",
-  "config.text.raa.renderFog": "Fog rendering: %s",
+  "config.text.raa.waterVaporize": "Water vaporizes: %s",
+  "config.text.raa.renderFog": "Thick Fog: %s",
+  "config.text.raa.difficulty": "Dimension difficulty: %s",
 
   "config.title.raa.colors": "Color Pallet",
   "config.text.raa.skyColor": "Sky Color: %d",
