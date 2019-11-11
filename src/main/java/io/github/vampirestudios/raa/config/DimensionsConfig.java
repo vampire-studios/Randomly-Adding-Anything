@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class DimensionsConfig extends RAADataConfig {
 	public DimensionsConfig(String fileName) {
-		super("dimensions/dimension_config");
+		super("test");
 	}
 
 	@Override
