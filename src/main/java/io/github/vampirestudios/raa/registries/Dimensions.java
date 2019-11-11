@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.api.enums.PlayerPlacementHandlers;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
@@ -29,6 +30,7 @@ public class Dimensions {
 
     public static void generate() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
+            int difficulty = 0;
             int flags = generateDimensionFlags();
             float hue = Rands.randFloatRange(0, 1.0F);
             float foliageColor = hue + Rands.randFloatRange(-0.15F, 0.15F);
@@ -44,8 +46,13 @@ public class Dimensions {
             if (Utils.checkBitFlag(flags, Utils.DEAD)) {
                 saturation = Rands.randFloatRange(0.0F, 0.2F);
                 stoneSaturation = saturation;
+                difficulty+=2;
             }
             if (Utils.checkBitFlag(flags, Utils.LUSH)) saturation = Rands.randFloatRange(0.7F, 1.0F);
+            if (Utils.checkBitFlag(flags, Utils.CORRUPTED)) difficulty+=2;
+            if (Utils.checkBitFlag(flags, Utils.MOLTEN)) difficulty++;
+            if (Utils.checkBitFlag(flags, Utils.DRY)) difficulty++;
+            if (Utils.checkBitFlag(flags, Utils.TECTONIC)) difficulty++;
             float value = Rands.randFloatRange(0.5F, 1.0F);
             Color GRASS_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
             Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
@@ -59,19 +66,30 @@ public class Dimensions {
             if (!DIMENSION_NAMES.contains(name.getRight()))
                 DIMENSION_NAMES.add(name.getRight());
 
+            Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
+            DimensionChunkGenerators gen = Utils.randomCG(Rands.randIntRange(0, 100));
+            if (gen == DimensionChunkGenerators.FLOATING) difficulty++;
+            if (gen == DimensionChunkGenerators.CAVE) difficulty+=2;
+            float scale = Rands.randFloat(2F);
+            float depth = Rands.randFloatRange(-1F, 3F);
+            if (depth < -0.5F) difficulty++;
+            if (scale > 0.8) difficulty++;
+            if (scale > 1.6) difficulty++;
+
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
                 .hasSkyLight(Rands.chance(1))
                 .hasSky(!Rands.chance(2))
                 .canSleep(Rands.chance(10))
                 .waterVaporize(Rands.chance(100))
                 .shouldRenderFog(Rands.chance(100))
-                .chunkGenerator(Utils.randomCG(Rands.randIntRange(0, 100)))
+                .chunkGenerator(gen)
 				.flags(flags)
-				.mobs(generateDimensionMobs());
+                .difficulty(difficultyAndMobs.getLeft())
+				.mobs(difficultyAndMobs.getRight());
             DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.append(name.getRight(), "_biome"), name.getLeft())
                 .surfaceBuilderVariantChance(Rands.randInt(100))
-                .depth(Rands.randFloatRange(-1F, 3F))
-                .scale(Rands.randFloat(2F))
+                .depth(depth)
+                .scale(scale)
                 .temperature(Rands.randFloat(2.0F))
                 .downfall(Rands.randFloat(1F))
                 .waterColor(WATER_COLOR.getColor())
@@ -114,7 +132,7 @@ public class Dimensions {
                 .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome, stoneBlock))
                 .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
                 .buildAndRegister(dimension.getId());
-            DimensionType dimensionType = null;
+            DimensionType dimensionType;
             if (Registry.DIMENSION.get(dimension.getId()) == null)
                 dimensionType = Registry.register(Registry.DIMENSION, dimension.getId(), type);
             else
@@ -134,35 +152,53 @@ public class Dimensions {
         });
     }
 
-    public static HashMap<String, int[]> generateDimensionMobs() {
+    public static Pair<Integer, HashMap<String, int[]>> generateDimensionMobs(int flags, int difficulty) {
         HashMap<String, int[]> list = new HashMap<>();
-        if (Rands.chance(2))  {
-            int spawnSize = Rands.randIntRange(2, 12);
-            list.put("cow", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
-        }
-        if (Rands.chance(2))  {
-            int spawnSize = Rands.randIntRange(2, 12);
-            list.put("pig", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
-        }
-        if (Rands.chance(2))  {
-            int spawnSize = Rands.randIntRange(2, 12);
-            list.put("chicken", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
-        }
-        if (Rands.chance(2))  {
-            int spawnSize = Rands.randIntRange(2, 8);
-            list.put("horse", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
-        }
-        if (Rands.chance(2))  {
-            int spawnSize = Rands.randIntRange(2, 8);
-            list.put("donkey", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
-        }
-        if (Rands.chance(2))  {
-            int spawnSize = Rands.randIntRange(2, 12);
-            list.put("sheep", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
-        }
-        if (Rands.chance(2))  {
-            int spawnSize = Rands.randIntRange(2, 8);
-            list.put("llama", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+        if (Utils.checkBitFlag(flags, Utils.LUSH)) {
+            String[] names = new String[]{"cow", "pig", "chicken", "horse", "donkey","sheep","llama"};
+            for (String name : names) {
+                int spawnSize = Rands.randIntRange(4, 16);
+                list.put(name, new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 8)});
+            }
+        } else {
+            if (!Utils.checkBitFlag(flags, Utils.DEAD)) {
+                if (Rands.chance(2)) {
+                    int spawnSize = Rands.randIntRange(2, 12);
+                    list.put("cow", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
+                } else {
+                    difficulty++;
+                }
+                if (Rands.chance(2)) {
+                    int spawnSize = Rands.randIntRange(2, 12);
+                    list.put("pig", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
+                } else {
+                    difficulty++;
+                }
+                if (Rands.chance(2)) {
+                    int spawnSize = Rands.randIntRange(2, 12);
+                    list.put("chicken", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
+                } else {
+                    difficulty++;
+                }
+                if (Rands.chance(2)) {
+                    int spawnSize = Rands.randIntRange(2, 8);
+                    list.put("horse", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
+                }
+                if (Rands.chance(2)) {
+                    int spawnSize = Rands.randIntRange(2, 8);
+                    list.put("donkey", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
+                }
+                if (Rands.chance(2)) {
+                    int spawnSize = Rands.randIntRange(2, 12);
+                    list.put("sheep", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
+                } else {
+                    difficulty++;
+                }
+                if (Rands.chance(2)) {
+                    int spawnSize = Rands.randIntRange(2, 8);
+                    list.put("llama", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
+                }
+            }
         }
         if (Rands.chance(2))  {
             int spawnSize = Rands.randIntRange(2, 12);
@@ -171,36 +207,52 @@ public class Dimensions {
         if (Rands.chance(2))  {
             int spawnSize = Rands.randIntRange(2, 8);
             list.put("spider", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+        } else {
+            difficulty--;
         }
         if (Rands.chance(2))  {
             int spawnSize = Rands.randIntRange(2, 12);
             list.put("zombie", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+        } else {
+            difficulty--;
         }
         if (Rands.chance(2))  {
             int spawnSize = Rands.randIntRange(2, 4);
             list.put("zombie_villager", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+1});
+        } else {
+            --difficulty;
         }
         if (Rands.chance(2))  {
             int spawnSize = Rands.randIntRange(2, 12);
             list.put("skeleton", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+        } else {
+            difficulty--;
         }
         if (Rands.chance(2))  {
             int spawnSize = Rands.randIntRange(2, 8);
             list.put("creeper", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+        } else {
+            difficulty-=2;
         }
         if (Rands.chance(2))  {
             int spawnSize = Rands.randIntRange(2, 4);
             list.put("slime", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+        } else {
+            difficulty--;
         }
         if (Rands.chance(2))  {
             int spawnSize = Rands.randIntRange(2, 4);
             list.put("enderman", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
+        } else {
+            difficulty-=2;
         }
         if (Rands.chance(2))  {
             int spawnSize = Rands.randIntRange(2, 3);
-            list.put("cow", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
+            list.put("witch", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
+        } else {
+            difficulty-=2;
         }
-        return list;
+        return new Pair<>(difficulty, list);
     }
 
     public static int generateDimensionFlags() {
