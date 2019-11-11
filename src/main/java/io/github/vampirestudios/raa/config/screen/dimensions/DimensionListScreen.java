@@ -29,7 +29,7 @@ public class DimensionListScreen extends Screen {
     public DimensionListScreen(Screen parent) {
         super(new TranslatableText("config.title.raa"));
         this.parent = parent;
-        background = new Identifier("textures/block/gray_concrete.png");
+        background = new Identifier("textures/block/dirt.png");
     }
 
     public static void overlayBackground(int x1, int y1, int x2, int y2, int red, int green, int blue, int startAlpha, int endAlpha) {

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionColorPalette;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.utils.Utils;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -50,15 +51,70 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
 
     public void addMaterial(DimensionListScreen og, DimensionData dimensionData) {
         clearItems();
-        addItem(new TitleMaterialOverrideEntry(og, dimensionData, new LiteralText(WordUtils.capitalizeFully(dimensionData.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+//        addItem(new TitleMaterialOverrideEntry(og, dimensionData, new LiteralText(WordUtils.capitalizeFully(dimensionData.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DimensionColorPalette colorPalette = dimensionData.getDimensionColorPalette();
-        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", dimensionData.getId()).formatted(Formatting.GRAY)));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.hasSky", dimensionData.hasSky()).formatted(Formatting.GRAY)));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.hasSkyLight", dimensionData.hasSkyLight()).formatted(Formatting.GRAY)));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.canSleep", dimensionData.canSleep()).formatted(Formatting.GRAY)));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.waterVaporize", dimensionData.doesWaterVaporize()).formatted(Formatting.GRAY)));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog", dimensionData.shouldRenderFog()).formatted(Formatting.GRAY)));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.difficulty", dimensionData.getDifficulty()).formatted(Formatting.GRAY)));
+        addItem(new TitleEntry(new LiteralText(WordUtils.capitalizeFully(dimensionData.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier").formatted(Formatting.GRAY)
+                .append(new TranslatableText("config.text.raa.var",  dimensionData.getId()).formatted(Formatting.WHITE))));
+        //sky
+        if (dimensionData.hasSky())
+            addItem(new TextEntry(new TranslatableText("config.text.raa.hasSky").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.hasSky()).formatted(Formatting.GREEN))));
+        else
+            addItem(new TextEntry(new TranslatableText("config.text.raa.hasSky").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.hasSky()).formatted(Formatting.RED))));
+        //sky light
+        if (dimensionData.hasSkyLight())
+            addItem(new TextEntry(new TranslatableText("config.text.raa.hasSkyLight").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.hasSkyLight()).formatted(Formatting.GREEN))));
+        else
+            addItem(new TextEntry(new TranslatableText("config.text.raa.hasSkyLight").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.hasSkyLight()).formatted(Formatting.RED))));
+        //sleep
+        if (dimensionData.canSleep())
+            addItem(new TextEntry(new TranslatableText("config.text.raa.canSleep").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.canSleep()).formatted(Formatting.GREEN))));
+        else
+            addItem(new TextEntry(new TranslatableText("config.text.raa.canSleep").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.canSleep()).formatted(Formatting.RED))));
+        //water vaporizes
+        if (dimensionData.doesWaterVaporize())
+            addItem(new TextEntry(new TranslatableText("config.text.raa.waterVaporize").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.doesWaterVaporize()).formatted(Formatting.GREEN))));
+        else
+            addItem(new TextEntry(new TranslatableText("config.text.raa.waterVaporize").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.doesWaterVaporize()).formatted(Formatting.RED))));
+        //fog
+        if (dimensionData.shouldRenderFog())
+            addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.shouldRenderFog()).formatted(Formatting.GREEN))));
+        else
+            addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog").formatted(Formatting.GRAY)
+                    .append(new TranslatableText("config.text.raa.var",  dimensionData.shouldRenderFog()).formatted(Formatting.RED))));
+
+        //determine formatting colors
+        //the numbers will have to change when more dangerous dimensions are added
+        Formatting difficultyFormatting = Formatting.GREEN;
+        if (dimensionData.getDifficulty() > 2) difficultyFormatting = Formatting.YELLOW;
+        if (dimensionData.getDifficulty() > 6) difficultyFormatting = Formatting.RED;
+        if (dimensionData.getDifficulty() > 10) difficultyFormatting = Formatting.DARK_RED;
+        addItem(new TextEntry(new TranslatableText("config.text.raa.difficulty").formatted(Formatting.GRAY)
+                .append(new TranslatableText("config.text.raa.var",  dimensionData.getDifficulty()).formatted(difficultyFormatting))));
+
+        if (dimensionData.getFlags() != 0) {
+            addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+            int flags = dimensionData.getFlags();
+            if (Utils.checkBitFlag(flags, Utils.LUSH)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.lush", dimensionData.shouldRenderFog()).formatted(Formatting.GREEN)));
+            if (Utils.checkBitFlag(flags, Utils.CIVILIZED)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.civilized", dimensionData.shouldRenderFog()).formatted(Formatting.DARK_GREEN)));
+            if (Utils.checkBitFlag(flags, Utils.ABANDONED)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.abandoned", dimensionData.shouldRenderFog()).formatted(Formatting.GRAY)));
+            if (Utils.checkBitFlag(flags, Utils.DEAD)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.dead", dimensionData.shouldRenderFog()).formatted(Formatting.DARK_GRAY)));
+            if (Utils.checkBitFlag(flags, Utils.DRY)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.dry", dimensionData.shouldRenderFog()).formatted(Formatting.YELLOW)));
+            if (Utils.checkBitFlag(flags, Utils.TECTONIC)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.tectonic", dimensionData.shouldRenderFog()).formatted(Formatting.DARK_GRAY)));
+            if (Utils.checkBitFlag(flags, Utils.MOLTEN)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.molten", dimensionData.shouldRenderFog()).formatted(Formatting.YELLOW)));
+            if (Utils.checkBitFlag(flags, Utils.CORRUPTED)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.corrupted", dimensionData.shouldRenderFog()).formatted(Formatting.DARK_RED)));
+
+        }
+
         addItem(new TitleEntry(new TranslatableText("config.title.raa.colors").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
 
         if (dimensionData.hasSky()) {
@@ -68,6 +124,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         addItem(new ColorEntry("config.text.raa.fogColor", colorPalette.getFogColor()));
         addItem(new ColorEntry("config.text.raa.foliageColor", colorPalette.getFoliageColor()));
         addItem(new ColorEntry("config.text.raa.stoneColor", colorPalette.getStoneColor()));
+        addItem(new ColorEntry("config.text.raa.waterColor", dimensionData.getBiomeData().getWaterColor()));
 
         /*if (dimensionData.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
@@ -98,7 +155,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
 
         @Override
         public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(I18n.translate(s, "#" + Integer.toHexString(color).replace("ff", "")), x, y, 16777215);
+            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(Formatting.GRAY.toString() + I18n.translate(s) + Formatting.WHITE.toString() + I18n.translate("#" + Integer.toHexString(color).replace("ff", "")), x, y, 16777215);
             fillGradient(i + 1, y + 1, i + 1 + entryHeight, y + 1 + entryHeight, color, color);
         }
 
