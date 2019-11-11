@@ -5,7 +5,6 @@ import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.MaterialsConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
-import io.github.vampirestudios.raa.generation.surface.CustomDimensionSurfaceBuilder;
 import io.github.vampirestudios.raa.registries.*;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
@@ -16,8 +15,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +33,6 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static GeneralConfig CONFIG;
 	public static MaterialsConfig MATERIALS_CONFIG;
 	public static DimensionsConfig DIMENSIONS_CONFIG;
-	public static CustomDimensionSurfaceBuilder SURFACE_BUILDER;
 
 	@Override
 	public void onInitialize() {
@@ -45,6 +41,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 		Textures.init();
 		Features.init();
 		Decorators.init();
+		SurfaceBuilders.init();
 
 		MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
 		if(CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
@@ -63,8 +60,6 @@ public class RandomlyAddingAnything implements ModInitializer {
 		}
 		Dimensions.ready = true;
 
-		SURFACE_BUILDER = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "custom_surface_builder"),
-				new CustomDimensionSurfaceBuilder(TernarySurfaceConfig::deserialize));
 		Dimensions.createDimensions();
 		Materials.createMaterialResources();
 		MaterialRecipes.init();

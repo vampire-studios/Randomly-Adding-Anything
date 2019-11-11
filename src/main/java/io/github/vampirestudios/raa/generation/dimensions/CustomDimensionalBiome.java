@@ -37,7 +37,7 @@ public class CustomDimensionalBiome extends Biome {
 
     public CustomDimensionalBiome(DimensionData dimensionData) {
         super((new Biome.Settings()
-                .configureSurfaceBuilder(Utils.random(Rands.randInt(100)), SurfaceBuilder.GRASS_CONFIG)
+                .configureSurfaceBuilder(Utils.randomSurfaceBuilder(Rands.randInt(100)), SurfaceBuilder.GRASS_CONFIG)
                 .precipitation(Biome.Precipitation.RAIN)
                 .category(Biome.Category.PLAINS)
                 .depth(dimensionData.getBiomeData().getDepth())
