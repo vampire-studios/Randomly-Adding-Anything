@@ -198,6 +198,8 @@ public class Dimensions {
                     int spawnSize = Rands.randIntRange(2, 8);
                     list.put("llama", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
                 }
+            } else {
+                difficulty+=4;
             }
         }
         if (Rands.chance(2))  {
