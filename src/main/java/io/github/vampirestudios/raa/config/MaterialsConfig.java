@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 public class MaterialsConfig extends RAADataConfig {
 	public MaterialsConfig(String fileName) {
-		super("test2");
+		super("materials/material_config");
 	}
 
 	@Override
