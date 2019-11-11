@@ -47,13 +47,11 @@ public abstract class RAADataConfig {
 
 	public void save() {
 		try {
-			if (configFile == null) {
-				new File(configFile.getParent()).mkdir();
-				configFile.createNewFile();
-				FileWriter fileWriter = new FileWriter(configFile);
-				save(fileWriter);
-				fileWriter.close();
-			}
+			new File(configFile.getParent()).mkdir();
+			configFile.createNewFile();
+			FileWriter fileWriter = new FileWriter(configFile);
+			save(fileWriter);
+			fileWriter.close();
 		} catch (IOException e) {
 			try {
 				throw new IOException("Couldn't save RAA data file: " + configFile.toString(), e);
