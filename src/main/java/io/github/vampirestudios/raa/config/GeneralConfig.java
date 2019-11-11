@@ -8,7 +8,7 @@ import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 @Config(name = RandomlyAddingAnything.MOD_ID)
 public class GeneralConfig implements ConfigData {
 
-    public int materialNumber = 20;
+    public int materialNumber = 100;
     public int dimensionNumber = 50;
     public boolean debug = false;
     public boolean regen = false;
