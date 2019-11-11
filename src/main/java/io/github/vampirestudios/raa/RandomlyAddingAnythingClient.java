@@ -31,8 +31,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.level.ColorResolver;
 
 import java.util.*;
 import java.util.function.Function;
@@ -58,17 +56,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColorAt(),
 			Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
 
-        //TODO: figure out why tf this crashes
-//        ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) -> {
-//            assert blockRenderView != null;
-//            return blockRenderView.method_23752(blockPos, new ColorResolver() {
-//                @Override
-//                public int getColor(Biome var1, double var2, double var4) {
-//                    assert var1 != null;
-//                    return var1.getFoliageColorAt();
-//                }
-//            });
-//        }, Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
+        ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
+                MinecraftClient.getInstance().world.getBiomeAccess().getBiome(blockPos).getFoliageColorAt(), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
 
         while (!Materials.isReady()) {
             System.out.println("Not Ready");
