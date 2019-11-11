@@ -20,8 +20,9 @@ public class PatchyMesaSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfi
 
     @Override
     public void generate(Random rand, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState state, BlockState state2, int int1, long long1, TernarySurfaceConfig config) {
-        double mesaNoise = MESA_NOISE.sample(x*0.049765625D, height*0.049765625D, false);
+        double mesaNoise = MESA_NOISE.sample(x*0.049765625D, z*0.049765625D, false);
         if (mesaNoise > 0.0D) {
+            SurfaceBuilder.BADLANDS.initSeed(long1);
             SurfaceBuilder.BADLANDS.generate(rand, chunk, biome, x, z, height, noise, state, state2, int1, long1, SurfaceBuilder.BADLANDS_CONFIG);
         } else {
             SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, z, height, noise, state, state2, int1, long1, config);
