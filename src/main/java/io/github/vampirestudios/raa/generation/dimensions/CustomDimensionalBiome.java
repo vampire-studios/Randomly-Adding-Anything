@@ -210,12 +210,12 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addSprings(this);
         DefaultBiomeFeatures.addFrozenTopLayer(this);
 
-        StoneCircleFeature STONE_CIRCLE = Features.register(String.format("%s_stone_circle_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 100)), new StoneCircleFeature(dimensionData));
+        StoneCircleFeature STONE_CIRCLE = Features.register(String.format("%s_stone_circle_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new StoneCircleFeature(dimensionData));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, STONE_CIRCLE.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(160))));
 
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SPIDER_LAIR.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(230))));
 
-        BarrowFeature BARROW = Features.register(String.format("%s_barrow_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 100)), new BarrowFeature(dimensionData));
+        BarrowFeature BARROW = Features.register(String.format("%s_barrow_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new BarrowFeature(dimensionData));
         this.addFeature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, BARROW.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.35f, 1))));
 
         if (dimensionData.getMobs().containsKey("sheep")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, dimensionData.getMobs().get("sheep")[0], dimensionData.getMobs().get("sheep")[1], dimensionData.getMobs().get("sheep")[2]));
