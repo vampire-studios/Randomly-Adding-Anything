@@ -3,6 +3,8 @@ package io.github.vampirestudios.raa.generation.dimensions;
 import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
+import io.github.vampirestudios.raa.generation.feature.BarrowFeature;
+import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.registries.Decorators;
 import io.github.vampirestudios.raa.registries.Features;
@@ -60,13 +62,13 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addDefaultStructures(this);
         DefaultBiomeFeatures.addDefaultLakes(this);
         DefaultBiomeFeatures.addDungeons(this);
-        if (Rands.chance(4) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
+        if (Rands.chance(4) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DRY) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.MOLTEN)) {
             DefaultBiomeFeatures.addPlainsTallGrass(this);
         }
         DefaultBiomeFeatures.addMineables(this);
         DefaultBiomeFeatures.addDefaultOres(this);
         DefaultBiomeFeatures.addDefaultDisks(this);
-        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
+        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DRY) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.MOLTEN)) {
             int forestConfig = Rands.randInt(4);
             if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH)) forestConfig = 0;
             BranchedTreeFeatureConfig config = getTreeConfig();
@@ -149,10 +151,23 @@ public class CustomDimensionalBiome extends Biome {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.CRATER_FEATURE.configure(new CorruptedFeatureConfig(true)).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 1F), 1))));
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.CORRUPTED_NETHRRACK.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.9F, 1))));
+            this.addFeature(GenerationStep.Feature.LOCAL_MODIFICATIONS, net.minecraft.world.gen.feature.Feature.FOREST_ROCK.configure(new BoulderFeatureConfig(Blocks.OBSIDIAN.getDefaultState(), 20)).createDecoratedFeature(Decorator.FOREST_ROCK.configure(new CountDecoratorConfig(3))));
         } else {
             if (Rands.chance(4)) {
                 this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CRATER_FEATURE.configure(new CorruptedFeatureConfig(false)).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 1F), 1))));
             }
+        }
+
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) || Utils.checkBitFlag(dimensionData.getFlags(), Utils.DRY)) {
+            BranchedTreeFeatureConfig treeConfig = getTreeConfig();
+            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.SMALL_SKELETON_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(Rands.randInt(10) == 5 ? new CountExtraChanceDecoratorConfig(0, 0.5F, 1) : new CountExtraChanceDecoratorConfig(0, 0.01F, 1))));
+            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.LARGE_SKELETON_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(Rands.randInt(10) == 5 ? new CountExtraChanceDecoratorConfig(0, 0.5F, 1) : new CountExtraChanceDecoratorConfig(0, 0.01F, 1))));
+        }
+
+        if(Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
+            BranchedTreeFeatureConfig treeConfig = getDeadTreeConfig();
+            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.SMALL_DEADWOOD_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 0.05F, 1))));
+            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.LARGE_DEADWOOD_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(4, 0.1F, 1))));
         }
 
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
@@ -195,6 +210,14 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addSprings(this);
         DefaultBiomeFeatures.addFrozenTopLayer(this);
 
+        StoneCircleFeature STONE_CIRCLE = Features.register(String.format("%s_stone_circle_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new StoneCircleFeature(dimensionData));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, STONE_CIRCLE.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(160))));
+
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SPIDER_LAIR.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(230))));
+
+        BarrowFeature BARROW = Features.register(String.format("%s_barrow_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new BarrowFeature(dimensionData));
+        this.addFeature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, BARROW.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.35f, 1))));
+
         if (dimensionData.getMobs().containsKey("sheep")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, dimensionData.getMobs().get("sheep")[0], dimensionData.getMobs().get("sheep")[1], dimensionData.getMobs().get("sheep")[2]));
         if (dimensionData.getMobs().containsKey("pig")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.PIG, dimensionData.getMobs().get("pig")[0], dimensionData.getMobs().get("pig")[1], dimensionData.getMobs().get("pig")[2]));
         if (dimensionData.getMobs().containsKey("chicken")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.CHICKEN, dimensionData.getMobs().get("chicken")[0], dimensionData.getMobs().get("chicken")[1], dimensionData.getMobs().get("chicken")[2]));
@@ -214,7 +237,7 @@ public class CustomDimensionalBiome extends Biome {
         if (dimensionData.getMobs().containsKey("witch")) this.addSpawn(EntityCategory.MONSTER, new Biome.SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("witch")[0], dimensionData.getMobs().get("witch")[1], dimensionData.getMobs().get("witch")[2]));
     }
 
-    public static BranchedTreeFeatureConfig getTreeConfig() {
+    private static BranchedTreeFeatureConfig getTreeConfig() {
         BranchedTreeFeatureConfig config;
         int height = Rands.randIntRange(2, 24);
         int foliageHeight = Rands.randIntRange(1, 5);
@@ -303,6 +326,87 @@ public class CustomDimensionalBiome extends Biome {
         return config;
     }
 
+    private static BranchedTreeFeatureConfig getDeadTreeConfig() {
+        BranchedTreeFeatureConfig config;
+        int height = Rands.randIntRange(2, 24);
+        BlockState logState;
+        int leafType = Rands.randInt(4);
+        switch (leafType) {
+            case 1:
+                logState = Blocks.BIRCH_LOG.getDefaultState();
+                break;
+            case 2:
+                logState = Blocks.SPRUCE_LOG.getDefaultState();
+                break;
+            case 3:
+                logState = Blocks.JUNGLE_LOG.getDefaultState();
+                break;
+            case 0:
+            default:
+                logState = Blocks.OAK_LOG.getDefaultState();
+                break;
+        }
+
+        ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
+        if (Rands.chance(3)) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
+        //if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
+        if (Rands.chance(3)) decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleStateProvider(Blocks.PODZOL.getDefaultState())));
+        ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
+
+        switch (Rands.randInt(4)) {
+            case 1:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(Blocks.AIR.getDefaultState()), new SpruceFoliagePlacer(Rands.randIntRange(1, 4), 0)))
+                        .method_23428(Rands.randIntRange(1, 6)) //trunk height rand 1
+                        .method_23430(height - 1) //trunk height rand 2
+                        .method_23437(0) //foliage amount
+                        .method_23438(Rands.randIntRange(1, 6)) //random foliage offset
+                        .method_23439(Rands.randIntRange(0, 8)) //water depth
+                        .method_23433(Rands.randIntRange(1, 8)) //trunk height
+                        .method_23434(Rands.randIntRange(1, 4)) //trunk height offset
+                        .method_23436(Rands.randIntRange(1, 2)) //foliage height
+                        .method_23427()
+                        .method_23429(decorators)
+                        .method_23431();
+                break;
+            case 2:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(Blocks.AIR.getDefaultState()), new PineFoliagePlacer(Rands.randIntRange(1, 2), 0)))
+                        .method_23428(Rands.randIntRange(1, 4))
+                        .method_23430(height - 1)
+                        .method_23435(Rands.randIntRange(1, 2))
+                        .method_23437(0/2)
+                        .method_23438(Rands.randIntRange(1, 4))
+                        .method_23439(Rands.randIntRange(0, 8)) //water depth
+                        .method_23427()
+                        .method_23429(decorators)
+                        .method_23431();
+                break;
+            case 3:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(Blocks.AIR.getDefaultState()), new AcaciaFoliagePlacer(Rands.randIntRange(1, 4), 0)))
+                        .method_23428(Rands.randIntRange(1, 6))
+                        .method_23430(height - 1)
+                        .method_23432(height + Rands.randIntRange(1, 4))
+                        .method_23433(Rands.randIntRange(1, 8))
+                        .method_23437(0) //foliage amount
+                        .method_23439(Rands.randIntRange(0, 8)) //water depth
+                        .method_23427()
+                        .method_23429(decorators)
+                        .method_23431();
+                break;
+            case 0:
+            default:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(Blocks.AIR.getDefaultState()), new BlobFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                        .method_23428(Rands.randIntRange(1, 6)) //
+                        .method_23430(height - 1) //trunk height
+                        .method_23437(0) //foliage amount
+                        .method_23438(Rands.randIntRange(1, 6)) //random foliage offset
+                        .method_23439(Rands.randIntRange(0, 8)) //water depth
+                        .method_23427()
+                        .method_23429(decorators)
+                        .method_23431();
+        }
+        return config;
+    }
+
     private static MegaTreeFeatureConfig getMegaTreeConfig() {
         MegaTreeFeatureConfig config;
         int height = Rands.randIntRange(10, 40);
@@ -339,6 +443,48 @@ public class CustomDimensionalBiome extends Biome {
         config = (new MegaTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState)))
                 .method_23410(height-2).method_23412(height + 4).method_23411(decorators).method_23409();
         return config;
+    }
+
+    public static BlockState randomLog() {
+        BlockState logState;
+        int leafType = Rands.randInt(4);
+        switch (leafType) {
+            case 1:
+                logState = Blocks.BIRCH_LOG.getDefaultState();
+                break;
+            case 2:
+                logState = Blocks.SPRUCE_LOG.getDefaultState();
+                break;
+            case 3:
+                logState = Blocks.JUNGLE_LOG.getDefaultState();
+                break;
+            case 0:
+            default:
+                logState = Blocks.OAK_LOG.getDefaultState();
+                break;
+        }
+        return logState;
+    }
+
+    public static BlockState randomLeaves() {
+        BlockState leafState;
+        int leafType = Rands.randInt(4);
+        switch (leafType) {
+            case 1:
+                leafState = Blocks.BIRCH_LEAVES.getDefaultState();
+                break;
+            case 2:
+                leafState = Blocks.SPRUCE_LEAVES.getDefaultState();
+                break;
+            case 3:
+                leafState = Blocks.JUNGLE_LEAVES.getDefaultState();
+                break;
+            case 0:
+            default:
+                leafState = Blocks.OAK_LEAVES.getDefaultState();
+                break;
+        }
+        return leafState;
     }
 
     @Override
