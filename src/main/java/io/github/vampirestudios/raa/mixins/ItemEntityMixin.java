@@ -8,6 +8,7 @@ import io.github.vampirestudios.raa.state.OreDiscoverState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -48,11 +49,9 @@ public class ItemEntityMixin {
                     }
                 }
                 if (material != null) {
-                    World world = playerEntity_1.getEntityWorld();
-                    if (world instanceof ServerWorld && world instanceof PlayerMaterialDiscoverProvider) {
-                        PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider) world).getMaterialDiscoverState();
-                        Map<UUID, List<OreDiscoverState>> map = discoverState.getPlayerMap();
-                        List<OreDiscoverState> list = map.get(playerEntity_1.getUuid());
+                    if (playerEntity_1 instanceof ServerPlayerEntity && playerEntity_1 instanceof PlayerMaterialDiscoverProvider) {
+                        PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider) playerEntity_1).getMaterialDiscoverState();
+                        List<OreDiscoverState> list = discoverState.getList();
                         for (int i = 0; i < list.size(); i++) {
                             if (list.get(i).getMaterial() == material) {
                                 if (!list.get(i).isDiscovered()) {
@@ -65,7 +64,6 @@ public class ItemEntityMixin {
                                 }
                             }
                         }
-                        map.replace(playerEntity_1.getUuid(), list);
                     }
                 }
             }

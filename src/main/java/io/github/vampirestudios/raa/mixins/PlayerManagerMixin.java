@@ -22,15 +22,18 @@ import java.util.UUID;
 public abstract class PlayerManagerMixin {
 
     @Inject(at = @At("RETURN"), method = "onPlayerConnect")
-    private void onPlayerConnect(ClientConnection clientConnection, ServerPlayerEntity player, CallbackInfo ci) {
-        PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider)player.getServerWorld()).getMaterialDiscoverState();
-        Map<UUID, List<OreDiscoverState>> map = discoverState.getPlayerMap();
-        if (!map.containsKey(player.getUuid())) {
-            List<OreDiscoverState> list = new ArrayList<>();
+    private void onPlayerConnecte(ClientConnection clientConnection, ServerPlayerEntity player, CallbackInfo ci) {
+        PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider)player).getMaterialDiscoverState();
+        if (discoverState == null) {
+            ((PlayerMaterialDiscoverProvider)player).setMaterialDiscoverState(new PlayerMaterialDiscoverState());
+            discoverState = ((PlayerMaterialDiscoverProvider)player).getMaterialDiscoverState();
+        }
+        List<OreDiscoverState> map = discoverState.getList();
+        if (discoverState.isFirstConnect() || (map == null || map.isEmpty())) {
+            discoverState.setFirstConnect(true);
             for (Material material : Materials.MATERIALS) {
-                list.add(new OreDiscoverState(material));
+                map.add(new OreDiscoverState(material));
             }
-            map.put(player.getUuid(), list);
         }
     }
 }

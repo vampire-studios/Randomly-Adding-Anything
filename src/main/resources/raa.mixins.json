@@ -3,5 +3,5 @@
   "package": "io.github.vampirestudios.raa.mixins",
   "compatibilityLevel": "JAVA_8",
   "injectors": { "defaultRequire": 1 },
-  "mixins": ["ItemEntityMixin", "ServerWorldMixin", "PlayerManagerMixin"]
+  "mixins": ["ItemEntityMixin", "ServerPlayerEntityMixin", "PlayerManagerMixin"]
 }
