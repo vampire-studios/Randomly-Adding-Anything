@@ -1,29 +1,42 @@
 package io.github.vampirestudios.raa.api.namegeneration;
 
-import io.github.vampirestudios.raa.api.namegeneration.material.English;
-import io.github.vampirestudios.raa.api.namegeneration.material.French;
-import io.github.vampirestudios.raa.api.namegeneration.material.Norwegian;
-
-import java.util.Map;
+import io.github.vampirestudios.raa.api.namegeneration.biomes.EnglishBiomes;
+import io.github.vampirestudios.raa.api.namegeneration.biomes.FrenchBiomes;
+import io.github.vampirestudios.raa.api.namegeneration.biomes.SpanishBiomes;
+import io.github.vampirestudios.raa.api.namegeneration.dimensions.EnglishDimensions;
+import io.github.vampirestudios.raa.api.namegeneration.dimensions.FrenchDimensions;
+import io.github.vampirestudios.raa.api.namegeneration.dimensions.SpanishDimensions;
+import io.github.vampirestudios.raa.api.namegeneration.entities.EnglishEntities;
+import io.github.vampirestudios.raa.api.namegeneration.entities.FrenchEntities;
+import io.github.vampirestudios.raa.api.namegeneration.entities.SpanishEntities;
+import io.github.vampirestudios.raa.api.namegeneration.material.EnglishMaterials;
+import io.github.vampirestudios.raa.api.namegeneration.material.FrenchMaterials;
+import io.github.vampirestudios.raa.api.namegeneration.material.SpanishMaterials;
 
 public enum LangEnum {
     ENGLISH(
-            new English(),
-            new io.github.vampirestudios.raa.api.namegeneration.biomes.English(),
-            new io.github.vampirestudios.raa.api.namegeneration.dimensions.English(),
-            new io.github.vampirestudios.raa.api.namegeneration.entities.English()
+            new EnglishMaterials(),
+            new EnglishBiomes(),
+            new EnglishDimensions(),
+            new EnglishEntities()
     ),
     FRENCH(
-            new French(),
-            new io.github.vampirestudios.raa.api.namegeneration.biomes.French(),
-            new io.github.vampirestudios.raa.api.namegeneration.dimensions.French(),
-            new io.github.vampirestudios.raa.api.namegeneration.entities.French()
+            new FrenchMaterials(),
+            new FrenchBiomes(),
+            new FrenchDimensions(),
+            new FrenchEntities()
     ),
-    NORWEGIAN(
-            new Norwegian(),
-            new io.github.vampirestudios.raa.api.namegeneration.biomes.Norwegian(),
-            new io.github.vampirestudios.raa.api.namegeneration.dimensions.Norwegian(),
-            new io.github.vampirestudios.raa.api.namegeneration.entities.Norwegian()
+//    NORWEGIAN(
+//            new NorwegianMaterials(),
+//            new NorwegianBiomes(),
+//            new NorwegianDimensions(),
+//            new NorwegianEntities()
+//    ),
+    SPANISH(
+            new SpanishMaterials(),
+            new SpanishBiomes(),
+            new SpanishDimensions(),
+            new SpanishEntities()
     );
 
     private INameGenerator materialNameGenerator;
@@ -38,36 +51,19 @@ public enum LangEnum {
         this.entityNameGenerator = entities;
     }
 
-    public String generateMaterialNames() {
-        return materialNameGenerator.generate();
+    public INameGenerator getMaterialNameGenerator() {
+        return materialNameGenerator;
     }
 
-    public Map<String, String> getMaterialCharMap() {
-        return materialNameGenerator.getSpecialCharatersMap();
+    public INameGenerator getBiomeNameGenerator() {
+        return biomeNameGenerator;
     }
 
-    public String generateBiomeNames() {
-        return biomeNameGenerator.generate();
+    public INameGenerator getDimensionNameGenerator() {
+        return dimensionNameGenerator;
     }
 
-    public Map<String, String> getBiomeCharMap() {
-        return biomeNameGenerator.getSpecialCharatersMap();
+    public INameGenerator getEntityNameGenerator() {
+        return entityNameGenerator;
     }
-
-    public String generateDimensionNames() {
-        return dimensionNameGenerator.generate();
-    }
-
-    public Map<String, String> getDimensionCharMap() {
-        return dimensionNameGenerator.getSpecialCharatersMap();
-    }
-
-    public String generateEntityNames() {
-        return entityNameGenerator.generate();
-    }
-
-    public Map<String, String> getEntityCharMap() {
-        return entityNameGenerator.getSpecialCharatersMap();
-    }
-
 }

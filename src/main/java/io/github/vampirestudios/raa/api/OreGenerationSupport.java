@@ -31,7 +31,7 @@ public class OreGenerationSupport {
     public static class Target {
 
         public static final Target STONE = new Target("stone", new BlockPredicate(Blocks.STONE));
-        public static final Target  ANDESITE = new Target("andesite", new BlockPredicate(Blocks.ANDESITE));
+        public static final Target ANDESITE = new Target("andesite", new BlockPredicate(Blocks.ANDESITE));
         public static final Target DIORITE = new Target("diorite", new BlockPredicate(Blocks.DIORITE));
         public static final Target GRANITE = new Target("granite", new BlockPredicate(Blocks.GRANITE));
         public static final Target GRASS_BLOCK = new Target("grass_block", new BlockPredicate(Blocks.GRASS_BLOCK));

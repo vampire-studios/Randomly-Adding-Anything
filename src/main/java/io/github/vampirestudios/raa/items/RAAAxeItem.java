@@ -7,6 +7,7 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class RAAAxeItem extends AxeItem {
 
@@ -19,7 +20,7 @@ public class RAAAxeItem extends AxeItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.axe", new LiteralText(material.getName()));
+        return new TranslatableText("text.raa.item.axe", new LiteralText(WordUtils.capitalize(material.getName())));
     }
 
 }
