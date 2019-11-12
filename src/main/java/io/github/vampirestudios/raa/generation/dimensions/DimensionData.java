@@ -20,8 +20,9 @@ public class DimensionData {
     private DimensionChunkGenerators dimensionChunkGenerator;
     private int flags;
     private HashMap<String, int[]> mobs;
+	private int difficulty;
 
-    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs) {
+    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs, int difficulty) {
     	this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
@@ -35,19 +36,20 @@ public class DimensionData {
         this.dimensionChunkGenerator = dimensionChunkGenerator;
         this.flags = flags;
         this.mobs = mobs;
-    }
+		this.difficulty = difficulty;
+	}
 
     public Identifier getId() {
         return id;
     }
 
-    public String getName() {
+	public void setId(String id) {
+		this.id = new Identifier(RandomlyAddingAnything.MOD_ID, id);
+	}
+
+	public String getName() {
         return name;
     }
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public int getDimensionId() {
         return dimensionId;
@@ -93,6 +95,10 @@ public class DimensionData {
         return mobs;
     }
 
+	public int getDifficulty() {
+		return difficulty;
+	}
+
 	public static class Builder {
 		private Identifier id;
 		private String name;
@@ -107,6 +113,7 @@ public class DimensionData {
 		private DimensionChunkGenerators dimensionChunkGenerator;
 		private int flags;
 		HashMap<String, int[]> mobs;
+		private int difficulty;
 
 		public static Builder create(Identifier id, String name) {
 			Builder builder = new Builder();
@@ -142,6 +149,7 @@ public class DimensionData {
 			return this;
 		}
 
+		@Deprecated
 		public Builder dimensionId(int dimensionId) {
 			this.dimensionId = dimensionId;
 			return this;
@@ -192,8 +200,13 @@ public class DimensionData {
 			return this;
 		}
 
+		public Builder difficulty(int difficulty) {
+			this.difficulty = difficulty;
+			return this;
+		}
+
 		public DimensionData build() {
-			return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags, mobs);
+			return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags, mobs, difficulty);
 		}
 	}
 }

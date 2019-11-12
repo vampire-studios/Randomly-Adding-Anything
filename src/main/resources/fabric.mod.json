@@ -6,8 +6,7 @@
   "name": "Randomly Adding Anything",
   "description": "A mod adding anything randomly to Minecraft",
   "authors": [
-    "OliviaTheVampire",
-    "arthurbambou(aka Cat Core)"
+    "Vampire's Studio"
   ],
   "contributors": [
     "Shnupbups",
@@ -16,7 +15,8 @@
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/randomly-adding-anything",
     "sources": "https://github.com/vampire-studios/Randomly-Adding-Anything",
-    "discord": "https://discord.gg/t4Tbm7r"
+    "discord": "https://discord.gg/t4Tbm7r",
+    "issues": "https://github.com/vampire-studios/Randomly-Adding-Anything/issues"
   },
 
   "license": "MIT",

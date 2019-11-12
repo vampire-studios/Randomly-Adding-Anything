@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.registries.SurfaceBuilders;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
@@ -19,6 +19,7 @@ public class Utils {
     public static final int MOLTEN = 32; //Instead of water oceans, there are lava oceans.
     public static final int DRY = 64; //No oceans exist at all.
     public static final int TECTONIC = 128; //Creates lots of caves and ravines. Usually not visible on the surface.
+
     public static final int POST_APOCALYPTIC =  CORRUPTED | DEAD | ABANDONED | DRY | TECTONIC; //A combination of corrupted, dead, abandoned, dry, and tectonic
 
     public static String toTitleCase(String lowerCase) {
@@ -37,21 +38,19 @@ public class Utils {
         return new Identifier(identifier.getNamespace(), identifier.getPath() + suffix);
     }
 
-    public static SurfaceBuilder<TernarySurfaceConfig> random(int chance) {
-        /*if (chance == 10) {
-            return SurfaceBuilder.BADLANDS;
-        } else if(chance == 5) {
-            return SurfaceBuilder.GIANT_TREE_TAIGA;
-        } else if(chance == 30) {
-            return SurfaceBuilder.SHATTERED_SAVANNA;
-        } else if(chance == 2) {
-            return SurfaceBuilder.MOUNTAIN;
-        } else if(chance == 40) {
-            return SurfaceBuilder.WOODED_BADLANDS;
-        } else {
-            return RandomlyAddingAnything.SURFACE_BUILDER;
-        }*/
-        return RandomlyAddingAnything.SURFACE_BUILDER;
+    public static SurfaceBuilder<TernarySurfaceConfig> randomSurfaceBuilder(int chance) {
+        //30% default
+        //10% all others
+        if (chance < 30) return SurfaceBuilder.DEFAULT;
+        if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
+        if (chance > 40 && chance <= 50) return SurfaceBuilders.PATCHY_MESA;
+        if (chance > 50 && chance <= 60) return SurfaceBuilders.CLASSIC_CLIFFS;
+        if (chance > 60 && chance <= 70) return SurfaceBuilders.STRATIFIED_CLIFFS;
+        if (chance > 70 && chance <= 80) return SurfaceBuilders.FLOATING_ISLANDS;
+        if (chance > 80 && chance <= 90) return SurfaceBuilders.DUNES;
+        if (chance > 90 && chance <= 100) return SurfaceBuilders.CANYONS;
+
+        return SurfaceBuilders.CANYONS;
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {

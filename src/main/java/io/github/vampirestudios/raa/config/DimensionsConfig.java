@@ -1,9 +1,7 @@
 package io.github.vampirestudios.raa.config;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.GsonUtils;
@@ -16,7 +14,7 @@ import java.util.Arrays;
 
 public class DimensionsConfig extends RAADataConfig {
 	public DimensionsConfig(String fileName) {
-		super(fileName);
+		super("dimensions/dimension_config");
 	}
 
 	@Override

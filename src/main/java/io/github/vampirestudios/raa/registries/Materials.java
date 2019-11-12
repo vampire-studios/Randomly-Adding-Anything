@@ -6,6 +6,7 @@ import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.utils.*;
@@ -64,6 +65,43 @@ public class Materials {
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
                 DebugUtils.materialDebug(material, RGB);
+            }
+        }
+        for (DimensionData dimensionData : Dimensions.DIMENSIONS) {
+            for (int a = 0; a < Rands.randIntRange(0, 3); a++) {
+                Color RGB = Rands.randColor();
+                Random random = Rands.getRandom();
+                INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
+
+                String name;
+                Identifier id;
+                do {
+                    name = dimensionData.getName() + "_" + nameGenerator.generate();
+                    id = new Identifier(RandomlyAddingAnything.MOD_ID, nameGenerator.asId(name));
+                } while (MATERIAL_IDS.contains(id));
+                MATERIAL_IDS.add(id);
+
+                Material material = Material.Builder.create(id, name)
+                        .oreType(Rands.values(OreType.values()))
+                        .color(RGB.getColor())
+                        .generatesIn(Rands.values(GeneratesIn.values()))
+                        .armor(random.nextBoolean())
+                        .tools(Rands.chance(3))
+                        .oreFlower(Rands.chance(4))
+                        .weapons(Rands.chance(7))
+                        .glowing(Rands.chance(4))
+                        .minXPAmount(0)
+                        .maxXPAmount(Rands.randIntRange(0, 4))
+                        .oreClusterSize(Rands.randIntRange(2, 6))
+                        .food(Rands.chance(4))
+                        .build();
+
+                Registry.register(MATERIALS, id, material);
+
+                // Debug Only
+                if (RandomlyAddingAnything.CONFIG.debug) {
+                    DebugUtils.materialDebug(material, RGB);
+                }
             }
         }
         ready = true;
