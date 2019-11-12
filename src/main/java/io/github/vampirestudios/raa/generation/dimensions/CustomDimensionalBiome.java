@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import com.google.common.collect.ImmutableList;
+import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.feature.BarrowFeature;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
@@ -39,7 +40,7 @@ public class CustomDimensionalBiome extends Biome {
 
     public CustomDimensionalBiome(DimensionData dimensionData) {
         super((new Biome.Settings()
-                .configureSurfaceBuilder(Utils.random(Rands.randInt(100)), SurfaceBuilder.GRASS_CONFIG)
+                .configureSurfaceBuilder(Utils.randomSurfaceBuilder(Rands.randInt(100)), SurfaceBuilder.GRASS_CONFIG)
                 .precipitation(Biome.Precipitation.RAIN)
                 .category(Biome.Category.PLAINS)
                 .depth(dimensionData.getBiomeData().getDepth())
@@ -52,8 +53,11 @@ public class CustomDimensionalBiome extends Biome {
         ));
         this.dimensionData = dimensionData;
 
+//        this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
+//        this.addStructureFeature(Feature.PILLAGER_OUTPOST, new PillagerOutpostFeatureConfig(0.004D));
+        if (!(dimensionData.getDimensionChunkGenerator() == DimensionChunkGenerators.FLOATING))
         this.addStructureFeature(Feature.MINESHAFT.configure(new MineshaftFeatureConfig(0.004D, MineshaftFeature.Type.NORMAL)));
-        this.addStructureFeature(Feature.STRONGHOLD.configure(FeatureConfig.DEFAULT));
+//        this.addStructureFeature(Feature.STRONGHOLD.configure(FeatureConfig.DEFAULT));
         DefaultBiomeFeatures.addLandCarvers(this);
         DefaultBiomeFeatures.addDefaultStructures(this);
         DefaultBiomeFeatures.addDefaultLakes(this);
