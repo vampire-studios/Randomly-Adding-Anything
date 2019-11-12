@@ -75,6 +75,9 @@
   "config.text.raa.flags.dry": "Dry",
   "config.text.raa.flags.tectonic": "Tectonic",
 
+  "config.title.raa.civs": "Civilization Influences",
+  "config.text.raa.civs.home": "Home Dimension",
+
   "config.title.raa.colors": "Color Palette",
   "config.text.raa.skyColor": "Sky Color: ",
   "config.text.raa.grassColor": "Grass Color: ",

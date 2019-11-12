@@ -18,10 +18,13 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<RAADimensionDescriptionListWidget.Entry> {
@@ -112,7 +115,27 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
             if (Utils.checkBitFlag(flags, Utils.TECTONIC)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.tectonic", dimensionData.shouldRenderFog()).formatted(Formatting.DARK_GRAY)));
             if (Utils.checkBitFlag(flags, Utils.MOLTEN)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.molten", dimensionData.shouldRenderFog()).formatted(Formatting.YELLOW)));
             if (Utils.checkBitFlag(flags, Utils.CORRUPTED)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.corrupted", dimensionData.shouldRenderFog()).formatted(Formatting.DARK_RED)));
+        }
 
+        if (dimensionData.getCivilizationInfluences().size() > 0) {
+            addItem(new TitleEntry(new TranslatableText("config.title.raa.civs").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+            for (Map.Entry<String, Double> pair : dimensionData.getCivilizationInfluences().entrySet()) {
+                if (pair.getValue() != 1.0) {
+                    addItem(new TextEntry(new TranslatableText("config.text.raa.var", pair.getKey()).formatted(Formatting.GRAY)
+                            .append(": ").formatted(Formatting.GRAY)
+                            .append(new TranslatableText("config.text.raa.var", new DecimalFormat("##.00").format(pair.getValue() * 100)).formatted(Formatting.WHITE)
+                                    .append("%").formatted(Formatting.WHITE))));
+                } else {
+                    addItem(new TextEntry(new TranslatableText("config.text.raa.var", pair.getKey()).formatted(Formatting.GRAY)
+                            .append(": ").formatted(Formatting.GRAY)
+                            .append(new TranslatableText("config.text.raa.var", new DecimalFormat("##.00")
+                                    .format(pair.getValue() * 100)).formatted(Formatting.WHITE)
+                            .append("%").formatted(Formatting.WHITE)
+                            .append(" (").formatted(Formatting.WHITE)
+                            .append(new TranslatableText("config.text.raa.civs.home")).formatted(Formatting.WHITE)
+                            .append(")").formatted(Formatting.WHITE))));
+                }
+            }
         }
 
         addItem(new TitleEntry(new TranslatableText("config.title.raa.colors").formatted(Formatting.UNDERLINE, Formatting.BOLD)));

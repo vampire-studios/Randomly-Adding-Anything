@@ -28,7 +28,7 @@ public class CustomDimension extends Dimension {
     private Block stoneBlock;
 
     public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData, CustomDimensionalBiome dimensionalBiome, Block stoneBlock) {
-        super(world_1, dimensionType_1, 0.0F);
+        super(world_1, dimensionType_1, 0.1F);
         this.dimensionType = dimensionType_1;
         this.dimensionData = dimensionData;
         this.dimensionalBiome = dimensionalBiome;
@@ -135,4 +135,8 @@ public class CustomDimension extends Dimension {
         return dimensionType;
     }
 
+//    @Override
+//    public float method_23759(int int_1) {
+//        return 0.0F;
+//    }
 }

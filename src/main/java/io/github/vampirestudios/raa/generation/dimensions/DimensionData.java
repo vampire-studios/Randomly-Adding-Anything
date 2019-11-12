@@ -21,8 +21,9 @@ public class DimensionData {
     private int flags;
     private HashMap<String, int[]> mobs;
 	private int difficulty;
+	private HashMap<String, Double> civilizationInfluences;
 
-    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs, int difficulty) {
+    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences) {
     	this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
@@ -37,6 +38,7 @@ public class DimensionData {
         this.flags = flags;
         this.mobs = mobs;
 		this.difficulty = difficulty;
+		this.civilizationInfluences = civilizationInfluences;
 	}
 
     public Identifier getId() {
@@ -99,6 +101,10 @@ public class DimensionData {
 		return difficulty;
 	}
 
+	public HashMap<String, Double> getCivilizationInfluences() {
+		return civilizationInfluences;
+	}
+
 	public static class Builder {
 		private Identifier id;
 		private String name;
@@ -114,6 +120,7 @@ public class DimensionData {
 		private int flags;
 		HashMap<String, int[]> mobs;
 		private int difficulty;
+		private HashMap<String, Double> civilizationInfluences;
 
 		public static Builder create(Identifier id, String name) {
 			Builder builder = new Builder();
@@ -205,8 +212,13 @@ public class DimensionData {
 			return this;
 		}
 
+		public Builder setCivilizationInfluences(HashMap<String, Double> civilizationInfluences) {
+			this.civilizationInfluences = civilizationInfluences;
+			return this;
+		}
+
 		public DimensionData build() {
-			return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags, mobs, difficulty);
+			return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences);
 		}
 	}
 }
