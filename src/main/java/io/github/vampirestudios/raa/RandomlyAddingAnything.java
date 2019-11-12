@@ -52,6 +52,11 @@ public class RandomlyAddingAnything implements ModInitializer {
 			DimensionSavingSystem.readFile();
 			Dimensions.isReady = true;
 		}
+		Dimensions.ready = true;
+
+		Entities.generate();
+		Entities.createEntities();
+
 		Dimensions.createDimensions();
 		Materials.createMaterialResources();
 		MaterialRecipes.init();

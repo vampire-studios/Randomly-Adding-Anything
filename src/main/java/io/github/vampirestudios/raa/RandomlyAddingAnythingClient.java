@@ -3,13 +3,17 @@ package io.github.vampirestudios.raa;
 import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.api.enums.OreTypes;
 import io.github.vampirestudios.raa.client.OreBakedModel;
+import io.github.vampirestudios.raa.generation.entity.RandomEntityRenderer;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.RAABlockItem;
+import io.github.vampirestudios.raa.registries.Dimensions;
+import io.github.vampirestudios.raa.registries.Entities;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.impl.client.render.ColorProviderRegistryImpl;
 import net.minecraft.client.MinecraftClient;
@@ -155,6 +159,9 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.texture("layer0", new Identifier("raa", "item/carrot"));
                 });
             });
+            Entities.ENTITIES.forEach(randomEntityData ->
+                    clientResourcePackBuilder.addItemModel(new Identifier(RandomlyAddingAnything.MOD_ID, randomEntityData.id.getPath() + "_spawn_egg"),
+                            modelBuilder -> modelBuilder.parent(new Identifier("item/template_spawn_egg"))));
         });
 
 
@@ -215,5 +222,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 }
             };
         });
+
+        Entities.ENTITIES.forEach(randomEntityData -> EntityRendererRegistry.INSTANCE.register(Registry.ENTITY_TYPE.get(randomEntityData.id),
+                (entityRenderDispatcher, context) -> new RandomEntityRenderer(entityRenderDispatcher)));
     }
 }
