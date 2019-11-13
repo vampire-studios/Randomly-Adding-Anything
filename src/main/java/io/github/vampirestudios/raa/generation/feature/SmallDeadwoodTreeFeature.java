@@ -29,12 +29,32 @@ public class SmallDeadwoodTreeFeature extends AbstractTreeFeature<TreeFeatureCon
 	
 	public SmallDeadwoodTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> function) {
 		super(function);
-		LOG = CustomDimensionalBiome.randomLog();
-		LEAVES = CustomDimensionalBiome.randomLeaves();
+		int leafType = Rands.randInt(4);
+		switch (leafType) {
+			case 1:
+				LOG = Blocks.BIRCH_LOG.getDefaultState();
+				LEAVES = Blocks.BIRCH_LEAVES.getDefaultState();
+				break;
+			case 2:
+				LOG = Blocks.SPRUCE_LOG.getDefaultState();
+				LEAVES = Blocks.SPRUCE_LEAVES.getDefaultState();
+				break;
+			case 3:
+				LOG = Blocks.JUNGLE_LOG.getDefaultState();
+				LEAVES = Blocks.JUNGLE_LEAVES.getDefaultState();
+				break;
+			case 0:
+			default:
+				LOG = Blocks.OAK_LOG.getDefaultState();
+				LEAVES = Blocks.OAK_LEAVES.getDefaultState();
+				break;
+		}
 	}
 
 	@Override
 	public boolean generate(IWorld iWorld, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig) {
+		if (iWorld.getBlockState(blockPos.add(0, -1, 0)).isAir() || !iWorld.getBlockState(blockPos.add(0, -1, 0)).isOpaque())
+			return true;
 		return this.generate(iWorld, new Random(), blockPos, Sets.newTreeSet(), Sets.newTreeSet(), BlockBox.empty(), treeFeatureConfig);
 	}
 

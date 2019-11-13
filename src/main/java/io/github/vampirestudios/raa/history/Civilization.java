@@ -31,7 +31,7 @@ public class Civilization {
         //Currently, it doesn't do anything too complicated, but in the future we will have a whole zero person strategy game like that of Dwarf Fortress.
 
         //If a dimension is already dead, we roll the dice 2-4 times to see if the civ can survive.
-        if (Utils.checkBitFlag(homeDimension.getFlags(), Utils.DEAD)) {
+        if (Utils.checkBitFlag(homeDimension.getFlags(), Utils.DEAD) || Utils.checkBitFlag(homeDimension.getFlags(), Utils.MOLTEN) || Utils.checkBitFlag(homeDimension.getFlags(), Utils.DRY)) {
             boolean survived = false;
             for (int i = 0; i < Rands.randIntRange(3, 5); i++) {
                 survived = Rands.chance(6);

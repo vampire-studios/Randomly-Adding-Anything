@@ -54,7 +54,7 @@ public class LargeSkeletalTreeFeature extends AbstractTreeFeature<TreeFeatureCon
 	@Override
 	protected boolean generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BlockPos blockPos, Set<BlockPos> set, Set<BlockPos> set1, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig) {
 		if (!isNaturalDirtOrGrass(modifiableTestableWorld, blockPos.down(1))) return false;
-		generateBranch(modifiableTestableWorld, random, blockPos, blockBox, Rands.randInt(4), null);
+		generateBranch(modifiableTestableWorld, random, blockPos.add(0, -1, 0), blockBox, Rands.randInt(4), null);
 		return true;
 	}
 	

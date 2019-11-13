@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.feature;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.utils.FeatureUtils;
 import io.github.vampirestudios.raa.utils.OctaveOpenSimplexNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -22,7 +23,7 @@ import net.minecraft.world.gen.surfacebuilder.SurfaceConfig;
 import java.util.Random;
 
 //Code kindly taken from The Hallow, thanks to everyone who is working on it!
-public class BarrowFeature extends Feature<DefaultFeatureConfig> implements FeatureUtils {
+public class BarrowFeature extends Feature<DefaultFeatureConfig> {
 	
 	private static final OctaveOpenSimplexNoise offsetNoise = new OctaveOpenSimplexNoise(new Random(0), 2, 30D, 4D, 2D);
 	private static BlockState STONE;
@@ -39,6 +40,8 @@ public class BarrowFeature extends Feature<DefaultFeatureConfig> implements Feat
 	
 	@Override
 	public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random rand, BlockPos pos, DefaultFeatureConfig config) {
+		if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque())
+			return true;
 		final BiomeSource source = chunkGenerator.getBiomeSource();
 		
 		return this.generate(world, rand, pos, (x, y, z) -> source.getStoredBiome(x, y, z).getSurfaceConfig());
@@ -92,9 +95,9 @@ public class BarrowFeature extends Feature<DefaultFeatureConfig> implements Feat
 				world.setBlockState(pos, surfaceConfig.getUnderMaterial(), 19);
 			} else if (y == lowY + 2 && rand.nextInt(32) == 0) {
 				if (rand.nextInt(3) == 0) {
-					setLootChest(world, pos, LOOT_TABLE, rand);
+					FeatureUtils.setLootChest(world, pos, LOOT_TABLE, rand);
 				} else {
-					setSpawner(world, pos, SKELETON);
+					FeatureUtils.setSpawner(world, pos, SKELETON);
 				}
 			} else {
 				world.setBlockState(pos, y <= lowY + 1 ? STONE : AIR, 19);

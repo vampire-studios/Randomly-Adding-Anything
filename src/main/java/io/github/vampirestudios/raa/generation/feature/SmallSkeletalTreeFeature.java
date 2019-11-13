@@ -42,13 +42,14 @@ public class SmallSkeletalTreeFeature extends AbstractTreeFeature<TreeFeatureCon
 			return false;
 		}
 		int y;
-		for (y = 0; y < Rands.randInt(5) + 3; y++) {
+		blockPos.offset(Direction.DOWN);
+		for (y = 0; y < Rands.randInt(6) + 4; y++) {
 			addLog(modifiableTestableWorld, blockPos.offset(Direction.UP), Direction.Axis.Y, blockBox);
 		}
 		if (random.nextBoolean()) {
 			Direction direction = Direction.Type.HORIZONTAL.random(random);
 			BlockPos top = blockPos.offset(Direction.UP);
-			for (int i = 1; i < Rands.randInt(3); i++) {
+			for (int i = 1; i < Rands.randInt(4) + 3; i++) {
 				addLog(modifiableTestableWorld, top.offset(direction), direction.getAxis(), blockBox);
 			}
 		}

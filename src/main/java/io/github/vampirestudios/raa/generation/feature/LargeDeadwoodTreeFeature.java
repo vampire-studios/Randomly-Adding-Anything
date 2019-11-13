@@ -3,7 +3,9 @@ package io.github.vampirestudios.raa.generation.feature;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.generation.dimensions.CustomDimensionalBiome;
+import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -26,8 +28,26 @@ public class LargeDeadwoodTreeFeature extends AbstractTreeFeature<TreeFeatureCon
 	
 	public LargeDeadwoodTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> function) {
 		super(function);
-		LOG = CustomDimensionalBiome.randomLog();
-		LEAVES = CustomDimensionalBiome.randomLeaves();
+		int leafType = Rands.randInt(4);
+		switch (leafType) {
+			case 1:
+				LOG = Blocks.BIRCH_LOG.getDefaultState();
+				LEAVES = Blocks.BIRCH_LEAVES.getDefaultState();
+				break;
+			case 2:
+				LOG = Blocks.SPRUCE_LOG.getDefaultState();
+				LEAVES = Blocks.SPRUCE_LEAVES.getDefaultState();
+				break;
+			case 3:
+				LOG = Blocks.JUNGLE_LOG.getDefaultState();
+				LEAVES = Blocks.JUNGLE_LEAVES.getDefaultState();
+				break;
+			case 0:
+			default:
+				LOG = Blocks.OAK_LOG.getDefaultState();
+				LEAVES = Blocks.OAK_LEAVES.getDefaultState();
+				break;
+		}
 	}
 
 	@Override

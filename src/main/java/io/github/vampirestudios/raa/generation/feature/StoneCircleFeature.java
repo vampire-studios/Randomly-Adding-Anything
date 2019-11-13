@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.feature;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.utils.FeatureUtils;
 import io.github.vampirestudios.raa.utils.OctaveOpenSimplexNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Identifier;
@@ -18,7 +19,7 @@ import net.minecraft.world.gen.feature.Feature;
 import java.util.Random;
 
 //Code kindly taken from The Hallow, thanks to everyone who is working on it!
-public class StoneCircleFeature extends Feature<DefaultFeatureConfig> implements FeatureUtils {
+public class StoneCircleFeature extends Feature<DefaultFeatureConfig> {
 	
 	private static final OctaveOpenSimplexNoise offsetNoise = new OctaveOpenSimplexNoise(new Random(0), 2, 25D, 4D, 3D);
 	
@@ -108,7 +109,7 @@ public class StoneCircleFeature extends Feature<DefaultFeatureConfig> implements
 		}
 		
 		if (rand.nextInt(3) == 0) {
-			setLootChest(world, new BlockPos(centreX + rand.nextInt(3) - 1, lowY - 2 - rand.nextInt(3), centreZ + rand.nextInt(3) - 1), LOOT_TABLE, rand);
+			FeatureUtils.setLootChest(world, new BlockPos(centreX + rand.nextInt(3) - 1, lowY - 2 - rand.nextInt(3), centreZ + rand.nextInt(3) - 1), LOOT_TABLE, rand);
 		}
 		
 		return true;
