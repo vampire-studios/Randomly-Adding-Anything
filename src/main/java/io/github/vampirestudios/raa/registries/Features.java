@@ -19,9 +19,6 @@ public class Features {
     public static SpiderLairFeature SPIDER_LAIR;
     public static SmallDeadwoodTreeFeature SMALL_DEADWOOD_TREE;
     public static LargeDeadwoodTreeFeature LARGE_DEADWOOD_TREE;
-    public static ArchStructureFeature CANYON_ARCH_STRUCTURE;
-    public static StructurePieceType CANYON_ARCH_PIECE;
-    public static StructurePieceType VOLCANO_PIECE;
 
     public static void init() {
         CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
@@ -33,10 +30,6 @@ public class Features {
         SPIDER_LAIR = register("spider_lair", new SpiderLairFeature(DefaultFeatureConfig::deserialize));
         SMALL_DEADWOOD_TREE = register("small_deadwood_tree", new SmallDeadwoodTreeFeature(TreeFeatureConfig::deserialize));
         LARGE_DEADWOOD_TREE = register("large_deadwood_tree", new LargeDeadwoodTreeFeature(TreeFeatureConfig::deserialize));
-        CANYON_ARCH_STRUCTURE = registerStructure("canyon_arch", new ArchStructureFeature(DefaultFeatureConfig::deserialize));
-        Feature.STRUCTURES.put("canyon_arch", CANYON_ARCH_STRUCTURE);
-        CANYON_ARCH_PIECE = registerStructurePiece("canyon_arch", ArchGenerator::new);
-        VOLCANO_PIECE = registerStructurePiece("volcano", VolcanoGenerator::new);
     }
 
     public static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {
