@@ -21,6 +21,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 
+//Code kindly taken from The Hallow, thanks to everyone who is working on it!
 public class LargeDeadwoodTreeFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 	private static BlockState LOG;
 	private static BlockState LEAVES;

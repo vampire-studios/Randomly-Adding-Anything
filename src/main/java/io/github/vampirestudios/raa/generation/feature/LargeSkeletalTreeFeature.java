@@ -24,6 +24,7 @@ import java.util.function.Function;
 /**
  * @author Indigo Amann
  */
+//Code kindly taken from The Hallow, thanks to everyone who is working on it!
 public class LargeSkeletalTreeFeature extends AbstractTreeFeature<TreeFeatureConfig> {
 	private static final BlockState LOG = Blocks.BONE_BLOCK.getDefaultState();
 	

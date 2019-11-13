@@ -18,6 +18,7 @@ import net.minecraft.world.gen.feature.Feature;
 
 import java.util.Random;
 
+//Code kindly taken from The Hallow, thanks to everyone who is working on it!
 public class StoneCircleFeature extends Feature<DefaultFeatureConfig> {
 	
 	private static final OctaveOpenSimplexNoise offsetNoise = new OctaveOpenSimplexNoise(new Random(0), 2, 25D, 4D, 3D);
@@ -25,7 +26,7 @@ public class StoneCircleFeature extends Feature<DefaultFeatureConfig> {
 	private static BlockState STONE;
 	private static BlockState COBBLESTONE;
 	
-	private static final Identifier LOOT_TABLE = new Identifier(RandomlyAddingAnything.MOD_ID, "chests/stone_circle");
+	private static final Identifier LOOT_TABLE = new Identifier(RandomlyAddingAnything.MOD_ID, "chest/stone_circle");
 	
 	public StoneCircleFeature(DimensionData dimensionData) {
 		super(DefaultFeatureConfig::deserialize);

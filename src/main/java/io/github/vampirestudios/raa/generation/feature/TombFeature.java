@@ -23,7 +23,9 @@ import net.minecraft.world.gen.surfacebuilder.SurfaceConfig;
 
 import java.util.Random;
 
+//Code kindly taken from The Hallow, thanks to everyone who is working on it!
 public class TombFeature extends Feature<DefaultFeatureConfig> {
+
 	
 	private static final OctaveOpenSimplexNoise offsetNoise = new OctaveOpenSimplexNoise(new Random(0), 2, 30D, 4D, 2D);
 	private static BlockState STONE;

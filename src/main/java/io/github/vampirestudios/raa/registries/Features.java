@@ -2,12 +2,10 @@ package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
+import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.feature.*;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
@@ -35,7 +33,27 @@ public class Features {
     }
 
     public static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {
-        return Registry.register(Registry.FEATURE, new Identifier(MOD_ID, name), feature);
+        if (!Registry.FEATURE.containsId(new Identifier(MOD_ID, name))) {
+            return Registry.register(Registry.FEATURE, new Identifier(MOD_ID, name), feature);
+        } else {
+            return feature;
+        }
+    }
+
+    public static <F extends StructureFeature<?>> F registerStructure(String name, F structureFeature) {
+        if (!Registry.STRUCTURE_FEATURE.containsId(new Identifier(MOD_ID, name))) {
+            return Registry.register(Registry.STRUCTURE_FEATURE, new Identifier(MOD_ID, name), structureFeature);
+        } else {
+            return structureFeature;
+        }
+    }
+
+    public static <F extends StructurePieceType> F registerStructurePiece(String name, F structurePieceType) {
+        if (!Registry.STRUCTURE_PIECE.containsId(new Identifier(MOD_ID, name))) {
+            return Registry.register(Registry.STRUCTURE_PIECE, new Identifier(MOD_ID, name), structurePieceType);
+        } else {
+            return structurePieceType;
+        }
     }
 
 }

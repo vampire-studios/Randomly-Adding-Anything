@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.utils;
 
 import java.util.Random;
 
+//Code kindly taken from Terraform. Thank you, coderbot, Prospector, and Valoeghese!
 public final class OctaveOpenSimplexNoise {
 	
 	protected OpenSimplexNoise[] samplers;
