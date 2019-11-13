@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.mixin;
+package io.github.vampirestudios.raa.mixins;
 
 import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
 import io.github.vampirestudios.raa.utils.Rands;

@@ -4,6 +4,7 @@ import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.FeatureUtils;
 import io.github.vampirestudios.raa.utils.OctaveOpenSimplexNoise;
+import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
@@ -23,7 +24,8 @@ import net.minecraft.world.gen.surfacebuilder.SurfaceConfig;
 import java.util.Random;
 
 //Code kindly taken from The Hallow, thanks to everyone who is working on it!
-public class BarrowFeature extends Feature<DefaultFeatureConfig> {
+public class TombFeature extends Feature<DefaultFeatureConfig> {
+
 	
 	private static final OctaveOpenSimplexNoise offsetNoise = new OctaveOpenSimplexNoise(new Random(0), 2, 30D, 4D, 2D);
 	private static BlockState STONE;
@@ -31,20 +33,20 @@ public class BarrowFeature extends Feature<DefaultFeatureConfig> {
 
 	private static final EntityType<?> SKELETON = EntityType.SKELETON;
 	
-	private static final Identifier LOOT_TABLE = new Identifier(RandomlyAddingAnything.MOD_ID, "chest/barrow");
+	private static final Identifier LOOT_TABLE = new Identifier(RandomlyAddingAnything.MOD_ID, "chests/tomb");
 	
-	public BarrowFeature(DimensionData dimensionData) {
+	public TombFeature(DimensionData dimensionData) {
 		super(DefaultFeatureConfig::deserialize);
 		STONE = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone")).getDefaultState();
 	}
 	
 	@Override
 	public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random rand, BlockPos pos, DefaultFeatureConfig config) {
-		if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque())
+		if (world.getBlockState(pos.add(0, -3, 0)).isAir() || !world.getBlockState(pos.add(0, -3, 0)).isOpaque())
 			return true;
 		final BiomeSource source = chunkGenerator.getBiomeSource();
 		
-		return this.generate(world, rand, pos, (x, y, z) -> source.getStoredBiome(x, y, z).getSurfaceConfig());
+		return this.generate(world, rand, pos.add(0, -3, 0), (x, y, z) -> source.getStoredBiome(x, y, z).getSurfaceConfig());
 	}
 	
 	private boolean generate(IWorld world, Random rand, BlockPos pos, Coordinate3iFunction<SurfaceConfig> configFunction) {
@@ -52,8 +54,8 @@ public class BarrowFeature extends Feature<DefaultFeatureConfig> {
 		int centreZ = pos.getZ() + rand.nextInt(16) - 8;
 		int lowY = pos.getY() - 3;
 		
-		int radius = rand.nextInt(6) + 7;
-		int height = rand.nextInt(4) + 6;
+		int radius = rand.nextInt(10) + 7;
+		int height = rand.nextInt(8) + 6;
 		
 		double radiusSquared = radius * radius;
 		
@@ -93,11 +95,11 @@ public class BarrowFeature extends Feature<DefaultFeatureConfig> {
 				world.setBlockState(pos, surfaceConfig.getTopMaterial(), 19);
 			} else if (y > upperY - 3) {
 				world.setBlockState(pos, surfaceConfig.getUnderMaterial(), 19);
-			} else if (y == lowY + 2 && rand.nextInt(32) == 0) {
+			} else if (y == lowY && rand.nextInt(40) == 0) {
 				if (rand.nextInt(3) == 0) {
 					FeatureUtils.setLootChest(world, pos, LOOT_TABLE, rand);
 				} else {
-					FeatureUtils.setSpawner(world, pos, SKELETON);
+					FeatureUtils.setSpawner(world, pos, Rands.chance(2) ? SKELETON : EntityType.ZOMBIE);
 				}
 			} else {
 				world.setBlockState(pos, y <= lowY + 1 ? STONE : AIR, 19);
