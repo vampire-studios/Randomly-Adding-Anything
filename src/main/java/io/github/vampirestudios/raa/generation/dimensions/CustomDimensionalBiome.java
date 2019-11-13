@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.generation.dimensions;
 import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
-import io.github.vampirestudios.raa.generation.feature.BarrowFeature;
+import io.github.vampirestudios.raa.generation.feature.TombFeature;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.registries.Decorators;
@@ -17,7 +17,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -224,8 +223,8 @@ public class CustomDimensionalBiome extends Biome {
 
             this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SPIDER_LAIR.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(230))));
 
-            BarrowFeature BARROW = Features.register(String.format("%s_barrow_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new BarrowFeature(dimensionData));
-            this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, BARROW.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 0.35f, 1))));
+            TombFeature tomb = Features.register(String.format("%s_tomb_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new TombFeature(dimensionData));
+            this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, tomb.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 0.009f, 1))));
         }
 
         if (dimensionData.getMobs().containsKey("sheep")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, dimensionData.getMobs().get("sheep")[0], dimensionData.getMobs().get("sheep")[1], dimensionData.getMobs().get("sheep")[2]));

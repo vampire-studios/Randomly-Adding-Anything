@@ -38,7 +38,7 @@ public class SpiderLairFeature extends Feature<DefaultFeatureConfig> {
 				}
 			}
 
-			BlockPos chestPos = pos.add(random.nextInt(4) - random.nextInt(4), 0, random.nextInt(4) - random.nextInt(4));
+			BlockPos chestPos = pos.add(0, -1, 0);
 			iWorld.setBlockState(chestPos, StructurePiece.method_14916(iWorld, chestPos, Blocks.CHEST.getDefaultState()), 2);
 			LootableContainerBlockEntity.setLootTable(iWorld, random, chestPos, new Identifier(RandomlyAddingAnything.MOD_ID, "chests/spider_lair"));
 
