@@ -4,9 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "injectors": { "defaultRequire": 1 },
   "mixins": [
-    "ItemEntityMixin", 
-    "ServerPlayerEntityMixin", 
-    "PlayerManagerMixin",
-    "LocateCommandMixin"
+    "ItemEntityMixin",
+    "ServerPlayerEntityMixin",
+    "PlayerManagerMixin"
   ]
 }

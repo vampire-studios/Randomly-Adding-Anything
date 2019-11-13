@@ -128,11 +128,12 @@ public class Dimensions {
                 saturation = Rands.randFloatRange(0.0F, 0.2F);
                 stoneSaturation = saturation;
                 difficulty+=2;
+                if (Utils.checkBitFlag(flags, Utils.CIVILIZED)) difficulty++;
             }
             if (Utils.checkBitFlag(flags, Utils.LUSH)) saturation = Rands.randFloatRange(0.7F, 1.0F);
             if (Utils.checkBitFlag(flags, Utils.CORRUPTED)) difficulty+=2;
-            if (Utils.checkBitFlag(flags, Utils.MOLTEN)) difficulty++;
-            if (Utils.checkBitFlag(flags, Utils.DRY)) difficulty++;
+            if (Utils.checkBitFlag(flags, Utils.MOLTEN)) difficulty+=2;
+            if (Utils.checkBitFlag(flags, Utils.DRY)) difficulty+=2;
             if (Utils.checkBitFlag(flags, Utils.TECTONIC)) difficulty++;
             float value = Rands.randFloatRange(0.5F, 1.0F);
             Color GRASS_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
@@ -164,7 +165,8 @@ public class Dimensions {
 				.flags(flags)
                 .difficulty(difficultyAndMobs.getLeft())
 				.mobs(difficultyAndMobs.getRight())
-                .setCivilizationInfluences(dimension.getCivilizationInfluences());
+                .setCivilizationInfluences(dimension.getCivilizationInfluences())
+                .setSurfaceBuilder(Rands.randInt(100));
             DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.append(name.getRight(), "_biome"), name.getLeft())
                 .surfaceBuilderVariantChance(Rands.randInt(100))
                 .depth(depth)
