@@ -33,7 +33,7 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
 
 	private static final EntityType<?> SKELETON = EntityType.SKELETON;
 	
-	private static final Identifier LOOT_TABLE = new Identifier(RandomlyAddingAnything.MOD_ID, "chests/tomb");
+	private static final Identifier LOOT_TABLE = new Identifier(RandomlyAddingAnything.MOD_ID, "chest/tomb");
 	
 	public TombFeature(DimensionData dimensionData) {
 		super(DefaultFeatureConfig::deserialize);
@@ -95,8 +95,8 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
 				world.setBlockState(pos, surfaceConfig.getTopMaterial(), 19);
 			} else if (y > upperY - 3) {
 				world.setBlockState(pos, surfaceConfig.getUnderMaterial(), 19);
-			} else if (y == lowY && rand.nextInt(40) == 0) {
-				if (rand.nextInt(3) == 0) {
+			} else if (y == lowY && rand.nextInt(48) == 0) {
+				if (rand.nextInt(4) == 0) {
 					FeatureUtils.setLootChest(world, pos, LOOT_TABLE, rand);
 				} else {
 					FeatureUtils.setSpawner(world, pos, Rands.chance(2) ? SKELETON : EntityType.ZOMBIE);

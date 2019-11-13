@@ -349,13 +349,13 @@ public class Dimensions {
             if (Rands.chance(3)) {
                 flags |= Utils.MOLTEN;
             }
-            if (Rands.chance(5)) {
+            if (Rands.chance(4)) {
                 flags |= Utils.DRY;
             }
         } else {
-            if (Rands.chance(6)) {
+            if (Rands.chance(8)) {
                 flags |= Utils.DEAD;
-                if (Rands.chance(3)) {
+                if (Rands.chance(5)) {
                     flags |= Utils.MOLTEN;
                 }
                 if (Rands.chance(5)) {
@@ -367,7 +367,7 @@ public class Dimensions {
                 }
             }
         }
-        if (Rands.chance(15)) {
+        if (Rands.chance(10)) {
             flags |= Utils.TECTONIC;
         }
         return flags;
