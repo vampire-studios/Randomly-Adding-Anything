@@ -163,6 +163,8 @@ public class CustomDimensionalBiome extends Biome {
             BranchedTreeFeatureConfig treeConfig = getTreeConfig();
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.SMALL_SKELETON_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 0.5F), 1))));
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.LARGE_SKELETON_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 0.5F), 1))));
+
+            this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, net.minecraft.world.gen.feature.Feature.FOSSIL.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_PASSTHROUGH.configure(new LakeDecoratorConfig(64))));
         }
 
         //TODO: This doesn't really fit dead dimensions, as they are totally devoid of life.
