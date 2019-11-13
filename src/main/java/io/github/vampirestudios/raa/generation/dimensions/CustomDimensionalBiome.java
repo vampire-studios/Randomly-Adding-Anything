@@ -5,6 +5,7 @@ import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.feature.BarrowFeature;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
+import io.github.vampirestudios.raa.generation.feature.VolcanoStructureFeature;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.registries.Decorators;
 import io.github.vampirestudios.raa.registries.Features;
@@ -151,7 +152,7 @@ public class CustomDimensionalBiome extends Biome {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.CRATER_FEATURE.configure(new CorruptedFeatureConfig(true)).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 1F), 1))));
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.CORRUPTED_NETHRRACK.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.9F, 1))));
-            this.addFeature(GenerationStep.Feature.LOCAL_MODIFICATIONS, net.minecraft.world.gen.feature.Feature.FOREST_ROCK.configure(new BoulderFeatureConfig(Blocks.OBSIDIAN.getDefaultState(), 20)).createDecoratedFeature(Decorator.FOREST_ROCK.configure(new CountDecoratorConfig(3))));
+//            this.addFeature(GenerationStep.Feature.LOCAL_MODIFICATIONS, net.minecraft.world.gen.feature.Feature.FOREST_ROCK.configure(new BoulderFeatureConfig(Blocks.OBSIDIAN.getDefaultState(), 20)).createDecoratedFeature(Decorator.FOREST_ROCK.configure(new CountDecoratorConfig(3))));
         } else {
             if (Rands.chance(4)) {
                 this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CRATER_FEATURE.configure(new CorruptedFeatureConfig(false)).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 1F), 1))));
@@ -210,13 +211,20 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addSprings(this);
         DefaultBiomeFeatures.addFrozenTopLayer(this);
 
-        StoneCircleFeature STONE_CIRCLE = Features.register(String.format("%s_stone_circle_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new StoneCircleFeature(dimensionData));
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, STONE_CIRCLE.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(160))));
+        StoneCircleFeature STONE_CIRCLE = Features.register(String.format("%s_stone_circle", dimensionData.getName().toLowerCase()), new StoneCircleFeature(dimensionData));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, STONE_CIRCLE.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(230))));
 
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SPIDER_LAIR.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(230))));
 
-        BarrowFeature BARROW = Features.register(String.format("%s_barrow_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new BarrowFeature(dimensionData));
-        this.addFeature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, BARROW.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.35f, 1))));
+        BarrowFeature BARROW = Features.register(String.format("%s_barrow", dimensionData.getName().toLowerCase()), new BarrowFeature(dimensionData));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, BARROW.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.COUNT_TOP_SOLID.configure(new CountDecoratorConfig(10))));
+
+        VolcanoStructureFeature VOLCANO_STRUCTURE = Features.registerStructure(String.format("%s_volcano", dimensionData.getName().toLowerCase()), new VolcanoStructureFeature(DefaultFeatureConfig::deserialize, dimensionData));
+        Feature.STRUCTURES.put("Volcano", VOLCANO_STRUCTURE);
+
+        this.addStructureFeature(VOLCANO_STRUCTURE.configure(new DefaultFeatureConfig()));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, VOLCANO_STRUCTURE.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.35f, 1))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CANYON_ARCH_STRUCTURE.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.35f, 1))));
 
         if (dimensionData.getMobs().containsKey("sheep")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, dimensionData.getMobs().get("sheep")[0], dimensionData.getMobs().get("sheep")[1], dimensionData.getMobs().get("sheep")[2]));
         if (dimensionData.getMobs().containsKey("pig")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.PIG, dimensionData.getMobs().get("pig")[0], dimensionData.getMobs().get("pig")[1], dimensionData.getMobs().get("pig")[2]));

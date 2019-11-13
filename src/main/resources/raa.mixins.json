@@ -3,7 +3,7 @@
   "package": "io.github.vampirestudios.raa.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-
+    "LocateCommandMixin"
   ],
   "injectors": {
     "defaultRequire": 1

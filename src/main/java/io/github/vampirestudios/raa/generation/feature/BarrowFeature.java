@@ -21,6 +21,7 @@ import net.minecraft.world.gen.surfacebuilder.SurfaceConfig;
 
 import java.util.Random;
 
+//Code kindly taken from The Hallow, thanks to everyone who is working on it!
 public class BarrowFeature extends Feature<DefaultFeatureConfig> implements FeatureUtils {
 	
 	private static final OctaveOpenSimplexNoise offsetNoise = new OctaveOpenSimplexNoise(new Random(0), 2, 30D, 4D, 2D);
@@ -29,7 +30,7 @@ public class BarrowFeature extends Feature<DefaultFeatureConfig> implements Feat
 
 	private static final EntityType<?> SKELETON = EntityType.SKELETON;
 	
-	private static final Identifier LOOT_TABLE = new Identifier(RandomlyAddingAnything.MOD_ID, "chests/barrow");
+	private static final Identifier LOOT_TABLE = new Identifier(RandomlyAddingAnything.MOD_ID, "chest/barrow");
 	
 	public BarrowFeature(DimensionData dimensionData) {
 		super(DefaultFeatureConfig::deserialize);

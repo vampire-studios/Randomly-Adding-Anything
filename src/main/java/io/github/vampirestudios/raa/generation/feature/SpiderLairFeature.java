@@ -17,6 +17,7 @@ import net.minecraft.world.gen.feature.Feature;
 import java.util.Random;
 import java.util.function.Function;
 
+//Code kindly taken from The Hallow, thanks to everyone who is working on it!
 public class SpiderLairFeature extends Feature<DefaultFeatureConfig> implements FeatureUtils {
 	
 	public SpiderLairFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
@@ -37,7 +38,7 @@ public class SpiderLairFeature extends Feature<DefaultFeatureConfig> implements 
 
 			BlockPos chestPos = pos.add(random.nextInt(4) - random.nextInt(4), 0, random.nextInt(4) - random.nextInt(4));
 			iWorld.setBlockState(chestPos, StructurePiece.method_14916(iWorld, chestPos, Blocks.CHEST.getDefaultState()), 2);
-			LootableContainerBlockEntity.setLootTable(iWorld, random, chestPos, new Identifier(RandomlyAddingAnything.MOD_ID, "chests/spider_lair"));
+			LootableContainerBlockEntity.setLootTable(iWorld, random, chestPos, new Identifier(RandomlyAddingAnything.MOD_ID, "chest/spider_lair"));
 
 			return true;
 		} else {
