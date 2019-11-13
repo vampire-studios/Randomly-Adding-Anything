@@ -25,7 +25,6 @@ public class GlacierSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> 
 
     public GlacierSurfaceBuilder(DoubleFunction<TernarySurfaceConfig> config) {
         super(TernarySurfaceConfig::deserialize);
-
         configProvider = config;
     }
 
@@ -39,7 +38,7 @@ public class GlacierSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> 
         }
 
         double noise = noiseGenerator.sample((double) x / 260D, (double) z / 260D);
-        int glacierDifference = (int) ((noise > 0.22D && noise < 0.3D) ? (1171875 * Math.pow(noise - 0.26, 4)) - 3 : 0);
+        int glacierDifference = (int) ((noise > 0.1D && noise < 0.5D) ? (1171875 * Math.pow(noise - 0.26, 4)) - 3 : 0);
 
         int localX = x & 15;
         int localZ = z & 15;

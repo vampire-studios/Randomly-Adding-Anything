@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.SurfaceBuilders;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
@@ -38,9 +39,10 @@ public class Utils {
         return new Identifier(identifier.getNamespace(), identifier.getPath() + suffix);
     }
 
-    public static SurfaceBuilder<TernarySurfaceConfig> randomSurfaceBuilder(int chance) {
+    public static SurfaceBuilder<TernarySurfaceConfig> randomSurfaceBuilder(int chance, DimensionData data) {
         //30% default
         //10% all others
+        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.FLOATING || data.getDimensionChunkGenerator() == DimensionChunkGenerators.CAVE) return SurfaceBuilder.DEFAULT;
         if (chance < 30) return SurfaceBuilder.DEFAULT;
         if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
         if (chance > 40 && chance <= 50) return SurfaceBuilders.PATCHY_MESA;
@@ -48,9 +50,9 @@ public class Utils {
         if (chance > 60 && chance <= 70) return SurfaceBuilders.STRATIFIED_CLIFFS;
         if (chance > 70 && chance <= 80) return SurfaceBuilders.FLOATING_ISLANDS;
         if (chance > 80 && chance <= 90) return SurfaceBuilders.DUNES;
-        if (chance > 90 && chance <= 100) return SurfaceBuilders.CANYONS;
+        if (chance > 90 && chance <= 100) return SurfaceBuilders.LAZY_NOISE;
 
-        return SurfaceBuilders.CANYONS;
+        return SurfaceBuilder.DEFAULT;
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {

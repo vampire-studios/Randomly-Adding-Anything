@@ -17,6 +17,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -40,7 +41,7 @@ public class CustomDimensionalBiome extends Biome {
 
     public CustomDimensionalBiome(DimensionData dimensionData) {
         super((new Biome.Settings()
-                .configureSurfaceBuilder(Utils.randomSurfaceBuilder(Rands.randInt(100)), SurfaceBuilder.GRASS_CONFIG)
+                .configureSurfaceBuilder(Utils.randomSurfaceBuilder(Rands.randInt(100), dimensionData), SurfaceBuilder.GRASS_CONFIG)
                 .precipitation(Biome.Precipitation.RAIN)
                 .category(Biome.Category.PLAINS)
                 .depth(dimensionData.getBiomeData().getDepth())
@@ -56,7 +57,8 @@ public class CustomDimensionalBiome extends Biome {
 //        this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
 //        this.addStructureFeature(Feature.PILLAGER_OUTPOST, new PillagerOutpostFeatureConfig(0.004D));
         if (!(dimensionData.getDimensionChunkGenerator() == DimensionChunkGenerators.FLOATING))
-        this.addStructureFeature(Feature.MINESHAFT.configure(new MineshaftFeatureConfig(0.004D, MineshaftFeature.Type.NORMAL)));
+            if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED))
+                this.addStructureFeature(Feature.MINESHAFT.configure(new MineshaftFeatureConfig((Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) ? 0.016D : 0.004D, MineshaftFeature.Type.NORMAL)));
 //        this.addStructureFeature(Feature.STRONGHOLD.configure(FeatureConfig.DEFAULT));
         DefaultBiomeFeatures.addLandCarvers(this);
         DefaultBiomeFeatures.addDefaultStructures(this);
@@ -151,7 +153,7 @@ public class CustomDimensionalBiome extends Biome {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.CRATER_FEATURE.configure(new CorruptedFeatureConfig(true)).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 1F), 1))));
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.CORRUPTED_NETHRRACK.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.9F, 1))));
-            this.addFeature(GenerationStep.Feature.LOCAL_MODIFICATIONS, net.minecraft.world.gen.feature.Feature.FOREST_ROCK.configure(new BoulderFeatureConfig(Blocks.OBSIDIAN.getDefaultState(), 20)).createDecoratedFeature(Decorator.FOREST_ROCK.configure(new CountDecoratorConfig(3))));
+            this.addFeature(GenerationStep.Feature.LOCAL_MODIFICATIONS, net.minecraft.world.gen.feature.Feature.FOREST_ROCK.configure(new BoulderFeatureConfig(Blocks.OBSIDIAN.getDefaultState(), 1)).createDecoratedFeature(Decorator.FOREST_ROCK.configure(new CountDecoratorConfig(2))));
         } else {
             if (Rands.chance(4)) {
                 this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CRATER_FEATURE.configure(new CorruptedFeatureConfig(false)).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 1F), 1))));
@@ -160,27 +162,31 @@ public class CustomDimensionalBiome extends Biome {
 
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) || Utils.checkBitFlag(dimensionData.getFlags(), Utils.DRY)) {
             BranchedTreeFeatureConfig treeConfig = getTreeConfig();
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.SMALL_SKELETON_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(Rands.randInt(10) == 5 ? new CountExtraChanceDecoratorConfig(0, 0.5F, 1) : new CountExtraChanceDecoratorConfig(0, 0.01F, 1))));
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.LARGE_SKELETON_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(Rands.randInt(10) == 5 ? new CountExtraChanceDecoratorConfig(0, 0.5F, 1) : new CountExtraChanceDecoratorConfig(0, 0.01F, 1))));
+            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.SMALL_SKELETON_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 0.5F), 1))));
+            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.LARGE_SKELETON_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0, 0.5F), 1))));
         }
 
-        if(Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
-            BranchedTreeFeatureConfig treeConfig = getDeadTreeConfig();
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.SMALL_DEADWOOD_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 0.05F, 1))));
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.LARGE_DEADWOOD_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(4, 0.1F, 1))));
-        }
+        //TODO: This doesn't really fit dead dimensions, as they are totally devoid of life.
+//        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
+//            BranchedTreeFeatureConfig treeConfig = getDeadTreeConfig();
+//            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.SMALL_DEADWOOD_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 0.05F, 1))));
+//            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.LARGE_DEADWOOD_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(4, 0.1F, 1))));
+//        }
 
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
             this.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CANYON, new ProbabilityConfig(1F)));
             this.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CAVE, new ProbabilityConfig(1F)));
         }
 
-        float towerChance = Rands.randFloatRange(0.001F, 0.003F);
+        float towerChance = 0;
         float campfireChance = Rands.randFloatRange(0.003F, 0.005F);
 
-        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED) || Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) towerChance = Rands.randFloatRange(0.002F, 0.006F);
-        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED) || Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) campfireChance = 0;
-        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) campfireChance = Rands.randFloatRange(0.005F, 0.007F);
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) towerChance = Rands.randFloatRange(0.002F, 0.003F);
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) campfireChance = 0;
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) {
+            campfireChance = Rands.randFloatRange(0.005F, 0.007F);
+            towerChance = Rands.randFloatRange(0.002F, 0.008F);
+        }
 
         //debug stuff
 //        campfireChance = 1;
@@ -211,12 +217,16 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addFrozenTopLayer(this);
 
         StoneCircleFeature STONE_CIRCLE = Features.register(String.format("%s_stone_circle_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new StoneCircleFeature(dimensionData));
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, STONE_CIRCLE.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(160))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, STONE_CIRCLE.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(120))));
 
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SPIDER_LAIR.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(230))));
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) {
 
-        BarrowFeature BARROW = Features.register(String.format("%s_barrow_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new BarrowFeature(dimensionData));
-        this.addFeature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, BARROW.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.35f, 1))));
+
+            this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SPIDER_LAIR.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new LakeDecoratorConfig(230))));
+
+            BarrowFeature BARROW = Features.register(String.format("%s_barrow_%d", dimensionData.getName().toLowerCase(), Rands.randIntRange(0, 60000)), new BarrowFeature(dimensionData));
+            this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, BARROW.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 0.35f, 1))));
+        }
 
         if (dimensionData.getMobs().containsKey("sheep")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, dimensionData.getMobs().get("sheep")[0], dimensionData.getMobs().get("sheep")[1], dimensionData.getMobs().get("sheep")[2]));
         if (dimensionData.getMobs().containsKey("pig")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.PIG, dimensionData.getMobs().get("pig")[0], dimensionData.getMobs().get("pig")[1], dimensionData.getMobs().get("pig")[2]));
@@ -443,48 +453,6 @@ public class CustomDimensionalBiome extends Biome {
         config = (new MegaTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState)))
                 .method_23410(height-2).method_23412(height + 4).method_23411(decorators).method_23409();
         return config;
-    }
-
-    public static BlockState randomLog() {
-        BlockState logState;
-        int leafType = Rands.randInt(4);
-        switch (leafType) {
-            case 1:
-                logState = Blocks.BIRCH_LOG.getDefaultState();
-                break;
-            case 2:
-                logState = Blocks.SPRUCE_LOG.getDefaultState();
-                break;
-            case 3:
-                logState = Blocks.JUNGLE_LOG.getDefaultState();
-                break;
-            case 0:
-            default:
-                logState = Blocks.OAK_LOG.getDefaultState();
-                break;
-        }
-        return logState;
-    }
-
-    public static BlockState randomLeaves() {
-        BlockState leafState;
-        int leafType = Rands.randInt(4);
-        switch (leafType) {
-            case 1:
-                leafState = Blocks.BIRCH_LEAVES.getDefaultState();
-                break;
-            case 2:
-                leafState = Blocks.SPRUCE_LEAVES.getDefaultState();
-                break;
-            case 3:
-                leafState = Blocks.JUNGLE_LEAVES.getDefaultState();
-                break;
-            case 0:
-            default:
-                leafState = Blocks.OAK_LEAVES.getDefaultState();
-                break;
-        }
-        return leafState;
     }
 
     @Override

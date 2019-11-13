@@ -96,8 +96,6 @@ public class Dimensions {
                         if (percent > 0.70) {
                             if (civ.getTechLevel() >= 3) dimension.setCivilized();
                         }
-
-
 //                        System.out.println(dimension.getName().getLeft() + ": " + (int)Math.ceil(((civ.getInfluenceRadius() - d)/civ.getInfluenceRadius())*100) +"%");
                     }
                 } else {

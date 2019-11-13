@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.generation.surface.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
@@ -14,7 +15,7 @@ public class SurfaceBuilders {
     public static StratifiedSurfaceBuilder STRATIFIED_CLIFFS;
     public static FloatingIslandSurfaceBuilder FLOATING_ISLANDS;
     public static DuneSurfaceBuilder DUNES;
-    public static CanyonSurfaceBuilder CANYONS;
+    public static LazyNoiseSurfaceBuilder LAZY_NOISE;
 
     public static void init() {
         PATCHY_DESERT = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "patchy_desert"),
@@ -29,7 +30,7 @@ public class SurfaceBuilders {
                 new FloatingIslandSurfaceBuilder(TernarySurfaceConfig::deserialize));
         DUNES = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "dunes"),
                 new DuneSurfaceBuilder(TernarySurfaceConfig::deserialize));
-        CANYONS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "canyons"),
-                new CanyonSurfaceBuilder(TernarySurfaceConfig::deserialize));
+        LAZY_NOISE = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "lazy_noise"),
+                new LazyNoiseSurfaceBuilder(TernarySurfaceConfig::deserialize));
     }
 }
