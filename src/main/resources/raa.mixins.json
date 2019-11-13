@@ -1,11 +1,12 @@
 {
   "required": true,
-  "package": "io.github.vampirestudios.raa.mixin",
+  "package": "io.github.vampirestudios.raa.mixins",
   "compatibilityLevel": "JAVA_8",
+  "injectors": { "defaultRequire": 1 },
   "mixins": [
+    "ItemEntityMixin", 
+    "ServerPlayerEntityMixin", 
+    "PlayerManagerMixin",
     "LocateCommandMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+  ]
 }
