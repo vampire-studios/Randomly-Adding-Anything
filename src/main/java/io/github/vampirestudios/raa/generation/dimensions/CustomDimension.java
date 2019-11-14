@@ -28,7 +28,7 @@ public class CustomDimension extends Dimension {
     private Block stoneBlock;
 
     public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData, CustomDimensionalBiome dimensionalBiome, Block stoneBlock) {
-        super(world_1, dimensionType_1, 0.1F);
+        super(world_1, dimensionType_1, 0.0F);
         this.dimensionType = dimensionType_1;
         this.dimensionData = dimensionData;
         this.dimensionalBiome = dimensionalBiome;
