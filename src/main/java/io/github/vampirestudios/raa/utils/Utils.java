@@ -43,7 +43,9 @@ public class Utils {
         //30% default
         //10% all others
         if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.FLOATING || data.getDimensionChunkGenerator() == DimensionChunkGenerators.CAVE) return SurfaceBuilder.DEFAULT;
-        if (chance < 30) return SurfaceBuilder.DEFAULT;
+
+        if (chance < 20) return SurfaceBuilder.DEFAULT;
+        if (chance > 20 && chance <= 30) return SurfaceBuilders.HYPERFLAT;
         if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
         if (chance > 40 && chance <= 50) return SurfaceBuilders.PATCHY_MESA;
         if (chance > 50 && chance <= 60) return SurfaceBuilders.CLASSIC_CLIFFS;

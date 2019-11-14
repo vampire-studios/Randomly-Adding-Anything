@@ -36,16 +36,20 @@ public class CraterFeature extends Feature<CorruptedFeatureConfig> {
                     for (int j = -(amt + scale); j <= (amt + scale); j++) {
                         if (i == -(amt + scale) || i == (amt + scale) || j == -(amt + scale) || j == (amt + scale)) {
                             if (!Rands.chance(3)) {
-                                this.setBlockState(world, new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt), pos.getZ() + j), Blocks.AIR.getDefaultState());
+//                                this.setBlockState(world, new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt), pos.getZ() + j), Blocks.AIR.getDefaultState());
+                                world.setBlockState(new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt), pos.getZ() + j), Blocks.AIR.getDefaultState(), 11);
                             }
                             if (config.corrupted && Rands.chance(3)) {
-                                this.setBlockState(world, new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt), pos.getZ() + j), Blocks.NETHERRACK.getDefaultState());
+//                                this.setBlockState(world, new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt), pos.getZ() + j), Blocks.NETHERRACK.getDefaultState());
+                                world.setBlockState(new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt), pos.getZ() + j), Blocks.NETHERRACK.getDefaultState(), 11);
                                 if (Rands.chance(2)) {
-                                    this.setBlockState(world, new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt) + 1, pos.getZ() + j), Blocks.FIRE.getDefaultState());
+//                                    this.setBlockState(world, new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt) + 1, pos.getZ() + j), Blocks.FIRE.getDefaultState());
+                                    world.setBlockState(new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt) + 1, pos.getZ() + j), Blocks.AIR.getDefaultState(), 11);
                                 }
                             }
                         } else {
-                            this.setBlockState(world, new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt), pos.getZ() + j), Blocks.AIR.getDefaultState());
+//                            this.setBlockState(world, new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt), pos.getZ() + j), Blocks.AIR.getDefaultState());
+                            world.setBlockState(new BlockPos(pos.getX() + i, pos.getY() - (amtMax - amt), pos.getZ() + j), Blocks.AIR.getDefaultState(), 11);
                         }
                     }
                 }

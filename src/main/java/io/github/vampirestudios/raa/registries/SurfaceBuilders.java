@@ -16,6 +16,7 @@ public class SurfaceBuilders {
     public static FloatingIslandSurfaceBuilder FLOATING_ISLANDS;
     public static DuneSurfaceBuilder DUNES;
     public static LazyNoiseSurfaceBuilder LAZY_NOISE;
+    public static HyperflatSurfaceBuilder HYPERFLAT;
 
     public static void init() {
         PATCHY_DESERT = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "patchy_desert"),
@@ -32,5 +33,7 @@ public class SurfaceBuilders {
                 new DuneSurfaceBuilder(TernarySurfaceConfig::deserialize));
         LAZY_NOISE = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "lazy_noise"),
                 new LazyNoiseSurfaceBuilder(TernarySurfaceConfig::deserialize));
+        HYPERFLAT = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "hyperflat"),
+                new HyperflatSurfaceBuilder(TernarySurfaceConfig::deserialize));
     }
 }

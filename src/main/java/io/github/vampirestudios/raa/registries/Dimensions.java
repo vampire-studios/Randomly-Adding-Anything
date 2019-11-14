@@ -345,7 +345,7 @@ public class Dimensions {
         }
         if (Rands.chance(20)) {
             flags |= Utils.CORRUPTED;
-            if (Rands.chance(5)) {
+            if (Rands.chance(8)) {
                 flags |= Utils.DEAD;
             }
             if (Rands.chance(3)) {
@@ -355,9 +355,9 @@ public class Dimensions {
                 flags |= Utils.DRY;
             }
         } else {
-            if (Rands.chance(8)) {
+            if (Rands.chance(12)) {
                 flags |= Utils.DEAD;
-                if (Rands.chance(5)) {
+                if (Rands.chance(6)) {
                     flags |= Utils.MOLTEN;
                 }
                 if (Rands.chance(5)) {
