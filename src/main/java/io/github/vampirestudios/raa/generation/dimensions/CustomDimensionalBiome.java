@@ -19,8 +19,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -263,30 +261,9 @@ public class CustomDimensionalBiome extends Biome {
         BranchedTreeFeatureConfig config;
         int height = Rands.randIntRange(2, 24);
         int foliageHeight = Rands.randIntRange(1, 5);
-        BlockState logState;
-        BlockState leafState;
         WoodType woodType = new ArrayList<>(Arrays.asList(WoodType.VANILLA)).get(Rands.randInt(WoodType.VANILLA.length));
-        logState = Registry.BLOCK.get(new Identifier(woodType.getIdentifier().getPath() + "_log")).getDefaultState();
-        leafState = Registry.BLOCK.get(new Identifier(woodType.getIdentifier().getPath() + "_leaves")).getDefaultState();
-        /*switch (leafType) {
-            case 1:
-                logState = Blocks.BIRCH_LOG.getDefaultState();
-                leafState = Blocks.BIRCH_LEAVES.getDefaultState();
-                break;
-            case 2:
-                logState = Blocks.SPRUCE_LOG.getDefaultState();
-                leafState = Blocks.SPRUCE_LEAVES.getDefaultState();
-                break;
-            case 3:
-                logState = Blocks.JUNGLE_LOG.getDefaultState();
-                leafState = Blocks.JUNGLE_LEAVES.getDefaultState();
-                break;
-            case 0:
-            default:
-                logState = Blocks.OAK_LOG.getDefaultState();
-                leafState = Blocks.OAK_LEAVES.getDefaultState();
-                break;
-        }*/
+        BlockState logState = woodType.getLog().getDefaultState();
+        BlockState leafState = woodType.getLeaves().getDefaultState();
 
         ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
         if (Rands.chance(3)) decoratorsRaw.add(new LeaveVineTreeDecorator());
@@ -353,23 +330,8 @@ public class CustomDimensionalBiome extends Biome {
     private static BranchedTreeFeatureConfig getDeadTreeConfig() {
         BranchedTreeFeatureConfig config;
         int height = Rands.randIntRange(2, 24);
-        BlockState logState;
-        int leafType = Rands.randInt(4);
-        switch (leafType) {
-            case 1:
-                logState = Blocks.BIRCH_LOG.getDefaultState();
-                break;
-            case 2:
-                logState = Blocks.SPRUCE_LOG.getDefaultState();
-                break;
-            case 3:
-                logState = Blocks.JUNGLE_LOG.getDefaultState();
-                break;
-            case 0:
-            default:
-                logState = Blocks.OAK_LOG.getDefaultState();
-                break;
-        }
+        WoodType woodType = new ArrayList<>(Arrays.asList(WoodType.VANILLA)).get(Rands.randInt(WoodType.VANILLA.length));
+        BlockState logState = woodType.getLog().getDefaultState();
 
         ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
         if (Rands.chance(3)) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
@@ -434,28 +396,9 @@ public class CustomDimensionalBiome extends Biome {
     private static MegaTreeFeatureConfig getMegaTreeConfig() {
         MegaTreeFeatureConfig config;
         int height = Rands.randIntRange(10, 40);
-        BlockState logState;
-        BlockState leafState;
-        int leafType = Rands.randInt(4);
-        switch (leafType) {
-            case 1:
-                logState = Blocks.BIRCH_LOG.getDefaultState();
-                leafState = Blocks.BIRCH_LEAVES.getDefaultState();
-                break;
-            case 2:
-                logState = Blocks.SPRUCE_LOG.getDefaultState();
-                leafState = Blocks.SPRUCE_LEAVES.getDefaultState();
-                break;
-            case 3:
-                logState = Blocks.JUNGLE_LOG.getDefaultState();
-                leafState = Blocks.JUNGLE_LEAVES.getDefaultState();
-                break;
-            case 0:
-            default:
-                logState = Blocks.OAK_LOG.getDefaultState();
-                leafState = Blocks.OAK_LEAVES.getDefaultState();
-                break;
-        }
+        WoodType woodType = new ArrayList<>(Arrays.asList(WoodType.VANILLA)).get(Rands.randInt(WoodType.VANILLA.length));
+        BlockState logState = woodType.getLog().getDefaultState();
+        BlockState leafState = woodType.getLeaves().getDefaultState();
 
         ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
         if (Rands.chance(3)) decoratorsRaw.add(new LeaveVineTreeDecorator());
