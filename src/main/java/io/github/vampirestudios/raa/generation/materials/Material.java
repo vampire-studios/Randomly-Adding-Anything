@@ -4,6 +4,7 @@ import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
 
 public class Material {
@@ -23,15 +24,16 @@ public class Material {
     private boolean glowing;
     private boolean oreFlower;
     private boolean food;
+    private int rank;
 
     private Material(OreInformation oreInformation, Identifier id, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
-                    boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
-        this(oreInformation, id, name, color, miningLevel, storageBlockTexture, resourceItemTexture, null, armor, tools, weapons, glowing, oreFlower, food);
+                    boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, int rank) {
+        this(oreInformation, id, name, color, miningLevel, storageBlockTexture, resourceItemTexture, null, armor, tools, weapons, glowing, oreFlower, food, rank);
     }
 
     private Material(OreInformation oreInformation, Identifier id, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
-					 boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
-    	this(oreInformation, id, name, color, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, null, tools, weapons, null, glowing, oreFlower, food);
+					 boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, int rank) {
+    	this(oreInformation, id, name, color, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, null, tools, weapons, null, glowing, oreFlower, food, rank);
 
         if (this.tools || this.weapons) {
             this.toolMaterial = CustomToolMaterial.generate(id, getOreInformation().getOreType(), miningLevel);
@@ -42,12 +44,12 @@ public class Material {
     }
 
     private Material(OreInformation oreInformation, Identifier id, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
-                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
-        this(oreInformation, id, name, color, miningLevel, storageBlockTexture, null, resourceItemTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
+                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food, int rank) {
+        this(oreInformation, id, name, color, miningLevel, storageBlockTexture, null, resourceItemTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, rank);
     }
 
     private Material(OreInformation oreInformation, Identifier id, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
-                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
+                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food, int rank) {
         this.oreInformation = oreInformation;
         this.id = id;
         this.name = name;
@@ -135,6 +137,10 @@ public class Material {
         return miningLevel;
     }
 
+	public int getRank() {
+		return rank;
+	}
+
 	public static class Builder {
 
 		private OreType oreType;
@@ -159,6 +165,7 @@ public class Material {
 		private int maxXPAmount = 10;
 		private int oreClusterSize = 9;
 		private int miningLevel;
+		private int rank = 0;
 
 		@Deprecated
 		public static Builder create() {
@@ -336,10 +343,19 @@ public class Material {
 			}
 
 			OreInformation oreInformation = new OreInformation(oreType, generatesIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
+
+			if (oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.SAND || oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.RED_SAND | oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.DIRT
+					|| oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.COARSE_DIRT || oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.CLAY || oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.PODZOL
+					|| oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.GRAVEL) {
+				oreInformation = new OreInformation(oreType, generatesIn, overlayTexture, oreCount / 3, minXPAmount, maxXPAmount, oreClusterSize);
+			}
+
+			rank = oreInformation.getOreCount();
+
 			if(oreType == OreType.METAL) {
-				return new Material(oreInformation, id, name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture == null ? Rands.list(TextureTypes.METAL_NUGGET_TEXTURES) : nuggetTexture, armor, tools, weapons, glowing, oreFlower, food);
+				return new Material(oreInformation, id, name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture == null ? Rands.list(TextureTypes.METAL_NUGGET_TEXTURES) : nuggetTexture, armor, tools, weapons, glowing, oreFlower, food, rank);
 			} else {
-				return new Material(oreInformation, id, name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, tools, weapons, glowing, oreFlower, food);
+				return new Material(oreInformation, id, name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, tools, weapons, glowing, oreFlower, food, rank);
 			}
 		}
 	}
