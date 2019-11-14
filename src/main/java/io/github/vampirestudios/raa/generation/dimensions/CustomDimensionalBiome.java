@@ -3,8 +3,8 @@ package io.github.vampirestudios.raa.generation.dimensions;
 import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
-import io.github.vampirestudios.raa.generation.feature.TombFeature;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
+import io.github.vampirestudios.raa.generation.feature.TombFeature;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.registries.Decorators;
 import io.github.vampirestudios.raa.registries.Features;
@@ -12,6 +12,7 @@ import io.github.vampirestudios.raa.registries.SurfaceBuilders;
 import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
+import io.github.vampirestudios.raa.utils.WoodType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -34,6 +35,7 @@ import net.minecraft.world.gen.stateprovider.SimpleStateProvider;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CustomDimensionalBiome extends Biome {
 
@@ -259,28 +261,9 @@ public class CustomDimensionalBiome extends Biome {
         BranchedTreeFeatureConfig config;
         int height = Rands.randIntRange(2, 24);
         int foliageHeight = Rands.randIntRange(1, 5);
-        BlockState logState;
-        BlockState leafState;
-        int leafType = Rands.randInt(4);
-        switch (leafType) {
-            case 1:
-                logState = Blocks.BIRCH_LOG.getDefaultState();
-                leafState = Blocks.BIRCH_LEAVES.getDefaultState();
-                break;
-            case 2:
-                logState = Blocks.SPRUCE_LOG.getDefaultState();
-                leafState = Blocks.SPRUCE_LEAVES.getDefaultState();
-                break;
-            case 3:
-                logState = Blocks.JUNGLE_LOG.getDefaultState();
-                leafState = Blocks.JUNGLE_LEAVES.getDefaultState();
-                break;
-            case 0:
-            default:
-                logState = Blocks.OAK_LOG.getDefaultState();
-                leafState = Blocks.OAK_LEAVES.getDefaultState();
-                break;
-        }
+        WoodType woodType = new ArrayList<>(Arrays.asList(WoodType.VANILLA)).get(Rands.randInt(WoodType.VANILLA.length));
+        BlockState logState = woodType.getLog().getDefaultState();
+        BlockState leafState = woodType.getLeaves().getDefaultState();
 
         ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
         if (Rands.chance(3)) decoratorsRaw.add(new LeaveVineTreeDecorator());
@@ -347,23 +330,8 @@ public class CustomDimensionalBiome extends Biome {
     private static BranchedTreeFeatureConfig getDeadTreeConfig() {
         BranchedTreeFeatureConfig config;
         int height = Rands.randIntRange(2, 24);
-        BlockState logState;
-        int leafType = Rands.randInt(4);
-        switch (leafType) {
-            case 1:
-                logState = Blocks.BIRCH_LOG.getDefaultState();
-                break;
-            case 2:
-                logState = Blocks.SPRUCE_LOG.getDefaultState();
-                break;
-            case 3:
-                logState = Blocks.JUNGLE_LOG.getDefaultState();
-                break;
-            case 0:
-            default:
-                logState = Blocks.OAK_LOG.getDefaultState();
-                break;
-        }
+        WoodType woodType = new ArrayList<>(Arrays.asList(WoodType.VANILLA)).get(Rands.randInt(WoodType.VANILLA.length));
+        BlockState logState = woodType.getLog().getDefaultState();
 
         ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
         if (Rands.chance(3)) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
@@ -428,28 +396,9 @@ public class CustomDimensionalBiome extends Biome {
     private static MegaTreeFeatureConfig getMegaTreeConfig() {
         MegaTreeFeatureConfig config;
         int height = Rands.randIntRange(10, 40);
-        BlockState logState;
-        BlockState leafState;
-        int leafType = Rands.randInt(4);
-        switch (leafType) {
-            case 1:
-                logState = Blocks.BIRCH_LOG.getDefaultState();
-                leafState = Blocks.BIRCH_LEAVES.getDefaultState();
-                break;
-            case 2:
-                logState = Blocks.SPRUCE_LOG.getDefaultState();
-                leafState = Blocks.SPRUCE_LEAVES.getDefaultState();
-                break;
-            case 3:
-                logState = Blocks.JUNGLE_LOG.getDefaultState();
-                leafState = Blocks.JUNGLE_LEAVES.getDefaultState();
-                break;
-            case 0:
-            default:
-                logState = Blocks.OAK_LOG.getDefaultState();
-                leafState = Blocks.OAK_LEAVES.getDefaultState();
-                break;
-        }
+        WoodType woodType = new ArrayList<>(Arrays.asList(WoodType.VANILLA)).get(Rands.randInt(WoodType.VANILLA.length));
+        BlockState logState = woodType.getLog().getDefaultState();
+        BlockState leafState = woodType.getLeaves().getDefaultState();
 
         ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
         if (Rands.chance(3)) decoratorsRaw.add(new LeaveVineTreeDecorator());
