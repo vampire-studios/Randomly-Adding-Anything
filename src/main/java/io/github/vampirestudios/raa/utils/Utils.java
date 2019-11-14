@@ -43,24 +43,28 @@ public class Utils {
         //30% default
         //10% all others
 
-        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.LAYEREDFLOATING || data.getDimensionChunkGenerator() == DimensionChunkGenerators.PRECLASSICFLOATING) return SurfaceBuilder.DEFAULT;
-        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.FLOATING || data.getDimensionChunkGenerator() == DimensionChunkGenerators.CAVE) return SurfaceBuilder.DEFAULT;
-
-        if (chance < 20) return SurfaceBuilder.DEFAULT;
-        if (chance > 20 && chance <= 30) return SurfaceBuilders.HYPERFLAT;
-        if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
-        if (chance > 40 && chance <= 50) return SurfaceBuilders.PATCHY_MESA;
-        if (chance > 50 && chance <= 60) return SurfaceBuilders.CLASSIC_CLIFFS;
-        if (chance > 60 && chance <= 70) return SurfaceBuilders.STRATIFIED_CLIFFS;
-        if (chance > 70 && chance <= 80) return SurfaceBuilders.FLOATING_ISLANDS;
-        if (chance > 80 && chance <= 90) return SurfaceBuilders.DUNES;
-        if (chance > 90 && chance <= 100) return SurfaceBuilders.LAZY_NOISE;
+        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.OVERWORLD) {
+            if (chance < 20) return SurfaceBuilder.DEFAULT;
+            if (chance > 20 && chance <= 30) return SurfaceBuilders.HYPERFLAT;
+            if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
+            if (chance > 40 && chance <= 50) return SurfaceBuilders.PATCHY_MESA;
+            if (chance > 50 && chance <= 60) return SurfaceBuilders.CLASSIC_CLIFFS;
+            if (chance > 60 && chance <= 70) return SurfaceBuilders.STRATIFIED_CLIFFS;
+            if (chance > 70 && chance <= 80) return SurfaceBuilders.FLOATING_ISLANDS;
+            if (chance > 80 && chance <= 90) return SurfaceBuilders.DUNES;
+            if (chance > 90 && chance <= 100) return SurfaceBuilders.LAZY_NOISE;
+        }
 
         return SurfaceBuilder.DEFAULT;
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {
         if (chance < 15) {
+            if(chance <= 5) {
+                return DimensionChunkGenerators.FLATCAVES;
+            } else if(chance <= 10) {
+                return DimensionChunkGenerators.HIGHCAVES;
+            }
             return DimensionChunkGenerators.CAVE;
         } else if(chance > 15 && chance < 30) {
             if(chance <= 20) {
@@ -72,7 +76,6 @@ public class Utils {
         } else {
             return DimensionChunkGenerators.OVERWORLD;
         }
-
     }
 
     public static boolean checkBitFlag(int toCheck, int flag) {

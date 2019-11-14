@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.chunkgenerator;
+package io.github.vampirestudios.raa.api.dimension;
 
 
 import net.minecraft.util.Identifier;
