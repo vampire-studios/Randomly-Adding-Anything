@@ -42,6 +42,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 		Features.init();
 		Decorators.init();
 		SurfaceBuilders.init();
+		ChunkGenerators.init();
 
 		MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
 		if(CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
