@@ -42,6 +42,8 @@ public class Utils {
     public static SurfaceBuilder<TernarySurfaceConfig> randomSurfaceBuilder(int chance, DimensionData data) {
         //30% default
         //10% all others
+
+        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.LAYEREDFLOATING || data.getDimensionChunkGenerator() == DimensionChunkGenerators.PRECLASSICFLOATING) return SurfaceBuilder.DEFAULT;
         if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.FLOATING || data.getDimensionChunkGenerator() == DimensionChunkGenerators.CAVE) return SurfaceBuilder.DEFAULT;
 
         if (chance < 20) return SurfaceBuilder.DEFAULT;
@@ -61,10 +63,16 @@ public class Utils {
         if (chance < 15) {
             return DimensionChunkGenerators.CAVE;
         } else if(chance > 15 && chance < 30) {
+            if(chance <= 20) {
+                return DimensionChunkGenerators.LAYEREDFLOATING;
+            } else if(chance <= 25) {
+                return DimensionChunkGenerators.PRECLASSICFLOATING;
+            }
             return DimensionChunkGenerators.FLOATING;
         } else {
             return DimensionChunkGenerators.OVERWORLD;
         }
+
     }
 
     public static boolean checkBitFlag(int toCheck, int flag) {
