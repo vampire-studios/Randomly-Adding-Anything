@@ -3,20 +3,23 @@ package io.github.vampirestudios.raa.generation.dimensions;
 import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
-import io.github.vampirestudios.raa.generation.feature.TombFeature;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
+import io.github.vampirestudios.raa.generation.feature.TombFeature;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.registries.Decorators;
 import io.github.vampirestudios.raa.registries.Features;
 import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
+import io.github.vampirestudios.raa.utils.WoodType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -33,6 +36,7 @@ import net.minecraft.world.gen.stateprovider.SimpleStateProvider;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CustomDimensionalBiome extends Biome {
 
@@ -228,7 +232,8 @@ public class CustomDimensionalBiome extends Biome {
             this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, tomb.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 0.009f, 1))));
         } else if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) {
             TombFeature tomb = Features.register(String.format("%s_tomb", dimensionData.getName().toLowerCase()), new TombFeature(dimensionData));
-            this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, tomb.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 0.009f, 1))));
+            this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, tomb.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 0.009f
+                    , 1))));
         }
 
         if (dimensionData.getMobs().containsKey("sheep")) this.addSpawn(EntityCategory.CREATURE, new Biome.SpawnEntry(EntityType.SHEEP, dimensionData.getMobs().get("sheep")[0], dimensionData.getMobs().get("sheep")[1], dimensionData.getMobs().get("sheep")[2]));
@@ -256,8 +261,10 @@ public class CustomDimensionalBiome extends Biome {
         int foliageHeight = Rands.randIntRange(1, 5);
         BlockState logState;
         BlockState leafState;
-        int leafType = Rands.randInt(4);
-        switch (leafType) {
+        WoodType woodType = new ArrayList<>(Arrays.asList(WoodType.VANILLA)).get(Rands.randInt(WoodType.VANILLA.length));
+        logState = Registry.BLOCK.get(new Identifier(woodType.getIdentifier().getPath() + "_log")).getDefaultState();
+        leafState = Registry.BLOCK.get(new Identifier(woodType.getIdentifier().getPath() + "_leaves")).getDefaultState();
+        /*switch (leafType) {
             case 1:
                 logState = Blocks.BIRCH_LOG.getDefaultState();
                 leafState = Blocks.BIRCH_LEAVES.getDefaultState();
@@ -275,7 +282,7 @@ public class CustomDimensionalBiome extends Biome {
                 logState = Blocks.OAK_LOG.getDefaultState();
                 leafState = Blocks.OAK_LEAVES.getDefaultState();
                 break;
-        }
+        }*/
 
         ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
         if (Rands.chance(3)) decoratorsRaw.add(new LeaveVineTreeDecorator());

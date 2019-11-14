@@ -6,7 +6,6 @@
   "mixins": [
     "ItemEntityMixin", 
     "ServerPlayerEntityMixin", 
-    "PlayerManagerMixin",
-    "LocateCommandMixin"
+    "PlayerManagerMixin"
   ]
 }
