@@ -1,10 +1,16 @@
 package io.github.vampirestudios.raa.registries;
 
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.ProbabilityConfig;
+import net.minecraft.world.gen.carver.Carver;
+import net.minecraft.world.gen.carver.CarverConfig;
 import net.minecraft.world.gen.feature.*;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
@@ -32,6 +38,13 @@ public class Features {
         LARGE_DEADWOOD_TREE = register("large_deadwood_tree", new LargeDeadwoodTreeFeature(TreeFeatureConfig::deserialize));
     }
 
+    public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {
+        CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
+        biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
+        RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
+        biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
+    }
+
     public static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {
         if (!Registry.FEATURE.containsId(new Identifier(MOD_ID, name))) {
             return Registry.register(Registry.FEATURE, new Identifier(MOD_ID, name), feature);
@@ -53,6 +66,14 @@ public class Features {
             return Registry.register(Registry.STRUCTURE_PIECE, new Identifier(MOD_ID, name), structurePieceType);
         } else {
             return structurePieceType;
+        }
+    }
+
+    public static <F extends CarverConfig, C extends Carver<F>> C registerCarver(String name, C carver) {
+        if (!Registry.CARVER.containsId(new Identifier(MOD_ID, name))) {
+            return Registry.register(Registry.CARVER, new Identifier(MOD_ID, name), carver);
+        } else {
+            return carver;
         }
     }
 

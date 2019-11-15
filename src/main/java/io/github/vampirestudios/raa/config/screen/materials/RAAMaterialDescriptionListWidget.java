@@ -7,6 +7,7 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
+import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -24,6 +25,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<RAAMaterialDescriptionListWidget.Entry> {
+
+    Material material;
 
     public RAAMaterialDescriptionListWidget(MinecraftClient client, int width, int height, int top, int bottom, Identifier backgroundLocation) {
         super(client, width, height, top, bottom, backgroundLocation);
@@ -49,11 +52,12 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
     }
 
     public void addMaterial(MaterialListScreen og, Material material) {
+        this.material = material;
         clearItems();
         addItem(new TitleMaterialOverrideEntry(og, material, new LiteralText(WordUtils.capitalizeFully(material.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DecimalFormat df = new DecimalFormat("#.##");
         addItem(new ColorEntry("config.text.raa.color", material.getRGBColor()));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getId().toString()).formatted(Formatting.GRAY)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getId().toString())));
         if (material.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
@@ -66,8 +70,6 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
             addItem(new TitleEntry(new TranslatableText("config.title.raa.weapons").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.durability", material.getToolMaterial().getDurability())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.mining_level", material.getToolMaterial().getMiningLevel())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.tool_speed", df.format(material.getToolMaterial().getMiningSpeed()))));
             addItem(new TextEntry(new TranslatableText("config.text.raa.attack_damage", df.format(material.getToolMaterial().getAttackDamage()))));
         }
     }
@@ -110,10 +112,11 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
             });
         }
 
+        @SuppressWarnings("deprecation")
         private static void openClothConfigForMaterial(MaterialListScreen og, Material material) {
             ConfigBuilder builder = ConfigBuilder.create()
-                    .setParentScreen(new MaterialListScreen(og))
-                    .setTitle(I18n.translate("config.title.raa.material", WordUtils.capitalizeFully(material.getName())));
+                    .setParentScreen(og)
+                    .setTitle(I18n.translate("config.title.raa.config_specific", WordUtils.capitalizeFully(material.getName())));
             ConfigCategory category = builder.getOrCreateCategory("null"); // The name is not required if we only have 1 category in Cloth Config 1.8+
             ConfigEntryBuilder eb = builder.entryBuilder();
             category.addEntry(
@@ -128,45 +131,68 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
                             .build()
             );
             if (material.hasTools()) {
-                category.addEntry(
+                SubCategoryBuilder tools = eb.startSubCategory("config.title.raa.tools").setExpended(false);
+                tools.add(
                         eb.startIntField("config.field.raa.enchantability", material.getToolMaterial().getEnchantability())
                                 .setDefaultValue(material.getToolMaterial().getEnchantability())
-                                .setSaveConsumer(i -> material.getToolMaterial().setEnchantability(i))
+                                .setSaveConsumer(material.getToolMaterial()::setEnchantability)
                                 .setMin(0)
                                 .build()
                 );
-                category.addEntry(
+                tools.add(
                         eb.startIntField("config.field.raa.durability", material.getToolMaterial().getDurability())
                                 .setDefaultValue(material.getToolMaterial().getDurability())
-                                .setSaveConsumer(i -> material.getToolMaterial().setDurability(i))
+                                .setSaveConsumer(material.getToolMaterial()::setDurability)
                                 .setMin(1)
                                 .build()
                 );
-                category.addEntry(
+                tools.add(
                         eb.startIntField("config.field.raa.mining_level", material.getToolMaterial().getMiningLevel())
                                 .setDefaultValue(material.getToolMaterial().getMiningLevel())
-                                .setSaveConsumer(i -> material.getToolMaterial().setMiningLevel(i))
+                                .setSaveConsumer(material.getToolMaterial()::setMiningLevel)
                                 .setMin(0)
                                 .build()
                 );
-                category.addEntry(
+                tools.add(
                         eb.startFloatField("config.field.raa.tool_speed", material.getToolMaterial().getMiningSpeed())
                                 .setDefaultValue(material.getToolMaterial().getMiningSpeed())
-                                .setSaveConsumer(i -> material.getToolMaterial().setMiningSpeed(i))
+                                .setSaveConsumer(material.getToolMaterial()::setMiningSpeed)
                                 .setMin(0)
                                 .build()
                 );
-                category.addEntry(
+                tools.add(
                         eb.startFloatField("config.field.raa.attack_damage", material.getToolMaterial().getAttackDamage())
                                 .setDefaultValue(material.getToolMaterial().getAttackDamage())
-                                .setSaveConsumer(i -> material.getToolMaterial().setAttackDamage(i))
+                                .setSaveConsumer(material.getToolMaterial()::setAttackDamage)
                                 .build()
                 );
+                category.addEntry(tools.build());
             }
             if (material.hasWeapons()) {
-
+                SubCategoryBuilder weapons = eb.startSubCategory("config.title.raa.weapons").setExpended(false);
+                weapons.add(
+                        eb.startIntField("config.field.raa.enchantability", material.getToolMaterial().getEnchantability())
+                                .setDefaultValue(material.getToolMaterial().getEnchantability())
+                                .setSaveConsumer(material.getToolMaterial()::setEnchantability)
+                                .setMin(0)
+                                .build()
+                );
+                weapons.add(
+                        eb.startIntField("config.field.raa.durability", material.getToolMaterial().getDurability())
+                                .setDefaultValue(material.getToolMaterial().getDurability())
+                                .setSaveConsumer(material.getToolMaterial()::setDurability)
+                                .setMin(1)
+                                .build()
+                );
+                weapons.add(
+                        eb.startFloatField("config.field.raa.attack_damage", material.getToolMaterial().getAttackDamage())
+                                .setDefaultValue(material.getToolMaterial().getAttackDamage())
+                                .setSaveConsumer(material.getToolMaterial()::setAttackDamage)
+                                .build()
+                );
+                category.addEntry(weapons.build());
             }
-            builder.setSavingRunnable(RandomlyAddingAnything.MATERIALS_CONFIG::save);
+            builder.setSavingRunnable(RandomlyAddingAnything.MATERIALS_CONFIG::overrideFile);
             MinecraftClient.getInstance().openScreen(builder.build());
         }
 
@@ -174,13 +200,8 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
             RenderSystem.pushMatrix();
             RenderSystem.scalef(1.4F, 1.4F, 1.4F);
-            x = 175;
-            y = 20;
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x, y + 10, 16777215);
-            RenderSystem.scalef(1.0F, 1.0F, 1.0F);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x / 1.4f, (y + 5) / 1.4f, 16777215);
             RenderSystem.popMatrix();
-            x = 245;
-            y = 37;
             overrideButton.x = x + entryWidth - overrideButton.getWidth();
             overrideButton.y = y;
             overrideButton.render(mouseX, mouseY, delta);

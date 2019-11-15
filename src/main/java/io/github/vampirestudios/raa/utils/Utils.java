@@ -61,16 +61,16 @@ public class Utils {
     public static DimensionChunkGenerators randomCG(int chance) {
         if (chance < 15) {
             if(chance <= 5) {
-                return DimensionChunkGenerators.FLATCAVES;
+                return DimensionChunkGenerators.FLAT_CAVES;
             } else if(chance <= 10) {
-                return DimensionChunkGenerators.HIGHCAVES;
+                return DimensionChunkGenerators.HIGH_CAVES;
             }
             return DimensionChunkGenerators.CAVE;
         } else if(chance > 15 && chance < 30) {
             if(chance <= 20) {
-                return DimensionChunkGenerators.LAYEREDFLOATING;
+                return DimensionChunkGenerators.LAYERED_FLOATING;
             } else if(chance <= 25) {
-                return DimensionChunkGenerators.PRECLASSICFLOATING;
+                return DimensionChunkGenerators.PRE_CLASSIC_FLOATING;
             }
             return DimensionChunkGenerators.FLOATING;
         } else {
