@@ -46,14 +46,17 @@ public abstract class RAADataConfig {
 	}
 
 	public void save() {
+	    if (!configFile.exists()) {
+	        overrideFile();
+		}
+	}
+
+	public void overrideFile() {
 		try {
-			if (!configFile.exists()) {
-				new File(configFile.getParent()).mkdirs();
-				configFile.createNewFile();
-				FileWriter fileWriter = new FileWriter(configFile);
-				save(fileWriter);
-				fileWriter.close();
-			}
+		    new File(configFile.getParent()).mkdirs();
+		    FileWriter fileWriter = new FileWriter(configFile, false);
+		    save(fileWriter);
+		    fileWriter.close();
 		} catch (IOException e) {
 			throw new RuntimeException("Couldn't save RAA data file: " + configFile.toString(), e);
 		}

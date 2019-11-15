@@ -20,6 +20,11 @@ public class DimensionColorPalette {
         return skyColor;
     }
 
+    @Deprecated
+    public void setSkyColor(int skyColor) {
+        this.skyColor = skyColor;
+    }
+
     public int getGrassColor() {
         return grassColor;
     }

@@ -12,6 +12,7 @@ import io.github.vampirestudios.raa.api.namegeneration.entities.SpanishEntities;
 import io.github.vampirestudios.raa.api.namegeneration.material.EnglishMaterials;
 import io.github.vampirestudios.raa.api.namegeneration.material.FrenchMaterials;
 import io.github.vampirestudios.raa.api.namegeneration.material.SpanishMaterials;
+import org.apache.commons.lang3.text.WordUtils;
 
 public enum LangEnum {
     ENGLISH(
@@ -65,5 +66,10 @@ public enum LangEnum {
 
     public INameGenerator getEntityNameGenerator() {
         return entityNameGenerator;
+    }
+
+    @Override
+    public String toString() {
+        return WordUtils.capitalizeFully(name());
     }
 }
