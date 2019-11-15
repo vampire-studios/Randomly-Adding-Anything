@@ -63,15 +63,16 @@ public class RAADimensionListWidget extends DynamicElementListWidget<RAADimensio
 
         public abstract void onClick();
 
+        public abstract boolean isSelected(DimensionData material);
+
         public class PackWidget implements Element, Drawable {
             private Rect2i bounds;
-            private boolean focused;
 
             @Override
             public void render(int mouseX, int mouseY, float delta) {
                 RenderSystem.disableAlphaTest();
-                boolean isHovered = focused || bounds.contains(mouseX, mouseY);
-                drawString(MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + WordUtils.capitalizeFully(material.getName()),
+                boolean isHovered = bounds.contains(mouseX, mouseY);
+                drawString(MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + (isSelected(material) ? Formatting.BOLD.toString() : "") + WordUtils.capitalizeFully(material.getName()),
                            bounds.getX() + 5, bounds.getY() + 6, 16777215
                 );
             }
@@ -106,12 +107,6 @@ public class RAADimensionListWidget extends DynamicElementListWidget<RAADimensio
                 }
 
                 return string_1;
-            }
-
-            @Override
-            public boolean changeFocus(boolean boolean_1) {
-                this.focused = !this.focused;
-                return this.focused;
             }
         }
     }

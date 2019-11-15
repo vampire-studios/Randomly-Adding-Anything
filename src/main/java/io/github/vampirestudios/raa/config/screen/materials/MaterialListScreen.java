@@ -60,6 +60,11 @@ public class MaterialListScreen extends Screen {
                 public void onClick() {
                     descriptionList.addMaterial(MaterialListScreen.this, material);
                 }
+
+                @Override
+                public boolean isSelected(Material material) {
+                    return descriptionList.material == material;
+                }
             });
         }
         if (!materials.isEmpty()) materialList.addItem(new RAAMaterialListWidget.EmptyEntry(10));

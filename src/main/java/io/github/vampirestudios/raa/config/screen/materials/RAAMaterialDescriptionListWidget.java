@@ -26,6 +26,8 @@ import java.util.Optional;
 
 public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<RAAMaterialDescriptionListWidget.Entry> {
 
+    Material material;
+
     public RAAMaterialDescriptionListWidget(MinecraftClient client, int width, int height, int top, int bottom, Identifier backgroundLocation) {
         super(client, width, height, top, bottom, backgroundLocation);
     }
@@ -50,6 +52,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
     }
 
     public void addMaterial(MaterialListScreen og, Material material) {
+        this.material = material;
         clearItems();
         addItem(new TitleMaterialOverrideEntry(og, material, new LiteralText(WordUtils.capitalizeFully(material.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DecimalFormat df = new DecimalFormat("#.##");

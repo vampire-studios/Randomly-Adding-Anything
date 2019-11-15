@@ -28,6 +28,8 @@ import java.util.Optional;
 
 public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<RAADimensionDescriptionListWidget.Entry> {
 
+    DimensionData data;
+
     public RAADimensionDescriptionListWidget(MinecraftClient client, int width, int height, int top, int bottom, Identifier backgroundLocation) {
         super(client, width, height, top, bottom, backgroundLocation);
     }
@@ -52,6 +54,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
     }
 
     public void addMaterial(DimensionListScreen og, DimensionData dimensionData) {
+        this.data = dimensionData;
         clearItems();
         addItem(new TitleMaterialOverrideEntry(og, dimensionData, new LiteralText(WordUtils.capitalizeFully(dimensionData.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DimensionColorPalette colorPalette = dimensionData.getDimensionColorPalette();
