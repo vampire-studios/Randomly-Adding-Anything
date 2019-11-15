@@ -125,7 +125,7 @@ public class LayeredOreBlock extends OreBlock {
 					if (pools.isEmpty()) {
 						//Yup. Somehow we got a loot pool that just never drops anything.
 						if (!complainedAboutLoot) {
-							System.out.println("Loot pool '"+tableId+"' doesn't seem to be able to drop anything. Supplying the ore block instead. Please report this to the Cotton team!");
+							System.out.println("Loot pool '"+tableId+"' doesn't seem to be able to drop anything. Supplying the ore block instead. Please report this to the RAA team!");
 							complainedAboutLoot = true;
 						}
 						if (material.getOreInformation().getOreType() == OreType.METAL) {

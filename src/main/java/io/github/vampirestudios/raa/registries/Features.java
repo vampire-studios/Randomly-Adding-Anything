@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -39,10 +40,17 @@ public class Features {
     }
 
     public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {
-        CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
-        biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
-        RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
-        biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
+            CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
+            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
+            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
+            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(1)));
+        } else {
+            CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
+            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
+            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
+            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
+        }
     }
 
     public static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {

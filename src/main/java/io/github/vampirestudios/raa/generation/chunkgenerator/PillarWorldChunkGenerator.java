@@ -117,7 +117,7 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
 //        doubles_1[0] = (double)float_2 + this.sampleNoise(x, z)/4;
 //        doubles_1[1] = (double)float_1/16;
         doubles_1[0] = simplexNoise.sample(x, z, false)*128;
-        doubles_1[1] =  simplexNoise.sample(z, x, false)*128;
+        doubles_1[1] = simplexNoise.sample(z, x, false)*128;
         return doubles_1;
     }
 

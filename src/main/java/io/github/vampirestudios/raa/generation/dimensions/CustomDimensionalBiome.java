@@ -182,11 +182,6 @@ public class CustomDimensionalBiome extends Biome {
 //            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.LARGE_DEADWOOD_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(4, 0.1F, 1))));
 //        }
 
-        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
-            this.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CANYON, new ProbabilityConfig(1F)));
-            this.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CAVE, new ProbabilityConfig(1F)));
-        }
-
         float towerChance = 0;
         float campfireChance = 0;
 

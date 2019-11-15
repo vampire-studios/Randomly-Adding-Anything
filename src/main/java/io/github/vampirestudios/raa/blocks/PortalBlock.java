@@ -6,6 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -16,12 +18,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PortalBlock extends Block {
     private DimensionType dimensionType;
     private DimensionData dimensionData;
 
     public PortalBlock(DimensionData  dimensionData, DimensionType dimensionType) {
-        super(Block.Settings.of(Material.PORTAL));
+        super(Block.Settings.of(Material.STONE).strength(8.f, 80.f));
         this.dimensionType = dimensionType;
         this.dimensionData = dimensionData;
     }
@@ -46,5 +51,12 @@ public class PortalBlock extends Block {
             }
         }
         return super.onUse(blockState_1, world_1, pos, playerEntity_1, hand_1, blockHitResult_1);
+    }
+
+    @Override
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+        List<ItemStack> list = new ArrayList<>();
+        list.add(new ItemStack(state.getBlock().asItem()));
+        return list;
     }
 }

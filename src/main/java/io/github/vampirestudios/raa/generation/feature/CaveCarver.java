@@ -2,11 +2,16 @@ package io.github.vampirestudios.raa.generation.feature;
 
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.api.interfaces.DimensionChunkGenerator;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -15,9 +20,11 @@ import net.minecraft.world.gen.carver.Carver;
 
 import java.util.BitSet;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 public class CaveCarver extends Carver<ProbabilityConfig> {
+    private DimensionData data;
 
     public CaveCarver(DimensionData dimensionData) {
         super(ProbabilityConfig::deserialize, 256);
@@ -28,6 +35,7 @@ public class CaveCarver extends Carver<ProbabilityConfig> {
                 Blocks.LIGHT_GRAY_TERRACOTTA, Blocks.CYAN_TERRACOTTA, Blocks.PURPLE_TERRACOTTA, Blocks.BLUE_TERRACOTTA, Blocks.BROWN_TERRACOTTA,
                 Blocks.GREEN_TERRACOTTA, Blocks.RED_TERRACOTTA, Blocks.BLACK_TERRACOTTA, Blocks.SANDSTONE, Blocks.RED_SANDSTONE, Blocks.MYCELIUM,
                 Blocks.SNOW, Blocks.PACKED_ICE);
+        this.data = dimensionData;
     }
 
     public boolean shouldCarve(Random random_1, int int_1, int int_2, ProbabilityConfig probabilityConfig_1) {
@@ -129,5 +137,41 @@ public class CaveCarver extends Carver<ProbabilityConfig> {
 
     protected boolean isPositionExcluded(double double_1, double double_2, double double_3, int int_1) {
         return double_2 <= -0.7D || double_1 * double_1 + double_2 * double_2 + double_3 * double_3 >= 1.0D;
+    }
+
+    @Override
+    protected boolean carveAtPoint(Chunk chunk_1, Function<BlockPos, Biome> function_1, BitSet bitSet_1, Random random_1, BlockPos.Mutable blockPos$Mutable_1, BlockPos.Mutable blockPos$Mutable_2, BlockPos.Mutable blockPos$Mutable_3, int int_1, int int_2, int int_3, int int_4, int int_5, int int_6, int int_7, int int_8, AtomicBoolean atomicBoolean_1) {
+        int int_9 = int_6 | int_8 << 4 | int_7 << 8;
+        if (bitSet_1.get(int_9)) {
+            return false;
+        } else {
+            bitSet_1.set(int_9);
+            blockPos$Mutable_1.set(int_4, int_7, int_5);
+            BlockState blockState_1 = chunk_1.getBlockState(blockPos$Mutable_1);
+            BlockState blockState_2 = chunk_1.getBlockState(blockPos$Mutable_2.set((Vec3i)blockPos$Mutable_1).setOffset(Direction.UP));
+            if (blockState_1.getBlock() == Blocks.GRASS_BLOCK || blockState_1.getBlock() == Blocks.MYCELIUM) {
+                atomicBoolean_1.set(true);
+            }
+
+            if (!this.canCarveBlock(blockState_1, blockState_2)) {
+                return false;
+            } else {
+                if (int_7 < 11) {
+                    DimensionChunkGenerators generator = data.getDimensionChunkGenerator();
+                    if (generator == DimensionChunkGenerators.FLOATING || generator == DimensionChunkGenerators.PRE_CLASSIC_FLOATING || generator == DimensionChunkGenerators.LAYERED_FLOATING) return true;
+                    chunk_1.setBlockState(blockPos$Mutable_1, LAVA.getBlockState(), false);
+                } else {
+                    chunk_1.setBlockState(blockPos$Mutable_1, CAVE_AIR, false);
+                    if (atomicBoolean_1.get()) {
+                        blockPos$Mutable_3.set((Vec3i)blockPos$Mutable_1).setOffset(Direction.DOWN);
+                        if (chunk_1.getBlockState(blockPos$Mutable_3).getBlock() == Blocks.DIRT) {
+                            chunk_1.setBlockState(blockPos$Mutable_3, ((Biome)function_1.apply(blockPos$Mutable_1)).getSurfaceConfig().getTopMaterial(), false);
+                        }
+                    }
+                }
+
+                return true;
+            }
+        }
     }
 }
