@@ -14,6 +14,8 @@ public enum DimensionChunkGenerators implements DimensionChunkGenerator {
     CAVE,
     FLOATING,
     OVERWORLD,
+    QUADRUPLE_AMPLIFIED,
+    PILLAR_WORLD,
     LAYERED_FLOATING,
     PRE_CLASSIC_FLOATING,
     FLAT_CAVES,
@@ -22,41 +24,31 @@ public enum DimensionChunkGenerators implements DimensionChunkGenerator {
     @Override
     public ChunkGenerator<?> getChunkGenerator(World world, BiomeSource biomeSource, DimensionData data, Block stoneBlock) {
 
-        CavesChunkGeneratorConfig caveConfig = new CavesChunkGeneratorConfig();
-        caveConfig.setDefaultBlock(stoneBlock.getDefaultState());
-        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) caveConfig.setDefaultFluid(Blocks.LAVA.getDefaultState());
-        if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) caveConfig.setDefaultFluid(Blocks.AIR.getDefaultState());
-        if (this == CAVE) return ChunkGeneratorType.CAVES.create(world, biomeSource, caveConfig);
-
-        CavesChunkGeneratorConfig caveConfig2 = new CavesChunkGeneratorConfig();
-        caveConfig2.setDefaultBlock(stoneBlock.getDefaultState());
-        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) caveConfig2.setDefaultFluid(Blocks.LAVA.getDefaultState());
-        if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) caveConfig2.setDefaultFluid(Blocks.AIR.getDefaultState());
-        if (this == FLAT_CAVES) return ChunkGenerators.FLAT_CAVES.create(world, biomeSource, caveConfig2);
-
-        CavesChunkGeneratorConfig caveConfig3 = new CavesChunkGeneratorConfig();
-        caveConfig3.setDefaultBlock(stoneBlock.getDefaultState());
-        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) caveConfig3.setDefaultFluid(Blocks.LAVA.getDefaultState());
-        if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) caveConfig3.setDefaultFluid(Blocks.AIR.getDefaultState());
-        if (this == HIGH_CAVES) return ChunkGenerators.HIGH_CAVES.create(world, biomeSource, caveConfig3);
-
-        FloatingIslandsChunkGeneratorConfig floatingConfig = new FloatingIslandsChunkGeneratorConfig();
-        floatingConfig.setDefaultBlock(stoneBlock.getDefaultState());
-        if (this == FLOATING) return ChunkGeneratorType.FLOATING_ISLANDS.create(world, biomeSource, floatingConfig);
-
-        FloatingIslandsChunkGeneratorConfig floatingConfig2 = new FloatingIslandsChunkGeneratorConfig();
-        floatingConfig2.setDefaultBlock(stoneBlock.getDefaultState());
-        if (this == LAYERED_FLOATING) return ChunkGenerators.LAYERED_FLOATING.create(world, biomeSource, floatingConfig2);
-
-        FloatingIslandsChunkGeneratorConfig floatingConfig3 = new FloatingIslandsChunkGeneratorConfig();
-        floatingConfig3.setDefaultBlock(stoneBlock.getDefaultState());
-        if (this == PRE_CLASSIC_FLOATING) return ChunkGenerators.PRECLASSIC_FLOATING.create(world, biomeSource, floatingConfig3);
-
         OverworldChunkGeneratorConfig config = new OverworldChunkGeneratorConfig();
         if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) config.setDefaultFluid(Blocks.LAVA.getDefaultState());
         if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) config.setDefaultFluid(Blocks.AIR.getDefaultState());
         config.setDefaultBlock(stoneBlock.getDefaultState());
+
+        CavesChunkGeneratorConfig caveConfig = new CavesChunkGeneratorConfig();
+        caveConfig.setDefaultBlock(stoneBlock.getDefaultState());
+        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) caveConfig.setDefaultFluid(Blocks.LAVA.getDefaultState());
+
+        FloatingIslandsChunkGeneratorConfig floatingConfig = new FloatingIslandsChunkGeneratorConfig();
+        floatingConfig.setDefaultBlock(stoneBlock.getDefaultState());
+
+
+        if (this == CAVE) return ChunkGeneratorType.CAVES.create(world, biomeSource, caveConfig);
+        if (this == FLAT_CAVES) return ChunkGenerators.FLAT_CAVES.create(world, biomeSource, caveConfig);
+        if (this == HIGH_CAVES) return ChunkGenerators.HIGH_CAVES.create(world, biomeSource, caveConfig);
+        if (this == FLOATING) return ChunkGeneratorType.FLOATING_ISLANDS.create(world, biomeSource, floatingConfig);
+        if (this == LAYERED_FLOATING) return ChunkGenerators.LAYERED_FLOATING.create(world, biomeSource, floatingConfig);
+        if (this == PRE_CLASSIC_FLOATING) return ChunkGenerators.PRECLASSIC_FLOATING.create(world, biomeSource, floatingConfig);
+        if (this == QUADRUPLE_AMPLIFIED) return ChunkGenerators.QUADRUPLE_AMPLIFIED.create(world, biomeSource, config);
+        if (this == PILLAR_WORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config);
+
         return ChunkGeneratorType.SURFACE.create(world, biomeSource, config);
+
+
     }
 
 }
