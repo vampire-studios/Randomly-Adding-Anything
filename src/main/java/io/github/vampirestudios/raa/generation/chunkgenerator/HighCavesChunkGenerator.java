@@ -50,20 +50,6 @@ public class HighCavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGen
         return doubles_1;
     }
 
-    public List<Biome.SpawnEntry> getEntitySpawnList(EntityCategory entityCategory_1, BlockPos blockPos_1) {
-        if (entityCategory_1 == EntityCategory.MONSTER) {
-            if (Feature.NETHER_BRIDGE.isInsideStructure(this.world, blockPos_1)) {
-                return Feature.NETHER_BRIDGE.getMonsterSpawns();
-            }
-
-            if (Feature.NETHER_BRIDGE.isApproximatelyInsideStructure(this.world, blockPos_1) && this.world.getBlockState(blockPos_1.method_10074()).getBlock() == Blocks.NETHER_BRICKS) {
-                return Feature.NETHER_BRIDGE.getMonsterSpawns();
-            }
-        }
-
-        return super.getEntitySpawnList(entityCategory_1, blockPos_1);
-    }
-
     public int getSpawnHeight() {
         return this.world.getSeaLevel() + 1;
     }

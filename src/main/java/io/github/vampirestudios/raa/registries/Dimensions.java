@@ -160,7 +160,7 @@ public class Dimensions {
                 .hasSky(!Rands.chance(2))
                 .canSleep(Rands.chance(10))
                 .waterVaporize(Rands.chance(100))
-                .shouldRenderFog(Rands.chance(100))
+                .shouldRenderFog(Rands.chance(40))
                 .chunkGenerator(gen)
 				.flags(flags)
                 .difficulty(difficultyAndMobs.getLeft())

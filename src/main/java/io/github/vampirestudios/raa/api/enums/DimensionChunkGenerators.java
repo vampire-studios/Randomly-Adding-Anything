@@ -17,15 +17,23 @@ public enum DimensionChunkGenerators implements DimensionChunkGenerator {
     LAYEREDFLOATING,
     PRECLASSICFLOATING,
     FLATCAVES,
-    HIGHCAVES;
+    HIGHCAVES,
+    QUADRUPLEAMPLIFIED,
+    PILLARWORLD;
 
     @Override
     public ChunkGenerator<?> getChunkGenerator(World world, BiomeSource biomeSource, DimensionData data, Block stoneBlock) {
 
+        OverworldChunkGeneratorConfig config = new OverworldChunkGeneratorConfig();
+        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) config.setDefaultFluid(Blocks.LAVA.getDefaultState());
+        if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) config.setDefaultFluid(Blocks.AIR.getDefaultState());
+        config.setDefaultBlock(stoneBlock.getDefaultState());
+
         CavesChunkGeneratorConfig caveConfig = new CavesChunkGeneratorConfig();
         caveConfig.setDefaultBlock(stoneBlock.getDefaultState());
         if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) caveConfig.setDefaultFluid(Blocks.LAVA.getDefaultState());
-        if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) caveConfig.setDefaultFluid(Blocks.AIR.getDefaultState());
+
+
         if (this == CAVE) return ChunkGeneratorType.CAVES.create(world, biomeSource, caveConfig);
 
         CavesChunkGeneratorConfig caveConfig2 = new CavesChunkGeneratorConfig();
@@ -52,11 +60,21 @@ public enum DimensionChunkGenerators implements DimensionChunkGenerator {
         floatingConfig3.setDefaultBlock(stoneBlock.getDefaultState());
         if (this == PRECLASSICFLOATING) return ChunkGenerators.PRECLASSIC_FLOATING.create(world, biomeSource, floatingConfig3);
 
-        OverworldChunkGeneratorConfig config = new OverworldChunkGeneratorConfig();
-        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) config.setDefaultFluid(Blocks.LAVA.getDefaultState());
-        if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) config.setDefaultFluid(Blocks.AIR.getDefaultState());
-        config.setDefaultBlock(stoneBlock.getDefaultState());
+        OverworldChunkGeneratorConfig config2 = new OverworldChunkGeneratorConfig();
+        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) config2.setDefaultFluid(Blocks.LAVA.getDefaultState());
+        if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) config2.setDefaultFluid(Blocks.AIR.getDefaultState());
+        config2.setDefaultBlock(stoneBlock.getDefaultState());
+        if (this == QUADRUPLEAMPLIFIED) return ChunkGenerators.QUADRUPLE_AMPLIFIED.create(world, biomeSource, config2);
+
+        OverworldChunkGeneratorConfig config3 = new OverworldChunkGeneratorConfig();
+        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) config3.setDefaultFluid(Blocks.LAVA.getDefaultState());
+        if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) config3.setDefaultFluid(Blocks.AIR.getDefaultState());
+        config3.setDefaultBlock(stoneBlock.getDefaultState());
+        if (this == PILLARWORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config3);
+
+
         return ChunkGeneratorType.SURFACE.create(world, biomeSource, config);
+
 
     }
 }

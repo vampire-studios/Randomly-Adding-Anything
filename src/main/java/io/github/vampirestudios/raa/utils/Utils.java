@@ -74,6 +74,11 @@ public class Utils {
             }
             return DimensionChunkGenerators.FLOATING;
         } else {
+            if(chance <= 40) {
+                return DimensionChunkGenerators.QUADRUPLEAMPLIFIED;
+            } else if(chance <= 50) {
+                return DimensionChunkGenerators.PILLARWORLD;
+            }
             return DimensionChunkGenerators.OVERWORLD;
         }
     }
