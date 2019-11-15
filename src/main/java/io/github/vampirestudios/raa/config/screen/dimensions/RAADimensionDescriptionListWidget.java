@@ -9,6 +9,7 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
+import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -167,6 +168,58 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                             })
                             .build()
             );
+            /*category.addEntry(
+                    eb.startStrField("config.field.raa.name", material.getName())
+                            .setDefaultValue(material.getName())
+                            .setSaveConsumer(material::setName)
+                            .build()
+            );*/
+            SubCategoryBuilder biomeData = eb.startSubCategory("config.title.raa.biomeData").setExpended(false);
+            biomeData.add(
+                    eb.startStrField("config.field.raa.biomeData.id", material.getBiomeData().getId().getPath())
+                            .setDefaultValue(material.getBiomeData().getId().getPath())
+//                            .setSaveConsumer()
+                            .build()
+            );
+            biomeData.add(
+                    eb.startStrField("config.field.raa.biomeData.name", material.getBiomeData().getName())
+                            .setDefaultValue(material.getBiomeData().getName())
+//                            .setSaveConsumer()
+                            .build()
+            );
+            biomeData.add(
+                    eb.startIntField("config.field.raa.biomeData.surfaceBuilderVariantChance",
+                            material.getBiomeData().getSurfaceBuilderVariantChance())
+                            .setDefaultValue(material.getBiomeData().getSurfaceBuilderVariantChance())
+//                            .setSaveConsumer()
+                            .build()
+            );
+            biomeData.add(
+                    eb.startFloatField("config.field.raa.biomeData.depth", material.getBiomeData().getDepth())
+                            .setDefaultValue(material.getBiomeData().getDepth())
+//                            .setSaveConsumer()
+                            .build()
+            );
+            biomeData.add(
+                    eb.startFloatField("config.field.raa.biomeData.scale", material.getBiomeData().getScale())
+                            .setDefaultValue(material.getBiomeData().getScale())
+//                            .setSaveConsumer()
+                            .build()
+            );
+            biomeData.add(
+                    eb.startFloatField("config.field.raa.biomeData.temperature", material.getBiomeData().getTemperature())
+                            .setDefaultValue(material.getBiomeData().getTemperature())
+//                            .setSaveConsumer()
+                            .build()
+            );
+            biomeData.add(
+                    eb.startFloatField("config.field.raa.biomeData.downfall", material.getBiomeData().getDownfall())
+                            .setDefaultValue(material.getBiomeData().getDownfall())
+//                            .setSaveConsumer()
+                            .build()
+            );
+            category.addEntry(biomeData.build());
+
             category.addEntry(
                     eb.startBooleanToggle("config.field.raa.hasSky", material.hasSky())
                             .setDefaultValue(material.hasSky())

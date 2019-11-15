@@ -43,5 +43,13 @@ public class RAAWorldAPI {
                                 .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(), 0, 256))));
             }
         });
+        Materials.DIMENSION_MATERIALS.forEach(material -> {
+            if (material.getOreInformation().getGeneratesIn().getTarget() == generationSupport.getTarget()) {
+                generationSupport.getGenerationBiome().addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
+                        new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(generationSupport.getTarget(),
+                                Registry.BLOCK.get(Utils.append(material.getId(), "_ore")).getDefaultState(), 9))
+                                .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(), 0, 256))));
+            }
+        });
     }
 }
