@@ -67,6 +67,11 @@ public class DimensionListScreen extends Screen {
                 public void onClick() {
                     descriptionList.addMaterial(DimensionListScreen.this, material);
                 }
+
+                @Override
+                public boolean isSelected(DimensionData material) {
+                    return descriptionList.data == material;
+                }
             });
         }
         if (!materials.isEmpty()) dimensionList.addItem(new RAADimensionListWidget.EmptyEntry(10));
