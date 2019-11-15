@@ -9,10 +9,12 @@ import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.*;
 import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
+import io.github.vampirestudios.raa.items.dimension.*;
 import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.registry.DefaultedRegistry;
@@ -20,7 +22,10 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Dimensions {
     public static final Set<Identifier> DIMENSION_NAMES = new HashSet<>();
@@ -165,9 +170,9 @@ public class Dimensions {
 				.flags(flags)
                 .difficulty(difficultyAndMobs.getLeft())
 				.mobs(difficultyAndMobs.getRight())
-                .setCivilizationInfluences(dimension.getCivilizationInfluences())
-                .setSurfaceBuilder(Rands.randInt(100));
-            DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.append(name.getRight(), "_biome"), name.getLeft())
+                .civilizationInfluences(dimension.getCivilizationInfluences())
+                .surfaceBuilder(Rands.randInt(100));
+            DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendSuffix(name.getRight(), "_biome"), name.getLeft())
                 .surfaceBuilderVariantChance(Rands.randInt(100))
                 .depth(depth)
                 .scale(scale)
@@ -203,8 +208,9 @@ public class Dimensions {
 
     public static void createDimensions() {
         DIMENSIONS.forEach(dimension -> {
+            Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase());
             CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension);
-            Block stoneBlock = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone"),
+            Block stoneBlock = RegistryUtils.register(new DimensionalBlock(), Utils.appendSuffix(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
             DimensionType type = FabricDimensionType.builder()
                 .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
@@ -218,6 +224,85 @@ public class Dimensions {
             else
                 dimensionType = Registry.DIMENSION.get(dimension.getId());
 
+            ToolMaterial toolMaterial = new ToolMaterial() {
+                @Override
+                public int getDurability() {
+                    return dimension.getToolDurability();
+                }
+
+                @Override
+                public float getMiningSpeed() {
+                    return ToolMaterials.STONE.getMiningSpeed();
+                }
+
+                @Override
+                public float getAttackDamage() {
+                    return ToolMaterials.STONE.getAttackDamage();
+                }
+
+                @Override
+                public int getMiningLevel() {
+                    return ToolMaterials.STONE.getMiningLevel();
+                }
+
+                @Override
+                public int getEnchantability() {
+                    return ToolMaterials.STONE.getEnchantability();
+                }
+
+                @Override
+                public Ingredient getRepairIngredient() {
+                    return Ingredient.ofItems(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")));
+                }
+            };
+
+            RegistryUtils.registerItem(
+                    new RAAPickaxeItem(
+                            dimension,
+                            toolMaterial,
+                            1,
+                            -2.8F,
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                    ),
+                    Utils.appendSuffix(identifier, "_pickaxe")
+            );
+            RegistryUtils.registerItem(
+                    new RAAAxeItem(
+                            dimension,
+                            toolMaterial,
+                            7.0F,
+                            -3.2F,
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                    ),
+                    Utils.appendSuffix(identifier, "_axe")
+            );
+            RegistryUtils.registerItem(
+                    new RAAShovelItem(
+                            dimension,
+                            toolMaterial,
+                            1.5F,
+                            -3.0F,
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                    ),
+                    Utils.appendSuffix(identifier, "_shovel")
+            );
+            RegistryUtils.registerItem(
+                    new RAAHoeItem(
+                            dimension,
+                            toolMaterial,
+                            -2.0F,
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                    ),
+                    Utils.appendSuffix(identifier, "_hoe")
+            );
+            RegistryUtils.registerItem(
+                    new RAASwordItem(
+                            toolMaterial,
+                            dimension,
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                    ),
+                    Utils.appendSuffix(identifier, "_sword")
+            );
 
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBricks");

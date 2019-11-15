@@ -23,8 +23,11 @@ public class DimensionData {
 	private int difficulty;
 	private HashMap<String, Double> civilizationInfluences;
 	private int surfaceBuilder;
+	private int toolDurability;
 
-    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int surfaceBuilder) {
+    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky,
+						 boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs, int difficulty,
+						 HashMap<String, Double> civilizationInfluences, int surfaceBuilder, int toolDurability) {
     	this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
@@ -41,6 +44,7 @@ public class DimensionData {
 		this.difficulty = difficulty;
 		this.civilizationInfluences = civilizationInfluences;
 		this.surfaceBuilder = surfaceBuilder;
+		this.toolDurability = toolDurability;
 	}
 
     public Identifier getId() {
@@ -136,6 +140,14 @@ public class DimensionData {
 		return surfaceBuilder;
 	}
 
+	public int getToolDurability() {
+		return toolDurability;
+	}
+
+	public void setToolDurability(int toolDurability) {
+		this.toolDurability = toolDurability;
+	}
+
 	public static class Builder {
 		private Identifier id;
 		private String name;
@@ -153,6 +165,7 @@ public class DimensionData {
 		private int difficulty;
 		private HashMap<String, Double> civilizationInfluences;
 		private int surfaceBuilder;
+		private int toolDurability;
 
 		public static Builder create(Identifier id, String name) {
 			Builder builder = new Builder();
@@ -244,18 +257,25 @@ public class DimensionData {
 			return this;
 		}
 
-		public Builder setCivilizationInfluences(HashMap<String, Double> civilizationInfluences) {
+		public Builder civilizationInfluences(HashMap<String, Double> civilizationInfluences) {
 			this.civilizationInfluences = civilizationInfluences;
 			return this;
 		}
 
-		public Builder setSurfaceBuilder(int surfaceBuilder) {
+		public Builder surfaceBuilder(int surfaceBuilder) {
 			this.surfaceBuilder = surfaceBuilder;
 			return this;
 		}
 
+
+		public Builder toolDurability(int toolDurability) {
+			this.toolDurability = toolDurability;
+			return this;
+		}
+
 		public DimensionData build() {
-			return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, surfaceBuilder);
+			return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags,
+					mobs, difficulty, civilizationInfluences, surfaceBuilder, toolDurability);
 		}
 	}
 }
