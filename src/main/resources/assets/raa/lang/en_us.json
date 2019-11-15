@@ -32,19 +32,23 @@
   "text.raa.item.shears": "%s Shears",
 
   "config.title.raa": "RAA Config",
-  "config.title.raa.material": "Config for %d",
+  "config.title.raa.dimension": "RAA Config: Dimensions",
+  "config.title.raa.material": "RAA Config: Materials",
+  "text.autoconfig.raa.title": "RAA Config: General",
+  "config.title.raa.config_specific": "Config for %d",
 
-  "config.text.raa.identifier": "Identifier: ",
-  "config.text.raa.color": "§7Color: %s",
-  "config.text.raa.enchantability": "§7Enchantability: %d",
-  "config.text.raa.durability": "§7Durability: %d",
-  "config.text.raa.mining_level": "§7Mining Level: %d",
-  "config.text.raa.tool_speed": "§7Tool Speed: %s",
-  "config.text.raa.attack_damage": "§7Attack Damage: %s",
+  "config.text.raa.identifier": "§7Identifier: §f%s",
+  "config.text.raa.color": "§7Color: §f%s",
+  "config.text.raa.enchantability": "§7Enchantability: §f%d",
+  "config.text.raa.durability": "§7Durability: §f%d",
+  "config.text.raa.mining_level": "§7Mining Level: §f%d",
+  "config.text.raa.tool_speed": "§7Tool Speed: §f%s",
+  "config.text.raa.attack_damage": "§7Attack Damage: §f%s",
   "config.title.raa.tools": "Tools",
   "config.title.raa.weapons": "Weapons",
 
   "config.error.raa.identifier.no.caps": "No capital letters!",
+  "config.error.raa.invalid.color": "Invalid Color!",
   "config.field.raa.identifier": "Identifier:",
   "config.field.raa.enchantability": "Enchantability:",
   "config.field.raa.durability": "Durability:",
@@ -57,13 +61,19 @@
   "config.button.raa.materialConfiguration": "Material Configuration",
   "config.button.raa.dimensionConfiguration": "Dimension Configuration",
 
-  "config.text.raa.hasSky": "Has a sky: ",
-  "config.text.raa.hasSkyLight": "Has skylight: ",
-  "config.text.raa.canSleep": "Can sleep: ",
-  "config.text.raa.waterVaporize": "Water vaporizes: ",
-  "config.text.raa.renderFog": "Thick Fog: ",
-  "config.text.raa.difficulty": "Dimension difficulty: ",
-  "config.text.raa.var": "%s",
+  "config.text.raa.hasSky": "§7Has sky: %s",
+  "config.text.raa.hasSkyLight": "§7Has skylight: %s",
+  "config.text.raa.canSleep": "§7Can sleep: %s",
+  "config.text.raa.waterVaporize": "§7Water vaporizes: %s",
+  "config.text.raa.renderFog": "§7Thick Fog: %s",
+  "config.text.raa.difficulty": "§7Dimension difficulty: %s",
+
+  "config.field.raa.hasSky": "Has sky:",
+  "config.field.raa.hasSkyLight": "Has skylight:",
+  "config.field.raa.skyColor": "Sky Color:",
+  "config.field.raa.canSleep": "Can sleep:",
+  "config.field.raa.doesWaterVaporize": "Water vaporizes:",
+  "config.field.raa.shouldRenderFog": "Thick Fog:",
 
   "config.title.raa.flags": "Modifiers",
   "config.text.raa.flags.dead": "Dead",
@@ -76,7 +86,8 @@
   "config.text.raa.flags.tectonic": "Tectonic",
 
   "config.title.raa.civs": "Civilization Influences",
-  "config.text.raa.civs.home": "Home Dimension",
+  "config.text.raa.civs.var": "§7%s: §f%s%%",
+  "config.text.raa.civs.var.home": "§7%s: §f%s%% (Home Dimension)",
 
   "config.title.raa.colors": "Color Palette",
   "config.text.raa.skyColor": "Sky Color: ",
@@ -84,5 +95,14 @@
   "config.text.raa.fogColor": "Fog Color: ",
   "config.text.raa.foliageColor": "Foliage Color: ",
   "config.text.raa.stoneColor": "Stone Color: ",
-  "config.text.raa.waterColor": "Water Color: "
+  "config.text.raa.waterColor": "Water Color: ",
+
+  "config.text.raa.boolean.value.true": "§atrue",
+  "config.text.raa.boolean.value.false": "§cfalse",
+
+  "text.autoconfig.raa.option.materialNumber": "No of Materials: ",
+  "text.autoconfig.raa.option.dimensionNumber": "No of Dimensions: ",
+  "text.autoconfig.raa.option.debug": "Debug: ",
+  "text.autoconfig.raa.option.regen": "Regenerate: ",
+  "text.autoconfig.raa.option.namingLanguage": "Naming Language: "
 }

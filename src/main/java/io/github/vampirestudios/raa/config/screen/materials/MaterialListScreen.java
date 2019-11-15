@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.config.screen.materials;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.github.vampirestudios.raa.config.screen.ConfigScreen;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.minecraft.client.MinecraftClient;
@@ -25,38 +26,15 @@ public class MaterialListScreen extends Screen {
     Screen parent;
     private RAAMaterialListWidget materialList;
     private RAAMaterialDescriptionListWidget descriptionList;
-    private static Identifier background;
 
     public MaterialListScreen(Screen parent) {
-        super(new TranslatableText("config.title.raa"));
+        super(new TranslatableText("config.title.raa.material"));
         this.parent = parent;
-        background = DrawableHelper.BACKGROUND_LOCATION;
-    }
-
-    public static void overlayBackground(int x1, int y1, int x2, int y2, int red, int green, int blue, int startAlpha, int endAlpha) {
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBuffer();
-        MinecraftClient.getInstance().getTextureManager().bindTexture(background);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        buffer.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
-        buffer.vertex(x1, y2, 0.0D).texture(x1 / 32.0F, y2 / 32.0F).color(red, green, blue, endAlpha).next();
-        buffer.vertex(x2, y2, 0.0D).texture(x2 / 32.0F, y2 / 32.0F).color(red, green, blue, endAlpha).next();
-        buffer.vertex(x2, y1, 0.0D).texture(x2 / 32.0F, y1 / 32.0F).color(red, green, blue, startAlpha).next();
-        buffer.vertex(x1, y1, 0.0D).texture(x1 / 32.0F, y1 / 32.0F).color(red, green, blue, startAlpha).next();
-        tessellator.draw();
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        /*if (ConfigHelper.loading) {
-            MinecraftClient.getInstance().openScreen(new MaterialisationLoadingConfigScreen(this, parent));
-        }*/
     }
 
     @Override
     public boolean keyPressed(int int_1, int int_2, int int_3) {
-        if (int_1 == 256 && this.shouldCloseOnEsc()) {
+        if (int_1 == 256) {
             minecraft.openScreen(parent);
             return true;
         }
@@ -66,20 +44,11 @@ public class MaterialListScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        /*addButton(new ButtonWidget(width - 104, 4, 100, 20, I18n.translate("config.button.materialisation.install"), var1 -> {
-            minecraft.openScreen(new MaterialisationInstallScreen(this));
-        }));
-        addButton(new ButtonWidget(59, 4, 85, 20, I18n.translate("config.button.materialisation.reload"), var1 -> {
-            if (!ConfigHelper.loading) {
-                MinecraftClient.getInstance().openScreen(new MaterialisationLoadingConfigScreen(this, parent));
-                CompletableFuture.runAsync(ConfigHelper::loadConfig, ConfigHelper.EXECUTOR_SERVICE);
-            }
-        }));*/
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
         children.add(materialList = new RAAMaterialListWidget(minecraft, width / 2 - 10, height,
-                28 + 5, height - 5, background));
+                28 + 5, height - 5, BACKGROUND_LOCATION));
         children.add(descriptionList = new RAAMaterialDescriptionListWidget(minecraft, width / 2 - 10, height,
-                28 + 5, height - 5, background));
+                28 + 5, height - 5, BACKGROUND_LOCATION));
         materialList.setLeftPos(5);
         descriptionList.setLeftPos(width / 2 + 5);
         List<Material> materials = new ArrayList<>();
@@ -101,8 +70,8 @@ public class MaterialListScreen extends Screen {
         renderDirtBackground(0);
         materialList.render(mouseX, mouseY, delta);
         descriptionList.render(mouseX, mouseY, delta);
-        overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
-        overlayBackground(0, height - 5, width, height, 64, 64, 64, 255, 255);
+        ConfigScreen.overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
+        ConfigScreen.overlayBackground(0, height - 5, width, height, 64, 64, 64, 255, 255);
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value,
                                        GlStateManager.SourceFactor.ZERO.value, GlStateManager.DestFactor.ONE.value

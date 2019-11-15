@@ -71,23 +71,48 @@ public class DimensionData {
         return hasSkyLight;
     }
 
-    public boolean hasSky() {
+    @Deprecated
+	public void setHasSkyLight(boolean hasSkyLight) {
+		this.hasSkyLight = hasSkyLight;
+	}
+
+	public boolean hasSky() {
         return hasSky;
     }
 
-    public boolean canSleep() {
+    @Deprecated
+	public void setHasSky(boolean hasSky) {
+		this.hasSky = hasSky;
+	}
+
+	public boolean canSleep() {
         return canSleep;
     }
 
-    public boolean doesWaterVaporize() {
+    @Deprecated
+	public void setCanSleep(boolean canSleep) {
+		this.canSleep = canSleep;
+	}
+
+	public boolean doesWaterVaporize() {
         return waterVaporize;
     }
 
-    public boolean shouldRenderFog() {
+    @Deprecated
+	public void setWaterVaporize(boolean waterVaporize) {
+		this.waterVaporize = waterVaporize;
+	}
+
+	public boolean shouldRenderFog() {
         return renderFog;
     }
 
-    public DimensionChunkGenerators getDimensionChunkGenerator() {
+    @Deprecated
+	public void setRenderFog(boolean renderFog) {
+		this.renderFog = renderFog;
+	}
+
+	public DimensionChunkGenerators getDimensionChunkGenerator() {
         return dimensionChunkGenerator;
     }
 
