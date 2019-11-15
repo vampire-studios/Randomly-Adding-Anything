@@ -35,8 +35,12 @@ public class Utils {
         return name.toLowerCase(Locale.ENGLISH);
     }
 
-    public static Identifier append(Identifier identifier, String suffix) {
+    public static Identifier appendSuffix(Identifier identifier, String suffix) {
         return new Identifier(identifier.getNamespace(), identifier.getPath() + suffix);
+    }
+
+    public static Identifier appendPrefix(Identifier identifier, String prefix) {
+        return new Identifier(identifier.getNamespace(), prefix + identifier.getPath());
     }
 
     public static SurfaceBuilder<TernarySurfaceConfig> randomSurfaceBuilder(int chance, DimensionData data) {

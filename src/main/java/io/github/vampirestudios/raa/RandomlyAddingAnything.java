@@ -44,14 +44,6 @@ public class RandomlyAddingAnything implements ModInitializer {
 		SurfaceBuilders.init();
 		ChunkGenerators.init();
 
-		MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
-		if(CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
-			MATERIALS_CONFIG.generate();
-			MATERIALS_CONFIG.save();
-		} else {
-			MATERIALS_CONFIG.load();
-		}
-		Materials.ready = true;
 		DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
 		if(CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
 			DIMENSIONS_CONFIG.generate();
@@ -61,9 +53,18 @@ public class RandomlyAddingAnything implements ModInitializer {
 		}
 		Dimensions.ready = true;
 
-		Dimensions.createDimensions();
+		MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
+		if(CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
+			MATERIALS_CONFIG.generate();
+			MATERIALS_CONFIG.save();
+		} else {
+			MATERIALS_CONFIG.load();
+		}
+		Materials.ready = true;
+
 		Materials.createMaterialResources();
 		MaterialRecipes.init();
 		MaterialWorldSpawning.init();
+		Dimensions.createDimensions();
 	}
 }

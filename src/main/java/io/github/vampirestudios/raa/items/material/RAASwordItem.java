@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.items;
+package io.github.vampirestudios.raa.items.material;
 
 import io.github.vampirestudios.raa.generation.materials.Material;
 import net.minecraft.item.ItemStack;
