@@ -282,8 +282,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(identifier, "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/sword/stone_sword_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/sword/sword_stick"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/shovel/stone_shovel_head"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/shovel/shovel_stick"));
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(identifier, "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
