@@ -100,6 +100,8 @@
   "config.text.raa.boolean.value.true": "§atrue",
   "config.text.raa.boolean.value.false": "§cfalse",
 
+  "config.tooltip.raa.lush": "Example Lush Tooltip",
+
   "text.autoconfig.raa.option.materialNumber": "No of Materials: ",
   "text.autoconfig.raa.option.dimensionNumber": "No of Dimensions: ",
   "text.autoconfig.raa.option.debug": "Debug: ",

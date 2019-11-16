@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class DimensionListScreen extends Screen {
     Screen parent;
     private RAADimensionListWidget dimensionList;
     private RAADimensionDescriptionListWidget descriptionList;
+    String tooltip = null;
 
     public DimensionListScreen(Screen parent) {
         super(new TranslatableText("config.title.raa.dimension"));
@@ -79,6 +81,7 @@ public class DimensionListScreen extends Screen {
 
     @Override
     public void render(int mouseX, int mouseY, float delta) {
+        tooltip = null;
         renderDirtBackground(0);
         dimensionList.render(mouseX, mouseY, delta);
         descriptionList.render(mouseX, mouseY, delta);
@@ -105,6 +108,8 @@ public class DimensionListScreen extends Screen {
         RenderSystem.disableBlend();
         drawCenteredString(font, title.asFormattedString(), width / 2, 10, 16777215);
         super.render(mouseX, mouseY, delta);
+        if (tooltip != null)
+            renderTooltip(Arrays.asList(tooltip.split("\n")), mouseX, mouseY);
     }
 
 }

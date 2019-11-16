@@ -79,14 +79,14 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         if (dimensionData.getFlags() != 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             int flags = dimensionData.getFlags();
-            if (Utils.checkBitFlag(flags, Utils.LUSH)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.lush").formatted(Formatting.GREEN)));
-            if (Utils.checkBitFlag(flags, Utils.CIVILIZED)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.civilized").formatted(Formatting.DARK_GREEN)));
-            if (Utils.checkBitFlag(flags, Utils.ABANDONED)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.abandoned").formatted(Formatting.GRAY)));
-            if (Utils.checkBitFlag(flags, Utils.DEAD)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.dead").formatted(Formatting.DARK_GRAY)));
-            if (Utils.checkBitFlag(flags, Utils.DRY)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.dry").formatted(Formatting.YELLOW)));
-            if (Utils.checkBitFlag(flags, Utils.TECTONIC)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.tectonic").formatted(Formatting.DARK_GRAY)));
-            if (Utils.checkBitFlag(flags, Utils.MOLTEN)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.molten").formatted(Formatting.YELLOW)));
-            if (Utils.checkBitFlag(flags, Utils.CORRUPTED)) addItem(new TextEntry(new TranslatableText("config.text.raa.flags.corrupted").formatted(Formatting.DARK_RED)));
+            if (Utils.checkBitFlag(flags, Utils.LUSH)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.lush").formatted(Formatting.GREEN), "config.tooltip.raa.lush", og));
+            if (Utils.checkBitFlag(flags, Utils.CIVILIZED)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.civilized").formatted(Formatting.DARK_GREEN), "config.tooltip.raa.civilized", og));
+            if (Utils.checkBitFlag(flags, Utils.ABANDONED)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.abandoned").formatted(Formatting.GRAY), "config.tooltip.raa.abandoned", og));
+            if (Utils.checkBitFlag(flags, Utils.DEAD)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.dead").formatted(Formatting.DARK_GRAY), "config.tooltip.raa.dead", og));
+            if (Utils.checkBitFlag(flags, Utils.DRY)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.dry").formatted(Formatting.YELLOW), "config.tooltip.raa.dry", og));
+            if (Utils.checkBitFlag(flags, Utils.TECTONIC)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.tectonic").formatted(Formatting.DARK_GRAY), "config.tooltip.raa.tectonic", og));
+            if (Utils.checkBitFlag(flags, Utils.MOLTEN)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.molten").formatted(Formatting.YELLOW), "config.tooltip.raa.molten", og));
+            if (Utils.checkBitFlag(flags, Utils.CORRUPTED)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.corrupted").formatted(Formatting.DARK_RED), "config.tooltip.raa.corrupted", og));
         }
 
         if (dimensionData.getCivilizationInfluences().size() > 0) {
@@ -293,12 +293,37 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
     }
 
+    public static class TextEntryWithTooltip extends Entry {
+        protected String s;
+        protected String tooltip;
+        protected DimensionListScreen screen;
+
+        public TextEntryWithTooltip(Text text, String tooltip, DimensionListScreen screen) {
+            this.s = text.asFormattedString();
+            this.tooltip = I18n.hasTranslation(tooltip) ? I18n.translate(tooltip) : null;
+            this.screen = screen;
+        }
+
+        @Override
+        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x, y, 16777215);
+            if (tooltip != null && mouseX >= x && mouseY >= y && mouseX <= x + MinecraftClient.getInstance().textRenderer.getStringWidth(s) && mouseY <= y + getItemHeight())
+                screen.tooltip = tooltip;
+        }
+
+        @Override
+        public int getItemHeight() {
+            return 11;
+        }
+
+        @Override
+        public List<? extends Element> children() {
+            return Collections.emptyList();
+        }
+    }
+
     public static class TextEntry extends Entry {
         protected String s;
-
-        public TextEntry(String s) {
-            this.s = s;
-        }
 
         public TextEntry(Text text) {
             this.s = text.asFormattedString();
