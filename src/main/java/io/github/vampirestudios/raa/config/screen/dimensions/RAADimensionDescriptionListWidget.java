@@ -176,9 +176,9 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
             );*/
             SubCategoryBuilder biomeData = eb.startSubCategory("config.title.raa.biomeData").setExpended(false);
             biomeData.add(
-                    eb.startStrField("config.field.raa.biomeData.id", material.getBiomeData().getId().toString())
-                            .setDefaultValue(material.getBiomeData().getId().toString())
-                            .setSaveConsumer(str -> material.getBiomeData().setId(new Identifier(str)))
+                    eb.startStrField("config.field.raa.biomeData.id", material.getBiomeData().getId().getPath())
+                            .setDefaultValue(material.getBiomeData().getId().getPath())
+                            .setSaveConsumer(str -> material.getBiomeData().setId(new Identifier(RandomlyAddingAnything.MOD_ID, str)))
                             .build()
             );
             biomeData.add(

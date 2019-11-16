@@ -38,7 +38,7 @@ public class DebugUtils {
                 "\n\nTechnical Material Information" +
                 "\n##########################" +
                 "\nName : " + material.getName() +
-                "\nGenerate in : " + material.getOreInformation().getGeneratesIn().name().toLowerCase() +
+                "\nGenerate in : " + material.getOreInformation().getGeneratesIn().getIdentifier().toString() +
                 "\nOre Type : " + material.getOreInformation().getOreType().name().toLowerCase() +
                 "\n\nMaterial Design Information" +
                 "\n##########################" +

@@ -34,7 +34,7 @@ public class DebugMessagesBuilder {
     }
 
     public DebugMessagesBuilder generatesIn() {
-        playerEntity.addChatMessage(new LiteralText("Generates In: " + material.getOreInformation().getGeneratesIn().name()), false);
+        playerEntity.addChatMessage(new LiteralText("Generates In: " + material.getOreInformation().getGeneratesIn().getIdentifier().toString()), false);
         return this;
     }
 
