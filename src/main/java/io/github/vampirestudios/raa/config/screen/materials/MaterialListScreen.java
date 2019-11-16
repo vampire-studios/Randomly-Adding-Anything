@@ -18,6 +18,7 @@ import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class MaterialListScreen extends Screen {
     Screen parent;
     private RAAMaterialListWidget materialList;
     private RAAMaterialDescriptionListWidget descriptionList;
+    String tooltip = null;
 
     public MaterialListScreen(Screen parent) {
         super(new TranslatableText("config.title.raa.material"));
@@ -72,6 +74,7 @@ public class MaterialListScreen extends Screen {
 
     @Override
     public void render(int mouseX, int mouseY, float delta) {
+        tooltip = null;
         renderDirtBackground(0);
         materialList.render(mouseX, mouseY, delta);
         descriptionList.render(mouseX, mouseY, delta);
@@ -98,6 +101,8 @@ public class MaterialListScreen extends Screen {
         RenderSystem.disableBlend();
         drawCenteredString(font, title.asFormattedString(), width / 2, 10, 16777215);
         super.render(mouseX, mouseY, delta);
+        if (tooltip != null)
+            renderTooltip(Arrays.asList(tooltip.split("\n")), mouseX, mouseY);
     }
 
 }
