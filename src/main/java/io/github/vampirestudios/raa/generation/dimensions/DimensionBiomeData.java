@@ -23,6 +23,10 @@ public class DimensionBiomeData {
         this.waterColor = waterColor;
     }
 
+    public void setId(Identifier id) {
+        this.id = id;
+    }
+
     public Identifier getId() {
         return id;
     }
@@ -31,28 +35,56 @@ public class DimensionBiomeData {
         return biomeName;
     }
 
+    public void setName(String biomeName) {
+        this.biomeName = biomeName;
+    }
+
     public int getSurfaceBuilderVariantChance() {
         return surfaceBuilderVariantChance;
+    }
+
+    public void setSurfaceBuilderVariantChance(int surfaceBuilderVariantChance) {
+        this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
     }
 
     public float getDepth() {
         return depth;
     }
 
+    public void setDepth(float depth) {
+        this.depth = depth;
+    }
+
     public float getScale() {
         return scale;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
     }
 
     public float getTemperature() {
         return temperature;
     }
 
+    public void setTemperature(float temperature) {
+        this.temperature = temperature;
+    }
+
     public float getDownfall() {
         return downfall;
     }
 
+    public void setDownfall(float downfall) {
+        this.downfall = downfall;
+    }
+
     public int getWaterColor() {
         return waterColor;
+    }
+
+    public void setWaterColor(int waterColor) {
+        this.waterColor = waterColor;
     }
 
     public static class Builder {

@@ -51,7 +51,7 @@ public class Materials {
             Material material = Material.Builder.create(id, name)
                     .oreType(Rands.values(OreType.values()))
                     .color(RGB.getColor())
-                    .generatesIn(Rands.values(GeneratesIn.values()))
+                    .generatesIn(Rands.list(GeneratesIn.getValues()))
                     .armor(random.nextBoolean())
                     .tools(Rands.chance(3))
                     .oreFlower(Rands.chance(4))

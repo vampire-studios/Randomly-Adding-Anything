@@ -46,6 +46,15 @@
   "config.text.raa.attack_damage": "§7Attack Damage: §f%s",
   "config.title.raa.tools": "Tools",
   "config.title.raa.weapons": "Weapons",
+  "config.title.raa.biomeData": "Biome Data",
+
+  "config.field.raa.biomeData.id": "Biome Identifier:",
+  "config.field.raa.biomeData.name": "Biome Name:",
+  "config.field.raa.biomeData.surfaceBuilderVariantChance": "Surface Builder Varient Chance:",
+  "config.field.raa.biomeData.depth": "Biome Depth:",
+  "config.field.raa.biomeData.scale": "Biome Scale:",
+  "config.field.raa.biomeData.temperature": "Biome Temperature:",
+  "config.field.raa.biomeData.downfall": "Biome Rain Downfall:",
 
   "config.error.raa.identifier.no.caps": "No capital letters!",
   "config.error.raa.invalid.color": "Invalid Color!",
@@ -99,6 +108,8 @@
 
   "config.text.raa.boolean.value.true": "§atrue",
   "config.text.raa.boolean.value.false": "§cfalse",
+
+  "config.tooltip.raa.lush": "Example Lush Tooltip",
 
   "text.autoconfig.raa.option.materialNumber": "No of Materials: ",
   "text.autoconfig.raa.option.dimensionNumber": "No of Dimensions: ",
