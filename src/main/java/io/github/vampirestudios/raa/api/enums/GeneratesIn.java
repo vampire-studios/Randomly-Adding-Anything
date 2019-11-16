@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class GeneratesIn {
+    private static final List<GeneratesIn> VALUES = new ArrayList<>();
+
     public static final GeneratesIn STONE = new GeneratesIn("stone", Blocks.STONE, OreFeatureConfig.Target.STONE);
     public static final GeneratesIn GRASS_BLOCK = new GeneratesIn("grass_block", Blocks.GRASS_BLOCK, OreFeatureConfig.Target.GRASS_BLOCK);
     public static final GeneratesIn DIRT_SURFACE = new GeneratesIn("dirt_surface", Blocks.DIRT, OreFeatureConfig.Target.DIRT);
@@ -31,8 +33,6 @@ public class GeneratesIn {
     public static final GeneratesIn CLAY = new GeneratesIn("clay", Blocks.CLAY, OreFeatureConfig.Target.CLAY);
     public static final GeneratesIn PODZOL = new GeneratesIn("podzol", Blocks.PODZOL, OreFeatureConfig.Target.PODZOL);
     public static final GeneratesIn COARSE_DIRT = new GeneratesIn("coarse_dirt", Blocks.COARSE_DIRT, OreFeatureConfig.Target.COARSE_DIRT);
-
-    private static final List<GeneratesIn> VALUES = new ArrayList<>();
 
     private Identifier identifier;
     private Block block;

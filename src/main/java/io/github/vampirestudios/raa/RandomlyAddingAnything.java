@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa;
 
+import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.MaterialsConfig;
@@ -33,6 +34,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static GeneralConfig CONFIG;
 	public static MaterialsConfig MATERIALS_CONFIG;
 	public static DimensionsConfig DIMENSIONS_CONFIG;
+	public static DimensionMaterialsConfig DIMENSION_MATERIALS_CONFIG;
 
 	@Override
 	public void onInitialize() {
@@ -44,6 +46,15 @@ public class RandomlyAddingAnything implements ModInitializer {
 		SurfaceBuilders.init();
 		ChunkGenerators.init();
 
+		MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
+		if(CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
+			MATERIALS_CONFIG.generate();
+			MATERIALS_CONFIG.save();
+		} else {
+			MATERIALS_CONFIG.load();
+		}
+		Materials.ready = true;
+
 		DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
 		if(CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
 			DIMENSIONS_CONFIG.generate();
@@ -53,12 +64,12 @@ public class RandomlyAddingAnything implements ModInitializer {
 		}
 		Dimensions.ready = true;
 
-		MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
-		if(CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
-			MATERIALS_CONFIG.generate();
-			MATERIALS_CONFIG.save();
+		DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
+		if(CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
+			DIMENSION_MATERIALS_CONFIG.generate();
+			DIMENSION_MATERIALS_CONFIG.save();
 		} else {
-			MATERIALS_CONFIG.load();
+			DIMENSION_MATERIALS_CONFIG.load();
 		}
 		Materials.ready = true;
 
