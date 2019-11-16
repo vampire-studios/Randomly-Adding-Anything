@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;

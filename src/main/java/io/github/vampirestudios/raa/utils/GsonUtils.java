@@ -70,6 +70,7 @@ public class GsonUtils {
                             for (GeneratesIn value : GeneratesIn.getValues())
                                 if (value.getIdentifier().equals(identifier))
                                     return value;
+
                             throw new NullPointerException("Invalid GeneratesIn: " + identifier.toString());
                         }
                     }

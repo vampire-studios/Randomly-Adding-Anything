@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.api.enums;
+package io.github.vampirestudios.raa.api.dimension;
 
 import net.fabricmc.fabric.api.dimension.v1.EntityPlacer;
 import net.minecraft.block.AirBlock;

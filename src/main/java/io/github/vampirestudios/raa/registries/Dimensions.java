@@ -1,8 +1,8 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
-import io.github.vampirestudios.raa.api.enums.PlayerPlacementHandlers;
+import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.api.dimension.PlayerPlacementHandlers;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.PortalBlock;

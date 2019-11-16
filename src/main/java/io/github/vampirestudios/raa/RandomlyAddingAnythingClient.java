@@ -60,15 +60,16 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
                 MinecraftClient.getInstance().world.getBiomeAccess().getBiome(blockPos).getFoliageColorAt(), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
 
-        while (!Materials.isReady()) {
-            System.out.println("Not Ready");
-        }
-        while (!Dimensions.isReady()) {
-            System.out.println("Not Ready");
-        }
-        while (!Materials.isDimensionReady()) {
-            System.out.println("Not Ready");
-        }
+//        while (!Materials.isReady()) {
+//            System.out.println("Not Ready");
+//        }
+//        while (!Dimensions.isReady()) {
+//            System.out.println("Not Ready");
+//        }
+//        while (!Materials.isDimensionReady()) {
+//            System.out.println("Not Ready");
+//        }
+
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
                     for (Material material : Materials.MATERIALS) {

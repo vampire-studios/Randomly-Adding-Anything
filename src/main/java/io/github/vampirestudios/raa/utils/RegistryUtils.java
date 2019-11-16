@@ -98,7 +98,7 @@ public class RegistryUtils {
         }
     }
 
-    public static GeneratesIn registerGenerateionThingy(Identifier name, GeneratesIn generatesIn) {
+    public static GeneratesIn registerGeneratesIn(Identifier name, GeneratesIn generatesIn) {
         if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(name)) {
             return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, name, generatesIn);
         } else {
@@ -106,7 +106,7 @@ public class RegistryUtils {
         }
     }
 
-    public static GeneratesIn registerGenerateionThingy(String name, GeneratesIn generatesIn) {
+    public static GeneratesIn registerGeneratesIn(String name, GeneratesIn generatesIn) {
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
         if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(identifier)) {
             return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, identifier, generatesIn);
@@ -115,7 +115,7 @@ public class RegistryUtils {
         }
     }
 
-    public static GeneratesIn registerGenerateionThingy(Identifier name, Block block, OreFeatureConfig.Target target) {
+    public static GeneratesIn registerGeneratesIn(Identifier name, Block block, OreFeatureConfig.Target target) {
         if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(name)) {
             return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, name, new GeneratesIn(name, block, target));
         } else {
@@ -123,7 +123,7 @@ public class RegistryUtils {
         }
     }
 
-    public static GeneratesIn registerGenerateionThingy(String name, Block block, OreFeatureConfig.Target target) {
+    public static GeneratesIn registerGeneratesIn(String name, Block block, OreFeatureConfig.Target target) {
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
         if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(identifier)) {
             return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, identifier, new GeneratesIn(identifier, block, target));
