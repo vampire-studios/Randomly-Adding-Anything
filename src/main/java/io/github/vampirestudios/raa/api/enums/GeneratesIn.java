@@ -1,38 +1,41 @@
 package io.github.vampirestudios.raa.api.enums;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.DefaultedRegistry;
+import net.minecraft.util.registry.Registry;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class GeneratesIn {
-    private static final List<GeneratesIn> VALUES = new ArrayList<>();
+    public static final Registry<GeneratesIn> GENERATES_IN_REGISTRY = new DefaultedRegistry<>("generates_in");
 
-    public static final GeneratesIn STONE = new GeneratesIn("stone", Blocks.STONE, OreFeatureConfig.Target.STONE);
-    public static final GeneratesIn GRASS_BLOCK = new GeneratesIn("grass_block", Blocks.GRASS_BLOCK, OreFeatureConfig.Target.GRASS_BLOCK);
-    public static final GeneratesIn DIRT_SURFACE = new GeneratesIn("dirt_surface", Blocks.DIRT, OreFeatureConfig.Target.DIRT);
-    public static final GeneratesIn GRAVEL = new GeneratesIn("gravel", Blocks.GRAVEL, OreFeatureConfig.Target.GRAVEL);
-    public static final GeneratesIn SAND_DESERT = new GeneratesIn("sand_desert", Blocks.SAND, OreFeatureConfig.Target.SAND);
-    public static final GeneratesIn DIORITE = new GeneratesIn("diorite", Blocks.DIORITE, OreFeatureConfig.Target.DIORITE);
-    public static final GeneratesIn ANDESITE = new GeneratesIn("andesite", Blocks.ANDESITE, OreFeatureConfig.Target.ANDESITE);
-    public static final GeneratesIn GRANITE = new GeneratesIn("granite", Blocks.GRANITE, OreFeatureConfig.Target.GRANITE);
-    public static final GeneratesIn SAND_BEACH = new GeneratesIn("sand_beach", Blocks.SAND, OreFeatureConfig.Target.SAND);
-    public static final GeneratesIn DIRT_ANY = new GeneratesIn("dirt_any", Blocks.DIRT, OreFeatureConfig.Target.DIRT);
-    public static final GeneratesIn SAND_ANY = new GeneratesIn("sand_any", Blocks.SAND, OreFeatureConfig.Target.SAND);
-    public static final GeneratesIn DIRT_UNDERGROUND = new GeneratesIn("dirt_underground", Blocks.DIRT, OreFeatureConfig.Target.DIRT);
-    public static final GeneratesIn RED_SAND = new GeneratesIn("red_sand", Blocks.RED_SAND, OreFeatureConfig.Target.RED_SAND);
-    public static final GeneratesIn END_STONE = new GeneratesIn("end_stone", Blocks.END_STONE, OreFeatureConfig.Target.END_STONE);
-    public static final GeneratesIn NETHERRACK = new GeneratesIn("netherrack", Blocks.NETHERRACK, OreFeatureConfig.Target.NETHERRACK);
-    public static final GeneratesIn DOES_NOT_APPEAR = new GeneratesIn("does_not_appear", null, null);
-    public static final GeneratesIn BIOME_SPECIFIC = new GeneratesIn("biome_specific", Blocks.STONE, null);
-    public static final GeneratesIn CLAY = new GeneratesIn("clay", Blocks.CLAY, OreFeatureConfig.Target.CLAY);
-    public static final GeneratesIn PODZOL = new GeneratesIn("podzol", Blocks.PODZOL, OreFeatureConfig.Target.PODZOL);
-    public static final GeneratesIn COARSE_DIRT = new GeneratesIn("coarse_dirt", Blocks.COARSE_DIRT, OreFeatureConfig.Target.COARSE_DIRT);
+    public static final GeneratesIn STONE = RegistryUtils.registerGenerateionThingy("stone", Blocks.STONE, OreFeatureConfig.Target.STONE);
+    public static final GeneratesIn GRASS_BLOCK = RegistryUtils.registerGenerateionThingy("grass_block", Blocks.GRASS_BLOCK, OreFeatureConfig.Target.GRASS_BLOCK);
+    public static final GeneratesIn DIRT_SURFACE = RegistryUtils.registerGenerateionThingy("dirt_surface", Blocks.DIRT, OreFeatureConfig.Target.DIRT);
+    public static final GeneratesIn GRAVEL = RegistryUtils.registerGenerateionThingy("gravel", Blocks.GRAVEL, OreFeatureConfig.Target.GRAVEL);
+    public static final GeneratesIn SAND_DESERT = RegistryUtils.registerGenerateionThingy("sand_desert", Blocks.SAND, OreFeatureConfig.Target.SAND);
+    public static final GeneratesIn DIORITE = RegistryUtils.registerGenerateionThingy("diorite", Blocks.DIORITE, OreFeatureConfig.Target.DIORITE);
+    public static final GeneratesIn ANDESITE = RegistryUtils.registerGenerateionThingy("andesite", Blocks.ANDESITE, OreFeatureConfig.Target.ANDESITE);
+    public static final GeneratesIn GRANITE = RegistryUtils.registerGenerateionThingy("granite", Blocks.GRANITE, OreFeatureConfig.Target.GRANITE);
+    public static final GeneratesIn SAND_BEACH = RegistryUtils.registerGenerateionThingy("sand_beach", Blocks.SAND, OreFeatureConfig.Target.SAND);
+    public static final GeneratesIn DIRT_ANY = RegistryUtils.registerGenerateionThingy("dirt_any", Blocks.DIRT, OreFeatureConfig.Target.DIRT);
+    public static final GeneratesIn SAND_ANY = RegistryUtils.registerGenerateionThingy("sand_any", Blocks.SAND, OreFeatureConfig.Target.SAND);
+    public static final GeneratesIn DIRT_UNDERGROUND = RegistryUtils.registerGenerateionThingy("dirt_underground", Blocks.DIRT, OreFeatureConfig.Target.DIRT);
+    public static final GeneratesIn RED_SAND = RegistryUtils.registerGenerateionThingy("red_sand", Blocks.RED_SAND, OreFeatureConfig.Target.RED_SAND);
+    public static final GeneratesIn END_STONE = RegistryUtils.registerGenerateionThingy("end_stone", Blocks.END_STONE, OreFeatureConfig.Target.END_STONE);
+    public static final GeneratesIn NETHERRACK = RegistryUtils.registerGenerateionThingy("netherrack", Blocks.NETHERRACK, OreFeatureConfig.Target.NETHERRACK);
+    public static final GeneratesIn DOES_NOT_APPEAR = RegistryUtils.registerGenerateionThingy("does_not_appear", null, null);
+    public static final GeneratesIn BIOME_SPECIFIC = RegistryUtils.registerGenerateionThingy("biome_specific", Blocks.STONE, null);
+    public static final GeneratesIn CLAY = RegistryUtils.registerGenerateionThingy("clay", Blocks.CLAY, OreFeatureConfig.Target.CLAY);
+    public static final GeneratesIn PODZOL = RegistryUtils.registerGenerateionThingy("podzol", Blocks.PODZOL, OreFeatureConfig.Target.PODZOL);
+    public static final GeneratesIn COARSE_DIRT = RegistryUtils.registerGenerateionThingy("coarse_dirt", Blocks.COARSE_DIRT, OreFeatureConfig.Target.COARSE_DIRT);
 
     private Identifier identifier;
     private Block block;
@@ -47,12 +50,10 @@ public class GeneratesIn {
         this.identifier = Objects.requireNonNull(identifier);
         this.block = block;
         this.target = target;
-
-        VALUES.add(this);
     }
 
     public static List<GeneratesIn> getValues() {
-        return VALUES;
+        return GENERATES_IN_REGISTRY.stream().collect(Collectors.toList());
     }
 
     public Identifier getIdentifier() {

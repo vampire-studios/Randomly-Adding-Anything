@@ -36,8 +36,11 @@ public class RandomlyAddingAnything implements ModInitializer {
 	public static DimensionsConfig DIMENSIONS_CONFIG;
 	public static DimensionMaterialsConfig DIMENSION_MATERIALS_CONFIG;
 
+	public static ModCompat MODCOMPAT;
+
 	@Override
 	public void onInitialize() {
+		MODCOMPAT = new ModCompat();
 		AutoConfig.register(GeneralConfig.class, JanksonConfigSerializer::new);
 		CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
 		Textures.init();
