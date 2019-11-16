@@ -91,24 +91,20 @@ public class Materials {
                 } while (DIMENSION_MATERIAL_IDS.contains(id));
                 DIMENSION_MATERIAL_IDS.add(id);
 
-                /*GeneratesIn generatesIn = new GeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
-                        Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())),
-                        new OreFeatureConfig.Target(dimensionData.getId().getPath(), blockState ->
-                                new BlockPredicate(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())))
-                                        .test(blockState.getBlock())
-                        )
-                );*/
-
-                Material material = Material.Builder.create(id, name)
-                        .oreType(Rands.values(OreType.values()))
-                        .color(RGB.getColor())
-                        .generatesIn(new GeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
-                                Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())),
+                GeneratesIn generatesIn = RegistryUtils.registerGenerateionThingy(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
+                        new GeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
+                            Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())),
                                 new OreFeatureConfig.Target(dimensionData.getId().getPath(), blockState ->
                                         new BlockPredicate(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())))
                                                 .test(blockState.getBlock())
                                 )
-                        ))
+                        )
+                );
+
+                Material material = Material.Builder.create(id, name)
+                        .oreType(Rands.values(OreType.values()))
+                        .color(RGB.getColor())
+                        .generatesIn(generatesIn)
                         .armor(random.nextBoolean())
                         .tools(Rands.chance(3))
                         .oreFlower(Rands.chance(4))
@@ -160,7 +156,7 @@ public class Materials {
 
             RegistryUtils.register(
                 new RAABlock(),
-                Utils.appendSuffix(identifier, "_block"),
+                Utils.appendToPath(identifier, "_block"),
                 RandomlyAddingAnything.RAA_RESOURCES,
                 material.getName(),
                 RAABlockItem.BlockType.BLOCK
@@ -168,7 +164,7 @@ public class Materials {
             if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
                 RegistryUtils.register(
                     new LayeredOreBlock(material, blockSettings.build()),
-                    Utils.appendSuffix(identifier, "_ore"),
+                    Utils.appendToPath(identifier, "_ore"),
                     RandomlyAddingAnything.RAA_ORES,
                     material.getName(),
                     RAABlockItem.BlockType.ORE);
@@ -180,7 +176,7 @@ public class Materials {
                         new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                         RAASimpleItem.SimpleItemType.INGOT
                     ),
-                    Utils.appendSuffix(identifier, "_ingot")
+                    Utils.appendToPath(identifier, "_ingot")
                 );
                 RegistryUtils.registerItem(
                     new RAASimpleItem(
@@ -188,7 +184,7 @@ public class Materials {
                         new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                         RAASimpleItem.SimpleItemType.NUGGET
                     ),
-                    Utils.appendSuffix(identifier, "_nugget")
+                    Utils.appendToPath(identifier, "_nugget")
                 );
             } else if (material.getOreInformation().getOreType() == OreType.GEM) {
                 RegistryUtils.registerItem(
@@ -197,7 +193,7 @@ public class Materials {
                         new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                         RAASimpleItem.SimpleItemType.GEM
                     ),
-                    Utils.appendSuffix(identifier, "_gem")
+                    Utils.appendToPath(identifier, "_gem")
                 );
             } else {
                 RegistryUtils.registerItem(
@@ -206,7 +202,7 @@ public class Materials {
                         new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                         RAASimpleItem.SimpleItemType.CRYSTAL
                     ),
-                    Utils.appendSuffix(identifier, "_crystal")
+                    Utils.appendToPath(identifier, "_crystal")
                 );
             }
             if (material.hasArmor()) {
@@ -216,7 +212,7 @@ public class Materials {
                         EquipmentSlot.HEAD,
                         new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_helmet")
+                    Utils.appendToPath(identifier, "_helmet")
                 );
                 RegistryUtils.registerItem(
                     new RAAArmorItem(
@@ -224,7 +220,7 @@ public class Materials {
                         EquipmentSlot.CHEST,
                         new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_chestplate")
+                    Utils.appendToPath(identifier, "_chestplate")
                 );
                 RegistryUtils.registerItem(
                     new RAAArmorItem(
@@ -232,7 +228,7 @@ public class Materials {
                         EquipmentSlot.LEGS,
                         new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_leggings")
+                    Utils.appendToPath(identifier, "_leggings")
                 );
                 RegistryUtils.registerItem(
                     new RAAArmorItem(
@@ -240,11 +236,11 @@ public class Materials {
                         EquipmentSlot.FEET,
                         new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_boots")
+                    Utils.appendToPath(identifier, "_boots")
                 );
                 RegistryUtils.registerItem(
                     new RAAHorseArmorItem(material),
-                    Utils.appendSuffix(identifier, "_horse_armor")
+                    Utils.appendToPath(identifier, "_horse_armor")
                 );
             }
             if (material.hasTools()) {
@@ -256,7 +252,7 @@ public class Materials {
                         -2.8F,
                         new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_pickaxe")
+                    Utils.appendToPath(identifier, "_pickaxe")
                 );
                 RegistryUtils.registerItem(
                     new RAAAxeItem(
@@ -266,7 +262,7 @@ public class Materials {
                         -3.2F + material.getToolMaterial().getAxeAttackSpeed(),
                         new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_axe")
+                    Utils.appendToPath(identifier, "_axe")
                 );
                 RegistryUtils.registerItem(
                     new RAAShovelItem(
@@ -276,7 +272,7 @@ public class Materials {
                         -3.0F,
                         new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_shovel")
+                    Utils.appendToPath(identifier, "_shovel")
                 );
                 RegistryUtils.registerItem(
                     new RAAHoeItem(
@@ -285,14 +281,14 @@ public class Materials {
                         -3.0F + material.getToolMaterial().getHoeAttackSpeed(),
                         new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_hoe")
+                    Utils.appendToPath(identifier, "_hoe")
                 );
                 RegistryUtils.registerItem(
                     new RAAShearItem(
                         material,
                         new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_shears")
+                    Utils.appendToPath(identifier, "_shears")
                 );
             }
             if (material.hasWeapons()) {
@@ -301,7 +297,7 @@ public class Materials {
                         material,
                         new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(repairItem)
                     ),
-                    Utils.appendSuffix(identifier, "_sword")
+                    Utils.appendToPath(identifier, "_sword")
                 );
             }
             if (material.hasFood()) {
@@ -310,7 +306,7 @@ public class Materials {
                         material.getName(),
                         new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(FoodComponents.GOLDEN_CARROT)
                     ),
-                    Utils.appendSuffix(identifier, "_fruit")
+                    Utils.appendToPath(identifier, "_fruit")
                 );
             }
         });
@@ -339,7 +335,7 @@ public class Materials {
 
             RegistryUtils.register(
                     new RAABlock(),
-                    Utils.appendSuffix(identifier, "_block"),
+                    Utils.appendToPath(identifier, "_block"),
                     RandomlyAddingAnything.RAA_RESOURCES,
                     material.getName(),
                     RAABlockItem.BlockType.BLOCK
@@ -347,7 +343,7 @@ public class Materials {
             if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
                 RegistryUtils.register(
                         new LayeredOreBlock(material, blockSettings.build()),
-                        Utils.appendSuffix(identifier, "_ore"),
+                        Utils.appendToPath(identifier, "_ore"),
                         RandomlyAddingAnything.RAA_ORES,
                         material.getName(),
                         RAABlockItem.BlockType.ORE);
@@ -359,7 +355,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.INGOT
                         ),
-                        Utils.appendSuffix(identifier, "_ingot")
+                        Utils.appendToPath(identifier, "_ingot")
                 );
                 RegistryUtils.registerItem(
                         new RAASimpleItem(
@@ -367,7 +363,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.NUGGET
                         ),
-                        Utils.appendSuffix(identifier, "_nugget")
+                        Utils.appendToPath(identifier, "_nugget")
                 );
             } else if (material.getOreInformation().getOreType() == OreType.GEM) {
                 RegistryUtils.registerItem(
@@ -376,7 +372,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.GEM
                         ),
-                        Utils.appendSuffix(identifier, "_gem")
+                        Utils.appendToPath(identifier, "_gem")
                 );
             } else {
                 RegistryUtils.registerItem(
@@ -385,7 +381,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.CRYSTAL
                         ),
-                        Utils.appendSuffix(identifier, "_crystal")
+                        Utils.appendToPath(identifier, "_crystal")
                 );
             }
             if (material.hasArmor()) {
@@ -395,7 +391,7 @@ public class Materials {
                                 EquipmentSlot.HEAD,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_helmet")
+                        Utils.appendToPath(identifier, "_helmet")
                 );
                 RegistryUtils.registerItem(
                         new RAAArmorItem(
@@ -403,7 +399,7 @@ public class Materials {
                                 EquipmentSlot.CHEST,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_chestplate")
+                        Utils.appendToPath(identifier, "_chestplate")
                 );
                 RegistryUtils.registerItem(
                         new RAAArmorItem(
@@ -411,7 +407,7 @@ public class Materials {
                                 EquipmentSlot.LEGS,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_leggings")
+                        Utils.appendToPath(identifier, "_leggings")
                 );
                 RegistryUtils.registerItem(
                         new RAAArmorItem(
@@ -419,11 +415,11 @@ public class Materials {
                                 EquipmentSlot.FEET,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_boots")
+                        Utils.appendToPath(identifier, "_boots")
                 );
                 RegistryUtils.registerItem(
                         new RAAHorseArmorItem(material),
-                        Utils.appendSuffix(identifier, "_horse_armor")
+                        Utils.appendToPath(identifier, "_horse_armor")
                 );
             }
             if (material.hasTools()) {
@@ -435,7 +431,7 @@ public class Materials {
                                 -2.8F,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_pickaxe")
+                        Utils.appendToPath(identifier, "_pickaxe")
                 );
                 RegistryUtils.registerItem(
                         new RAAAxeItem(
@@ -445,7 +441,7 @@ public class Materials {
                                 -3.2F + material.getToolMaterial().getAxeAttackSpeed(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_axe")
+                        Utils.appendToPath(identifier, "_axe")
                 );
                 RegistryUtils.registerItem(
                         new RAAShovelItem(
@@ -455,7 +451,7 @@ public class Materials {
                                 -3.0F,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_shovel")
+                        Utils.appendToPath(identifier, "_shovel")
                 );
                 RegistryUtils.registerItem(
                         new RAAHoeItem(
@@ -464,14 +460,14 @@ public class Materials {
                                 -3.0F + material.getToolMaterial().getHoeAttackSpeed(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_hoe")
+                        Utils.appendToPath(identifier, "_hoe")
                 );
                 RegistryUtils.registerItem(
                         new RAAShearItem(
                                 material,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_shears")
+                        Utils.appendToPath(identifier, "_shears")
                 );
             }
             if (material.hasWeapons()) {
@@ -480,7 +476,7 @@ public class Materials {
                                 material,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendSuffix(identifier, "_sword")
+                        Utils.appendToPath(identifier, "_sword")
                 );
             }
             if (material.hasFood()) {
@@ -489,7 +485,7 @@ public class Materials {
                                 material.getName(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(FoodComponents.GOLDEN_CARROT)
                         ),
-                        Utils.appendSuffix(identifier, "_fruit")
+                        Utils.appendToPath(identifier, "_fruit")
                 );
             }
         });

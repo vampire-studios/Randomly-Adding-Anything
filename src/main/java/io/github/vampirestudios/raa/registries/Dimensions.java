@@ -172,7 +172,7 @@ public class Dimensions {
 				.mobs(difficultyAndMobs.getRight())
                 .civilizationInfluences(dimension.getCivilizationInfluences())
                 .surfaceBuilder(Rands.randInt(100));
-            DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendSuffix(name.getRight(), "_biome"), name.getLeft())
+            DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendToPath(name.getRight(), "_biome"), name.getLeft())
                 .surfaceBuilderVariantChance(Rands.randInt(100))
                 .depth(depth)
                 .scale(scale)
@@ -210,7 +210,7 @@ public class Dimensions {
         DIMENSIONS.forEach(dimension -> {
             Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase());
             CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension);
-            Block stoneBlock = RegistryUtils.register(new DimensionalBlock(dimension.getName(), true), Utils.appendSuffix(identifier, "_stone"),
+            Block stoneBlock = RegistryUtils.register(new DimensionalBlock(dimension.getName(), true), Utils.appendToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
             DimensionType type = FabricDimensionType.builder()
                 .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
@@ -252,7 +252,7 @@ public class Dimensions {
 
                 @Override
                 public Ingredient getRepairIngredient() {
-                    return Ingredient.ofItems(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")));
+                    return Ingredient.ofItems(Registry.ITEM.get(Utils.appendToPath(identifier, "_cobblestone")));
                 }
             };
 
@@ -262,9 +262,9 @@ public class Dimensions {
                             toolMaterial,
                             1,
                             -2.8F,
-                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendToPath(identifier, "_cobblestone")))
                     ),
-                    Utils.appendSuffix(identifier, "_pickaxe")
+                    Utils.appendToPath(identifier, "_pickaxe")
             );
             RegistryUtils.registerItem(
                     new RAAAxeItem(
@@ -272,9 +272,9 @@ public class Dimensions {
                             toolMaterial,
                             7.0F,
                             -3.2F,
-                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendToPath(identifier, "_cobblestone")))
                     ),
-                    Utils.appendSuffix(identifier, "_axe")
+                    Utils.appendToPath(identifier, "_axe")
             );
             RegistryUtils.registerItem(
                     new RAAShovelItem(
@@ -282,26 +282,26 @@ public class Dimensions {
                             toolMaterial,
                             1.5F,
                             -3.0F,
-                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendToPath(identifier, "_cobblestone")))
                     ),
-                    Utils.appendSuffix(identifier, "_shovel")
+                    Utils.appendToPath(identifier, "_shovel")
             );
             RegistryUtils.registerItem(
                     new RAAHoeItem(
                             dimension,
                             toolMaterial,
                             -2.0F,
-                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendToPath(identifier, "_cobblestone")))
                     ),
-                    Utils.appendSuffix(identifier, "_hoe")
+                    Utils.appendToPath(identifier, "_hoe")
             );
             RegistryUtils.registerItem(
                     new RAASwordItem(
                             toolMaterial,
                             dimension,
-                            new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(Registry.ITEM.get(Utils.appendSuffix(identifier, "_cobblestone")))
+                            new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(Registry.ITEM.get(Utils.appendToPath(identifier, "_cobblestone")))
                     ),
-                    Utils.appendSuffix(identifier, "_sword")
+                    Utils.appendToPath(identifier, "_sword")
             );
 
             RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone_bricks"),

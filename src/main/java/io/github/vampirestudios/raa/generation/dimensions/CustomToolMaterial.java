@@ -85,7 +85,7 @@ public class CustomToolMaterial implements ToolMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(Registry.ITEM.get(Utils.appendSuffix(materialId, "_cobblestone")));
+        return Ingredient.ofItems(Registry.ITEM.get(Utils.appendToPath(materialId, "_cobblestone")));
     }
 
     public float getHoeAttackSpeed() {

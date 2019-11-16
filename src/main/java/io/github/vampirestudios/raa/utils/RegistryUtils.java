@@ -24,8 +24,11 @@
 
 package io.github.vampirestudios.raa.utils;
 
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
+import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -88,7 +91,45 @@ public class RegistryUtils {
     }
 
     public static Item registerItem(Item item, Identifier name) {
-        return Registry.register(Registry.ITEM, name, item);
+        if (!Registry.ITEM.containsId(name)) {
+            return Registry.register(Registry.ITEM, name, item);
+        } else {
+            return item;
+        }
+    }
+
+    public static GeneratesIn registerGenerateionThingy(Identifier name, GeneratesIn generatesIn) {
+        if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(name)) {
+            return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, name, generatesIn);
+        } else {
+            return generatesIn;
+        }
+    }
+
+    public static GeneratesIn registerGenerateionThingy(String name, GeneratesIn generatesIn) {
+        Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
+        if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(identifier)) {
+            return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, identifier, generatesIn);
+        } else {
+            return generatesIn;
+        }
+    }
+
+    public static GeneratesIn registerGenerateionThingy(Identifier name, Block block, OreFeatureConfig.Target target) {
+        if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(name)) {
+            return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, name, new GeneratesIn(name, block, target));
+        } else {
+            return new GeneratesIn(name, block, target);
+        }
+    }
+
+    public static GeneratesIn registerGenerateionThingy(String name, Block block, OreFeatureConfig.Target target) {
+        Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
+        if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(identifier)) {
+            return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, identifier, new GeneratesIn(identifier, block, target));
+        } else {
+            return new GeneratesIn(identifier, block, target);
+        }
     }
 
     public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(Builder<T> builder, Identifier name) {

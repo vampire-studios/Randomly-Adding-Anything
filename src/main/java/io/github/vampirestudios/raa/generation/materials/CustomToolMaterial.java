@@ -106,7 +106,7 @@ public class CustomToolMaterial implements ToolMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(Registry.ITEM.get(Utils.appendSuffix(materialId, oreType.getSuffix())));
+        return Ingredient.ofItems(Registry.ITEM.get(Utils.appendToPath(materialId, oreType.getSuffix())));
     }
 
     public float getHoeAttackSpeed() {
