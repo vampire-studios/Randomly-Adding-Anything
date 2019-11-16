@@ -227,8 +227,7 @@ public class Dimensions {
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
-//                    return dimension.getToolDurability();
-                    return ToolMaterials.STONE.getDurability();
+                    return dimension.getToolDurability();
                 }
 
                 @Override
@@ -258,7 +257,7 @@ public class Dimensions {
             };
 
             RegistryUtils.registerItem(
-                    new DimensionalPickaxeItem(
+                    new RAAPickaxeItem(
                             dimension,
                             toolMaterial,
                             1,
@@ -268,7 +267,7 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_pickaxe")
             );
             RegistryUtils.registerItem(
-                    new DimensionalAxeItem(
+                    new RAAAxeItem(
                             dimension,
                             toolMaterial,
                             7.0F,
@@ -278,7 +277,7 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_axe")
             );
             RegistryUtils.registerItem(
-                    new DimensionalShovelItem(
+                    new RAAShovelItem(
                             dimension,
                             toolMaterial,
                             1.5F,
@@ -288,7 +287,7 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_shovel")
             );
             RegistryUtils.registerItem(
-                    new DimensionalHoeItem(
+                    new RAAHoeItem(
                             dimension,
                             toolMaterial,
                             -2.0F,
@@ -297,7 +296,7 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_hoe")
             );
             RegistryUtils.registerItem(
-                    new DimensionalSwordItem(
+                    new RAASwordItem(
                             toolMaterial,
                             dimension,
                             new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(Registry.ITEM.get(Utils.appendToPath(identifier, "_cobblestone")))
@@ -425,7 +424,7 @@ public class Dimensions {
 
     public static int generateDimensionFlags() {
         int flags = 0;
-        if (Rands.chance(35)) {
+        if (Rands.chance(30)) {
             flags = Utils.POST_APOCALYPTIC;
             return flags;
         }
@@ -441,7 +440,7 @@ public class Dimensions {
                 flags |= Utils.DRY;
             }
         } else {
-            if (Rands.chance(18)) {
+            if (Rands.chance(12)) {
                 flags |= Utils.DEAD;
                 if (Rands.chance(6)) {
                     flags |= Utils.MOLTEN;
