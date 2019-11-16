@@ -10,7 +10,9 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
+import io.github.vampirestudios.raa.predicate.block.BlockPredicate;
 import io.github.vampirestudios.raa.utils.*;
+import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.Block;
@@ -32,6 +34,7 @@ public class Materials {
     public static final Registry<Material> DIMENSION_MATERIALS = new DefaultedRegistry<>("dimension_materials");
 
     public static boolean ready = false;
+    public static boolean dimensionReady = false;
     public static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
 
     public static void generate() {
@@ -70,6 +73,10 @@ public class Materials {
                 DebugUtils.materialDebug(material, RGB);
             }
         }
+        ready = true;
+    }
+
+    public static void generateDimensionMaterials() {
         for (DimensionData dimensionData : Dimensions.DIMENSIONS) {
             for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.materialNumber); a++) {
                 Color RGB = Rands.randColor();
@@ -84,15 +91,24 @@ public class Materials {
                 } while (DIMENSION_MATERIAL_IDS.contains(id));
                 DIMENSION_MATERIAL_IDS.add(id);
 
+                /*GeneratesIn generatesIn = new GeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
+                        Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())),
+                        new OreFeatureConfig.Target(dimensionData.getId().getPath(), blockState ->
+                                new BlockPredicate(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())))
+                                        .test(blockState.getBlock())
+                        )
+                );*/
+
                 Material material = Material.Builder.create(id, name)
                         .oreType(Rands.values(OreType.values()))
                         .color(RGB.getColor())
-                        /*.generatesIn(new GeneratesIn(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())),
+                        .generatesIn(new GeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
+                                Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())),
                                 new OreFeatureConfig.Target(dimensionData.getId().getPath(), blockState ->
                                         new BlockPredicate(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())))
                                                 .test(blockState.getBlock())
                                 )
-                        ))*/
+                        ))
                         .armor(random.nextBoolean())
                         .tools(Rands.chance(3))
                         .oreFlower(Rands.chance(4))
@@ -112,18 +128,21 @@ public class Materials {
                 }
             }
         }
-        ready = true;
+        dimensionReady = true;
     }
 
     public static boolean isReady() {
         return ready;
     }
 
+    public static boolean isDimensionReady() {
+        return dimensionReady;
+    }
+
     public static void createMaterialResources() {
         if (RandomlyAddingAnything.CONFIG.debug) {
             RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
         }
-
         MATERIALS.forEach(material -> {
             Identifier identifier = material.getId();
             Item repairItem;
@@ -295,7 +314,12 @@ public class Materials {
                 );
             }
         });
+    }
 
+    public static void createDimensionMaterialResources() {
+        if (RandomlyAddingAnything.CONFIG.debug) {
+            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
+        }
         DIMENSION_MATERIALS.forEach(material -> {
             System.out.println(material.getId());
 

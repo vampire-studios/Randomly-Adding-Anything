@@ -51,7 +51,8 @@ public class OreBakedModel extends RAABakedModel {
         int color = 0xFFFFFFFF;
         Sprite sprite;
         if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
-            sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/" + Registry.BLOCK.getId(material.getOreInformation()
+            sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier(Registry.BLOCK.getId(material.getOreInformation()
+                    .getGeneratesIn().getBlock()).getNamespace(), "block/" + Registry.BLOCK.getId(material.getOreInformation()
                     .getGeneratesIn().getBlock()).getPath()));
         } else {
             sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/oak_planks"));
