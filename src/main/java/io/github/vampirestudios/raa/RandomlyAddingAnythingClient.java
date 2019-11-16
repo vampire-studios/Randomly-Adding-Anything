@@ -182,6 +182,114 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     });
                 }
             });
+            Materials.DIMENSION_MATERIALS.forEach(material -> {
+                Identifier bid = material.getId();
+                for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
+                    Identifier id = Utils.appendSuffix(bid, blockType.getSuffix());
+                    clientResourcePackBuilder.addBlockState(id, blockStateBuilder -> blockStateBuilder.variant("", variant -> {
+                        variant.model(new Identifier(id.getNamespace(), "block/" + id.getPath()));
+                    }));
+                    clientResourcePackBuilder.addBlockModel(id, modelBuilder -> {
+                        if (blockType == RAABlockItem.BlockType.BLOCK) {
+                            modelBuilder.parent(new Identifier("block/leaves"));
+                        } else {
+                            modelBuilder.parent(new Identifier("block/cube_all"));
+                        }
+                        modelBuilder.texture("all", material.getStorageBlockTexture());
+                    });
+                    clientResourcePackBuilder.addItemModel(id, modelBuilder ->
+                            modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
+                    Map<Material, RAABlockItem.BlockType> map = new HashMap<>();
+                    map.put(material, blockType);
+                    BLOCKS_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
+                }
+                if (material.getOreInformation().getOreType() == OreType.GEM) {
+                    clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_gem"), modelBuilder -> {
+                        modelBuilder.parent(new Identifier("item/generated"));
+                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                    });
+                }
+                if (material.getOreInformation().getOreType() == OreType.METAL) {
+                    clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_ingot"), modelBuilder -> {
+                        modelBuilder.parent(new Identifier("item/generated"));
+                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                    });
+                    clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_nugget"), modelBuilder -> {
+                        modelBuilder.parent(new Identifier("item/generated"));
+                        modelBuilder.texture("layer0", material.getNuggetTexture());
+                    });
+                }
+                if (material.getOreInformation().getOreType() == OreType.CRYSTAL) {
+                    clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_crystal"), modelBuilder -> {
+                        modelBuilder.parent(new Identifier("item/generated"));
+                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                    });
+                }
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_helmet"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer0", Rands.list(TextureTypes.HELMET_TEXTURES));
+                });
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_chestplate"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer0", Rands.list(TextureTypes.CHESTPLATE_TEXTURES));
+                });
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_leggings"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer0", Rands.list(TextureTypes.LEGGINGS_TEXTURES));
+                });
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_boots"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer0", Rands.list(TextureTypes.BOOTS_TEXTURES));
+                });
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_axe"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/handheld"));
+                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.AXES);
+                    modelBuilder.texture("layer0", entry.getKey());
+                    modelBuilder.texture("layer1", entry.getValue());
+                });
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_shovel"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/handheld"));
+                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.SHOVELS);
+                    modelBuilder.texture("layer0", entry.getKey());
+                    modelBuilder.texture("layer1", entry.getValue());
+                });
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_pickaxe"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/handheld"));
+                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.PICKAXES);
+                    modelBuilder.texture("layer0", entry.getKey());
+                    modelBuilder.texture("layer1", entry.getValue());
+                });
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_sword"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/handheld"));
+                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.SWORDS);
+                    modelBuilder.texture("layer0", entry.getKey());
+                    modelBuilder.texture("layer1", entry.getValue());
+                });
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_hoe"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/handheld"));
+                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.HOES);
+                    modelBuilder.texture("layer0", entry.getKey());
+                    modelBuilder.texture("layer1", entry.getValue());
+                });
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_shears"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/shears_base"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/shears_metal"));
+                });
+
+                clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_horse_armor"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/armor/horse_armor_base"));
+                    modelBuilder.texture("layer1", Rands.list(TextureTypes.HORSE_ARMOR_SADDLE_TEXTURES));
+                });
+
+                if (material.hasFood()) {
+                    clientResourcePackBuilder.addItemModel(Utils.appendSuffix(bid, "_fruit"), modelBuilder -> {
+                        modelBuilder.parent(new Identifier("item/generated"));
+                        modelBuilder.texture("layer0", Rands.list(TextureTypes.FRUIT_TEXTURES));
+                    });
+                }
+            });
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
                 Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase());
                 Identifier stoneId = Utils.appendSuffix(identifier, "_stone");
@@ -300,7 +408,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             });
         });
 
-
         Materials.MATERIALS.forEach(material -> {
             Identifier id = material.getId();
             ColorProviderRegistry.ITEM.register((stack, layer) -> {
@@ -324,6 +431,33 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 Registry.ITEM.get(Utils.appendSuffix(id, "_ingot")),
                 Registry.BLOCK.get(Utils.appendSuffix(id, "_block")),
                 Registry.ITEM.get(Utils.appendSuffix(id, "_shears"))
+            );
+            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
+                    Registry.BLOCK.get(Utils.appendSuffix(id, "_block")));
+        });
+        Materials.DIMENSION_MATERIALS.forEach(material -> {
+            Identifier id = material.getId();
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                        if (layer == 0) return material.getRGBColor();
+                        else return -1;
+                    },
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_helmet")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_chestplate")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_leggings")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_boots")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_axe")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_shovel")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_pickaxe")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_hoe")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_sword")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_horse_armor")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_fruit")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_nugget")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_gem")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_crystal")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_ingot")),
+                    Registry.BLOCK.get(Utils.appendSuffix(id, "_block")),
+                    Registry.ITEM.get(Utils.appendSuffix(id, "_shears"))
             );
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
                     Registry.BLOCK.get(Utils.appendSuffix(id, "_block")));

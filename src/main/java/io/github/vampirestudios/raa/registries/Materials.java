@@ -70,6 +70,10 @@ public class Materials {
                 DebugUtils.materialDebug(material, RGB);
             }
         }
+        ready = true;
+    }
+
+    public static void generateDimensionMaterials() {
         for (DimensionData dimensionData : Dimensions.DIMENSIONS) {
             for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.materialNumber); a++) {
                 Color RGB = Rands.randColor();
@@ -123,7 +127,6 @@ public class Materials {
         if (RandomlyAddingAnything.CONFIG.debug) {
             RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
         }
-
         MATERIALS.forEach(material -> {
             Identifier identifier = material.getId();
             Item repairItem;
@@ -295,7 +298,12 @@ public class Materials {
                 );
             }
         });
+    }
 
+    public static void createDimensionMaterialResources() {
+        if (RandomlyAddingAnything.CONFIG.debug) {
+            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
+        }
         DIMENSION_MATERIALS.forEach(material -> {
             System.out.println(material.getId());
 
