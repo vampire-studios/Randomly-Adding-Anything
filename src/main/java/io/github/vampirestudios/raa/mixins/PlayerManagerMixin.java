@@ -13,20 +13,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @Mixin(PlayerManager.class)
 public abstract class PlayerManagerMixin {
 
     @Inject(at = @At("RETURN"), method = "onPlayerConnect")
     private void onPlayerConnecte(ClientConnection clientConnection, ServerPlayerEntity player, CallbackInfo ci) {
-        PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider)player).getMaterialDiscoverState();
+        PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider) player).getMaterialDiscoverState();
         if (discoverState == null) {
-            ((PlayerMaterialDiscoverProvider)player).setMaterialDiscoverState(new PlayerMaterialDiscoverState());
-            discoverState = ((PlayerMaterialDiscoverProvider)player).getMaterialDiscoverState();
+            ((PlayerMaterialDiscoverProvider) player).setMaterialDiscoverState(new PlayerMaterialDiscoverState());
+            discoverState = ((PlayerMaterialDiscoverProvider) player).getMaterialDiscoverState();
         }
         List<OreDiscoverState> map = discoverState.getList();
         if (discoverState.isFirstConnect() || (map == null || map.isEmpty())) {

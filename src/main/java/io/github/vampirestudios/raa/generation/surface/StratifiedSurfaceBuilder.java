@@ -30,7 +30,7 @@ public class StratifiedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfi
                 chunk.setBlockState(pos, stone, false);
                 pos.setOffset(Direction.UP);
             }
-            int dirtHeight = (int)noise * 2;
+            int dirtHeight = (int) noise * 2;
             for (int i = 0; i < dirtHeight; i++) {
                 chunk.setBlockState(pos, DIRT, false);
                 pos.setOffset(Direction.UP);

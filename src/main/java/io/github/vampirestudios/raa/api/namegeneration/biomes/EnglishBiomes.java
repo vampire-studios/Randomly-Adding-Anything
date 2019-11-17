@@ -19,6 +19,20 @@ public class EnglishBiomes implements INameGenerator {
             "sic", "sit", "tan", "tor", "tri", "vi", "w", "x", "z"
     };
 
+    public static void main(String[] args) {
+        EnglishBiomes gen = new EnglishBiomes();
+        Collection<String> generated = gen.generate(100);
+
+        System.out.println("Lowercase:" + generated);
+
+        List<String> titleCased = new ArrayList<>();
+        for (String s : generated) {
+            titleCased.add(Utils.toTitleCase(s));
+        }
+
+        System.out.println("TitleCase:" + titleCased);
+    }
+
     public String generate() {
         Random rnd = new Random();
         String prefix = LATIN_PREFIXES[rnd.nextInt(LATIN_PREFIXES.length)];
@@ -28,7 +42,7 @@ public class EnglishBiomes implements INameGenerator {
 
     public Collection<String> generate(int count) {
         HashSet<String> result = new HashSet<>(count);
-        while(result.size()<count) {
+        while (result.size() < count) {
             String cur = generate();
             result.add(cur); //Nothing happens on duplicates
         }
@@ -37,20 +51,20 @@ public class EnglishBiomes implements INameGenerator {
     }
 
     public String combine(String a, String b) {
-        if (a.isEmpty() || b.isEmpty()) return a+b;
+        if (a.isEmpty() || b.isEmpty()) return a + b;
 
         char bStart = b.charAt(0);
-        char aEnd = a.charAt(a.length()-1);
-        if (bStart==aEnd) b = b.substring(1);
+        char aEnd = a.charAt(a.length() - 1);
+        if (bStart == aEnd) b = b.substring(1);
         if (isConsonant(aEnd) && isConsonant(bStart)) {
-            return Utils.toTitleCase(a+fillConsonant(aEnd)+b);
+            return Utils.toTitleCase(a + fillConsonant(aEnd) + b);
         }
 
-        return Utils.toTitleCase(a+b);
+        return Utils.toTitleCase(a + b);
     }
 
     public boolean isConsonant(char ch) {
-        switch(ch) {
+        switch (ch) {
             case 'a':
             case 'e':
             case 'i':
@@ -73,20 +87,6 @@ public class EnglishBiomes implements INameGenerator {
     @Override
     public Map<String, String> getSpecialCharactersMap() {
         return new HashMap<>();
-    }
-
-    public static void main(String[] args) {
-        EnglishBiomes gen = new EnglishBiomes();
-        Collection<String> generated = gen.generate(100);
-
-        System.out.println("Lowercase:" + generated);
-
-        List<String> titleCased = new ArrayList<>();
-        for(String s : generated) {
-            titleCased.add(Utils.toTitleCase(s));
-        }
-
-        System.out.println("TitleCase:" + titleCased);
     }
 
 }

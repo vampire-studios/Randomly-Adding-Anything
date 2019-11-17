@@ -12,21 +12,21 @@ import net.minecraft.world.IWorld;
 import java.util.Random;
 
 public class FeatureUtils {
-	
-	public static void setSpawner(IWorld world, BlockPos pos, EntityType<?> entity) {
-		world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2);
-		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof MobSpawnerBlockEntity) {
-			((MobSpawnerBlockEntity) be).getLogic().setEntityId(entity);
-		}
-	}
 
-	public static void setLootChest(IWorld world, BlockPos pos, Identifier lootTable, Random rand) {
-		world.setBlockState(pos, Blocks.CHEST.getDefaultState(), 2);
-		
-		BlockEntity entity = world.getBlockEntity(pos);
-		if (entity instanceof ChestBlockEntity) {
-			((ChestBlockEntity) entity).setLootTable(lootTable, rand.nextLong());
-		}
-	}
+    public static void setSpawner(IWorld world, BlockPos pos, EntityType<?> entity) {
+        world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2);
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be instanceof MobSpawnerBlockEntity) {
+            ((MobSpawnerBlockEntity) be).getLogic().setEntityId(entity);
+        }
+    }
+
+    public static void setLootChest(IWorld world, BlockPos pos, Identifier lootTable, Random rand) {
+        world.setBlockState(pos, Blocks.CHEST.getDefaultState(), 2);
+
+        BlockEntity entity = world.getBlockEntity(pos);
+        if (entity instanceof ChestBlockEntity) {
+            ((ChestBlockEntity) entity).setLootTable(lootTable, rand.nextLong());
+        }
+    }
 }

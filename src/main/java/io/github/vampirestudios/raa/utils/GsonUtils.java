@@ -15,17 +15,7 @@ import net.minecraft.util.JsonHelper;
 import java.io.IOException;
 
 public class GsonUtils {
-	private static final Gson GSON;
-
-	public static Gson getGson() {
-		return GSON;
-	}
-
-	public static Identifier idFromOldStyle(JsonObject jsonObject) {
-		if(jsonObject.has("namespace"))
-			return new Identifier(JsonHelper.getString(jsonObject, "namespace"), JsonHelper.getString(jsonObject, "path"));
-		return new Identifier(JsonHelper.getString(jsonObject, "field_13353"), JsonHelper.getString(jsonObject, "field_13355"));
-	}
+    private static final Gson GSON;
 
     static {
         GSON = new GsonBuilder()
@@ -78,5 +68,15 @@ public class GsonUtils {
                 .serializeNulls()
                 .setPrettyPrinting()
                 .create();
+    }
+
+    public static Gson getGson() {
+        return GSON;
+    }
+
+    public static Identifier idFromOldStyle(JsonObject jsonObject) {
+        if (jsonObject.has("namespace"))
+            return new Identifier(JsonHelper.getString(jsonObject, "namespace"), JsonHelper.getString(jsonObject, "path"));
+        return new Identifier(JsonHelper.getString(jsonObject, "field_13353"), JsonHelper.getString(jsonObject, "field_13355"));
     }
 }

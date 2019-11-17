@@ -24,9 +24,9 @@ public class DimensionListScreen extends Screen {
 
     private static Identifier background;
     Screen parent;
+    String tooltip = null;
     private RAADimensionListWidget dimensionList;
     private RAADimensionDescriptionListWidget descriptionList;
-    String tooltip = null;
 
     public DimensionListScreen(Screen parent) {
         super(new TranslatableText("config.title.raa.dimension"));
@@ -53,10 +53,10 @@ public class DimensionListScreen extends Screen {
         super.init();
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
         children.add(dimensionList = new RAADimensionListWidget(minecraft, width / 2 - 10, height,
-                                                                28 + 5, height - 5, background
+                28 + 5, height - 5, background
         ));
         children.add(descriptionList = new RAADimensionDescriptionListWidget(minecraft, width / 2 - 10, height,
-                                                                             28 + 5, height - 5, background
+                28 + 5, height - 5, background
         ));
         dimensionList.setLeftPos(5);
         descriptionList.setLeftPos(width / 2 + 5);
@@ -89,7 +89,7 @@ public class DimensionListScreen extends Screen {
         ConfigScreen.overlayBackground(0, height - 5, width, height, 64, 64, 64, 255, 255);
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value,
-                                       GlStateManager.SourceFactor.ZERO.value, GlStateManager.DestFactor.ONE.value
+                GlStateManager.SourceFactor.ZERO.value, GlStateManager.DestFactor.ONE.value
         );
         RenderSystem.disableAlphaTest();
         RenderSystem.shadeModel(7425);

@@ -13,7 +13,10 @@ import io.github.vampirestudios.raa.items.dimension.*;
 import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.ToolMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -85,7 +88,7 @@ public class Dimensions {
                 if (dimension != civ.getHomeDimension()) {
                     double d = Utils.dist(dimension.getX(), dimension.getY(), civ.getHomeDimension().getX(), civ.getHomeDimension().getY());
                     if (d <= civ.getInfluenceRadius()) {
-                        double percent = (civ.getInfluenceRadius() - d)/civ.getInfluenceRadius();
+                        double percent = (civ.getInfluenceRadius() - d) / civ.getInfluenceRadius();
                         dimension.addInfluence(civ.getName(), percent);
                         if (percent > 0.40) {
                             if (civ.getTechLevel() >= 2) if (Rands.chance(5)) dimension.setAbandoned();
@@ -109,7 +112,8 @@ public class Dimensions {
                 }
 
                 //Ensure that both dead and lush flags don't coexist
-                if (Utils.checkBitFlag(dimension.getFlags(), Utils.DEAD) && Utils.checkBitFlag(dimension.getFlags(), Utils.LUSH)) dimension.removeLush();
+                if (Utils.checkBitFlag(dimension.getFlags(), Utils.DEAD) && Utils.checkBitFlag(dimension.getFlags(), Utils.LUSH))
+                    dimension.removeLush();
             }
         }
 
@@ -132,13 +136,13 @@ public class Dimensions {
             if (Utils.checkBitFlag(flags, Utils.DEAD)) {
                 saturation = Rands.randFloatRange(0.0F, 0.2F);
                 stoneSaturation = saturation;
-                difficulty+=2;
+                difficulty += 2;
                 if (Utils.checkBitFlag(flags, Utils.CIVILIZED)) difficulty++;
             }
             if (Utils.checkBitFlag(flags, Utils.LUSH)) saturation = Rands.randFloatRange(0.7F, 1.0F);
-            if (Utils.checkBitFlag(flags, Utils.CORRUPTED)) difficulty+=2;
-            if (Utils.checkBitFlag(flags, Utils.MOLTEN)) difficulty+=2;
-            if (Utils.checkBitFlag(flags, Utils.DRY)) difficulty+=2;
+            if (Utils.checkBitFlag(flags, Utils.CORRUPTED)) difficulty += 2;
+            if (Utils.checkBitFlag(flags, Utils.MOLTEN)) difficulty += 2;
+            if (Utils.checkBitFlag(flags, Utils.DRY)) difficulty += 2;
             if (Utils.checkBitFlag(flags, Utils.TECTONIC)) difficulty++;
             float value = Rands.randFloatRange(0.5F, 1.0F);
             Color GRASS_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
@@ -149,11 +153,10 @@ public class Dimensions {
             Color STONE_COLOR = new Color(Color.HSBtoRGB(stoneColor, stoneSaturation, value));
 
 
-
             Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
             DimensionChunkGenerators gen = Utils.randomCG(Rands.randIntRange(0, 100));
             if (gen == DimensionChunkGenerators.FLOATING) difficulty++;
-            if (gen == DimensionChunkGenerators.CAVE) difficulty+=2;
+            if (gen == DimensionChunkGenerators.CAVE) difficulty += 2;
             float scale = dimension.getScale();
             float depth = Rands.randFloatRange(-1F, 3F);
             if (depth < -0.5F) difficulty++;
@@ -161,32 +164,32 @@ public class Dimensions {
             if (scale > 1.6) difficulty++;
 
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
-                .hasSkyLight(Rands.chance(1))
-                .hasSky(!Rands.chance(2))
-                .canSleep(Rands.chance(10))
-                .waterVaporize(Rands.chance(100))
-                .shouldRenderFog(Rands.chance(40))
-                .chunkGenerator(gen)
-				.flags(flags)
-                .difficulty(difficultyAndMobs.getLeft())
-				.mobs(difficultyAndMobs.getRight())
-                .civilizationInfluences(dimension.getCivilizationInfluences())
-                .surfaceBuilder(Rands.randInt(100));
+                    .hasSkyLight(Rands.chance(1))
+                    .hasSky(!Rands.chance(2))
+                    .canSleep(Rands.chance(10))
+                    .waterVaporize(Rands.chance(100))
+                    .shouldRenderFog(Rands.chance(40))
+                    .chunkGenerator(gen)
+                    .flags(flags)
+                    .difficulty(difficultyAndMobs.getLeft())
+                    .mobs(difficultyAndMobs.getRight())
+                    .civilizationInfluences(dimension.getCivilizationInfluences())
+                    .surfaceBuilder(Rands.randInt(100));
             DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendToPath(name.getRight(), "_biome"), name.getLeft())
-                .surfaceBuilderVariantChance(Rands.randInt(100))
-                .depth(depth)
-                .scale(scale)
-                .temperature(dimension.getTemperature())
-                .downfall(Rands.randFloat(1F))
-                .waterColor(WATER_COLOR.getColor())
-                .build();
+                    .surfaceBuilderVariantChance(Rands.randInt(100))
+                    .depth(depth)
+                    .scale(scale)
+                    .temperature(dimension.getTemperature())
+                    .downfall(Rands.randFloat(1F))
+                    .waterColor(WATER_COLOR.getColor())
+                    .build();
             builder.biome(biomeData);
             DimensionColorPalette colorPalette = DimensionColorPalette.Builder.create()
-                .skyColor(SKY_COLOR.getColor())
-                .grassColor(GRASS_COLOR.getColor())
-                .fogColor(FOG_COLOR.getColor())
-                .foliageColor(FOLIAGE_COLOR.getColor())
-                .stoneColor(STONE_COLOR.getColor()).build();
+                    .skyColor(SKY_COLOR.getColor())
+                    .grassColor(GRASS_COLOR.getColor())
+                    .fogColor(FOG_COLOR.getColor())
+                    .foliageColor(FOLIAGE_COLOR.getColor())
+                    .stoneColor(STONE_COLOR.getColor()).build();
             builder.colorPalette(colorPalette);
 
             DimensionData dimensionData = builder.build();
@@ -213,11 +216,11 @@ public class Dimensions {
             Block stoneBlock = RegistryUtils.register(new DimensionalBlock(dimension.getName(), true), Utils.appendToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
             DimensionType type = FabricDimensionType.builder()
-                .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
-                .skyLight(dimension.hasSkyLight())
-                .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome, stoneBlock))
-                .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
-                .buildAndRegister(dimension.getId());
+                    .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
+                    .skyLight(dimension.hasSkyLight())
+                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome, stoneBlock))
+                    .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
+                    .buildAndRegister(dimension.getId());
             DimensionType dimensionType;
             if (Registry.DIMENSION.get(dimension.getId()) == null)
                 dimensionType = Registry.register(Registry.DIMENSION, dimension.getId(), type);
@@ -321,7 +324,7 @@ public class Dimensions {
     public static Pair<Integer, HashMap<String, int[]>> generateDimensionMobs(int flags, int difficulty) {
         HashMap<String, int[]> list = new HashMap<>();
         if (Utils.checkBitFlag(flags, Utils.LUSH)) {
-            String[] names = new String[]{"cow", "pig", "chicken", "horse", "donkey","sheep","llama"};
+            String[] names = new String[]{"cow", "pig", "chicken", "horse", "donkey", "sheep", "llama"};
             for (String name : names) {
                 int spawnSize = Rands.randIntRange(4, 16);
                 list.put(name, new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 8)});
@@ -365,60 +368,60 @@ public class Dimensions {
                     list.put("llama", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
                 }
             } else {
-                difficulty+=4;
+                difficulty += 4;
             }
         }
-        if (Rands.chance(2))  {
+        if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 12);
-            list.put("bat", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+            list.put("bat", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
         }
-        if (Rands.chance(2))  {
+        if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 8);
-            list.put("spider", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+            list.put("spider", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
         } else {
             difficulty--;
         }
-        if (Rands.chance(2))  {
+        if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 12);
-            list.put("zombie", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+            list.put("zombie", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
         } else {
             difficulty--;
         }
-        if (Rands.chance(2))  {
+        if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 4);
-            list.put("zombie_villager", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+1});
+            list.put("zombie_villager", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + 1});
         } else {
             --difficulty;
         }
-        if (Rands.chance(2))  {
+        if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 12);
-            list.put("skeleton", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+            list.put("skeleton", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
         } else {
             difficulty--;
         }
-        if (Rands.chance(2))  {
+        if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 8);
-            list.put("creeper", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+            list.put("creeper", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
         } else {
-            difficulty-=2;
+            difficulty -= 2;
         }
-        if (Rands.chance(2))  {
+        if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 4);
-            list.put("slime", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize+Rands.randIntRange(2, 4)});
+            list.put("slime", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize + Rands.randIntRange(2, 4)});
         } else {
             difficulty--;
         }
-        if (Rands.chance(2))  {
+        if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 4);
             list.put("enderman", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
         } else {
-            difficulty-=2;
+            difficulty -= 2;
         }
-        if (Rands.chance(2))  {
+        if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 3);
             list.put("witch", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
         } else {
-            difficulty-=2;
+            difficulty -= 2;
         }
         return new Pair<>(difficulty, list);
     }

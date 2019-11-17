@@ -19,7 +19,7 @@ public class PreClassicFloatingIslandsChunkGenerator extends SurfaceChunkGenerat
     }
 
     protected double[] computeNoiseRange(int int_1, int int_2) {
-        return new double[]{(double)this.biomeSource.getNoiseRange(int_1, int_2), 0.0D};
+        return new double[]{(double) this.biomeSource.getNoiseRange(int_1, int_2), 0.0D};
     }
 
     protected double computeNoiseFalloff(double double_1, double double_2, int int_1) {
@@ -27,7 +27,7 @@ public class PreClassicFloatingIslandsChunkGenerator extends SurfaceChunkGenerat
     }
 
     protected double method_16409() {
-        return (double)((int)super.method_16409() / 2);
+        return (int) super.method_16409() / 2;
     }
 
     protected double method_16410() {

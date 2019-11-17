@@ -25,6 +25,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
@@ -101,8 +102,8 @@ public class RegistryUtils {
     }
 
     public static GeneratesIn registerGeneratesIn(Identifier name, GeneratesIn generatesIn) {
-        if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(name)) {
-            return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, name, generatesIn);
+        if (!RAARegistery.GENERATES_IN_REGISTRY.containsId(name)) {
+            return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, name, generatesIn);
         } else {
             return generatesIn;
         }
@@ -110,16 +111,16 @@ public class RegistryUtils {
 
     public static GeneratesIn registerGeneratesIn(String name, GeneratesIn generatesIn) {
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
-        if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(identifier)) {
-            return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, identifier, generatesIn);
+        if (!RAARegistery.GENERATES_IN_REGISTRY.containsId(identifier)) {
+            return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, identifier, generatesIn);
         } else {
             return generatesIn;
         }
     }
 
     public static GeneratesIn registerGeneratesIn(Identifier name, Block block, OreFeatureConfig.Target target) {
-        if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(name)) {
-            return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, name, new GeneratesIn(name, block, target));
+        if (!RAARegistery.GENERATES_IN_REGISTRY.containsId(name)) {
+            return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, name, new GeneratesIn(name, block, target));
         } else {
             return new GeneratesIn(name, block, target);
         }
@@ -127,17 +128,17 @@ public class RegistryUtils {
 
     public static GeneratesIn registerGeneratesIn(String name, Block block, OreFeatureConfig.Target target) {
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
-        if (!GeneratesIn.GENERATES_IN_REGISTRY.containsId(identifier)) {
-            return Registry.register(GeneratesIn.GENERATES_IN_REGISTRY, identifier, new GeneratesIn(identifier, block, target));
+        if (!RAARegistery.GENERATES_IN_REGISTRY.containsId(identifier)) {
+            return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, identifier, new GeneratesIn(identifier, block, target));
         } else {
             return new GeneratesIn(identifier, block, target);
         }
     }
 
-    public static OreFeatureConfig.Target registerOreTarget (String name, OreFeatureConfig.Target target) {
+    public static OreFeatureConfig.Target registerOreTarget(String name, OreFeatureConfig.Target target) {
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
-        if (!OreFeatureConfig.Target.TARGET_REGISTRY.containsId(identifier)) {
-            return Registry.register(OreFeatureConfig.Target.TARGET_REGISTRY, identifier, target);
+        if (!RAARegistery.TARGET_REGISTRY.containsId(identifier)) {
+            return Registry.register(RAARegistery.TARGET_REGISTRY, identifier, target);
         } else {
             return target;
         }
@@ -146,8 +147,8 @@ public class RegistryUtils {
     public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate) {
         OreFeatureConfig.Target target = new OreFeatureConfig.Target(name, blockStatePredicate);
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, target.getName());
-        if (!OreFeatureConfig.Target.TARGET_REGISTRY.containsId(identifier)) {
-            return Registry.register(OreFeatureConfig.Target.TARGET_REGISTRY, identifier, target);
+        if (!RAARegistery.TARGET_REGISTRY.containsId(identifier)) {
+            return Registry.register(RAARegistery.TARGET_REGISTRY, identifier, target);
         } else {
             return target;
         }

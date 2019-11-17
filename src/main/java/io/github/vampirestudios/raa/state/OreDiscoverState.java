@@ -30,27 +30,27 @@ public class OreDiscoverState {
         return this;
     }
 
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
-    public void setDiscovered(boolean discovered) {
-        this.discovered = discovered;
+    public int getDiscoverTimes() {
+        return discoverTimes;
     }
 
     public void setDiscoverTimes(int discoverTimes) {
         this.discoverTimes = discoverTimes;
     }
 
-    public int getDiscoverTimes() {
-        return discoverTimes;
-    }
-
     public Material getMaterial() {
         return material;
     }
 
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
     public boolean isDiscovered() {
         return discovered;
+    }
+
+    public void setDiscovered(boolean discovered) {
+        this.discovered = discovered;
     }
 }

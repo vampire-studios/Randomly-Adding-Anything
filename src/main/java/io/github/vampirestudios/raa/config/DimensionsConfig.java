@@ -13,56 +13,56 @@ import java.io.FileWriter;
 import java.util.Arrays;
 
 public class DimensionsConfig extends RAADataConfig {
-	public DimensionsConfig(String fileName) {
-		super(fileName);
-	}
+    public DimensionsConfig(String fileName) {
+        super(fileName);
+    }
 
-	@Override
-	public void generate() {
-		Dimensions.generate();
-	}
+    @Override
+    public void generate() {
+        Dimensions.generate();
+    }
 
-	@Override
-	protected JsonObject upgrade(JsonObject json, int version) {
-		JsonArray dimensions = JsonHelper.getArray(json, "dimensions");
+    @Override
+    protected JsonObject upgrade(JsonObject json, int version) {
+        JsonArray dimensions = JsonHelper.getArray(json, "dimensions");
 
-		switch(version) {
-			case 0:
-				break;
-			case 1:
-				iterateArrayObjects(dimensions, dimension -> {
-					if(!JsonHelper.isString(dimension.get("id")))
-						dimension.addProperty("id", GsonUtils.idFromOldStyle(dimension.getAsJsonObject("id")).toString());
-					if(dimension.has("dimensionColorPallet")) {
-						dimension.add("dimensionColorPalette", dimension.getAsJsonObject("dimensionColorPallet"));
-					}
-					dimension.add("hasSkyLight", dimension.get("hasLight"));
+        switch (version) {
+            case 0:
+                break;
+            case 1:
+                iterateArrayObjects(dimensions, dimension -> {
+                    if (!JsonHelper.isString(dimension.get("id")))
+                        dimension.addProperty("id", GsonUtils.idFromOldStyle(dimension.getAsJsonObject("id")).toString());
+                    if (dimension.has("dimensionColorPallet")) {
+                        dimension.add("dimensionColorPalette", dimension.getAsJsonObject("dimensionColorPallet"));
+                    }
+                    dimension.add("hasSkyLight", dimension.get("hasLight"));
 
-					JsonObject biomeData = dimension.getAsJsonObject("biomeData");
-					if(!JsonHelper.isString(biomeData.get("id")))
-						biomeData.addProperty("id", GsonUtils.idFromOldStyle(biomeData.getAsJsonObject("id")).toString());
+                    JsonObject biomeData = dimension.getAsJsonObject("biomeData");
+                    if (!JsonHelper.isString(biomeData.get("id")))
+                        biomeData.addProperty("id", GsonUtils.idFromOldStyle(biomeData.getAsJsonObject("id")).toString());
 
-					if(!dimension.has("dimensionChunkGenerator")) {
-						dimension.addProperty("dimensionChunkGenerator", Utils.randomCG(100).name());
-					}
-				});
-				break;
-		}
+                    if (!dimension.has("dimensionChunkGenerator")) {
+                        dimension.addProperty("dimensionChunkGenerator", Utils.randomCG(100).name());
+                    }
+                });
+                break;
+        }
 
-		return json;
-	}
+        return json;
+    }
 
-	@Override
-	protected void load(JsonObject jsonObject) {
-		DimensionData[] dimensionsData = GsonUtils.getGson().fromJson(JsonHelper.getArray(jsonObject, "dimensions"), DimensionData[].class);
-		Arrays.stream(dimensionsData).forEach(dimensionData -> Registry.register(Dimensions.DIMENSIONS, dimensionData.getId(), dimensionData));
-	}
+    @Override
+    protected void load(JsonObject jsonObject) {
+        DimensionData[] dimensionsData = GsonUtils.getGson().fromJson(JsonHelper.getArray(jsonObject, "dimensions"), DimensionData[].class);
+        Arrays.stream(dimensionsData).forEach(dimensionData -> Registry.register(Dimensions.DIMENSIONS, dimensionData.getId(), dimensionData));
+    }
 
-	@Override
-	protected void save(FileWriter fileWriter) {
-		JsonObject main = new JsonObject();
-		main.add("dimensions", GsonUtils.getGson().toJsonTree(Dimensions.DIMENSIONS.stream().toArray(DimensionData[]::new)));
-		main.addProperty("configVersion", CURRENT_VERSION);
-		GsonUtils.getGson().toJson(main, fileWriter);
-	}
+    @Override
+    protected void save(FileWriter fileWriter) {
+        JsonObject main = new JsonObject();
+        main.add("dimensions", GsonUtils.getGson().toJsonTree(Dimensions.DIMENSIONS.stream().toArray(DimensionData[]::new)));
+        main.addProperty("configVersion", CURRENT_VERSION);
+        GsonUtils.getGson().toJson(main, fileWriter);
+    }
 }

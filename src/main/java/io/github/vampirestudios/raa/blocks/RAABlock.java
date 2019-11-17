@@ -5,13 +5,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
 public class RAABlock extends Block {
     public RAABlock() {

@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.registries;
 
-import io.github.vampirestudios.raa.generation.chunkgenerator.*;
 import io.github.vampirestudios.raa.api.dimension.FabricChunkGeneratorType;
+import io.github.vampirestudios.raa.generation.chunkgenerator.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.ChunkGeneratorType;

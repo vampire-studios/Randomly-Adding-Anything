@@ -14,7 +14,7 @@ import net.minecraft.world.gen.decorator.Decorator;
 public class RAAWorldAPI {
 
     /**
-     * @param biome The biome you generate the ores in.
+     * @param biome  The biome you generate the ores in.
      * @param target The block targeted by the ore generator.
      */
     public static void addRandomOres(Biome biome, OreFeatureConfig.Target target) {
@@ -22,17 +22,18 @@ public class RAAWorldAPI {
     }
 
     /**
-     * @param biome The biome you generate the ores in.
+     * @param biome       The biome you generate the ores in.
      * @param generatesIn The block targeted by the ore generator.
      */
-    @Deprecated
+//    @Deprecated
     public static void addRandomOres(Biome biome, GeneratesIn generatesIn) {
         addRandomOres(biome, generatesIn.getTarget());
     }
 
     /**
      * Goes through each of the materials and generates them in the world based on the biome and target block set in ${@link OreGenerationSupport}
-        @param generationSupport Adds support for generation of ores in the world
+     *
+     * @param generationSupport Adds support for generation of ores in the world
      */
     public static void addRandomOres(OreGenerationSupport generationSupport) {
         Materials.MATERIALS.forEach(material -> {

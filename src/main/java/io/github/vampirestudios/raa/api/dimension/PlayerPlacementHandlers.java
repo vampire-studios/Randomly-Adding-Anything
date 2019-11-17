@@ -20,10 +20,6 @@ public enum PlayerPlacementHandlers {
         this.entityPlacer = entityPlacer;
     }
 
-    public EntityPlacer getEntityPlacer() {
-        return entityPlacer;
-    }
-
     private static BlockPos getSurfacePos(ServerWorld serverWorld, Entity entity) {
         for (int i = 255; i > 0; i--) {
             BlockPos pos = new BlockPos(entity.getPos().x, i, entity.getPos().z);
@@ -32,5 +28,9 @@ public enum PlayerPlacementHandlers {
             }
         }
         return new BlockPos(entity.getPos()).up();
+    }
+
+    public EntityPlacer getEntityPlacer() {
+        return entityPlacer;
     }
 }

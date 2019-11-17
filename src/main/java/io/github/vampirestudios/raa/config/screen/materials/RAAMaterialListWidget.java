@@ -73,7 +73,7 @@ public class RAAMaterialListWidget extends DynamicElementListWidget<RAAMaterialL
                 RenderSystem.disableAlphaTest();
                 boolean isHovered = bounds.contains(mouseX, mouseY);
                 drawString(MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + (isSelected(material) ? Formatting.BOLD.toString() : "") + WordUtils.capitalizeFully(material.getName()),
-                           bounds.getX() + 5, bounds.getY() + 6, 16777215
+                        bounds.getX() + 5, bounds.getY() + 6, 16777215
                 );
             }
 

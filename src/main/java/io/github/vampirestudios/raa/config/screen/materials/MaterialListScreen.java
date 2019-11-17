@@ -5,8 +5,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.config.screen.ConfigScreen;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.BufferBuilder;
@@ -14,7 +12,6 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
@@ -25,9 +22,9 @@ import java.util.List;
 public class MaterialListScreen extends Screen {
 
     Screen parent;
+    String tooltip = null;
     private RAAMaterialListWidget materialList;
     private RAAMaterialDescriptionListWidget descriptionList;
-    String tooltip = null;
 
     public MaterialListScreen(Screen parent) {
         super(new TranslatableText("config.title.raa.material"));
@@ -82,7 +79,7 @@ public class MaterialListScreen extends Screen {
         ConfigScreen.overlayBackground(0, height - 5, width, height, 64, 64, 64, 255, 255);
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value,
-                                       GlStateManager.SourceFactor.ZERO.value, GlStateManager.DestFactor.ONE.value
+                GlStateManager.SourceFactor.ZERO.value, GlStateManager.DestFactor.ONE.value
         );
         RenderSystem.disableAlphaTest();
         RenderSystem.shadeModel(7425);

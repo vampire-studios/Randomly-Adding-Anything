@@ -1,29 +1,10 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator;
 
-import net.minecraft.entity.EntityCategory;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.noise.OctavePerlinNoiseSampler;
-import net.minecraft.village.ZombieSiegeManager;
-import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.SpawnHelper;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.gen.CatSpawner;
-import net.minecraft.world.gen.ChunkRandom;
-import net.minecraft.world.gen.PhantomSpawner;
-import net.minecraft.world.gen.PillagerSpawner;
 import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
-import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.level.LevelGeneratorType;
-
-import java.util.List;
 
 public class LayeredFloatingIslandsChunkGenerator extends SurfaceChunkGenerator<FloatingIslandsChunkGeneratorConfig> {
     private final BlockPos center;
@@ -38,7 +19,7 @@ public class LayeredFloatingIslandsChunkGenerator extends SurfaceChunkGenerator<
     }
 
     protected double[] computeNoiseRange(int int_1, int int_2) {
-        return new double[]{(double)this.biomeSource.getNoiseRange(int_1, int_2), 0.0D};
+        return new double[]{(double) this.biomeSource.getNoiseRange(int_1, int_2), 0.0D};
     }
 
     protected double computeNoiseFalloff(double double_1, double double_2, int int_1) {
@@ -46,7 +27,7 @@ public class LayeredFloatingIslandsChunkGenerator extends SurfaceChunkGenerator<
     }
 
     protected double method_16409() {
-        return (double)((int)super.method_16409() / 2);
+        return (int) super.method_16409() / 2;
     }
 
     protected double method_16410() {

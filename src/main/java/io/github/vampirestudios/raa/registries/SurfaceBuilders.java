@@ -3,7 +3,6 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.generation.surface.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;

@@ -27,29 +27,43 @@ public class SpanishEntities implements INameGenerator {
             "u", "o"
     };
 
+    public static void main(String[] args) {
+        SpanishEntities gen = new SpanishEntities();
+        Collection<String> generated = gen.generate(100);
+
+        System.out.println("Lowercase:" + generated);
+
+        List<String> titleCased = new ArrayList<>();
+        for (String s : generated) {
+            titleCased.add(Utils.toTitleCase(s));
+        }
+
+        System.out.println("TitleCase:" + titleCased);
+    }
+
     public String generate() {
         Random rnd = new Random();
         String ending = "";
         int endingRoll = rnd.nextInt(100);
-         if (endingRoll< 30) {
+        if (endingRoll < 30) {
             ending = "ice";
-        } else if (endingRoll< 34) {
+        } else if (endingRoll < 34) {
             ending = "ise";
-        } else if (endingRoll<43) {
+        } else if (endingRoll < 43) {
             ending = "ium";
-        } else if (endingRoll< 69) {
+        } else if (endingRoll < 69) {
             ending = "ix";
-        } else if (endingRoll<90) {
+        } else if (endingRoll < 90) {
             ending = "ite";
-        } else if (endingRoll<96) {
+        } else if (endingRoll < 96) {
             ending = ORE_SUFFIXES[rnd.nextInt(ORE_SUFFIXES.length)];
         }
 
         String prefix = LATIN_PREFIXES[rnd.nextInt(LATIN_PREFIXES.length)];
 
-        if (prefix.length()+ending.length()<5 || prefix.equals("super") || rnd.nextInt(3)<2) {
+        if (prefix.length() + ending.length() < 5 || prefix.equals("super") || rnd.nextInt(3) < 2) {
             String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
-            return combine(combine(prefix,middle),ending);
+            return combine(combine(prefix, middle), ending);
         }
 
         return combine(prefix, ending);
@@ -57,7 +71,7 @@ public class SpanishEntities implements INameGenerator {
 
     public Collection<String> generate(int count) {
         HashSet<String> result = new HashSet<>(count);
-        while(result.size()<count) {
+        while (result.size() < count) {
             String cur = generate();
             result.add(cur); //Nothing happens on duplicates
         }
@@ -66,20 +80,20 @@ public class SpanishEntities implements INameGenerator {
     }
 
     public String combine(String a, String b) {
-        if (a.isEmpty() || b.isEmpty()) return a+b;
+        if (a.isEmpty() || b.isEmpty()) return a + b;
 
         char bStart = b.charAt(0);
-        char aEnd = a.charAt(a.length()-1);
-        if (bStart==aEnd) b = b.substring(1);
+        char aEnd = a.charAt(a.length() - 1);
+        if (bStart == aEnd) b = b.substring(1);
         if (isConsonant(aEnd) && isConsonant(bStart)) {
-            return Utils.toTitleCase(a+fillConsonant(aEnd)+b);
+            return Utils.toTitleCase(a + fillConsonant(aEnd) + b);
         }
 
-        return Utils.toTitleCase(a+b);
+        return Utils.toTitleCase(a + b);
     }
 
     public boolean isConsonant(char ch) {
-        switch(ch) {
+        switch (ch) {
             case 'a':
             case 'e':
             case 'i':
@@ -93,7 +107,7 @@ public class SpanishEntities implements INameGenerator {
     }
 
     public char fillConsonant(char src) {
-        switch(src) {
+        switch (src) {
             case 'd':
                 return 'o';
             default:
@@ -104,20 +118,6 @@ public class SpanishEntities implements INameGenerator {
     @Override
     public Map<String, String> getSpecialCharactersMap() {
         return new HashMap<>();
-    }
-
-    public static void main(String[] args) {
-        SpanishEntities gen = new SpanishEntities();
-        Collection<String> generated = gen.generate(100);
-
-        System.out.println("Lowercase:" + generated);
-
-        List<String> titleCased = new ArrayList<>();
-        for(String s : generated) {
-            titleCased.add(Utils.toTitleCase(s));
-        }
-
-        System.out.println("TitleCase:" + titleCased);
     }
 
 }

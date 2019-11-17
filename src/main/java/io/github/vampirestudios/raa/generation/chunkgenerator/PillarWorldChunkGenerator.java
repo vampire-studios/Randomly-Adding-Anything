@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator;
 
-import java.util.List;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
@@ -24,11 +23,13 @@ import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.level.LevelGeneratorType;
 
+import java.util.List;
+
 public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
-    private static final float[] BIOME_WEIGHT_TABLE = (float[])Util.create(new float[25], (floats_1) -> {
-        for(int int_1 = -2; int_1 <= 2; ++int_1) {
-            for(int int_2 = -2; int_2 <= 2; ++int_2) {
-                float float_1 = 10.0F / MathHelper.sqrt((float)(int_1 * int_1 + int_2 * int_2) + 0.2F);
+    private static final float[] BIOME_WEIGHT_TABLE = Util.create(new float[25], (floats_1) -> {
+        for (int int_1 = -2; int_1 <= 2; ++int_1) {
+            for (int int_2 = -2; int_2 <= 2; ++int_2) {
+                float float_1 = 10.0F / MathHelper.sqrt((float) (int_1 * int_1 + int_2 * int_2) + 0.2F);
                 floats_1[int_1 + 2 + (int_2 + 2) * 5] = float_1;
             }
         }
@@ -72,7 +73,7 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
 
     protected double computeNoiseFalloff(double double_1, double double_2, int int_1) {
         double double_3 = 8.5D;
-        double double_4 = ((double)int_1 - (8.5D + double_1 * 8.5D / 16.0D * 2.0D)) * 12.0D * 64 / 512 / double_2;
+        double double_4 = ((double) int_1 - (8.5D + double_1 * 8.5D / 16.0D * 2.0D)) * 12.0D * 64 / 512 / double_2;
         if (double_4 < 0.0D) {
             double_4 *= 2.0D;
         }
@@ -116,13 +117,13 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
 //        float_2 = (float_2 * 4.0F - 1.0F) / 32;
 //        doubles_1[0] = (double)float_2 + this.sampleNoise(x, z)/4;
 //        doubles_1[1] = (double)float_1/16;
-        doubles_1[0] = simplexNoise.sample(x, z, false)*128;
-        doubles_1[1] = simplexNoise.sample(z, x, false)*128;
+        doubles_1[0] = simplexNoise.sample(x, z, false) * 128;
+        doubles_1[1] = simplexNoise.sample(z, x, false) * 128;
         return doubles_1;
     }
 
     private double sampleNoise(int int_1, int int_2) {
-        double double_1 = this.noiseSampler.sample((double)(int_1 * 200), 10.0D, (double)(int_2 * 200), 1.0D, 0.0D, true) * 65535.0D / 32000.0D;
+        double double_1 = this.noiseSampler.sample(int_1 * 200, 10.0D, int_2 * 200, 1.0D, 0.0D, true) * 65535.0D / 32000.0D;
         if (double_1 < 0.0D) {
             double_1 = -double_1 * 0.3D;
         }

@@ -1,20 +1,18 @@
 package io.github.vampirestudios.raa.api.enums;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.DefaultedRegistry;
-import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GeneratesIn {
-    public static final Registry<GeneratesIn> GENERATES_IN_REGISTRY = new DefaultedRegistry<>("generates_in");
 
     public static final GeneratesIn STONE = RegistryUtils.registerGeneratesIn("stone", Blocks.STONE, OreFeatureConfig.Target.STONE);
     public static final GeneratesIn GRASS_BLOCK = RegistryUtils.registerGeneratesIn("grass_block", Blocks.GRASS_BLOCK, OreFeatureConfig.Target.GRASS_BLOCK);
@@ -54,7 +52,7 @@ public class GeneratesIn {
     }
 
     public static List<GeneratesIn> getValues() {
-        return GENERATES_IN_REGISTRY.stream().collect(Collectors.toList());
+        return RAARegistery.GENERATES_IN_REGISTRY.stream().collect(Collectors.toList());
     }
 
     public Identifier getIdentifier() {

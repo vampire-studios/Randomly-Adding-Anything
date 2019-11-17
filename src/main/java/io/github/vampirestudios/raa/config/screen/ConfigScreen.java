@@ -68,7 +68,7 @@ public class ConfigScreen extends Screen {
         overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value,
-                                       GlStateManager.SourceFactor.ZERO.value, GlStateManager.DestFactor.ONE.value
+                GlStateManager.SourceFactor.ZERO.value, GlStateManager.DestFactor.ONE.value
         );
         RenderSystem.disableAlphaTest();
         RenderSystem.shadeModel(7425);

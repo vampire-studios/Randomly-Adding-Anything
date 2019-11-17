@@ -39,7 +39,7 @@ public class OreGenerationSupport {
         public static final Target DIRT = new Target("dirt", new BlockPredicate(Blocks.DIRT));
         public static final Target COARSE_DIRT = new Target("coarse_dirt", new BlockPredicate(Blocks.COARSE_DIRT));
         public static final Target PODZOL = new Target("podzol", new BlockPredicate(Blocks.PODZOL));
-        public static final Target CLAY = new Target("clay", new BlockPredicate(Blocks.CLAY ));
+        public static final Target CLAY = new Target("clay", new BlockPredicate(Blocks.CLAY));
         public static final Target SAND = new Target("sand", (block) -> {
             if (block == null) {
                 return false;
@@ -56,27 +56,7 @@ public class OreGenerationSupport {
         });
         public static final Target NETHERRACK = new Target("netherrack", new BlockPredicate(Blocks.NETHERRACK));
         public static final Target END_STONE = new Target("end_stone", new BlockPredicate(Blocks.END_STONE));
-
-        private String name;
-        private Predicate<Block> blockStatePredicate;
         private static Map<String, OreGenerationSupport.Target> TARGETS = new HashMap<>();
-
-        public Target(String name, Predicate<Block> blockStatePredicate) {
-            this.name = name;
-            this.blockStatePredicate = blockStatePredicate;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public static void add(String name, Target target) {
-            TARGETS.put(name, target);
-        }
-
-        public Predicate<Block> getBlockStatePredicate() {
-            return blockStatePredicate;
-        }
 
         static {
             TARGETS.put("stone", STONE);
@@ -93,6 +73,26 @@ public class OreGenerationSupport {
             TARGETS.put("red_sand", RED_SAND);
             TARGETS.put("netherrack", NETHERRACK);
             TARGETS.put("end_stone", END_STONE);
+        }
+
+        private String name;
+        private Predicate<Block> blockStatePredicate;
+
+        public Target(String name, Predicate<Block> blockStatePredicate) {
+            this.name = name;
+            this.blockStatePredicate = blockStatePredicate;
+        }
+
+        public static void add(String name, Target target) {
+            TARGETS.put(name, target);
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Predicate<Block> getBlockStatePredicate() {
+            return blockStatePredicate;
         }
 
     }

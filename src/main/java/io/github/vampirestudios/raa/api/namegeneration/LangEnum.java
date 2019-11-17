@@ -27,7 +27,7 @@ public enum LangEnum {
             new FrenchDimensions(),
             new FrenchEntities()
     ),
-//    NORWEGIAN(
+    //    NORWEGIAN(
 //            new NorwegianMaterials(),
 //            new NorwegianBiomes(),
 //            new NorwegianDimensions(),

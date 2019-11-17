@@ -44,18 +44,18 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
         ColorProviderRegistry.ITEM.register((stack, layer) -> {
-            if(MinecraftClient.getInstance().world != null) {
+            if (MinecraftClient.getInstance().world != null) {
                 return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getBlockPos())
                         .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos().getX(), MinecraftClient.getInstance().player.getBlockPos().getZ());
             } else {
-                BlockState blockState_1 = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
+                BlockState blockState_1 = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
                 return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos());
             }
         }, Items.GRASS_BLOCK);
 
         ColorProviderRegistry.ITEM.register((stack, var2) ->
-                MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColorAt(),
-			Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
+                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColorAt(),
+                Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
 
         ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
                 MinecraftClient.getInstance().world.getBiomeAccess().getBiome(blockPos).getFoliageColorAt(), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
@@ -194,7 +194,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase());
                 Identifier stoneId = Utils.appendToPath(identifier, "_stone");
                 clientResourcePackBuilder.addBlockState(stoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
-                    variant.model(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())))
+                        variant.model(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())))
                 );
                 clientResourcePackBuilder.addBlockModel(stoneId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("block/leaves"));
@@ -304,7 +304,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 ColorProviderRegistry.ITEM.register((stack, layer) -> {
                     if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;
-                 }, pickaxe, axe, shovel, hoe, sword);
+                }, pickaxe, axe, shovel, hoe, sword);
             });
             Materials.DIMENSION_MATERIALS.forEach(material -> {
                 Identifier bid = material.getId();
@@ -419,40 +419,40 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         Materials.MATERIALS.forEach(material -> {
             Identifier id = material.getId();
             ColorProviderRegistry.ITEM.register((stack, layer) -> {
-                if (layer == 0) return material.getRGBColor();
-                    else return -1;
-                },
-                Registry.ITEM.get(Utils.appendToPath(id, "_helmet")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_chestplate")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_leggings")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_boots")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_axe")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_shovel")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_pickaxe")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_hoe")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_sword")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_horse_armor")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_fruit")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_nugget")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_gem")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_crystal")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_ingot")),
-                Registry.BLOCK.get(Utils.appendToPath(id, "_block")),
-                Registry.ITEM.get(Utils.appendToPath(id, "_shears"))
+                        if (layer == 0) return material.getRGBColor();
+                        else return -1;
+                    },
+                    Registry.ITEM.get(Utils.appendToPath(id, "_helmet")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_chestplate")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_leggings")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_boots")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_axe")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_shovel")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_pickaxe")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_hoe")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_sword")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_horse_armor")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_fruit")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_nugget")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_gem")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_crystal")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_ingot")),
+                    Registry.BLOCK.get(Utils.appendToPath(id, "_block")),
+                    Registry.ITEM.get(Utils.appendToPath(id, "_shears"))
             );
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
                     Registry.BLOCK.get(Utils.appendToPath(id, "_block")));
         });
         Dimensions.DIMENSIONS.forEach(dimensionData -> {
             Block stone = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone"));
-			Block stoneBricks = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone_bricks"));
-			Block cobblestone = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_cobblestone"));
-			Block chiseled = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "chiseled_" + dimensionData.getId().getPath()));
-			Block polished = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath()));
+            Block stoneBricks = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone_bricks"));
+            Block cobblestone = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_cobblestone"));
+            Block chiseled = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "chiseled_" + dimensionData.getId().getPath()));
+            Block polished = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath()));
 
-			ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
                 if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
-                    else return -1;
+                else return -1;
             }, stone, stoneBricks, cobblestone, chiseled, polished);
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
                     dimensionData.getDimensionColorPalette().getStoneColor(), stone, stoneBricks, cobblestone, chiseled, polished);
@@ -486,7 +486,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         });
 
         ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {
-            if(!modelIdentifier.getNamespace().equals(RandomlyAddingAnything.MOD_ID)){
+            if (!modelIdentifier.getNamespace().equals(RandomlyAddingAnything.MOD_ID)) {
                 return null;
             }
             Identifier identifier = new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath());
