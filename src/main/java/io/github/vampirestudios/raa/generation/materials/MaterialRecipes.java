@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.materials;
 
 import com.swordglowsblue.artifice.api.Artifice;
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.registries.Dimensions;
@@ -17,6 +18,7 @@ public class MaterialRecipes {
 
     public static void init() {
         Artifice.registerData(new Identifier(MOD_ID, "recipe_pack"), serverResourcePackBuilder -> {
+            RandomlyAddingAnything.MODCOMPAT.generateCompatRecipes(serverResourcePackBuilder);
             Materials.MATERIALS.forEach(material -> {
                 Item repairItem;
                 if (material.getOreInformation().getOreType() == OreType.METAL) {
