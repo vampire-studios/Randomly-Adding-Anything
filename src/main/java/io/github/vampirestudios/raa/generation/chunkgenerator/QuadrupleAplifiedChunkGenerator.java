@@ -1,6 +1,8 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator;
 
 import java.util.List;
+
+import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
@@ -47,7 +49,7 @@ public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<Overw
 
     public QuadrupleAplifiedChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
         super(iWorld_1, biomeSource_1, 4, 4, 256, overworldChunkGeneratorConfig_1, true);
-        this.random.consume(2620);
+        this.random.consume(Rands.randInt(1000000000));
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, 15, 0);
         this.amplified = iWorld_1.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
 

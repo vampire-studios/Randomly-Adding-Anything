@@ -13,12 +13,16 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.source.BiomeSourceType;
 import net.minecraft.world.biome.source.FixedBiomeSource;
 import net.minecraft.world.biome.source.FixedBiomeSourceConfig;
+import net.minecraft.world.biome.source.VanillaLayeredBiomeSourceConfig;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
+
+import java.util.HashSet;
 
 public class CustomDimension extends Dimension {
 
@@ -37,7 +41,11 @@ public class CustomDimension extends Dimension {
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, new FixedBiomeSource(new FixedBiomeSourceConfig(this.world.getLevelProperties()).setBiome(this.dimensionalBiome)), this.dimensionData, this.stoneBlock);
+//        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, new FixedBiomeSource(new FixedBiomeSourceConfig(this.world.getLevelProperties()).setBiome(this.dimensionalBiome)), this.dimensionData, this.stoneBlock);
+        HashSet<Biome> biomes = new HashSet<>();
+        biomes.add(dimensionalBiome);
+        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, new DimensionalBiomeSource(new DimensionalBiomeSourceConfig(this.world.getLevelProperties()).setBiomes(biomes)), this.dimensionData, this.stoneBlock);
+
     }
 
     @Override
