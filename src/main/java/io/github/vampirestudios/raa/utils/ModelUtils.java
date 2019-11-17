@@ -204,7 +204,7 @@ public class ModelUtils {
 
     public static void wall(ArtificeResourcePack.ClientResourcePackBuilder pack, Identifier id) {
         pack.addBlockState(id, blockStateBuilder -> {
-            blockStateBuilder.multipartCase(aCase -> aCase.when("up","true").apply(variant -> {
+            blockStateBuilder.multipartCase(aCase -> aCase.when("up", "true").apply(variant -> {
                 variant.model(new Identifier(id.getNamespace(), "block/" + id.getPath() + "_post"));
             }));
             blockStateBuilder.multipartCase(aCase -> aCase.when("north", "true").apply(variant -> {
@@ -334,7 +334,6 @@ public class ModelUtils {
                 variant.rotationY(270);
                 variant.uvlock(true);
             });
-
 
 
             blockStateBuilder.variant("facing=east,half=top,shape=straight", variant -> {

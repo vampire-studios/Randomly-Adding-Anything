@@ -12,6 +12,7 @@ import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 public class Decorators {
     public static BiasedNoiseBasedDecorator BIASED_NOISE_DECORATOR;
     public static RandomExtraHeightmapDecorator RANDOM_EXTRA_HEIGHTMAP_DECORATOR;
+
     public static void init() {
         BIASED_NOISE_DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "biased_noise"), new BiasedNoiseBasedDecorator(BiasedNoiseBasedDecoratorConfig::deserialize));
         RANDOM_EXTRA_HEIGHTMAP_DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "random_extra_heightmap"), new RandomExtraHeightmapDecorator(CountExtraChanceDecoratorConfig::deserialize));

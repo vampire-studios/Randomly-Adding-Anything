@@ -23,12 +23,12 @@ public class DimensionBiomeData {
         this.waterColor = waterColor;
     }
 
-    public void setId(Identifier id) {
-        this.id = id;
-    }
-
     public Identifier getId() {
         return id;
+    }
+
+    public void setId(Identifier id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -97,6 +97,10 @@ public class DimensionBiomeData {
         private float downfall;
         private int waterColor;
 
+        private Builder() {
+
+        }
+
         public static Builder create(Identifier id, String name) {
             Builder builder = new Builder();
             builder.id = id;
@@ -107,10 +111,6 @@ public class DimensionBiomeData {
         @Deprecated
         public static Builder create() {
             return new Builder();
-        }
-
-        private Builder() {
-
         }
 
         public Builder id(Identifier id) {

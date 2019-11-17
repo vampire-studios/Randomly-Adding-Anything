@@ -25,7 +25,7 @@ public class PortalBlock extends Block {
     private DimensionType dimensionType;
     private DimensionData dimensionData;
 
-    public PortalBlock(DimensionData  dimensionData, DimensionType dimensionType) {
+    public PortalBlock(DimensionData dimensionData, DimensionType dimensionType) {
         super(Block.Settings.of(Material.STONE).strength(8.f, 80.f));
         this.dimensionType = dimensionType;
         this.dimensionData = dimensionData;
@@ -33,7 +33,7 @@ public class PortalBlock extends Block {
 
     @Override
     public Text getName() {
-        return new TranslatableText("text.raa.block.portal" , new LiteralText(dimensionData.getName()));
+        return new TranslatableText("text.raa.block.portal", new LiteralText(dimensionData.getName()));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PortalBlock extends Block {
         if (!world_1.isClient) {
             BlockPos playerPos = playerEntity_1.getBlockPos();
             if (playerPos.getX() == pos.getX() && playerPos.getZ() == pos.getZ() && playerPos.getY() == pos.getY() + 1) {
-                if(playerEntity_1.world.dimension.getType() == this.dimensionType) {
+                if (playerEntity_1.world.dimension.getType() == this.dimensionType) {
                     // coming from our custom dimension
                     FabricDimensions.teleport(playerEntity_1, DimensionType.OVERWORLD, null);
                 } else {

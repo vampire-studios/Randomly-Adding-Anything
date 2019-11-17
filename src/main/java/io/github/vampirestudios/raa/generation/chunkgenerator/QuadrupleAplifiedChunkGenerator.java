@@ -6,7 +6,6 @@ import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.noise.OctavePerlinNoiseSampler;
@@ -23,14 +22,13 @@ import net.minecraft.world.gen.PhantomSpawner;
 import net.minecraft.world.gen.PillagerSpawner;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.level.LevelGeneratorType;
 
 public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
-    private static final float[] BIOME_WEIGHT_TABLE = (float[])Util.create(new float[25], (floats_1) -> {
-        for(int int_1 = -2; int_1 <= 2; ++int_1) {
-            for(int int_2 = -2; int_2 <= 2; ++int_2) {
-                float float_1 = 10.0F / MathHelper.sqrt((float)(int_1 * int_1 + int_2 * int_2) + 0.2F);
+    private static final float[] BIOME_WEIGHT_TABLE = Util.create(new float[25], (floats_1) -> {
+        for (int int_1 = -2; int_1 <= 2; ++int_1) {
+            for (int int_2 = -2; int_2 <= 2; ++int_2) {
+                float float_1 = 10.0F / MathHelper.sqrt((float) (int_1 * int_1 + int_2 * int_2) + 0.2F);
                 floats_1[int_1 + 2 + (int_2 + 2) * 5] = float_1;
             }
         }
@@ -75,13 +73,13 @@ public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<Overw
         double double_7 = this.method_16409();
         double double_8 = this.method_16410();
 
-        for(int int_5 = 0; int_5 < this.getNoiseSizeY(); ++int_5) {
+        for (int int_5 = 0; int_5 < this.getNoiseSizeY(); ++int_5) {
             double double_9 = this.sampleNoise(int_1, int_5, int_2, double_1, double_2, double_3, double_4);
             double_9 -= this.computeNoiseFalloff(double_5, double_6, int_5);
-            if ((double)int_5 > double_7) {
-                double_9 = MathHelper.clampedLerp(double_9, (double)int_4, ((double)int_5 - double_7) / (double)int_3);
-            } else if ((double)int_5 < double_8) {
-                double_9 = MathHelper.clampedLerp(double_9, -30.0D, (double_8 - (double)int_5) / (double_8 - 1.0D));
+            if ((double) int_5 > double_7) {
+                double_9 = MathHelper.clampedLerp(double_9, int_4, ((double) int_5 - double_7) / (double) int_3);
+            } else if ((double) int_5 < double_8) {
+                double_9 = MathHelper.clampedLerp(double_9, -30.0D, (double_8 - (double) int_5) / (double_8 - 1.0D));
             }
 
             doubles_1[int_5] = double_9 + MathHelper.sin((float) double_9);
@@ -95,28 +93,28 @@ public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<Overw
         double double_7 = 0.0D;
         double double_8 = 0.5D;
 
-        for(int int_4 = 0; int_4 < 16; ++int_4) {
-            double double_9 = OctavePerlinNoiseSampler.maintainPrecision((double)int_1 * double_1 * double_8) + MathHelper.sin((float) (int_1 * double_1 * double_8));
-            double double_10 = OctavePerlinNoiseSampler.maintainPrecision((double)int_2 * double_2 * double_8) + MathHelper.sin((float) (int_2 * double_2 * double_8));
-            double double_11 = OctavePerlinNoiseSampler.maintainPrecision((double)int_3 * double_1 * double_8) + MathHelper.sin((float) (int_3 * double_1 * double_8));
+        for (int int_4 = 0; int_4 < 16; ++int_4) {
+            double double_9 = OctavePerlinNoiseSampler.maintainPrecision((double) int_1 * double_1 * double_8) + MathHelper.sin((float) (int_1 * double_1 * double_8));
+            double double_10 = OctavePerlinNoiseSampler.maintainPrecision((double) int_2 * double_2 * double_8) + MathHelper.sin((float) (int_2 * double_2 * double_8));
+            double double_11 = OctavePerlinNoiseSampler.maintainPrecision((double) int_3 * double_1 * double_8) + MathHelper.sin((float) (int_3 * double_1 * double_8));
             double double_12 = double_2 * double_8;
             PerlinNoiseSampler perlinNoiseSampler_1 = this.field_16574.getOctave(int_4);
             if (perlinNoiseSampler_1 != null) {
-                double_5 += perlinNoiseSampler_1.sample(double_9, double_10, double_11, double_12, (double)int_2 * double_12) / double_8;
-                double_5 += MathHelper.sin((float) double_5)* 0.1;
+                double_5 += perlinNoiseSampler_1.sample(double_9, double_10, double_11, double_12, (double) int_2 * double_12) / double_8;
+                double_5 += MathHelper.sin((float) double_5) * 0.1;
             }
 
             PerlinNoiseSampler perlinNoiseSampler_2 = this.field_16581.getOctave(int_4);
             if (perlinNoiseSampler_2 != null) {
-                double_6 += perlinNoiseSampler_2.sample(double_9, double_10, double_11, double_12, (double)int_2 * double_12) / double_8;
-                double_6 += MathHelper.sin((float) double_6)* 0.1;
+                double_6 += perlinNoiseSampler_2.sample(double_9, double_10, double_11, double_12, (double) int_2 * double_12) / double_8;
+                double_6 += MathHelper.sin((float) double_6) * 0.1;
             }
 
             if (int_4 < 8) {
                 PerlinNoiseSampler perlinNoiseSampler_3 = this.field_16575.getOctave(int_4);
                 if (perlinNoiseSampler_3 != null) {
-                    double_7 += perlinNoiseSampler_3.sample(OctavePerlinNoiseSampler.maintainPrecision((double)int_1 * double_3 * double_8), OctavePerlinNoiseSampler.maintainPrecision((double)int_2 * double_4 * double_8), OctavePerlinNoiseSampler.maintainPrecision((double)int_3 * double_3 * double_8), double_4 * double_8, (double)int_2 * double_4 * double_8) / double_8;
-                    double_7 += MathHelper.sin((float) double_7)* 0.1;
+                    double_7 += perlinNoiseSampler_3.sample(OctavePerlinNoiseSampler.maintainPrecision((double) int_1 * double_3 * double_8), OctavePerlinNoiseSampler.maintainPrecision((double) int_2 * double_4 * double_8), OctavePerlinNoiseSampler.maintainPrecision((double) int_3 * double_3 * double_8), double_4 * double_8, (double) int_2 * double_4 * double_8) / double_8;
+                    double_7 += MathHelper.sin((float) double_7) * 0.1;
                 }
             }
 
@@ -132,7 +130,7 @@ public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<Overw
 
     protected double computeNoiseFalloff(double double_1, double double_2, int int_1) {
         double double_3 = 8.5D;
-        double double_4 = (((double)int_1 - MathHelper.sin((float) (8.5D + double_1 * 8.5D / 8.0D * 4.0D))) * MathHelper.sin((float) (12.0D * 128.0D / 256.0D / double_2))) + MathHelper.sin((float) (double_1*double_2) );
+        double double_4 = (((double) int_1 - MathHelper.sin((float) (8.5D + double_1 * 8.5D / 8.0D * 4.0D))) * MathHelper.sin((float) (12.0D * 128.0D / 256.0D / double_2))) + MathHelper.sin((float) (double_1 * double_2));
         if (double_4 < 0.0D) {
             double_4 *= 4.0D;
         }
@@ -148,10 +146,10 @@ public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<Overw
         int int_3 = 1;
         int int_4 = this.getSeaLevel();
         float float_4 = this.biomeSource.getStoredBiome(int_1, int_4, int_2).getDepth();
-        float_4+=MathHelper.sin(float_4);
+        float_4 += MathHelper.sin(float_4);
 
-        for(int int_5 = -2; int_5 <= 2; ++int_5) {
-            for(int int_6 = -2; int_6 <= 2; ++int_6) {
+        for (int int_5 = -2; int_5 <= 2; ++int_5) {
+            for (int int_6 = -2; int_6 <= 2; ++int_6) {
                 Biome biome_1 = this.biomeSource.getStoredBiome(int_1 + int_5, int_4, int_2 + int_6);
                 float float_5 = biome_1.getDepth();
                 float float_6 = biome_1.getScale();
@@ -173,14 +171,14 @@ public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<Overw
         float_2 /= float_3 - MathHelper.sin(float_3);
         float_1 = float_1 * 0.9F + 0.1F;
         float_2 = (float_2 * 4.0F - 1.0F) / 2.0F;
-        float_2 += MathHelper.sin((float) (Math.PI*int_1));
-        doubles_1[0] = (double)float_2 + this.sampleNoise(int_1, int_2)*2 + MathHelper.sin(float_2);
-        doubles_1[1] = (double)float_1 + MathHelper.sin(float_1);
+        float_2 += MathHelper.sin((float) (Math.PI * int_1));
+        doubles_1[0] = (double) float_2 + this.sampleNoise(int_1, int_2) * 2 + MathHelper.sin(float_2);
+        doubles_1[1] = (double) float_1 + MathHelper.sin(float_1);
         return doubles_1;
     }
 
     private double sampleNoise(int int_1, int int_2) {
-        double double_1 = this.noiseSampler.sample((double)(int_1 * 200), 10.0D, (double)(int_2 * 200), 1.0D, 0.0D, true) * 65535.0D / 2000.0D;
+        double double_1 = this.noiseSampler.sample(int_1 * 200, 10.0D, int_2 * 200, 1.0D, 0.0D, true) * 65535.0D / 2000.0D;
         if (double_1 < 0.0D) {
             double_1 = -double_1 * 0.3D;
         }
@@ -196,7 +194,7 @@ public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<Overw
             double_1 /= 20.0D;
         }
 
-        return double_1*20 + Math.sin(double_1);
+        return double_1 * 20 + Math.sin(double_1);
     }
 
     public void spawnEntities(ServerWorld serverWorld_1, boolean boolean_1, boolean boolean_2) {

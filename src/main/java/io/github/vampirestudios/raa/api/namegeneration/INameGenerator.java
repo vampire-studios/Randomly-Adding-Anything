@@ -17,10 +17,10 @@ public interface INameGenerator {
         do {
             name = generate();
             identifier = new Identifier(modId, asId(name));
-            if(++loops > 50) {
+            if (++loops > 50) {
                 throw new RuntimeException("Couldn't find a new name anymore.");
             }
-        } while(presentIds.contains(identifier));
+        } while (presentIds.contains(identifier));
         return new Pair<>(name, identifier);
     }
 
@@ -29,7 +29,7 @@ public interface INameGenerator {
     default String asId(String name) {
         String id = name;
         Map<String, String> specialCharacters = getSpecialCharactersMap();
-        if(specialCharacters != null) {
+        if (specialCharacters != null) {
             for (Map.Entry<String, String> specialCharacter : specialCharacters.entrySet()) {
                 id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
             }

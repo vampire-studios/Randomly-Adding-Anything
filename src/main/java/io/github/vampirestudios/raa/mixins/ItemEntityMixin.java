@@ -9,9 +9,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Mixin(ItemEntity.class)
@@ -34,8 +31,8 @@ public class ItemEntityMixin {
 
     @Inject(method = "onPlayerCollision", at = @At("HEAD"))
     public void onPlayerCollision(PlayerEntity playerEntity_1, CallbackInfo ci) {
-        if (!((ItemEntity)(Object)this).world.isClient) {
-            ItemStack itemStack = ((ItemEntity)(Object)this).getStack().copy();
+        if (!((ItemEntity) (Object) this).world.isClient) {
+            ItemStack itemStack = ((ItemEntity) (Object) this).getStack().copy();
             if (this.pickupDelay == 0 && (this.owner == null || 6000 - this.age <= 200
                     || this.owner.equals(playerEntity_1.getUuid()))
 //                    TODO: find an alternative to this.
@@ -60,7 +57,7 @@ public class ItemEntityMixin {
                                 } else {
                                     for (int z = 0; z < itemStack.getCount(); z++)
                                         System.out.println("You already discovered this material " + list.get(i).getDiscoverTimes() + " time before");
-                                        list.set(i, list.get(i).alreadyDiscovered());
+                                    list.set(i, list.get(i).alreadyDiscovered());
                                 }
                             }
                         }

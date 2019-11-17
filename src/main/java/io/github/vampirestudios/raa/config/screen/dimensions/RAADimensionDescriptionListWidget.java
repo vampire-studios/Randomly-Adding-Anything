@@ -79,21 +79,29 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         if (dimensionData.getFlags() != 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             int flags = dimensionData.getFlags();
-            if (Utils.checkBitFlag(flags, Utils.LUSH)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.lush").formatted(Formatting.GREEN), "config.tooltip.raa.lush", og));
-            if (Utils.checkBitFlag(flags, Utils.CIVILIZED)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.civilized").formatted(Formatting.DARK_GREEN), "config.tooltip.raa.civilized", og));
-            if (Utils.checkBitFlag(flags, Utils.ABANDONED)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.abandoned").formatted(Formatting.GRAY), "config.tooltip.raa.abandoned", og));
-            if (Utils.checkBitFlag(flags, Utils.DEAD)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.dead").formatted(Formatting.DARK_GRAY), "config.tooltip.raa.dead", og));
-            if (Utils.checkBitFlag(flags, Utils.DRY)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.dry").formatted(Formatting.YELLOW), "config.tooltip.raa.dry", og));
-            if (Utils.checkBitFlag(flags, Utils.TECTONIC)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.tectonic").formatted(Formatting.DARK_GRAY), "config.tooltip.raa.tectonic", og));
-            if (Utils.checkBitFlag(flags, Utils.MOLTEN)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.molten").formatted(Formatting.YELLOW), "config.tooltip.raa.molten", og));
-            if (Utils.checkBitFlag(flags, Utils.CORRUPTED)) addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.corrupted").formatted(Formatting.DARK_RED), "config.tooltip.raa.corrupted", og));
+            if (Utils.checkBitFlag(flags, Utils.LUSH))
+                addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.lush").formatted(Formatting.GREEN), "config.tooltip.raa.lush", og));
+            if (Utils.checkBitFlag(flags, Utils.CIVILIZED))
+                addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.civilized").formatted(Formatting.DARK_GREEN), "config.tooltip.raa.civilized", og));
+            if (Utils.checkBitFlag(flags, Utils.ABANDONED))
+                addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.abandoned").formatted(Formatting.GRAY), "config.tooltip.raa.abandoned", og));
+            if (Utils.checkBitFlag(flags, Utils.DEAD))
+                addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.dead").formatted(Formatting.DARK_GRAY), "config.tooltip.raa.dead", og));
+            if (Utils.checkBitFlag(flags, Utils.DRY))
+                addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.dry").formatted(Formatting.YELLOW), "config.tooltip.raa.dry", og));
+            if (Utils.checkBitFlag(flags, Utils.TECTONIC))
+                addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.tectonic").formatted(Formatting.DARK_GRAY), "config.tooltip.raa.tectonic", og));
+            if (Utils.checkBitFlag(flags, Utils.MOLTEN))
+                addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.molten").formatted(Formatting.YELLOW), "config.tooltip.raa.molten", og));
+            if (Utils.checkBitFlag(flags, Utils.CORRUPTED))
+                addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.corrupted").formatted(Formatting.DARK_RED), "config.tooltip.raa.corrupted", og));
         }
 
         if (dimensionData.getCivilizationInfluences().size() > 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.civs").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             for (Map.Entry<String, Double> pair : dimensionData.getCivilizationInfluences().entrySet()) {
                 if (pair.getValue() != 1.0) {
-                    addItem(new TextEntry(new TranslatableText("config.text.raa.civs.var", pair.getKey(),new DecimalFormat("##.00").format(pair.getValue() * 100))));
+                    addItem(new TextEntry(new TranslatableText("config.text.raa.civs.var", pair.getKey(), new DecimalFormat("##.00").format(pair.getValue() * 100))));
                 } else {
                     addItem(new TextEntry(new TranslatableText("config.text.raa.civs.var.home", pair.getKey(), new DecimalFormat("##.00").format(pair.getValue() * 100))));
                 }

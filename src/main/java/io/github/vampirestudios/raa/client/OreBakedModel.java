@@ -57,7 +57,7 @@ public class OreBakedModel extends RAABakedModel {
         } else {
             sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/oak_planks"));
         }
-        
+
         if (material.getOreInformation().getGeneratesIn() != GeneratesIn.GRASS_BLOCK && material.getOreInformation().getGeneratesIn() != GeneratesIn.PODZOL) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
@@ -90,7 +90,7 @@ public class OreBakedModel extends RAABakedModel {
             Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_top"));
             Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/dirt"));
             int color2 = 0xffffff;
-            BlockColorProvider blockColor =  ColorProviderRegistry.BLOCK.get(material.getOreInformation().getGeneratesIn().getBlock());
+            BlockColorProvider blockColor = ColorProviderRegistry.BLOCK.get(material.getOreInformation().getGeneratesIn().getBlock());
             if (blockColor != null) {
                 color2 = 0xff000000 | blockColor.getColor(material.getOreInformation().getGeneratesIn().getBlock().getDefaultState(), blockView, pos, 1);
             }
@@ -180,23 +180,23 @@ public class OreBakedModel extends RAABakedModel {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
@@ -205,7 +205,7 @@ public class OreBakedModel extends RAABakedModel {
             emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         }
 
         return builder.build();
@@ -214,6 +214,16 @@ public class OreBakedModel extends RAABakedModel {
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
         context.meshConsumer().accept(mesh(MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos()));
+    }
+
+    @Override
+    public Sprite getSprite() {
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
+    }
+
+    @Override
+    public ModelItemPropertyOverrideList getItemPropertyOverrides() {
+        return new ItemProxy();
     }
 
     protected class ItemProxy extends ModelItemPropertyOverrideList {
@@ -225,15 +235,5 @@ public class OreBakedModel extends RAABakedModel {
         public BakedModel apply(BakedModel bakedModel_1, ItemStack itemStack_1, World world_1, LivingEntity livingEntity_1) {
             return OreBakedModel.this;
         }
-    }
-
-    @Override
-    public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
-    }
-
-    @Override
-    public ModelItemPropertyOverrideList getItemPropertyOverrides() {
-        return new ItemProxy();
     }
 }

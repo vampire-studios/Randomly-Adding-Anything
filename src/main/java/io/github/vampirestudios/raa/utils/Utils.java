@@ -21,15 +21,15 @@ public class Utils {
     public static final int DRY = 64; //No oceans exist at all.
     public static final int TECTONIC = 128; //Creates lots of caves and ravines. Usually not visible on the surface.
 
-    public static final int POST_APOCALYPTIC =  CORRUPTED | DEAD | ABANDONED | DRY | TECTONIC; //A combination of corrupted, dead, abandoned, dry, and tectonic
+    public static final int POST_APOCALYPTIC = CORRUPTED | DEAD | ABANDONED | DRY | TECTONIC; //A combination of corrupted, dead, abandoned, dry, and tectonic
 
     public static String toTitleCase(String lowerCase) {
-        return "" + Character.toUpperCase(lowerCase.charAt(0))+lowerCase.substring(1);
+        return "" + Character.toUpperCase(lowerCase.charAt(0)) + lowerCase.substring(1);
     }
 
     public static String nameToId(String name, Map<String, String> specialCharMap) {
         // strip name of special chars
-        for(Map.Entry<String, String> specialChar : specialCharMap.entrySet()) {
+        for (Map.Entry<String, String> specialChar : specialCharMap.entrySet()) {
             name = name.replace(specialChar.getKey(), specialChar.getValue());
         }
         return name.toLowerCase(Locale.ENGLISH);
@@ -68,23 +68,23 @@ public class Utils {
 
     public static DimensionChunkGenerators randomCG(int chance) {
         if (chance < 15) {
-            if(chance <= 5) {
+            if (chance <= 5) {
                 return DimensionChunkGenerators.FLAT_CAVES;
-            } else if(chance <= 10) {
+            } else if (chance <= 10) {
                 return DimensionChunkGenerators.HIGH_CAVES;
             }
             return DimensionChunkGenerators.CAVE;
-        } else if(chance > 15 && chance < 30) {
-            if(chance <= 20) {
+        } else if (chance > 15 && chance < 30) {
+            if (chance <= 20) {
                 return DimensionChunkGenerators.LAYERED_FLOATING;
-            } else if(chance <= 25) {
+            } else if (chance <= 25) {
                 return DimensionChunkGenerators.PRE_CLASSIC_FLOATING;
             }
             return DimensionChunkGenerators.FLOATING;
         } else {
-            if(chance <= 40) {
+            if (chance <= 40) {
                 return DimensionChunkGenerators.QUADRUPLE_AMPLIFIED;
-            } else if(chance <= 50) {
+            } else if (chance <= 50) {
                 return DimensionChunkGenerators.PILLAR_WORLD;
             }
             return DimensionChunkGenerators.OVERWORLD;

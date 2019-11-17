@@ -16,24 +16,13 @@ import net.minecraft.util.registry.Registry;
 
 public class CustomArmorMaterial implements ArmorMaterial {
 
-    private transient Identifier materialId;
-    private transient OreType oreType;
     private final int durabilityMultiplier;
     private final int[] protectionAmounts;
     private final int enchantability;
     private final float toughness;
     private final int horseArmorBonus;
-
-    public static CustomArmorMaterial generate(Identifier materialId, OreType oreType) {
-        return new CustomArmorMaterial(
-            materialId, oreType, Rands.randIntRange(2,50),
-            new int[]{Rands.randIntRange(1,6),Rands.randIntRange(1,10),
-                Rands.randIntRange(2,12), Rands.randIntRange(1,6)},
-            Rands.randIntRange(7,30),
-            (Rands.chance(4)?Rands.randFloat(4.0F):0.0F),
-            Rands.randInt(30)
-        );
-    }
+    private transient Identifier materialId;
+    private transient OreType oreType;
 
     public CustomArmorMaterial(Identifier materialId, OreType oreType, int durabilityMultiplier, int[] protectionAmounts, int enchantability, float toughness, int horseArmorBonus) {
         this.materialId = materialId;
@@ -43,6 +32,17 @@ public class CustomArmorMaterial implements ArmorMaterial {
         this.enchantability = enchantability;
         this.toughness = toughness;
         this.horseArmorBonus = horseArmorBonus;
+    }
+
+    public static CustomArmorMaterial generate(Identifier materialId, OreType oreType) {
+        return new CustomArmorMaterial(
+                materialId, oreType, Rands.randIntRange(2, 50),
+                new int[]{Rands.randIntRange(1, 6), Rands.randIntRange(1, 10),
+                        Rands.randIntRange(2, 12), Rands.randIntRange(1, 6)},
+                Rands.randIntRange(7, 30),
+                (Rands.chance(4) ? Rands.randFloat(4.0F) : 0.0F),
+                Rands.randInt(30)
+        );
     }
 
     public void setMaterialId(Identifier materialId) {

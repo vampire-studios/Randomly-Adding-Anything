@@ -175,33 +175,33 @@ public class WoodRegistry {
 
         public Builder log() {
             woodRegistry.log = RegistryUtils.register(new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.SPRUCE).hardness(2.0F)
-                            .sounds(BlockSoundGroup.WOOD).build()), new Identifier(name.getNamespace(), name.getPath() + "_log"), ItemGroup.BUILDING_BLOCKS);
+                    .sounds(BlockSoundGroup.WOOD).build()), new Identifier(name.getNamespace(), name.getPath() + "_log"), ItemGroup.BUILDING_BLOCKS);
             return this;
         }
 
         public Builder wood() {
             woodRegistry.wood = RegistryUtils.register(new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).hardness(2.0F)
-                            .sounds(BlockSoundGroup.WOOD).build()), new Identifier(name.getNamespace(), name.getPath() + "_wood"), ItemGroup.BUILDING_BLOCKS);
+                    .sounds(BlockSoundGroup.WOOD).build()), new Identifier(name.getNamespace(), name.getPath() + "_wood"), ItemGroup.BUILDING_BLOCKS);
             return this;
         }
 
         public Builder strippedLog() {
             woodRegistry.strippedLog = RegistryUtils.register(new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.SPRUCE).hardness(2.0F)
-                    .sounds(BlockSoundGroup.WOOD).build()), new Identifier(name.getNamespace(), "stripped_" + name.getPath() + "_log"),
+                            .sounds(BlockSoundGroup.WOOD).build()), new Identifier(name.getNamespace(), "stripped_" + name.getPath() + "_log"),
                     ItemGroup.BUILDING_BLOCKS);
             return this;
         }
 
         public Builder strippedWood() {
             woodRegistry.strippedWood = RegistryUtils.register(new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).hardness(2.0F)
-                    .sounds(BlockSoundGroup.WOOD).build()), new Identifier(name.getNamespace(), "stripped_" + name.getPath() + "_wood"),
+                            .sounds(BlockSoundGroup.WOOD).build()), new Identifier(name.getNamespace(), "stripped_" + name.getPath() + "_wood"),
                     ItemGroup.BUILDING_BLOCKS);
             return this;
         }
 
         public Builder stairs() {
             woodRegistry.stairs = RegistryUtils.register(new StairsBaseBlock(woodRegistry.planks.getDefaultState()), new Identifier(name.getNamespace(),
-                            name.getPath() + "_stairs"), ItemGroup.BUILDING_BLOCKS);
+                    name.getPath() + "_stairs"), ItemGroup.BUILDING_BLOCKS);
             return this;
         }
 
@@ -213,7 +213,7 @@ public class WoodRegistry {
 
         public Builder planks() {
             woodRegistry.planks = RegistryUtils.register(new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD)
-                    .strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD).build()),
+                            .strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD).build()),
                     new Identifier(name.getNamespace(), name.getPath() + "_planks"), ItemGroup.BUILDING_BLOCKS);
             return this;
         }
@@ -233,7 +233,7 @@ public class WoodRegistry {
         public Builder coloredLeaves() {
             woodRegistry.leaves = RegistryUtils.register(new LeavesBaseBlock(), new Identifier(name.getNamespace(), name.getPath() + "_leaves"),
                     ItemGroup.DECORATIONS);
-            if(FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
                 ColorProviderRegistry.BLOCK.register((block, world, pos, layer) -> {
                     BlockColorProvider provider = ColorProviderRegistry.BLOCK.get(Blocks.OAK_LEAVES);
                     return provider == null ? -1 : provider.getColor(block, world, pos, layer);

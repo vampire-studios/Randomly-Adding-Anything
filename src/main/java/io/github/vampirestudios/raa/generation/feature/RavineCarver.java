@@ -23,9 +23,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 public class RavineCarver extends Carver<ProbabilityConfig> {
-    private DimensionData data;
-
     private final float[] heightToHorizontalStretchFactor = new float[1024];
+    private DimensionData data;
 
     public RavineCarver(DimensionData dimensionData) {
         super(ProbabilityConfig::deserialize, 256);
@@ -60,7 +59,7 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
         Random random_1 = new Random(long_1);
         float float_4 = 1.0F;
 
-        for(int int_6 = 0; int_6 < 256; ++int_6) {
+        for (int int_6 = 0; int_6 < 256; ++int_6) {
             if (int_6 == 0 || random_1.nextInt(3) == 0) {
                 float_4 = 1.0F + random_1.nextFloat() * random_1.nextFloat();
             }
@@ -71,11 +70,11 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
         float float_5 = 0.0F;
         float float_6 = 0.0F;
 
-        for(int int_7 = 0; int_7 < int_5; ++int_7) {
-            double double_5 = 1.5D + (double)(MathHelper.sin((float)int_7 * 3.1415927F / (float)int_5) * float_1);
+        for (int int_7 = 0; int_7 < int_5; ++int_7) {
+            double double_5 = 1.5D + (double) (MathHelper.sin((float) int_7 * 3.1415927F / (float) int_5) * float_1);
             double double_6 = double_5 * 3.0;
-            double_5 *= (double)random_1.nextFloat() * 0.25D + 0.75D;
-            double_6 *= (double)random_1.nextFloat() * 0.25D + 0.75D;
+            double_5 *= (double) random_1.nextFloat() * 0.25D + 0.75D;
+            double_6 *= (double) random_1.nextFloat() * 0.25D + 0.75D;
             float float_7 = MathHelper.cos(float_3);
             float float_8 = MathHelper.sin(float_3);
             double_1 += MathHelper.cos(float_2) * float_7;
@@ -100,7 +99,7 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
     }
 
     protected boolean isPositionExcluded(double double_1, double double_2, double double_3, int int_1) {
-        return (double_1 * double_1 + double_3 * double_3) * (double)this.heightToHorizontalStretchFactor[int_1 - 1] + double_2 * double_2 / 6.0D >= 1.0D;
+        return (double_1 * double_1 + double_3 * double_3) * (double) this.heightToHorizontalStretchFactor[int_1 - 1] + double_2 * double_2 / 6.0D >= 1.0D;
     }
 
     @Override
@@ -112,7 +111,7 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
             bitSet_1.set(int_9);
             blockPos$Mutable_1.set(int_4, int_7, int_5);
             BlockState blockState_1 = chunk_1.getBlockState(blockPos$Mutable_1);
-            BlockState blockState_2 = chunk_1.getBlockState(blockPos$Mutable_2.set((Vec3i)blockPos$Mutable_1).setOffset(Direction.UP));
+            BlockState blockState_2 = chunk_1.getBlockState(blockPos$Mutable_2.set(blockPos$Mutable_1).setOffset(Direction.UP));
             if (blockState_1.getBlock() == Blocks.GRASS_BLOCK || blockState_1.getBlock() == Blocks.MYCELIUM) {
                 atomicBoolean_1.set(true);
             }
@@ -122,14 +121,15 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
             } else {
                 if (int_7 < 11) {
                     DimensionChunkGenerators generator = data.getDimensionChunkGenerator();
-                    if (generator == DimensionChunkGenerators.FLOATING || generator == DimensionChunkGenerators.PRE_CLASSIC_FLOATING || generator == DimensionChunkGenerators.LAYERED_FLOATING) return true;
+                    if (generator == DimensionChunkGenerators.FLOATING || generator == DimensionChunkGenerators.PRE_CLASSIC_FLOATING || generator == DimensionChunkGenerators.LAYERED_FLOATING)
+                        return true;
                     chunk_1.setBlockState(blockPos$Mutable_1, LAVA.getBlockState(), false);
                 } else {
                     chunk_1.setBlockState(blockPos$Mutable_1, CAVE_AIR, false);
                     if (atomicBoolean_1.get()) {
-                        blockPos$Mutable_3.set((Vec3i)blockPos$Mutable_1).setOffset(Direction.DOWN);
+                        blockPos$Mutable_3.set(blockPos$Mutable_1).setOffset(Direction.DOWN);
                         if (chunk_1.getBlockState(blockPos$Mutable_3).getBlock() == Blocks.DIRT) {
-                            chunk_1.setBlockState(blockPos$Mutable_3, ((Biome)function_1.apply(blockPos$Mutable_1)).getSurfaceConfig().getTopMaterial(), false);
+                            chunk_1.setBlockState(blockPos$Mutable_3, function_1.apply(blockPos$Mutable_1).getSurfaceConfig().getTopMaterial(), false);
                         }
                     }
                 }

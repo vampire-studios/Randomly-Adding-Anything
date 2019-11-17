@@ -58,25 +58,25 @@ public class Textures {
         addTexturesToMap(TextureTypes.HORSE_ARMOR, "item/armor/horse_armor_saddle_2",
                 "textures/models/armor/horse/horse_armor_2.png");
 
-        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head","item/tools/axe/axe_stick");
-        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head_3","item/tools/axe/axe_stick_3");
+        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head", "item/tools/axe/axe_stick");
+        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head_3", "item/tools/axe/axe_stick_3");
 
-        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_head","item/tools/pickaxe/pickaxe_stick");
-        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_1","item/tools/pickaxe/pickaxe_1_handle");
+        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_head", "item/tools/pickaxe/pickaxe_stick");
+        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_1", "item/tools/pickaxe/pickaxe_1_handle");
 
-        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head","item/tools/hoe/hoe_stick");
-        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_2","item/tools/hoe/hoe_stick_2");
+        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head", "item/tools/hoe/hoe_stick");
+        addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_2", "item/tools/hoe/hoe_stick_2");
 
-        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_head","item/tools/shovel/shovel_stick");
-        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_1","item/tools/shovel/shovel_1_handle");
-        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_4","item/tools/shovel/shovel_4_handle");
+        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_head", "item/tools/shovel/shovel_stick");
+        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_1", "item/tools/shovel/shovel_1_handle");
+        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_4", "item/tools/shovel/shovel_4_handle");
 
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_head","item/tools/sword/sword_stick");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_2","item/tools/sword/sword_2_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_3","item/tools/sword/sword_3_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_4","item/tools/sword/sword_4_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_6","item/tools/sword/sword_6_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_7","item/tools/sword/sword_7_handle");
+        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_head", "item/tools/sword/sword_stick");
+        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_2", "item/tools/sword/sword_2_handle");
+        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_3", "item/tools/sword/sword_3_handle");
+        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_4", "item/tools/sword/sword_4_handle");
+        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_6", "item/tools/sword/sword_6_handle");
+        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_7", "item/tools/sword/sword_7_handle");
     }
 
     private static void blockTextures() {

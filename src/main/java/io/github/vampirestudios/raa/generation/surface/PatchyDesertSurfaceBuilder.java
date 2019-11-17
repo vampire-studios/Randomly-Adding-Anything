@@ -14,14 +14,15 @@ import java.util.function.Function;
 
 public class PatchyDesertSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
     public static final OctaveSimplexNoiseSampler DESERT_NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), 6, 0);
+
     public PatchyDesertSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function_1) {
         super(function_1);
     }
 
     @Override
     public void generate(Random rand, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState state, BlockState state2, int int1, long long1, TernarySurfaceConfig config) {
-        double desertNoise = DESERT_NOISE.sample(x*0.049765625D, z*0.049765625D, false);
-         if (desertNoise > 0.0D) {
+        double desertNoise = DESERT_NOISE.sample(x * 0.049765625D, z * 0.049765625D, false);
+        if (desertNoise > 0.0D) {
             SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, z, height, noise, state, state2, int1, long1, SurfaceBuilder.SAND_CONFIG);
         } else {
             SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, z, height, noise, state, state2, int1, long1, config);

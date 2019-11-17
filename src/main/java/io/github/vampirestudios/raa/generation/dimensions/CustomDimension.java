@@ -50,8 +50,8 @@ public class CustomDimension extends Dimension {
 
     @Override
     public BlockPos getSpawningBlockInChunk(ChunkPos chunkPos, boolean b) {
-        for(int int_1 = chunkPos.getStartX(); int_1 <= chunkPos.getEndX(); ++int_1) {
-            for(int int_2 = chunkPos.getStartZ(); int_2 <= chunkPos.getEndZ(); ++int_2) {
+        for (int int_1 = chunkPos.getStartX(); int_1 <= chunkPos.getEndX(); ++int_1) {
+            for (int int_2 = chunkPos.getStartZ(); int_2 <= chunkPos.getEndZ(); ++int_2) {
                 BlockPos blockPos_1 = this.getTopSpawningBlockPosition(int_1, int_2, b);
                 if (blockPos_1 != null) {
                     return blockPos_1;
@@ -76,7 +76,7 @@ public class CustomDimension extends Dimension {
             } else if (worldChunk_1.sampleHeightmap(Heightmap.Type.WORLD_SURFACE, int_1 & 15, int_2 & 15) > worldChunk_1.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR, int_1 & 15, int_2 & 15)) {
                 return null;
             } else {
-                for(int int_4 = int_3 + 1; int_4 >= 0; --int_4) {
+                for (int int_4 = int_3 + 1; int_4 >= 0; --int_4) {
                     blockPos$Mutable_1.set(int_1, int_4, int_2);
                     BlockState blockState_2 = this.world.getBlockState(blockPos$Mutable_1);
                     if (!blockState_2.getFluidState().isEmpty()) {
@@ -96,9 +96,9 @@ public class CustomDimension extends Dimension {
     @Override
     public float getSkyAngle(long l, float v) {
         if (dimensionData.hasSky()) {
-            double double_1 = MathHelper.fractionalPart((double)l / 24000.0D - 0.25D);
+            double double_1 = MathHelper.fractionalPart((double) l / 24000.0D - 0.25D);
             double double_2 = 0.5D - Math.cos(double_1 * 3.141592653589793D) / 2.0D;
-            return (float)(double_1 * 2.0D + double_2) / 3.0F;
+            return (float) (double_1 * 2.0D + double_2) / 3.0F;
         } else {
             return 0.0F;
         }
@@ -119,7 +119,7 @@ public class CustomDimension extends Dimension {
     public Vec3d getFogColor(float v, float v1) {
         int fogColor = dimensionData.getDimensionColorPalette().getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor);
-        return new Vec3d(rgbColor[0]/255.0, rgbColor[1]/255.0, rgbColor[2]/255.0);
+        return new Vec3d(rgbColor[0] / 255.0, rgbColor[1] / 255.0, rgbColor[2] / 255.0);
     }
 
     @Override

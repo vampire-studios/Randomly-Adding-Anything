@@ -20,32 +20,32 @@ import java.util.function.Function;
 
 //Code kindly taken from The Hallow, thanks to everyone who is working on it!
 public class SpiderLairFeature extends Feature<DefaultFeatureConfig> {
-	
-	public SpiderLairFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
-		super(function);
-	}
-	
-	@Override
-	public boolean generate(IWorld iWorld, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig defaultFeatureConfig) {
-		if (iWorld.getBlockState(pos.add(0, -1, 0)).isAir() || !iWorld.getBlockState(pos.add(0, -1, 0)).isOpaque())
-			return true;
-		if (iWorld.getBlockState(pos.down(1)).getBlock() == Blocks.GRASS_BLOCK) {
-			FeatureUtils.setSpawner(iWorld, pos, EntityType.SPIDER);
 
-			for (int i = 0; i < 64; ++i) {
-				BlockPos pos_2 = pos.add(random.nextInt(6) - random.nextInt(6), random.nextInt(3) - random.nextInt(3), random.nextInt(6) - random.nextInt(6));
-				if (iWorld.isAir(pos_2) || iWorld.getBlockState(pos_2).getBlock() == Blocks.GRASS_BLOCK) {
-					iWorld.setBlockState(pos_2, Blocks.COBWEB.getDefaultState(), 2);
-				}
-			}
+    public SpiderLairFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
+        super(function);
+    }
 
-			BlockPos chestPos = pos.add(0, -1, 0);
-			iWorld.setBlockState(chestPos, StructurePiece.method_14916(iWorld, chestPos, Blocks.CHEST.getDefaultState()), 2);
-			LootableContainerBlockEntity.setLootTable(iWorld, random, chestPos, new Identifier(RandomlyAddingAnything.MOD_ID, "chest/spider_lair"));
+    @Override
+    public boolean generate(IWorld iWorld, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig defaultFeatureConfig) {
+        if (iWorld.getBlockState(pos.add(0, -1, 0)).isAir() || !iWorld.getBlockState(pos.add(0, -1, 0)).isOpaque())
+            return true;
+        if (iWorld.getBlockState(pos.down(1)).getBlock() == Blocks.GRASS_BLOCK) {
+            FeatureUtils.setSpawner(iWorld, pos, EntityType.SPIDER);
 
-			return true;
-		} else {
-			return false;
-		}
-	}
+            for (int i = 0; i < 64; ++i) {
+                BlockPos pos_2 = pos.add(random.nextInt(6) - random.nextInt(6), random.nextInt(3) - random.nextInt(3), random.nextInt(6) - random.nextInt(6));
+                if (iWorld.isAir(pos_2) || iWorld.getBlockState(pos_2).getBlock() == Blocks.GRASS_BLOCK) {
+                    iWorld.setBlockState(pos_2, Blocks.COBWEB.getDefaultState(), 2);
+                }
+            }
+
+            BlockPos chestPos = pos.add(0, -1, 0);
+            iWorld.setBlockState(chestPos, StructurePiece.method_14916(iWorld, chestPos, Blocks.CHEST.getDefaultState()), 2);
+            LootableContainerBlockEntity.setLootTable(iWorld, random, chestPos, new Identifier(RandomlyAddingAnything.MOD_ID, "chest/spider_lair"));
+
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

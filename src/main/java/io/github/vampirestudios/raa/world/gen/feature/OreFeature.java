@@ -20,26 +20,27 @@ public class OreFeature extends Feature<OreFeatureConfig> {
         super(function_1);
     }
 
-    public boolean generate(IWorld iWorld_1, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator_1, Random random_1, BlockPos blockPos_1, OreFeatureConfig oreFeatureConfig_1) {
-        float float_1 = random_1.nextFloat() * 3.1415927F;
-        float float_2 = (float)oreFeatureConfig_1.size / 8.0F;
-        int int_1 = MathHelper.ceil(((float)oreFeatureConfig_1.size / 16.0F * 2.0F + 1.0F) / 2.0F);
-        double double_1 = (float)blockPos_1.getX() + MathHelper.sin(float_1) * float_2;
-        double double_2 = (float)blockPos_1.getX() - MathHelper.sin(float_1) * float_2;
-        double double_3 = (float)blockPos_1.getZ() + MathHelper.cos(float_1) * float_2;
-        double double_4 = (float)blockPos_1.getZ() - MathHelper.cos(float_1) * float_2;
-        double double_5 = blockPos_1.getY() + random_1.nextInt(3) - 2;
-        double double_6 = blockPos_1.getY() + random_1.nextInt(3) - 2;
-        int int_3 = blockPos_1.getX() - MathHelper.ceil(float_2) - int_1;
-        int int_4 = blockPos_1.getY() - 2 - int_1;
-        int int_5 = blockPos_1.getZ() - MathHelper.ceil(float_2) - int_1;
-        int int_6 = 2 * (MathHelper.ceil(float_2) + int_1);
-        int int_7 = 2 * (2 + int_1);
+    @Override
+    public boolean generate(IWorld iWorld, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, OreFeatureConfig oreFeatureConfig) {
+        float f = random.nextFloat() * 3.1415927F;
+        float g = (float) oreFeatureConfig.size / 8.0F;
+        int i = MathHelper.ceil(((float) oreFeatureConfig.size / 16.0F * 2.0F + 1.0F) / 2.0F);
+        double d = (float) blockPos.getX() + MathHelper.sin(f) * g;
+        double e = (float) blockPos.getX() - MathHelper.sin(f) * g;
+        double h = (float) blockPos.getZ() + MathHelper.cos(f) * g;
+        double j = (float) blockPos.getZ() - MathHelper.cos(f) * g;
+        double l = blockPos.getY() + random.nextInt(3) - 2;
+        double m = blockPos.getY() + random.nextInt(3) - 2;
+        int n = blockPos.getX() - MathHelper.ceil(g) - i;
+        int o = blockPos.getY() - 2 - i;
+        int p = blockPos.getZ() - MathHelper.ceil(g) - i;
+        int q = 2 * (MathHelper.ceil(g) + i);
+        int r = 2 * (2 + i);
 
-        for(int int_8 = int_3; int_8 <= int_3 + int_6; ++int_8) {
-            for(int int_9 = int_5; int_9 <= int_5 + int_6; ++int_9) {
-                if (int_4 <= iWorld_1.getTopY(Type.OCEAN_FLOOR_WG, int_8, int_9)) {
-                    return this.generateVeinPart(iWorld_1, random_1, oreFeatureConfig_1, double_1, double_2, double_3, double_4, double_5, double_6, int_3, int_4, int_5, int_6, int_7);
+        for (int s = n; s <= n + q; ++s) {
+            for (int t = p; t <= p + q; ++t) {
+                if (o <= iWorld.getTopY(Type.OCEAN_FLOOR_WG, s, t)) {
+                    return this.generateVeinPart(iWorld, random, oreFeatureConfig, d, e, h, j, l, m, n, o, p, q, r);
                 }
             }
         }
@@ -47,43 +48,43 @@ public class OreFeature extends Feature<OreFeatureConfig> {
         return false;
     }
 
-    protected boolean generateVeinPart(IWorld iWorld_1, Random random_1, OreFeatureConfig oreFeatureConfig_1, double double_1, double double_2, double double_3, double double_4, double double_5, double double_6, int int_1, int int_2, int int_3, int int_4, int int_5) {
-        int int_6 = 0;
-        BitSet bitSet_1 = new BitSet(int_4 * int_5 * int_4);
-        Mutable blockPos$Mutable_1 = new Mutable();
-        double[] doubles_1 = new double[oreFeatureConfig_1.size * 4];
+    protected boolean generateVeinPart(IWorld world, Random random_1, OreFeatureConfig config, double double_1, double double_2, double double_3, double double_4, double double_5, double double_6, int int_1, int int_2, int int_3, int int_4, int int_5) {
+        int j = 0;
+        BitSet bitSet = new BitSet(int_4 * int_5 * int_4);
+        Mutable mutable = new Mutable();
+        double[] ds = new double[config.size * 4];
 
-        int int_8;
-        double double_12;
-        double double_13;
-        double double_14;
-        double double_15;
-        for(int_8 = 0; int_8 < oreFeatureConfig_1.size; ++int_8) {
-            float float_1 = (float)int_8 / (float)oreFeatureConfig_1.size;
-            double_12 = MathHelper.lerp(float_1, double_1, double_2);
-            double_13 = MathHelper.lerp(float_1, double_5, double_6);
-            double_14 = MathHelper.lerp(float_1, double_3, double_4);
-            double_15 = random_1.nextDouble() * (double)oreFeatureConfig_1.size / 16.0D;
-            double double_11 = ((double)(MathHelper.sin(3.1415927F * float_1) + 1.0F) * double_15 + 1.0D) / 2.0D;
-            doubles_1[int_8 * 4] = double_12;
-            doubles_1[int_8 * 4 + 1] = double_13;
-            doubles_1[int_8 * 4 + 2] = double_14;
-            doubles_1[int_8 * 4 + 3] = double_11;
+        int m;
+        double o;
+        double p;
+        double q;
+        double r;
+        for (m = 0; m < config.size; ++m) {
+            float float_1 = (float) m / (float) config.size;
+            o = MathHelper.lerp(float_1, double_1, double_2);
+            p = MathHelper.lerp(float_1, double_5, double_6);
+            q = MathHelper.lerp(float_1, double_3, double_4);
+            r = random_1.nextDouble() * (double) config.size / 16.0D;
+            double i = ((double) (MathHelper.sin(3.1415927F * float_1) + 1.0F) * r + 1.0D) / 2.0D;
+            ds[m * 4] = o;
+            ds[m * 4 + 1] = p;
+            ds[m * 4 + 2] = q;
+            ds[m * 4 + 3] = i;
         }
 
-        for(int_8 = 0; int_8 < oreFeatureConfig_1.size - 1; ++int_8) {
-            if (doubles_1[int_8 * 4 + 3] > 0.0D) {
-                for(int int_9 = int_8 + 1; int_9 < oreFeatureConfig_1.size; ++int_9) {
-                    if (doubles_1[int_9 * 4 + 3] > 0.0D) {
-                        double_12 = doubles_1[int_8 * 4] - doubles_1[int_9 * 4];
-                        double_13 = doubles_1[int_8 * 4 + 1] - doubles_1[int_9 * 4 + 1];
-                        double_14 = doubles_1[int_8 * 4 + 2] - doubles_1[int_9 * 4 + 2];
-                        double_15 = doubles_1[int_8 * 4 + 3] - doubles_1[int_9 * 4 + 3];
-                        if (double_15 * double_15 > double_12 * double_12 + double_13 * double_13 + double_14 * double_14) {
-                            if (double_15 > 0.0D) {
-                                doubles_1[int_9 * 4 + 3] = -1.0D;
+        for (m = 0; m < config.size - 1; ++m) {
+            if (ds[m * 4 + 3] > 0.0D) {
+                for (int int_9 = m + 1; int_9 < config.size; ++int_9) {
+                    if (ds[int_9 * 4 + 3] > 0.0D) {
+                        o = ds[m * 4] - ds[int_9 * 4];
+                        p = ds[m * 4 + 1] - ds[int_9 * 4 + 1];
+                        q = ds[m * 4 + 2] - ds[int_9 * 4 + 2];
+                        r = ds[m * 4 + 3] - ds[int_9 * 4 + 3];
+                        if (r * r > o * o + p * p + q * q) {
+                            if (r > 0.0D) {
+                                ds[int_9 * 4 + 3] = -1.0D;
                             } else {
-                                doubles_1[int_8 * 4 + 3] = -1.0D;
+                                ds[m * 4 + 3] = -1.0D;
                             }
                         }
                     }
@@ -91,35 +92,35 @@ public class OreFeature extends Feature<OreFeatureConfig> {
             }
         }
 
-        for(int_8 = 0; int_8 < oreFeatureConfig_1.size; ++int_8) {
-            double double_16 = doubles_1[int_8 * 4 + 3];
-            if (double_16 >= 0.0D) {
-                double double_17 = doubles_1[int_8 * 4];
-                double double_18 = doubles_1[int_8 * 4 + 1];
-                double double_19 = doubles_1[int_8 * 4 + 2];
-                int int_11 = Math.max(MathHelper.floor(double_17 - double_16), int_1);
-                int int_12 = Math.max(MathHelper.floor(double_18 - double_16), int_2);
-                int int_13 = Math.max(MathHelper.floor(double_19 - double_16), int_3);
-                int int_14 = Math.max(MathHelper.floor(double_17 + double_16), int_11);
-                int int_15 = Math.max(MathHelper.floor(double_18 + double_16), int_12);
-                int int_16 = Math.max(MathHelper.floor(double_19 + double_16), int_13);
+        for (m = 0; m < config.size; ++m) {
+            double t = ds[m * 4 + 3];
+            if (t >= 0.0D) {
+                double u = ds[m * 4];
+                double v = ds[m * 4 + 1];
+                double w = ds[m * 4 + 2];
+                int aa = Math.max(MathHelper.floor(u - t), int_1);
+                int ab = Math.max(MathHelper.floor(v - t), int_2);
+                int ac = Math.max(MathHelper.floor(w - t), int_3);
+                int ad = Math.max(MathHelper.floor(u + t), aa);
+                int ae = Math.max(MathHelper.floor(v + t), ab);
+                int f = Math.max(MathHelper.floor(w + t), ac);
 
-                for(int int_17 = int_11; int_17 <= int_14; ++int_17) {
-                    double double_20 = ((double)int_17 + 0.5D - double_17) / double_16;
-                    if (double_20 * double_20 < 1.0D) {
-                        for(int int_18 = int_12; int_18 <= int_15; ++int_18) {
-                            double double_21 = ((double)int_18 + 0.5D - double_18) / double_16;
-                            if (double_20 * double_20 + double_21 * double_21 < 1.0D) {
-                                for(int int_19 = int_13; int_19 <= int_16; ++int_19) {
-                                    double double_22 = ((double)int_19 + 0.5D - double_19) / double_16;
-                                    if (double_20 * double_20 + double_21 * double_21 + double_22 * double_22 < 1.0D) {
-                                        int int_20 = int_17 - int_1 + (int_18 - int_2) * int_4 + (int_19 - int_3) * int_4 * int_5;
-                                        if (!bitSet_1.get(int_20)) {
-                                            bitSet_1.set(int_20);
-                                            blockPos$Mutable_1.set(int_17, int_18, int_19);
-                                            if (oreFeatureConfig_1.target.getCondition().test(iWorld_1.getBlockState(blockPos$Mutable_1))) {
-                                                iWorld_1.setBlockState(blockPos$Mutable_1, oreFeatureConfig_1.state, 2);
-                                                ++int_6;
+                for (int ag = aa; ag <= ad; ++ag) {
+                    double ah = ((double) ag + 0.5D - u) / t;
+                    if (ah * ah < 1.0D) {
+                        for (int ai = ab; ai <= ae; ++ai) {
+                            double aj = ((double) ai + 0.5D - v) / t;
+                            if (ah * ah + aj * aj < 1.0D) {
+                                for (int ak = ac; ak <= f; ++ak) {
+                                    double al = ((double) ak + 0.5D - w) / t;
+                                    if (ah * ah + aj * aj + al * al < 1.0D) {
+                                        int am = ag - int_1 + (ai - int_2) * int_4 + (ak - int_3) * int_4 * int_5;
+                                        if (!bitSet.get(am)) {
+                                            bitSet.set(am);
+                                            mutable.set(ag, ai, ak);
+                                            if (config.target.getCondition().test(world.getBlockState(mutable))) {
+                                                world.setBlockState(mutable, config.state, 2);
+                                                ++j;
                                             }
                                         }
                                     }
@@ -131,6 +132,6 @@ public class OreFeature extends Feature<OreFeatureConfig> {
             }
         }
 
-        return int_6 > 0;
+        return j > 0;
     }
 }

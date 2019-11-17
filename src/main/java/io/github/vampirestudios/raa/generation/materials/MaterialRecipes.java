@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.materials;
 
 import com.swordglowsblue.artifice.api.Artifice;
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.registries.Dimensions;
@@ -17,6 +18,7 @@ public class MaterialRecipes {
 
     public static void init() {
         Artifice.registerData(new Identifier(MOD_ID, "recipe_pack"), serverResourcePackBuilder -> {
+            RandomlyAddingAnything.MODCOMPAT.generateCompatRecipes(serverResourcePackBuilder);
             Materials.MATERIALS.forEach(material -> {
                 Item repairItem;
                 if (material.getOreInformation().getOreType() == OreType.METAL) {
@@ -111,11 +113,11 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
                         shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_pickaxe"), 1);
                     });
-                    serverResourcePackBuilder.addItemTag(new Identifier("fabric","pickaxes"), tagBuilder -> {
+                    serverResourcePackBuilder.addItemTag(new Identifier("fabric", "pickaxes"), tagBuilder -> {
                         tagBuilder.replace(false);
                         tagBuilder.value(Utils.appendToPath(material.getId(), "_pickaxe"));
                     });
-                    serverResourcePackBuilder.addItemTag(new Identifier("fabric","shovels"), tagBuilder -> {
+                    serverResourcePackBuilder.addItemTag(new Identifier("fabric", "shovels"), tagBuilder -> {
                         tagBuilder.replace(false);
                         tagBuilder.value(Utils.appendToPath(material.getId(), "_shovel"));
                     });
@@ -134,20 +136,21 @@ public class MaterialRecipes {
                     });
                 }
                 if (material.getOreInformation().getOreType() == OreType.METAL) {
-                    if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) serverResourcePackBuilder.addSmeltingRecipe(Utils.appendToPath(material.getId(), "_ingot"), cookingRecipeBuilder -> {
-                        cookingRecipeBuilder.cookingTime(200);
-                        cookingRecipeBuilder.ingredientItem(Utils.appendToPath(material.getId(), "_ore"));
-                        cookingRecipeBuilder.experience(0.7);
-                        cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
-                    });
+                    if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR)
+                        serverResourcePackBuilder.addSmeltingRecipe(Utils.appendToPath(material.getId(), "_ingot"), cookingRecipeBuilder -> {
+                            cookingRecipeBuilder.cookingTime(200);
+                            cookingRecipeBuilder.ingredientItem(Utils.appendToPath(material.getId(), "_ore"));
+                            cookingRecipeBuilder.experience(0.7);
+                            cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
+                        });
                     if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
-						serverResourcePackBuilder.addBlastingRecipe(Utils.appendToPath(material.getId(), "_ingot_from_blasting"), cookingRecipeBuilder -> {
-							cookingRecipeBuilder.cookingTime(100);
-							cookingRecipeBuilder.ingredientItem(Utils.appendToPath(material.getId(), "_ore"));
-							cookingRecipeBuilder.experience(0.7);
-							cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
-						});
-					}
+                        serverResourcePackBuilder.addBlastingRecipe(Utils.appendToPath(material.getId(), "_ingot_from_blasting"), cookingRecipeBuilder -> {
+                            cookingRecipeBuilder.cookingTime(100);
+                            cookingRecipeBuilder.ingredientItem(Utils.appendToPath(material.getId(), "_ore"));
+                            cookingRecipeBuilder.experience(0.7);
+                            cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
+                        });
+                    }
                     serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_ingot_from_nuggets"), shapedRecipeBuilder -> {
                         shapedRecipeBuilder.group(new Identifier("raa:ingots"));
                         shapedRecipeBuilder.pattern(
@@ -249,11 +252,11 @@ public class MaterialRecipes {
                     shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
                     shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_pickaxe"), 1);
                 });
-                serverResourcePackBuilder.addItemTag(new Identifier("fabric","pickaxes"), tagBuilder -> {
+                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "pickaxes"), tagBuilder -> {
                     tagBuilder.replace(false);
                     tagBuilder.value(Utils.appendToPath(material.getId(), "_pickaxe"));
                 });
-                serverResourcePackBuilder.addItemTag(new Identifier("fabric","shovels"), tagBuilder -> {
+                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "shovels"), tagBuilder -> {
                     tagBuilder.replace(false);
                     tagBuilder.value(Utils.appendToPath(material.getId(), "_shovel"));
                 });
@@ -270,7 +273,6 @@ public class MaterialRecipes {
                 });
             });
         });
-
 
 
         Artifice.registerData(new Identifier(MOD_ID, "dimension_stone_pack"), serverResourcePackBuilder -> {
@@ -320,11 +322,11 @@ public class MaterialRecipes {
                     shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
                     shapedRecipeBuilder.result(Utils.appendToPath(dimensionData.getId(), "_pickaxe"), 1);
                 });
-                serverResourcePackBuilder.addItemTag(new Identifier("fabric","pickaxes"), tagBuilder -> {
+                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "pickaxes"), tagBuilder -> {
                     tagBuilder.replace(false);
                     tagBuilder.value(Utils.appendToPath(dimensionData.getId(), "_pickaxe"));
                 });
-                serverResourcePackBuilder.addItemTag(new Identifier("fabric","shovels"), tagBuilder -> {
+                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "shovels"), tagBuilder -> {
                     tagBuilder.replace(false);
                     tagBuilder.value(Utils.appendToPath(dimensionData.getId(), "_shovel"));
                 });

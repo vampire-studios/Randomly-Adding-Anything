@@ -1,8 +1,8 @@
 package io.github.vampirestudios.raa.items;
 
-import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.DebugMessagesBuilder;
+import io.github.vampirestudios.raa.registries.Materials;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;

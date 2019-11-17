@@ -29,6 +29,60 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
     // T2 = obsidian
     // T-1 = cobblestone
 
+    public static void placeBlockAt(IWorld world, BlockPos pos, int tier) {
+        switch (tier) {
+            case -1:
+                int randneg1 = Rands.randInt(4);
+                switch (randneg1) {
+                    case 0:
+                    case 1:
+                        world.setBlockState(pos, Blocks.COBBLESTONE.getDefaultState(), 2);
+                        break;
+                    case 2:
+                        world.setBlockState(pos, Blocks.MOSSY_COBBLESTONE.getDefaultState(), 2);
+                        break;
+                    case 3:
+                        world.setBlockState(pos, (Rands.chance(3)) ? Blocks.COBWEB.getDefaultState() : Blocks.AIR.getDefaultState(), 2);
+                        break;
+                }
+                break;
+            case 0:
+                int rand = Rands.randInt(5);
+                switch (rand) {
+                    case 0:
+                    case 4:
+                        world.setBlockState(pos, Blocks.STONE_BRICKS.getDefaultState(), 2);
+                        break;
+                    case 1:
+                        world.setBlockState(pos, Blocks.CRACKED_STONE_BRICKS.getDefaultState(), 2);
+                        break;
+                    case 2:
+                        world.setBlockState(pos, Blocks.MOSSY_STONE_BRICKS.getDefaultState(), 2);
+                        break;
+                    case 3:
+                        world.setBlockState(pos, (Rands.chance(4)) ? Blocks.COBWEB.getDefaultState() : Blocks.AIR.getDefaultState(), 2);
+                        break;
+                }
+                break;
+            case 1:
+                int rand1 = Rands.randInt(8);
+                if (rand1 == 0) {
+                    world.setBlockState(pos, (Rands.chance(4)) ? Blocks.COBWEB.getDefaultState() : Blocks.AIR.getDefaultState(), 2);
+                } else {
+                    world.setBlockState(pos, Blocks.BRICKS.getDefaultState(), 2);
+                }
+                break;
+            case 2:
+                int rand2 = Rands.randInt(20);
+                if (rand2 == 0) {
+                    world.setBlockState(pos, (Rands.chance(4)) ? Blocks.COBWEB.getDefaultState() : Blocks.AIR.getDefaultState(), 2);
+                } else {
+                    world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState(), 2);
+                }
+                break;
+        }
+    }
+
     @Override
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque())
@@ -62,7 +116,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
         //room area
         int heightTotal = height + Rands.randIntRange(3, 5);
-        if (tier == -1)  {
+        if (tier == -1) {
             if (hasRoof) {
                 heightTotal = height + Rands.randIntRange(2, 3);
             } else {
@@ -104,64 +158,10 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         if (hasRoof || tier >= 1) {
             for (int j = -3; j <= 3; j++) {
                 for (int k = -3; k <= 3; k++) {
-                    placeBlockAt(world, pos.add(j, heightTotal-1, k), tier);
+                    placeBlockAt(world, pos.add(j, heightTotal - 1, k), tier);
                 }
             }
         }
         return true;
-    }
-
-    public static void placeBlockAt(IWorld world, BlockPos pos, int tier) {
-        switch (tier) {
-            case -1:
-                int randneg1 = Rands.randInt(4);
-                switch (randneg1) {
-                    case 0:
-                    case 1:
-                        world.setBlockState(pos, Blocks.COBBLESTONE.getDefaultState(), 2);
-                        break;
-                    case 2:
-                        world.setBlockState(pos, Blocks.MOSSY_COBBLESTONE.getDefaultState(), 2);
-                        break;
-                    case 3:
-                        world.setBlockState(pos, (Rands.chance(3)) ? Blocks.COBWEB.getDefaultState() : Blocks.AIR.getDefaultState(), 2);
-                        break;
-                }
-                break;
-            case 0:
-                int rand = Rands.randInt(5);
-                switch (rand) {
-                    case 0:
-                    case 4:
-                        world.setBlockState(pos, Blocks.STONE_BRICKS.getDefaultState(), 2);
-                        break;
-                    case 1:
-                        world.setBlockState(pos, Blocks.CRACKED_STONE_BRICKS.getDefaultState(), 2);
-                        break;
-                    case 2:
-                        world.setBlockState(pos, Blocks.MOSSY_STONE_BRICKS.getDefaultState(), 2);
-                        break;
-                    case 3:
-                        world.setBlockState(pos, (Rands.chance(4)) ? Blocks.COBWEB.getDefaultState() : Blocks.AIR.getDefaultState(), 2);
-                        break;
-                }
-            break;
-            case 1:
-                int rand1 = Rands.randInt(8);
-                if (rand1 == 0) {
-                    world.setBlockState(pos, (Rands.chance(4)) ? Blocks.COBWEB.getDefaultState() : Blocks.AIR.getDefaultState(), 2);
-                } else {
-                    world.setBlockState(pos, Blocks.BRICKS.getDefaultState(), 2);
-                }
-                break;
-            case 2:
-                int rand2 = Rands.randInt(20);
-                if (rand2 == 0) {
-                    world.setBlockState(pos, (Rands.chance(4)) ? Blocks.COBWEB.getDefaultState() : Blocks.AIR.getDefaultState(), 2);
-                } else {
-                    world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState(), 2);
-                }
-                break;
-        }
     }
 }

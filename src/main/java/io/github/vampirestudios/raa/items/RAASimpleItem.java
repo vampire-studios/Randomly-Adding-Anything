@@ -27,6 +27,6 @@ public class RAASimpleItem extends Item {
     }
 
     public enum SimpleItemType {
-        GEM,INGOT,NUGGET,CRYSTAL
+        GEM, INGOT, NUGGET, CRYSTAL
     }
 }

@@ -26,7 +26,7 @@ public class LazyNoiseSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig
         }
 
         BlockPos.Mutable pos = new BlockPos.Mutable(x, 1, z);
-        for (int i = 0; i < 80+(Math.abs(noise)*8); i++) {
+        for (int i = 0; i < 80 + (Math.abs(noise) * 8); i++) {
             chunk.setBlockState(pos, stone, false);
             pos.setOffset(Direction.UP);
         }
