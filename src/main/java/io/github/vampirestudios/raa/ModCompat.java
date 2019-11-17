@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModCompat {
-    private boolean techreborn = false;
     private List<ModCompatProvider> modCompatProviders = new ArrayList<>();
 
     public ModCompat() {
         if (FabricLoader.INSTANCE.isModLoaded("techreborn")) {
-            this.techreborn = true;
             modCompatProviders.add(new TechReborn());
         }
     }
@@ -24,6 +22,12 @@ public class ModCompat {
             if (modCompatProvider.asCustomRecipes()) {
                 modCompatProvider.generateRecipes(dataPackBuilder);
             }
+        }
+    }
+
+    public void generateCompatItems() {
+        for (ModCompatProvider modCompatProvider : modCompatProviders) {
+            if (modCompatProvider.asItems()) modCompatProvider.generateItems();
         }
     }
 }
