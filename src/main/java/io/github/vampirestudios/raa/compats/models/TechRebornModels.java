@@ -20,7 +20,7 @@ public class TechRebornModels extends ModelCompat {
         for (Material material : Materials.MATERIALS) {
             resourcePackBuilder.addItemModel(Utils.appendToPath(material.getId(), "dust"), modelBuilder -> {
                 modelBuilder.parent(new Identifier("item/generated"));
-                modelBuilder.texture("layer0", material.getResourceItemTexture());
+                modelBuilder.texture("layer0", material.getTexturesInformation().getResourceItemTexture());
             });
         }
     }

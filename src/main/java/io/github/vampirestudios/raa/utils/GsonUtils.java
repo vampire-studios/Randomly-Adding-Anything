@@ -13,6 +13,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GsonUtils {
     private static final Gson GSON;
@@ -36,6 +38,42 @@ public class GsonUtils {
                             return null;
                         } else {
                             return new Identifier(in.nextString());
+                        }
+                    }
+                })
+                .registerTypeAdapter(Map.class, new TypeAdapter<Map<Identifier, Identifier>>() {
+                    @Override
+                    public void write(JsonWriter out, Map<Identifier, Identifier> value) throws IOException {
+                        if(value == null)
+                            out.nullValue();
+                        else {
+                            for (Identifier identifier : value.keySet()) {
+                                out.name("key");
+                                out.value(identifier.toString());
+                            }
+                            for (Identifier identifier : value.values()) {
+                                out.name("value");
+                                out.value(identifier.toString());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public Map<Identifier, Identifier> read(JsonReader in) throws IOException {
+                        JsonToken jsonToken = in.peek();
+                        if (jsonToken == JsonToken.NULL) {
+                            in.nextNull();
+                            return null;
+                        } else {
+                            String s = in.nextString();
+                            Identifier identifier = s.contains(":") ? new Identifier(s.toLowerCase()) : new Identifier(RandomlyAddingAnything.MOD_ID, s.toLowerCase());
+                            Map<Identifier, Identifier> map = new HashMap<>();
+                            map.put(identifier, identifier);
+                            if (!map.isEmpty()) {
+                                return map;
+                            } else {
+                                throw new NullPointerException("Invalid Map<Identifier, Identifier>: " + identifier.toString());
+                            }
                         }
                     }
                 })
