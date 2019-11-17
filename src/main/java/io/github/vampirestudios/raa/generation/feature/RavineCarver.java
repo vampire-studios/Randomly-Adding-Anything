@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa.generation.feature;
 
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

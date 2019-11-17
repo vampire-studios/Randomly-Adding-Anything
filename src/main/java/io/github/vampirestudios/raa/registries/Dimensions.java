@@ -1,8 +1,8 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.DimensionChunkGenerators;
-import io.github.vampirestudios.raa.api.enums.PlayerPlacementHandlers;
+import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.api.dimension.PlayerPlacementHandlers;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
@@ -227,7 +227,8 @@ public class Dimensions {
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
-                    return dimension.getToolDurability();
+//                    return dimension.getToolDurability();
+                    return ToolMaterials.STONE.getDurability();
                 }
 
                 @Override
@@ -257,7 +258,7 @@ public class Dimensions {
             };
 
             RegistryUtils.registerItem(
-                    new RAAPickaxeItem(
+                    new DimensionalPickaxeItem(
                             dimension,
                             toolMaterial,
                             1,
@@ -267,7 +268,7 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_pickaxe")
             );
             RegistryUtils.registerItem(
-                    new RAAAxeItem(
+                    new DimensionalAxeItem(
                             dimension,
                             toolMaterial,
                             7.0F,
@@ -277,7 +278,7 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_axe")
             );
             RegistryUtils.registerItem(
-                    new RAAShovelItem(
+                    new DimensionalShovelItem(
                             dimension,
                             toolMaterial,
                             1.5F,
@@ -287,7 +288,7 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_shovel")
             );
             RegistryUtils.registerItem(
-                    new RAAHoeItem(
+                    new DimensionalHoeItem(
                             dimension,
                             toolMaterial,
                             -2.0F,
@@ -296,7 +297,7 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_hoe")
             );
             RegistryUtils.registerItem(
-                    new RAASwordItem(
+                    new DimensionalSwordItem(
                             toolMaterial,
                             dimension,
                             new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(Registry.ITEM.get(Utils.appendToPath(identifier, "_cobblestone")))
@@ -424,7 +425,7 @@ public class Dimensions {
 
     public static int generateDimensionFlags() {
         int flags = 0;
-        if (Rands.chance(30)) {
+        if (Rands.chance(35)) {
             flags = Utils.POST_APOCALYPTIC;
             return flags;
         }
@@ -440,7 +441,7 @@ public class Dimensions {
                 flags |= Utils.DRY;
             }
         } else {
-            if (Rands.chance(12)) {
+            if (Rands.chance(18)) {
                 flags |= Utils.DEAD;
                 if (Rands.chance(6)) {
                     flags |= Utils.MOLTEN;

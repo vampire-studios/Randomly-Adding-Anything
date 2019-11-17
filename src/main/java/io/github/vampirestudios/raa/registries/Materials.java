@@ -91,7 +91,7 @@ public class Materials {
                 } while (DIMENSION_MATERIAL_IDS.contains(id));
                 DIMENSION_MATERIAL_IDS.add(id);
 
-                GeneratesIn generatesIn = RegistryUtils.registerGenerateionThingy(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
+                GeneratesIn generatesIn = RegistryUtils.registerGeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
                         new GeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
                             Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())),
                                 new OreFeatureConfig.Target(dimensionData.getId().getPath(), blockState ->

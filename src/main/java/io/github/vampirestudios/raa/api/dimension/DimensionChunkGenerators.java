@@ -1,6 +1,5 @@
-package io.github.vampirestudios.raa.api.enums;
+package io.github.vampirestudios.raa.api.dimension;
 
-import io.github.vampirestudios.raa.api.interfaces.DimensionChunkGenerator;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -10,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.chunk.*;
 
-public enum DimensionChunkGenerators implements DimensionChunkGenerator {
+public enum DimensionChunkGenerators {
     CAVE,
     FLOATING,
     OVERWORLD,
@@ -21,7 +20,6 @@ public enum DimensionChunkGenerators implements DimensionChunkGenerator {
     FLAT_CAVES,
     HIGH_CAVES;
 
-    @Override
     public ChunkGenerator<?> getChunkGenerator(World world, BiomeSource biomeSource, DimensionData data, Block stoneBlock) {
 
         OverworldChunkGeneratorConfig config = new OverworldChunkGeneratorConfig();
