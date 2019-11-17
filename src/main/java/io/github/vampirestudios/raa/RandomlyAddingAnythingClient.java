@@ -73,12 +73,12 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
                     for (Material material : Materials.MATERIALS) {
-                        registry.register(material.getOreInformation().getOverlayTexture());
-                        registry.register(material.getStorageBlockTexture());
+                        registry.register(material.getTexturesInformation().getOverlayTexture());
+                        registry.register(material.getTexturesInformation().getStorageBlockTexture());
                     }
                     for (Material material : Materials.DIMENSION_MATERIALS) {
-                        registry.register(material.getOreInformation().getOverlayTexture());
-                        registry.register(material.getStorageBlockTexture());
+                        registry.register(material.getTexturesInformation().getOverlayTexture());
+                        registry.register(material.getTexturesInformation().getStorageBlockTexture());
                     }
                 });
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
@@ -95,7 +95,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         } else {
                             modelBuilder.parent(new Identifier("block/cube_all"));
                         }
-                        modelBuilder.texture("all", material.getStorageBlockTexture());
+                        modelBuilder.texture("all", material.getTexturesInformation().getStorageBlockTexture());
                     });
                     clientResourcePackBuilder.addItemModel(id, modelBuilder ->
                             modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
@@ -106,68 +106,68 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 if (material.getOreInformation().getOreType() == OreType.GEM) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_gem"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getResourceItemTexture());
                     });
                 }
                 if (material.getOreInformation().getOreType() == OreType.METAL) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_ingot"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getResourceItemTexture());
                     });
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_nugget"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getNuggetTexture());
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getNuggetTexture());
                     });
                 }
                 if (material.getOreInformation().getOreType() == OreType.CRYSTAL) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_crystal"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getResourceItemTexture());
                     });
                 }
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_helmet"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", Rands.list(TextureTypes.HELMET_TEXTURES));
+                    modelBuilder.texture("layer0", material.getTexturesInformation().getHelmetTexture());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_chestplate"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", Rands.list(TextureTypes.CHESTPLATE_TEXTURES));
+                    modelBuilder.texture("layer0", material.getTexturesInformation().getChestplateTexture());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_leggings"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", Rands.list(TextureTypes.LEGGINGS_TEXTURES));
+                    modelBuilder.texture("layer0", material.getTexturesInformation().getLeggingsTexture());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_boots"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", Rands.list(TextureTypes.BOOTS_TEXTURES));
+                    modelBuilder.texture("layer0", material.getTexturesInformation().getBootsTexture());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.AXES);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.SHOVELS);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getShovelTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.PICKAXES);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getPickaxeTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_sword"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.SWORDS);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getSwordTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_hoe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.HOES);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getHoeTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
@@ -186,7 +186,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 if (material.hasFood()) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_fruit"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", Rands.list(TextureTypes.FRUIT_TEXTURES));
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getFruitTexture());
                     });
                 }
             });
@@ -319,7 +319,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         } else {
                             modelBuilder.parent(new Identifier("block/cube_all"));
                         }
-                        modelBuilder.texture("all", material.getStorageBlockTexture());
+                        modelBuilder.texture("all", material.getTexturesInformation().getStorageBlockTexture());
                     });
                     clientResourcePackBuilder.addItemModel(id, modelBuilder ->
                             modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
@@ -330,68 +330,68 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 if (material.getOreInformation().getOreType() == OreType.GEM) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_gem"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getResourceItemTexture());
                     });
                 }
                 if (material.getOreInformation().getOreType() == OreType.METAL) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_ingot"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getResourceItemTexture());
                     });
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_nugget"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getNuggetTexture());
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getNuggetTexture());
                     });
                 }
                 if (material.getOreInformation().getOreType() == OreType.CRYSTAL) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_crystal"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", material.getResourceItemTexture());
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getResourceItemTexture());
                     });
                 }
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_helmet"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", Rands.list(TextureTypes.HELMET_TEXTURES));
+                    modelBuilder.texture("layer0", material.getTexturesInformation().getHelmetTexture());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_chestplate"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", Rands.list(TextureTypes.CHESTPLATE_TEXTURES));
+                    modelBuilder.texture("layer0", material.getTexturesInformation().getChestplateTexture());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_leggings"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", Rands.list(TextureTypes.LEGGINGS_TEXTURES));
+                    modelBuilder.texture("layer0", material.getTexturesInformation().getLeggingsTexture());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_boots"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
-                    modelBuilder.texture("layer0", Rands.list(TextureTypes.BOOTS_TEXTURES));
+                    modelBuilder.texture("layer0", material.getTexturesInformation().getBootsTexture());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.AXES);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.SHOVELS);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getShovelTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.PICKAXES);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getPickaxeTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_sword"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.SWORDS);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getSwordTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_hoe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = Rands.map(TextureTypes.HOES);
+                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getHoeTexture();
                     modelBuilder.texture("layer0", entry.getKey());
                     modelBuilder.texture("layer1", entry.getValue());
                 });
@@ -410,7 +410,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 if (material.hasFood()) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_fruit"), modelBuilder -> {
                         modelBuilder.parent(new Identifier("item/generated"));
-                        modelBuilder.texture("layer0", Rands.list(TextureTypes.FRUIT_TEXTURES));
+                        modelBuilder.texture("layer0", material.getTexturesInformation().getFruitTexture());
                     });
                 }
             });

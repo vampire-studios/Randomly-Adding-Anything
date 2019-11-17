@@ -14,22 +14,31 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+import java.util.Objects;
 
 @Mixin(PlayerManager.class)
 public abstract class PlayerManagerMixin {
 
     @Inject(at = @At("RETURN"), method = "onPlayerConnect")
-    private void onPlayerConnecte(ClientConnection clientConnection, ServerPlayerEntity player, CallbackInfo ci) {
+    private void onPlayerConnect(ClientConnection clientConnection, ServerPlayerEntity player, CallbackInfo ci) {
         PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider) player).getMaterialDiscoverState();
         if (discoverState == null) {
             ((PlayerMaterialDiscoverProvider) player).setMaterialDiscoverState(new PlayerMaterialDiscoverState());
             discoverState = ((PlayerMaterialDiscoverProvider) player).getMaterialDiscoverState();
         }
-        List<OreDiscoverState> map = discoverState.getList();
-        if (discoverState.isFirstConnect() || (map == null || map.isEmpty())) {
+        List<OreDiscoverState> materialDiscoveryState = discoverState.getMaterialDiscoveryState();
+        if (discoverState.isFirstConnect() || (materialDiscoveryState == null || materialDiscoveryState.isEmpty())) {
             discoverState.setFirstConnect(true);
             for (Material material : Materials.MATERIALS) {
-                map.add(new OreDiscoverState(material));
+                Objects.requireNonNull(materialDiscoveryState).add(new OreDiscoverState(material));
+            }
+        }
+
+        List<OreDiscoverState> dimensionMaterialDiscoveryState = discoverState.getDimensionMaterialDiscoveryState();
+        if (discoverState.isFirstConnect() || (dimensionMaterialDiscoveryState == null || dimensionMaterialDiscoveryState.isEmpty())) {
+            discoverState.setFirstConnect(true);
+            for (Material material : Materials.DIMENSION_MATERIALS) {
+                Objects.requireNonNull(dimensionMaterialDiscoveryState).add(new OreDiscoverState(material));
             }
         }
     }
