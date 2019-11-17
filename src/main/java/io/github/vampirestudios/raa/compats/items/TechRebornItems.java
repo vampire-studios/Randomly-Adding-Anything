@@ -19,7 +19,7 @@ import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.text.WordUtils;
 
 public class TechRebornItems extends ItemCompat {
-    private ItemGroup POWDER_ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(RandomlyAddingAnything.MOD_ID, "tr_powder"), () -> new ItemStack(Items.GUNPOWDER));
+    private ItemGroup POWDER_ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(RandomlyAddingAnything.MOD_ID, "tr_dust"), () -> new ItemStack(Items.GUNPOWDER));
 
     public TechRebornItems() {super();}
 
@@ -27,7 +27,7 @@ public class TechRebornItems extends ItemCompat {
     public void generateItems() {
         for (Material material : Materials.MATERIALS) {
             if (material.getOreInformation().getOreType() == OreType.METAL) {
-                RegistryUtils.registerItem(new OrePowder(material.getName(), new Item.Settings().group(POWDER_ITEM_GROUP)), Utils.appendToPath(material.getId(), "powder"));
+                RegistryUtils.registerItem(new OrePowder(material.getName(), new Item.Settings().group(POWDER_ITEM_GROUP)), Utils.appendToPath(material.getId(), "_dust"));
             }
         }
     }

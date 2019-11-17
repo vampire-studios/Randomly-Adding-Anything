@@ -21,6 +21,6 @@ public class OrePowder extends Item {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.compat.techreborn.powder", new LiteralText(WordUtils.capitalize(name)));
+        return new TranslatableText("text.raa.compat.techreborn.dust", new LiteralText(WordUtils.capitalize(name)));
     }
 }

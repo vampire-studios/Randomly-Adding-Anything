@@ -6,7 +6,7 @@
   "itemGroup.raa.weapons": "RAA: Weapons",
   "itemGroup.raa.food": "RAA: Food",
   "itemGroup.raa.dimension_blocks": "RAA: Dimension Blocks",
-  "itemGroup.raa.tr_powder": "RAA Compat: TechReborn",
+  "itemGroup.raa.tr_dust": "RAA Compat: TechReborn",
 
   "text.raa.block.ore": "%s Ore",
   "text.raa.block.block": "%s Block",
@@ -31,7 +31,7 @@
   "text.raa.item.armor_legs": "%s Leggings",
   "text.raa.item.armor_feet": "%s Boots",
   "text.raa.item.shears": "%s Shears",
-  "text.raa.compat.techreborn.powder": "%s Powder",
+  "text.raa.compat.techreborn.dust": "%s Powder",
 
   "config.title.raa": "RAA Config",
   "config.title.raa.dimension": "RAA Config: Dimensions",

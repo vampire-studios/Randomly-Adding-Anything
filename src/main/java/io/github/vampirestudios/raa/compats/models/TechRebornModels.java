@@ -18,7 +18,7 @@ public class TechRebornModels extends ModelCompat {
     @Override
     protected void itemModels(ArtificeResourcePack.ClientResourcePackBuilder resourcePackBuilder) {
         for (Material material : Materials.MATERIALS) {
-            resourcePackBuilder.addItemModel(Utils.appendToPath(material.getId(), "powder"), modelBuilder -> {
+            resourcePackBuilder.addItemModel(Utils.appendToPath(material.getId(), "dust"), modelBuilder -> {
                 modelBuilder.parent(new Identifier("item/generated"));
                 modelBuilder.texture("layer0", material.getResourceItemTexture());
             });
