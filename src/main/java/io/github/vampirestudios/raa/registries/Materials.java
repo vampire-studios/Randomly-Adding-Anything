@@ -309,6 +309,7 @@ public class Materials {
                 );
             }
         });
+        RandomlyAddingAnything.MODCOMPAT.generateCompatItems();
     }
 
     public static void createDimensionMaterialResources() {

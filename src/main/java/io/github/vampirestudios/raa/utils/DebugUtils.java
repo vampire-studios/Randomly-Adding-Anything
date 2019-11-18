@@ -43,8 +43,8 @@ public class DebugUtils {
                         "\n\nMaterial Design Information" +
                         "\n##########################" +
                         "\nMaterial Color : " + color.getRed() + "," + color.getGreen() + "," + color.getBlue() +
-                        "\nOverlay Texture : " + material.getOreInformation().getOverlayTexture().toString() +
-                        "\nResource Item Texture : " + material.getResourceItemTexture().toString() +
+                        "\nOverlay Texture : " + material.getTexturesInformation().getOverlayTexture().toString() +
+                        "\nResource Item Texture : " + material.getTexturesInformation().getResourceItemTexture().toString() +
                         "\nHas Armor : " + material.hasArmor() +
                         "\nHas Weapons : " + material.hasWeapons() +
                         "\nHas Tools : " + material.hasTools() +

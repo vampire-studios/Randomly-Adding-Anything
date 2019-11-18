@@ -174,7 +174,7 @@ public class OreBakedModel extends RAABakedModel {
             mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
         }
         color = material.getRGBColor();
-        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
+        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getTexturesInformation().getOverlayTexture());
 
         if (material.getOreInformation().getGeneratesIn() != GeneratesIn.GRASS_BLOCK && material.getOreInformation().getGeneratesIn() != GeneratesIn.PODZOL) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
@@ -218,7 +218,7 @@ public class OreBakedModel extends RAABakedModel {
 
     @Override
     public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
+        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getTexturesInformation().getOverlayTexture());
     }
 
     @Override

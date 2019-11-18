@@ -3,10 +3,13 @@ package io.github.vampirestudios.raa.compats.recipes;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.util.Processor;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.compats.recipes.artifice.TRBlastFurnaceRecipeBuilder;
+import io.github.vampirestudios.raa.compats.recipes.artifice.TRGrinderRecipeBuilder;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.util.Identifier;
 
 public class TechRebornRecipes extends RecipeCompat {
@@ -86,6 +89,13 @@ public class TechRebornRecipes extends RecipeCompat {
 
                                 })
                 );
+
+                if (material.getOreInformation().getOreType() == OreType.METAL && material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
+                    addGrinderRecipe(Utils.appendToPath(material.getId(), "_to_dust"), trGrinderRecipeBuilder -> trGrinderRecipeBuilder
+                            .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder.item(Utils.appendToPath(material.getId(), "_ore")))
+                            .multiResult(raaMultiResultBuilder -> raaMultiResultBuilder.item(Utils.appendToPath(material.getId(), "_dust"), 2))
+                            .power(material.getMiningLevel() + 2).time(270));
+                }
             }
         }
     }
@@ -94,5 +104,11 @@ public class TechRebornRecipes extends RecipeCompat {
         addRecipes(id, (r) -> {
             TRBlastFurnaceRecipeBuilder var10000 = (TRBlastFurnaceRecipeBuilder)f.process(r.type(new Identifier("techreborn:blast_furnace")));
         }, TRBlastFurnaceRecipeBuilder::new);
+    }
+
+    private void addGrinderRecipe(Identifier id, Processor<TRGrinderRecipeBuilder> f) {
+        addRecipes(id, (r) -> {
+            TRGrinderRecipeBuilder var10000 = (TRGrinderRecipeBuilder)f.process(r.type(new Identifier("techreborn:grinder")));
+        }, TRGrinderRecipeBuilder::new);
     }
 }

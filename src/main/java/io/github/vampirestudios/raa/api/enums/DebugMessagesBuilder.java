@@ -40,9 +40,9 @@ public class DebugMessagesBuilder {
 
     public DebugMessagesBuilder textures() {
         playerEntity.addChatMessage(new LiteralText(Formatting.BOLD + "Textures"), false);
-        playerEntity.addChatMessage(new LiteralText("Overlay Texture: " + material.getOreInformation().getOverlayTexture()), false);
-        playerEntity.addChatMessage(new LiteralText("Resource Item Texture: " + material.getResourceItemTexture()), false);
-        playerEntity.addChatMessage(new LiteralText("Storage Block Texture: " + material.getStorageBlockTexture()), false);
+        playerEntity.addChatMessage(new LiteralText("Overlay Texture: " + material.getTexturesInformation().getOverlayTexture()), false);
+        playerEntity.addChatMessage(new LiteralText("Resource Item Texture: " + material.getTexturesInformation().getResourceItemTexture()), false);
+        playerEntity.addChatMessage(new LiteralText("Storage Block Texture: " + material.getTexturesInformation().getStorageBlockTexture()), false);
         return this;
     }
 

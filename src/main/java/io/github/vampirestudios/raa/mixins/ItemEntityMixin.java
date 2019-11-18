@@ -45,19 +45,38 @@ public class ItemEntityMixin {
                         break;
                     }
                 }
+                for (Material materiale : Materials.DIMENSION_MATERIALS) {
+                    if ((materiale.getName() + "_ore").equals(Registry.ITEM.getId(itemStack.getItem()).getPath()) && Registry.ITEM.getId(itemStack.getItem()).getNamespace().equals("raa")) {
+                        material = materiale;
+                        break;
+                    }
+                }
                 if (material != null) {
                     if (playerEntity_1 instanceof ServerPlayerEntity && playerEntity_1 instanceof PlayerMaterialDiscoverProvider) {
                         PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider) playerEntity_1).getMaterialDiscoverState();
-                        List<OreDiscoverState> list = discoverState.getList();
-                        for (int i = 0; i < list.size(); i++) {
-                            if (list.get(i).getMaterial() == material) {
-                                if (!list.get(i).isDiscovered()) {
+                        List<OreDiscoverState> materialDiscoveryStates = discoverState.getMaterialDiscoveryState();
+                        for (int i = 0; i < materialDiscoveryStates.size(); i++) {
+                            if (materialDiscoveryStates.get(i).getMaterial() == material) {
+                                if (!materialDiscoveryStates.get(i).isDiscovered()) {
                                     System.out.println("You Discovered a new material!");
-                                    list.set(i, list.get(i).discover());
+                                    materialDiscoveryStates.set(i, materialDiscoveryStates.get(i).discover());
                                 } else {
                                     for (int z = 0; z < itemStack.getCount(); z++)
-                                        System.out.println("You already discovered this material " + list.get(i).getDiscoverTimes() + " time before");
-                                    list.set(i, list.get(i).alreadyDiscovered());
+                                        System.out.println("You already discovered this material " + materialDiscoveryStates.get(i).getDiscoverTimes() + " time before");
+                                    materialDiscoveryStates.set(i, materialDiscoveryStates.get(i).alreadyDiscovered());
+                                }
+                            }
+                        }
+                        List<OreDiscoverState> dimensionMaterialDiscoveryStates = discoverState.getDimensionMaterialDiscoveryState();
+                        for (int i = 0; i < dimensionMaterialDiscoveryStates.size(); i++) {
+                            if (dimensionMaterialDiscoveryStates.get(i).getMaterial() == material) {
+                                if (!dimensionMaterialDiscoveryStates.get(i).isDiscovered()) {
+                                    System.out.println("You Discovered a new material!");
+                                    dimensionMaterialDiscoveryStates.set(i, dimensionMaterialDiscoveryStates.get(i).discover());
+                                } else {
+                                    for (int z = 0; z < itemStack.getCount(); z++)
+                                        System.out.println("You already discovered this material " + dimensionMaterialDiscoveryStates.get(i).getDiscoverTimes() + " time before");
+                                    dimensionMaterialDiscoveryStates.set(i, dimensionMaterialDiscoveryStates.get(i).alreadyDiscovered());
                                 }
                             }
                         }
