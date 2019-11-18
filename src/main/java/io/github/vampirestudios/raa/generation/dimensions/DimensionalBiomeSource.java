@@ -5,19 +5,27 @@ import net.minecraft.world.biome.layer.BiomeLayerSampler;
 import net.minecraft.world.biome.layer.BiomeLayers;
 import net.minecraft.world.biome.source.BiomeSource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class DimensionalBiomeSource extends BiomeSource {
     private final BiomeLayerSampler noiseLayer;
     private static Set<Biome> BIOMES;
 
-    protected DimensionalBiomeSource(DimensionalBiomeSourceConfig config) {
-        super(config.getBiomes());
-        this.noiseLayer = BiomeLayers.build(config.getSeed(), config.getGeneratorType(), config.getGeneratorSettings());
+    public DimensionalBiomeSource(Object o) {
+        super(((DimensionalBiomeSourceConfig)o).getBiomes());
+        this.noiseLayer = DimensionalBiomeLayers.build(((DimensionalBiomeSourceConfig)o).getSeed(), ((DimensionalBiomeSourceConfig)o).getGeneratorType(), ((DimensionalBiomeSourceConfig)o).getGeneratorSettings(), ((DimensionalBiomeSourceConfig)o).getBiomes());
+        this.BIOMES = ((DimensionalBiomeSourceConfig)o).getBiomes();
     }
 
     @Override
     public Biome getStoredBiome(int biomeX, int biomeY, int biomeZ) {
         return this.noiseLayer.sample(biomeX, biomeZ);
+    }
+
+    @Override
+    public List<Biome> getSpawnBiomes() {
+        return new ArrayList<>(BIOMES);
     }
 }

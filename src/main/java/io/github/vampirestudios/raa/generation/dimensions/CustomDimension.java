@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.utils.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,28 +24,27 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class CustomDimension extends Dimension {
 
     private DimensionType dimensionType;
     private DimensionData dimensionData;
-    private CustomDimensionalBiome dimensionalBiome;
+    private Set<Biome> biomes;
     private Block stoneBlock;
 
-    public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData, CustomDimensionalBiome dimensionalBiome, Block stoneBlock) {
+    public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData, Set<Biome> biomes, Block stoneBlock) {
         super(world_1, dimensionType_1, 0.0F);
         this.dimensionType = dimensionType_1;
         this.dimensionData = dimensionData;
-        this.dimensionalBiome = dimensionalBiome;
+        this.biomes = biomes;
         this.stoneBlock = stoneBlock;
     }
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
 //        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, new FixedBiomeSource(new FixedBiomeSourceConfig(this.world.getLevelProperties()).setBiome(this.dimensionalBiome)), this.dimensionData, this.stoneBlock);
-        HashSet<Biome> biomes = new HashSet<>();
-        biomes.add(dimensionalBiome);
-        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, new DimensionalBiomeSource(new DimensionalBiomeSourceConfig(this.world.getLevelProperties()).setBiomes(biomes)), this.dimensionData, this.stoneBlock);
+        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, RandomlyAddingAnything.DIMENSIONAL_BIOMES.applyConfig(new DimensionalBiomeSourceConfig(this.world.getLevelProperties()).setBiomes(biomes)), this.dimensionData, this.stoneBlock);
 
     }
 

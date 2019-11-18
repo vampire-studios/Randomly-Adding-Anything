@@ -4,13 +4,15 @@ import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DimensionData {
     private Identifier id;
     private String name;
     private int dimensionId;
-    private DimensionBiomeData biomeData;
+    private List<DimensionBiomeData> biomeData;
     private DimensionColorPalette dimensionColorPalette;
     private boolean hasSkyLight;
     private boolean hasSky;
@@ -25,7 +27,7 @@ public class DimensionData {
     private int surfaceBuilder;
     private int toolDurability;
 
-    public DimensionData(Identifier id, String name, int dimensionId, DimensionBiomeData biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky,
+    public DimensionData(Identifier id, String name, int dimensionId, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky,
                          boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs, int difficulty,
                          HashMap<String, Double> civilizationInfluences, int surfaceBuilder, int toolDurability) {
         this.id = id;
@@ -63,7 +65,7 @@ public class DimensionData {
         return dimensionId;
     }
 
-    public DimensionBiomeData getBiomeData() {
+    public List<DimensionBiomeData> getBiomeData() {
         return biomeData;
     }
 
@@ -153,7 +155,7 @@ public class DimensionData {
         private Identifier id;
         private String name;
         private int dimensionId;
-        private DimensionBiomeData biomeData;
+        private List<DimensionBiomeData> biomeData;
         private DimensionColorPalette dimensionColorPalette;
         private boolean hasSkyLight;
         private boolean hasSky;
@@ -175,6 +177,7 @@ public class DimensionData {
             Builder builder = new Builder();
             builder.id = id;
             builder.name = name;
+            builder.biomeData = new ArrayList<>();
             return builder;
         }
 
@@ -208,7 +211,7 @@ public class DimensionData {
         }
 
         public Builder biome(DimensionBiomeData biomeData) {
-            this.biomeData = biomeData;
+            this.biomeData.add(biomeData);
             return this;
         }
 

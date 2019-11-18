@@ -11,8 +11,10 @@ public class DimensionBiomeData {
     private float temperature;
     private float downfall;
     private int waterColor;
+    private int grassColor;
+    private int foliageColor;
 
-    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor) {
+    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor, int grassColor, int foliageColor) {
         this.id = id;
         this.biomeName = biomeName;
         this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
@@ -21,6 +23,8 @@ public class DimensionBiomeData {
         this.temperature = temperature;
         this.downfall = downfall;
         this.waterColor = waterColor;
+        this.grassColor = grassColor;
+        this.foliageColor = foliageColor;
     }
 
     public Identifier getId() {
@@ -87,6 +91,18 @@ public class DimensionBiomeData {
         this.waterColor = waterColor;
     }
 
+    public int getGrassColor() {
+        return grassColor;
+    }
+
+    public int getFoliageColor() {
+        return foliageColor;
+    }
+
+    public void setFoliageColor(int foliageColor) {
+        this.foliageColor = foliageColor;
+    }
+
     public static class Builder {
         private Identifier id;
         private String name;
@@ -96,6 +112,8 @@ public class DimensionBiomeData {
         private float temperature;
         private float downfall;
         private int waterColor;
+        private int grassColor;
+        private int foliageColor;
 
         private Builder() {
 
@@ -153,9 +171,18 @@ public class DimensionBiomeData {
             return this;
         }
 
-        public DimensionBiomeData build() {
-            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor);
+        public Builder grassColor(int grassColor) {
+            this.grassColor = grassColor;
+            return this;
         }
 
+        public Builder setFoliageColor(int foliageColor) {
+            this.foliageColor = foliageColor;
+            return this;
+        }
+
+        public DimensionBiomeData build() {
+            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor);
+        }
     }
 }

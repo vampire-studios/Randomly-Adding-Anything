@@ -79,7 +79,7 @@ public class RegistryUtils {
         return block;
     }
 
-    public static void register(Identifier name, Biome biome) {
+    public static void registerBiome(Identifier name, Biome biome) {
         Registry.register(Registry.BIOME, name, biome);
     }
 

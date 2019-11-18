@@ -4,6 +4,8 @@ import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.MaterialsConfig;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.registries.*;
@@ -16,8 +18,16 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.source.BiomeSourceType;
+import net.minecraft.world.biome.source.TheEndBiomeSource;
+import net.minecraft.world.biome.source.TheEndBiomeSourceConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.function.Function;
 
 public class RandomlyAddingAnything implements ModInitializer {
 
@@ -36,6 +46,8 @@ public class RandomlyAddingAnything implements ModInitializer {
     public static DimensionsConfig DIMENSIONS_CONFIG;
     public static DimensionMaterialsConfig DIMENSION_MATERIALS_CONFIG;
 
+    public static BiomeSourceType<DimensionalBiomeSourceConfig, DimensionalBiomeSource> DIMENSIONAL_BIOMES;
+
     public static ModCompat MODCOMPAT;
 
     @Override
@@ -49,6 +61,19 @@ public class RandomlyAddingAnything implements ModInitializer {
         SurfaceBuilders.init();
         ChunkGenerators.init();
 
+        //Reflection hacks
+        Constructor<BiomeSourceType> constructor = null;
+        try {
+            constructor = BiomeSourceType.class.getDeclaredConstructor(Function.class, Function.class);
+            constructor.setAccessible(true);
+            DIMENSIONAL_BIOMES = constructor.newInstance((Function)DimensionalBiomeSource::new, (Function)DimensionalBiomeSourceConfig::new);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+
+//        DIMENSIONAL_BIOMES = Registry.register(Registry.BIOME_SOURCE_TYPE, "raa:gay", new BiomeSourceType(DimensionalBiomeSource::new, DimensionalBiomeSourceConfig::new));
+
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
         if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
             MATERIALS_CONFIG.generate();
@@ -56,7 +81,6 @@ public class RandomlyAddingAnything implements ModInitializer {
         } else {
             MATERIALS_CONFIG.load();
         }
-        Materials.ready = true;
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
         if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
@@ -65,7 +89,6 @@ public class RandomlyAddingAnything implements ModInitializer {
         } else {
             DIMENSIONS_CONFIG.load();
         }
-        Dimensions.ready = true;
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
         if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
@@ -74,7 +97,6 @@ public class RandomlyAddingAnything implements ModInitializer {
         } else {
             DIMENSION_MATERIALS_CONFIG.load();
         }
-        Materials.ready = true;
 
         Dimensions.createDimensions();
         Materials.generateDimensionMaterials();

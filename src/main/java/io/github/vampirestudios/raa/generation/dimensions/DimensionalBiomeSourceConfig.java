@@ -20,6 +20,11 @@ public class DimensionalBiomeSourceConfig implements BiomeSourceConfig {
         this.generatorType = levelProperties_1.getGeneratorType();
     }
 
+    public DimensionalBiomeSourceConfig(Object o) {
+        this.seed = ((LevelProperties)o).getSeed();
+        this.generatorType = ((LevelProperties)o).getGeneratorType();
+    }
+
     public DimensionalBiomeSourceConfig setGeneratorSettings(OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
         this.generatorSettings = overworldChunkGeneratorConfig_1;
         return this;

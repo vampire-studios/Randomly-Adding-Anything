@@ -202,77 +202,77 @@ public class MaterialRecipes {
             });
         });
 
-        Artifice.registerData(new Identifier(MOD_ID, "dimensional_recipe_pack"), serverResourcePackBuilder -> {
-            Materials.DIMENSION_MATERIALS.forEach(material -> {
-                System.out.println(material.getId());
-                Item repairItem = Registry.BLOCK.get(Utils.appendToPath(material.getId(), "_cobblestone")).asItem();
-                System.out.println(repairItem);
-
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_hoe"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:hoes"));
-                    shapedRecipeBuilder.pattern(
-                            "## ",
-                            " % ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_hoe"), 1);
-                });
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_shovel"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:shovels"));
-                    shapedRecipeBuilder.pattern(
-                            " # ",
-                            " % ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_shovel"), 1);
-                });
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_axe"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:axes"));
-                    shapedRecipeBuilder.pattern(
-                            "## ",
-                            "#% ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_axe"), 1);
-                });
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_pickaxe"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:pickaxes"));
-                    shapedRecipeBuilder.pattern(
-                            "###",
-                            " % ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_pickaxe"), 1);
-                });
-                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "pickaxes"), tagBuilder -> {
-                    tagBuilder.replace(false);
-                    tagBuilder.value(Utils.appendToPath(material.getId(), "_pickaxe"));
-                });
-                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "shovels"), tagBuilder -> {
-                    tagBuilder.replace(false);
-                    tagBuilder.value(Utils.appendToPath(material.getId(), "_shovel"));
-                });
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_sword"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:swords"));
-                    shapedRecipeBuilder.pattern(
-                            " # ",
-                            " # ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_sword"), 1);
-                });
-            });
-        });
+//        Artifice.registerData(new Identifier(MOD_ID, "dimensional_recipe_pack"), serverResourcePackBuilder -> {
+//            Materials.DIMENSION_MATERIALS.forEach(material -> {
+//                System.out.println(material.getId());
+//                Item repairItem = Registry.BLOCK.get(Utils.appendToPath(material.getId(), "_cobblestone")).asItem();
+//                System.out.println(repairItem);
+//
+//                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_hoe"), shapedRecipeBuilder -> {
+//                    shapedRecipeBuilder.group(new Identifier("raa:hoes"));
+//                    shapedRecipeBuilder.pattern(
+//                            "## ",
+//                            " % ",
+//                            " % "
+//                    );
+//                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
+//                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
+//                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_hoe"), 1);
+//                });
+//                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_shovel"), shapedRecipeBuilder -> {
+//                    shapedRecipeBuilder.group(new Identifier("raa:shovels"));
+//                    shapedRecipeBuilder.pattern(
+//                            " # ",
+//                            " % ",
+//                            " % "
+//                    );
+//                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
+//                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
+//                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_shovel"), 1);
+//                });
+//                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_axe"), shapedRecipeBuilder -> {
+//                    shapedRecipeBuilder.group(new Identifier("raa:axes"));
+//                    shapedRecipeBuilder.pattern(
+//                            "## ",
+//                            "#% ",
+//                            " % "
+//                    );
+//                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
+//                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
+//                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_axe"), 1);
+//                });
+//                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_pickaxe"), shapedRecipeBuilder -> {
+//                    shapedRecipeBuilder.group(new Identifier("raa:pickaxes"));
+//                    shapedRecipeBuilder.pattern(
+//                            "###",
+//                            " % ",
+//                            " % "
+//                    );
+//                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
+//                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
+//                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_pickaxe"), 1);
+//                });
+//                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "pickaxes"), tagBuilder -> {
+//                    tagBuilder.replace(false);
+//                    tagBuilder.value(Utils.appendToPath(material.getId(), "_pickaxe"));
+//                });
+//                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "shovels"), tagBuilder -> {
+//                    tagBuilder.replace(false);
+//                    tagBuilder.value(Utils.appendToPath(material.getId(), "_shovel"));
+//                });
+//                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_sword"), shapedRecipeBuilder -> {
+//                    shapedRecipeBuilder.group(new Identifier("raa:swords"));
+//                    shapedRecipeBuilder.pattern(
+//                            " # ",
+//                            " # ",
+//                            " % "
+//                    );
+//                    shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
+//                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
+//                    shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_sword"), 1);
+//                });
+//            });
+//        });
 
 
         Artifice.registerData(new Identifier(MOD_ID, "dimension_stone_pack"), serverResourcePackBuilder -> {

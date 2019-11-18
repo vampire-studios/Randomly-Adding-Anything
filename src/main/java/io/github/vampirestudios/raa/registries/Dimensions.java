@@ -22,6 +22,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
 
@@ -30,11 +31,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
+
 public class Dimensions {
     public static final Set<Identifier> DIMENSION_NAMES = new HashSet<>();
     public static final Registry<DimensionData> DIMENSIONS = new DefaultedRegistry<>("raa:dimensions");
-
-    public static boolean ready = false;
 
     public static void generate() {
         //pre generation of dimensions: basic data, flags, and name
@@ -45,7 +46,7 @@ public class Dimensions {
             int flags = generateDimensionFlags();
 
             INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
-            Pair<String, Identifier> name = nameGenerator.generateUnique(DIMENSION_NAMES, RandomlyAddingAnything.MOD_ID);
+            Pair<String, Identifier> name = nameGenerator.generateUnique(DIMENSION_NAMES, MOD_ID);
             DIMENSION_NAMES.add(name.getRight());
 
             protoDimensions.add(new ProtoDimension(name, flags, temperature, Rands.randFloat(2F)));
@@ -63,7 +64,7 @@ public class Dimensions {
         Set<ProtoDimension> usedDimensions = new HashSet<>();
         for (int i = 0; i < 10; i++) {
             INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
-            Pair<String, Identifier> name = nameGenerator.generateUnique(civNames, RandomlyAddingAnything.MOD_ID);
+            Pair<String, Identifier> name = nameGenerator.generateUnique(civNames, MOD_ID);
             civNames.add(name.getRight());
             ProtoDimension generatedDimension = Rands.list(protoDimensions);
             if (usedDimensions.contains(generatedDimension)) continue;
@@ -132,7 +133,7 @@ public class Dimensions {
             float stoneHue = hue + 0.3333f;
 
             float saturation = Rands.randFloatRange(0.5F, 1.0F);
-            float stoneSaturation = Rands.randFloatRange(0.2F, 1.0F);
+            float stoneSaturation = Rands.randFloatRange(0.2F, 0.6F);
             if (Utils.checkBitFlag(flags, Utils.DEAD)) {
                 saturation = Rands.randFloatRange(0.0F, 0.2F);
                 stoneSaturation = saturation;
@@ -153,15 +154,13 @@ public class Dimensions {
             Color STONE_COLOR = new Color(Color.HSBtoRGB(stoneColor, stoneSaturation, value));
 
 
-            Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
             DimensionChunkGenerators gen = Utils.randomCG(Rands.randIntRange(0, 100));
             if (gen == DimensionChunkGenerators.FLOATING) difficulty++;
             if (gen == DimensionChunkGenerators.CAVE) difficulty += 2;
             float scale = dimension.getScale();
-            float depth = Rands.randFloatRange(-1F, 3F);
-            if (depth < -0.5F) difficulty++;
             if (scale > 0.8) difficulty++;
             if (scale > 1.6) difficulty++;
+            Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
 
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
                     .hasSkyLight(Rands.chance(1))
@@ -175,15 +174,23 @@ public class Dimensions {
                     .mobs(difficultyAndMobs.getRight())
                     .civilizationInfluences(dimension.getCivilizationInfluences())
                     .surfaceBuilder(Rands.randInt(100));
-            DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendToPath(name.getRight(), "_biome"), name.getLeft())
-                    .surfaceBuilderVariantChance(Rands.randInt(100))
-                    .depth(depth)
-                    .scale(scale)
-                    .temperature(dimension.getTemperature())
-                    .downfall(Rands.randFloat(1F))
-                    .waterColor(WATER_COLOR.getColor())
-                    .build();
-            builder.biome(biomeData);
+
+            //TODO: make proper number generation
+
+            for (int i = 0; i < Rands.randIntRange(1, 12); i++) {
+                float grassColor = hue + Rands.randFloatRange(-0.15f, 0.15f);
+                DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendToPath(name.getRight(), "_biome" + "_" + i), name.getLeft())
+                        .surfaceBuilderVariantChance(Rands.randInt(100))
+                        .depth(Rands.randFloatRange(-1F, 3F))
+                        .scale(scale + Rands.randFloatRange(-0.75f, 0.75f))
+                        .temperature(dimension.getTemperature() + Rands.randFloatRange(-0.5f, 0.5f))
+                        .downfall(Rands.randFloat(1F))
+                        .waterColor(WATER_COLOR.getColor())
+                        .grassColor(new Color(Color.HSBtoRGB(grassColor, saturation, value)).getColor())
+                        .setFoliageColor(new Color(Color.HSBtoRGB(grassColor + Rands.randFloatRange(-0.1f, 0.1f), saturation, value)).getColor())
+                        .build();
+                builder.biome(biomeData);
+            }
             DimensionColorPalette colorPalette = DimensionColorPalette.Builder.create()
                     .skyColor(SKY_COLOR.getColor())
                     .grassColor(GRASS_COLOR.getColor())
@@ -195,30 +202,29 @@ public class Dimensions {
             DimensionData dimensionData = builder.build();
 
             Registry.register(DIMENSIONS, dimensionData.getId(), dimensionData);
-            Registry.register(Registry.BIOME, dimensionData.getId(), new CustomDimensionalBiome(dimensionData));
 
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
                 DebugUtils.dimensionDebug(dimensionData);
             }
         }
-        ready = true;
-    }
-
-    public static boolean isReady() {
-        return ready;
     }
 
     public static void createDimensions() {
         DIMENSIONS.forEach(dimension -> {
-            Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase());
-            CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension);
+            Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
+            Set<Biome> biomes = new HashSet<>();
+            for (int i = 0; i < dimension.getBiomeData().size(); i++) {
+                CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension, dimension.getBiomeData().get(i));
+                RegistryUtils.registerBiome(new Identifier(MOD_ID, dimension.getBiomeData().get(i).getName().toLowerCase() + "_" + i), biome);
+                biomes.add(biome);
+            }
             Block stoneBlock = RegistryUtils.register(new DimensionalBlock(dimension.getName(), true), Utils.appendToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
             DimensionType type = FabricDimensionType.builder()
                     .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
                     .skyLight(dimension.hasSkyLight())
-                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biome, stoneBlock))
+                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, stoneBlock))
                     .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
                     .buildAndRegister(dimension.getId());
             DimensionType dimensionType;
@@ -308,15 +314,15 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_sword")
             );
 
-            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_stone_bricks"),
+            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(MOD_ID, dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBricks");
-            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_cobblestone"),
+            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(MOD_ID, dimension.getName().toLowerCase() + "_cobblestone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestone");
-            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID, "chiseled_" + dimension.getName().toLowerCase()),
+            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(MOD_ID, "chiseled_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "chiseled");
-            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID, "polished_" + dimension.getName().toLowerCase()),
+            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(MOD_ID, "polished_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polished");
-            RegistryUtils.register(new PortalBlock(dimension, dimensionType), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"),
+            RegistryUtils.register(new PortalBlock(dimension, dimensionType), new Identifier(MOD_ID, dimension.getName().toLowerCase() + "_portal"),
                     ItemGroup.TRANSPORTATION);
         });
     }

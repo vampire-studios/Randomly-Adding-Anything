@@ -18,7 +18,7 @@ public class DebugUtils {
                 "\n\nTechnical Dimension Information" +
                         "\n##########################" +
                         "\n   Name : " + dimensionData.getName() +
-                        "\n   Biome Name : " + dimensionData.getBiomeData().getName() +
+                        "\n   Biome Name : " + dimensionData.getBiomeData().get(0).getName() +
                         "\n   Dimension ID : " + dimensionData.getDimensionId() +
                         "\n\nDimension Design Information" +
                         "\n##########################" +

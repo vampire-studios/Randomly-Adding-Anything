@@ -38,21 +38,23 @@ import java.util.Arrays;
 public class CustomDimensionalBiome extends Biome {
 
     private DimensionData dimensionData;
+    private DimensionBiomeData data;
 
-    public CustomDimensionalBiome(DimensionData dimensionData) {
+    public CustomDimensionalBiome(DimensionData dimensionData, DimensionBiomeData data) {
         super((new Biome.Settings()
                 .configureSurfaceBuilder(Utils.randomSurfaceBuilder(dimensionData.getSurfaceBuilder(), dimensionData), SurfaceBuilder.GRASS_CONFIG)
                 .precipitation(Biome.Precipitation.RAIN)
                 .category(Biome.Category.PLAINS)
-                .depth(dimensionData.getBiomeData().getDepth())
-                .scale(dimensionData.getBiomeData().getScale())
-                .temperature(dimensionData.getBiomeData().getTemperature())
-                .downfall(dimensionData.getBiomeData().getDownfall())
-                .waterColor(dimensionData.getBiomeData().getWaterColor())
-                .waterFogColor(dimensionData.getBiomeData().getWaterColor())
+                .depth(data.getDepth())
+                .scale(data.getScale())
+                .temperature(data.getTemperature())
+                .downfall(data.getDownfall())
+                .waterColor(data.getWaterColor())
+                .waterFogColor(data.getWaterColor())
                 .parent(null)
         ));
         this.dimensionData = dimensionData;
+        this.data = data;
 
         if (!(dimensionData.getDimensionChunkGenerator() == DimensionChunkGenerators.FLOATING))
             if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED) || Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED))
@@ -198,7 +200,7 @@ public class CustomDimensionalBiome extends Biome {
 //        campfireChance = 1;
 //        towerChance = 1;
 
-        // TODO fix this
+
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.TOWER.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, towerChance, 1))));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, campfireChance, 1))));
 
@@ -437,13 +439,13 @@ public class CustomDimensionalBiome extends Biome {
     @Override
     @Environment(EnvType.CLIENT)
     public int getFoliageColorAt() {
-        return dimensionData.getDimensionColorPalette().getFoliageColor();
+        return data.getFoliageColor();
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getGrassColorAt(double double_1, double double_2) {
-        return dimensionData.getDimensionColorPalette().getGrassColor();
+        return this.data.getGrassColor();
     }
 
 }
