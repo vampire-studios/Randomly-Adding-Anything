@@ -184,11 +184,11 @@ public class CustomDimensionalBiome extends Biome {
         if (dimensionData.getCivilizationInfluences().size() > 0) Rands.randFloatRange(0.003F, 0.005F);
 
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED))
-            towerChance = Rands.randFloatRange(0.002F, 0.003F);
+            outpostChance = Rands.randFloatRange(0.002F, 0.003F);
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) campfireChance = 0;
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) {
             campfireChance = Rands.randFloatRange(0.005F, 0.007F);
-            towerChance = Rands.randFloatRange(0.002F, 0.008F);
+            outpostChance = Rands.randFloatRange(0.002F, 0.008F);
         }
 
         // TODO fix this
