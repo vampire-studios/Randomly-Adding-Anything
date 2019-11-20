@@ -421,7 +421,7 @@ public class CustomDimensionalBiome extends Biome {
         if(dimensionData.getDimensionColorPalette().getSkyColor() != 0) {
             return dimensionData.getDimensionColorPalette().getSkyColor();
         } else {
-            return io.github.vampirestudios.raa.utils.Color.WHITE.getColor();
+            return Color.WHITE.getColor();
         }
     }
 
