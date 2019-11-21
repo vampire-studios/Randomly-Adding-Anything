@@ -31,6 +31,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 
 import java.util.*;
@@ -143,33 +144,41 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
+                    System.out.println(entry);
+                    System.out.println(entry.getLeft());
+                    System.out.println(entry.getRight());
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getShovelTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getShovelTexture();
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getPickaxeTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getPickaxeTexture();
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_sword"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getSwordTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getSwordTexture();
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_hoe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getHoeTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getHoeTexture();
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_shears"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
@@ -367,33 +376,38 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getShovelTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getShovelTexture();
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getPickaxeTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getPickaxeTexture();
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_sword"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getSwordTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getSwordTexture();
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_hoe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Map.Entry<Identifier, Identifier> entry = material.getTexturesInformation().getHoeTexture();
-                    modelBuilder.texture("layer0", entry.getKey());
-                    modelBuilder.texture("layer1", entry.getValue());
+                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getHoeTexture();
+                    if (entry.getLeft() == null || entry.getRight() == null) return;
+                    modelBuilder.texture("layer0", entry.getLeft());
+                    modelBuilder.texture("layer1", entry.getRight());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_shears"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));

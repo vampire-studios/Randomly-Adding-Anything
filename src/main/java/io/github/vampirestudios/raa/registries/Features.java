@@ -5,6 +5,9 @@ import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
+import io.github.vampirestudios.raa.generation.feature.tree.BentTreeFeature;
+import io.github.vampirestudios.raa.generation.feature.tree.DoubleTreeFeature;
+import io.github.vampirestudios.raa.generation.feature.tree.FixedTreeFeature;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.structure.StructurePieceType;
@@ -31,6 +34,9 @@ public class Features {
     public static SpiderLairFeature SPIDER_LAIR;
     public static SmallDeadwoodTreeFeature SMALL_DEADWOOD_TREE;
     public static LargeDeadwoodTreeFeature LARGE_DEADWOOD_TREE;
+    public static FixedTreeFeature FIXED_TREE;
+    public static BentTreeFeature BENT_TREE;
+    public static DoubleTreeFeature DOUBLE_TREE;
 
     public static void init() {
         CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
@@ -42,6 +48,9 @@ public class Features {
         SPIDER_LAIR = register("spider_lair", new SpiderLairFeature(DefaultFeatureConfig::deserialize));
         SMALL_DEADWOOD_TREE = register("small_deadwood_tree", new SmallDeadwoodTreeFeature(TreeFeatureConfig::deserialize));
         LARGE_DEADWOOD_TREE = register("large_deadwood_tree", new LargeDeadwoodTreeFeature(TreeFeatureConfig::deserialize));
+        FIXED_TREE = register("fixed_tree", new FixedTreeFeature(BranchedTreeFeatureConfig::method_23426));
+        BENT_TREE = register("bent_tree", new BentTreeFeature(BranchedTreeFeatureConfig::method_23426));
+        DOUBLE_TREE = register("double_tree", new DoubleTreeFeature(BranchedTreeFeatureConfig::method_23426));
     }
 
     public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {

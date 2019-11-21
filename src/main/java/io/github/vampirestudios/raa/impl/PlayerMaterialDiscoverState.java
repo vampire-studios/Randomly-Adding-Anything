@@ -55,31 +55,31 @@ public class PlayerMaterialDiscoverState {
         this.dimensionMaterialDiscoveryState = oreDiscoverStates2;
     }
 
-    public CompoundTag toTag(CompoundTag compoundTag) {
-        CompoundTag discoverListCompound = new CompoundTag();
-        CompoundTag discoverListInformation;
-        for (int c = 0; c < materialDiscoveryState.size(); c++) {
-            discoverListInformation = new CompoundTag();
-            discoverListInformation.putString("name", materialDiscoveryState.get(c).getMaterial().getName());
-            discoverListInformation.putInt("discoverTimes", materialDiscoveryState.get(c).getDiscoverTimes());
-            discoverListInformation.putBoolean("discovered", materialDiscoveryState.get(c).isDiscovered());
-            discoverListCompound.put("" + c + "", discoverListInformation.method_10553());
-        }
-        compoundTag.put("discoverList", discoverListCompound);
-
-
-        CompoundTag discoverListCompound2 = new CompoundTag();
-        CompoundTag discoberListInformation2;
-        for (int c = 0; c < materialDiscoveryState.size(); c++) {
-            discoberListInformation2 = new CompoundTag();
-            discoberListInformation2.putString("name2", materialDiscoveryState.get(c).getMaterial().getName());
-            discoberListInformation2.putInt("discoverTimes2", materialDiscoveryState.get(c).getDiscoverTimes());
-            discoberListInformation2.putBoolean("discovered2", materialDiscoveryState.get(c).isDiscovered());
-            discoverListCompound2.put("" + c + "", discoberListInformation2.method_10553());
-        }
-        compoundTag.put("discoverList2", discoverListCompound2);
-        return compoundTag;
-    }
+//    public CompoundTag toTag(CompoundTag compoundTag) {
+//        CompoundTag discoverListCompound = new CompoundTag();
+//        CompoundTag discoverListInformation;
+//        for (int c = 0; c < materialDiscoveryState.size(); c++) {
+//            discoverListInformation = new CompoundTag();
+//            discoverListInformation.putString("name", materialDiscoveryState.get(c).getMaterial().getName());
+//            discoverListInformation.putInt("discoverTimes", materialDiscoveryState.get(c).getDiscoverTimes());
+//            discoverListInformation.putBoolean("discovered", materialDiscoveryState.get(c).isDiscovered());
+//            discoverListCompound.put("" + c + "", discoverListInformation.method_10553());
+//        }
+//        compoundTag.put("discoverList", discoverListCompound);
+//
+//
+//        CompoundTag discoverListCompound2 = new CompoundTag();
+//        CompoundTag discoberListInformation2;
+//        for (int c = 0; c < materialDiscoveryState.size(); c++) {
+//            discoberListInformation2 = new CompoundTag();
+//            discoberListInformation2.putString("name2", materialDiscoveryState.get(c).getMaterial().getName());
+//            discoberListInformation2.putInt("discoverTimes2", materialDiscoveryState.get(c).getDiscoverTimes());
+//            discoberListInformation2.putBoolean("discovered2", materialDiscoveryState.get(c).isDiscovered());
+//            discoverListCompound2.put("" + c + "", discoberListInformation2.method_10553());
+//        }
+//        compoundTag.put("discoverList2", discoverListCompound2);
+//        return compoundTag;
+//    }
 
     public List<OreDiscoverState> getMaterialDiscoveryState() {
         return materialDiscoveryState;
