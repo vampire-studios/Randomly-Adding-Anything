@@ -114,10 +114,21 @@ public class Textures {
         for (int i = 1; i < 6; i++) {
             addTextureToList(TextureTypes.STONE_TEXTURES, "block/stone/stone_" + i);
         }
+
+        addTextureToList(TextureTypes.MOSSY_STONE_BRICKS_TEXTURES, new Identifier("block/mossy_stone_bricks"));
+        addTextureToList(TextureTypes.MOSSY_COBBLESTONE_TEXTURES, new Identifier("block/mossy_cobblestone"));
+        addTextureToList(TextureTypes.MOSSY_CHISELED_STONE_TEXTURES, new Identifier("block/chiseled_stone_bricks"));
+
+        addTextureToList(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES, new Identifier("block/chiseled_stone_bricks"));
+        addTextureToList(TextureTypes.CRACKED_STONE_BRICKS_TEXTURES, new Identifier("block/cracked_stone_bricks"));
     }
 
     private static void addTextureToList(List<Identifier> textures, String name) {
         textures.add(new Identifier(RandomlyAddingAnything.MOD_ID, name));
+    }
+
+    private static void addTextureToList(List<Identifier> textures, Identifier name) {
+        textures.add(name);
     }
 
     private static void addTexturesToMap(Map<Identifier, Identifier> textureSets, String texture1, String texture2) {
