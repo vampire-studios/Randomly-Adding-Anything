@@ -52,8 +52,6 @@ public class RandomlyAddingAnything implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        RegistryDumper.init();
-
         MODCOMPAT = new ModCompat();
         AutoConfig.register(GeneralConfig.class, JanksonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
