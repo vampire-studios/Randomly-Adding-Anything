@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.state;
+package io.github.vampirestudios.raa.world.player;
 
 import io.github.vampirestudios.raa.generation.materials.Material;
 
