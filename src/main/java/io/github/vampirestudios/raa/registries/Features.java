@@ -9,6 +9,7 @@ import io.github.vampirestudios.raa.generation.feature.tree.BentTreeFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.DoubleTreeFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.FixedTreeFeature;
 import io.github.vampirestudios.raa.utils.Utils;
+import net.fabricmc.fabric.api.registry.CommandRegistry;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
@@ -27,7 +28,7 @@ import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 public class Features {
     public static NetherrackFeature CORRUPTED_NETHRRACK;
     public static CraterFeature CRATER_FEATURE;
-    public static TowerFeature TOWER;
+    public static OutpostFeature OUTPOST;
     public static CampfireFeature CAMPFIRE;
     public static SmallSkeletalTreeFeature SMALL_SKELETON_TREE;
     public static LargeSkeletalTreeFeature LARGE_SKELETON_TREE;
@@ -37,9 +38,15 @@ public class Features {
     public static FixedTreeFeature FIXED_TREE;
     public static BentTreeFeature BENT_TREE;
     public static DoubleTreeFeature DOUBLE_TREE;
+    public static TowerFeature TOWER;
 
     public static void init() {
-        CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
+        CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
+        CORRUPTED_NETHRRACK = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "corrupted_netherrack"), new NetherrackFeature(DefaultFeatureConfig::deserialize));
+        CRATER_FEATURE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "crater_feature"), new CraterFeature(CorruptedFeatureConfig::deserialize));
+        OUTPOST = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "outpost"), new OutpostFeature(DefaultFeatureConfig::deserialize));
+        CAMPFIRE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "campfire"), new CampfireFeature(DefaultFeatureConfig::deserialize));
+        TOWER = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "tower"), new TowerFeature(DefaultFeatureConfig::deserialize));CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
         CRATER_FEATURE = register("crater_feature", new CraterFeature(CorruptedFeatureConfig::deserialize));
         TOWER = register("tower", new TowerFeature(DefaultFeatureConfig::deserialize));
         CAMPFIRE = register("campfire", new CampfireFeature(DefaultFeatureConfig::deserialize));

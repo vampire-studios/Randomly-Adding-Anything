@@ -15,6 +15,9 @@ import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -33,10 +36,8 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
                     world.setBlockState(pos.add(i, -1, j), Blocks.GRASS_PATH.getDefaultState(), 2);
             }
         }
-        if (Rands.chance(2))
-            world.setBlockState(pos.add(0, 0, 2), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH), 2);
-        if (Rands.chance(2))
-            world.setBlockState(pos.add(0, 0, -2), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH), 2);
+        if (Rands.chance(2)) world.setBlockState(pos.add(0, 0, 2), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH), 2);
+        if (Rands.chance(2)) world.setBlockState(pos.add(0, 0, -2), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH), 2);
         if (Rands.chance(4)) {
             world.setBlockState(pos, Blocks.CAMPFIRE.getDefaultState(), 2);
         } else {
@@ -48,8 +49,7 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
             world.setBlockState(pos.add(-2, 0, 0), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST)), 2);
             LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(-2, 0, 0), RAALootTables.CAMPFIRE_LOOT);
         } else {
-            if (Rands.chance(2))
-                world.setBlockState(pos.add(-2, 0, 0), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST), 2);
+            if (Rands.chance(2)) world.setBlockState(pos.add(-2, 0, 0), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST), 2);
         }
 
         Block woolBlock = Rands.values(new Block[]{Blocks.WHITE_WOOL, Blocks.ORANGE_WOOL, Blocks.MAGENTA_WOOL, Blocks.LIGHT_BLUE_WOOL,
@@ -86,14 +86,20 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
             world.setBlockState(pos.add(2, 0, 0), carpetBlock.getDefaultState(), 2);
 
             // 1/2 chance for a lantern
-            if (Rands.chance(2))
-                world.setBlockState(pos.add(3, 1, -1), Blocks.LANTERN.getDefaultState().with(Properties.HANGING, true), 2);
+            if (Rands.chance(2)) world.setBlockState(pos.add(3, 1, -1), Blocks.LANTERN.getDefaultState().with(Properties.HANGING, true), 2);
 
             world.setBlockState(pos.add(3, 0, 2), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST)), 2);
             LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(3, 0, 2), RAALootTables.CAMPFIRE_TENT_LOOT);
         } else {
-            if (Rands.chance(2))
-                world.setBlockState(pos.add(2, 0, 0), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST), 2);
+            if (Rands.chance(2)) world.setBlockState(pos.add(2, 0, 0), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST), 2);
+        }
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt", true));
+            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return true;
     }

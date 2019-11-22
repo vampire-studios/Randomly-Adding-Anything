@@ -12,12 +12,12 @@ public class CorruptedFeatureConfig implements FeatureConfig {
         this.corrupted = corrupted;
     }
 
-    public static <T> CorruptedFeatureConfig deserialize(Dynamic<T> dynamic_1) {
-        return new CorruptedFeatureConfig(dynamic_1.get("corrupted").asBoolean(false));
-    }
-
     @Override
     public <T> Dynamic<T> serialize(DynamicOps<T> dynamicOps_1) {
         return new Dynamic(dynamicOps_1, dynamicOps_1.createMap(ImmutableMap.of(dynamicOps_1.createString("corrupted"), dynamicOps_1.createBoolean(this.corrupted))));
+    }
+
+    public static <T> CorruptedFeatureConfig deserialize(Dynamic<T> dynamic_1) {
+        return new CorruptedFeatureConfig(dynamic_1.get("corrupted").asBoolean(false));
     }
 }
