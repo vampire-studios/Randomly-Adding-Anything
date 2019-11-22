@@ -33,13 +33,5 @@ public abstract class PlayerManagerMixin {
                 Objects.requireNonNull(materialDiscoveryState).add(new OreDiscoverState(material));
             }
         }
-
-        List<OreDiscoverState> dimensionMaterialDiscoveryState = discoverState.getDimensionMaterialDiscoveryState();
-        if (discoverState.isFirstConnect() || (dimensionMaterialDiscoveryState == null || dimensionMaterialDiscoveryState.isEmpty())) {
-            discoverState.setFirstConnect(true);
-            for (Material material : Materials.DIMENSION_MATERIALS) {
-                Objects.requireNonNull(dimensionMaterialDiscoveryState).add(new OreDiscoverState(material));
-            }
-        }
     }
 }
