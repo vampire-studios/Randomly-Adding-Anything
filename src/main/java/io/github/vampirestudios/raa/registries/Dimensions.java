@@ -30,6 +30,7 @@ import net.minecraft.world.dimension.DimensionType;
 import java.util.*;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
+import static io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators.*;
 
 public class Dimensions {
     public static final Set<Identifier> DIMENSION_NAMES = new HashSet<>();
@@ -154,7 +155,7 @@ public class Dimensions {
 
             DimensionChunkGenerators gen = Utils.randomCG(Rands.randIntRange(0, 100));
             if (gen == DimensionChunkGenerators.FLOATING) difficulty++;
-            if (gen == DimensionChunkGenerators.CAVE) difficulty += 2;
+            if (gen == CAVE) difficulty += 2;
             float scale = dimension.getScale();
             if (scale > 0.8) difficulty++;
             if (scale > 1.6) difficulty++;
@@ -234,12 +235,15 @@ public class Dimensions {
 
             Block stoneBlock = RegistryUtils.register(new DimensionalBlock(dimension.getName(), true), Utils.appendToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
-            DimensionType type = FabricDimensionType.builder()
+            FabricDimensionType.Builder typee = FabricDimensionType.builder()
                     .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
                     .skyLight(dimension.hasSkyLight())
-                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, stoneBlock))
-                    .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
-                    .buildAndRegister(dimension.getId());
+                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, stoneBlock));
+
+            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES) typee.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
+            else typee.defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer());
+
+            DimensionType type = typee.buildAndRegister(dimension.getId());
             DimensionType dimensionType;
             if (Registry.DIMENSION.get(dimension.getId()) == null)
                 dimensionType = Registry.register(Registry.DIMENSION, dimension.getId(), type);
