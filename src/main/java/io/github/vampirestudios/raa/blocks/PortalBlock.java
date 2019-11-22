@@ -36,11 +36,6 @@ public class PortalBlock extends Block {
     }
 
     @Override
-    public Text getName() {
-        return new TranslatableText("text.raa.block.portal", new LiteralText(dimensionData.getName()));
-    }
-
-    @Override
     public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos pos, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
         if (!world_1.isClient) {
             BlockPos playerPos = playerEntity_1.getBlockPos();
