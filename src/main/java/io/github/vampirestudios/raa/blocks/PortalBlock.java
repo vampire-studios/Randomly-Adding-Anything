@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.blocks;
 
+import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.api.dimension.PlayerPlacementHandlers;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.block.Block;
@@ -20,6 +22,8 @@ import net.minecraft.world.dimension.DimensionType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators.*;
 
 public class PortalBlock extends Block {
     private DimensionType dimensionType;
@@ -43,7 +47,7 @@ public class PortalBlock extends Block {
             if (playerPos.getX() == pos.getX() && playerPos.getZ() == pos.getZ() && playerPos.getY() == pos.getY() + 1) {
                 if (playerEntity_1.world.dimension.getType() == this.dimensionType) {
                     // coming from our custom dimension
-                    FabricDimensions.teleport(playerEntity_1, DimensionType.OVERWORLD, null);
+                    FabricDimensions.teleport(playerEntity_1, DimensionType.OVERWORLD, PlayerPlacementHandlers.OVERWORLD.getEntityPlacer());
                 } else {
                     // going to our custom dimension
                     FabricDimensions.teleport(playerEntity_1, this.dimensionType, null);
