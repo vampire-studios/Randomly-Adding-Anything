@@ -111,7 +111,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         //Generate basement
         if (pos.getY() > 10 && Rands.chance(3)) {
             placePiece(world, pos.add(0, -7, 0), 0, structures.get("tower_base"), 0);
-            PlaceRoom(world, pos.add(0, -6, 0), structures, "Storage", -2);
+            placeRoom(world, pos.add(0, -6, 0), structures, "Storage", -2);
         }
         placePiece(world, pos, 0, structures.get("tower_base"), 0);
 
@@ -135,7 +135,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 } else {
                     room_name = "Empty";
                 }
-                PlaceRoom(world, pos.add(0, 1 + level*7, 0), structures, room_name, 2*level + 2);
+                placeRoom(world, pos.add(0, 1 + level*7, 0), structures, room_name, 2*level + 2);
             }
             else { break; }
         }
@@ -241,7 +241,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
             int z = currBlockPos.get(2);
 
             //Rotate
-            Direction direction = Rotate(((rotation + (rotation%2)*2 - 1)%4 + 4)%4, 0);
+            Direction direction = rotate(((rotation + (rotation%2)*2 - 1)%4 + 4)%4, 0);
             if (rotation == 1) {
                 int temp_x = x;
                 x = piece.getSize().get(0) - 1 - z;
@@ -271,7 +271,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    public static void FillWindows(IWorld world, BlockPos pos, int fill) {
+    public static void fillWindows(IWorld world, BlockPos pos, int fill) {
         //Fill windows part-way if outside or all the way if next to blocks
         for (int i = 0; i < 4; i++) {
             float xPart = 6.5f - 5.5f * MathHelper.cos((float) (Math.PI / 2 * i));
@@ -290,7 +290,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    public static void PlaceDecos(IWorld world, BlockPos pos, int rotation, List<String> blocks, List<List<Integer>> blockPos) {
+    public static void placeDecos(IWorld world, BlockPos pos, int rotation, List<String> blocks, List<List<Integer>> blockPos) {
         if (!world.isAir(pos.add(0, -1, 0))) {
             for (int i = 0; i < blockPos.size(); i++) {
                 int x = blockPos.get(i).get(0);
@@ -302,14 +302,14 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 int xTemp = x;
                 x = (x + z)*Math.round(MathHelper.cos((float) (Math.PI / 2f * (rotation - z))));
                 z = (xTemp + z)*-Math.round(MathHelper.sin((float) (Math.PI / 2f * (rotation - z))));
-                Direction direction = Rotate(rotation, 0);
+                Direction direction = rotate(rotation, 0);
 
                 if (currBlock.equals("barrel")) {
                     int dir = new Random().nextInt(3);
                     if (dir == 0 || blocks.size() == 1) {
                         direction = Direction.UP;
                     } else {
-                        direction = Rotate(rotation, (dir + 3)%4);
+                        direction = rotate(rotation, (dir + 3)%4);
                     }
                     world.setBlockState(pos.add(x, y, z), Blocks.BARREL.getDefaultState().with(Properties.FACING, direction), 2);
                 } else if (currBlock.equals("smoker") || currBlock.equals("blast_furnace") || currBlock.equals("furnace") || currBlock.equals("wall_torch") || currBlock.equals("stonecutter")) {
@@ -355,7 +355,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     } else if (x != z) {
                         world.setBlockState(pos.add(x, y, z), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, direction).with(Properties.BLOCK_HALF, BlockHalf.TOP), 2);
                     } else {
-                        world.setBlockState(pos.add(x, y, z), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, Rotate(rotation, 2)).with(Properties.BLOCK_HALF, BlockHalf.TOP), 2);
+                        world.setBlockState(pos.add(x, y, z), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, rotate(rotation, 2)).with(Properties.BLOCK_HALF, BlockHalf.TOP), 2);
                     }
                 } else if (currBlock.equals("potted_")) {
                     String[] plants = { "white_tulip", "spruce_sapling", "red_tulip", "red_mushroom", "poppy", "pink_tulip", "oxeye_daisy", "orange_tulip",
@@ -365,7 +365,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 } else if (currBlock.equals("grindstone")) {
                     world.setBlockState(pos.add(x, y, z), Blocks.GRINDSTONE.getDefaultState().with(Properties.WALL_MOUNT_LOCATION, WallMountLocation.FLOOR), 2);
                 } else if (currBlock.equals("bell")) {
-                    world.setBlockState(pos.add(x, y, z), Blocks.BELL.getDefaultState().with(Properties.HORIZONTAL_FACING, Rotate(rotation, 2)).with(Properties.ATTACHMENT, Attachment.SINGLE_WALL), 2);
+                    world.setBlockState(pos.add(x, y, z), Blocks.BELL.getDefaultState().with(Properties.HORIZONTAL_FACING, rotate(rotation, 2)).with(Properties.ATTACHMENT, Attachment.SINGLE_WALL), 2);
                 } else if (currBlock.equals("iron_bars")) {
                     if (blocks.size() == 1) {
                         world.setBlockState(pos.add(x, y, z), Blocks.IRON_BARS.getDefaultState().with(Properties.NORTH, true).with(Properties.SOUTH, true), 2);
@@ -392,14 +392,14 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    public static void PlaceRoom(IWorld world, BlockPos pos, Map<String, JsonConverter.StructureValues> Pieces, String type, int decay) {
+    public static void placeRoom(IWorld world, BlockPos pos, Map<String, JsonConverter.StructureValues> pieces, String type, int decay) {
         //walls
-        placePiece(world, pos.add(1, 0, 1), 0, Pieces.get("tower_walls"), decay + 2);
+        placePiece(world, pos.add(1, 0, 1), 0, pieces.get("tower_walls"), decay + 2);
         //stairs/ladders
         if (Rands.chance(2)) {
-            placePiece(world, pos, new Random().nextInt(4), Pieces.get("tower_stairs"), decay - 1);
+            placePiece(world, pos, new Random().nextInt(4), pieces.get("tower_stairs"), decay - 1);
         } else {
-            placePiece(world, pos, new Random().nextInt(4), Pieces.get("tower_ladders"), decay - 1);
+            placePiece(world, pos, new Random().nextInt(4), pieces.get("tower_ladders"), decay - 1);
         }
 
         Map<List<String>, List<List<Integer>>> cornerItems = new HashMap<>();
@@ -431,7 +431,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 names = cornerItems.keySet().toArray();
                 for (int i = 0; i < 4; i++) {
                     item = (List<String>) names[rand.nextInt(5)];
-                    PlaceDecos(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
+                    placeDecos(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
                 }
 
                 //Populate center items
@@ -443,11 +443,11 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 centerItems.put(Arrays.asList("oak_fence", "oak_pressure_plate"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
                 names = centerItems.keySet().toArray();
                 item = (List<String>) names[rand.nextInt(5)];
-                PlaceDecos(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
+                placeDecos(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
                 item = (List<String>) names[rand.nextInt(5)];
-                PlaceDecos(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
+                placeDecos(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
 
-                FillWindows(world, pos, 2);
+                fillWindows(world, pos, 2);
                 break;
             case "Armory":
                 //Center iron bars
@@ -471,7 +471,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 names = cornerItems.keySet().toArray();
                 for (int i = 0; i < 4; i++) {
                     item = (List<String>) names[rand.nextInt(5)];
-                    PlaceDecos(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
+                    placeDecos(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
                 }
 
                 //Populate center items
@@ -483,11 +483,11 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 centerItems.put(Arrays.asList("armor_stand2"), Arrays.asList(Arrays.asList(0,0,0)));
                 names = centerItems.keySet().toArray();
                 item = (List<String>) names[rand.nextInt(5)];
-                PlaceDecos(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
+                placeDecos(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
                 item = (List<String>) names[rand.nextInt(5)];
-                PlaceDecos(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
+                placeDecos(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
 
-                FillWindows(world, pos, 0);
+                fillWindows(world, pos, 0);
                 break;
             case "Barracks":
                 //Center Books/Beds
@@ -501,11 +501,11 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     int x = 5 + 3*(i/2);
                     int z = 5 + 3*Math.round(MathHelper.sin((float) (Math.PI/3*i)));
                     List<String> bed_items = Arrays.asList("oak_stairs","oak_stairs",bed_sheets.get((i+1)%2),bed_sheets.get(i%2));
-                    PlaceDecos(world, pos.add(x, 0, z), (i + 1)%4, bed_items, bed_pos);
+                    placeDecos(world, pos.add(x, 0, z), (i + 1)%4, bed_items, bed_pos);
                     if (i%2 == 0) {
                         List<String> table_items = Arrays.asList("scaffolding", "oak_pressure_plate");
                         List<List<Integer>> table_pos = Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0));
-                        PlaceDecos(world, pos.add(x - 2*i + 2, 0, z), i, table_items, table_pos);
+                        placeDecos(world, pos.add(x - 2*i + 2, 0, z), i, table_items, table_pos);
                     }
                 }
 
@@ -519,7 +519,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 names = cornerItems.keySet().toArray();
                 for (int i = 0; i < 4; i++) {
                     item = (List<String>) names[rand.nextInt(5)];
-                    PlaceDecos(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
+                    placeDecos(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
                 }
 
                 //Populate center items
@@ -530,29 +530,29 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 centerItems.put(Arrays.asList("scaffolding", "lantern"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
                 names = centerItems.keySet().toArray();
                 item = (List<String>) names[rand.nextInt(4)];
-                PlaceDecos(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
+                placeDecos(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
                 item = (List<String>) names[rand.nextInt(4)];
-                PlaceDecos(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
+                placeDecos(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
 
-                FillWindows(world, pos, 1);
+                fillWindows(world, pos, 1);
                 break;
             case "Empty2":
-                FillWindows(world, pos, 1);
+                fillWindows(world, pos, 1);
                 break;
             default:
-                FillWindows(world, pos, 0);
+                fillWindows(world, pos, 0);
                 break;
         }
 
         //pillar
         if (Rands.chance(2)) {
-            placePiece(world, pos.add(6, 0, 6), 0, Pieces.get("tower_pillar"), decay);
+            placePiece(world, pos.add(6, 0, 6), 0, pieces.get("tower_pillar"), decay);
         }
     }
 
-    public static Direction Rotate(int rotation, int amount) {
+    public static Direction rotate(int rotation, int amount) {
         if (amount > 0) {
-            Direction new_dir = Rotate(rotation, amount - 1);
+            Direction new_dir = rotate(rotation, amount - 1);
             if (new_dir == Direction.WEST) {
                 return Direction.SOUTH;
             } else if (new_dir == Direction.SOUTH) {

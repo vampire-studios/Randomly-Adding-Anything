@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.api.dimension.PlayerPlacementHandlers;
+import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
@@ -171,6 +172,20 @@ public class Dimensions {
                     .mobs(difficultyAndMobs.getRight())
                     .civilizationInfluences(dimension.getCivilizationInfluences())
                     .surfaceBuilder(Rands.randInt(100));
+
+            DimensionTexturesInformation texturesInformation = DimensionTexturesInformation.Builder.create()
+                    .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
+                    .stoneBricksTexture(Rands.list(TextureTypes.STONE_BRICKS_TEXTURES))
+                    .mossyStoneBricksTexture(Rands.list(TextureTypes.MOSSY_STONE_BRICKS_TEXTURES))
+                    .crackedStoneBricksTexture(Rands.list(TextureTypes.CRACKED_STONE_BRICKS_TEXTURES))
+                    .cobblestoneTexture(Rands.list(TextureTypes.COBBLESTONE_TEXTURES))
+                    .mossyCobblestoneTexture(Rands.list(TextureTypes.MOSSY_COBBLESTONE_TEXTURES))
+                    .chiseledTexture(Rands.list(TextureTypes.CHISELED_STONE_TEXTURES))
+                    .mossyChiseledTexture(Rands.list(TextureTypes.MOSSY_CHISELED_STONE_TEXTURES))
+                    .crackedChiseledTexture(Rands.list(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES))
+                    .polishedTexture(Rands.list(TextureTypes.POLISHED_STONE_TEXTURES))
+                    .build();
+            builder.texturesInformation(texturesInformation);
 
             //TODO: make proper number generation
 

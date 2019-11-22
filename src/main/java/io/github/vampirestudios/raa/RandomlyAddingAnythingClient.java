@@ -207,7 +207,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 );
                 clientResourcePackBuilder.addBlockModel(stoneId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("block/leaves"));
-                    modelBuilder.texture("all", Rands.list(TextureTypes.STONE_TEXTURES));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getStoneTexture());
                 });
                 clientResourcePackBuilder.addItemModel(stoneId,
                         modelBuilder -> modelBuilder.parent(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())));
@@ -219,7 +219,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 );
                 clientResourcePackBuilder.addBlockModel(stoneBricksId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("block/leaves"));
-                    modelBuilder.texture("all", Rands.list(TextureTypes.STONE_BRICKS_TEXTURES));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getStoneBricksTexture());
                 });
                 clientResourcePackBuilder.addItemModel(stoneBricksId,
                         modelBuilder -> modelBuilder.parent(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())));
@@ -231,7 +231,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 );
                 clientResourcePackBuilder.addBlockModel(cobblestoneId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("block/leaves"));
-                    modelBuilder.texture("all", Rands.list(TextureTypes.COBBLESTONE_TEXTURES));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getCobblestoneTexture());
                 });
                 clientResourcePackBuilder.addItemModel(cobblestoneId,
                         modelBuilder -> modelBuilder.parent(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())));
@@ -243,7 +243,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 );
                 clientResourcePackBuilder.addBlockModel(chiseledId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("block/leaves"));
-                    modelBuilder.texture("all", Rands.list(TextureTypes.CHISELED_STONE_TEXTURES));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getChiseledTexture());
                 });
                 clientResourcePackBuilder.addItemModel(chiseledId,
                         modelBuilder -> modelBuilder.parent(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())));
@@ -255,7 +255,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 );
                 clientResourcePackBuilder.addBlockModel(polishedId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("block/leaves"));
-                    modelBuilder.texture("all", Rands.list(TextureTypes.POLISHED_STONE_TEXTURES));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getPolishedTexture());
                 });
                 clientResourcePackBuilder.addItemModel(polishedId,
                         modelBuilder -> modelBuilder.parent(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())));
