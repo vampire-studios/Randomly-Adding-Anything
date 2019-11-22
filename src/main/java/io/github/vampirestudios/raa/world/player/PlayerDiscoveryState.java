@@ -47,7 +47,7 @@ public class PlayerDiscoveryState {
             }
             int discoveredTimes = compoundTag1.getInt("discoverTimes");
             boolean discovered = compoundTag1.getBoolean("discovered");
-            oreDiscoverStates.add(new OreDiscoverState(material, discoveredTimes, discovered));
+            dimensionOreDiscoverStates.add(new OreDiscoverState(material, discoveredTimes, discovered));
         }
         this.dimensionMaterialDiscoveryState = dimensionOreDiscoverStates;
     }
