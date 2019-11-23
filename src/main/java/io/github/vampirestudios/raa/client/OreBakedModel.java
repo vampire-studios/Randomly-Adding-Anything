@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.client;
 
+import com.google.common.collect.Lists;
 import io.github.vampirestudios.raa.materials.Material;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
@@ -11,11 +12,16 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.ModelLoader;
+import net.minecraft.client.render.model.UnbakedModel;
+import net.minecraft.client.render.model.json.JsonUnbakedModel;
+import net.minecraft.client.render.model.json.ModelItemOverride;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.entity.LivingEntity;
@@ -28,7 +34,9 @@ import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static net.minecraft.block.BlockRenderLayer.CUTOUT;
@@ -235,6 +243,10 @@ public class OreBakedModel extends RAABakedModel {
 
     @Override
     public ModelItemPropertyOverrideList getItemPropertyOverrides() {
-        return new ItemProxy();
+        if (FabricLoader.getInstance().isModLoaded("optifabric")) {
+            return ItemProxy.EMPTY;
+        } else {
+            return new ItemProxy();
+        }
     }
 }
