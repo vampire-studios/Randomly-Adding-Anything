@@ -29,6 +29,7 @@ public class PlayerDiscoveryState {
             Material material = Materials.MATERIALS.get(new Identifier(RandomlyAddingAnything.MOD_ID, compoundTag1.getString("name")));
             if (material == null) {
                 System.out.println("Could not find this material : " + compoundTag1.getString("name"));
+                continue;
             }
             int discoveredTimes = compoundTag1.getInt("discoverTimes");
             boolean discovered = compoundTag1.getBoolean("discovered");
@@ -44,6 +45,7 @@ public class PlayerDiscoveryState {
             Material material = Materials.DIMENSION_MATERIALS.get(new Identifier(RandomlyAddingAnything.MOD_ID, compoundTag1.getString("name")));
             if (material == null) {
                 System.out.println("Could not find this dimension material : " + compoundTag1.getString("name"));
+                continue;
             }
             int discoveredTimes = compoundTag1.getInt("discoverTimes");
             boolean discovered = compoundTag1.getBoolean("discovered");
@@ -56,6 +58,7 @@ public class PlayerDiscoveryState {
         CompoundTag discoverListCompound = new CompoundTag();
         CompoundTag discoverListInformation;
         for (int c = 0; c < materialDiscoveryState.size(); c++) {
+            if (materialDiscoveryState.get(c) == null) continue;
             discoverListInformation = new CompoundTag();
             discoverListInformation.putString("name", materialDiscoveryState.get(c).getMaterial().getName());
             discoverListInformation.putInt("discoverTimes", materialDiscoveryState.get(c).getDiscoverTimes());
@@ -67,6 +70,7 @@ public class PlayerDiscoveryState {
         CompoundTag dimensionDiscoverListCompound = new CompoundTag();
         CompoundTag dimensionDiscoverListInformation;
         for (int c = 0; c < dimensionMaterialDiscoveryState.size(); c++) {
+            if (dimensionMaterialDiscoveryState.get(c) == null) continue;
             dimensionDiscoverListInformation = new CompoundTag();
             dimensionDiscoverListInformation.putString("name", dimensionMaterialDiscoveryState.get(c).getMaterial().getName());
             dimensionDiscoverListInformation.putInt("discoverTimes", dimensionMaterialDiscoveryState.get(c).getDiscoverTimes());
