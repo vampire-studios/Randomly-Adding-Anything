@@ -30,9 +30,13 @@ repositories {
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
-
+def buildnumber = ""
 def gittoken = System.getenv('GH_TOKEN')
-def buildnumber = System.getenv('TRAVIS_BUILD_NUMBER')
+if (System.getenv('TRAVIS_BUILD_NUMBER') == "null" || System.getenv('TRAVIS_BUILD_NUMBER') == null) {
+    buildnumber = project.beta_version
+} else {
+    buildnumber = System.getenv('TRAVIS_BUILD_NUMBER')
+}
 def buildbranch = System.getenv('TRAVIS_BRANCH')
 
 archivesBaseName = project.archives_base_name
