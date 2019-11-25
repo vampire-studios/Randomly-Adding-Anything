@@ -1,10 +1,10 @@
 package io.github.vampirestudios.raa.mixins;
 
 import io.github.vampirestudios.raa.generation.materials.Material;
-import io.github.vampirestudios.raa.impl.PlayerMaterialDiscoverProvider;
-import io.github.vampirestudios.raa.impl.PlayerMaterialDiscoverState;
+import io.github.vampirestudios.raa.world.player.PlayerDiscoveryProvider;
+import io.github.vampirestudios.raa.world.player.PlayerDiscoveryState;
 import io.github.vampirestudios.raa.registries.Materials;
-import io.github.vampirestudios.raa.state.OreDiscoverState;
+import io.github.vampirestudios.raa.world.player.OreDiscoverState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -45,16 +45,10 @@ public class ItemEntityMixin {
                         break;
                     }
                 }
-                for (Material materiale : Materials.DIMENSION_MATERIALS) {
-                    if ((materiale.getName() + "_ore").equals(Registry.ITEM.getId(itemStack.getItem()).getPath()) && Registry.ITEM.getId(itemStack.getItem()).getNamespace().equals("raa")) {
-                        material = materiale;
-                        break;
-                    }
-                }
                 if (material != null) {
-                    if (playerEntity_1 instanceof ServerPlayerEntity && playerEntity_1 instanceof PlayerMaterialDiscoverProvider) {
-                        PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider) playerEntity_1).getMaterialDiscoverState();
-                        List<OreDiscoverState> materialDiscoveryStates = discoverState.getMaterialDiscoveryState();
+                    if (playerEntity_1 instanceof ServerPlayerEntity && playerEntity_1 instanceof PlayerDiscoveryProvider) {
+                        PlayerDiscoveryState discoveryState = ((PlayerDiscoveryProvider) playerEntity_1).getDiscoveryState();
+                        List<OreDiscoverState> materialDiscoveryStates = discoveryState.getMaterialDiscoveryState();
                         for (int i = 0; i < materialDiscoveryStates.size(); i++) {
                             if (materialDiscoveryStates.get(i).getMaterial() == material) {
                                 if (!materialDiscoveryStates.get(i).isDiscovered()) {
@@ -67,16 +61,28 @@ public class ItemEntityMixin {
                                 }
                             }
                         }
-                        List<OreDiscoverState> dimensionMaterialDiscoveryStates = discoverState.getDimensionMaterialDiscoveryState();
-                        for (int i = 0; i < dimensionMaterialDiscoveryStates.size(); i++) {
-                            if (dimensionMaterialDiscoveryStates.get(i).getMaterial() == material) {
-                                if (!dimensionMaterialDiscoveryStates.get(i).isDiscovered()) {
-                                    System.out.println("You Discovered a new material!");
-                                    dimensionMaterialDiscoveryStates.set(i, dimensionMaterialDiscoveryStates.get(i).discover());
-                                } else {
-                                    for (int z = 0; z < itemStack.getCount(); z++)
-                                        System.out.println("You already discovered this material " + dimensionMaterialDiscoveryStates.get(i).getDiscoverTimes() + " time before");
-                                    dimensionMaterialDiscoveryStates.set(i, dimensionMaterialDiscoveryStates.get(i).alreadyDiscovered());
+                    }
+                } else {
+                    for (Material materiale : Materials.DIMENSION_MATERIALS) {
+                        if ((materiale.getName() + "_ore").equals(Registry.ITEM.getId(itemStack.getItem()).getPath()) && Registry.ITEM.getId(itemStack.getItem()).getNamespace().equals("raa")) {
+                            material = materiale;
+                            break;
+                        }
+                    }
+                    if (material != null) {
+                        if (playerEntity_1 instanceof ServerPlayerEntity && playerEntity_1 instanceof PlayerDiscoveryProvider) {
+                            PlayerDiscoveryState discoveryState = ((PlayerDiscoveryProvider) playerEntity_1).getDiscoveryState();
+                            List<OreDiscoverState> materialDiscoveryStates = discoveryState.getDimensionMaterialDiscoveryState();
+                            for (int i = 0; i < materialDiscoveryStates.size(); i++) {
+                                if (materialDiscoveryStates.get(i).getMaterial() == material) {
+                                    if (!materialDiscoveryStates.get(i).isDiscovered()) {
+                                        System.out.println("You Discovered a new material!");
+                                        materialDiscoveryStates.set(i, materialDiscoveryStates.get(i).discover());
+                                    } else {
+                                        for (int z = 0; z < itemStack.getCount(); z++)
+                                            System.out.println("You already discovered this dimensional material " + materialDiscoveryStates.get(i).getDiscoverTimes() + " time before");
+                                        materialDiscoveryStates.set(i, materialDiscoveryStates.get(i).alreadyDiscovered());
+                                    }
                                 }
                             }
                         }

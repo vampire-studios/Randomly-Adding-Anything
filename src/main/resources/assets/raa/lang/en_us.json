@@ -32,6 +32,7 @@
   "text.raa.item.armor_feet": "%s Boots",
   "text.raa.item.shears": "%s Shears",
   "text.raa.compat.techreborn.dust": "%s Powder",
+  "text.raa.block.portal": "%s Portal",
 
   "config.title.raa": "RAA Config",
   "config.title.raa.dimension": "RAA Config: Dimensions",
