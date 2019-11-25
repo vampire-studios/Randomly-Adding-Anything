@@ -14,6 +14,7 @@ public class DimensionData {
     private int dimensionId;
     private List<DimensionBiomeData> biomeData;
     private DimensionColorPalette dimensionColorPalette;
+    private DimensionTexturesInformation texturesInformation;
     private boolean hasSkyLight;
     private boolean hasSky;
     private boolean canSleep;
@@ -27,14 +28,15 @@ public class DimensionData {
     private int surfaceBuilder;
     private int toolDurability;
 
-    public DimensionData(Identifier id, String name, int dimensionId, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, boolean hasSkyLight, boolean hasSky,
-                         boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags, HashMap<String, int[]> mobs, int difficulty,
-                         HashMap<String, Double> civilizationInfluences, int surfaceBuilder, int toolDurability) {
+    public DimensionData(Identifier id, String name, int dimensionId, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTexturesInformation texturesInformation,
+                         boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags,
+                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int surfaceBuilder, int toolDurability) {
         this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
         this.biomeData = biomeData;
         this.dimensionColorPalette = dimensionColorPalette;
+        this.texturesInformation = texturesInformation;
         this.hasSkyLight = hasSkyLight;
         this.hasSky = hasSky;
         this.canSleep = canSleep;
@@ -71,6 +73,10 @@ public class DimensionData {
 
     public DimensionColorPalette getDimensionColorPalette() {
         return dimensionColorPalette;
+    }
+
+    public DimensionTexturesInformation getTexturesInformation() {
+        return texturesInformation;
     }
 
     public boolean hasSkyLight() {
@@ -157,6 +163,7 @@ public class DimensionData {
         private int dimensionId;
         private List<DimensionBiomeData> biomeData;
         private DimensionColorPalette dimensionColorPalette;
+        private DimensionTexturesInformation texturesInformation;
         private boolean hasSkyLight;
         private boolean hasSky;
         private boolean canSleep;
@@ -220,6 +227,11 @@ public class DimensionData {
             return this;
         }
 
+        public Builder texturesInformation(DimensionTexturesInformation texturesInformation) {
+            this.texturesInformation = texturesInformation;
+            return this;
+        }
+
         public Builder hasSkyLight(boolean hasSkyLight) {
             this.hasSkyLight = hasSkyLight;
             return this;
@@ -277,7 +289,7 @@ public class DimensionData {
         }
 
         public DimensionData build() {
-            return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags,
+            return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, texturesInformation, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags,
                     mobs, difficulty, civilizationInfluences, surfaceBuilder, toolDurability);
         }
     }

@@ -3,12 +3,14 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.api.dimension.PlayerPlacementHandlers;
+import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.*;
 import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
+import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.items.dimension.*;
 import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
@@ -26,12 +28,10 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
+import static io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators.*;
 
 public class Dimensions {
     public static final Set<Identifier> DIMENSION_NAMES = new HashSet<>();
@@ -156,7 +156,7 @@ public class Dimensions {
 
             DimensionChunkGenerators gen = Utils.randomCG(Rands.randIntRange(0, 100));
             if (gen == DimensionChunkGenerators.FLOATING) difficulty++;
-            if (gen == DimensionChunkGenerators.CAVE) difficulty += 2;
+            if (gen == CAVE) difficulty += 2;
             float scale = dimension.getScale();
             if (scale > 0.8) difficulty++;
             if (scale > 1.6) difficulty++;
@@ -174,6 +174,20 @@ public class Dimensions {
                     .mobs(difficultyAndMobs.getRight())
                     .civilizationInfluences(dimension.getCivilizationInfluences())
                     .surfaceBuilder(Rands.randInt(100));
+
+            DimensionTexturesInformation texturesInformation = DimensionTexturesInformation.Builder.create()
+                    .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
+                    .stoneBricksTexture(Rands.list(TextureTypes.STONE_BRICKS_TEXTURES))
+                    .mossyStoneBricksTexture(Rands.list(TextureTypes.MOSSY_STONE_BRICKS_TEXTURES))
+                    .crackedStoneBricksTexture(Rands.list(TextureTypes.CRACKED_STONE_BRICKS_TEXTURES))
+                    .cobblestoneTexture(Rands.list(TextureTypes.COBBLESTONE_TEXTURES))
+                    .mossyCobblestoneTexture(Rands.list(TextureTypes.MOSSY_COBBLESTONE_TEXTURES))
+                    .chiseledTexture(Rands.list(TextureTypes.CHISELED_STONE_TEXTURES))
+                    .mossyChiseledTexture(Rands.list(TextureTypes.MOSSY_CHISELED_STONE_TEXTURES))
+                    .crackedChiseledTexture(Rands.list(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES))
+                    .polishedTexture(Rands.list(TextureTypes.POLISHED_STONE_TEXTURES))
+                    .build();
+            builder.texturesInformation(texturesInformation);
 
             //TODO: make proper number generation
 
@@ -213,20 +227,26 @@ public class Dimensions {
     public static void createDimensions() {
         DIMENSIONS.forEach(dimension -> {
             Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
-            Set<Biome> biomes = new HashSet<>();
+
+            Block stoneBlock = RegistryUtils.register(new DimensionalBlock(dimension.getName(), true), Utils.appendToPath(identifier, "_stone"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
+
+            Set<Biome> biomes = new LinkedHashSet<>();
             for (int i = 0; i < dimension.getBiomeData().size(); i++) {
                 CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension, dimension.getBiomeData().get(i));
                 RegistryUtils.registerBiome(new Identifier(MOD_ID, dimension.getBiomeData().get(i).getName().toLowerCase() + "_" + i), biome);
                 biomes.add(biome);
             }
-            Block stoneBlock = RegistryUtils.register(new DimensionalBlock(dimension.getName(), true), Utils.appendToPath(identifier, "_stone"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
-            DimensionType type = FabricDimensionType.builder()
+
+            FabricDimensionType.Builder typee = FabricDimensionType.builder()
                     .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
                     .skyLight(dimension.hasSkyLight())
-                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, stoneBlock))
-                    .defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer())
-                    .buildAndRegister(dimension.getId());
+                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, stoneBlock));
+
+            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES) typee.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
+            else typee.defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer());
+
+            DimensionType type = typee.buildAndRegister(dimension.getId());
             DimensionType dimensionType;
             if (Registry.DIMENSION.get(dimension.getId()) == null)
                 dimensionType = Registry.register(Registry.DIMENSION, dimension.getId(), type);
@@ -342,8 +362,10 @@ public class Dimensions {
                             "polished_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polished");
 
-            RegistryUtils.register(new PortalBlock(dimension, dimensionType), new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"),
-                    ItemGroup.TRANSPORTATION);
+            Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimension, dimensionType),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
+            RegistryUtils.registerItem(new RAABlockItemAlt(dimension.getName(), "portal", portalBlock, new Item.Settings().group(ItemGroup.TRANSPORTATION)),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
         });
     }
 

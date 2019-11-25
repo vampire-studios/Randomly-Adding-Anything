@@ -5,6 +5,9 @@ import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
+
+import java.util.Map;
 
 public class Material {
     private OreInformation oreInformation;
@@ -280,12 +283,18 @@ public class Material {
             if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
             else nuggetTexture = null;
 
+            Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);
+            Map.Entry<Identifier, Identifier> axe = Rands.map(TextureTypes.AXES);
+            Map.Entry<Identifier, Identifier> hoe = Rands.map(TextureTypes.HOES);
+            Map.Entry<Identifier, Identifier> sword = Rands.map(TextureTypes.SWORDS);
+            Map.Entry<Identifier, Identifier> shovel = Rands.map(TextureTypes.SHOVELS);
+
             MaterialTexturesInformation texturesInformation = MaterialTexturesInformation.Builder.create()
-                    .pickaxeTexture(Rands.map(TextureTypes.PICKAXES))
-                    .axeTexture(Rands.map(TextureTypes.AXES))
-                    .hoeTexture(Rands.map(TextureTypes.HOES))
-                    .swordTexture(Rands.map(TextureTypes.SWORDS))
-                    .shovelTexture(Rands.map(TextureTypes.SHOVELS))
+                    .pickaxeTexture(new Pair<>(pickaxe.getKey(), pickaxe.getValue()))
+                    .axeTexture(new Pair<>(axe.getKey(), axe.getValue()))
+                    .hoeTexture(new Pair<>(hoe.getKey(), hoe.getValue()))
+                    .swordTexture(new Pair<>(sword.getKey(), sword.getValue()))
+                    .shovelTexture(new Pair<>(shovel.getKey(), shovel.getValue()))
                     .helmetTexture(Rands.list(TextureTypes.HELMET_TEXTURES))
                     .chestplateTexture(Rands.list(TextureTypes.CHESTPLATE_TEXTURES))
                     .leggingsTexture(Rands.list(TextureTypes.LEGGINGS_TEXTURES))

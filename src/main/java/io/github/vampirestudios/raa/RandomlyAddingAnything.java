@@ -56,6 +56,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         AutoConfig.register(GeneralConfig.class, JanksonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
         Textures.init();
+        FoliagePlacers.init();
         Features.init();
         Decorators.init();
         SurfaceBuilders.init();

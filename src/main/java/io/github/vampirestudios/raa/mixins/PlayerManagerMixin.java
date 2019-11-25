@@ -1,10 +1,10 @@
 package io.github.vampirestudios.raa.mixins;
 
 import io.github.vampirestudios.raa.generation.materials.Material;
-import io.github.vampirestudios.raa.impl.PlayerMaterialDiscoverProvider;
-import io.github.vampirestudios.raa.impl.PlayerMaterialDiscoverState;
+import io.github.vampirestudios.raa.world.player.PlayerDiscoveryProvider;
+import io.github.vampirestudios.raa.world.player.PlayerDiscoveryState;
 import io.github.vampirestudios.raa.registries.Materials;
-import io.github.vampirestudios.raa.state.OreDiscoverState;
+import io.github.vampirestudios.raa.world.player.OreDiscoverState;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,22 +21,22 @@ public abstract class PlayerManagerMixin {
 
     @Inject(at = @At("RETURN"), method = "onPlayerConnect")
     private void onPlayerConnect(ClientConnection clientConnection, ServerPlayerEntity player, CallbackInfo ci) {
-        PlayerMaterialDiscoverState discoverState = ((PlayerMaterialDiscoverProvider) player).getMaterialDiscoverState();
-        if (discoverState == null) {
-            ((PlayerMaterialDiscoverProvider) player).setMaterialDiscoverState(new PlayerMaterialDiscoverState());
-            discoverState = ((PlayerMaterialDiscoverProvider) player).getMaterialDiscoverState();
+        PlayerDiscoveryState discoveryState = ((PlayerDiscoveryProvider) player).getDiscoveryState();
+        if (discoveryState == null) {
+            ((PlayerDiscoveryProvider) player).setDiscoveryState(new PlayerDiscoveryState());
+            discoveryState = ((PlayerDiscoveryProvider) player).getDiscoveryState();
         }
-        List<OreDiscoverState> materialDiscoveryState = discoverState.getMaterialDiscoveryState();
-        if (discoverState.isFirstConnect() || (materialDiscoveryState == null || materialDiscoveryState.isEmpty())) {
-            discoverState.setFirstConnect(true);
+        List<OreDiscoverState> materialDiscoveryState = discoveryState.getMaterialDiscoveryState();
+        if (discoveryState.isFirstConnect() || (materialDiscoveryState == null || materialDiscoveryState.isEmpty())) {
+            discoveryState.setFirstConnect(true);
             for (Material material : Materials.MATERIALS) {
                 Objects.requireNonNull(materialDiscoveryState).add(new OreDiscoverState(material));
             }
         }
 
-        List<OreDiscoverState> dimensionMaterialDiscoveryState = discoverState.getDimensionMaterialDiscoveryState();
-        if (discoverState.isFirstConnect() || (dimensionMaterialDiscoveryState == null || dimensionMaterialDiscoveryState.isEmpty())) {
-            discoverState.setFirstConnect(true);
+        List<OreDiscoverState> dimensionMaterialDiscoveryState = discoveryState.getDimensionMaterialDiscoveryState();
+        if (discoveryState.isFirstConnect() || (dimensionMaterialDiscoveryState == null || dimensionMaterialDiscoveryState.isEmpty())) {
+            discoveryState.setFirstConnect(true);
             for (Material material : Materials.DIMENSION_MATERIALS) {
                 Objects.requireNonNull(dimensionMaterialDiscoveryState).add(new OreDiscoverState(material));
             }
