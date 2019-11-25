@@ -21,6 +21,9 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.surfacebuilder.SurfaceConfig;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 //Code kindly taken from The Hallow, thanks to everyone who is working on it!
@@ -80,6 +83,14 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
                     this.generateBarrowColumn(world, rand, lowY, heightOffset, posMutable, configFunction.get(x, lowY + heightOffset, z));
                 }
             }
+        }
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tomb_spawns.txt", true));
+            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return true;
     }

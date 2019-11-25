@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.*;
+import io.github.vampirestudios.raa.generation.feature.FossilFeature;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
@@ -33,6 +34,7 @@ public class Features {
     public static SmallDeadwoodTreeFeature SMALL_DEADWOOD_TREE;
     public static LargeDeadwoodTreeFeature LARGE_DEADWOOD_TREE;
     public static TowerFeature TOWER;
+    public static FossilFeature FOSSIL;
 
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
@@ -40,10 +42,15 @@ public class Features {
         CRATER_FEATURE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "crater_feature"), new CraterFeature(CorruptedFeatureConfig::deserialize));
         OUTPOST = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "outpost"), new OutpostFeature(DefaultFeatureConfig::deserialize));
         CAMPFIRE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "campfire"), new CampfireFeature(DefaultFeatureConfig::deserialize));
-        TOWER = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "tower"), new TowerFeature(DefaultFeatureConfig::deserialize));CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
+        TOWER = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "tower"), new TowerFeature(DefaultFeatureConfig::deserialize));
+        FOSSIL = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "fossil"), new FossilFeature(DefaultFeatureConfig::deserialize));
+
+        CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
         CRATER_FEATURE = register("crater_feature", new CraterFeature(CorruptedFeatureConfig::deserialize));
-        TOWER = register("tower", new TowerFeature(DefaultFeatureConfig::deserialize));
+        OUTPOST = register("outpost", new OutpostFeature(DefaultFeatureConfig::deserialize));
         CAMPFIRE = register("campfire", new CampfireFeature(DefaultFeatureConfig::deserialize));
+        TOWER = register("tower", new TowerFeature(DefaultFeatureConfig::deserialize));
+        FOSSIL = register("fossil", new FossilFeature(DefaultFeatureConfig::deserialize));
         SMALL_SKELETON_TREE = register("skeleton_tree_small", new SmallSkeletalTreeFeature(TreeFeatureConfig::deserialize));
         LARGE_SKELETON_TREE = register("skeleton_tree_large", new LargeSkeletalTreeFeature(TreeFeatureConfig::deserialize));
         SPIDER_LAIR = register("spider_lair", new SpiderLairFeature(DefaultFeatureConfig::deserialize));

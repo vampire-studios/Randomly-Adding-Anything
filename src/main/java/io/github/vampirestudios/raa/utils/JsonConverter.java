@@ -50,7 +50,11 @@ public class JsonConverter {
             String section = "";
             List<Integer> temp_list = new ArrayList<>();
 
+            int bla = 0;
+
             while (scanner.hasNextLine()) {
+                bla++;
+
                 String line = scanner.nextLine();
 
                 if (line.contains("}")) { indent_class--; }
@@ -99,6 +103,7 @@ public class JsonConverter {
                 if (line.contains("{")) { indent_class++; }
                 if (line.contains("[")) { indent_list++; }
             }
+
             return structure; //Success!
         }
         catch (Exception e) {

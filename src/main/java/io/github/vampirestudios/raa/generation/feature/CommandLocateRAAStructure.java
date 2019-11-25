@@ -46,6 +46,12 @@ public class CommandLocateRAAStructure {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt"));
             } else if (RAAstructure.equals("Campfire")) {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt"));
+            } else if (RAAstructure.equals("SpiderLair")) {
+                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt"));
+            } else if (RAAstructure.equals("Tomb")) {
+                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/tomb_spawns.txt"));
+            } else if (RAAstructure.equals("Fossil")) {
+                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt"));
             } else {
                 found = 0;
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", RAAstructure)).create();
@@ -66,9 +72,7 @@ public class CommandLocateRAAStructure {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", RAAstructure)).create();
             }
         } catch (FileNotFoundException e) {
-            source.getMinecraftServer().getPlayerManager().broadcastChatMessage(new LiteralText("ERROR: " + RAAstructure.toLowerCase() + "_spawns.txt could not be loaded").formatted(Formatting.RED), false);
             e.printStackTrace();
-            return -1;
         } catch (CommandSyntaxException | IOException e) {
             e.printStackTrace();
         }
@@ -89,7 +93,7 @@ public class CommandLocateRAAStructure {
     }
 
     public static SuggestionProvider<ServerCommandSource> suggestedStrings() {
-        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire"));
+        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil"));
     }
 
     private static CompletableFuture<Suggestions> getSuggestionsBuilder(SuggestionsBuilder builder, List<String> list) {

@@ -15,6 +15,9 @@ import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -43,6 +46,13 @@ public class SpiderLairFeature extends Feature<DefaultFeatureConfig> {
             iWorld.setBlockState(chestPos, StructurePiece.method_14916(iWorld, chestPos, Blocks.CHEST.getDefaultState()), 2);
             LootableContainerBlockEntity.setLootTable(iWorld, random, chestPos, new Identifier(RandomlyAddingAnything.MOD_ID, "chest/spider_lair"));
 
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + iWorld.getLevelProperties().getLevelName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt", true));
+                writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         } else {
             return false;

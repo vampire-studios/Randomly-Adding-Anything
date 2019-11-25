@@ -60,7 +60,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         for (float x_offset = x_origin - 14; x_offset < x_origin + 14; x_offset++) {
             for (float z_offset = z_origin - 14; z_offset < z_origin + 14; z_offset++) {
                 float y_offset = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(x_offset, 0, z_offset)).getY();
-                boolean non_spawnable = world.isAir(new BlockPos(x_offset, y_offset - 1, z_offset)) || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque());
+                boolean non_spawnable = y_offset < 5 || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque());
                 if (x_offset < x_origin + 3 && z_offset < z_origin + 3) {
                     Flatness.add(Arrays.asList(x_offset, y_offset, z_offset, 0f));
                 }
@@ -170,11 +170,19 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
             }
         }
 
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt", true));
+            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return true;
     }
 
     public static boolean TrySpawning(IWorld world, BlockPos pos) {
-        if (world.getBlockState(pos.add(0, -1, 0)).isAir()) {
+        if (pos.getY() < 5) {
             return false;
         }
         Map<Integer, Float> heights = new HashMap<>();
@@ -205,11 +213,18 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     List<Integer> tempHeights = Arrays.asList(tempHeight, tempHeight - 1, tempHeight - 2);
                     List<Float> tempFloats = Arrays.asList(1f, 0.5f, 0.25f);
                     for (int i = 0; i < 3; i++) {
-                        Float tempFreqs = heights.get(tempHeights.get(i)) + tempFloats.get(i);
-                        heights.put(tempHeights.get(i), tempFreqs);
-                        if (tempFreqs > maxFreq) {
-                            maxFreq = tempFreqs;
-                            modeHeight = tempHeights.get(i);
+                        if (tempHeight > 4 && tempHeight < 256) {
+                            //Float tempFreqs = heights.get(tempHeights.get(i)) + tempFloats.get(i);
+
+                            int test1 = tempHeights.get(i);
+                            float test2 = tempFloats.get(i);
+                            Float tempFreqs = heights.get(test1) + test2;
+
+                            heights.put(tempHeights.get(i), tempFreqs);
+                            if (tempFreqs > maxFreq) {
+                                maxFreq = tempFreqs;
+                                modeHeight = tempHeights.get(i);
+                            }
                         }
                     }
                 }
@@ -221,14 +236,6 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
 
         pos = pos.add(0, modeHeight - pos.getY(), 0);
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt", true));
-            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return  true;
     }
 
