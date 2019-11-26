@@ -25,22 +25,22 @@ public class OreFeature extends Feature<OreFeatureConfig> {
         float f = random.nextFloat() * 3.1415927F;
         float g = (float) oreFeatureConfig.size / 8.0F;
         int i = MathHelper.ceil(((float) oreFeatureConfig.size / 16.0F * 2.0F + 1.0F) / 2.0F);
-        double d = (float) blockPos.getX() + MathHelper.sin(f) * g;
-        double e = (float) blockPos.getX() - MathHelper.sin(f) * g;
-        double h = (float) blockPos.getZ() + MathHelper.cos(f) * g;
-        double j = (float) blockPos.getZ() - MathHelper.cos(f) * g;
-        double l = blockPos.getY() + random.nextInt(3) - 2;
-        double m = blockPos.getY() + random.nextInt(3) - 2;
-        int n = blockPos.getX() - MathHelper.ceil(g) - i;
-        int o = blockPos.getY() - 2 - i;
-        int p = blockPos.getZ() - MathHelper.ceil(g) - i;
-        int q = 2 * (MathHelper.ceil(g) + i);
-        int r = 2 * (2 + i);
+        double startX = (float) blockPos.getX() + MathHelper.sin(f) * g;
+        double endX = (float) blockPos.getX() - MathHelper.sin(f) * g;
+        double startZ = (float) blockPos.getZ() + MathHelper.cos(f) * g;
+        double endZ = (float) blockPos.getZ() - MathHelper.cos(f) * g;
+        double startY = blockPos.getY() + random.nextInt(3) - 2;
+        double endY = blockPos.getY() + random.nextInt(3) - 2;
+        int xPos = blockPos.getX() - MathHelper.ceil(g) - i;
+        int yPos = blockPos.getY() - 2 - i;
+        int zPos = blockPos.getZ() - MathHelper.ceil(g) - i;
+        int size = 2 * (MathHelper.ceil(g) + i);
+        int iIdk = 2 * (2 + i);
 
-        for (int s = n; s <= n + q; ++s) {
-            for (int t = p; t <= p + q; ++t) {
-                if (o <= iWorld.getTopY(Type.OCEAN_FLOOR_WG, s, t)) {
-                    return this.generateVeinPart(iWorld, random, oreFeatureConfig, d, e, h, j, l, m, n, o, p, q, r);
+        for (int x = xPos; x <= xPos + size; ++x) {
+            for (int z = zPos; z <= zPos + size; ++z) {
+                if (yPos <= iWorld.getTopY(Type.OCEAN_FLOOR_WG, x, z)) {
+                    return this.generateVeinPart(iWorld, random, oreFeatureConfig, startX, endX, startZ, endZ, startY, endY, xPos, yPos, zPos, size, iIdk);
                 }
             }
         }
@@ -48,9 +48,9 @@ public class OreFeature extends Feature<OreFeatureConfig> {
         return false;
     }
 
-    protected boolean generateVeinPart(IWorld world, Random random_1, OreFeatureConfig config, double double_1, double double_2, double double_3, double double_4, double double_5, double double_6, int int_1, int int_2, int int_3, int int_4, int int_5) {
+    protected boolean generateVeinPart(IWorld world, Random random_1, OreFeatureConfig config, double startX, double endX, double startZ, double endZ, double startY, double endY, int x, int y, int z, int size, int i) {
         int j = 0;
-        BitSet bitSet = new BitSet(int_4 * int_5 * int_4);
+        BitSet bitSet = new BitSet(size * i * size);
         Mutable mutable = new Mutable();
         double[] ds = new double[config.size * 4];
 
@@ -61,15 +61,15 @@ public class OreFeature extends Feature<OreFeatureConfig> {
         double r;
         for (m = 0; m < config.size; ++m) {
             float float_1 = (float) m / (float) config.size;
-            o = MathHelper.lerp(float_1, double_1, double_2);
-            p = MathHelper.lerp(float_1, double_5, double_6);
-            q = MathHelper.lerp(float_1, double_3, double_4);
+            o = MathHelper.lerp(float_1, startX, endX);
+            p = MathHelper.lerp(float_1, startY, endY);
+            q = MathHelper.lerp(float_1, startZ, endZ);
             r = random_1.nextDouble() * (double) config.size / 16.0D;
-            double i = ((double) (MathHelper.sin(3.1415927F * float_1) + 1.0F) * r + 1.0D) / 2.0D;
+            double iIdk = ((double) (MathHelper.sin(3.1415927F * float_1) + 1.0F) * r + 1.0D) / 2.0D;
             ds[m * 4] = o;
             ds[m * 4 + 1] = p;
             ds[m * 4 + 2] = q;
-            ds[m * 4 + 3] = i;
+            ds[m * 4 + 3] = iIdk;
         }
 
         for (m = 0; m < config.size - 1; ++m) {
@@ -98,9 +98,9 @@ public class OreFeature extends Feature<OreFeatureConfig> {
                 double u = ds[m * 4];
                 double v = ds[m * 4 + 1];
                 double w = ds[m * 4 + 2];
-                int aa = Math.max(MathHelper.floor(u - t), int_1);
-                int ab = Math.max(MathHelper.floor(v - t), int_2);
-                int ac = Math.max(MathHelper.floor(w - t), int_3);
+                int aa = Math.max(MathHelper.floor(u - t), x);
+                int ab = Math.max(MathHelper.floor(v - t), y);
+                int ac = Math.max(MathHelper.floor(w - t), z);
                 int ad = Math.max(MathHelper.floor(u + t), aa);
                 int ae = Math.max(MathHelper.floor(v + t), ab);
                 int f = Math.max(MathHelper.floor(w + t), ac);
@@ -114,13 +114,15 @@ public class OreFeature extends Feature<OreFeatureConfig> {
                                 for (int ak = ac; ak <= f; ++ak) {
                                     double al = ((double) ak + 0.5D - w) / t;
                                     if (ah * ah + aj * aj + al * al < 1.0D) {
-                                        int am = ag - int_1 + (ai - int_2) * int_4 + (ak - int_3) * int_4 * int_5;
+                                        int am = ag - x + (ai - y) * size + (ak - z) * size * i;
                                         if (!bitSet.get(am)) {
                                             bitSet.set(am);
                                             mutable.set(ag, ai, ak);
-                                            if (config.target.getCondition().test(world.getBlockState(mutable))) {
-                                                world.setBlockState(mutable, config.state, 2);
-                                                ++j;
+                                            if (config.target != null) {
+                                                if (config.target.getCondition().test(world.getBlockState(mutable))) {
+                                                    world.setBlockState(mutable, config.state, 2);
+                                                    j++;
+                                                }
                                             }
                                         }
                                     }

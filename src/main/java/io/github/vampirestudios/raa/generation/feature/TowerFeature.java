@@ -1,9 +1,9 @@
 package io.github.vampirestudios.raa.generation.feature;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
-
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.block.enums.Attachment;
@@ -11,6 +11,9 @@ import net.minecraft.block.enums.BlockHalf;
 import net.minecraft.block.enums.WallMountLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
@@ -36,12 +39,12 @@ import java.util.function.Function;
 public class TowerFeature extends Feature<DefaultFeatureConfig> {
     JsonConverter converter = new JsonConverter();
     Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
-        put("tower_base", converter.LoadStructure("tower/tower_base.json"));
-        put("tower_walls", converter.LoadStructure("tower/tower_walls.json"));
-        put("tower_stairs", converter.LoadStructure("tower/tower_stairs.json"));
-        put("tower_ladders", converter.LoadStructure("tower/tower_ladders.json"));
-        put("tower_pillar", converter.LoadStructure("tower/tower_pillar.json"));
-        put("tower_roof", converter.LoadStructure("tower/tower_roof.json"));
+        put("tower_base", converter.loadStructure("tower/tower_base.json"));
+        put("tower_walls", converter.loadStructure("tower/tower_walls.json"));
+        put("tower_stairs", converter.loadStructure("tower/tower_stairs.json"));
+        put("tower_ladders", converter.loadStructure("tower/tower_ladders.json"));
+        put("tower_pillar", converter.loadStructure("tower/tower_pillar.json"));
+        put("tower_roof", converter.loadStructure("tower/tower_roof.json"));
     }};
 
     public TowerFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
@@ -56,27 +59,27 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         int y_origin = pos.getY();
         int z_origin = pos.getZ();
 
-        List<List<Float>> Flatness = new ArrayList<>();
+        List<List<Float>> flatnessList = new ArrayList<>();
         for (float x_offset = x_origin - 14; x_offset < x_origin + 14; x_offset++) {
             for (float z_offset = z_origin - 14; z_offset < z_origin + 14; z_offset++) {
                 float y_offset = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(x_offset, 0, z_offset)).getY();
                 boolean non_spawnable = world.isAir(new BlockPos(x_offset, y_offset - 1, z_offset)) || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque());
                 if (x_offset < x_origin + 3 && z_offset < z_origin + 3) {
-                    Flatness.add(Arrays.asList(x_offset, y_offset, z_offset, 0f));
+                    flatnessList.add(Arrays.asList(x_offset, y_offset, z_offset, 0f));
                 }
-                for (int i = 0; i < Flatness.size(); i++) {
-                    if (Math.pow(( x_offset - Flatness.get(i).get(0)) - 5.5f, 2) + Math.pow(z_offset - Flatness.get(i).get(2) - 5.5f, 2) < Math.pow(6, 2)) {
-                        if (y_offset > Flatness.get(i).get(1) - 3 && y_offset <= Flatness.get(i).get(1)) {
-                            if (y_offset == Flatness.get(i).get(1)) {
-                                Flatness.get(i).set(3, Flatness.get(i).get(3) + 1f);
-                            } else if (y_offset == Flatness.get(i).get(1) - 1) {
-                                Flatness.get(i).set(3, Flatness.get(i).get(3) + 0.5f);
+                for (List<Float> flatness : flatnessList) {
+                    if (Math.pow((x_offset - flatness.get(0)) - 5.5f, 2) + Math.pow(z_offset - flatness.get(2) - 5.5f, 2) < Math.pow(6, 2)) {
+                        if (y_offset > flatness.get(1) - 3 && y_offset <= flatness.get(1)) {
+                            if (y_offset == flatness.get(1)) {
+                                flatness.set(3, flatness.get(3) + 1f);
+                            } else if (y_offset == flatness.get(1) - 1) {
+                                flatness.set(3, flatness.get(3) + 0.5f);
                             } else {
-                                Flatness.get(i).set(3, Flatness.get(i).get(3) + 0.25f);
+                                flatness.set(3, flatness.get(3) + 0.25f);
                             }
                         }
                         if (non_spawnable) {
-                            Flatness.get(i).set(3, -144f);
+                            flatness.set(3, -144f);
                         }
                     }
                 }
@@ -84,19 +87,19 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
         float max_flatness = -1;
         int chosen = -1;
-        for (int i = 0; i < Flatness.size(); i++) {
-            if (Flatness.get(i).get(3) > max_flatness) {
-                max_flatness = Flatness.get(i).get(3);
+        for (int i = 0; i < flatnessList.size(); i++) {
+            if (flatnessList.get(i).get(3) > max_flatness) {
+                max_flatness = flatnessList.get(i).get(3);
                 chosen = i;
             }
         }
         boolean working_spawn = false;
         if (chosen != -1) {
-            int x_chosen = Flatness.get(chosen).get(0).intValue();
-            int y_chosen = Flatness.get(chosen).get(1).intValue();
-            int z_chosen = Flatness.get(chosen).get(2).intValue();
+            int x_chosen = flatnessList.get(chosen).get(0).intValue();
+            int y_chosen = flatnessList.get(chosen).get(1).intValue();
+            int z_chosen = flatnessList.get(chosen).get(2).intValue();
             pos = new BlockPos(x_chosen, y_chosen, z_chosen);
-            working_spawn = TrySpawning(world, pos);
+            working_spawn = trySpawning(world, pos);
         }
 
         if (!working_spawn || pos.getY() > 247) {
@@ -173,7 +176,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         return true;
     }
 
-    public static boolean TrySpawning(IWorld world, BlockPos pos) {
+    public static boolean trySpawning(IWorld world, BlockPos pos) {
         if (world.getBlockState(pos.add(0, -1, 0)).isAir()) {
             return false;
         }
@@ -233,9 +236,9 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public static void placePiece(IWorld world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, int decay) {
-        for (int i = 0; i < piece.getBlock_positions().size(); i++) {
-            List<Integer> currBlockPos = piece.getBlock_positions().get(i);
-            String currBlockType = piece.getBlock_types().get(piece.getBlock_states().get(i));
+        for (int i = 0; i < piece.getBlockPositions().size(); i++) {
+            List<Integer> currBlockPos = piece.getBlockPositions().get(i);
+            String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
             int x = currBlockPos.get(0);
             int y = currBlockPos.get(1);
             int z = currBlockPos.get(2);
@@ -290,7 +293,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    public static void placeDecos(IWorld world, BlockPos pos, int rotation, List<String> blocks, List<List<Integer>> blockPos) {
+    public static void placeDecoration(IWorld world, BlockPos pos, int rotation, List<String> blocks, List<List<Integer>> blockPos) {
         if (!world.isAir(pos.add(0, -1, 0))) {
             for (int i = 0; i < blockPos.size(); i++) {
                 int x = blockPos.get(i).get(0);
@@ -345,6 +348,46 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                             stand_rotation = 45f;
                         }
                     } else {
+                        List<ItemStack> helmets = new ArrayList<>(
+                            ImmutableList.of(
+                                new ItemStack(Items.LEATHER_HELMET),
+                                new ItemStack(Items.CHAINMAIL_HELMET),
+                                new ItemStack(Items.GOLDEN_HELMET),
+                                new ItemStack(Items.IRON_HELMET),
+                                new ItemStack(Items.DIAMOND_HELMET)
+                            )
+                        );
+                        List<ItemStack> chestplates = new ArrayList<>(
+                                ImmutableList.of(
+                                        new ItemStack(Items.LEATHER_CHESTPLATE),
+                                        new ItemStack(Items.CHAINMAIL_CHESTPLATE),
+                                        new ItemStack(Items.GOLDEN_CHESTPLATE),
+                                        new ItemStack(Items.IRON_CHESTPLATE),
+                                        new ItemStack(Items.DIAMOND_CHESTPLATE)
+                                )
+                        );
+                        List<ItemStack> leggings = new ArrayList<>(
+                                ImmutableList.of(
+                                        new ItemStack(Items.LEATHER_LEGGINGS),
+                                        new ItemStack(Items.CHAINMAIL_LEGGINGS),
+                                        new ItemStack(Items.GOLDEN_LEGGINGS),
+                                        new ItemStack(Items.IRON_LEGGINGS),
+                                        new ItemStack(Items.DIAMOND_LEGGINGS)
+                                )
+                        );
+                        List<ItemStack> boots = new ArrayList<>(
+                                ImmutableList.of(
+                                        new ItemStack(Items.LEATHER_BOOTS),
+                                        new ItemStack(Items.CHAINMAIL_BOOTS),
+                                        new ItemStack(Items.GOLDEN_BOOTS),
+                                        new ItemStack(Items.IRON_BOOTS),
+                                        new ItemStack(Items.DIAMOND_BOOTS)
+                                )
+                        );
+                        armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
+                        armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));
+                        armorStand.equipStack(EquipmentSlot.LEGS, Rands.list(leggings));
+                        armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
                         //Put armor on the stand
                     }
                     armorStand.setPositionAndAngles(pos.add(x, y, z), stand_rotation, 0f);
@@ -431,7 +474,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 names = cornerItems.keySet().toArray();
                 for (int i = 0; i < 4; i++) {
                     item = (List<String>) names[rand.nextInt(5)];
-                    placeDecos(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
+                    placeDecoration(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
                 }
 
                 //Populate center items
@@ -443,9 +486,9 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 centerItems.put(Arrays.asList("oak_fence", "oak_pressure_plate"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
                 names = centerItems.keySet().toArray();
                 item = (List<String>) names[rand.nextInt(5)];
-                placeDecos(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
+                placeDecoration(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
                 item = (List<String>) names[rand.nextInt(5)];
-                placeDecos(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
+                placeDecoration(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
 
                 fillWindows(world, pos, 2);
                 break;
@@ -471,7 +514,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 names = cornerItems.keySet().toArray();
                 for (int i = 0; i < 4; i++) {
                     item = (List<String>) names[rand.nextInt(5)];
-                    placeDecos(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
+                    placeDecoration(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
                 }
 
                 //Populate center items
@@ -483,9 +526,9 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 centerItems.put(Arrays.asList("armor_stand2"), Arrays.asList(Arrays.asList(0,0,0)));
                 names = centerItems.keySet().toArray();
                 item = (List<String>) names[rand.nextInt(5)];
-                placeDecos(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
+                placeDecoration(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
                 item = (List<String>) names[rand.nextInt(5)];
-                placeDecos(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
+                placeDecoration(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
 
                 fillWindows(world, pos, 0);
                 break;
@@ -501,11 +544,11 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     int x = 5 + 3*(i/2);
                     int z = 5 + 3*Math.round(MathHelper.sin((float) (Math.PI/3*i)));
                     List<String> bed_items = Arrays.asList("oak_stairs","oak_stairs",bed_sheets.get((i+1)%2),bed_sheets.get(i%2));
-                    placeDecos(world, pos.add(x, 0, z), (i + 1)%4, bed_items, bed_pos);
+                    placeDecoration(world, pos.add(x, 0, z), (i + 1)%4, bed_items, bed_pos);
                     if (i%2 == 0) {
                         List<String> table_items = Arrays.asList("scaffolding", "oak_pressure_plate");
                         List<List<Integer>> table_pos = Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0));
-                        placeDecos(world, pos.add(x - 2*i + 2, 0, z), i, table_items, table_pos);
+                        placeDecoration(world, pos.add(x - 2*i + 2, 0, z), i, table_items, table_pos);
                     }
                 }
 
@@ -519,7 +562,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 names = cornerItems.keySet().toArray();
                 for (int i = 0; i < 4; i++) {
                     item = (List<String>) names[rand.nextInt(5)];
-                    placeDecos(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
+                    placeDecoration(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
                 }
 
                 //Populate center items
@@ -530,9 +573,9 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 centerItems.put(Arrays.asList("scaffolding", "lantern"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
                 names = centerItems.keySet().toArray();
                 item = (List<String>) names[rand.nextInt(4)];
-                placeDecos(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
+                placeDecoration(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
                 item = (List<String>) names[rand.nextInt(4)];
-                placeDecos(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
+                placeDecoration(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
 
                 fillWindows(world, pos, 1);
                 break;

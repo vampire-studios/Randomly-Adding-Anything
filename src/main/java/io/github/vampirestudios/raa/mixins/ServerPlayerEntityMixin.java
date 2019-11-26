@@ -35,4 +35,5 @@ public class ServerPlayerEntityMixin implements PlayerDiscoveryProvider {
     public void setDiscoveryState(PlayerDiscoveryState playerDiscoverState) {
         this.playerDiscoveryState = playerDiscoverState;
     }
+
 }

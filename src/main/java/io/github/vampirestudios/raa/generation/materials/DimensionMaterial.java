@@ -3,117 +3,32 @@ package io.github.vampirestudios.raa.generation.materials;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
 import java.util.Map;
 
-public class Material {
-    private OreInformation oreInformation;
-    private Identifier id;
-    private String name;
-    private MaterialTexturesInformation texturesInformation;
-    private int color;
-    private int miningLevel;
-    private boolean armor;
-    private CustomArmorMaterial armorMaterial;
-    private boolean tools;
-    private boolean weapons;
-    private CustomToolMaterial toolMaterial;
-    private boolean glowing;
-    private boolean oreFlower;
-    private boolean food;
+public class DimensionMaterial extends Material {
 
-    Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor, boolean tools,
-                     boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
-        this(oreInformation, id, name, texturesInformation, color, miningLevel, armor, null, tools, weapons, null, glowing, oreFlower, food);
+    private DimensionData dimensionData;
 
-        if (this.tools || this.weapons) {
-            this.toolMaterial = CustomToolMaterial.generate(id, getOreInformation().getOreType(), miningLevel);
-        }
-        if (this.armor) {
-            this.armorMaterial = CustomArmorMaterial.generate(id, getOreInformation().getOreType());
-        }
+    DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
+                      boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, DimensionData dimensionData) {
+        super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, tools, weapons, glowing, oreFlower, food);
+        this.dimensionData = dimensionData;
     }
 
-    Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
-                     CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
-        this.oreInformation = oreInformation;
-        this.id = id;
-        this.name = name;
-        this.color = color;
-        this.miningLevel = miningLevel;
-        this.texturesInformation = texturesInformation;
-        this.armor = armor;
-        this.armorMaterial = armorMaterial;
-        this.tools = tools;
-        this.weapons = weapons;
-        this.toolMaterial = toolMaterial;
-        this.glowing = glowing;
-        this.oreFlower = oreFlower;
-        this.food = food;
+    DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
+                              CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
+                      DimensionData dimensionData) {
+        super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
+        this.dimensionData = dimensionData;
     }
 
-    public OreInformation getOreInformation() {
-        return oreInformation;
-    }
-
-    public Identifier getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name.toLowerCase();
-    }
-
-    @Deprecated
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public MaterialTexturesInformation getTexturesInformation() {
-        return texturesInformation;
-    }
-
-    public int getRGBColor() {
-        return color;
-    }
-
-    public boolean hasArmor() {
-        return armor;
-    }
-
-    public boolean hasTools() {
-        return tools;
-    }
-
-    public boolean hasWeapons() {
-        return weapons;
-    }
-
-    public boolean isGlowing() {
-        return glowing;
-    }
-
-    public boolean hasOreFlower() {
-        return oreFlower;
-    }
-
-    public boolean hasFood() {
-        return food;
-    }
-
-    public CustomToolMaterial getToolMaterial() {
-        return toolMaterial;
-    }
-
-    public CustomArmorMaterial getArmorMaterial() {
-        return armorMaterial;
-    }
-
-    public int getMiningLevel() {
-        return miningLevel;
+    public DimensionData getDimensionData() {
+        return dimensionData;
     }
 
     public static class Builder {
@@ -136,6 +51,7 @@ public class Material {
         private int maxXPAmount = 10;
         private int oreClusterSize = 9;
         private int miningLevel;
+        private DimensionData dimensionData;
 
         protected Builder() {
             oreCount = Rands.randInt(19) + 1;
@@ -252,7 +168,12 @@ public class Material {
             return this;
         }
 
-        public Material build() {
+        public Builder dimensionData(DimensionData dimensionData) {
+            this.dimensionData = dimensionData;
+            return this;
+        }
+
+        public DimensionMaterial build() {
             if (id == null || name == null) {
                 throw new IllegalStateException("A Material must not have a null name or identifier");
             }
@@ -308,7 +229,7 @@ public class Material {
 
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
-            return new Material(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
+            return new DimensionMaterial(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, dimensionData);
         }
     }
 

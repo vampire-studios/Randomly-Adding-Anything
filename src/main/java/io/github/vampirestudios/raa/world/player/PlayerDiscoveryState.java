@@ -3,7 +3,6 @@ package io.github.vampirestudios.raa.world.player;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
-import io.github.vampirestudios.raa.world.player.OreDiscoverState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 
@@ -63,7 +62,7 @@ public class PlayerDiscoveryState {
             discoverListInformation.putString("name", materialDiscoveryState.get(c).getMaterial().getName());
             discoverListInformation.putInt("discoverTimes", materialDiscoveryState.get(c).getDiscoverTimes());
             discoverListInformation.putBoolean("discovered", materialDiscoveryState.get(c).isDiscovered());
-            discoverListCompound.put("" + c + "", discoverListInformation.method_10553());
+            discoverListCompound.put("" + c + "", discoverListInformation.copy());
         }
         compoundTag.put("materialDiscoverList", discoverListCompound);
 
@@ -75,7 +74,7 @@ public class PlayerDiscoveryState {
             dimensionDiscoverListInformation.putString("name", dimensionMaterialDiscoveryState.get(c).getMaterial().getName());
             dimensionDiscoverListInformation.putInt("discoverTimes", dimensionMaterialDiscoveryState.get(c).getDiscoverTimes());
             dimensionDiscoverListInformation.putBoolean("discovered", dimensionMaterialDiscoveryState.get(c).isDiscovered());
-            dimensionDiscoverListCompound.put("" + c + "", dimensionDiscoverListInformation.method_10553());
+            dimensionDiscoverListCompound.put("" + c + "", dimensionDiscoverListInformation.copy());
         }
         compoundTag.put("dimensionMaterialDiscoverList", dimensionDiscoverListCompound);
         return compoundTag;

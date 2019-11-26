@@ -14,7 +14,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.feature.FeatureConfig;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -23,10 +22,10 @@ public class OreFeatureConfig implements FeatureConfig {
     public final int size;
     public final BlockState state;
 
-    public OreFeatureConfig(OreFeatureConfig.Target oreFeatureConfig$Target_1, BlockState blockState_1, int int_1) {
-        this.size = int_1;
-        this.state = blockState_1;
-        this.target = oreFeatureConfig$Target_1;
+    public OreFeatureConfig(Target target, BlockState state, int size) {
+        this.size = size;
+        this.state = state;
+        this.target = target;
     }
 
     public static OreFeatureConfig deserialize(Dynamic<?> dynamic) {
@@ -74,18 +73,12 @@ public class OreFeatureConfig implements FeatureConfig {
         public static final Target END_STONE = RegistryUtils.registerOreTarget("end_stone", new BlockPredicate(Blocks.END_STONE));
 
         private static final List<Target> VALUES = RAARegistery.TARGET_REGISTRY.stream().collect(Collectors.toList());
-        private static final Map<String, OreFeatureConfig.Target> nameMap = VALUES.stream().collect(Collectors.toMap(OreFeatureConfig.Target::getName,
-                (target) -> target));
         private final String name;
         private final Predicate<BlockState> predicate;
 
         public Target(String name, Predicate<BlockState> predicate) {
             this.name = name;
             this.predicate = predicate;
-        }
-
-        public static OreFeatureConfig.Target byName(String name) {
-            return nameMap.get(name);
         }
 
         public String getName() {

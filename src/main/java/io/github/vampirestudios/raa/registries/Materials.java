@@ -7,6 +7,7 @@ import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
@@ -31,7 +32,7 @@ public class Materials {
     public static final Set<Identifier> MATERIAL_IDS = new HashSet<>();
     public static final Registry<Material> MATERIALS = new DefaultedRegistry<>("materials");
     public static final Set<Identifier> DIMENSION_MATERIAL_IDS = new HashSet<>();
-    public static final Registry<Material> DIMENSION_MATERIALS = new DefaultedRegistry<>("dimension_materials");
+    public static final Registry<DimensionMaterial> DIMENSION_MATERIALS = new DefaultedRegistry<>("dimension_materials");
     public static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
     public static boolean ready = false;
     public static boolean dimensionReady = false;
@@ -100,7 +101,7 @@ public class Materials {
                         )
                 );
 
-                Material material = Material.Builder.create(id, name)
+                DimensionMaterial material = DimensionMaterial.Builder.create(id, name)
                         .oreType(Rands.values(OreType.values()))
                         .color(RGB.getColor())
                         .generatesIn(generatesIn)
@@ -113,6 +114,7 @@ public class Materials {
                         .maxXPAmount(Rands.randIntRange(0, 4))
                         .oreClusterSize(Rands.randIntRange(2, 6))
                         .food(Rands.chance(4))
+                        .dimensionData(dimensionData)
                         .build();
 
                 Registry.register(DIMENSION_MATERIALS, id, material);
