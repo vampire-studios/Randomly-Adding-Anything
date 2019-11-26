@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.api.enums;
 
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
@@ -39,11 +38,6 @@ public class GeneratesIn {
     private Identifier identifier;
     private Block block;
     private OreFeatureConfig.Target target;
-
-    // This is private because this is only for adding easily
-    private GeneratesIn(String identifier, Block block, OreFeatureConfig.Target target) {
-        this(new Identifier(RandomlyAddingAnything.MOD_ID, Objects.requireNonNull(identifier)), block, target);
-    }
 
     public GeneratesIn(Identifier identifier, Block block, OreFeatureConfig.Target target) {
         this.identifier = Objects.requireNonNull(identifier);

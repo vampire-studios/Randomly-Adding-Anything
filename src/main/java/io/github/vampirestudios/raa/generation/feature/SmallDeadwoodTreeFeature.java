@@ -51,13 +51,6 @@ public class SmallDeadwoodTreeFeature extends AbstractTreeFeature<TreeFeatureCon
     }
 
     @Override
-    public boolean generate(IWorld iWorld, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig) {
-        if (iWorld.getBlockState(blockPos.add(0, -1, 0)).isAir() || !iWorld.getBlockState(blockPos.add(0, -1, 0)).isOpaque())
-            return true;
-        return this.generate(iWorld, new Random(), blockPos, Sets.newTreeSet(), Sets.newTreeSet(), BlockBox.empty(), treeFeatureConfig);
-    }
-
-    @Override
     public boolean generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BlockPos blockPos, Set<BlockPos> set, Set<BlockPos> set1, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig) {
         int height = Rands.randInt(4) + 5;
         blockPos = modifiableTestableWorld.getTopPosition(Heightmap.Type.OCEAN_FLOOR, blockPos);

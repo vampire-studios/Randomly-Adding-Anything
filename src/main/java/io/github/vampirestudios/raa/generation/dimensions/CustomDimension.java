@@ -14,16 +14,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeSourceType;
-import net.minecraft.world.biome.source.FixedBiomeSource;
-import net.minecraft.world.biome.source.FixedBiomeSourceConfig;
-import net.minecraft.world.biome.source.VanillaLayeredBiomeSourceConfig;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class CustomDimension extends Dimension {
@@ -69,7 +64,7 @@ public class CustomDimension extends Dimension {
         if (boolean_1 && !blockState_1.getBlock().matches(BlockTags.VALID_SPAWN)) {
             return null;
         } else {
-            WorldChunk worldChunk_1 = this.world.method_8497(int_1 >> 4, int_2 >> 4);
+            WorldChunk worldChunk_1 = this.world.getChunk(int_1 >> 4, int_2 >> 4);
             int int_3 = worldChunk_1.sampleHeightmap(Heightmap.Type.MOTION_BLOCKING, int_1 & 15, int_2 & 15);
             if (int_3 < 0) {
                 return null;

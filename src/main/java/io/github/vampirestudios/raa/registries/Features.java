@@ -41,6 +41,7 @@ public class Features {
     public static DoubleTreeFeature DOUBLE_TREE;
     public static TowerFeature TOWER;
     public static FossilFeature FOSSIL;
+    public static PortalHubFeature PORTAL_HUB;
 
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
@@ -62,9 +63,10 @@ public class Features {
         SPIDER_LAIR = register("spider_lair", new SpiderLairFeature(DefaultFeatureConfig::deserialize));
         SMALL_DEADWOOD_TREE = register("small_deadwood_tree", new SmallDeadwoodTreeFeature(TreeFeatureConfig::deserialize));
         LARGE_DEADWOOD_TREE = register("large_deadwood_tree", new LargeDeadwoodTreeFeature(TreeFeatureConfig::deserialize));
-        FIXED_TREE = register("fixed_tree", new FixedTreeFeature(BranchedTreeFeatureConfig::method_23426));
-        BENT_TREE = register("bent_tree", new BentTreeFeature(BranchedTreeFeatureConfig::method_23426));
-        DOUBLE_TREE = register("double_tree", new DoubleTreeFeature(BranchedTreeFeatureConfig::method_23426));
+        FIXED_TREE = register("fixed_tree", new FixedTreeFeature(BranchedTreeFeatureConfig::deserialize2));
+        BENT_TREE = register("bent_tree", new BentTreeFeature(BranchedTreeFeatureConfig::deserialize2));
+        DOUBLE_TREE = register("double_tree", new DoubleTreeFeature(BranchedTreeFeatureConfig::deserialize2));
+        PORTAL_HUB = register("portal_hub", new PortalHubFeature(DefaultFeatureConfig::deserialize));
     }
 
     public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {
