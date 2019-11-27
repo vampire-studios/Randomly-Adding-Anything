@@ -50,7 +50,7 @@ public class JsonConverter {
             int indentClass = 0;
             int indentList = 0;
             String section = "";
-            String property = "bla";
+            String property = "";
             List<Integer> tempList = new ArrayList<>();
             Map<String, String> tempMap = new HashMap<>();
 
@@ -119,7 +119,7 @@ public class JsonConverter {
         }
         catch (Exception e) {
             e.printStackTrace();
-            return structure; //Something went wrong
+            return null; //Something went wrong
         }
     }
 }
