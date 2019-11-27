@@ -253,13 +253,13 @@ public class WoodRegistry {
         }
 
         public Builder fence() {
-            woodRegistry.fence = RegistryUtils.register(new FenceBaseBlock(FabricBlockSettings.copy(woodRegistry.planks).build()),
+            woodRegistry.fence = RegistryUtils.register(new FenceBlock(FabricBlockSettings.copy(woodRegistry.planks).build()),
                     new Identifier(name.getNamespace(), name.getPath() + "_fence"), ItemGroup.DECORATIONS);
             return this;
         }
 
         public Builder fenceGate() {
-            woodRegistry.fenceGate = RegistryUtils.register(new FenceGateBaseBlock(FabricBlockSettings.copy(woodRegistry.planks).build()),
+            woodRegistry.fenceGate = RegistryUtils.register(new FenceGateBlock(FabricBlockSettings.copy(woodRegistry.planks).build()),
                     new Identifier(name.getNamespace(), name.getPath() + "_fence_gate"), ItemGroup.REDSTONE);
             return this;
         }

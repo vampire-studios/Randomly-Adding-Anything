@@ -35,7 +35,6 @@ public enum DimensionChunkGenerators {
         FloatingIslandsChunkGeneratorConfig floatingConfig = new FloatingIslandsChunkGeneratorConfig();
         floatingConfig.setDefaultBlock(stoneBlock.getDefaultState());
 
-
         if (this == CAVE) return ChunkGeneratorType.CAVES.create(world, biomeSource, caveConfig);
         if (this == FLAT_CAVES) return ChunkGenerators.FLAT_CAVES.create(world, biomeSource, caveConfig);
         if (this == HIGH_CAVES) return ChunkGenerators.HIGH_CAVES.create(world, biomeSource, caveConfig);

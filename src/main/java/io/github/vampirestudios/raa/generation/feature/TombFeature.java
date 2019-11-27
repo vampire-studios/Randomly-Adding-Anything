@@ -47,7 +47,7 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
             return true;
         final BiomeSource source = chunkGenerator.getBiomeSource();
 
-        return this.generate(world, rand, pos.add(0, -3, 0), (x, y, z) -> source.getStoredBiome(x, y, z).getSurfaceConfig());
+        return this.generate(world, rand, pos.add(0, -3, 0), (x, y, z) -> source.getBiomeForNoiseGen(x, y, z).getSurfaceConfig());
     }
 
     private boolean generate(IWorld world, Random rand, BlockPos pos, Coordinate3iFunction<SurfaceConfig> configFunction) {

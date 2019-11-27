@@ -2,7 +2,13 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.layer.*;
+import net.minecraft.world.biome.layer.ContinentLayer;
+import net.minecraft.world.biome.layer.IncreaseEdgeCurvatureLayer;
+import net.minecraft.world.biome.layer.ScaleLayer;
+import net.minecraft.world.biome.layer.type.IdentitySamplingLayer;
+import net.minecraft.world.biome.layer.type.ParentedLayer;
+import net.minecraft.world.biome.layer.util.*;
+import net.minecraft.world.biome.source.BiomeLayerSampler;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.level.LevelGeneratorType;
 
@@ -14,22 +20,22 @@ import java.util.function.LongFunction;
 public class DimensionalBiomeLayers {
     //TODO: refactor this disaster
     public static <T extends LayerSampler, C extends LayerSampleContext<T>> LayerFactory<T> build(LevelGeneratorType levelGeneratorType_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1, LongFunction<C> longFunction_1, Set<Biome> biomes) {
-        LayerFactory<T> layerFactory_1 = ContinentLayer.INSTANCE.create((LayerSampleContext)longFunction_1.apply(1L));
-        layerFactory_1 = ScaleLayer.FUZZY.create((LayerSampleContext)longFunction_1.apply(2000L), layerFactory_1);
-        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create((LayerSampleContext)longFunction_1.apply(1L), layerFactory_1);
-        layerFactory_1 = ScaleLayer.NORMAL.create((LayerSampleContext)longFunction_1.apply(2001L), layerFactory_1);
-        layerFactory_1 = ScaleLayer.NORMAL.create((LayerSampleContext)longFunction_1.apply(2001L), layerFactory_1);
-        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create((LayerSampleContext)longFunction_1.apply(2L), layerFactory_1);
-        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create((LayerSampleContext)longFunction_1.apply(50L), layerFactory_1);
-        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create((LayerSampleContext)longFunction_1.apply(70L), layerFactory_1);
-        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create((LayerSampleContext)longFunction_1.apply(3L), layerFactory_1);
-        layerFactory_1 = ScaleLayer.NORMAL.create((LayerSampleContext)longFunction_1.apply(2002L), layerFactory_1);
-        layerFactory_1 = ScaleLayer.NORMAL.create((LayerSampleContext)longFunction_1.apply(2003L), layerFactory_1);
-        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create((LayerSampleContext)longFunction_1.apply(4L), layerFactory_1);
+        LayerFactory<T> layerFactory_1 = ContinentLayer.INSTANCE.create(longFunction_1.apply(1L));
+        layerFactory_1 = ScaleLayer.FUZZY.create(longFunction_1.apply(2000L), layerFactory_1);
+        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create(longFunction_1.apply(1L), layerFactory_1);
+        layerFactory_1 = ScaleLayer.NORMAL.create(longFunction_1.apply(2001L), layerFactory_1);
+        layerFactory_1 = ScaleLayer.NORMAL.create(longFunction_1.apply(2001L), layerFactory_1);
+        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create(longFunction_1.apply(2L), layerFactory_1);
+        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create(longFunction_1.apply(50L), layerFactory_1);
+        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create(longFunction_1.apply(70L), layerFactory_1);
+        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create(longFunction_1.apply(3L), layerFactory_1);
+        layerFactory_1 = ScaleLayer.NORMAL.create(longFunction_1.apply(2002L), layerFactory_1);
+        layerFactory_1 = ScaleLayer.NORMAL.create(longFunction_1.apply(2003L), layerFactory_1);
+        layerFactory_1 = IncreaseEdgeCurvatureLayer.INSTANCE.create(longFunction_1.apply(4L), layerFactory_1);
         layerFactory_1 = stack(1000L, ScaleLayer.NORMAL, layerFactory_1, 0, longFunction_1);
-        LayerFactory<T> layerFactory_4 = (new BiomesLayer(levelGeneratorType_1, overworldChunkGeneratorConfig_1.getForcedBiome(), biomes)).create((LayerSampleContext)longFunction_1.apply(200L), layerFactory_1);
+        LayerFactory<T> layerFactory_4 = (new BiomesLayer(levelGeneratorType_1, overworldChunkGeneratorConfig_1.getForcedBiome(), biomes)).create(longFunction_1.apply(200L), layerFactory_1);
         for(int int_3 = 0; int_3 < 8; ++int_3) {
-            layerFactory_4 = ScaleLayer.NORMAL.create((LayerSampleContext)longFunction_1.apply((long)(1000 + int_3)), layerFactory_4);
+            layerFactory_4 = ScaleLayer.NORMAL.create(longFunction_1.apply(1000 + int_3), layerFactory_4);
         }
         return layerFactory_4;
     }
@@ -48,7 +54,7 @@ public class DimensionalBiomeLayers {
         LayerFactory<T> layerFactory_2 = layerFactory_1;
 
         for(int int_2 = 0; int_2 < int_1; ++int_2) {
-            layerFactory_2 = parentedLayer_1.create((LayerSampleContext)longFunction_1.apply(long_1 + (long)int_2), layerFactory_2);
+            layerFactory_2 = parentedLayer_1.create(longFunction_1.apply(long_1 + (long)int_2), layerFactory_2);
         }
 
         return layerFactory_2;

@@ -3,12 +3,10 @@ package io.github.vampirestudios.raa.generation.feature.tree.foliage;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.registries.FoliagePlacers;
 import io.github.vampirestudios.raa.utils.Rands;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ModifiableTestableWorld;
 import net.minecraft.world.gen.feature.BranchedTreeFeatureConfig;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
-import net.minecraft.world.gen.foliage.FoliagePlacerType;
 
 import java.util.Random;
 import java.util.Set;
@@ -23,7 +21,7 @@ public class CylinderFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public void method_23448(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
+    public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
         // cylinder spruce
 //        int int_4 = random.nextInt(3);
 //        int int_5 = 2;
@@ -39,7 +37,7 @@ public class CylinderFoliagePlacer extends FoliagePlacer {
 //            }
 //        }
         for(int int_4 = i; int_4 >= j; --int_4) {
-            this.method_23449(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_4, Rands.randIntRange(0, 5), set);
+            this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_4, Rands.randIntRange(0, 5), set);
         }
     }
 
@@ -60,7 +58,7 @@ public class CylinderFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public int method_23452(Random random, int i, int j, BranchedTreeFeatureConfig branchedTreeFeatureConfig) {
+    public int getRadius(Random random, int i, int j, BranchedTreeFeatureConfig branchedTreeFeatureConfig) {
         return this.radius + random.nextInt(this.randomRadius + 1);
     }
 

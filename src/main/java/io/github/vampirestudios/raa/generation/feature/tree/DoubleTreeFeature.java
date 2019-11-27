@@ -22,7 +22,7 @@ public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureCo
     protected boolean generate(ModifiableTestableWorld modifiableTestableWorld_1, Random random_1, BlockPos blockPos_1, Set<BlockPos> set_1, Set<BlockPos> set_2, BlockBox blockBox_1, BranchedTreeFeatureConfig branchedTreeFeatureConfig_1) {
         int int_1 = branchedTreeFeatureConfig_1.baseHeight + random_1.nextInt(branchedTreeFeatureConfig_1.heightRandA + 1) + random_1.nextInt(branchedTreeFeatureConfig_1.heightRandB + 1);
         int int_2 = branchedTreeFeatureConfig_1.trunkHeight >= 0 ? branchedTreeFeatureConfig_1.trunkHeight + random_1.nextInt(branchedTreeFeatureConfig_1.trunkHeightRandom + 1) : int_1 - (branchedTreeFeatureConfig_1.foliageHeight + random_1.nextInt(branchedTreeFeatureConfig_1.foliageHeightRandom + 1));
-        int int_3 = branchedTreeFeatureConfig_1.foliagePlacer.method_23452(random_1, int_2, int_1, branchedTreeFeatureConfig_1);
+        int int_3 = branchedTreeFeatureConfig_1.foliagePlacer.getRadius(random_1, int_2, int_1, branchedTreeFeatureConfig_1);
         Optional<BlockPos> optional_1 = this.findPositionToGenerate(modifiableTestableWorld_1, int_1, int_2, int_3, blockPos_1, branchedTreeFeatureConfig_1);
         if (!optional_1.isPresent()) {
             return false;
@@ -44,7 +44,7 @@ public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureCo
 
                 if (i == loopAmt - 1) {
                     this.generate(modifiableTestableWorld_1, random_1, int_1, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), branchedTreeFeatureConfig_1.trunkTopOffsetRandom + random_1.nextInt(branchedTreeFeatureConfig_1.trunkTopOffsetRandom + 1), set_1, blockBox_1, branchedTreeFeatureConfig_1);
-                    branchedTreeFeatureConfig_1.foliagePlacer.method_23448(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), set_2);
+                    branchedTreeFeatureConfig_1.foliagePlacer.generate(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), set_2);
                 } else{
                     this.generate(modifiableTestableWorld_1, random_1, offset, blockPos_2.add(offsetX * (i + 1), offsetTotal, offsetZ * (i + 1)), 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
                 }
@@ -62,7 +62,7 @@ public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureCo
 
                 if (i == loopAmt - 1) {
                     this.generate(modifiableTestableWorld_1, random_1, int_1, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), branchedTreeFeatureConfig_1.trunkTopOffsetRandom + random_1.nextInt(branchedTreeFeatureConfig_1.trunkTopOffsetRandom + 1), set_1, blockBox_1, branchedTreeFeatureConfig_1);
-                    branchedTreeFeatureConfig_1.foliagePlacer.method_23448(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), set_2);
+                    branchedTreeFeatureConfig_1.foliagePlacer.generate(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), set_2);
                 } else{
                     this.generate(modifiableTestableWorld_1, random_1, offset, blockPos_2.add(offsetX * (i + 1), offsetTotal, offsetZ * (i + 1)), 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
                 }
@@ -80,7 +80,7 @@ public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureCo
                 this.generate(modifiableTestableWorld_1, random_1, offset, blockPos_2.add(offsetX, offsetTotal, offsetZ), 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
                 if (i == loopAmt - 1) {
                     this.generate(modifiableTestableWorld_1, random_1, int_1, blockPos_2.add(offsetX * i, (offsetTotal), offsetZ * i), branchedTreeFeatureConfig_1.trunkTopOffsetRandom + random_1.nextInt(branchedTreeFeatureConfig_1.trunkTopOffsetRandom + 1), set_1, blockBox_1, branchedTreeFeatureConfig_1);
-                    branchedTreeFeatureConfig_1.foliagePlacer.method_23448(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(-offsetX * 2, (offset * 2) - 2, -offsetZ * 2), set_2);
+                    branchedTreeFeatureConfig_1.foliagePlacer.generate(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(-offsetX * 2, (offset * 2) - 2, -offsetZ * 2), set_2);
                 }
             }
 
@@ -95,7 +95,7 @@ public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureCo
                 this.generate(modifiableTestableWorld_1, random_1, offset, blockPos_2.add(offsetX, offsetTotal, offsetZ), 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
                 if (i == loopAmt - 1) {
                     this.generate(modifiableTestableWorld_1, random_1, int_1, blockPos_2.add(offsetX * i, (offsetTotal), offsetZ * i), branchedTreeFeatureConfig_1.trunkTopOffsetRandom + random_1.nextInt(branchedTreeFeatureConfig_1.trunkTopOffsetRandom + 1), set_1, blockBox_1, branchedTreeFeatureConfig_1);
-                    branchedTreeFeatureConfig_1.foliagePlacer.method_23448(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(-offsetX * 2, (offset * 2) - 2, -offsetZ * 2), set_2);
+                    branchedTreeFeatureConfig_1.foliagePlacer.generate(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(-offsetX * 2, (offset * 2) - 2, -offsetZ * 2), set_2);
                 }
             }
             return true;

@@ -1,8 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.layer.BiomeLayerSampler;
-import net.minecraft.world.biome.layer.BiomeLayers;
+import net.minecraft.world.biome.source.BiomeLayerSampler;
 import net.minecraft.world.biome.source.BiomeSource;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class DimensionalBiomeSource extends BiomeSource {
     }
 
     @Override
-    public Biome getStoredBiome(int biomeX, int biomeY, int biomeZ) {
+    public Biome getBiomeForNoiseGen(int biomeX, int biomeY, int biomeZ) {
         return this.noiseLayer.sample(biomeX, biomeZ);
     }
 
@@ -28,4 +27,5 @@ public class DimensionalBiomeSource extends BiomeSource {
     public List<Biome> getSpawnBiomes() {
         return new ArrayList<>(BIOMES);
     }
+
 }

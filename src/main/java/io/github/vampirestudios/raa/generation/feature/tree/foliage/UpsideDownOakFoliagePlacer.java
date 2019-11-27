@@ -2,12 +2,10 @@ package io.github.vampirestudios.raa.generation.feature.tree.foliage;
 
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.registries.FoliagePlacers;
-import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ModifiableTestableWorld;
 import net.minecraft.world.gen.feature.BranchedTreeFeatureConfig;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
-import net.minecraft.world.gen.foliage.FoliagePlacerType;
 
 import java.util.Random;
 import java.util.Set;
@@ -22,7 +20,7 @@ public class UpsideDownOakFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public void method_23448(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
+    public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
         //cylinder spruce
 //        int int_4 = random.nextInt(3);
 //        int int_5 = 2;
@@ -62,14 +60,14 @@ public class UpsideDownOakFoliagePlacer extends FoliagePlacer {
         //upside down oak
         int int_4 = 3; //replace with foliage size
         for(int int_5 = i; int_5 >= j; --int_5) {
-            this.method_23449(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_5, int_4, set);
+            this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_5, int_4, set);
             if (int_5%2 == 0) --int_4;
             if (int_4 == 0) break;
         }
     }
 
     @Override
-    public int method_23452(Random random, int i, int j, BranchedTreeFeatureConfig branchedTreeFeatureConfig) {
+    public int getRadius(Random random, int i, int j, BranchedTreeFeatureConfig branchedTreeFeatureConfig) {
         return this.radius + random.nextInt(this.randomRadius + 1);
     }
 
