@@ -8,23 +8,22 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import static com.mojang.brigadier.arguments.StringArgumentType.getString;
-import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
-
-import static net.minecraft.server.command.CommandManager.literal;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
+
+import static com.mojang.brigadier.arguments.StringArgumentType.getString;
+import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
+import static net.minecraft.server.command.CommandManager.literal;
 
 public class CommandLocateRAAStructure {
 
@@ -35,34 +34,34 @@ public class CommandLocateRAAStructure {
         );
     }
 
-    private static int locateStructure(ServerCommandSource source, String RAAstructure) {
+    private static int locateStructure(ServerCommandSource source, String structureName) {
         int found = -1;
         float distance = -1f;
         List<Integer> spawn_pos = Arrays.asList(0, 0, 0);
         try {
-            if (!"Tower,Outpost,Campfire,SpiderLair,Tomb,Fossil,PortalHub".contains(RAAstructure)) {
+            if (!"Tower,Outpost,Campfire,SpiderLair,Tomb,Fossil,PortalHub".contains(structureName)) {
                 found = 0;
-                throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", RAAstructure)).create();
+                throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
 
             BufferedReader reader = null;
-            if (RAAstructure.equals("PortalHub") && source.getWorld().getDimension().getType().getSuffix().equals("")) {
+            if (structureName.equals("PortalHub") && source.getWorld().getDimension().getType().getSuffix().equals("")) {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt"));
             }
-            else if (RAAstructure.equals("Tower") && isRaaDimension(source)) {
+            else if (structureName.equals("Tower") && isRaaDimension(source)) {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt"));
-            } else if (RAAstructure.equals("Outpost") && isRaaDimension(source)) {
+            } else if (structureName.equals("Outpost") && isRaaDimension(source)) {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt"));
-            } else if (RAAstructure.equals("Campfire") && isRaaDimension(source)) {
+            } else if (structureName.equals("Campfire") && isRaaDimension(source)) {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt"));
-            } else if (RAAstructure.equals("SpiderLair") && isRaaDimension(source)) {
+            } else if (structureName.equals("SpiderLair") && isRaaDimension(source)) {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt"));
-            } else if (RAAstructure.equals("Tomb") && isRaaDimension(source)) {
+            } else if (structureName.equals("Tomb") && isRaaDimension(source)) {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/tomb_spawns.txt"));
-            } else if (RAAstructure.equals("Fossil") && isRaaDimension(source)) {
+            } else if (structureName.equals("Fossil") && isRaaDimension(source)) {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt"));
             } else {
-                throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", RAAstructure)).create();
+                throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
             String spawn = reader.readLine();
             while (spawn != null) {
@@ -77,25 +76,23 @@ public class CommandLocateRAAStructure {
                 spawn = reader.readLine();
             }
             if (found == -1) {
-                throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", RAAstructure)).create();
+                throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (CommandSyntaxException | IOException e) {
             e.printStackTrace();
         }
 
         if (found == 1) {
             Text teleportButtonPopup = Texts.bracketed(new TranslatableText("chat.coordinates", spawn_pos.get(0), spawn_pos.get(1), spawn_pos.get(2))).styled((style_1x) -> {
-                style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawn_pos.get(0) + " " + spawn_pos.get(1) + " " + spawn_pos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip", new Object[0])));
+                style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawn_pos.get(0) + " " + spawn_pos.get(1) + " " + spawn_pos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip")));
             });
-            source.sendFeedback(new TranslatableText("commands.locate.success", new TranslatableText(RAAstructure), teleportButtonPopup, Math.round(distance)), false);
+            source.sendFeedback(new TranslatableText("commands.locate.success", new TranslatableText(structureName), teleportButtonPopup, Math.round(distance)), false);
             return Command.SINGLE_SUCCESS;
         } else if (found == -1) {
             source.getMinecraftServer().getPlayerManager().broadcastChatMessage(new LiteralText("Could not find that structure in this biome").formatted(Formatting.RED), false);
             return -1;
         } else {
-            source.getMinecraftServer().getPlayerManager().broadcastChatMessage(new LiteralText("The structure \'" + RAAstructure + "\' is not a valid RAA structure").formatted(Formatting.RED), false);
+            source.getMinecraftServer().getPlayerManager().broadcastChatMessage(new LiteralText("The structure '" + structureName + "' is not a valid RAA structure").formatted(Formatting.RED), false);
             return -1;
         }
     }
@@ -121,9 +118,6 @@ public class CommandLocateRAAStructure {
 
     private static boolean isRaaDimension(ServerCommandSource source) {
         String dim = source.getWorld().getDimension().getType().getSuffix();
-        if (dim.equals("") || dim.equals("_end") || dim.equals("_nether")) {
-            return false;
-        }
-        return true;
+        return !dim.equals("") && !dim.equals("_end") && !dim.equals("_nether");
     }
 }
