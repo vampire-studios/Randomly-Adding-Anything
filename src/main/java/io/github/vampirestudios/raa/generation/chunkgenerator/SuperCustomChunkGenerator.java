@@ -183,6 +183,7 @@ public class SuperCustomChunkGenerator extends ChunkGenerator<SuperCustomChunkGe
 
 		result += sampler1.sampleCustom(x, y * 0.0625D, z, biome.stretch, biome.variationAbove, biome.variationBelow, biome.octaves);
 		result += sampler2.sample(x, z);
+		result += biome.baseHeight;
 		return result;
 	}
 

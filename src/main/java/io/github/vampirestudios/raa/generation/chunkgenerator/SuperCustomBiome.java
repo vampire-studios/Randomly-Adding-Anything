@@ -9,7 +9,7 @@ import net.minecraft.world.gen.surfacebuilder.SurfaceConfig;
  */
 public abstract class SuperCustomBiome extends Biome {
 	public final double stretch, variationBelow, variationAbove;
-	public final int octaves;
+	public final int octaves, baseHeight;
 	
 	protected SuperCustomBiome(Properties properties) {
 		super(properties);
@@ -19,6 +19,7 @@ public abstract class SuperCustomBiome extends Biome {
 		variationBelow = properties.variationBelow;
 		
 		octaves = properties.octaves;
+		baseHeight = properties.baseHeight;
 	}
 	/**
 	 * Biome settings for use with the {@link SuperCustomBiome}
@@ -26,6 +27,7 @@ public abstract class SuperCustomBiome extends Biome {
 	public static class Properties extends Biome.Settings {
 		private double stretch, variationBelow, variationAbove = 0.0D;
 		private int octaves = 4;
+		private int baseHeight = 70;
 
 		public Properties() {
 			super();
@@ -34,7 +36,8 @@ public abstract class SuperCustomBiome extends Biome {
 		/**
 		 * @param octaves octaves to use. value between 1 and 6
 		 */
-		public Properties heightSettings(int octaves, double stretch, double variationAbove, double variationBelow) {
+		public Properties heightSettings(int baseHeight, double stretch, double variationAbove, double variationBelow, int octaves) {
+			this.baseHeight = baseHeight;
 			this.octaves = octaves;
 			this.stretch = stretch;
 			this.variationAbove = variationAbove;
