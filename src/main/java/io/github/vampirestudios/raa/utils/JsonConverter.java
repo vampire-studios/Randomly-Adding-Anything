@@ -1,9 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class JsonConverter {
 
@@ -14,6 +12,7 @@ public class JsonConverter {
         private List<List<Integer>> blockPositions;
         private List<Integer> blockStates;
         private List<String> blockTypes;
+        private List<Map<String, String>> blockProperties;
 
         StructureValues() {
             name = "";
@@ -22,6 +21,7 @@ public class JsonConverter {
             blockPositions = new ArrayList<>();
             blockStates = new ArrayList<>();
             blockTypes = new ArrayList<>();
+            blockProperties = new ArrayList<>();
         }
 
         public void setName(String nameIn) { name = nameIn; }
@@ -30,6 +30,7 @@ public class JsonConverter {
         public void setBlockPositions(List<Integer> positionsIn) { blockPositions.add(new ArrayList<>(positionsIn)); }
         public void setBlockStates(Integer statesIn) { blockStates.add(statesIn); }
         public void setBlockTypes(String blocksIn) { blockTypes.add(blocksIn); }
+        public void setBlockProperties(Map<String, String> propertiesIn) { blockProperties.add(propertiesIn); }
 
         public String getName() { return name; }
         public List<Integer> getSize() { return size; }
@@ -37,6 +38,7 @@ public class JsonConverter {
         public List<List<Integer>> getBlockPositions() { return blockPositions; }
         public List<Integer> getBlockStates() { return blockStates; }
         public List<String> getBlockTypes() { return blockTypes; }
+        public List<Map<String, String>> getBlockProperties() { return blockProperties; }
     }
 
     public StructureValues loadStructure(String FileIn) {
@@ -48,24 +50,21 @@ public class JsonConverter {
             int indentClass = 0;
             int indentList = 0;
             String section = "";
+            String property = "bla";
             List<Integer> tempList = new ArrayList<>();
-
-            int bla = 0;
+            Map<String, String> tempMap = new HashMap<>();
 
             while (scanner.hasNextLine()) {
-                bla++;
-
                 String line = scanner.nextLine();
 
                 if (line.contains("}")) { indentClass--; }
                 if (line.contains("]")) { indentList--; }
 
-                String name = line.substring(line.indexOf("name") + 8, line.length() - 2);
                 if (indentClass == 1 && line.contains("name")) {
-                    structure.setName(name); //Get the name of the structure
+                    structure.setName(line.substring(line.indexOf("name") + 8, line.length() - 2)); //Get the name of the structure
                 }
                 else if (indentClass == 3 && line.contains("name")) {
-                    section = name;
+                    section = line.substring(line.indexOf("name") + 8, line.length() - 2);
                 }
                 else if (section.equals("size") && indentList == 3) {
                     tempList.add(Integer.parseInt(line.replaceAll("[^\\d-]", "")));
@@ -93,10 +92,21 @@ public class JsonConverter {
                 else if (section.equals("blocks2") && indentClass == 5 && line.contains("value")) {
                     structure.setBlockStates(Integer.parseInt(line.replaceAll("[^\\d-]", ""))); //Get the states of the blocks in the structure
                 }
-                else if (section.equals("palette") && line.contains("Name")) {
+                else if (section.equals("palette") && line.contains("Properties")) {
+                    section = "Properties";
+                }
+                else if ((section.equals("palette") || section.equals("Properties")) && line.contains("Name")) {
                     section = "Name";
                 }
+                else if (section.equals("Properties") && line.contains("name")) {
+                    property = line.substring(line.indexOf("name") + 8, line.length() - 2);
+                }
+                else if (section.equals("Properties") && line.contains("value") && !line.contains("[")) {
+                    tempMap.put(property, line.substring(line.indexOf("value") + 9, line.length() - 1));
+                }
                 else if (section.equals("Name") && line.contains("value")) {
+                    structure.setBlockProperties(tempMap); //Get the properties of the blocks used in the structure
+                    tempMap = new HashMap<>();
                     structure.setBlockTypes(line.substring(line.indexOf("value") + 9, line.length() - 1)); //Get the type of blocks used in the structure
                     section = "palette";
                 }
@@ -109,7 +119,7 @@ public class JsonConverter {
         }
         catch (Exception e) {
             e.printStackTrace();
-            return null; //Something went wrong
+            return structure; //Something went wrong
         }
     }
 }

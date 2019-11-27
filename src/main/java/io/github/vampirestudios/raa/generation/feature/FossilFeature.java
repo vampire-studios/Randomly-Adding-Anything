@@ -3,8 +3,10 @@ package io.github.vampirestudios.raa.generation.feature;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -15,16 +17,13 @@ import net.minecraft.world.gen.feature.Feature;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 
 public class FossilFeature extends Feature<DefaultFeatureConfig> {
     JsonConverter converter = new JsonConverter();
     Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
-        put("fossil1", converter.LoadStructure("fossils/fossil01.json"));
+        put("fossil1", converter.loadStructure("fossils/fossil01.json"));
     }};
 
     public FossilFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
@@ -42,10 +41,11 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
         }
         JsonConverter.StructureValues fossilChosen = structures.get("fossil" + Integer.toString(new Random().nextInt(structures.size()) + 1));
         int rotation = new Random().nextInt(4);
-        for (int i = 0; i < fossilChosen.getBlock_positions().size(); i++) {
+        for (int i = 0; i < fossilChosen.getBlockPositions().size(); i++) {
             if (!Rands.chance(6)) {
-                List<Integer> currBlockPos = fossilChosen.getBlock_positions().get(i);
-                String currBlockType = fossilChosen.getBlock_types().get(fossilChosen.getBlock_states().get(i));
+                List<Integer> currBlockPos = fossilChosen.getBlockPositions().get(i);
+                String currBlockType = fossilChosen.getBlockTypes().get(fossilChosen.getBlockStates().get(i));
+                Map<String, String> currBlockProp = fossilChosen.getBlockProperties().get(fossilChosen.getBlockStates().get(i));
                 int x = currBlockPos.get(0);
                 int y = currBlockPos.get(1);
                 int z = currBlockPos.get(2);
@@ -64,7 +64,17 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
                     z = fossilChosen.getSize().get(2) - 1 - temp_x;
                 }
 
-                world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
+                if (currBlockProp.get("axis") != null) {
+                    if (currBlockProp.get("axis").equals("z") && rotation % 2 == 1) {
+                        world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState().with(Properties.AXIS, Direction.Axis.fromName("x")), 2);
+                    } else if (currBlockProp.get("axis").equals("x") && rotation % 2 == 1) {
+                        world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState().with(Properties.AXIS, Direction.Axis.fromName("z")), 2);
+                    } else {
+                        world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState().with(Properties.AXIS, Direction.Axis.fromName(currBlockProp.get("axis"))), 2);
+                    }
+                } else {
+                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
+                }
             }
         }
 

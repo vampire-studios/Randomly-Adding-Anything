@@ -184,7 +184,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         return true;
     }
 
-    public static boolean TrySpawning(IWorld world, BlockPos pos) {
+    public static boolean trySpawning(IWorld world, BlockPos pos) {
         if (pos.getY() < 5) {
             return false;
         }

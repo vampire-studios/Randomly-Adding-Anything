@@ -15,6 +15,9 @@ import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 
@@ -89,10 +92,16 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         }
 
         //Generate basement
-        if (pos.getY() > 10 && Rands.chance(3)) {
-            placePiece(world, pos.add(0, -7, 0), 0, structures.get("tower_base"), 0);
-        }
         placePiece(world, pos, 0, structures.get("portal_hub"), 0);
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + world.getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt", true));
+            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return true;
     }
 
@@ -145,50 +154,44 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
 
         pos = pos.add(0, modeHeight - pos.getY(), 0);
 
-        /*try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt", true));
-            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
         return  true;
     }
 
     public static void placePiece(IWorld world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, int decay) {
-        for (int i = 0; i < piece.getBlockPositions().size(); i++) {
-            List<Integer> currBlockPos = piece.getBlockPositions().get(i);
-            String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
-            int x = currBlockPos.get(0);
-            int y = currBlockPos.get(1);
-            int z = currBlockPos.get(2);
+        if (piece.getBlockPositions() != null) {
+            for (int i = 0; i < piece.getBlockPositions().size(); i++) {
+                List<Integer> currBlockPos = piece.getBlockPositions().get(i);
+                String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
+                int x = currBlockPos.get(0);
+                int y = currBlockPos.get(1);
+                int z = currBlockPos.get(2);
 
-            //Rotate
-            Direction direction = rotate(((rotation + (rotation%2)*2 - 1)%4 + 4)%4, 0);
-            if (rotation == 1) {
-                int temp_x = x;
-                x = piece.getSize().get(0) - 1 - z;
-                z = temp_x;
-            } else if (rotation == 2) {
-                x = piece.getSize().get(0) - 1 - x;
-                z = piece.getSize().get(2) - 1 - z;
-            } else if (rotation == 3){
-                int temp_x = x;
-                x = z;
-                z = piece.getSize().get(2) - 1 - temp_x;
-            }
+                //Rotate
+                Direction direction = rotate(((rotation + (rotation % 2) * 2 - 1) % 4 + 4) % 4, 0);
+                if (rotation == 1) {
+                    int temp_x = x;
+                    x = piece.getSize().get(0) - 1 - z;
+                    z = temp_x;
+                } else if (rotation == 2) {
+                    x = piece.getSize().get(0) - 1 - x;
+                    z = piece.getSize().get(2) - 1 - z;
+                } else if (rotation == 3) {
+                    int temp_x = x;
+                    x = z;
+                    z = piece.getSize().get(2) - 1 - temp_x;
+                }
 
-            //Spawn blocks
-            if (decay > 0 && Rands.chance(14 - decay)) {
-                world.setBlockState(pos.add(x, y, z), Blocks.AIR.getDefaultState(), 2);
-            }
-            else {
-                if (currBlockType.equals("minecraft:stone_bricks")) {
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
-                } else if (currBlockType.equals("minecraft:ladder")) {
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState().with(Properties.HORIZONTAL_FACING, direction), 2);
+                //Spawn blocks
+                if (decay > 0 && Rands.chance(14 - decay)) {
+                    world.setBlockState(pos.add(x, y, z), Blocks.AIR.getDefaultState(), 2);
                 } else {
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
+                    if (currBlockType.equals("minecraft:stone_bricks")) {
+                        world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
+                    } else if (currBlockType.equals("minecraft:ladder")) {
+                        world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState().with(Properties.HORIZONTAL_FACING, direction), 2);
+                    } else {
+                        world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
+                    }
                 }
             }
         }

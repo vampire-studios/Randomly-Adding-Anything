@@ -21,7 +21,7 @@ public interface RenderLayerHelper {
     throw new AssertionError();
   }
 
-  @Accessor
+  /*@Accessor
   static void setDefaultBlockRenderLayer(final DefaultRenderLayer layer) {
     throw new AssertionError();
   }
@@ -29,5 +29,5 @@ public interface RenderLayerHelper {
   @Accessor
   static void setDefaultFluidRenderLayer(final DefaultRenderLayer layer) {
     throw new AssertionError();
-  }
+  }*/
 }

@@ -20,7 +20,7 @@ public class ServerPlayerEntityMixin implements PlayerDiscoveryProvider {
         this.playerDiscoveryState.fromTag(compoundTag_1);
     }
 
-    /*@Inject(method = "writeCustomDataToTag", at = @At("RETURN"))
+    @Inject(method = "writeCustomDataToTag", at = @At("RETURN"))
     public void writeDiscoveryData(CompoundTag compoundTag_1, CallbackInfo ci) {
         this.playerDiscoveryState.toTag(compoundTag_1);
     }
