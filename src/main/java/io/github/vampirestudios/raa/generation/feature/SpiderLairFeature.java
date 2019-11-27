@@ -30,7 +30,7 @@ public class SpiderLairFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(IWorld iWorld, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig defaultFeatureConfig) {
-        if (iWorld.getBlockState(pos.add(0, -1, 0)).isAir() || !iWorld.getBlockState(pos.add(0, -1, 0)).isOpaque())
+        if (iWorld.getBlockState(pos.add(0, -1, 0)).isAir() || !iWorld.getBlockState(pos.add(0, -1, 0)).isOpaque() || iWorld.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
             return true;
         if (iWorld.getBlockState(pos.down(1)).getBlock() == Blocks.GRASS_BLOCK) {
             FeatureUtils.setSpawner(iWorld, pos, EntityType.SPIDER);

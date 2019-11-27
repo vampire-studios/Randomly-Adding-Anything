@@ -63,7 +63,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         for (float x_offset = x_origin - 14; x_offset < x_origin + 14; x_offset++) {
             for (float z_offset = z_origin - 14; z_offset < z_origin + 14; z_offset++) {
                 float y_offset = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(x_offset, 0, z_offset)).getY();
-                boolean non_spawnable = y_offset < 5 || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque());
+                boolean non_spawnable = y_offset < 5 || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque()) || world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).equals(Blocks.BEDROCK.getDefaultState());
                 if (x_offset < x_origin + 3 && z_offset < z_origin + 3) {
                     flatnessList.add(Arrays.asList(x_offset, y_offset, z_offset, 0f));
                 }
@@ -185,7 +185,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public static boolean trySpawning(IWorld world, BlockPos pos) {
-        if (pos.getY() < 5) {
+        if (pos.getY() < 5 || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
             return false;
         }
         Map<Integer, Float> heights = new HashMap<>();
@@ -331,7 +331,13 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     } else if (currBlock.equals("chest2")) {
                         LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.VILLAGE_WEAPONSMITH_CHEST);
                     } else {
-                        LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.STRONGHOLD_LIBRARY_CHEST);
+                        if (Rands.chance(5)) {
+                            LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.SIMPLE_DUNGEON_CHEST);
+                        } else if (Rands.chance(8)) {
+                            LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.STRONGHOLD_LIBRARY_CHEST);
+                        } else {
+                            LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.VILLAGE_CARTOGRAPHER_CHEST);
+                        }
                     }
                 } else if (currBlock.contains("armor_stand")) {
                     Entity armorStand = new Entity(EntityType.ARMOR_STAND, world.getWorld()) {

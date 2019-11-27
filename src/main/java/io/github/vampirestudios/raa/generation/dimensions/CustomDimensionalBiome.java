@@ -227,15 +227,17 @@ public class CustomDimensionalBiome extends Biome {
             this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Feature.FOSSIL.configure(FeatureConfig.DEFAULT).createDecoratedFeature(Decorator.CHANCE_PASSTHROUGH.configure(new LakeDecoratorConfig(64))));
         }
 
-        float outpostChance = Rands.randFloatRange(0.001F, 0.003F);
         float campfireChance = Rands.randFloatRange(0.003F, 0.005F);
-        float towerChance = Rands.randFloatRange(0.005F, 0.007F);
+        float outpostChance = Rands.randFloatRange(0.001F, 0.003F);
+        float towerChance = Rands.randFloatRange(0.001F, 0.002F);
         float fossilChance = 0;
 
         if (dimensionData.getCivilizationInfluences().size() > 0) Rands.randFloatRange(0.003F, 0.005F);
 
-        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED))
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) {
             outpostChance = Rands.randFloatRange(0.002F, 0.003F);
+            towerChance = Rands.randFloatRange(0.002F, 0.0025F);
+        }
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
             campfireChance = 0;
             fossilChance = Rands.randFloatRange(0.007F, 0.008F);
@@ -243,6 +245,7 @@ public class CustomDimensionalBiome extends Biome {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) {
             campfireChance = Rands.randFloatRange(0.005F, 0.007F);
             outpostChance = Rands.randFloatRange(0.002F, 0.008F);
+            towerChance = Rands.randFloatRange(0.002F, 0.004F);
         }
 
         // TODO fix this

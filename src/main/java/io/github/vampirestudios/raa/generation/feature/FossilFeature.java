@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.generation.feature;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
+import net.minecraft.block.Blocks;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -32,7 +33,7 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
-        if (pos.getY() < 5 || !world.getBlockState(pos.add(0, -1, 0)).isOpaque())
+        if (pos.getY() < 5 || !world.getBlockState(pos.add(0, -1, 0)).isOpaque() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
             return true;
 
         int yChosen = new Random().nextInt(25);

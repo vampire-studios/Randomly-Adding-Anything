@@ -43,7 +43,7 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random rand, BlockPos pos, DefaultFeatureConfig config) {
-        if (world.getBlockState(pos.add(0, -3, 0)).isAir() || !world.getBlockState(pos.add(0, -3, 0)).isOpaque())
+        if (world.getBlockState(pos.add(0, -3, 0)).isAir() || !world.getBlockState(pos.add(0, -3, 0)).isOpaque() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
             return true;
         final BiomeSource source = chunkGenerator.getBiomeSource();
 

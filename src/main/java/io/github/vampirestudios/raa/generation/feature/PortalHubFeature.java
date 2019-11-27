@@ -43,7 +43,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         for (float x_offset = x_origin - 14; x_offset < x_origin + 14; x_offset++) {
             for (float z_offset = z_origin - 14; z_offset < z_origin + 14; z_offset++) {
                 float y_offset = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(x_offset, 0, z_offset)).getY();
-                boolean non_spawnable = world.isAir(new BlockPos(x_offset, y_offset - 1, z_offset)) || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque());
+                boolean non_spawnable = y_offset < 5 || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque()) || world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).equals(Blocks.BEDROCK.getDefaultState());
                 if (x_offset < x_origin + 3 && z_offset < z_origin + 3) {
                     flatnessList.add(Arrays.asList(x_offset, y_offset, z_offset, 0f));
                 }
@@ -106,7 +106,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public static boolean trySpawning(IWorld world, BlockPos pos) {
-        if (world.getBlockState(pos.add(0, -1, 0)).isAir()) {
+        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
             return false;
         }
         Map<Integer, Float> heights = new HashMap<>();
