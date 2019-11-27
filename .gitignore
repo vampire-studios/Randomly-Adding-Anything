@@ -24,3 +24,7 @@ bin/
 
 run/
 .DS_Store
+
+# eclipse
+
+*.launch
