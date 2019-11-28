@@ -1,9 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "raa:block/nether_portal",
-		"3": "raa:block/stonecutter_bottom",
-		"4": "block/chiseled_stone_bricks"
+		"2": "raa:block/portal",
+		"3": "raa:block/portal_textures",
+		"4": "block/chiseled_stone_bricks",
+		"particle": "block/chiseled_stone_bricks"
 	},
 	"elements": [
 		{
@@ -121,7 +122,7 @@
 			"from": [4, 10, 4],
 			"to": [12, 12, 12],
 			"faces": {
-				"up": {"uv": [4, 4, 12, 12], "texture": "#2", "tintindex":  0}
+				"up": {"uv": [4, 4, 12, 12], "texture": "#2", "tintindex": 0}
 			}
 		},
 		{

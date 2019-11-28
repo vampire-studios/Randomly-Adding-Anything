@@ -86,11 +86,13 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-        if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
-            DIMENSIONS_CONFIG.generate();
-            DIMENSIONS_CONFIG.save();
-        } else {
-            DIMENSIONS_CONFIG.load();
+        if (CONFIG.dimensionNumber > 0) {
+            if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
+                DIMENSIONS_CONFIG.generate();
+                DIMENSIONS_CONFIG.save();
+            } else {
+                DIMENSIONS_CONFIG.load();
+            }
         }
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
