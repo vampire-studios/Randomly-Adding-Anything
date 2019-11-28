@@ -1,9 +1,15 @@
 package io.github.vampirestudios.raa.generation.feature;
 
 import com.mojang.datafixers.Dynamic;
+import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.enums.BlockHalf;
+import net.minecraft.block.enums.SlabType;
+import net.minecraft.block.enums.StairShape;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -39,15 +45,15 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         int z_origin = pos.getZ();
 
         List<List<Float>> flatnessList = new ArrayList<>();
-        for (float x_offset = x_origin - 14; x_offset < x_origin + 14; x_offset++) {
-            for (float z_offset = z_origin - 14; z_offset < z_origin + 14; z_offset++) {
+        for (float x_offset = x_origin - 23; x_offset < x_origin + 23; x_offset++) {
+            for (float z_offset = z_origin - 23; z_offset < z_origin + 23; z_offset++) {
                 float y_offset = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(x_offset, 0, z_offset)).getY();
                 boolean non_spawnable = y_offset < 5 || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque()) || world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).equals(Blocks.BEDROCK.getDefaultState());
                 if (x_offset < x_origin + 3 && z_offset < z_origin + 3) {
                     flatnessList.add(Arrays.asList(x_offset, y_offset, z_offset, 0f));
                 }
                 for (List<Float> flatness : flatnessList) {
-                    if (Math.pow((x_offset - flatness.get(0)) - 5.5f, 2) + Math.pow(z_offset - flatness.get(2) - 5.5f, 2) < Math.pow(6, 2)) {
+                    if (Math.pow((x_offset - flatness.get(0)) - 10f, 2) + Math.pow(z_offset - flatness.get(2) - 10f, 2) < Math.pow(10.5f, 2)) {
                         if (y_offset > flatness.get(1) - 3 && y_offset <= flatness.get(1)) {
                             if (y_offset == flatness.get(1)) {
                                 flatness.set(3, flatness.get(3) + 1f);
@@ -58,7 +64,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                             }
                         }
                         if (non_spawnable) {
-                            flatness.set(3, -144f);
+                            flatness.set(3, -441f);
                         }
                     }
                 }
@@ -119,7 +125,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         int minHeight = 256;
         for (int xIndent = 0; xIndent < 12; xIndent++) {
             for (int zIndent = 0; zIndent < 12; zIndent++) {
-                if (Math.pow(xIndent - 5.5f, 2) + Math.pow(zIndent - 5.5f, 2) < Math.pow(6, 2)) {
+                if (Math.pow(xIndent - 10f, 2) + Math.pow(zIndent - 10f, 2) < Math.pow(10.5f, 2)) {
                     if (!world.getBlockState(new BlockPos(pos.add(xIndent, -1, zIndent))).isOpaque() && !world.getBlockState(new BlockPos(pos.add(xIndent, -2, zIndent))).isOpaque()) {
                         return false;
                     }
@@ -146,8 +152,8 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                 }
             }
         }
-        float TOLERANCE = 0.25f; //This is the tolerance for tower generation, ranging from 0 to 1. The lower this is, the more strict the tower generation is. Increase it for wacky generation.
-        if (maxHeight - minHeight > 3 && maxHeight*112 - totalHeight > 112*((maxHeight - minHeight)/2f * TOLERANCE) && maxHeight*112 - totalHeight < 112*((maxHeight - minHeight)*(1 - TOLERANCE/2f))) {
+        float TOLERANCE = 0.125f; //This is the tolerance for tower generation, ranging from 0 to 1. The lower this is, the more strict the tower generation is. Increase it for wacky generation.
+        if (maxHeight - minHeight > 3 && maxHeight*353 - totalHeight > 353*((maxHeight - minHeight)/2f * TOLERANCE) && maxHeight*353 - totalHeight < 353*((maxHeight - minHeight)*(1 - TOLERANCE/2f))) {
             return false;
         }
 
@@ -160,6 +166,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         for (int i = 0; i < piece.getBlockPositions().size(); i++) {
             List<Integer> currBlockPos = piece.getBlockPositions().get(i);
             String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
+            Map<String, String> currBlockProp = piece.getBlockProperties().get(piece.getBlockStates().get(i));
             int x = currBlockPos.get(0);
             int y = currBlockPos.get(1);
             int z = currBlockPos.get(2);
@@ -183,11 +190,20 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
             if (decay > 0 && Rands.chance(14 - decay)) {
                 world.setBlockState(pos.add(x, y, z), Blocks.AIR.getDefaultState(), 2);
             } else {
-                if (currBlockType.equals("minecraft:stone_bricks")) {
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
+                if (currBlockType.equals("minecraft:stone_brick_slab")) {
+                    world.setBlockState(pos.add(x, y, z), Blocks.STONE_BRICK_SLAB.getDefaultState().with(Properties.SLAB_TYPE, SlabType.valueOf(currBlockProp.get("type").toUpperCase())), 2);
+                } else if (currBlockType.equals("minecraft:structure_block")) {
+                    //Do nothing TODO: Remove this later!
+                } else if (currBlockType.equals("minecraft:stone_brick_stairs")) {
+                    world.setBlockState(pos.add(x, y, z), Blocks.STONE_BRICK_STAIRS.getDefaultState().with(Properties.BLOCK_HALF, BlockHalf.valueOf(currBlockProp.get("half").toUpperCase())).with(Properties.STAIR_SHAPE, StairShape.valueOf(currBlockProp.get("shape").toUpperCase())).with(Properties.HORIZONTAL_FACING, Direction.valueOf(currBlockProp.get("facing").toUpperCase())), 2);
+                } else if (currBlockType.equals("minecraft:stone_brick_wall")) {
+                    world.setBlockState(pos.add(x, y, z), Blocks.STONE_BRICK_WALL.getDefaultState(), 2);//.with(Properties.EAST, Boolean.getBoolean(currBlockProp.get("east").toUpperCase())).with(Properties.NORTH, Boolean.getBoolean(currBlockProp.get("north").toUpperCase())).with(Properties.SOUTH, Boolean.getBoolean(currBlockProp.get("south").toUpperCase())).with(Properties.WEST, Boolean.getBoolean(currBlockProp.get("west").toUpperCase())).with(Properties.UP, Boolean.getBoolean(currBlockProp.get("up").toUpperCase())), 2);
                 } else if (currBlockType.equals("minecraft:orange_wool")) {
+                    //Spawn random portal
+                    //String name = Dimensions.DIMENSIONS.get(new Random().nextInt(Dimensions.DIMENSION_NAMES.size())).getName();
+                    //System.out.println(Dimensions.DIMENSION_NAMES.size());
                     world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
-                } else {
+                } else if (!currBlockType.equals("minecraft:air")){
                     world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
                 }
             }

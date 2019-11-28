@@ -76,10 +76,13 @@ public class JsonConverter {
                 else if (section.equals("entities") && indentClass == 4 && line.contains("list")) {
                     structure.setEntities(); //Get the entities
                 }
-                else if (section.contains("blocks") && line.contains("pos")) {
+                else if (section.contains("blocks") && line.contains(": \"nbt\"")) {
+                    section = "blocks0"; //Structure block!
+                }
+                else if (section.contains("blocks") && line.contains(": \"pos\"")) {
                     section = "blocks1";
                 }
-                else if (section.contains("blocks") && line.contains("state")) {
+                else if (section.contains("blocks") && line.contains(": \"state\"")) {
                     section = "blocks2";
                 }
                 else if (section.equals("blocks1") && indentList == 5) {
