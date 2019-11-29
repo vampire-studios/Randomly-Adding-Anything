@@ -32,8 +32,8 @@ public class SuperCustomChunkGeneratorConfig extends ChunkGeneratorConfig {
 			return this;
 		}
 		
-		public Builder enableLargeSampler(double amplitude) {
-			this.enableLargeSampler = true;
+		public Builder enableLargeSampler(boolean enable, double amplitude) {
+			this.enableLargeSampler = enable;
 			this.largeSamplerAmplitude = amplitude;
 			return this;
 		}
