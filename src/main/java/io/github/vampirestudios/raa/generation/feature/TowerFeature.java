@@ -1,31 +1,23 @@
 package io.github.vampirestudios.raa.generation.feature;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.block.enums.Attachment;
-import net.minecraft.block.enums.BlockHalf;
-import net.minecraft.block.enums.WallMountLocation;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
-import net.minecraft.structure.StructurePiece;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -39,8 +31,8 @@ import java.util.*;
 import java.util.function.Function;
 
 public class TowerFeature extends Feature<DefaultFeatureConfig> {
-    JsonConverter converter = new JsonConverter();
-    Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
+    private JsonConverter converter = new JsonConverter();
+    private Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
         put("tower_base", converter.loadStructure("tower/tower_base.json"));
         put("tower_walls", converter.loadStructure("tower/tower_walls.json"));
         put("tower_stairs", converter.loadStructure("tower/tower_stairs.json"));
@@ -56,62 +48,13 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
     @Override
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
 
-        //Make sure the structure can spawn here
-        int x_origin = pos.getX();
-        int y_origin = pos.getY();
-        int z_origin = pos.getZ();
-
-        List<List<Float>> flatnessList = new ArrayList<>();
-        for (float x_offset = x_origin - 14; x_offset < x_origin + 14; x_offset++) {
-            for (float z_offset = z_origin - 14; z_offset < z_origin + 14; z_offset++) {
-                float y_offset = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(x_offset, 0, z_offset)).getY();
-                boolean non_spawnable = y_offset < 5 || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque()) || world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).equals(Blocks.BEDROCK.getDefaultState());
-                if (x_offset < x_origin + 3 && z_offset < z_origin + 3) {
-                    flatnessList.add(Arrays.asList(x_offset, y_offset, z_offset, 0f));
-                }
-                for (List<Float> flatness : flatnessList) {
-                    if (Math.pow((x_offset - flatness.get(0)) - 5.5f, 2) + Math.pow(z_offset - flatness.get(2) - 5.5f, 2) < Math.pow(6, 2)) {
-                        if (y_offset > flatness.get(1) - 3 && y_offset <= flatness.get(1)) {
-                            if (y_offset == flatness.get(1)) {
-                                flatness.set(3, flatness.get(3) + 1f);
-                            } else if (y_offset == flatness.get(1) - 1) {
-                                flatness.set(3, flatness.get(3) + 0.5f);
-                            } else {
-                                flatness.set(3, flatness.get(3) + 0.25f);
-                            }
-                        }
-                        if (non_spawnable) {
-                            flatness.set(3, -144f);
-                        }
-                    }
-                }
-            }
-        }
-        float max_flatness = -1;
-        int chosen = -1;
-        for (int i = 0; i < flatnessList.size(); i++) {
-            if (flatnessList.get(i).get(3) > max_flatness) {
-                max_flatness = flatnessList.get(i).get(3);
-                chosen = i;
-            }
-        }
-        boolean working_spawn = false;
-        if (chosen != -1) {
-            int x_chosen = flatnessList.get(chosen).get(0).intValue();
-            int y_chosen = flatnessList.get(chosen).get(1).intValue();
-            int z_chosen = flatnessList.get(chosen).get(2).intValue();
-            pos = new BlockPos(x_chosen, y_chosen, z_chosen);
-            working_spawn = trySpawning(world, pos);
-        }
-
-        if (!working_spawn || pos.getY() > 247) {
-            /*if (max_flatness > 20) {
-                System.out.println("Failed to spawn! Origin Coords: " + x_origin + "/" + y_origin + "/" + z_origin);
-                System.out.println("New Coords: " + pos.getX() + "/" + pos.getY() + "/" + pos.getZ());
-                System.out.println("Flatness: " + max_flatness);
-            }*/
+        //Check if structure can generate in the area
+        Vec3i size = structures.get("tower_base").getSize();
+        Vec3i tempPos = WorldStructureManipulation.CircularSpawnCheck(world, pos, new Vec3i(size.getX(), 9, size.getZ()), 0.25f);
+        if (tempPos.compareTo(Vec3i.ZERO) == 0) {
             return true;
         }
+        pos = new BlockPos(tempPos);
 
         //Generate basement
         if (pos.getY() > 10 && Rands.chance(3)) {
@@ -175,6 +118,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
             }
         }
 
+        //Record spawn in text file
         try {
             World world2 = world.getWorld();
             BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt", true));
@@ -187,104 +131,31 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         return true;
     }
 
-    public static boolean trySpawning(IWorld world, BlockPos pos) {
-        if (pos.getY() < 5 || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
-            return false;
-        }
-        Map<Integer, Float> heights = new HashMap<>();
-        for (int i = 0; i < 256; i++) {
-            heights.put(i, 0f);
-        }
-        int totalHeight = 0;
-        Float maxFreq = 0f;
-        int maxHeight = 0;
-        int modeHeight = 0;
-        int minHeight = 256;
-        for (int xIndent = 0; xIndent < 12; xIndent++) {
-            for (int zIndent = 0; zIndent < 12; zIndent++) {
-                if (Math.pow(xIndent - 5.5f, 2) + Math.pow(zIndent - 5.5f, 2) < Math.pow(6, 2)) {
-                    if (!world.getBlockState(new BlockPos(pos.add(xIndent, -1, zIndent))).isOpaque() && !world.getBlockState(new BlockPos(pos.add(xIndent, -2, zIndent))).isOpaque()) {
-                        return false;
-                    }
-
-                    int tempHeight = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, pos.add(xIndent, 0, zIndent)).getY();
-                    if (tempHeight < minHeight) {
-                        minHeight = tempHeight;
-                    }
-                    if (tempHeight > maxHeight) {
-                        maxHeight = tempHeight;
-                    }
-                    totalHeight += tempHeight;
-
-                    List<Integer> tempHeights = Arrays.asList(tempHeight, tempHeight - 1, tempHeight - 2);
-                    List<Float> tempFloats = Arrays.asList(1f, 0.5f, 0.25f);
-                    for (int i = 0; i < 3; i++) {
-                        if (tempHeight > 4 && tempHeight < 256) {
-                            //Float tempFreqs = heights.get(tempHeights.get(i)) + tempFloats.get(i);
-
-                            int test1 = tempHeights.get(i);
-                            float test2 = tempFloats.get(i);
-                            Float tempFreqs = heights.get(test1) + test2;
-
-                            heights.put(tempHeights.get(i), tempFreqs);
-                            if (tempFreqs > maxFreq) {
-                                maxFreq = tempFreqs;
-                                modeHeight = tempHeights.get(i);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        float TOLERANCE = 0.25f; //This is the tolerance for tower generation, ranging from 0 to 1. The lower this is, the more strict the tower generation is. Increase it for wacky generation.
-        if (maxHeight - minHeight > 3 && maxHeight*112 - totalHeight > 112*((maxHeight - minHeight)/2f * TOLERANCE) && maxHeight*112 - totalHeight < 112*((maxHeight - minHeight)*(1 - TOLERANCE/2f))) {
-            return false;
-        }
-
-        pos = pos.add(0, modeHeight - pos.getY(), 0);
-        return  true;
-    }
-
-    public static void placePiece(IWorld world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, int decay) {
+    private static void placePiece(IWorld world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, int decay) {
         for (int i = 0; i < piece.getBlockPositions().size(); i++) {
-            List<Integer> currBlockPos = piece.getBlockPositions().get(i);
+            Vec3i currBlockPos = piece.getBlockPositions().get(i);
             String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
-            int x = currBlockPos.get(0);
-            int y = currBlockPos.get(1);
-            int z = currBlockPos.get(2);
+            Map<String, String> currBlockProp = piece.getBlockProperties().get(piece.getBlockStates().get(i));
 
             //Rotate
-            Direction direction = rotate(((rotation + (rotation%2)*2 - 1)%4 + 4)%4, 0);
-            if (rotation == 1) {
-                int temp_x = x;
-                x = piece.getSize().get(0) - 1 - z;
-                z = temp_x;
-            } else if (rotation == 2) {
-                x = piece.getSize().get(0) - 1 - x;
-                z = piece.getSize().get(2) - 1 - z;
-            } else if (rotation == 3){
-                int temp_x = x;
-                x = z;
-                z = piece.getSize().get(2) - 1 - temp_x;
-            }
+            currBlockPos = WorldStructureManipulation.rotatePos(rotation, currBlockPos, piece.getSize());
 
             //Spawn blocks
-            if (decay > 0 && Rands.chance(14 - decay)) {
-                world.setBlockState(pos.add(x, y, z), Blocks.AIR.getDefaultState(), 2);
-            }
-            else {
+            if (currBlockType.equals("minecraft:air") || (decay > 0 && Rands.chance(14 - decay))) {
+                WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), "minecraft:air", new HashMap<>(), rotation);
+            } else {
                 if (currBlockType.equals("minecraft:stone_bricks")) {
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse("raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks")).getDefaultState(), 2);
+                    WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", currBlockProp, rotation);
                 } else if (currBlockType.equals("minecraft:ladder")) {
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState().with(Properties.HORIZONTAL_FACING, direction), 2);
+                    WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, 4 - rotation);
                 } else {
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
+                    WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, rotation);
                 }
             }
         }
     }
 
-    public static void fillWindows(IWorld world, BlockPos pos, int fill) {
+    private static void fillWindows(IWorld world, BlockPos pos, int fill) {
         //Fill windows part-way if outside or all the way if next to blocks
         for (int i = 0; i < 4; i++) {
             float xPart = 6.5f - 5.5f * MathHelper.cos((float) (Math.PI / 2 * i));
@@ -303,37 +174,77 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    public static void placeDecoration(IWorld world, BlockPos pos, int rotation, List<String> blocks, List<List<Integer>> blockPos) {
+    private static void placeDecoration(IWorld world, BlockPos pos, int rotation, List<String> blocks, List<Vec3i> blockPos, List<Map<String, String>> blockProps) {
         if (!world.isAir(pos.add(0, -1, 0))) {
             for (int i = 0; i < blockPos.size(); i++) {
-                int x = blockPos.get(i).get(0);
-                int y = blockPos.get(i).get(1);
-                int z = blockPos.get(i).get(2);
                 String currBlock = blocks.get(i);
+                Vec3i currPos = blockPos.get(i);
+                Map<String, String> currProps = blockProps.get(i);
+                int x = currPos.getX();
+                int z = currPos.getZ();
+                int y = currPos.getY();
+                int chest_type = 0;
 
                 //Rotate
                 int xTemp = x;
-                x = (x + z)*Math.round(MathHelper.cos((float) (Math.PI / 2f * (rotation - z))));
-                z = (xTemp + z)*-Math.round(MathHelper.sin((float) (Math.PI / 2f * (rotation - z))));
-                Direction direction = rotate(rotation, 0);
+                x = (x + z) * Math.round(MathHelper.cos((float) (Math.PI / 2f * (rotation - z))));
+                z = (xTemp + z) * -Math.round(MathHelper.sin((float) (Math.PI / 2f * (rotation - z))));
+                currPos = new Vec3i(x, currPos.getY(), z);
 
-                if (currBlock.equals("barrel")) {
-                    int dir = new Random().nextInt(3);
-                    if (dir == 0 || blocks.size() == 1) {
-                        direction = Direction.UP;
-                    } else {
-                        direction = rotate(rotation, (dir + 3)%4);
+                //Spawn entity
+                if (currBlock.equals("armor_stand")) {
+                    float stand_rotation = 90f;
+                    if (currProps.get("armor") == null) {
+                        if (rotation % 2 == 0) {
+                            stand_rotation = -45f;
+                        } else {
+                            stand_rotation = 45f;
+                        }
                     }
-                    world.setBlockState(pos.add(x, y, z), Blocks.BARREL.getDefaultState().with(Properties.FACING, direction), 2);
-                } else if (currBlock.equals("smoker") || currBlock.equals("blast_furnace") || currBlock.equals("furnace") || currBlock.equals("wall_torch") || currBlock.equals("stonecutter")) {
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse("minecraft:" + currBlock)).getDefaultState().with(Properties.HORIZONTAL_FACING, direction), 2);
-                } else if (currBlock.contains("chest")) {
-                    world.setBlockState(pos.add(x, y, z), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, direction)), 2);
-                    if (currBlock.equals("chest1")) {
+                    WorldStructureManipulation.SpawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, currProps, stand_rotation);
+
+                    //Spawn block
+                } else {
+                    if (currBlock.equals("barrel") && blocks.size() != 1) {
+                        int rotate = new Random().nextInt(3);
+                        currProps.put("facing", (rotate == 0) ? "SOUTH" : (rotate == 1) ? "EAST" : "UP");
+                    } else if (currBlock.equals("potted_")) {
+                        String[] plants = {"white_tulip", "spruce_sapling", "red_tulip", "red_mushroom", "poppy", "pink_tulip", "oxeye_daisy", "orange_tulip",
+                                "oak_sapling", "lily_of_the_valley", "jungle_sapling", "fern", "dead_bush", "dark_oak_sapling", "dandelion", "cactus",
+                                "brown_mushroom", "blue_orchid", "birch_sapling", "bamboo", "azure_bluet", "allium", "acacia_sapling", "cornflower"};
+                        currBlock += plants[new Random().nextInt(plants.length)];
+                    } else if (currBlock.equals("iron_bars")) {
+                        if (blocks.size() == 1) {
+                            currProps.put("west", "TRUE");
+                            currProps.put("east", "TRUE");
+                        } else if (x == z && y == 0) {
+                            currProps.put("north", "TRUE");
+                            currProps.put("west", "TRUE");
+                            currProps.put("south", "TRUE");
+                            currProps.put("east", "TRUE");
+                        } else {
+                            currProps.put("north", "TRUE");
+                            currProps.put("west", "TRUE");
+                        }
+                    } else if (currBlock.contains("chest")) {
+                        if (currBlock.equals("chest1")) {
+                            chest_type = 1;
+                        } else if (currBlock.equals("chest2")) {
+                            chest_type = 2;
+                        } else {
+                            chest_type = 3;
+                        }
+                        currBlock = "chest";
+                    }
+
+                    WorldStructureManipulation.PlaceBlock(world, pos.add(currPos), "minecraft:" + currBlock, currProps, rotation);
+
+                    //Chest loot
+                    if (chest_type == 1) {
                         LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.SHIPWRECK_SUPPLY_CHEST);
-                    } else if (currBlock.equals("chest2")) {
+                    } else if (chest_type == 2) {
                         LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.VILLAGE_WEAPONSMITH_CHEST);
-                    } else {
+                    } else if (chest_type == 3){
                         if (Rands.chance(5)) {
                             LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.SIMPLE_DUNGEON_CHEST);
                         } else if (Rands.chance(8)) {
@@ -342,116 +253,12 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                             LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.VILLAGE_CARTOGRAPHER_CHEST);
                         }
                     }
-                } else if (currBlock.contains("armor_stand")) {
-                    Entity armorStand = new Entity(EntityType.ARMOR_STAND, world.getWorld()) {
-                        @Override
-                        protected void initDataTracker() { }
-
-                        @Override
-                        protected void readCustomDataFromTag(CompoundTag compoundTag) { }
-
-                        @Override
-                        protected void writeCustomDataToTag(CompoundTag compoundTag) { }
-
-                        @Override
-                        public Packet<?> createSpawnPacket() { return null; }
-                    };
-                    float stand_rotation = 90f;
-                    if (currBlock.equals("armor_stand1")) {
-                        if (rotation% 2 == 0) {
-                            stand_rotation = -45f;
-                        } else {
-                            stand_rotation = 45f;
-                        }
-                    } else {
-                        List<ItemStack> helmets = new ArrayList<>(
-                            ImmutableList.of(
-                                new ItemStack(Items.LEATHER_HELMET),
-                                new ItemStack(Items.CHAINMAIL_HELMET),
-                                new ItemStack(Items.GOLDEN_HELMET),
-                                new ItemStack(Items.IRON_HELMET),
-                                new ItemStack(Items.DIAMOND_HELMET)
-                            )
-                        );
-                        List<ItemStack> chestplates = new ArrayList<>(
-                                ImmutableList.of(
-                                        new ItemStack(Items.LEATHER_CHESTPLATE),
-                                        new ItemStack(Items.CHAINMAIL_CHESTPLATE),
-                                        new ItemStack(Items.GOLDEN_CHESTPLATE),
-                                        new ItemStack(Items.IRON_CHESTPLATE),
-                                        new ItemStack(Items.DIAMOND_CHESTPLATE)
-                                )
-                        );
-                        List<ItemStack> leggings = new ArrayList<>(
-                                ImmutableList.of(
-                                        new ItemStack(Items.LEATHER_LEGGINGS),
-                                        new ItemStack(Items.CHAINMAIL_LEGGINGS),
-                                        new ItemStack(Items.GOLDEN_LEGGINGS),
-                                        new ItemStack(Items.IRON_LEGGINGS),
-                                        new ItemStack(Items.DIAMOND_LEGGINGS)
-                                )
-                        );
-                        List<ItemStack> boots = new ArrayList<>(
-                                ImmutableList.of(
-                                        new ItemStack(Items.LEATHER_BOOTS),
-                                        new ItemStack(Items.CHAINMAIL_BOOTS),
-                                        new ItemStack(Items.GOLDEN_BOOTS),
-                                        new ItemStack(Items.IRON_BOOTS),
-                                        new ItemStack(Items.DIAMOND_BOOTS)
-                                )
-                        );
-                        armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
-                        armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));
-                        armorStand.equipStack(EquipmentSlot.LEGS, Rands.list(leggings));
-                        armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
-                        //Put armor on the stand
-                    }
-                    armorStand.setPositionAndAngles(pos.add(x, y, z), stand_rotation, 0f);
-                    world.spawnEntity(armorStand);
-                } else if (currBlock.equals("oak_stairs")) {
-                    if (blocks.size() == 3) {
-                        world.setBlockState(pos.add(x, y, z), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, direction), 2);
-                    } else if (x != z) {
-                        world.setBlockState(pos.add(x, y, z), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, direction).with(Properties.BLOCK_HALF, BlockHalf.TOP), 2);
-                    } else {
-                        world.setBlockState(pos.add(x, y, z), Blocks.OAK_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING, rotate(rotation, 2)).with(Properties.BLOCK_HALF, BlockHalf.TOP), 2);
-                    }
-                } else if (currBlock.equals("potted_")) {
-                    String[] plants = { "white_tulip", "spruce_sapling", "red_tulip", "red_mushroom", "poppy", "pink_tulip", "oxeye_daisy", "orange_tulip",
-                                        "oak_sapling", "lily_of_the_valley", "jungle_sapling", "fern", "dead_bush", "dark_oak_sapling", "dandelion", "cactus",
-                                        "brown_mushroom", "blue_orchid", "birch_sapling", "bamboo", "azure_bluet", "allium", "acacia_sapling", "cornflower"};
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse("minecraft:" + currBlock + plants[new Random().nextInt(plants.length)])).getDefaultState(), 2);
-                } else if (currBlock.equals("grindstone")) {
-                    world.setBlockState(pos.add(x, y, z), Blocks.GRINDSTONE.getDefaultState().with(Properties.WALL_MOUNT_LOCATION, WallMountLocation.FLOOR), 2);
-                } else if (currBlock.equals("bell")) {
-                    world.setBlockState(pos.add(x, y, z), Blocks.BELL.getDefaultState().with(Properties.HORIZONTAL_FACING, rotate(rotation, 2)).with(Properties.ATTACHMENT, Attachment.SINGLE_WALL), 2);
-                } else if (currBlock.equals("iron_bars")) {
-                    if (blocks.size() == 1) {
-                        world.setBlockState(pos.add(x, y, z), Blocks.IRON_BARS.getDefaultState().with(Properties.NORTH, true).with(Properties.SOUTH, true), 2);
-                    }
-                    else {
-                        world.setBlockState(pos.add(x, y, z), Blocks.IRON_BARS.getDefaultState(), 2);
-                        if (!world.isAir(pos.add(x + 1, y, z)) || (x == z && y == 0)) {
-                            world.setBlockState(pos.add(x, y, z), world.getBlockState(pos.add(x, y, z)).with(Properties.EAST, true), 2);
-                        }
-                        if (!world.isAir(pos.add(x - 1, y, z)) || (x == z && y == 0)) {
-                            world.setBlockState(pos.add(x, y, z), world.getBlockState(pos.add(x, y, z)).with(Properties.WEST, true), 2);
-                        }
-                        if (!world.isAir(pos.add(x, y, z + 1)) || (x == z && y == 0)) {
-                            world.setBlockState(pos.add(x, y, z), world.getBlockState(pos.add(x, y, z)).with(Properties.SOUTH, true), 2);
-                        }
-                        if (!world.isAir(pos.add(x, y, z - 1)) || (x == z && y == 0)) {
-                            world.setBlockState(pos.add(x, y, z), world.getBlockState(pos.add(x, y, z)).with(Properties.NORTH, true), 2);
-                        }
-                    }
-                } else {
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse("minecraft:" + currBlock)).getDefaultState(), 2);
                 }
             }
         }
     }
 
-    public static void placeRoom(IWorld world, BlockPos pos, Map<String, JsonConverter.StructureValues> pieces, String type, int decay) {
+    private static void placeRoom(IWorld world, BlockPos pos, Map<String, JsonConverter.StructureValues> pieces, String type, int decay) {
         //walls
         placePiece(world, pos.add(1, 0, 1), 0, pieces.get("tower_walls"), decay + 2);
         //stairs/ladders
@@ -461,11 +268,40 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
             placePiece(world, pos, new Random().nextInt(4), pieces.get("tower_ladders"), decay - 1);
         }
 
-        Map<List<String>, List<List<Integer>>> cornerItems = new HashMap<>();
-        Map<List<String>, List<List<Integer>>> centerItems = new HashMap<>();
-        Object[] names;
+        //Populate corner items
+        String cornerBlocksString = "barrel, barrel, barrel, barrel; wall_torch; smoker; furnace; crafting_table; " +
+                "iron_bars, iron_bars, iron_bars, iron_bars; oak_fence, oak_pressure_plate; smithing_table; blast_furnace; armor_stand; " +
+                "oak_stairs, oak_stairs, white_carpet, red_carpet; oak_fence, oak_pressure_plate, oak_stairs; scaffolding, potted_; bookshelf, bookshelf; armor_stand";
+        String cornerPosString =    "0 0 0, 0 0 1, 1 0 0, 0 1 0; 0 1 0; 0 0 0; 0 0 0; 0 0 0; " +
+                "0 0 0, 0 0 1, 1 0 0, 0 1 0; 0 0 0, 0 1 0; 0 0 0; 0 0 0; 0 0 0; " +
+                "0 0 0, 0 0 1, 0 1 0, 0 1 1; 0 0 0, 0 1 0, 0 0 1; 0 0 0, 0 1 0; 0 0 0, 0 1 0; 0 0 0";
+        String cornerPropsString =  "facing:UP, facing:UP, facing:UP, facing:UP; facing:SOUTH; facing:SOUTH; facing:SOUTH; NULL; " +
+                "NULL, NULL, NULL, NULL; NULL, NULL; NULL; facing:SOUTH; NULL; " +
+                "facing:NORTH half:TOP shape:STRAIGHT, facing:SOUTH half:TOP shape:STRAIGHT, NULL, NULL; NULL, NULL, facing:SOUTH half:BOTTOM shape:STRAIGHT; distance:0, NULL; NULL, NULL; NULL";
+
+        //Populate center items
+        String centerBlocksString = "chest1, air; barrel; stonecutter; tnt; oak_fence, oak_pressure_plate; " +
+                "chest2, air; iron_bars; damaged_anvil; grindstone; armor_stand; " +
+                "chest3, air; bell; scaffolding, oak_pressure_plate; scaffolding, lantern";
+        String centerPosString =    "0 0 0, 0 0 1; 0 0 0; 0 0 0; 0 0 0; 0 0 0, 0 1 0; " +
+                "0 0 0, 0 0 1; 0 0 0; 0 0 0; 0 0 0; 0 0 0; " +
+                "0 0 0, 0 0 1; 0 1 0; 0 0 0, 0 1 0; 0 0 0, 0 1 0";
+        String centerPropsString =  "facing:SOUTH type:SINGLE, NULL; facing:UP; facing:SOUTH; NULL; NULL, NULL; " +
+                "facing:SOUTH type:SINGLE, NULL; north:TRUE south:TRUE; facing:WEST; face:FLOOR facing:WEST; armor:ALL; " +
+                "facing:SOUTH type:SINGLE, NULL; attachment:SINGLE_WALL facing:NORTH; distance:0, NULL; distance:0, NULL";
+
+        List<List<String>> cornerBlocks = new ArrayList<>();
+        List<List<Vec3i>> cornerPos = new ArrayList<>();
+        List<List<Map<String, String>>> cornerProps = new ArrayList<>();
+        InitializeDecos(cornerBlocksString, cornerPosString, cornerPropsString, cornerBlocks, cornerPos, cornerProps);
+
+        List<List<String>> centerBlocks = new ArrayList<>();
+        List<List<Vec3i>> centerPos = new ArrayList<>();
+        List<List<Map<String, String>>> centerProps = new ArrayList<>();
+        InitializeDecos(centerBlocksString, centerPosString, centerPropsString, centerBlocks, centerPos, centerProps);
+
         Random rand = new Random();
-        List<String> item;
+        int randIndex;
 
         //Populate room based on type
         switch (type) {
@@ -480,31 +316,17 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 world.setBlockState(pos.add(5, 0, 7), Blocks.BARREL.getDefaultState().with(Properties.FACING, Direction.UP), 2);
                 world.setBlockState(pos.add(8, 0, 6), Blocks.BARREL.getDefaultState().with(Properties.FACING, Direction.UP), 2);
 
-                //Populate corner items
-                cornerItems.clear();
-                cornerItems.put(Arrays.asList("barrel", "barrel", "barrel", "barrel"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,0,1), Arrays.asList(1,0,0), Arrays.asList(0,1,0)));
-                cornerItems.put(Arrays.asList("wall_torch"), Arrays.asList(Arrays.asList(0,1,0)));
-                cornerItems.put(Arrays.asList("smoker"), Arrays.asList(Arrays.asList(0,0,0)));
-                cornerItems.put(Arrays.asList("furnace"), Arrays.asList(Arrays.asList(0,0,0)));
-                cornerItems.put(Arrays.asList("crafting_table"), Arrays.asList(Arrays.asList(0,0,0)));
-                names = cornerItems.keySet().toArray();
+                //Storage corners
                 for (int i = 0; i < 4; i++) {
-                    item = (List<String>) names[rand.nextInt(5)];
-                    placeDecoration(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
+                    randIndex = rand.nextInt(5);
+                    placeDecoration(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, cornerBlocks.get(randIndex), cornerPos.get(randIndex), cornerProps.get(randIndex));
                 }
 
-                //Populate center items
-                centerItems.clear();
-                centerItems.put(Arrays.asList("chest1", "air"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,0,1)));
-                centerItems.put(Arrays.asList("barrel"), Arrays.asList(Arrays.asList(0,0,0)));
-                centerItems.put(Arrays.asList("stonecutter"), Arrays.asList(Arrays.asList(0,0,0)));
-                centerItems.put(Arrays.asList("tnt"), Arrays.asList(Arrays.asList(0,0,0)));
-                centerItems.put(Arrays.asList("oak_fence", "oak_pressure_plate"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
-                names = centerItems.keySet().toArray();
-                item = (List<String>) names[rand.nextInt(5)];
-                placeDecoration(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
-                item = (List<String>) names[rand.nextInt(5)];
-                placeDecoration(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
+                //Storage center
+                randIndex = rand.nextInt(5);
+                placeDecoration(world, pos.add(5, 0, 6), 3, centerBlocks.get(randIndex), centerPos.get(randIndex), centerProps.get(randIndex));
+                randIndex = rand.nextInt(5);
+                placeDecoration(world, pos.add(8, 0, 7), 1, centerBlocks.get(randIndex), centerPos.get(randIndex), centerProps.get(randIndex));
 
                 fillWindows(world, pos, 2);
                 break;
@@ -520,31 +342,17 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 world.setBlockState(pos.add(5, 0, 7), Blocks.IRON_BARS.getDefaultState().with(Properties.NORTH, true).with(Properties.SOUTH, true), 2);
                 world.setBlockState(pos.add(8, 0, 6), Blocks.IRON_BARS.getDefaultState().with(Properties.NORTH, true).with(Properties.SOUTH, true), 2);
 
-                //Populate corner items
-                cornerItems.clear();
-                cornerItems.put(Arrays.asList("iron_bars","iron_bars","iron_bars","iron_bars"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,0,1), Arrays.asList(1,0,0), Arrays.asList(0,1,0)));
-                cornerItems.put(Arrays.asList("oak_fence", "oak_pressure_plate"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
-                cornerItems.put(Arrays.asList("smithing_table"), Arrays.asList(Arrays.asList(0,0,0)));
-                cornerItems.put(Arrays.asList("blast_furnace"), Arrays.asList(Arrays.asList(0,0,0)));
-                cornerItems.put(Arrays.asList("armor_stand1"), Arrays.asList(Arrays.asList(0,0,0)));
-                names = cornerItems.keySet().toArray();
+                //Armory corners
                 for (int i = 0; i < 4; i++) {
-                    item = (List<String>) names[rand.nextInt(5)];
-                    placeDecoration(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
+                    randIndex = rand.nextInt(5) + 5;
+                    placeDecoration(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, cornerBlocks.get(randIndex), cornerPos.get(randIndex), cornerProps.get(randIndex));
                 }
 
-                //Populate center items
-                centerItems.clear();
-                centerItems.put(Arrays.asList("chest2", "air"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,0,1)));
-                centerItems.put(Arrays.asList("iron_bars"), Arrays.asList(Arrays.asList(0,0,0)));
-                centerItems.put(Arrays.asList("damaged_anvil"), Arrays.asList(Arrays.asList(0,0,0)));
-                centerItems.put(Arrays.asList("grindstone"), Arrays.asList(Arrays.asList(0,0,0)));
-                centerItems.put(Arrays.asList("armor_stand2"), Arrays.asList(Arrays.asList(0,0,0)));
-                names = centerItems.keySet().toArray();
-                item = (List<String>) names[rand.nextInt(5)];
-                placeDecoration(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
-                item = (List<String>) names[rand.nextInt(5)];
-                placeDecoration(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
+                //Armory center
+                randIndex = rand.nextInt(5) + 5;
+                placeDecoration(world, pos.add(5, 0, 6), 3, centerBlocks.get(randIndex), centerPos.get(randIndex), centerProps.get(randIndex));
+                randIndex = rand.nextInt(5) + 5;
+                placeDecoration(world, pos.add(8, 0, 7), 1, centerBlocks.get(randIndex), centerPos.get(randIndex), centerProps.get(randIndex));
 
                 fillWindows(world, pos, 0);
                 break;
@@ -555,43 +363,32 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     world.setBlockState(pos.add(6 + i%2, 1, 6 + i/2), Blocks.BOOKSHELF.getDefaultState(), 2);
                 }
                 List<String> bed_sheets = Arrays.asList("white_carpet","red_carpet");
-                List<List<Integer>> bed_pos = Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,0,1), Arrays.asList(0,1,0), Arrays.asList(0,1,1));
+                List<Vec3i> bed_pos = Arrays.asList(Vec3i.ZERO, new Vec3i(0,0,1), new Vec3i(0,1,0), new Vec3i(0,1,1));
+                List<Map<String, String>> bed_props = Arrays.asList(ImmutableMap.of("facing", "NORTH" ,"half", "TOP", "shape", "STRAIGHT"), ImmutableMap.of("facing", "SOUTH" ,"half", "TOP", "shape", "STRAIGHT"), new HashMap<>(), new HashMap<>());
                 for (int i = 0; i < 4; i++) {
                     int x = 5 + 3*(i/2);
                     int z = 5 + 3*Math.round(MathHelper.sin((float) (Math.PI/3*i)));
                     List<String> bed_items = Arrays.asList("oak_stairs","oak_stairs",bed_sheets.get((i+1)%2),bed_sheets.get(i%2));
-                    placeDecoration(world, pos.add(x, 0, z), (i + 1)%4, bed_items, bed_pos);
+                    placeDecoration(world, pos.add(x, 0, z), (i + 1)%4, bed_items, bed_pos, bed_props);
                     if (i%2 == 0) {
                         List<String> table_items = Arrays.asList("scaffolding", "oak_pressure_plate");
-                        List<List<Integer>> table_pos = Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0));
-                        placeDecoration(world, pos.add(x - 2*i + 2, 0, z), i, table_items, table_pos);
+                        List<Vec3i> table_pos = Arrays.asList(Vec3i.ZERO, new Vec3i(0,1,0));
+                        List<Map<String, String>> table_props = Arrays.asList(ImmutableMap.of("distance", "0"), new HashMap<>());
+                        placeDecoration(world, pos.add(x - 2*i + 2, 0, z), i, table_items, table_pos, table_props);
                     }
                 }
 
-                //Populate corner items
-                cornerItems.clear();
-                cornerItems.put(Arrays.asList("oak_stairs","oak_stairs","white_carpet","red_carpet"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,0,1), Arrays.asList(0,1,0), Arrays.asList(0,1,1)));
-                cornerItems.put(Arrays.asList("oak_fence", "oak_pressure_plate", "oak_stairs"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0), Arrays.asList(0,0,1)));
-                cornerItems.put(Arrays.asList("scaffolding", "potted_"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
-                cornerItems.put(Arrays.asList("bookshelf", "bookshelf"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
-                cornerItems.put(Arrays.asList("armor_stand1"), Arrays.asList(Arrays.asList(0,0,0)));
-                names = cornerItems.keySet().toArray();
+                //Barracks corners
                 for (int i = 0; i < 4; i++) {
-                    item = (List<String>) names[rand.nextInt(5)];
-                    placeDecoration(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, item, cornerItems.get(item));
+                    randIndex = rand.nextInt(5) + 10;
+                    placeDecoration(world, pos.add(3 + 7*(i/2), 0, 3 + 7*Math.round(MathHelper.sin((float) (Math.PI/3*i)))), i, cornerBlocks.get(randIndex), cornerPos.get(randIndex), cornerProps.get(randIndex));
                 }
 
-                //Populate center items
-                centerItems.clear();
-                centerItems.put(Arrays.asList("chest3", "air"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,0,1)));
-                centerItems.put(Arrays.asList("bell"), Arrays.asList(Arrays.asList(0,1,0)));
-                centerItems.put(Arrays.asList("scaffolding", "oak_pressure_plate"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
-                centerItems.put(Arrays.asList("scaffolding", "lantern"), Arrays.asList(Arrays.asList(0,0,0), Arrays.asList(0,1,0)));
-                names = centerItems.keySet().toArray();
-                item = (List<String>) names[rand.nextInt(4)];
-                placeDecoration(world, pos.add(5, 0, 6), 3, item, centerItems.get(item));
-                item = (List<String>) names[rand.nextInt(4)];
-                placeDecoration(world, pos.add(8, 0, 7), 1, item, centerItems.get(item));
+                //Barracks center
+                randIndex = rand.nextInt(4) + 10;
+                placeDecoration(world, pos.add(5, 0, 6), 3, centerBlocks.get(randIndex), centerPos.get(randIndex), centerProps.get(randIndex));
+                randIndex = rand.nextInt(4) + 10;
+                placeDecoration(world, pos.add(8, 0, 7), 1, centerBlocks.get(randIndex), centerPos.get(randIndex), centerProps.get(randIndex));
 
                 fillWindows(world, pos, 1);
                 break;
@@ -609,28 +406,40 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    public static Direction rotate(int rotation, int amount) {
-        if (amount > 0) {
-            Direction new_dir = rotate(rotation, amount - 1);
-            if (new_dir == Direction.WEST) {
-                return Direction.SOUTH;
-            } else if (new_dir == Direction.SOUTH) {
-                return Direction.EAST;
-            } else if (new_dir == Direction.EAST) {
-                return Direction.NORTH;
-            } else {
-                return Direction.WEST;
+    private static void InitializeDecos(String blocksString, String posString, String propsString, List<List<String>> blocks, List<List<Vec3i>> pos, List<List<Map<String, String>>> props) {
+        List<String> temp1;
+        temp1 = Arrays.asList(blocksString.split("; "));
+        for (String i : temp1) {
+            blocks.add(Arrays.asList(i.split(", ")));
+        }
+
+        temp1 = Arrays.asList(posString.split("; "));
+        for (String i : temp1) {
+            List<Vec3i> temp2 = new ArrayList<>();
+            String[] temp3 = i.split(", ");
+            for (String j : temp3) {
+                List<String> temp4 = Arrays.asList(j.split(" "));
+                temp2.add(new Vec3i(Integer.parseInt(temp4.get(0)), Integer.parseInt(temp4.get(1)), Integer.parseInt(temp4.get(2))));
             }
-        } else {
-            if (rotation == 0) {
-                return Direction.SOUTH;
-            } else if (rotation == 1) {
-                return Direction.EAST;
-            } else if (rotation == 2) {
-                return Direction.NORTH;
-            } else {
-                return Direction.WEST;
+            pos.add(temp2);
+        }
+
+        temp1 = Arrays.asList(propsString.split("; "));
+        for (String i : temp1) {
+            List<Map<String, String>> temp2 = new ArrayList<>();
+            String[] temp3 = i.split(", ");
+            for (String j : temp3) {
+                Map<String, String> temp4 = new HashMap<>();
+                if (!j.equals("NULL")) {
+                    String[] temp5 = j.split(" ");
+                    for (String k : temp5) {
+                        List<String> temp6 = Arrays.asList(k.split(":"));
+                        temp4.put(temp6.get(0), temp6.get(1));
+                    }
+                }
+                temp2.add(temp4);
             }
+            props.add(temp2);
         }
     }
 }

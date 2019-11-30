@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.registries;
 
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.commands.CommandLocateRAAStructure;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.FossilFeature;
