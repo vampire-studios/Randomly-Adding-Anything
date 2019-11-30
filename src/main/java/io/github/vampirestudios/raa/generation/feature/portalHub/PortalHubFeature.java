@@ -1,14 +1,15 @@
-package io.github.vampirestudios.raa.generation.feature;
+package io.github.vampirestudios.raa.generation.feature.portalHub;
 
 import com.mojang.datafixers.Dynamic;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.StairsBlock;
 import net.minecraft.block.enums.BlockHalf;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.block.enums.StairShape;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +17,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
@@ -100,7 +102,8 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         placePiece(world, pos, 0, structures.get("portal_hub"), 0);
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + world.getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt", true));
+            World world2 = world.getWorld();
+            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/data/portal_hub_spawns.txt", true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
             writer.close();
         } catch (IOException e) {
@@ -163,6 +166,9 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public static void placePiece(IWorld world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, int decay) {
+        PortalHubTheme theme = PortalHubThemes.PORTAL_HUB_THEMES.get(Rands.randInt(
+                PortalHubThemes.PORTAL_HUB_THEMES.getIds().size()));
+        assert theme != null;
         for (int i = 0; i < piece.getBlockPositions().size(); i++) {
             List<Integer> currBlockPos = piece.getBlockPositions().get(i);
             String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
@@ -190,19 +196,21 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
             if (decay > 0 && Rands.chance(14 - decay)) {
                 world.setBlockState(pos.add(x, y, z), Blocks.AIR.getDefaultState(), 2);
             } else {
-                if (currBlockType.equals("minecraft:stone_brick_slab")) {
-                    world.setBlockState(pos.add(x, y, z), Blocks.STONE_BRICK_SLAB.getDefaultState().with(Properties.SLAB_TYPE, SlabType.valueOf(currBlockProp.get("type").toUpperCase())), 2);
+                if (currBlockType.equals("minecraft:stone_bricks")) {
+                    world.setBlockState(pos.add(x, y, z), theme.getBlock().getDefaultState(), 2);
+                } else if (currBlockType.equals("minecraft:stone_brick_slab")) {
+                    world.setBlockState(pos.add(x, y, z), theme.getSlab().getDefaultState().with(Properties.SLAB_TYPE, SlabType.valueOf(currBlockProp.get("type").toUpperCase())), 2);
                 } else if (currBlockType.equals("minecraft:structure_block")) {
                     //Do nothing TODO: Remove this later!
                 } else if (currBlockType.equals("minecraft:stone_brick_stairs")) {
-                    world.setBlockState(pos.add(x, y, z), Blocks.STONE_BRICK_STAIRS.getDefaultState().with(Properties.BLOCK_HALF, BlockHalf.valueOf(currBlockProp.get("half").toUpperCase())).with(Properties.STAIR_SHAPE, StairShape.valueOf(currBlockProp.get("shape").toUpperCase())).with(Properties.HORIZONTAL_FACING, Direction.valueOf(currBlockProp.get("facing").toUpperCase())), 2);
+                    world.setBlockState(pos.add(x, y, z), theme.getStairs().getDefaultState().with(Properties.BLOCK_HALF, BlockHalf.valueOf(currBlockProp.get("half").toUpperCase())).with(Properties.STAIR_SHAPE, StairShape.valueOf(currBlockProp.get("shape").toUpperCase())).with(Properties.HORIZONTAL_FACING, Direction.valueOf(currBlockProp.get("facing").toUpperCase())), 2);
                 } else if (currBlockType.equals("minecraft:stone_brick_wall")) {
-                    world.setBlockState(pos.add(x, y, z), Blocks.STONE_BRICK_WALL.getDefaultState(), 2);//.with(Properties.EAST, Boolean.getBoolean(currBlockProp.get("east").toUpperCase())).with(Properties.NORTH, Boolean.getBoolean(currBlockProp.get("north").toUpperCase())).with(Properties.SOUTH, Boolean.getBoolean(currBlockProp.get("south").toUpperCase())).with(Properties.WEST, Boolean.getBoolean(currBlockProp.get("west").toUpperCase())).with(Properties.UP, Boolean.getBoolean(currBlockProp.get("up").toUpperCase())), 2);
+                    world.setBlockState(pos.add(x, y, z), theme.getWall().getDefaultState(), 2);
                 } else if (currBlockType.equals("minecraft:orange_wool")) {
                     //Spawn random portal
-                    //String name = Dimensions.DIMENSIONS.get(new Random().nextInt(Dimensions.DIMENSION_NAMES.size())).getName();
-                    //System.out.println(Dimensions.DIMENSION_NAMES.size());
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
+                    List<DimensionData> dimensionDataList = new ArrayList<>();
+                    Dimensions.DIMENSIONS.forEach(dimensionDataList::add);
+                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse("raa:" +Rands.list(dimensionDataList).getName().toLowerCase() + "_portal")).getDefaultState(), 2);
                 } else if (!currBlockType.equals("minecraft:air")){
                     world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
                 }

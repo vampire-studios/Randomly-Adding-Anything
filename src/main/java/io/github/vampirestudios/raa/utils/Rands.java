@@ -42,6 +42,12 @@ public class Rands {
         return list.get(randInt(list.size()));
     }
 
+    public static <O extends Object> List<O> lists(List<O> list, List<O> list2) {
+        int int1 = randInt(list.size());
+        int int2 = randInt(list2.size());
+        return Arrays.asList(list.get(int1), list2.get(int2));
+    }
+
     public static <K, V extends Object> Map.Entry<K, V> map(Map<K, V> map) {
         Set<Map.Entry<K, V>> entry = map.entrySet();
         return new ArrayList<>(entry).get(randInt(entry.size()));

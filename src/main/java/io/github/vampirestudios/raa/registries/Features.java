@@ -6,6 +6,7 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.FossilFeature;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
+import io.github.vampirestudios.raa.generation.feature.portalHub.PortalHubFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.BentTreeFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.DoubleTreeFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.FixedTreeFeature;

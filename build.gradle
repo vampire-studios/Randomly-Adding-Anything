@@ -63,6 +63,15 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
+    modImplementation 'curse.maven:slightly-altered-terrain-generation:2834529'
+    modImplementation 'curse.maven:trees-do-not-float:2833870'
+    modImplementation 'curse.maven:carpet:2834141'
+    modImplementation 'curse.maven:fabric-vertigo:2834529'
+    modImplementation 'curse.maven:expanded-storage:2832473'
+    modImplementation 'curse.maven:carpet-extra:2830934'
+    modImplementation 'curse.maven:shulkerboxtooltip:2829477'
+    modImplementation 'curse.maven:leaf-decay:2827905'
+
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
         exclude group :"net.fabricmc.fabric-api"

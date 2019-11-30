@@ -337,27 +337,27 @@ public class Dimensions {
             RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBricks");
-            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
+            /*RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "mossy_" + dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyStoneBricks");
             RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "cracked_" + dimension.getName().toLowerCase() + "_stone_bricks"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedStoneBricks");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedStoneBricks");*/
             RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_cobblestone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestone");
-            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
+            /*RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_mossy_cobblestone"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyCobblestone");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyCobblestone");*/
             RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "chiseled_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "chiseled");
-            RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
+            /*RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "cracked_chiseled_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedChiseled");
             RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "mossy_chiseled_" + dimension.getName().toLowerCase()),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyChiseled");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyChiseled");*/
             RegistryUtils.register(new DimensionalBlock(dimension.getName(), false), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "polished_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polished");
