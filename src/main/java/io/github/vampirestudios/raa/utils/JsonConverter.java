@@ -1,5 +1,8 @@
 package io.github.vampirestudios.raa.utils;
 
+import net.minecraft.client.util.math.Vector3d;
+import net.minecraft.util.math.Vec3i;
+
 import java.io.File;
 import java.util.*;
 
@@ -7,16 +10,16 @@ public class JsonConverter {
 
     public static class StructureValues {
         private String name;
-        private List<Integer> size;
+        private Vec3i size;
         private int entities; //Figure out what to do with this
-        private List<List<Integer>> blockPositions;
+        private List<Vec3i> blockPositions;
         private List<Integer> blockStates;
         private List<String> blockTypes;
         private List<Map<String, String>> blockProperties;
 
         StructureValues() {
             name = "";
-            size = new ArrayList<>();
+            size = Vec3i.ZERO;
             entities = 0;
             blockPositions = new ArrayList<>();
             blockStates = new ArrayList<>();
@@ -25,17 +28,17 @@ public class JsonConverter {
         }
 
         public void setName(String nameIn) { name = nameIn; }
-        public void setSize(List<Integer> sizeIn) { size = new ArrayList<>(sizeIn); }
+        public void setSize(List<Integer> sizeIn) { size = new Vec3i(sizeIn.get(0), sizeIn.get(1), sizeIn.get(2)); }
         public void setEntities() {}
-        public void setBlockPositions(List<Integer> positionsIn) { blockPositions.add(new ArrayList<>(positionsIn)); }
+        public void setBlockPositions(List<Integer> positionsIn) { blockPositions.add(new Vec3i(positionsIn.get(0), positionsIn.get(1), positionsIn.get(2))); }
         public void setBlockStates(Integer statesIn) { blockStates.add(statesIn); }
         public void setBlockTypes(String blocksIn) { blockTypes.add(blocksIn); }
         public void setBlockProperties(Map<String, String> propertiesIn) { blockProperties.add(propertiesIn); }
 
         public String getName() { return name; }
-        public List<Integer> getSize() { return size; }
+        public Vec3i getSize() { return size; }
         public int getEntities() { return entities; }
-        public List<List<Integer>> getBlockPositions() { return blockPositions; }
+        public List<Vec3i> getBlockPositions() { return blockPositions; }
         public List<Integer> getBlockStates() { return blockStates; }
         public List<String> getBlockTypes() { return blockTypes; }
         public List<Map<String, String>> getBlockProperties() { return blockProperties; }
@@ -105,7 +108,7 @@ public class JsonConverter {
                     property = line.substring(line.indexOf("name") + 8, line.length() - 2);
                 }
                 else if (section.equals("Properties") && line.contains("value") && !line.contains("[")) {
-                    tempMap.put(property, line.substring(line.indexOf("value") + 9, line.length() - 1));
+                    tempMap.put(property, line.substring(line.indexOf("value") + 9, line.length() - 1).toUpperCase());
                 }
                 else if (section.equals("Name") && line.contains("value")) {
                     structure.setBlockProperties(tempMap); //Get the properties of the blocks used in the structure

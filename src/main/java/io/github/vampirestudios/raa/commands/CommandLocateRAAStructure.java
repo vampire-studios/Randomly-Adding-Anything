@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.feature;
+package io.github.vampirestudios.raa.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -27,7 +27,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class CommandLocateRAAStructure {
 
-    // First make method to register 
+    // First make method to register
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         LiteralCommandNode<ServerCommandSource> basenode = dispatcher.register(literal("locateRAA")
                 .then(CommandManager.argument("RAAstructure", greedyString()).suggests(suggestedStrings()) .executes(ctx -> locateStructure(ctx.getSource(), getString(ctx, "RAAstructure"))))
@@ -44,7 +44,7 @@ public class CommandLocateRAAStructure {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
 
-            BufferedReader reader = null;
+            BufferedReader reader;
             if (structureName.equals("PortalHub") && source.getWorld().getDimension().getType().getSuffix().equals("")) {
                 reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt"));
             }
@@ -83,9 +83,7 @@ public class CommandLocateRAAStructure {
         }
 
         if (found == 1) {
-            Text teleportButtonPopup = Texts.bracketed(new TranslatableText("chat.coordinates", spawn_pos.get(0), spawn_pos.get(1), spawn_pos.get(2))).styled((style_1x) -> {
-                style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawn_pos.get(0) + " " + spawn_pos.get(1) + " " + spawn_pos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip")));
-            });
+            Text teleportButtonPopup = Texts.bracketed(new TranslatableText("chat.coordinates", spawn_pos.get(0), spawn_pos.get(1), spawn_pos.get(2))).styled((style_1x) -> style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawn_pos.get(0) + " " + spawn_pos.get(1) + " " + spawn_pos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip"))));
             source.sendFeedback(new TranslatableText("commands.locate.success", new TranslatableText(structureName), teleportButtonPopup, Math.round(distance)), false);
             return Command.SINGLE_SUCCESS;
         } else if (found == -1) {
@@ -97,7 +95,7 @@ public class CommandLocateRAAStructure {
         }
     }
 
-    public static SuggestionProvider<ServerCommandSource> suggestedStrings() {
+    private static SuggestionProvider<ServerCommandSource> suggestedStrings() {
         return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub"));
     }
 

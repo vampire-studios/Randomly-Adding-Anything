@@ -1,20 +1,13 @@
 package io.github.vampirestudios.raa.generation.feature;
 
 import com.mojang.datafixers.Dynamic;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.enums.BlockHalf;
-import net.minecraft.block.enums.SlabType;
-import net.minecraft.block.enums.StairShape;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
+import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.Heightmap;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
@@ -27,8 +20,8 @@ import java.util.*;
 import java.util.function.Function;
 
 public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
-    JsonConverter converter = new JsonConverter();
-    Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
+    private JsonConverter converter = new JsonConverter();
+    private Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
         put("portal_hub", converter.loadStructure("portal_hub/portal_hub.json"));
     }};
 
@@ -39,66 +32,22 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     @Override
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
 
-        //Make sure the structure can spawn here
-        int x_origin = pos.getX();
-        int y_origin = pos.getY();
-        int z_origin = pos.getZ();
-
-        List<List<Float>> flatnessList = new ArrayList<>();
-        for (float x_offset = x_origin - 23; x_offset < x_origin + 23; x_offset++) {
-            for (float z_offset = z_origin - 23; z_offset < z_origin + 23; z_offset++) {
-                float y_offset = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(x_offset, 0, z_offset)).getY();
-                boolean non_spawnable = y_offset < 5 || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque()) || world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).equals(Blocks.BEDROCK.getDefaultState());
-                if (x_offset < x_origin + 3 && z_offset < z_origin + 3) {
-                    flatnessList.add(Arrays.asList(x_offset, y_offset, z_offset, 0f));
-                }
-                for (List<Float> flatness : flatnessList) {
-                    if (Math.pow((x_offset - flatness.get(0)) - 10f, 2) + Math.pow(z_offset - flatness.get(2) - 10f, 2) < Math.pow(10.5f, 2)) {
-                        if (y_offset > flatness.get(1) - 3 && y_offset <= flatness.get(1)) {
-                            if (y_offset == flatness.get(1)) {
-                                flatness.set(3, flatness.get(3) + 1f);
-                            } else if (y_offset == flatness.get(1) - 1) {
-                                flatness.set(3, flatness.get(3) + 0.5f);
-                            } else {
-                                flatness.set(3, flatness.get(3) + 0.25f);
-                            }
-                        }
-                        if (non_spawnable) {
-                            flatness.set(3, -441f);
-                        }
-                    }
-                }
-            }
-        }
-        float max_flatness = -1;
-        int chosen = -1;
-        for (int i = 0; i < flatnessList.size(); i++) {
-            if (flatnessList.get(i).get(3) > max_flatness) {
-                max_flatness = flatnessList.get(i).get(3);
-                chosen = i;
-            }
-        }
-        boolean working_spawn = false;
-        if (chosen != -1) {
-            int x_chosen = flatnessList.get(chosen).get(0).intValue();
-            int y_chosen = flatnessList.get(chosen).get(1).intValue();
-            int z_chosen = flatnessList.get(chosen).get(2).intValue();
-            pos = new BlockPos(x_chosen, y_chosen, z_chosen);
-            working_spawn = trySpawning(world, pos);
-        }
-
-        if (!working_spawn || pos.getY() > 247) {
-            /*if (max_flatness > 20) {
-                System.out.println("Failed to spawn! Origin Coords: " + x_origin + "/" + y_origin + "/" + z_origin);
-                System.out.println("New Coords: " + pos.getX() + "/" + pos.getY() + "/" + pos.getZ());
-                System.out.println("Flatness: " + max_flatness);
-            }*/
+        //Cheeky way of limiting these structures to the overworld
+        if (!world.getDimension().getType().getSuffix().equals("")) {
             return true;
         }
 
-        //Generate basement
-        placePiece(world, pos, 0, structures.get("portal_hub"), 0);
+        //Check if structure can generate in the area
+        Vec3i tempPos = WorldStructureManipulation.CircularSpawnCheck(world, pos, structures.get("portal_hub").getSize(), 0.125f);
+        if (tempPos.compareTo(Vec3i.ZERO) == 0) {
+            return true;
+        }
+        pos = new BlockPos(tempPos);
 
+        //Generate portal
+        placePiece(world, pos, structures.get("portal_hub"), 0);
+
+        //Record spawn in text file
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + world.getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt", true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
@@ -110,127 +59,23 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         return true;
     }
 
-    public static boolean trySpawning(IWorld world, BlockPos pos) {
-        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
-            return false;
-        }
-        Map<Integer, Float> heights = new HashMap<>();
-        for (int i = 0; i < 256; i++) {
-            heights.put(i, 0f);
-        }
-        int totalHeight = 0;
-        float maxFreq = 0f;
-        int maxHeight = 0;
-        int modeHeight = 0;
-        int minHeight = 256;
-        for (int xIndent = 0; xIndent < 12; xIndent++) {
-            for (int zIndent = 0; zIndent < 12; zIndent++) {
-                if (Math.pow(xIndent - 10f, 2) + Math.pow(zIndent - 10f, 2) < Math.pow(10.5f, 2)) {
-                    if (!world.getBlockState(new BlockPos(pos.add(xIndent, -1, zIndent))).isOpaque() && !world.getBlockState(new BlockPos(pos.add(xIndent, -2, zIndent))).isOpaque()) {
-                        return false;
-                    }
 
-                    int tempHeight = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, pos.add(xIndent, 0, zIndent)).getY();
-                    if (tempHeight < minHeight) {
-                        minHeight = tempHeight;
-                    }
-                    if (tempHeight > maxHeight) {
-                        maxHeight = tempHeight;
-                    }
-                    totalHeight += tempHeight;
 
-                    List<Integer> tempHeights = Arrays.asList(tempHeight, tempHeight - 1, tempHeight - 2);
-                    List<Float> tempFloats = Arrays.asList(1f, 0.5f, 0.25f);
-                    for (int i = 0; i < 3; i++) {
-                        float tempFreqs = heights.get(tempHeights.get(i)) + tempFloats.get(i);
-                        heights.put(tempHeights.get(i), tempFreqs);
-                        if (tempFreqs > maxFreq) {
-                            maxFreq = tempFreqs;
-                            modeHeight = tempHeights.get(i);
-                        }
-                    }
-                }
-            }
-        }
-        float TOLERANCE = 0.125f; //This is the tolerance for tower generation, ranging from 0 to 1. The lower this is, the more strict the tower generation is. Increase it for wacky generation.
-        if (maxHeight - minHeight > 3 && maxHeight*353 - totalHeight > 353*((maxHeight - minHeight)/2f * TOLERANCE) && maxHeight*353 - totalHeight < 353*((maxHeight - minHeight)*(1 - TOLERANCE/2f))) {
-            return false;
-        }
-
-        pos = pos.add(0, modeHeight - pos.getY(), 0);
-
-        return  true;
-    }
-
-    public static void placePiece(IWorld world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, int decay) {
+    private static void placePiece(IWorld world, BlockPos pos, JsonConverter.StructureValues piece, int decay) {
         for (int i = 0; i < piece.getBlockPositions().size(); i++) {
-            List<Integer> currBlockPos = piece.getBlockPositions().get(i);
+            Vec3i currBlockPos = piece.getBlockPositions().get(i);
             String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
             Map<String, String> currBlockProp = piece.getBlockProperties().get(piece.getBlockStates().get(i));
-            int x = currBlockPos.get(0);
-            int y = currBlockPos.get(1);
-            int z = currBlockPos.get(2);
-
-            //Rotate
-            Direction direction = rotate(((rotation + (rotation % 2) * 2 - 1) % 4 + 4) % 4, 0);
-            if (rotation == 1) {
-                int temp_x = x;
-                x = piece.getSize().get(0) - 1 - z;
-                z = temp_x;
-            } else if (rotation == 2) {
-                x = piece.getSize().get(0) - 1 - x;
-                z = piece.getSize().get(2) - 1 - z;
-            } else if (rotation == 3) {
-                int temp_x = x;
-                x = z;
-                z = piece.getSize().get(2) - 1 - temp_x;
-            }
 
             //Spawn blocks
-            if (decay > 0 && Rands.chance(14 - decay)) {
-                world.setBlockState(pos.add(x, y, z), Blocks.AIR.getDefaultState(), 2);
-            } else {
-                if (currBlockType.equals("minecraft:stone_brick_slab")) {
-                    world.setBlockState(pos.add(x, y, z), Blocks.STONE_BRICK_SLAB.getDefaultState().with(Properties.SLAB_TYPE, SlabType.valueOf(currBlockProp.get("type").toUpperCase())), 2);
-                } else if (currBlockType.equals("minecraft:structure_block")) {
-                    //Do nothing TODO: Remove this later!
-                } else if (currBlockType.equals("minecraft:stone_brick_stairs")) {
-                    world.setBlockState(pos.add(x, y, z), Blocks.STONE_BRICK_STAIRS.getDefaultState().with(Properties.BLOCK_HALF, BlockHalf.valueOf(currBlockProp.get("half").toUpperCase())).with(Properties.STAIR_SHAPE, StairShape.valueOf(currBlockProp.get("shape").toUpperCase())).with(Properties.HORIZONTAL_FACING, Direction.valueOf(currBlockProp.get("facing").toUpperCase())), 2);
-                } else if (currBlockType.equals("minecraft:stone_brick_wall")) {
-                    world.setBlockState(pos.add(x, y, z), Blocks.STONE_BRICK_WALL.getDefaultState(), 2);//.with(Properties.EAST, Boolean.getBoolean(currBlockProp.get("east").toUpperCase())).with(Properties.NORTH, Boolean.getBoolean(currBlockProp.get("north").toUpperCase())).with(Properties.SOUTH, Boolean.getBoolean(currBlockProp.get("south").toUpperCase())).with(Properties.WEST, Boolean.getBoolean(currBlockProp.get("west").toUpperCase())).with(Properties.UP, Boolean.getBoolean(currBlockProp.get("up").toUpperCase())), 2);
-                } else if (currBlockType.equals("minecraft:orange_wool")) {
-                    //Spawn random portal
-                    //String name = Dimensions.DIMENSIONS.get(new Random().nextInt(Dimensions.DIMENSION_NAMES.size())).getName();
-                    //System.out.println(Dimensions.DIMENSION_NAMES.size());
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
-                } else if (!currBlockType.equals("minecraft:air")){
-                    world.setBlockState(pos.add(x, y, z), Registry.BLOCK.get(Identifier.tryParse(currBlockType)).getDefaultState(), 2);
+            if (decay <= 0 || !Rands.chance(14 - decay)) {
+                if (currBlockType.equals("minecraft:orange_wool")) {
+                    List<DimensionData> dimensionDataList = new ArrayList<>();
+                    Dimensions.DIMENSIONS.forEach(dimensionDataList::add);
+                    WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), "raa:" + Rands.list(dimensionDataList).getName().toLowerCase() + "_portal", currBlockProp, 0);
+                } else {
+                    WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, 0);
                 }
-            }
-        }
-    }
-
-    public static Direction rotate(int rotation, int amount) {
-        if (amount > 0) {
-            Direction new_dir = rotate(rotation, amount - 1);
-            if (new_dir == Direction.WEST) {
-                return Direction.SOUTH;
-            } else if (new_dir == Direction.SOUTH) {
-                return Direction.EAST;
-            } else if (new_dir == Direction.EAST) {
-                return Direction.NORTH;
-            } else {
-                return Direction.WEST;
-            }
-        } else {
-            if (rotation == 0) {
-                return Direction.SOUTH;
-            } else if (rotation == 1) {
-                return Direction.EAST;
-            } else if (rotation == 2) {
-                return Direction.NORTH;
-            } else {
-                return Direction.WEST;
             }
         }
     }

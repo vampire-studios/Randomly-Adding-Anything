@@ -9,6 +9,7 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.registries.*;
+import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
@@ -86,13 +87,11 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-        if (CONFIG.dimensionNumber > 0) {
-            if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
-                DIMENSIONS_CONFIG.generate();
-                DIMENSIONS_CONFIG.save();
-            } else {
-                DIMENSIONS_CONFIG.load();
-            }
+        if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
+            DIMENSIONS_CONFIG.generate();
+            DIMENSIONS_CONFIG.save();
+        } else {
+            DIMENSIONS_CONFIG.load();
         }
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
@@ -114,7 +113,7 @@ public class RandomlyAddingAnything implements ModInitializer {
                     biome != Biomes.DEEP_OCEAN | biome != Biomes.DEEP_COLD_OCEAN | biome != Biomes.DEEP_LUKEWARM_OCEAN | biome != Biomes.DEEP_WARM_OCEAN)
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
-                                configure(new CountExtraChanceDecoratorConfig(0, 1.0F, 1))));
+                                configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.0015F), 1))));
         });
     }
 }
