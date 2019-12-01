@@ -4,6 +4,7 @@ import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.MaterialsConfig;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
@@ -79,30 +80,37 @@ public class RandomlyAddingAnything implements ModInitializer {
 //        DIMENSIONAL_BIOMES = Registry.register(Registry.BIOME_SOURCE_TYPE, "raa:gay", new BiomeSourceType(DimensionalBiomeSource::new, DimensionalBiomeSourceConfig::new));
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
-        if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
-            MATERIALS_CONFIG.generate();
-            MATERIALS_CONFIG.save();
-        } else {
-            MATERIALS_CONFIG.load();
+        if(CONFIG.materialNumber > 0) {
+            if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
+                MATERIALS_CONFIG.generate();
+                MATERIALS_CONFIG.save();
+            } else {
+                MATERIALS_CONFIG.load();
+            }
         }
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-        if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
-            DIMENSIONS_CONFIG.generate();
-            DIMENSIONS_CONFIG.save();
-        } else {
-            DIMENSIONS_CONFIG.load();
+        if(CONFIG.dimensionNumber > 0) {
+            if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
+                DIMENSIONS_CONFIG.generate();
+                DIMENSIONS_CONFIG.save();
+            } else {
+                DIMENSIONS_CONFIG.load();
+            }
         }
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
-        if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
-            DIMENSION_MATERIALS_CONFIG.generate();
-            DIMENSION_MATERIALS_CONFIG.save();
-        } else {
-            DIMENSION_MATERIALS_CONFIG.load();
+        if(CONFIG.materialNumber > 0) {
+            if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
+                DIMENSION_MATERIALS_CONFIG.generate();
+                DIMENSION_MATERIALS_CONFIG.save();
+            } else {
+                DIMENSION_MATERIALS_CONFIG.load();
+            }
         }
 
         Dimensions.createDimensions();
+        DimensionRecipes.init();
         Materials.generateDimensionMaterials();
         Materials.createMaterialResources();
         MaterialRecipes.init();

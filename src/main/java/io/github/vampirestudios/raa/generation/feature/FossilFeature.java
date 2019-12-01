@@ -6,8 +6,6 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.minecraft.block.Blocks;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IWorld;
@@ -21,7 +19,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Function;
@@ -33,6 +30,9 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
         put("fossil2", converter.loadStructure("fossils/fossil02.json"));
         put("fossil3", converter.loadStructure("fossils/fossil03.json"));
         put("fossil4", converter.loadStructure("fossils/fossil04.json"));
+        put("fossil5", converter.loadStructure("fossils/fossil05.json"));
+        put("fossil6", converter.loadStructure("fossils/fossil06.json"));
+        put("fossil7", converter.loadStructure("fossils/fossil07.json"));
     }};
 
     public FossilFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
@@ -59,7 +59,7 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
 
                 currBlockPos = WorldStructureManipulation.rotatePos(rotation, currBlockPos, fossilChosen.getSize());
 
-                WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, rotation);
+                WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, rotation);
             }
         }
 

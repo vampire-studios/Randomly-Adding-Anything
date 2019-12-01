@@ -8,8 +8,6 @@ import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.loot.LootTables;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Packet;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -142,14 +140,14 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
             //Spawn blocks
             if (currBlockType.equals("minecraft:air") || (decay > 0 && Rands.chance(14 - decay))) {
-                WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), "minecraft:air", new HashMap<>(), rotation);
+                WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "minecraft:air", new HashMap<>(), rotation);
             } else {
                 if (currBlockType.equals("minecraft:stone_bricks")) {
-                    WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", currBlockProp, rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", currBlockProp, rotation);
                 } else if (currBlockType.equals("minecraft:ladder")) {
-                    WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, 4 - rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, 4 - rotation);
                 } else {
-                    WorldStructureManipulation.PlaceBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, rotation);
                 }
             }
         }
@@ -201,7 +199,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                             stand_rotation = 45f;
                         }
                     }
-                    WorldStructureManipulation.SpawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, currProps, stand_rotation);
+                    WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, currProps, stand_rotation);
 
                     //Spawn block
                 } else {
@@ -237,7 +235,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                         currBlock = "chest";
                     }
 
-                    WorldStructureManipulation.PlaceBlock(world, pos.add(currPos), "minecraft:" + currBlock, currProps, rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currPos), "minecraft:" + currBlock, currProps, rotation);
 
                     //Chest loot
                     if (chest_type == 1) {

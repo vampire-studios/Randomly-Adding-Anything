@@ -277,70 +277,7 @@ public class MaterialRecipes {
 
         Artifice.registerData(new Identifier(MOD_ID, "dimension_stone_pack"), serverResourcePackBuilder -> {
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
-                Identifier id = Utils.appendToPath(dimensionData.getId(), "_cobblestone");
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(dimensionData.getId(), "_hoe"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:hoes"));
-                    shapedRecipeBuilder.pattern(
-                            "## ",
-                            " % ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', id);
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(dimensionData.getId(), "_hoe"), 1);
-                });
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(dimensionData.getId(), "_shovel"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:shovels"));
-                    shapedRecipeBuilder.pattern(
-                            " # ",
-                            " % ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', id);
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(dimensionData.getId(), "_shovel"), 1);
-                });
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(dimensionData.getId(), "_axe"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:axes"));
-                    shapedRecipeBuilder.pattern(
-                            "## ",
-                            "#% ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', id);
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(dimensionData.getId(), "_axe"), 1);
-                });
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(dimensionData.getId(), "_pickaxe"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:pickaxes"));
-                    shapedRecipeBuilder.pattern(
-                            "###",
-                            " % ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', id);
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(dimensionData.getId(), "_pickaxe"), 1);
-                });
-                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "pickaxes"), tagBuilder -> {
-                    tagBuilder.replace(false);
-                    tagBuilder.value(Utils.appendToPath(dimensionData.getId(), "_pickaxe"));
-                });
-                serverResourcePackBuilder.addItemTag(new Identifier("fabric", "shovels"), tagBuilder -> {
-                    tagBuilder.replace(false);
-                    tagBuilder.value(Utils.appendToPath(dimensionData.getId(), "_shovel"));
-                });
-                serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(dimensionData.getId(), "_sword"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.group(new Identifier("raa:swords"));
-                    shapedRecipeBuilder.pattern(
-                            " # ",
-                            " # ",
-                            " % "
-                    );
-                    shapedRecipeBuilder.ingredientItem('#', id);
-                    shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                    shapedRecipeBuilder.result(Utils.appendToPath(dimensionData.getId(), "_sword"), 1);
-                });
+
             });
         });
     }

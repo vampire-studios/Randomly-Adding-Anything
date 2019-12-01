@@ -8,8 +8,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Packet;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -136,7 +134,7 @@ public class WorldStructureManipulation {
         return (pos.add(0, modeHeight - pos.getY(), 0));
     }
 
-    public static void PlaceBlock(IWorld world, BlockPos pos, String block, Map<String, String> properties, int rotation) {
+    public static void placeBlock(IWorld world, BlockPos pos, String block, Map<String, String> properties, int rotation) {
         //Place block
         world.setBlockState(pos, Registry.BLOCK.get(Identifier.tryParse(block)).getDefaultState(), 2);
 
@@ -230,62 +228,42 @@ public class WorldStructureManipulation {
         //world.setBlockState(pos, StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.valueOf(dir)).with(Properties.WATERLOGGED, properties.get("waterlogged").equals("TRUE"))), 2);
     }
 
-    public static void SpawnEntity(IWorld world, BlockPos pos, String entity, Map<String, String> properties, float rotation) {
+    public static void spawnEntity(IWorld world, BlockPos pos, String entity, Map<String, String> properties, float rotation) {
         if (entity.equals("minecraft:armor_stand")) {
-            Entity armorStand = new Entity(EntityType.ARMOR_STAND, world.getWorld()) {
-                @Override
-                protected void initDataTracker() { }
-
-                @Override
-                protected void readCustomDataFromTag(CompoundTag compoundTag) { }
-
-                @Override
-                protected void writeCustomDataToTag(CompoundTag compoundTag) { }
-
-                @Override
-                public Packet<?> createSpawnPacket() { return null; }
-            };
+            Entity armorStand = EntityType.ARMOR_STAND.create(world.getWorld());
 
             if (properties.get("armor") != null) {
                 if (properties.get("armor").equals("ALL")) {
                     //Put armor on the stand
-                    List<ItemStack> helmets = new ArrayList<>(
-                            ImmutableList.of(
-                                    new ItemStack(Items.LEATHER_HELMET),
-                                    new ItemStack(Items.CHAINMAIL_HELMET),
-                                    new ItemStack(Items.GOLDEN_HELMET),
-                                    new ItemStack(Items.IRON_HELMET),
-                                    new ItemStack(Items.DIAMOND_HELMET)
-                            )
+                    List<ItemStack> helmets = ImmutableList.of(
+                            new ItemStack(Items.LEATHER_HELMET),
+                            new ItemStack(Items.CHAINMAIL_HELMET),
+                            new ItemStack(Items.GOLDEN_HELMET),
+                            new ItemStack(Items.IRON_HELMET),
+                            new ItemStack(Items.DIAMOND_HELMET)
                     );
-                    List<ItemStack> chestplates = new ArrayList<>(
-                            ImmutableList.of(
-                                    new ItemStack(Items.LEATHER_CHESTPLATE),
-                                    new ItemStack(Items.CHAINMAIL_CHESTPLATE),
-                                    new ItemStack(Items.GOLDEN_CHESTPLATE),
-                                    new ItemStack(Items.IRON_CHESTPLATE),
-                                    new ItemStack(Items.DIAMOND_CHESTPLATE)
-                            )
+                    List<ItemStack> chestplates = ImmutableList.of(
+                            new ItemStack(Items.LEATHER_CHESTPLATE),
+                            new ItemStack(Items.CHAINMAIL_CHESTPLATE),
+                            new ItemStack(Items.GOLDEN_CHESTPLATE),
+                            new ItemStack(Items.IRON_CHESTPLATE),
+                            new ItemStack(Items.DIAMOND_CHESTPLATE)
                     );
-                    List<ItemStack> leggings = new ArrayList<>(
-                            ImmutableList.of(
-                                    new ItemStack(Items.LEATHER_LEGGINGS),
-                                    new ItemStack(Items.CHAINMAIL_LEGGINGS),
-                                    new ItemStack(Items.GOLDEN_LEGGINGS),
-                                    new ItemStack(Items.IRON_LEGGINGS),
-                                    new ItemStack(Items.DIAMOND_LEGGINGS)
-                            )
+                    List<ItemStack> leggings = ImmutableList.of(
+                            new ItemStack(Items.LEATHER_LEGGINGS),
+                            new ItemStack(Items.CHAINMAIL_LEGGINGS),
+                            new ItemStack(Items.GOLDEN_LEGGINGS),
+                            new ItemStack(Items.IRON_LEGGINGS),
+                            new ItemStack(Items.DIAMOND_LEGGINGS)
                     );
-                    List<ItemStack> boots = new ArrayList<>(
-                            ImmutableList.of(
-                                    new ItemStack(Items.LEATHER_BOOTS),
-                                    new ItemStack(Items.CHAINMAIL_BOOTS),
-                                    new ItemStack(Items.GOLDEN_BOOTS),
-                                    new ItemStack(Items.IRON_BOOTS),
-                                    new ItemStack(Items.DIAMOND_BOOTS)
-                            )
+                    List<ItemStack> boots = ImmutableList.of(
+                            new ItemStack(Items.LEATHER_BOOTS),
+                            new ItemStack(Items.CHAINMAIL_BOOTS),
+                            new ItemStack(Items.GOLDEN_BOOTS),
+                            new ItemStack(Items.IRON_BOOTS),
+                            new ItemStack(Items.DIAMOND_BOOTS)
                     );
-                    armorStand.setPositionAndAngles(pos, rotation, 0f);
+                    Objects.requireNonNull(armorStand).setPositionAndAngles(pos, rotation, 0f);
                     world.spawnEntity(armorStand);
                     armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
                     armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));
@@ -293,7 +271,7 @@ public class WorldStructureManipulation {
                     armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
                 }
             } else {
-                armorStand.setPositionAndAngles(pos, rotation, 0f);
+                Objects.requireNonNull(armorStand).setPositionAndAngles(pos, rotation, 0f);
                 world.spawnEntity(armorStand);
             }
         }
