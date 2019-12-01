@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.mixins;
 
+import io.github.vampirestudios.raa.mixininterfaces.DefaultRenderLayer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderLayers;
 import org.spongepowered.asm.mixin.Mixin;
