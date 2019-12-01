@@ -123,5 +123,6 @@ public class RandomlyAddingAnything implements ModInitializer {
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
                                 configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.0015F), 1))));
         });
+        Criterions.init();
     }
 }

@@ -7,6 +7,8 @@ import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.minecraft.server.world.ServerWorld;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
@@ -52,8 +54,11 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
 
         //Record spawn in text file
         try {
+            String path;
             World world2 = world.getWorld();
-            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/data/portal_hub_spawns.txt", true));
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/data/portal_hub_spawns.txt";
+            else path = world.getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
             writer.close();
         } catch (IOException e) {

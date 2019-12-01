@@ -5,6 +5,8 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.FeatureUtils;
 import io.github.vampirestudios.raa.utils.OctaveOpenSimplexNoise;
 import io.github.vampirestudios.raa.utils.Rands;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
@@ -88,8 +90,11 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
         }
 
         try {
+            String path;
             World world2 = world.getWorld();
-            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tomb_spawns.txt", true));
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tomb_spawns.txt";
+            else path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tomb_spawns.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
             writer.close();
         } catch (IOException e) {

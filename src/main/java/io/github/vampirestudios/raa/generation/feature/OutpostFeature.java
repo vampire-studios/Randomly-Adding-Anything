@@ -3,6 +3,8 @@ package io.github.vampirestudios.raa.generation.feature;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.registries.RAALootTables;
 import io.github.vampirestudios.raa.utils.Rands;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.loot.LootTables;
@@ -121,8 +123,11 @@ public class OutpostFeature extends Feature<DefaultFeatureConfig> {
         }
 
         try {
+            String path;
             World world2 = world.getWorld();
-            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt", true));
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt";
+            else path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
             writer.close();
         } catch (IOException e) {

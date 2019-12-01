@@ -5,6 +5,8 @@ import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.loot.LootTables;
@@ -62,26 +64,26 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         placePiece(world, pos, 0, structures.get("tower_base"), 0);
 
         int level;
-        int last_floor = -1;
-        int level_chance = new Random().nextInt(20);
-        for (level = 0; level_chance < 24 - 7*level; level++) {
+        int lastFloor = -1;
+        int levelChance = new Random().nextInt(20);
+        for (level = 0; levelChance < 24 - 7*level; level++) {
             if (pos.getY() + 7*level < 248) {
-                String room_name;
-                int room_num = new Random().nextInt(3);
-                while (room_num == last_floor) {
-                    room_num = new Random().nextInt(3);
+                String roomName;
+                int roomNum = new Random().nextInt(3);
+                while (roomNum == lastFloor) {
+                    roomNum = new Random().nextInt(3);
                 }
-                last_floor = room_num;
-                if (room_num == 0) {
-                    room_name = "Armory";
-                } else if (room_num == 1) {
-                    room_name = "Barracks";
-                } else if (room_num == 2 && Rands.chance(2)) {
-                    room_name = "Empty2";
+                lastFloor = roomNum;
+                if (roomNum == 0) {
+                    roomName = "Armory";
+                } else if (roomNum == 1) {
+                    roomName = "Barracks";
+                } else if (roomNum == 2 && Rands.chance(2)) {
+                    roomName = "Empty2";
                 } else {
-                    room_name = "Empty";
+                    roomName = "Empty";
                 }
-                placeRoom(world, pos.add(0, 1 + level*7, 0), structures, room_name, 2*level + 2);
+                placeRoom(world, pos.add(0, 1 + level*7, 0), structures, roomName, 2*level + 2);
             }
             else { break; }
         }
@@ -89,20 +91,20 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         placePiece(world, pos.add(0, 1 + level*7, 0), 0, structures.get("tower_roof"), 2*level + 4);
 
         //Place in the door
-        List<Integer> Open_windows = Arrays.asList(0,0,0,0);
+        List<Integer> windowsOpen = Arrays.asList(0,0,0,0);
         int max = 0;
         int index = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 1; j < 4; j++) {
                 if (world.isAir(pos.add(MathHelper.floor(6.5f + 6.5f*MathHelper.cos((float) Math.PI/2*i)), j, MathHelper.floor(6.5f + 6.5f*MathHelper.sin((float) Math.PI/2*i))))) {
-                    Open_windows.set(i, Open_windows.get(i) + 1);
+                    windowsOpen.set(i, windowsOpen.get(i) + 1);
                 }
                 if (world.isAir(pos.add(MathHelper.ceil(6.5f + 6.5f*MathHelper.cos((float) Math.PI/2*i)), j, MathHelper.ceil(6.5f + 6.5f*MathHelper.sin((float) Math.PI/2*i))))) {
-                    Open_windows.set(i, Open_windows.get(i) + 1);
+                    windowsOpen.set(i, windowsOpen.get(i) + 1);
                 }
             }
-            if (Open_windows.get(i) > max) {
-                max = Open_windows.get(i);
+            if (windowsOpen.get(i) > max) {
+                max = windowsOpen.get(i);
                 index = i;
             }
         }
@@ -118,8 +120,11 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
         //Record spawn in text file
         try {
+            String path;
             World world2 = world.getWorld();
-            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt", true));
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt";
+            else path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
             writer.close();
         } catch (IOException e) {
@@ -181,7 +186,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 int x = currPos.getX();
                 int z = currPos.getZ();
                 int y = currPos.getY();
-                int chest_type = 0;
+                int chestType = 0;
 
                 //Rotate
                 int xTemp = x;
@@ -191,12 +196,12 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
                 //Spawn entity
                 if (currBlock.equals("armor_stand")) {
-                    float stand_rotation = 90f;
+                    float standRotation = 90f;
                     if (currProps.get("armor") == null) {
                         if (rotation % 2 == 0) {
-                            stand_rotation = -45f;
+                            standRotation = -45f;
                         } else {
-                            stand_rotation = 45f;
+                            standRotation = 45f;
                         }
                     }
                     WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, currProps, stand_rotation);
@@ -212,10 +217,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                                 "brown_mushroom", "blue_orchid", "birch_sapling", "bamboo", "azure_bluet", "allium", "acacia_sapling", "cornflower"};
                         currBlock += plants[new Random().nextInt(plants.length)];
                     } else if (currBlock.equals("iron_bars")) {
-                        if (blocks.size() == 1) {
-                            currProps.put("west", "TRUE");
-                            currProps.put("east", "TRUE");
-                        } else if (x == z && y == 0) {
+                        if (x == z && y == 0) {
                             currProps.put("north", "TRUE");
                             currProps.put("west", "TRUE");
                             currProps.put("south", "TRUE");
@@ -226,11 +228,11 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                         }
                     } else if (currBlock.contains("chest")) {
                         if (currBlock.equals("chest1")) {
-                            chest_type = 1;
+                            chestType = 1;
                         } else if (currBlock.equals("chest2")) {
-                            chest_type = 2;
+                            chestType = 2;
                         } else {
-                            chest_type = 3;
+                            chestType = 3;
                         }
                         currBlock = "chest";
                     }
@@ -238,11 +240,11 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     WorldStructureManipulation.placeBlock(world, pos.add(currPos), "minecraft:" + currBlock, currProps, rotation);
 
                     //Chest loot
-                    if (chest_type == 1) {
+                    if (chestType == 1) {
                         LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.SHIPWRECK_SUPPLY_CHEST);
-                    } else if (chest_type == 2) {
+                    } else if (chestType == 2) {
                         LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.VILLAGE_WEAPONSMITH_CHEST);
-                    } else if (chest_type == 3){
+                    } else if (chestType == 3){
                         if (Rands.chance(5)) {
                             LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(x, y, z), LootTables.SIMPLE_DUNGEON_CHEST);
                         } else if (Rands.chance(8)) {
@@ -285,7 +287,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 "0 0 0, 0 0 1; 0 0 0; 0 0 0; 0 0 0; 0 0 0; " +
                 "0 0 0, 0 0 1; 0 1 0; 0 0 0, 0 1 0; 0 0 0, 0 1 0";
         String centerPropsString =  "facing:SOUTH type:SINGLE, NULL; facing:UP; facing:SOUTH; NULL; NULL, NULL; " +
-                "facing:SOUTH type:SINGLE, NULL; north:TRUE south:TRUE; facing:WEST; face:FLOOR facing:WEST; armor:ALL; " +
+                "facing:SOUTH type:SINGLE, NULL; west:TRUE east:TRUE; facing:WEST; face:FLOOR facing:WEST; armor:ALL; " +
                 "facing:SOUTH type:SINGLE, NULL; attachment:SINGLE_WALL facing:NORTH; distance:0, NULL; distance:0, NULL";
 
         List<List<String>> cornerBlocks = new ArrayList<>();
@@ -360,19 +362,19 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     world.setBlockState(pos.add(6 + i%2, 0, 6 + i/2), Blocks.OAK_PLANKS.getDefaultState(), 2);
                     world.setBlockState(pos.add(6 + i%2, 1, 6 + i/2), Blocks.BOOKSHELF.getDefaultState(), 2);
                 }
-                List<String> bed_sheets = Arrays.asList("white_carpet","red_carpet");
-                List<Vec3i> bed_pos = Arrays.asList(Vec3i.ZERO, new Vec3i(0,0,1), new Vec3i(0,1,0), new Vec3i(0,1,1));
-                List<Map<String, String>> bed_props = Arrays.asList(ImmutableMap.of("facing", "NORTH" ,"half", "TOP", "shape", "STRAIGHT"), ImmutableMap.of("facing", "SOUTH" ,"half", "TOP", "shape", "STRAIGHT"), new HashMap<>(), new HashMap<>());
+                List<String> bedSheets = Arrays.asList("white_carpet","red_carpet");
+                List<Vec3i> bedPos = Arrays.asList(Vec3i.ZERO, new Vec3i(0,0,1), new Vec3i(0,1,0), new Vec3i(0,1,1));
+                List<Map<String, String>> bedProps = Arrays.asList(ImmutableMap.of("facing", "NORTH" ,"half", "TOP", "shape", "STRAIGHT"), ImmutableMap.of("facing", "SOUTH" ,"half", "TOP", "shape", "STRAIGHT"), new HashMap<>(), new HashMap<>());
                 for (int i = 0; i < 4; i++) {
                     int x = 5 + 3*(i/2);
                     int z = 5 + 3*Math.round(MathHelper.sin((float) (Math.PI/3*i)));
-                    List<String> bed_items = Arrays.asList("oak_stairs","oak_stairs",bed_sheets.get((i+1)%2),bed_sheets.get(i%2));
-                    placeDecoration(world, pos.add(x, 0, z), (i + 1)%4, bed_items, bed_pos, bed_props);
+                    List<String> bedItems = Arrays.asList("oak_stairs","oak_stairs",bedSheets.get((i+1)%2),bedSheets.get(i%2));
+                    placeDecoration(world, pos.add(x, 0, z), (i + 1)%4, bedItems, bedPos, bedProps);
                     if (i%2 == 0) {
-                        List<String> table_items = Arrays.asList("scaffolding", "oak_pressure_plate");
-                        List<Vec3i> table_pos = Arrays.asList(Vec3i.ZERO, new Vec3i(0,1,0));
-                        List<Map<String, String>> table_props = Arrays.asList(ImmutableMap.of("distance", "0"), new HashMap<>());
-                        placeDecoration(world, pos.add(x - 2*i + 2, 0, z), i, table_items, table_pos, table_props);
+                        List<String> tableItems = Arrays.asList("scaffolding", "oak_pressure_plate");
+                        List<Vec3i> tablePos = Arrays.asList(Vec3i.ZERO, new Vec3i(0,1,0));
+                        List<Map<String, String>> tableProps = Arrays.asList(ImmutableMap.of("distance", "0"), new HashMap<>());
+                        placeDecoration(world, pos.add(x - 2*i + 2, 0, z), i, tableItems, tablePos, tableProps);
                     }
                 }
 
