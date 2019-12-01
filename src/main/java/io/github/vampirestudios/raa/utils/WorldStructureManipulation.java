@@ -271,8 +271,40 @@ public class WorldStructureManipulation {
                     armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
                 }
             } else {
+                List<ItemStack> helmets = ImmutableList.of(
+                        new ItemStack(Items.LEATHER_HELMET),
+                        new ItemStack(Items.CHAINMAIL_HELMET),
+                        new ItemStack(Items.GOLDEN_HELMET),
+                        new ItemStack(Items.IRON_HELMET),
+                        new ItemStack(Items.DIAMOND_HELMET)
+                );
+                List<ItemStack> chestplates = ImmutableList.of(
+                        new ItemStack(Items.LEATHER_CHESTPLATE),
+                        new ItemStack(Items.CHAINMAIL_CHESTPLATE),
+                        new ItemStack(Items.GOLDEN_CHESTPLATE),
+                        new ItemStack(Items.IRON_CHESTPLATE),
+                        new ItemStack(Items.DIAMOND_CHESTPLATE)
+                );
+                List<ItemStack> leggings = ImmutableList.of(
+                        new ItemStack(Items.LEATHER_LEGGINGS),
+                        new ItemStack(Items.CHAINMAIL_LEGGINGS),
+                        new ItemStack(Items.GOLDEN_LEGGINGS),
+                        new ItemStack(Items.IRON_LEGGINGS),
+                        new ItemStack(Items.DIAMOND_LEGGINGS)
+                );
+                List<ItemStack> boots = ImmutableList.of(
+                        new ItemStack(Items.LEATHER_BOOTS),
+                        new ItemStack(Items.CHAINMAIL_BOOTS),
+                        new ItemStack(Items.GOLDEN_BOOTS),
+                        new ItemStack(Items.IRON_BOOTS),
+                        new ItemStack(Items.DIAMOND_BOOTS)
+                );
                 Objects.requireNonNull(armorStand).setPositionAndAngles(pos, rotation, 0f);
                 world.spawnEntity(armorStand);
+                armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
+                armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));
+                armorStand.equipStack(EquipmentSlot.LEGS, Rands.list(leggings));
+                armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
             }
         }
     }

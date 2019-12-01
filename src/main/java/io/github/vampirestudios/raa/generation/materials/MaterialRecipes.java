@@ -4,7 +4,6 @@ import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
-import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.item.Item;
@@ -274,12 +273,6 @@ public class MaterialRecipes {
 //            });
 //        });
 
-
-        Artifice.registerData(new Identifier(MOD_ID, "dimension_stone_pack"), serverResourcePackBuilder -> {
-            Dimensions.DIMENSIONS.forEach(dimensionData -> {
-
-            });
-        });
     }
 
 }

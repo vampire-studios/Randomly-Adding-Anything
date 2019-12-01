@@ -94,13 +94,7 @@ public class DimensionRecipes {
                     shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_stone_bricks"), 1);
                 });
 
-                serverResourcePackBuilder.addShapedRecipe(new Identifier("furnace"), shapedRecipeBuilder -> {
-                    shapedRecipeBuilder.ingredientItem('S', Utils.appendToPath(identifier, "_cobblestone"));
-                    shapedRecipeBuilder.pattern("SSS", "S S", "SSS");
-                    shapedRecipeBuilder.result(new Identifier("furnace"), 1);
-                });
-
-                serverResourcePackBuilder.addShapedRecipe(new Identifier("furnace"), shapedRecipeBuilder -> {
+                serverResourcePackBuilder.addShapedRecipe(new Identifier("raa:" + identifier.getPath() + "_furnace"), shapedRecipeBuilder -> {
                     shapedRecipeBuilder.ingredientItem('S', Utils.appendToPath(identifier, "_cobblestone"));
                     shapedRecipeBuilder.pattern("SSS", "S S", "SSS");
                     shapedRecipeBuilder.result(new Identifier("furnace"), 1);

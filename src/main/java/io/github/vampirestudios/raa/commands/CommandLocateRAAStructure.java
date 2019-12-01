@@ -32,7 +32,8 @@ public class CommandLocateRAAStructure {
     // First make method to register
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         LiteralCommandNode<ServerCommandSource> basenode = dispatcher.register(literal("locateRAA")
-                .then(CommandManager.argument("RAAstructure", greedyString()).suggests(suggestedStrings()) .executes(ctx -> locateStructure(ctx.getSource(), getString(ctx, "RAAstructure"))))
+                .then(CommandManager.argument("RAAstructure", greedyString()).suggests(suggestedStrings()) .executes(ctx -> locateStructure(ctx.getSource(),
+                        getString(ctx, "RAAstructure"))))
         );
     }
 
@@ -47,7 +48,7 @@ public class CommandLocateRAAStructure {
             }
 
             String worldPath;
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) worldPath = "saves/" + source.getWorld().getLevelProperties().getLevelName();
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) worldPath = "saves/" + source.getWorld().getSaveHandler().getWorldDir().getName();
             else worldPath = source.getWorld().getLevelProperties().getLevelName();
 
             BufferedReader reader;
