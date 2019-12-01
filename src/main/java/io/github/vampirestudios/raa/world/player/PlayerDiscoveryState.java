@@ -8,6 +8,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerDiscoveryState {
     private List<OreDiscoverState> materialDiscoveryState;
@@ -16,7 +17,13 @@ public class PlayerDiscoveryState {
 
     public PlayerDiscoveryState() {
         this.materialDiscoveryState = new ArrayList<>(Materials.MATERIALS.getIds().size() + 1);
+        for (Material material : Materials.MATERIALS) {
+            Objects.requireNonNull(this.materialDiscoveryState).add(new OreDiscoverState(material));
+        }
         this.dimensionMaterialDiscoveryState = new ArrayList<>(Materials.DIMENSION_MATERIALS.getIds().size() + 1);
+        for (Material material : Materials.DIMENSION_MATERIALS) {
+            Objects.requireNonNull(this.dimensionMaterialDiscoveryState).add(new OreDiscoverState(material));
+        }
     }
 
     public void fromTag(CompoundTag compoundTag) {
