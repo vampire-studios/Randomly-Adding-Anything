@@ -204,7 +204,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                             standRotation = 45f;
                         }
                     }
-                    WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, currProps, stand_rotation);
+                    WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, currProps, standRotation);
 
                     //Spawn block
                 } else {
