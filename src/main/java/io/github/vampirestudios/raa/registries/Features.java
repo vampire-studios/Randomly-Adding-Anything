@@ -90,7 +90,7 @@ public class Features {
     }
 
     public static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {
-        if (!Registry.FEATURE.containsId(new Identifier(MOD_ID, name))) {
+        if (Registry.FEATURE.get(new Identifier(MOD_ID, name)) == null) {
             return Registry.register(Registry.FEATURE, new Identifier(MOD_ID, name), feature);
         } else {
             return feature;
@@ -98,7 +98,7 @@ public class Features {
     }
 
     public static <F extends StructureFeature<?>> F registerStructure(String name, F structureFeature) {
-        if (!Registry.STRUCTURE_FEATURE.containsId(new Identifier(MOD_ID, name))) {
+        if (Registry.STRUCTURE_FEATURE.get(new Identifier(MOD_ID, name)) == null) {
             return Registry.register(Registry.STRUCTURE_FEATURE, new Identifier(MOD_ID, name), structureFeature);
         } else {
             return structureFeature;
@@ -106,7 +106,7 @@ public class Features {
     }
 
     public static <F extends StructurePieceType> F registerStructurePiece(String name, F structurePieceType) {
-        if (!Registry.STRUCTURE_PIECE.containsId(new Identifier(MOD_ID, name))) {
+        if (Registry.STRUCTURE_PIECE.get(new Identifier(MOD_ID, name)) == null) {
             return Registry.register(Registry.STRUCTURE_PIECE, new Identifier(MOD_ID, name), structurePieceType);
         } else {
             return structurePieceType;
@@ -114,7 +114,7 @@ public class Features {
     }
 
     public static <F extends CarverConfig, C extends Carver<F>> C registerCarver(String name, C carver) {
-        if (!Registry.CARVER.containsId(new Identifier(MOD_ID, name))) {
+        if (Registry.CARVER.get(new Identifier(MOD_ID, name)) == null) {
             return Registry.register(Registry.CARVER, new Identifier(MOD_ID, name), carver);
         } else {
             return carver;

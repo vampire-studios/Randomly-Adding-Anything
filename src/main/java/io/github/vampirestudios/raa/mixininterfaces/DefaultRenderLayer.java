@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.mixins;
+package io.github.vampirestudios.raa.mixininterfaces;
 
 import net.minecraft.client.render.RenderLayer;
 
