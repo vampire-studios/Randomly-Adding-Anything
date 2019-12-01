@@ -3,6 +3,8 @@ package io.github.vampirestudios.raa.generation.feature;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.utils.FeatureUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.EntityType;
@@ -47,7 +49,10 @@ public class SpiderLairFeature extends Feature<DefaultFeatureConfig> {
             LootableContainerBlockEntity.setLootTable(iWorld, random, chestPos, new Identifier(RandomlyAddingAnything.MOD_ID, "chest/spider_lair"));
 
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + iWorld.getLevelProperties().getLevelName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt", true));
+                String path;
+                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + iWorld.getLevelProperties().getLevelName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt";
+                else path = iWorld.getLevelProperties().getLevelName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt";
+                BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
                 writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
                 writer.close();
             } catch (IOException e) {

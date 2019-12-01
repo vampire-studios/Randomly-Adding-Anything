@@ -8,6 +8,8 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.*;
@@ -44,22 +46,26 @@ public class CommandLocateRAAStructure {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
 
+            String worldPath;
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) worldPath = "saves/" + source.getWorld().getLevelProperties().getLevelName();
+            else worldPath = source.getWorld().getLevelProperties().getLevelName();
+
             BufferedReader reader;
             if (structureName.equals("PortalHub") && source.getWorld().getDimension().getType().getSuffix().equals("")) {
-                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt"));
+                reader = new BufferedReader(new FileReader(worldPath + "/data/portal_hub_spawns.txt"));
             }
             else if (structureName.equals("Tower") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt"));
+                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt"));
             } else if (structureName.equals("Outpost") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt"));
+                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt"));
             } else if (structureName.equals("Campfire") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt"));
+                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt"));
             } else if (structureName.equals("SpiderLair") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt"));
+                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt"));
             } else if (structureName.equals("Tomb") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/tomb_spawns.txt"));
+                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/tomb_spawns.txt"));
             } else if (structureName.equals("Fossil") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader("saves/" + source.getWorld().getLevelProperties().getLevelName() + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt"));
+                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt"));
             } else {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }

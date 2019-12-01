@@ -4,6 +4,8 @@ import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -59,7 +61,10 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
         }
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("saves/" + world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt", true));
+            String path;
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
+            else path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
             writer.close();
         } catch (IOException e) {
