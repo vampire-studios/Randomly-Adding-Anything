@@ -24,61 +24,61 @@ import java.util.*;
 public class WorldStructureManipulation {
     public static Vec3i CircularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float TOLERANCE) {
         //Make sure the structure can spawn here
-        int x_origin = pos.getX();
-        int z_origin = pos.getZ();
-        Vec3i new_pos = Vec3i.ZERO;
+        int xOrigin = pos.getX();
+        int zOrigin = pos.getZ();
+        Vec3i newPos = Vec3i.ZERO;
 
         List<List<Float>> flatnessList = new ArrayList<>();
-        for (float x_offset = x_origin - size.getX(); x_offset < x_origin + size.getX(); x_offset++) {
-            for (float z_offset = z_origin - size.getZ(); z_offset < z_origin + size.getZ(); z_offset++) {
-                float y_offset = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(x_offset, 0, z_offset)).getY();
-                boolean non_spawnable = y_offset < 5 || (!world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).isOpaque() && !world.getBlockState(new BlockPos(x_offset, y_offset - 2, z_offset)).isOpaque()) || world.getBlockState(new BlockPos(x_offset, y_offset - 1, z_offset)).equals(Blocks.BEDROCK.getDefaultState());
-                if (x_offset < x_origin + 3 && z_offset < z_origin + 3) {
-                    flatnessList.add(Arrays.asList(x_offset, y_offset, z_offset, 0f));
+        for (float xOffset = xOrigin - size.getX(); xOffset < xOrigin + size.getX(); xOffset++) {
+            for (float zOffset = zOrigin - size.getZ(); zOffset < zOrigin + size.getZ(); zOffset++) {
+                float yOffset = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(xOffset, 0, zOffset)).getY();
+                boolean nonSpawnable = yOffset < 5 || (!world.getBlockState(new BlockPos(xOffset, yOffset - 1, zOffset)).isOpaque() && !world.getBlockState(new BlockPos(xOffset, yOffset - 2, zOffset)).isOpaque()) || world.getBlockState(new BlockPos(xOffset, yOffset - 1, zOffset)).equals(Blocks.BEDROCK.getDefaultState());
+                if (xOffset < xOrigin + 3 && zOffset < zOrigin + 3) {
+                    flatnessList.add(Arrays.asList(xOffset, yOffset, zOffset, 0f));
                 }
                 for (List<Float> flatness : flatnessList) {
-                    if (Math.pow((x_offset - flatness.get(0)) - (size.getX() - 3) / 2f, 2) + Math.pow(z_offset - flatness.get(2) - (size.getX() - 3) / 2f, 2) < Math.pow((size.getX() - 2) / 2f, 2)) {
-                        if (y_offset > flatness.get(1) - 3 && y_offset <= flatness.get(1)) {
-                            if (y_offset == flatness.get(1)) {
+                    if (Math.pow((xOffset - flatness.get(0)) - (size.getX() - 3) / 2f, 2) + Math.pow(zOffset - flatness.get(2) - (size.getX() - 3) / 2f, 2) < Math.pow((size.getX() - 2) / 2f, 2)) {
+                        if (yOffset > flatness.get(1) - 3 && yOffset <= flatness.get(1)) {
+                            if (yOffset == flatness.get(1)) {
                                 flatness.set(3, flatness.get(3) + 1f);
-                            } else if (y_offset == flatness.get(1) - 1) {
+                            } else if (yOffset == flatness.get(1) - 1) {
                                 flatness.set(3, flatness.get(3) + 0.5f);
                             } else {
                                 flatness.set(3, flatness.get(3) + 0.25f);
                             }
                         }
-                        if (non_spawnable) {
+                        if (nonSpawnable) {
                             flatness.set(3, (float) -Math.pow(size.getX(), 2));
                         }
                     }
                 }
             }
         }
-        float max_flatness = -1;
+        float maxFlatness = -1;
         int chosen = -1;
         for (int i = 0; i < flatnessList.size(); i++) {
-            if (flatnessList.get(i).get(3) > max_flatness) {
-                max_flatness = flatnessList.get(i).get(3);
+            if (flatnessList.get(i).get(3) > maxFlatness) {
+                maxFlatness = flatnessList.get(i).get(3);
                 chosen = i;
             }
         }
         if (chosen != -1) {
-            int x_chosen = flatnessList.get(chosen).get(0).intValue();
-            int y_chosen = flatnessList.get(chosen).get(1).intValue();
-            int z_chosen = flatnessList.get(chosen).get(2).intValue();
-            new_pos = trySpawning(world, new BlockPos(x_chosen, y_chosen, z_chosen), size, TOLERANCE);
+            int xChosen = flatnessList.get(chosen).get(0).intValue();
+            int yChosen = flatnessList.get(chosen).get(1).intValue();
+            int zChosen = flatnessList.get(chosen).get(2).intValue();
+            newPos = trySpawning(world, new BlockPos(xChosen, yChosen, zChosen), size, TOLERANCE);
         }
 
-        if (new_pos.compareTo(Vec3i.ZERO) == 0 || new_pos.getY() > 255 - size.getY()) {
-            /*if (max_flatness > 20) {
-                System.out.println("---Failed to spawn! Origin Coords: " + x_origin + "/" + y_origin + "/" + z_origin);
+        if (newPos.compareTo(Vec3i.ZERO) == 0 || newPos.getY() > 255 - size.getY()) {
+            /*if (maxFlatness > 20) {
+                System.out.println("---Failed to spawn! Origin Coords: " + xOrigin + "/" + yOrigin + "/" + zOrigin);
                 System.out.println("New Coords: " + pos.getX() + "/" + pos.getY() + "/" + pos.getZ());
-                System.out.println("Flatness: " + max_flatness);
+                System.out.println("Flatness: " + maxFlatness);
             }*/
             return Vec3i.ZERO;
         }
 
-        return new_pos;
+        return newPos;
     }
 
     private static Vec3i trySpawning(IWorld world, BlockPos pos, Vec3i size, float TOLERANCE) {
@@ -113,7 +113,7 @@ public class WorldStructureManipulation {
                     List<Integer> tempHeights = Arrays.asList(tempHeight, tempHeight - 1, tempHeight - 2);
                     List<Float> tempFloats = Arrays.asList(1f, 0.5f, 0.25f);
                     for (int i = 0; i < 3; i++) {
-                        if (tempHeights.get(i) < 0 || tempHeights.get(i) > 256) {
+                        if (tempHeights.get(i) < 0 || tempHeights.get(i) > 255) {
                             return Vec3i.ZERO;
                         }
                         float tempFreqs = heights.get(tempHeights.get(i)) + tempFloats.get(i);
@@ -303,16 +303,16 @@ public class WorldStructureManipulation {
         int x = pos.getX();
         int z = pos.getZ();
         if (rotation == 1) {
-            int temp_x = pos.getX();
+            int xTemp = pos.getX();
             x = size.getX() - 1 - z;
-            z = temp_x;
+            z = xTemp;
         } else if (rotation == 2) {
             x = size.getX() - 1 - x;
             z = size.getZ() - 1 - z;
         } else if (rotation == 3) {
-            int temp_x = x;
+            int xTemp = x;
             x = z;
-            z = size.getZ() - 1 - temp_x;
+            z = size.getZ() - 1 - xTemp;
         }
         return (new Vec3i(x, pos.getY(), z));
     }

@@ -37,7 +37,7 @@ public class CommandLocateRAAStructure {
     private static int locateStructure(ServerCommandSource source, String structureName) {
         int found = -1;
         float distance = -1f;
-        List<Integer> spawn_pos = Arrays.asList(0, 0, 0);
+        List<Integer> spawnPos = Arrays.asList(0, 0, 0);
         try {
             if (!"Tower,Outpost,Campfire,SpiderLair,Tomb,Fossil,PortalHub".contains(structureName)) {
                 found = 0;
@@ -65,12 +65,12 @@ public class CommandLocateRAAStructure {
             }
             String spawn = reader.readLine();
             while (spawn != null) {
-                float spawn_distance = (float) Math.sqrt(Math.pow(source.getPosition().x - Integer.parseInt(spawn.split(",")[0]), 2) + Math.pow(source.getPosition().y - Integer.parseInt(spawn.split(",")[1]), 2) + Math.pow(source.getPosition().z - Integer.parseInt(spawn.split(",")[2]), 2));
-                if (distance == -1f || spawn_distance < distance) {
-                    distance = spawn_distance;
-                    spawn_pos.set(0, Integer.parseInt(spawn.split(",")[0]));
-                    spawn_pos.set(1, Integer.parseInt(spawn.split(",")[1]));
-                    spawn_pos.set(2, Integer.parseInt(spawn.split(",")[2]));
+                float spawnDistance = (float) Math.sqrt(Math.pow(source.getPosition().x - Integer.parseInt(spawn.split(",")[0]), 2) + Math.pow(source.getPosition().y - Integer.parseInt(spawn.split(",")[1]), 2) + Math.pow(source.getPosition().z - Integer.parseInt(spawn.split(",")[2]), 2));
+                if (distance == -1f || spawnDistance < distance) {
+                    distance = spawnDistance;
+                    spawnPos.set(0, Integer.parseInt(spawn.split(",")[0]));
+                    spawnPos.set(1, Integer.parseInt(spawn.split(",")[1]));
+                    spawnPos.set(2, Integer.parseInt(spawn.split(",")[2]));
                     found = 1;
                 }
                 spawn = reader.readLine();
@@ -83,7 +83,7 @@ public class CommandLocateRAAStructure {
         }
 
         if (found == 1) {
-            Text teleportButtonPopup = Texts.bracketed(new TranslatableText("chat.coordinates", spawn_pos.get(0), spawn_pos.get(1), spawn_pos.get(2))).styled((style_1x) -> style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawn_pos.get(0) + " " + spawn_pos.get(1) + " " + spawn_pos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip"))));
+            Text teleportButtonPopup = Texts.bracketed(new TranslatableText("chat.coordinates", spawnPos.get(0), spawnPos.get(1), spawnPos.get(2))).styled((style_1x) -> style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawnPos.get(0) + " " + spawnPos.get(1) + " " + spawnPos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip"))));
             source.sendFeedback(new TranslatableText("commands.locate.success", new TranslatableText(structureName), teleportButtonPopup, Math.round(distance)), false);
             return Command.SINGLE_SUCCESS;
         } else if (found == -1) {
