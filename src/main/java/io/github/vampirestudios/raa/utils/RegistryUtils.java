@@ -40,6 +40,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Settings;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
@@ -88,13 +89,13 @@ public class RegistryUtils {
         RegistryEntryAddedCallback.event(Registry.BIOME).register((rawId, id, biome) -> biomes.accept(biome));
     }
 
-    public static void forEveryFeature(Consumer<Feature> features) {
+    public static void forEveryFeature(Consumer<Feature<?>> features) {
         Registry.FEATURE.forEach(features);
         RegistryEntryAddedCallback.event(Registry.FEATURE).register((rawId, id, feature) -> features.accept(feature));
     }
 
     public static Item registerItem(Item item, Identifier name) {
-        if (Registry.ITEM.get(name) == null) {
+        if (Registry.ITEM.get(name) == Items.AIR) {
             return Registry.register(Registry.ITEM, name, item);
         } else {
             return item;
