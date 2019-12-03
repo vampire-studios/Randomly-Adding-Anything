@@ -206,7 +206,7 @@ public class CustomDimensionalBiome extends Biome {
             }
         }
         if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.field_21089)
+            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.PLAINS_FLOWER_CONFIG)
                     .createDecoratedFeature(Decorator.COUNT_HEIGHTMAP_DOUBLE.configure(new CountDecoratorConfig(Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH) ? 50 : 20))));
         }
 
@@ -257,12 +257,12 @@ public class CustomDimensionalBiome extends Biome {
         if (Rands.chance(6)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(
                     ImmutableList.of(
-                            Feature.HUGE_BROWN_MUSHROOM.configure(DefaultBiomeFeatures.field_21143).withChance(1)),
+                            Feature.HUGE_BROWN_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_BROWN_MUSHROOM_CONFIG).withChance(1)),
                     Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG)
             )).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.01F, 1F), 1))));
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(
                     ImmutableList.of(
-                            Feature.HUGE_RED_MUSHROOM.configure(DefaultBiomeFeatures.field_21142).withChance(1)),
+                            Feature.HUGE_RED_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_RED_MUSHROOM_CONFIG).withChance(1)),
                     Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG)
             )).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.01F, 1F), 1))));
         }
@@ -533,7 +533,7 @@ public class CustomDimensionalBiome extends Biome {
             decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleStateProvider(Blocks.PODZOL.getDefaultState())));
         ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
         config = (new MegaTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState)))
-                .baseHeight(height-2).heightInterval(height + 4).method_23411(decorators).build();
+                .baseHeight(height-2).heightInterval(height + 4).treeDecorators(decorators).build();
         return config;
     }
 

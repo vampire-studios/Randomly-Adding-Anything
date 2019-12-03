@@ -26,7 +26,7 @@ import net.minecraft.world.level.LevelGeneratorType;
 import java.util.List;
 
 public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
-    private static final float[] BIOME_WEIGHT_TABLE = Util.create(new float[25], (floats_1) -> {
+    private static final float[] BIOME_WEIGHT_TABLE = Util.make(new float[25], (floats_1) -> {
         for (int int_1 = -2; int_1 <= 2; ++int_1) {
             for (int int_2 = -2; int_2 <= 2; ++int_2) {
                 float float_1 = 10.0F / MathHelper.sqrt((float) (int_1 * int_1 + int_2 * int_2) + 0.2F);
