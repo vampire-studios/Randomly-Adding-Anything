@@ -4,8 +4,9 @@ import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.commands.CommandLocateRAAStructure;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
-import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.FossilFeature;
+import io.github.vampirestudios.raa.generation.feature.*;
+import io.github.vampirestudios.raa.generation.feature.cave.WorldCarverBC;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.generation.feature.portalHub.PortalHubFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.BentTreeFeature;
@@ -73,15 +74,17 @@ public class Features {
 
     public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
-            CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
+            WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
+            caveCarver.initialize(-6409096104954950338L);
             biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
-            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
-            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(1)));
+//            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
+//            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(1)));
         } else {
-            CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
+            WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
+            caveCarver.initialize(-6409096104954950338L);
             biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
-            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
-            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
+//            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
+//            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
         }
     }
 

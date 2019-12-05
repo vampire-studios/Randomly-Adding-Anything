@@ -76,9 +76,6 @@ public class RandomlyAddingAnything implements ModInitializer {
             e.printStackTrace();
         }
 
-
-//        DIMENSIONAL_BIOMES = Registry.register(Registry.BIOME_SOURCE_TYPE, "raa:gay", new BiomeSourceType(DimensionalBiomeSource::new, DimensionalBiomeSourceConfig::new));
-
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
         if(CONFIG.materialNumber > 0) {
             if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {

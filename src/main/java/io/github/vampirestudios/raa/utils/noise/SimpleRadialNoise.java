@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.utils;
+package io.github.vampirestudios.raa.utils.noise;
 
 import net.minecraft.util.math.MathHelper;
 

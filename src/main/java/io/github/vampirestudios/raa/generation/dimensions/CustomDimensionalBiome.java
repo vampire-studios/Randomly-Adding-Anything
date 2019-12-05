@@ -10,10 +10,10 @@ import io.github.vampirestudios.raa.generation.feature.tree.foliage.*;
 import io.github.vampirestudios.raa.registries.Decorators;
 import io.github.vampirestudios.raa.registries.Features;
 import io.github.vampirestudios.raa.registries.SurfaceBuilders;
-import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
-import io.github.vampirestudios.raa.utils.WoodType;
+import io.github.vampirestudios.vampirelib.utils.Color;
+import io.github.vampirestudios.vampirelib.utils.registry.WoodType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -57,8 +57,6 @@ public class CustomDimensionalBiome extends Biome {
         this.dimensionData = dimensionData;
         this.data = data;
 
-//        this.addStructureFeature(Feature.VILLAGE, new VillageFeatureConfig("village/plains/town_centers", 6));
-//        this.addStructureFeature(Feature.PILLAGER_OUTPOST, new PillagerOutpostFeatureConfig(0.004D));
         if (!(dimensionData.getDimensionChunkGenerator() == DimensionChunkGenerators.FLOATING))
             if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED) || Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED))
                 this.addStructureFeature(Feature.MINESHAFT.configure(new MineshaftFeatureConfig((Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) ? 0.016D : 0.004D,
@@ -206,7 +204,7 @@ public class CustomDimensionalBiome extends Biome {
             }
         }
         if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
-            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.PLAINS_FLOWER_CONFIG)
+            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.SUNFLOWER_CONFIG)
                     .createDecoratedFeature(Decorator.COUNT_HEIGHTMAP_DOUBLE.configure(new CountDecoratorConfig(Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH) ? 50 : 20))));
         }
 

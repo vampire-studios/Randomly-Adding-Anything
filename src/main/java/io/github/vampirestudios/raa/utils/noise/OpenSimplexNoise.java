@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.utils;
+package io.github.vampirestudios.raa.utils.noise;
 
 /*
  * OpenSimplex Noise in Java.

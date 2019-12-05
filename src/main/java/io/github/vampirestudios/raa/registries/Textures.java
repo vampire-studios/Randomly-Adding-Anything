@@ -24,7 +24,7 @@ public class Textures {
         for (int i = 1; i < 8; i++) {
             addTextureToList(TextureTypes.CRYSTAL_ITEM_TEXTURES, "item/crystals/crystal_" + i);
         }
-        for (int i = 1; i < 7; i++) {
+        for (int i = 1; i < 6; i++) {
             addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/nuggets/nugget_" + i);
         }
 
@@ -41,7 +41,7 @@ public class Textures {
             addTextureToList(TextureTypes.BOOTS_TEXTURES, "item/armor/boots_" + i);
         }
 
-        for (int i = 1; i < 15; i++) {
+        for (int i = 1; i < 12; i++) {
             addTextureToList(TextureTypes.FRUIT_TEXTURES, "item/fruits/fruit_" + i);
         }
 
@@ -80,20 +80,20 @@ public class Textures {
     }
 
     private static void blockTextures() {
-        for (int i = 1; i < 7; i++) {
+        for (int i = 1; i < 7 ; i++) {
             addTextureToList(TextureTypes.METAL_ORE_TEXTURES, "block/ores/metals/ore_" + i);
         }
         for (int i = 1; i < 5; i++) {
             addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/gems/ore_" + i);
         }
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 8; i++) {
             addTextureToList(TextureTypes.CRYSTAL_ORE_TEXTURES, "block/ores/crystals/ore_" + i);
         }
 
         for (int i = 1; i < 5; i++) {
             addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/metals/metal_" + i);
         }
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 4; i++) {
             addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/gems/gem_" + i);
         }
         addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/crystals/crystal_1");
