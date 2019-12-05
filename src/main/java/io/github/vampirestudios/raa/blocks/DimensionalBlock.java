@@ -16,6 +16,14 @@ public class DimensionalBlock extends Block {
         super(Block.Settings.copy(Blocks.STONE).strength(Rands.randFloatRange(0.25f, 4), Rands.randFloatRange(4, 20)));
     }
 
+    public DimensionalBlock(Block block, float hardness, float resistance) {
+        super(Block.Settings.copy(block).strength(hardness, resistance));
+    }
+
+    public DimensionalBlock(Block block, float min_hardness, float max_hardness, float min_resistance, float max_resistance) {
+        super(Block.Settings.copy(block).strength(Rands.randFloatRange(min_hardness, max_hardness), Rands.randFloatRange(min_resistance, max_resistance)));
+    }
+
     @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
         List<ItemStack> list = new ArrayList<>();

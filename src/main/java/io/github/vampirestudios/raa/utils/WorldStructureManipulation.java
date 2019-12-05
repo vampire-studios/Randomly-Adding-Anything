@@ -195,6 +195,9 @@ public class WorldStructureManipulation {
             } if (properties.get("open") != null) {
                 //TODO: Barrel
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.OPEN, properties.get("open").equals("TRUE")), 2);
+            } if (properties.get("snowy") != null) {
+                //TODO: Grass_Block
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.SNOWY, properties.get("snowy").equals("TRUE")), 2);
             } if (properties.get("lit") != null) {
                 //TODO: Blast_Furnace, Furnace, Smoker
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.LIT, properties.get("lit").equals("TRUE")), 2);

@@ -45,6 +45,7 @@ public class Features {
     public static TowerFeature TOWER;
     public static FossilFeature FOSSIL;
     public static PortalHubFeature PORTAL_HUB;
+    public static ShrineFeature SHRINE;
 
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
@@ -54,6 +55,7 @@ public class Features {
         CAMPFIRE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "campfire"), new CampfireFeature(DefaultFeatureConfig::deserialize));
         TOWER = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "tower"), new TowerFeature(DefaultFeatureConfig::deserialize));
         FOSSIL = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "fossil"), new FossilFeature(DefaultFeatureConfig::deserialize));
+        SHRINE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "shrine"), new ShrineFeature(DefaultFeatureConfig::deserialize));
 
         CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
         CRATER_FEATURE = register("crater_feature", new CraterFeature(CorruptedFeatureConfig::deserialize));
@@ -61,6 +63,7 @@ public class Features {
         CAMPFIRE = register("campfire", new CampfireFeature(DefaultFeatureConfig::deserialize));
         TOWER = register("tower", new TowerFeature(DefaultFeatureConfig::deserialize));
         FOSSIL = register("fossil", new FossilFeature(DefaultFeatureConfig::deserialize));
+        SHRINE = register("shrine", new ShrineFeature(DefaultFeatureConfig::deserialize));
         SMALL_SKELETON_TREE = register("skeleton_tree_small", new SmallSkeletalTreeFeature(TreeFeatureConfig::deserialize));
         LARGE_SKELETON_TREE = register("skeleton_tree_large", new LargeSkeletalTreeFeature(TreeFeatureConfig::deserialize));
         SPIDER_LAIR = register("spider_lair", new SpiderLairFeature(DefaultFeatureConfig::deserialize));

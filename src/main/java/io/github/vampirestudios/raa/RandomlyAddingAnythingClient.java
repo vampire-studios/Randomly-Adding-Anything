@@ -201,6 +201,18 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder -> modelBuilder.parent(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())));
 
 
+                Identifier iceId = Utils.appendToPath(identifier, "_ice");
+                clientResourcePackBuilder.addBlockState(iceId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(iceId.getNamespace(), "block/" + iceId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(iceId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getIceTexture());
+                });
+                clientResourcePackBuilder.addItemModel(iceId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(iceId.getNamespace(), "block/" + iceId.getPath())));
+
+
                 Identifier cobblestoneId = Utils.appendToPath(identifier, "_cobblestone");
                 clientResourcePackBuilder.addBlockState(cobblestoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())))
@@ -440,12 +452,21 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             Block chiseled = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "chiseled_" + dimensionData.getId().getPath()));
             Block polished = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath()));
 
+            Block ice = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_ice"));
+
             ColorProviderRegistry.ITEM.register((stack, layer) -> {
                 if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
                 else return -1;
             }, stone, stoneBricks, cobblestone, chiseled, polished);
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
                     dimensionData.getDimensionColorPalette().getStoneColor(), stone, stoneBricks, cobblestone, chiseled, polished);
+
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                if (layer == 0) return dimensionData.getBiomeData().get(0).getWaterColor();
+                else return -1;
+            }, ice);
+            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+                    dimensionData.getBiomeData().get(0).getWaterColor(), ice);
         });
         Materials.DIMENSION_MATERIALS.forEach(material -> {
             Identifier id = material.getId();

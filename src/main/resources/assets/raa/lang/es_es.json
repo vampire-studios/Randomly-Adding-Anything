@@ -1,4 +1,4 @@
-{
+﻿{
     "itemGroup.raa.ores": "RAA: Menas",
     "itemGroup.raa.resources": "RAA: Recursos",
     "itemGroup.raa.tools": "RAA: Herramientas",
@@ -13,6 +13,7 @@
     "text.raa.block.chiseled": "%s Cincelad@",
     "text.raa.block.cobblestone": "Roca de %s",
     "text.raa.block.polished": "%s Pulid@",
+    "text.raa.block.ice": "Ice %s",
     "text.raa.item.gem": "Gema de %s",
     "text.raa.item.ingot": "Lingote de %s",
     "text.raa.item.crystal": "Cristal de %s",
