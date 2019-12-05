@@ -121,6 +121,8 @@ public class Textures {
 
         addTextureToList(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES, new Identifier("block/chiseled_stone_bricks"));
         addTextureToList(TextureTypes.CRACKED_STONE_BRICKS_TEXTURES, new Identifier("block/cracked_stone_bricks"));
+
+        addTextureToList(TextureTypes.ICE_TEXTURES, "block/ice");
     }
 
     private static void addTextureToList(List<Identifier> textures, String name) {

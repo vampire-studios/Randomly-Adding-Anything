@@ -121,7 +121,7 @@ public class RandomlyAddingAnything implements ModInitializer {
                     biome != Biomes.DEEP_OCEAN | biome != Biomes.DEEP_COLD_OCEAN | biome != Biomes.DEEP_LUKEWARM_OCEAN | biome != Biomes.DEEP_WARM_OCEAN)
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
-                                configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.0015F), 1))));
+                                configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.001125F), 1))));
         });
         Criterions.init();
     }

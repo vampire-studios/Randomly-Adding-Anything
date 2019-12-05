@@ -30,7 +30,7 @@ public class PortalBlock extends Block {
     private DimensionData dimensionData;
 
     public PortalBlock(DimensionData dimensionData, DimensionType dimensionType) {
-        super(Block.Settings.of(Material.STONE).strength(8.f, 80.f));
+        super(Block.Settings.of(Material.STONE).strength(8.f, 80.f).nonOpaque());
         this.dimensionType = dimensionType;
         this.dimensionData = dimensionData;
     }

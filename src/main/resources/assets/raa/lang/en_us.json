@@ -1,4 +1,4 @@
-{
+﻿{
   "itemGroup.raa.ores": "RAA: Ores",
   "itemGroup.raa.resources": "RAA: Resources",
   "itemGroup.raa.tools": "RAA: Tools",
@@ -15,6 +15,7 @@
   "text.raa.block.chiseled": "Chiseled %s",
   "text.raa.block.cobblestone": "%s Cobblestone",
   "text.raa.block.polished": "Polished %s",
+  "text.raa.block.ice": "%s Ice",
   "text.raa.item.gem": "%s Gem",
   "text.raa.item.ingot": "%s Ingot",
   "text.raa.item.crystal": "%s Crystal",

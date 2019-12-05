@@ -229,23 +229,24 @@ public class CustomDimensionalBiome extends Biome {
 
         float campfireChance = Rands.randFloatRange(0.003F, 0.005F);
         float outpostChance = Rands.randFloatRange(0.001F, 0.003F);
-        float towerChance = Rands.randFloatRange(0.001F, 0.002F);
+        float towerChance = Rands.randFloatRange(0.001F, 0.0015F);
         float fossilChance = 0;
+        float shrineChance = 0;
 
         if (dimensionData.getCivilizationInfluences().size() > 0) Rands.randFloatRange(0.003F, 0.005F);
 
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) {
             outpostChance = Rands.randFloatRange(0.002F, 0.003F);
-            towerChance = Rands.randFloatRange(0.002F, 0.0025F);
+            towerChance = Rands.randFloatRange(0.002F, 0.00225F);
         }
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
             campfireChance = 0;
-            fossilChance = Rands.randFloatRange(0.007F, 0.008F);
+            fossilChance = Rands.randFloatRange(0.007F, 0.0075F);
         }
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) {
             campfireChance = Rands.randFloatRange(0.005F, 0.007F);
             outpostChance = Rands.randFloatRange(0.002F, 0.008F);
-            towerChance = Rands.randFloatRange(0.002F, 0.004F);
+            towerChance = Rands.randFloatRange(0.002F, 0.003F);
         }
 
         // TODO fix this
@@ -253,6 +254,7 @@ public class CustomDimensionalBiome extends Biome {
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, campfireChance, 1))));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.TOWER.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, towerChance, 1))));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.FOSSIL.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, fossilChance, 1))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SHRINE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, shrineChance, 1))));
 
         if (Rands.chance(6)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(

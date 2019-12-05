@@ -17,6 +17,7 @@ import io.github.vampirestudios.raa.utils.*;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.IceBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ToolMaterial;
@@ -189,6 +190,7 @@ public class Dimensions {
                     .mossyChiseledTexture(Rands.list(TextureTypes.MOSSY_CHISELED_STONE_TEXTURES))
                     .crackedChiseledTexture(Rands.list(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES))
                     .polishedTexture(Rands.list(TextureTypes.POLISHED_STONE_TEXTURES))
+                    .iceTexture(TextureTypes.ICE_TEXTURES.get(0))
                     .build();
             builder.texturesInformation(texturesInformation);
 
@@ -364,6 +366,10 @@ public class Dimensions {
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "polished_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polished");
+
+            RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), new Identifier(RandomlyAddingAnything.MOD_ID,
+                            dimension.getName().toLowerCase() + "_ice"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "ice");
 
             Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimension, dimensionType),
                     new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));

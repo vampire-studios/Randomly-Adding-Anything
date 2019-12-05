@@ -42,7 +42,7 @@ public class CommandLocateRAAStructure {
         float distance = -1f;
         List<Integer> spawnPos = Arrays.asList(0, 0, 0);
         try {
-            if (!"Tower,Outpost,Campfire,SpiderLair,Tomb,Fossil,PortalHub".contains(structureName)) {
+            if (!"Tower,Outpost,Campfire,SpiderLair,Tomb,Fossil,PortalHub,Shrine".contains(structureName)) {
                 found = 0;
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
@@ -51,37 +51,44 @@ public class CommandLocateRAAStructure {
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) worldPath = "saves/" + source.getWorld().getSaveHandler().getWorldDir().getName();
             else worldPath = source.getWorld().getLevelProperties().getLevelName();
 
-            BufferedReader reader;
+            String spawnPath = worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/";
+
             if (structureName.equals("PortalHub") && source.getWorld().getDimension().getType().getSuffix().equals("")) {
-                reader = new BufferedReader(new FileReader(worldPath + "/data/portal_hub_spawns.txt"));
+                spawnPath = worldPath + "/data/portal_hub_spawns.txt";
             }
             else if (structureName.equals("Tower") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt"));
+                spawnPath += "tower_spawns.txt";
             } else if (structureName.equals("Outpost") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt"));
+                spawnPath += "outpost_spawns.txt";
             } else if (structureName.equals("Campfire") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt"));
+                spawnPath += "campfire_spawns.txt";
             } else if (structureName.equals("SpiderLair") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt"));
+                spawnPath += "spider_lair_spawns.txt";
             } else if (structureName.equals("Tomb") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/tomb_spawns.txt"));
+                spawnPath += "tomb_spawns.txt";
             } else if (structureName.equals("Fossil") && isRaaDimension(source)) {
-                reader = new BufferedReader(new FileReader(worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt"));
+                spawnPath += "fossil_spawns.txt";
+            } else if (structureName.equals("Shrine") && isRaaDimension(source)) {
+                spawnPath += "shrine_spawns.txt";
             } else {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
+
+            BufferedReader reader = new BufferedReader(new FileReader(spawnPath));
             String spawn = reader.readLine();
             while (spawn != null) {
                 float spawnDistance = (float) Math.sqrt(Math.pow(source.getPosition().x - Integer.parseInt(spawn.split(",")[0]), 2) + Math.pow(source.getPosition().y - Integer.parseInt(spawn.split(",")[1]), 2) + Math.pow(source.getPosition().z - Integer.parseInt(spawn.split(",")[2]), 2));
                 if (distance == -1f || spawnDistance < distance) {
                     distance = spawnDistance;
-                    spawnPos.set(0, Integer.parseInt(spawn.split(",")[0]));
-                    spawnPos.set(1, Integer.parseInt(spawn.split(",")[1]));
-                    spawnPos.set(2, Integer.parseInt(spawn.split(",")[2]));
+                    String[] coords = spawn.split(",");
+                    spawnPos.set(0, Integer.parseInt(coords[0]));
+                    spawnPos.set(1, Integer.parseInt(coords[1]));
+                    spawnPos.set(2, Integer.parseInt(coords[2]));
                     found = 1;
                 }
                 spawn = reader.readLine();
             }
+
             if (found == -1) {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
@@ -103,7 +110,7 @@ public class CommandLocateRAAStructure {
     }
 
     private static SuggestionProvider<ServerCommandSource> suggestedStrings() {
-        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub"));
+        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine"));
     }
 
     private static CompletableFuture<Suggestions> getSuggestionsBuilder(SuggestionsBuilder builder, List<String> list) {
