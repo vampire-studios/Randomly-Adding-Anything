@@ -6,16 +6,17 @@ import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
+
+import java.util.Map;
 
 public class Material {
     private OreInformation oreInformation;
     private Identifier id;
     private String name;
+    private MaterialTexturesInformation texturesInformation;
     private int color;
     private int miningLevel;
-    private Identifier storageBlockTexture;
-    private Identifier resourceItemTexture;
-    private Identifier nuggetTexture;
     private boolean armor;
     private CustomArmorMaterial armorMaterial;
     private boolean tools;
@@ -26,14 +27,9 @@ public class Material {
     private boolean food;
     private int rank;
 
-    private Material(OreInformation oreInformation, Identifier id, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
-                    boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, int rank) {
-        this(oreInformation, id, name, color, miningLevel, storageBlockTexture, resourceItemTexture, null, armor, tools, weapons, glowing, oreFlower, food, rank);
-    }
-
-    private Material(OreInformation oreInformation, Identifier id, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
-					 boolean armor, boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, int rank) {
-    	this(oreInformation, id, name, color, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, null, tools, weapons, null, glowing, oreFlower, food, rank);
+    Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor, boolean tools,
+                     boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
+        this(oreInformation, id, name, texturesInformation, color, miningLevel, armor, null, tools, weapons, null, glowing, oreFlower, food);
 
         if (this.tools || this.weapons) {
             this.toolMaterial = CustomToolMaterial.generate(id, getOreInformation().getOreType(), miningLevel);
@@ -43,21 +39,14 @@ public class Material {
         }
     }
 
-    private Material(OreInformation oreInformation, Identifier id, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture,
-                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food, int rank) {
-        this(oreInformation, id, name, color, miningLevel, storageBlockTexture, null, resourceItemTexture, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, rank);
-    }
-
-    private Material(OreInformation oreInformation, Identifier id, String name, int color, int miningLevel, Identifier storageBlockTexture, Identifier resourceItemTexture, Identifier nuggetTexture,
-                    boolean armor, CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food, int rank) {
+    Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
+                     CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
         this.id = id;
         this.name = name;
         this.color = color;
         this.miningLevel = miningLevel;
-        this.storageBlockTexture = storageBlockTexture;
-        this.resourceItemTexture = resourceItemTexture;
-        this.nuggetTexture = nuggetTexture;
+        this.texturesInformation = texturesInformation;
         this.armor = armor;
         this.armorMaterial = armorMaterial;
         this.tools = tools;
@@ -85,16 +74,12 @@ public class Material {
         this.name = name;
     }
 
+    public MaterialTexturesInformation getTexturesInformation() {
+        return texturesInformation;
+    }
+
     public int getRGBColor() {
         return color;
-    }
-
-    public Identifier getResourceItemTexture() {
-        return resourceItemTexture;
-    }
-
-    public Identifier getStorageBlockTexture() {
-        return storageBlockTexture;
     }
 
     public boolean hasArmor() {
@@ -116,13 +101,9 @@ public class Material {
     public boolean hasOreFlower() {
         return oreFlower;
     }
-    
+
     public boolean hasFood() {
         return food;
-    }
-
-    public Identifier getNuggetTexture() {
-        return nuggetTexture;
     }
 
     public CustomToolMaterial getToolMaterial() {
@@ -165,7 +146,12 @@ public class Material {
 		private int maxXPAmount = 10;
 		private int oreClusterSize = 9;
 		private int miningLevel;
-		private int rank = 0;
+        private int rank = 0;
+        
+        protected Builder() {
+			oreCount = Rands.randInt(19) + 1;
+			miningLevel = Rands.randInt(4);
+		}
 
 		@Deprecated
 		public static Builder create() {
@@ -177,11 +163,6 @@ public class Material {
 			builder.id = id;
 			builder.name = name;
 			return builder;
-		}
-
-		protected Builder() {
-			oreCount = Rands.randInt(19) + 1;
-			miningLevel = Rands.randInt(4);
 		}
 
 		public Builder oreCount(int oreCount) {
@@ -216,26 +197,6 @@ public class Material {
 
 		public Builder generatesIn(GeneratesIn generatesIn) {
 			this.generatesIn = generatesIn;
-			return this;
-		}
-
-		public Builder overlayTexture(Identifier identifier) {
-			this.overlayTexture = identifier;
-			return this;
-		}
-
-		public Builder nuggetTexture(Identifier identifier) {
-			this.nuggetTexture = identifier;
-			return this;
-		}
-
-		public Builder storageBlockTexture(Identifier identifier) {
-			this.storageBlockTexture = identifier;
-			return this;
-		}
-
-		public Builder resourceItemTexture(Identifier identifier) {
-			this.resourceItemTexture = identifier;
 			return this;
 		}
 
@@ -303,60 +264,62 @@ public class Material {
 		}
 
 		public Material build() {
-			if(id == null || name == null) {
+			if (id == null || name == null) {
 				throw new IllegalStateException("A Material must not have a null name or identifier");
 			}
 
-			if(armor && armorMaterial == null) {
+			if (armor && armorMaterial == null) {
 				this.armorMaterial = CustomArmorMaterial.generate(id, oreType);
 			}
-			if((tools || weapons) && toolMaterial == null) {
+			if ((tools || weapons) && toolMaterial == null) {
 				this.toolMaterial = CustomToolMaterial.generate(id, oreType, miningLevel);
 			}
 
-			if(overlayTexture == null) {
-				if (oreType == OreType.METAL) {
-					this.overlayTexture = Rands.list(TextureTypes.METAL_ORE_TEXTURES);
-				} else if (oreType == OreType.GEM) {
-					this.overlayTexture = Rands.list(TextureTypes.GEM_ORE_TEXTURES);
-				} else {
-					this.overlayTexture = Rands.list(TextureTypes.CRYSTAL_ORE_TEXTURES);
-				}
-			}
-			if(storageBlockTexture == null) {
-				if (oreType == OreType.METAL) {
-					this.storageBlockTexture = Rands.list(TextureTypes.METAL_BLOCK_TEXTURES);
-				} else if (oreType == OreType.GEM) {
-					this.storageBlockTexture = Rands.list(TextureTypes.GEM_BLOCK_TEXTURES);
-				} else {
-					this.storageBlockTexture = Rands.list(TextureTypes.CRYSTAL_BLOCK_TEXTURES);
-				}
-			}
-			if(resourceItemTexture == null) {
-				if (oreType == OreType.METAL) {
-					this.resourceItemTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
-				} else if (oreType == OreType.GEM) {
-					this.resourceItemTexture = Rands.list(TextureTypes.GEM_ITEM_TEXTURES);
-				} else {
-					this.resourceItemTexture = Rands.list(TextureTypes.CRYSTAL_ITEM_TEXTURES);
-				}
-			}
+			Identifier overlayTexture;
+            if (oreType == OreType.METAL) overlayTexture = Rands.list(TextureTypes.METAL_ORE_TEXTURES);
+            else if (oreType == OreType.GEM) overlayTexture = Rands.list(TextureTypes.GEM_ORE_TEXTURES);
+            else overlayTexture = Rands.list(TextureTypes.CRYSTAL_ORE_TEXTURES);
 
-			OreInformation oreInformation = new OreInformation(oreType, generatesIn, overlayTexture, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
+            Identifier storageBlockTexture;
+            if (oreType == OreType.METAL) storageBlockTexture = Rands.list(TextureTypes.METAL_BLOCK_TEXTURES);
+            else if (oreType == OreType.GEM) storageBlockTexture = Rands.list(TextureTypes.GEM_BLOCK_TEXTURES);
+            else storageBlockTexture = Rands.list(TextureTypes.CRYSTAL_BLOCK_TEXTURES);
 
-			if (oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.SAND || oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.RED_SAND | oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.DIRT
-					|| oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.COARSE_DIRT || oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.CLAY || oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.PODZOL
-					|| oreInformation.getGeneratesIn().getTarget() == OreFeatureConfig.Target.GRAVEL) {
-				oreInformation = new OreInformation(oreType, generatesIn, overlayTexture, oreCount / 3, minXPAmount, maxXPAmount, oreClusterSize);
-			}
+            Identifier resourceItemTexture;
+            if (oreType == OreType.METAL) resourceItemTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
+            else if (oreType == OreType.GEM) resourceItemTexture = Rands.list(TextureTypes.GEM_ITEM_TEXTURES);
+            else resourceItemTexture = Rands.list(TextureTypes.CRYSTAL_ITEM_TEXTURES);
 
-			rank = oreInformation.getOreCount();
+            Identifier nuggetTexture;
+            if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
+            else nuggetTexture = null;
 
-			if(oreType == OreType.METAL) {
-				return new Material(oreInformation, id, name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture == null ? Rands.list(TextureTypes.METAL_NUGGET_TEXTURES) : nuggetTexture, armor, tools, weapons, glowing, oreFlower, food, rank);
-			} else {
-				return new Material(oreInformation, id, name, RGB, miningLevel, storageBlockTexture, resourceItemTexture, nuggetTexture, armor, tools, weapons, glowing, oreFlower, food, rank);
-			}
+			Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);
+            Map.Entry<Identifier, Identifier> axe = Rands.map(TextureTypes.AXES);
+            Map.Entry<Identifier, Identifier> hoe = Rands.map(TextureTypes.HOES);
+            Map.Entry<Identifier, Identifier> sword = Rands.map(TextureTypes.SWORDS);
+            Map.Entry<Identifier, Identifier> shovel = Rands.map(TextureTypes.SHOVELS);
+
+            MaterialTexturesInformation texturesInformation = MaterialTexturesInformation.Builder.create()
+                    .pickaxeTexture(new Pair<>(pickaxe.getKey(), pickaxe.getValue()))
+                    .axeTexture(new Pair<>(axe.getKey(), axe.getValue()))
+                    .hoeTexture(new Pair<>(hoe.getKey(), hoe.getValue()))
+                    .swordTexture(new Pair<>(sword.getKey(), sword.getValue()))
+                    .shovelTexture(new Pair<>(shovel.getKey(), shovel.getValue()))
+                    .helmetTexture(Rands.list(TextureTypes.HELMET_TEXTURES))
+                    .chestplateTexture(Rands.list(TextureTypes.CHESTPLATE_TEXTURES))
+                    .leggingsTexture(Rands.list(TextureTypes.LEGGINGS_TEXTURES))
+                    .bootsTexture(Rands.list(TextureTypes.BOOTS_TEXTURES))
+                    .overlayTexture(overlayTexture)
+                    .storageBlockTexture(storageBlockTexture)
+                    .resourceItemTexture(resourceItemTexture)
+                    .nuggetTexture(nuggetTexture)
+                    .fruitTexture(Rands.list(TextureTypes.FRUIT_TEXTURES))
+                    .build();
+
+            OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
+
+            return new Material(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
 		}
 	}
 }

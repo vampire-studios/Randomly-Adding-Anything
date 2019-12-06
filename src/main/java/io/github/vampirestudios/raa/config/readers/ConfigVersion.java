@@ -11,15 +11,15 @@ public enum ConfigVersion {
         this.number = number;
     }
 
-    public int getNumber() {
-        return number;
-    }
-
     public static ConfigVersion getFromInt(int number) {
         for (ConfigVersion version : values())
             if (version.getNumber() == number)
                 return version;
         System.out.println("Unknown config version : " + number);
         return null;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }

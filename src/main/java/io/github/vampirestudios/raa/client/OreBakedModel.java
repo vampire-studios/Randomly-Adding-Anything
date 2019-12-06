@@ -18,6 +18,7 @@ import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -51,12 +52,13 @@ public class OreBakedModel extends RAABakedModel {
         int color = 0xFFFFFFFF;
         Sprite sprite;
         if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
-            sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/" + Registry.BLOCK.getId(material.getOreInformation()
+            sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier(Registry.BLOCK.getId(material.getOreInformation()
+                    .getGeneratesIn().getBlock()).getNamespace(), "block/" + Registry.BLOCK.getId(material.getOreInformation()
                     .getGeneratesIn().getBlock()).getPath()));
         } else {
-            sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/oak_planks"));
+            sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/oak_planks"));
         }
-        
+
         if (material.getOreInformation().getGeneratesIn() != GeneratesIn.GRASS_BLOCK && material.getOreInformation().getGeneratesIn() != GeneratesIn.PODZOL) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
@@ -84,12 +86,12 @@ public class OreBakedModel extends RAABakedModel {
                     .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         } else if (material.getOreInformation().getGeneratesIn() == GeneratesIn.GRASS_BLOCK) {
             mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
-            Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side"));
-            Sprite sideOverlaySprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_side_overlay"));
-            Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/grass_block_top"));
-            Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/dirt"));
+            Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/grass_block_side"));
+            Sprite sideOverlaySprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/grass_block_side_overlay"));
+            Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/grass_block_top"));
+            Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/dirt"));
             int color2 = 0xffffff;
-            BlockColorProvider blockColor =  ColorProviderRegistry.BLOCK.get(material.getOreInformation().getGeneratesIn().getBlock());
+            BlockColorProvider blockColor = ColorProviderRegistry.BLOCK.get(material.getOreInformation().getGeneratesIn().getBlock());
             if (blockColor != null) {
                 color2 = 0xff000000 | blockColor.getColor(material.getOreInformation().getGeneratesIn().getBlock().getDefaultState(), blockView, pos, 1);
             }
@@ -137,9 +139,9 @@ public class OreBakedModel extends RAABakedModel {
                     .spriteBake(0, sideOverlaySprite, MutableQuadView.BAKE_LOCK_UV).emit();
         } else {
             mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
-            Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/podzol_side"));
-            Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/podzol_top"));
-            Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(new Identifier("block/dirt"));
+            Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/podzol_side"));
+            Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/podzol_top"));
+            Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/dirt"));
 
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
@@ -173,29 +175,29 @@ public class OreBakedModel extends RAABakedModel {
             mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
         }
         color = material.getRGBColor();
-        sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
+        sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());
 
         if (material.getOreInformation().getGeneratesIn() != GeneratesIn.GRASS_BLOCK && material.getOreInformation().getGeneratesIn() != GeneratesIn.PODZOL) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.EAST, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.WEST, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.NORTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.DOWN, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
@@ -204,7 +206,7 @@ public class OreBakedModel extends RAABakedModel {
             emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
-                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV ).emit();
+                    .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
         }
 
         return builder.build();
@@ -213,6 +215,16 @@ public class OreBakedModel extends RAABakedModel {
     @Override
     public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
         context.meshConsumer().accept(mesh(MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos()));
+    }
+
+    @Override
+    public Sprite getSprite() {
+        return MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());
+    }
+
+    @Override
+    public ModelItemPropertyOverrideList getItemPropertyOverrides() {
+        return new ItemProxy();
     }
 
     protected class ItemProxy extends ModelItemPropertyOverrideList {
@@ -224,15 +236,5 @@ public class OreBakedModel extends RAABakedModel {
         public BakedModel apply(BakedModel bakedModel_1, ItemStack itemStack_1, World world_1, LivingEntity livingEntity_1) {
             return OreBakedModel.this;
         }
-    }
-
-    @Override
-    public Sprite getSprite() {
-        return MinecraftClient.getInstance().getSpriteAtlas().getSprite(this.material.getOreInformation().getOverlayTexture());
-    }
-
-    @Override
-    public ModelItemPropertyOverrideList getItemPropertyOverrides() {
-        return new ItemProxy();
     }
 }

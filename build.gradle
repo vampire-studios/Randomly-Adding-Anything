@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.2.5-SNAPSHOT'
+    id 'fabric-loom' version '0.2.6-SNAPSHOT'
     id 'maven-publish'
     id "co.riiid.gradle" version "0.4.2"
     id "com.matthewprenger.cursegradle" version "1.4.0"
@@ -19,13 +19,24 @@ repositories {
 	maven { url "https://dl.bintray.com/shedaniel/autoconfig1u/" }
 
 	maven { url = "https://jitpack.io"}
+
+    // TechReborn
+    maven { url = "http://maven.modmuss50.me/" }
+    maven {
+        name = 'sponge'
+        url = 'https://repo.spongepowered.org/maven'
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
-
+def buildnumber = ""
 def gittoken = System.getenv('GH_TOKEN')
-def buildnumber = System.getenv('TRAVIS_BUILD_NUMBER')
+if (System.getenv('TRAVIS_BUILD_NUMBER') == "null" || System.getenv('TRAVIS_BUILD_NUMBER') == null) {
+    buildnumber = project.beta_version
+} else {
+    buildnumber = System.getenv('TRAVIS_BUILD_NUMBER')
+}
 def buildbranch = System.getenv('TRAVIS_BRANCH')
 
 archivesBaseName = project.archives_base_name
@@ -51,6 +62,15 @@ dependencies {
     include ("curse.maven:vampirelib:${project.vampirelib_version}") {
         exclude group :"net.fabricmc.fabric-api"
     }
+
+    modImplementation 'curse.maven:slightly-altered-terrain-generation:2834529'
+    modImplementation 'curse.maven:trees-do-not-float:2833870'
+    modImplementation 'curse.maven:carpet:2834141'
+    modImplementation 'curse.maven:fabric-vertigo:2834529'
+    modImplementation 'curse.maven:expanded-storage:2832473'
+    modImplementation 'curse.maven:carpet-extra:2830934'
+    modImplementation 'curse.maven:shulkerboxtooltip:2829477'
+    modImplementation 'curse.maven:leaf-decay:2827905'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
@@ -78,6 +98,14 @@ dependencies {
         exclude group: "io.github.prospector.modmenu"
         exclude group :"net.fabricmc.fabric-api"
     }
+
+    // Mod Compat
+    // TechReborn
+//    modCompile("TechReborn:TechReborn-1.15:3.0.20+build.9")
+//    compile 'org.spongepowered:configurate-hocon:3.6'
+//    compile 'org.spongepowered:configurate-core:3.6'
+//    compile 'com.typesafe:config:1.3.1'
+//    compile 'teamreborn:energy:0.0.8'
 }
 
 github {

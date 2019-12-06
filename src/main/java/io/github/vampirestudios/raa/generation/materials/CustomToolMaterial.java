@@ -22,15 +22,6 @@ public class CustomToolMaterial implements ToolMaterial {
     private float axeAttackSpeed;
     private float swordAttackDamage;
 
-    public static CustomToolMaterial generate(Identifier materialId, OreType oreType, int miningLevel) {
-        return new CustomToolMaterial(materialId, oreType,
-            Rands.randIntRange(15,2000), Rands.randFloat(4.0F)+1.5F,
-            Rands.randFloat(3.0F), miningLevel,
-            Rands.randIntRange(2,10), Rands.randFloat(4.0F),
-            Rands.randFloat(3.0F), Rands.randFloat(0.8F),
-            Rands.randFloat(5.0F));
-    }
-
     public CustomToolMaterial(Identifier materialId, OreType oreType, int durability, float miningSpeed, float attackDamage, int miningLevel,
                               int enchantability, float hoeAttackSpeed, float axeAttackDamage, float axeAttackSpeed, float swordAttackDamage) {
         this.materialId = materialId;
@@ -44,6 +35,15 @@ public class CustomToolMaterial implements ToolMaterial {
         this.axeAttackDamage = axeAttackDamage;
         this.axeAttackSpeed = axeAttackSpeed;
         this.swordAttackDamage = swordAttackDamage;
+    }
+
+    public static CustomToolMaterial generate(Identifier materialId, OreType oreType, int miningLevel) {
+        return new CustomToolMaterial(materialId, oreType,
+                Rands.randIntRange(15, 2000), Rands.randFloat(4.0F) + 1.5F,
+                Rands.randFloat(3.0F), miningLevel,
+                Rands.randIntRange(2, 10), Rands.randFloat(4.0F),
+                Rands.randFloat(3.0F), Rands.randFloat(0.8F),
+                Rands.randFloat(5.0F));
     }
 
     public void setMaterialId(Identifier materialId) {
@@ -106,7 +106,7 @@ public class CustomToolMaterial implements ToolMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(Registry.ITEM.get(Utils.append(materialId, oreType.getSuffix())));
+        return Ingredient.ofItems(Registry.ITEM.get(Utils.appendToPath(materialId, oreType.getSuffix())));
     }
 
     public float getHoeAttackSpeed() {

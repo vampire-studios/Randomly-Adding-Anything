@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.generation.surface;
 
 import com.mojang.datafixers.Dynamic;
-import io.github.vampirestudios.raa.utils.OpenSimplexNoise;
+import io.github.vampirestudios.raa.utils.noise.OpenSimplexNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -31,7 +31,7 @@ public class DuneSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
 
         double blend = MathHelper.clamp((vHeight - seaLevel) * 0.125, 0, 1);
 
-        double height = (NOISE.sample(x * 0.01 , z * 0.015) * 30) * blend;
+        double height = (NOISE.sample(x * 0.01, z * 0.015) * 30) * blend;
 
         height = Math.abs(height);
 
@@ -42,14 +42,14 @@ public class DuneSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
 
         // Cap the height based on noise
 
-        height = Math.min(height, (NOISE.sample(x * 0.03 + 5 , z * 0.05 + 5) * 30 + 6));
+        height = Math.min(height, (NOISE.sample(x * 0.03 + 5, z * 0.05 + 5) * 30 + 6));
 
         for (int h = 0; h < height; h++) {
             chunk.setBlockState(pos, stone, false);
             pos.setOffset(Direction.UP);
         }
 
-        for (int i = 0; i < 3+(noise/2); i++) {
+        for (int i = 0; i < 3 + (noise / 2); i++) {
             chunk.setBlockState(pos, DIRT, false);
             pos.setOffset(Direction.UP);
         }

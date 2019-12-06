@@ -6,7 +6,7 @@
   "name": "Randomly Adding Anything",
   "description": "A mod adding anything randomly to Minecraft",
   "authors": [
-    "Vampire's Studio"
+    "Vampire Studios"
   ],
   "contributors": [
     "Shnupbups",
@@ -42,8 +42,5 @@
   "depends": {
     "fabricloader": ">=0.6.0",
     "fabric": "*"
-  },
-  "mixins": [
-    "raa.mixins.json"
-  ]
+  }
 }

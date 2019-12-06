@@ -30,9 +30,9 @@ public class HyperflatSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig
             delPos.setOffset(Direction.DOWN);
         }
 
-        double noiseHeight = HEIGHT.sample(x*0.05, z*0.05, false);
+        double noiseHeight = HEIGHT.sample(x * 0.05, z * 0.05, false);
         BlockPos.Mutable pos = new BlockPos.Mutable(x, 0, z);
-        for (int i = 0; i < 80+(noiseHeight*8); i++) {
+        for (int i = 0; i < 80 + (noiseHeight * 8); i++) {
             chunk.setBlockState(pos, stone, false);
             pos.setOffset(Direction.UP);
         }
@@ -44,8 +44,8 @@ public class HyperflatSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig
             chunk.setBlockState(pos.add(0, -1, 0), config.getTopMaterial(), false);
             if (pos.getY() == 84) chunk.setBlockState(pos.add(0, -1, 0), SAND, false);
         } else {
-            chunk.setBlockState(pos.add(0, -1, 0), WATER_NOISE.sample(x*0.05, z*0.05, false) > 0.2 ? GRAVEL : SAND, false);
-            while(pos.getY() < 84) {
+            chunk.setBlockState(pos.add(0, -1, 0), WATER_NOISE.sample(x * 0.05, z * 0.05, false) > 0.2 ? GRAVEL : SAND, false);
+            while (pos.getY() < 84) {
                 chunk.setBlockState(pos, water, false);
                 pos.setOffset(Direction.UP);
             }

@@ -3,7 +3,6 @@ package io.github.vampirestudios.raa.history;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.util.Identifier;
-import org.lwjgl.system.CallbackI;
 
 public class Civilization {
     private String name; //TODO: this just uses the dimension name generator now, change it so it uses a custom one
@@ -51,8 +50,9 @@ public class Civilization {
         if (homeDimension.getTemperature() < 0.5 || homeDimension.getTemperature() > 1.5) {
             boolean survived = false;
             int rolls = 2;
-            if (homeDimension.getTemperature() < 0.5) rolls += Math.round(homeDimension.getTemperature()*8);
-            if (homeDimension.getTemperature() > 1.5) rolls += Math.round(Math.abs(2 - homeDimension.getTemperature())*8);
+            if (homeDimension.getTemperature() < 0.5) rolls += Math.round(homeDimension.getTemperature() * 8);
+            if (homeDimension.getTemperature() > 1.5)
+                rolls += Math.round(Math.abs(2 - homeDimension.getTemperature()) * 8);
             for (int i = 0; i < rolls; i++) {
                 survived = Rands.chance(6);
                 if (survived) break;
@@ -63,7 +63,7 @@ public class Civilization {
                 return;
             } else {
                 //Their influence has grown by a tiny bit because... they're not dead
-                influenceRadius += Rands.randFloatRange((rolls/80.F), (rolls/80.F)*2F);
+                influenceRadius += Rands.randFloatRange((rolls / 80.F), (rolls / 80.F) * 2F);
             }
         }
 
@@ -75,7 +75,7 @@ public class Civilization {
 
         //This is not the best way to convey influence, but it's a start.
         float temperatureDeviation = Math.abs(1 - homeDimension.getTemperature());
-        influenceRadius += temperatureDeviation/4;
+        influenceRadius += temperatureDeviation / 4;
 
         //Lush dimension civs get a bonus with their influence, and also get a leg up on their tech level.
         if (Utils.checkBitFlag(homeDimension.getFlags(), Utils.LUSH)) {
@@ -85,7 +85,7 @@ public class Civilization {
 
         //Dimensions with flat land provide a bonus to the civ because they can build more efficiently.
         if (homeDimension.getScale() < 0.75) {
-            influenceRadius += homeDimension.getScale()/4;
+            influenceRadius += homeDimension.getScale() / 4;
             techLevel++;
         }
 
@@ -113,11 +113,11 @@ public class Civilization {
 
         //Higher tier dimensions have a higher chance to kill off their world.
         if (techLevel == 3) {
-            if(Rands.chance(6)) homeDimension.setDead();
+            if (Rands.chance(6)) homeDimension.setDead();
         }
 
         if (techLevel >= 4) {
-            if(Rands.chance(4)) homeDimension.setDead();
+            if (Rands.chance(4)) homeDimension.setDead();
         }
     }
 

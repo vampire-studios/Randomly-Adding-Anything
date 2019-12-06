@@ -5,7 +5,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class ProtoDimension {
     private Pair<String, Identifier> name;

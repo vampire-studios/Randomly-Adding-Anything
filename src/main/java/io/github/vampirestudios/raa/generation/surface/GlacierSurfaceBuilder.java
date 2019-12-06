@@ -13,13 +13,12 @@ import java.util.Random;
 import java.util.function.DoubleFunction;
 
 //Code kindly taken from Terrestria. Thank you, coderbot, Prospector, and Valoeghese!
-public class GlacierSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>  {
+public class GlacierSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
+    private static SimplexNoiseSampler noiseGenerator;
     protected final BlockState WATER = Blocks.WATER.getDefaultState();
     protected final BlockState SAND = Blocks.SAND.getDefaultState();
     protected final BlockState pICE = Blocks.PACKED_ICE.getDefaultState();
     protected final BlockState bICE = Blocks.BLUE_ICE.getDefaultState();
-
-    private static SimplexNoiseSampler noiseGenerator;
     private long currentSeed = 0L;
     private DoubleFunction<TernarySurfaceConfig> configProvider;
 

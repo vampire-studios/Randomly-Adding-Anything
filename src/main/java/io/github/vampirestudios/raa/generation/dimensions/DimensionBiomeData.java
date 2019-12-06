@@ -11,8 +11,10 @@ public class DimensionBiomeData {
     private float temperature;
     private float downfall;
     private int waterColor;
+    private int grassColor;
+    private int foliageColor;
 
-    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor) {
+    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor, int grassColor, int foliageColor) {
         this.id = id;
         this.biomeName = biomeName;
         this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
@@ -21,38 +23,84 @@ public class DimensionBiomeData {
         this.temperature = temperature;
         this.downfall = downfall;
         this.waterColor = waterColor;
+        this.grassColor = grassColor;
+        this.foliageColor = foliageColor;
     }
 
     public Identifier getId() {
         return id;
     }
 
+    public void setId(Identifier id) {
+        this.id = id;
+    }
+
     public String getName() {
         return biomeName;
+    }
+
+    public void setName(String biomeName) {
+        this.biomeName = biomeName;
     }
 
     public int getSurfaceBuilderVariantChance() {
         return surfaceBuilderVariantChance;
     }
 
+    public void setSurfaceBuilderVariantChance(int surfaceBuilderVariantChance) {
+        this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
+    }
+
     public float getDepth() {
         return depth;
+    }
+
+    public void setDepth(float depth) {
+        this.depth = depth;
     }
 
     public float getScale() {
         return scale;
     }
 
+    public void setScale(float scale) {
+        this.scale = scale;
+    }
+
     public float getTemperature() {
         return temperature;
+    }
+
+    public void setTemperature(float temperature) {
+        this.temperature = temperature;
     }
 
     public float getDownfall() {
         return downfall;
     }
 
+    public void setDownfall(float downfall) {
+        this.downfall = downfall;
+    }
+
     public int getWaterColor() {
         return waterColor;
+    }
+
+    public void setWaterColor(int waterColor) {
+        this.waterColor = waterColor;
+    }
+
+    public int getGrassColor() {
+        return grassColor;
+    }
+
+    public int getFoliageColor() {
+        return foliageColor;
+    }
+
+    public void setFoliageColor(int foliageColor) {
+        this.foliageColor = foliageColor;
     }
 
     public static class Builder {
@@ -64,6 +112,12 @@ public class DimensionBiomeData {
         private float temperature;
         private float downfall;
         private int waterColor;
+        private int grassColor;
+        private int foliageColor;
+
+        private Builder() {
+
+        }
 
         public static Builder create(Identifier id, String name) {
             Builder builder = new Builder();
@@ -75,10 +129,6 @@ public class DimensionBiomeData {
         @Deprecated
         public static Builder create() {
             return new Builder();
-        }
-
-        private Builder() {
-
         }
 
         public Builder id(Identifier id) {
@@ -121,9 +171,18 @@ public class DimensionBiomeData {
             return this;
         }
 
-        public DimensionBiomeData build() {
-            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor);
+        public Builder grassColor(int grassColor) {
+            this.grassColor = grassColor;
+            return this;
         }
 
+        public Builder setFoliageColor(int foliageColor) {
+            this.foliageColor = foliageColor;
+            return this;
+        }
+
+        public DimensionBiomeData build() {
+            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor);
+        }
     }
 }

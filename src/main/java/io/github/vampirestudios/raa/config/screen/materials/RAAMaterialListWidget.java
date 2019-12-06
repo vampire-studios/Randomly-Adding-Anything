@@ -63,16 +63,17 @@ public class RAAMaterialListWidget extends DynamicElementListWidget<RAAMaterialL
 
         public abstract void onClick();
 
+        public abstract boolean isSelected(Material material);
+
         public class PackWidget implements Element, Drawable {
             private Rect2i bounds;
-            private boolean focused;
 
             @Override
             public void render(int mouseX, int mouseY, float delta) {
                 RenderSystem.disableAlphaTest();
-                boolean isHovered = focused || bounds.contains(mouseX, mouseY);
-                drawString(MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + WordUtils.capitalizeFully(material.getName()),
-                           bounds.getX() + 5, bounds.getY() + 6, 16777215
+                boolean isHovered = bounds.contains(mouseX, mouseY);
+                drawString(MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + (isSelected(material) ? Formatting.BOLD.toString() : "") + WordUtils.capitalizeFully(material.getName()),
+                        bounds.getX() + 5, bounds.getY() + 6, 16777215
                 );
             }
 
@@ -107,84 +108,8 @@ public class RAAMaterialListWidget extends DynamicElementListWidget<RAAMaterialL
 
                 return string_1;
             }
-
-            @Override
-            public boolean changeFocus(boolean boolean_1) {
-                this.focused = !this.focused;
-                return this.focused;
-            }
         }
     }
-
-    /*public static abstract class MaterialEntry extends Entry {
-
-        private MaterialWidget widget;
-        private PartMaterial partMaterial;
-
-        public MaterialEntry(PartMaterial partMaterial) {
-            this.widget = new MaterialWidget();
-            this.partMaterial = partMaterial;
-        }
-
-        @Override
-        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            widget.bounds = new Rect2i(x, y, entryWidth, getItemHeight());
-            widget.render(mouseX, mouseY, delta);
-        }
-
-        @Override
-        public int getItemHeight() {
-            return 17;
-        }
-
-        @Override
-        public List<? extends Element> children() {
-            return Collections.singletonList(widget);
-        }
-
-        public abstract void onClick();
-
-        public class MaterialWidget implements Element, Drawable {
-            private Rect2i bounds;
-            private boolean focused;
-
-            @Override
-            public void render(int mouseX, int mouseY, float delta) {
-                boolean isHovered = focused || bounds.contains(mouseX, mouseY);
-                drawString(MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + I18n.translate(partMaterial.getMaterialTranslateKey()), bounds.getX() + 5, bounds.getY() + 5, 16777215);
-            }
-
-            @Override
-            public boolean mouseClicked(double double_1, double double_2, int int_1) {
-                if (int_1 == 0) {
-                    boolean boolean_1 = bounds.contains((int) double_1, (int) double_2);
-                    if (boolean_1) {
-                        MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-                        onClick();
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public boolean keyPressed(int int_1, int int_2, int int_3) {
-                if (int_1 != 257 && int_1 != 32 && int_1 != 335) {
-                    return false;
-                } else {
-                    MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-                    onClick();
-                    return true;
-                }
-            }
-
-            @Override
-            public boolean changeFocus(boolean boolean_1) {
-                this.focused = !this.focused;
-                return this.focused;
-            }
-        }
-    }*/
 
     public static class EmptyEntry extends Entry {
         private int height;

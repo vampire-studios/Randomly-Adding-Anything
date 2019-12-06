@@ -1,0 +1,517 @@
+{
+  "name": "tower_pillar",
+  "nbt": [
+    {
+      "tagType": 10,
+      "name": "",
+      "value": [
+        {
+          "tagType": 9,
+          "name": "size",
+          "value": {
+            "tagListType": 3,
+            "list": [
+              2,
+              6,
+              2
+            ]
+          }
+        },
+        {
+          "tagType": 9,
+          "name": "entities",
+          "value": {
+            "tagListType": 0,
+            "list": null
+          }
+        },
+        {
+          "tagType": 9,
+          "name": "blocks",
+          "value": {
+            "tagListType": 10,
+            "list": [
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      0,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      1,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      1,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      2,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      2,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      3,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      3,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      4,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      4,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      5,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      5,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      0,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      0,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      1,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      1,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      2,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      2,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      3,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      3,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      4,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      4,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      0,
+                      5,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ],
+              [
+                {
+                  "tagType": 9,
+                  "name": "pos",
+                  "value": {
+                    "tagListType": 3,
+                    "list": [
+                      1,
+                      5,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "tagType": 3,
+                  "name": "state",
+                  "value": 0
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "tagType": 9,
+          "name": "palette",
+          "value": {
+            "tagListType": 10,
+            "list": [
+              [
+                {
+                  "tagType": 8,
+                  "name": "Name",
+                  "value": "minecraft:stone_bricks"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "tagType": 3,
+          "name": "DataVersion",
+          "value": 2215
+        }
+      ]
+    }
+  ]
+}
