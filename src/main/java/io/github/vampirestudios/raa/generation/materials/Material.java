@@ -4,7 +4,6 @@ import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.utils.Rands;
-import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
@@ -28,7 +27,7 @@ public class Material {
     private int rank;
 
     Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor, boolean tools,
-                     boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
+             boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
         this(oreInformation, id, name, texturesInformation, color, miningLevel, armor, null, tools, weapons, null, glowing, oreFlower, food);
 
         if (this.tools || this.weapons) {
@@ -40,7 +39,7 @@ public class Material {
     }
 
     Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
-                     CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
+             CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
         this.id = id;
         this.name = name;
@@ -118,164 +117,160 @@ public class Material {
         return miningLevel;
     }
 
-	public int getRank() {
-		return rank;
-	}
+    public int getRank() {
+        return rank;
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private OreType oreType;
-		private Identifier id;
-		private String name;
-		private int RGB = -1;
-		private GeneratesIn generatesIn;
-		private int oreCount;
-		private Identifier overlayTexture;
-		private Identifier resourceItemTexture;
-		private Identifier storageBlockTexture;
-		private Identifier nuggetTexture;
-		private CustomArmorMaterial armorMaterial;
-		private CustomToolMaterial toolMaterial;
-		private boolean armor = false;
-		private boolean tools = false;
-		private boolean weapons = false;
-		private boolean glowing = false;
-		private boolean oreFlower = false;
-		private boolean food = false;
-		private int minXPAmount = 0;
-		private int maxXPAmount = 10;
-		private int oreClusterSize = 9;
-		private int miningLevel;
+        private OreType oreType;
+        private Identifier id;
+        private String name;
+        private int RGB = -1;
+        private GeneratesIn generatesIn;
+        private int oreCount;
+        private CustomArmorMaterial armorMaterial;
+        private CustomToolMaterial toolMaterial;
+        private boolean armor = false;
+        private boolean tools = false;
+        private boolean weapons = false;
+        private boolean glowing = false;
+        private boolean oreFlower = false;
+        private boolean food = false;
+        private int minXPAmount = 0;
+        private int maxXPAmount = 10;
+        private int oreClusterSize = 9;
+        private int miningLevel;
         private int rank = 0;
-        
+
         protected Builder() {
-			oreCount = Rands.randInt(19) + 1;
-			miningLevel = Rands.randInt(4);
-		}
+            oreCount = Rands.randInt(19) + 1;
+            miningLevel = Rands.randInt(4);
+        }
 
-		@Deprecated
-		public static Builder create() {
-			return new Builder();
-		}
+        @Deprecated
+        public static Builder create() {
+            return new Builder();
+        }
 
-		public static Builder create(Identifier id, String name) {
-			Builder builder = new Builder();
-			builder.id = id;
-			builder.name = name;
-			return builder;
-		}
+        public static Builder create(Identifier id, String name) {
+            Builder builder = new Builder();
+            builder.id = id;
+            builder.name = name;
+            return builder;
+        }
 
-		public Builder oreCount(int oreCount) {
-			this.oreCount = oreCount;
-			return this;
-		}
+        public Builder oreCount(int oreCount) {
+            this.oreCount = oreCount;
+            return this;
+        }
 
-		public Builder miningLevel(int miningLevel) {
-			this.miningLevel = miningLevel;
-			return this;
-		}
+        public Builder miningLevel(int miningLevel) {
+            this.miningLevel = miningLevel;
+            return this;
+        }
 
-		public Builder id(Identifier id) {
-			this.id = id;
-			return this;
-		}
+        public Builder id(Identifier id) {
+            this.id = id;
+            return this;
+        }
 
-		public Builder name(String name) {
-			this.name = name;
-			return this;
-		}
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
 
-		public Builder oreType(OreType oreType) {
-			this.oreType = oreType;
-			return this;
-		}
+        public Builder oreType(OreType oreType) {
+            this.oreType = oreType;
+            return this;
+        }
 
-		public Builder color(int RGB) {
-			this.RGB = RGB;
-			return this;
-		}
+        public Builder color(int RGB) {
+            this.RGB = RGB;
+            return this;
+        }
 
-		public Builder generatesIn(GeneratesIn generatesIn) {
-			this.generatesIn = generatesIn;
-			return this;
-		}
+        public Builder generatesIn(GeneratesIn generatesIn) {
+            this.generatesIn = generatesIn;
+            return this;
+        }
 
-		public Builder armor(boolean armor) {
-			this.armor = armor;
-			return this;
-		}
+        public Builder armor(boolean armor) {
+            this.armor = armor;
+            return this;
+        }
 
-		public Builder armor(CustomArmorMaterial armorMaterial) {
-			this.armor = true;
-			this.armorMaterial = armorMaterial;
-			return this;
-		}
+        public Builder armor(CustomArmorMaterial armorMaterial) {
+            this.armor = true;
+            this.armorMaterial = armorMaterial;
+            return this;
+        }
 
-		public Builder tools(boolean tools) {
-			this.tools = tools;
-			return this;
-		}
+        public Builder tools(boolean tools) {
+            this.tools = tools;
+            return this;
+        }
 
-		public Builder tools(CustomToolMaterial toolMaterial) {
-			this.tools = true;
-			this.toolMaterial = toolMaterial;
-			return this;
-		}
+        public Builder tools(CustomToolMaterial toolMaterial) {
+            this.tools = true;
+            this.toolMaterial = toolMaterial;
+            return this;
+        }
 
-		public Builder weapons(boolean weapons) {
-			this.weapons = weapons;
-			return this;
-		}
+        public Builder weapons(boolean weapons) {
+            this.weapons = weapons;
+            return this;
+        }
 
-		public Builder weapons(CustomToolMaterial toolMaterial) {
-			this.weapons = true;
-			this.toolMaterial = toolMaterial;
-			return this;
-		}
+        public Builder weapons(CustomToolMaterial toolMaterial) {
+            this.weapons = true;
+            this.toolMaterial = toolMaterial;
+            return this;
+        }
 
-		public Builder glowing(boolean glowing) {
-			this.glowing = glowing;
-			return this;
-		}
+        public Builder glowing(boolean glowing) {
+            this.glowing = glowing;
+            return this;
+        }
 
-		public Builder oreFlower(boolean oreFlower) {
-			this.oreFlower = oreFlower;
-			return this;
-		}
+        public Builder oreFlower(boolean oreFlower) {
+            this.oreFlower = oreFlower;
+            return this;
+        }
 
-		public Builder food(boolean food) {
-			this.food = food;
-			return this;
-		}
+        public Builder food(boolean food) {
+            this.food = food;
+            return this;
+        }
 
-		public Builder minXPAmount(int minXPAmount) {
-			this.minXPAmount = minXPAmount;
-			return this;
-		}
+        public Builder minXPAmount(int minXPAmount) {
+            this.minXPAmount = minXPAmount;
+            return this;
+        }
 
-		public Builder maxXPAmount(int maxXPAmount) {
-			this.maxXPAmount = maxXPAmount;
-			return this;
-		}
+        public Builder maxXPAmount(int maxXPAmount) {
+            this.maxXPAmount = maxXPAmount;
+            return this;
+        }
 
-		public Builder oreClusterSize(int oreClusterSize) {
-			this.oreClusterSize = oreClusterSize;
-			return this;
-		}
+        public Builder oreClusterSize(int oreClusterSize) {
+            this.oreClusterSize = oreClusterSize;
+            return this;
+        }
 
-		public Material build() {
-			if (id == null || name == null) {
-				throw new IllegalStateException("A Material must not have a null name or identifier");
-			}
+        public Material build() {
+            if (id == null || name == null) {
+                throw new IllegalStateException("A Material must not have a null name or identifier");
+            }
 
-			if (armor && armorMaterial == null) {
-				this.armorMaterial = CustomArmorMaterial.generate(id, oreType);
-			}
-			if ((tools || weapons) && toolMaterial == null) {
-				this.toolMaterial = CustomToolMaterial.generate(id, oreType, miningLevel);
-			}
+            if (armor && armorMaterial == null) {
+                this.armorMaterial = CustomArmorMaterial.generate(id, oreType);
+            }
+            if ((tools || weapons) && toolMaterial == null) {
+                this.toolMaterial = CustomToolMaterial.generate(id, oreType, miningLevel);
+            }
 
-			Identifier overlayTexture;
+            Identifier overlayTexture;
             if (oreType == OreType.METAL) overlayTexture = Rands.list(TextureTypes.METAL_ORE_TEXTURES);
             else if (oreType == OreType.GEM) overlayTexture = Rands.list(TextureTypes.GEM_ORE_TEXTURES);
             else overlayTexture = Rands.list(TextureTypes.CRYSTAL_ORE_TEXTURES);
@@ -294,7 +289,7 @@ public class Material {
             if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
             else nuggetTexture = null;
 
-			Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);
+            Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);
             Map.Entry<Identifier, Identifier> axe = Rands.map(TextureTypes.AXES);
             Map.Entry<Identifier, Identifier> hoe = Rands.map(TextureTypes.HOES);
             Map.Entry<Identifier, Identifier> sword = Rands.map(TextureTypes.SWORDS);
@@ -320,6 +315,6 @@ public class Material {
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
             return new Material(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
-		}
-	}
+        }
+    }
 }
