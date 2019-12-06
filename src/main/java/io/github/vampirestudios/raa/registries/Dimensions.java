@@ -522,6 +522,14 @@ public class Dimensions {
         if (Rands.chance(10)) {
             flags |= Utils.TECTONIC;
         }
+        boolean chance = Rands.chance(10);
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
+            chance = true;
+        }
+        if (chance) {
+            flags |= Utils.FROZEN;
+        }
         return flags;
     }
 }

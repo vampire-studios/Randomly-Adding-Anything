@@ -74,7 +74,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
     public boolean carve(Chunk chunkIn, Function<BlockPos, Biome> function, Random random, int chunkX, int chunkZ, int mainChunkX, int mainChunkZ, int i, BitSet carvingMask, ProbabilityConfig probabilityConfig) {
         // Since the ChunkGenerator calls this method many times per chunk (~300), we must
         // check for duplicates so we don't operate on the same chunk more than once.
-        Pair<Integer, Integer> pair = new Pair<>(chunkX, chunkZ);
+        Pair<Integer, Integer> pair = new Pair<>(mainChunkX, mainChunkZ);
         if (coordList.contains(pair))
             return true;
 
@@ -138,8 +138,8 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
                     for (int offsetZ = 0; offsetZ < 2; offsetZ++) {
                         int localX = (subX * 2) + offsetX; // chunk-local x-coordinate (0-15, inclusive)
                         int localZ = (subZ * 2) + offsetZ; // chunk-local z-coordinate (0-15, inclusive)
-                        int realX = (chunkX * 16) + localX;
-                        int realZ = (chunkZ * 16) + localZ;
+                        int realX = (mainChunkX * 16) + localX;
+                        int realZ = (mainChunkZ * 16) + localZ;
 
                         /* --------------------------- Configure Caves --------------------------- */
 
@@ -211,22 +211,22 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
                         // Extra check to provide close-off transitions on cavern edges
                         if (cavernBiomeNoise >= lavaCavernThreshold && cavernBiomeNoise <= lavaCavernThreshold + transitionRange) {
                             float smoothAmp = Math.abs((cavernBiomeNoise - (lavaCavernThreshold + transitionRange)) / transitionRange);
-                            this.cavernLava.generateColumn(chunkX, chunkZ, chunkIn, localX, localZ, BetterCavesConfig.lavaCavernCaveBottom, BetterCavesConfig.lavaCavernCaveTop,
+                            this.cavernLava.generateColumn(mainChunkX, mainChunkZ, chunkIn, localX, localZ, BetterCavesConfig.lavaCavernCaveBottom, BetterCavesConfig.lavaCavernCaveTop,
                                     maxSurfaceHeight, minSurfaceHeight, surfaceCutoff, lavaBlock, smoothAmp);
                         } else if (cavernBiomeNoise <= flooredCavernThreshold && cavernBiomeNoise >= flooredCavernThreshold - transitionRange) {
                             float smoothAmp = Math.abs((cavernBiomeNoise - (flooredCavernThreshold - transitionRange)) / transitionRange);
-                            this.cavernFloored.generateColumn(chunkX, chunkZ, chunkIn, localX, localZ, BetterCavesConfig.flooredCavernCaveBottom, BetterCavesConfig.flooredCavernCaveTop,
+                            this.cavernFloored.generateColumn(mainChunkX, mainChunkZ, chunkIn, localX, localZ, BetterCavesConfig.flooredCavernCaveBottom, BetterCavesConfig.flooredCavernCaveTop,
                                     maxSurfaceHeight, minSurfaceHeight, surfaceCutoff, lavaBlock, smoothAmp);
                         }
 
                         /* --------------- Dig out caves and caverns for this column --------------- */
                         // Top (Cave) layer:
                         if (caveGen != null)
-                            caveGen.generateColumn(chunkX, chunkZ, chunkIn, localX, localZ, caveBottomY, maxSurfaceHeight,
+                            caveGen.generateColumn(mainChunkX, mainChunkZ, chunkIn, localX, localZ, caveBottomY, maxSurfaceHeight,
                                 maxSurfaceHeight, minSurfaceHeight, surfaceCutoff, lavaBlock);
                         // Bottom (Cavern) layer:
                         if (cavernGen != null)
-                            cavernGen.generateColumn(chunkX, chunkZ, chunkIn, localX, localZ, cavernBottomY, cavernTopY,
+                            cavernGen.generateColumn(mainChunkX, mainChunkZ, chunkIn, localX, localZ, cavernBottomY, cavernTopY,
                                 maxSurfaceHeight, minSurfaceHeight, surfaceCutoff, lavaBlock);
                     }
                 }

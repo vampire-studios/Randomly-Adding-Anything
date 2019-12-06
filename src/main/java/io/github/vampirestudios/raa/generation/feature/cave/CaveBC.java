@@ -127,7 +127,7 @@ public class CaveBC extends AbstractBC {
 
             BlockState currBlock = chunkIn.getBlockState(new BlockPos(localX, realY, localZ));
 
-            if (canAlwaysCarveBlock(currBlock)
+            if (canCarveBlock(currBlock, AIR)
                     && (chunkIn.getBlockState(new BlockPos(localX, realY + 1, localZ)) == AIR || chunkIn.getBlockState(new BlockPos(localX, realY + 1, localZ)) == CAVE_AIR)
                     && (chunkIn.getBlockState(new BlockPos(localX, realY - 1, localZ)) == AIR || chunkIn.getBlockState(new BlockPos(localX, realY - 1, localZ)) == CAVE_AIR)
             )
