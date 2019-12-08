@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.config.screen.dimensions;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;

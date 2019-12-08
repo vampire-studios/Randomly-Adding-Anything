@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,16 +15,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeSourceType;
-import net.minecraft.world.biome.source.FixedBiomeSource;
-import net.minecraft.world.biome.source.FixedBiomeSourceConfig;
-import net.minecraft.world.biome.source.VanillaLayeredBiomeSourceConfig;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class CustomDimension extends Dimension {

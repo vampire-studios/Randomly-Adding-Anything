@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.api.dimension;
 
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.block.Block;

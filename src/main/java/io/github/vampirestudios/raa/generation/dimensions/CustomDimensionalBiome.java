@@ -3,6 +3,8 @@ package io.github.vampirestudios.raa.generation.dimensions;
 import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
 import io.github.vampirestudios.raa.generation.feature.TombFeature;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;

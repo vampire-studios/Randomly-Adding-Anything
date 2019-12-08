@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.blocks;
 
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

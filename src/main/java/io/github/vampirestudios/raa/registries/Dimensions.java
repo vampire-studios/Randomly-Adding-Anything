@@ -8,6 +8,10 @@ import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.*;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionColorPalette;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTextureData;
 import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
 import io.github.vampirestudios.raa.items.dimension.*;
@@ -173,7 +177,7 @@ public class Dimensions {
                     .civilizationInfluences(dimension.getCivilizationInfluences())
                     .surfaceBuilder(Rands.randInt(100));
 
-            DimensionTexturesInformation texturesInformation = DimensionTexturesInformation.Builder.create()
+            DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
                     .stoneBricksTexture(Rands.list(TextureTypes.STONE_BRICKS_TEXTURES))
                     .mossyStoneBricksTexture(Rands.list(TextureTypes.MOSSY_STONE_BRICKS_TEXTURES))

@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.dimensions;
+package io.github.vampirestudios.raa.generation.dimensions.data;
 
 import net.minecraft.util.Identifier;
 

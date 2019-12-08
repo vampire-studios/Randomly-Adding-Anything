@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.config.screen.dimensions;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.config.screen.ConfigScreen;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;

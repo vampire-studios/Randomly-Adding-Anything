@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.dimensions;
+package io.github.vampirestudios.raa.generation.dimensions.data;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
@@ -14,7 +14,7 @@ public class DimensionData {
     private int dimensionId;
     private List<DimensionBiomeData> biomeData;
     private DimensionColorPalette dimensionColorPalette;
-    private DimensionTexturesInformation texturesInformation;
+    private DimensionTextureData texturesInformation;
     private boolean hasSkyLight;
     private boolean hasSky;
     private boolean canSleep;
@@ -28,7 +28,7 @@ public class DimensionData {
     private int surfaceBuilder;
     private int toolDurability;
 
-    public DimensionData(Identifier id, String name, int dimensionId, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTexturesInformation texturesInformation,
+    public DimensionData(Identifier id, String name, int dimensionId, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
                          boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags,
                          HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int surfaceBuilder, int toolDurability) {
         this.id = id;
@@ -75,7 +75,7 @@ public class DimensionData {
         return dimensionColorPalette;
     }
 
-    public DimensionTexturesInformation getTexturesInformation() {
+    public DimensionTextureData getTexturesInformation() {
         return texturesInformation;
     }
 
@@ -163,7 +163,7 @@ public class DimensionData {
         private int dimensionId;
         private List<DimensionBiomeData> biomeData;
         private DimensionColorPalette dimensionColorPalette;
-        private DimensionTexturesInformation texturesInformation;
+        private DimensionTextureData texturesInformation;
         private boolean hasSkyLight;
         private boolean hasSky;
         private boolean canSleep;
@@ -227,7 +227,7 @@ public class DimensionData {
             return this;
         }
 
-        public Builder texturesInformation(DimensionTexturesInformation texturesInformation) {
+        public Builder texturesInformation(DimensionTextureData texturesInformation) {
             this.texturesInformation = texturesInformation;
             return this;
         }

@@ -2,14 +2,13 @@ package io.github.vampirestudios.raa.config.screen.dimensions;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionColorPalette;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionColorPalette;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.Utils;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
-import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;

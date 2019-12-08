@@ -1,9 +1,8 @@
-package io.github.vampirestudios.raa.generation.dimensions;
+package io.github.vampirestudios.raa.generation.dimensions.data;
 
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 
-public class DimensionTexturesInformation {
+public class DimensionTextureData {
 
     private Identifier stoneTexture;
     private Identifier stoneBricksTexture;
@@ -16,8 +15,8 @@ public class DimensionTexturesInformation {
     private Identifier mossyChiseledTexture;
     private Identifier polishedTexture;
 
-    public DimensionTexturesInformation(Identifier stoneTexture, Identifier stoneBricksTexture, Identifier mossyStoneBricksTexture, Identifier crackedStoneBricksTexture, Identifier cobblestoneTexture, Identifier mossyCobblestoneTexture,
-                                        Identifier chiseledTexture, Identifier crackedChiseledTexture, Identifier mossyChiseledTexture, Identifier polishedTexture) {
+    public DimensionTextureData(Identifier stoneTexture, Identifier stoneBricksTexture, Identifier mossyStoneBricksTexture, Identifier crackedStoneBricksTexture, Identifier cobblestoneTexture, Identifier mossyCobblestoneTexture,
+                                Identifier chiseledTexture, Identifier crackedChiseledTexture, Identifier mossyChiseledTexture, Identifier polishedTexture) {
         this.stoneTexture = stoneTexture;
         this.stoneBricksTexture = stoneBricksTexture;
         this.mossyStoneBricksTexture = mossyStoneBricksTexture;
@@ -137,8 +136,8 @@ public class DimensionTexturesInformation {
             return this;
         }
 
-        public DimensionTexturesInformation build() {
-            return new DimensionTexturesInformation(stoneTexture, stoneBricksTexture, mossyStoneBricksTexture, crackedStoneBricksTexture, cobblestoneTexture, mossyCobblestoneTexture,
+        public DimensionTextureData build() {
+            return new DimensionTextureData(stoneTexture, stoneBricksTexture, mossyStoneBricksTexture, crackedStoneBricksTexture, cobblestoneTexture, mossyCobblestoneTexture,
                     chiseledTexture, crackedChiseledTexture, mossyChiseledTexture, polishedTexture);
         }
 
