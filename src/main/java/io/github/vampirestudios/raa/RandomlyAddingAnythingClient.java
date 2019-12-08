@@ -20,7 +20,6 @@ import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.class_4730;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.ModelBakeSettings;
@@ -28,6 +27,7 @@ import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -40,37 +40,12 @@ import java.util.function.Function;
 
 public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
-    private static final Map<Identifier, Map.Entry<Material, RAABlockItem.BlockType>> BLOCKS_IDENTIFIERS = new HashMap<>();
+    private static final Map<Identifier, Map.Entry<Material, RAABlockItem.BlockType>> MATERIAL_ORE_IDENTIFIERS = new HashMap<>();
 
     @Override
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
-        ColorProviderRegistry.ITEM.register((stack, layer) -> {
-            if (MinecraftClient.getInstance().world != null) {
-                return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getBlockPos())
-                        .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos().getX(), MinecraftClient.getInstance().player.getBlockPos().getZ());
-            } else {
-                BlockState blockState_1 = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
-                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos());
-            }
-        }, Items.GRASS_BLOCK);
-
-        ColorProviderRegistry.ITEM.register((stack, var2) ->
-                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColorAt(),
-                Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
-
-        ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
-                MinecraftClient.getInstance().world.getBiomeAccess().getBiome(blockPos).getFoliageColorAt(), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
-
-//        while (!Materials.isReady()) {
-//            System.out.println("Not Ready");
-//        }
-//        while (!Dimensions.isReady()) {
-//            System.out.println("Not Ready");
-//        }
-//        while (!Materials.isDimensionReady()) {
-//            System.out.println("Not Ready");
-//        }
+        initColoring();
 
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
@@ -103,7 +78,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                             modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
                     Map<Material, RAABlockItem.BlockType> map = new HashMap<>();
                     map.put(material, blockType);
-                    BLOCKS_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
+                    MATERIAL_ORE_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
                 }
                 if (material.getOreInformation().getOreType() == OreType.GEM) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_gem"), modelBuilder -> {
@@ -226,6 +201,18 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder -> modelBuilder.parent(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())));
 
 
+                Identifier iceId = Utils.appendToPath(identifier, "_ice");
+                clientResourcePackBuilder.addBlockState(iceId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(iceId.getNamespace(), "block/" + iceId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(iceId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getIceTexture());
+                });
+                clientResourcePackBuilder.addItemModel(iceId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(iceId.getNamespace(), "block/" + iceId.getPath())));
+
+
                 Identifier cobblestoneId = Utils.appendToPath(identifier, "_cobblestone");
                 clientResourcePackBuilder.addBlockState(cobblestoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())))
@@ -335,7 +322,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                             modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
                     Map<Material, RAABlockItem.BlockType> map = new HashMap<>();
                     map.put(material, blockType);
-                    BLOCKS_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
+                    MATERIAL_ORE_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
                 }
                 if (material.getOreInformation().getOreType() == OreType.GEM) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_gem"), modelBuilder -> {
@@ -465,12 +452,21 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             Block chiseled = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "chiseled_" + dimensionData.getId().getPath()));
             Block polished = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath()));
 
+            Block ice = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_ice"));
+
             ColorProviderRegistry.ITEM.register((stack, layer) -> {
                 if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
                 else return -1;
             }, stone, stoneBricks, cobblestone, chiseled, polished);
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
                     dimensionData.getDimensionColorPalette().getStoneColor(), stone, stoneBricks, cobblestone, chiseled, polished);
+
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                if (layer == 0) return dimensionData.getBiomeData().get(0).getWaterColor();
+                else return -1;
+            }, ice);
+            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+                    dimensionData.getBiomeData().get(0).getWaterColor(), ice);
         });
         Materials.DIMENSION_MATERIALS.forEach(material -> {
             Identifier id = material.getId();
@@ -496,7 +492,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.BLOCK.get(Utils.appendToPath(id, "_block")),
                     Registry.ITEM.get(Utils.appendToPath(id, "_shears"))
             );
-            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
+            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+                    layer == 0 ? material.getDimensionData().getDimensionColorPalette().getStoneColor() : material.getRGBColor(),
                     Registry.BLOCK.get(Utils.appendToPath(id, "_block")));
         });
 
@@ -505,8 +502,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 return null;
             }
             Identifier identifier = new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath());
-            if (!BLOCKS_IDENTIFIERS.containsKey(identifier)) return null;
-            if (BLOCKS_IDENTIFIERS.get(identifier).getValue() == RAABlockItem.BlockType.BLOCK) return null;
+            if (!MATERIAL_ORE_IDENTIFIERS.containsKey(identifier)) return null;
+            if (MATERIAL_ORE_IDENTIFIERS.get(identifier).getValue() == RAABlockItem.BlockType.BLOCK) return null;
             return new UnbakedModel() {
                 @Override
                 public Collection<Identifier> getModelDependencies() {
@@ -514,14 +511,34 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 }
 
                 @Override
-                public Collection<class_4730> getTextureDependencies(Function<Identifier, UnbakedModel> unbakedModelGetter, Set<com.mojang.datafixers.util.Pair<String, String>> unresolvedTextureReferences) {
+                public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> unbakedModelGetter, Set<com.mojang.datafixers.util.Pair<String, String>> unresolvedTextureReferences) {
                     return Collections.emptyList();
                 }
                 @Override
-                public BakedModel bake(ModelLoader loader, Function<class_4730, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
-                    return new OreBakedModel(BLOCKS_IDENTIFIERS.get(identifier).getKey());
+                public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
+                    return new OreBakedModel(MATERIAL_ORE_IDENTIFIERS.get(identifier).getKey());
                 }
             };
         });
     }
+
+    public static void initColoring() {
+        ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            if (MinecraftClient.getInstance().world != null) {
+                return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getBlockPos())
+                        .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos().getX(), MinecraftClient.getInstance().player.getBlockPos().getZ());
+            } else {
+                BlockState blockState_1 = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
+                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos());
+            }
+        }, Items.GRASS_BLOCK);
+
+        ColorProviderRegistry.ITEM.register((stack, var2) ->
+                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColorAt(),
+                Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
+
+        ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
+                MinecraftClient.getInstance().world.getBiomeAccess().getBiome(blockPos).getFoliageColorAt(), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
+    }
+
 }

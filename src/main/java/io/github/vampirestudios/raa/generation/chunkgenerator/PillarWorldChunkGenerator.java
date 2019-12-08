@@ -26,7 +26,7 @@ import net.minecraft.world.level.LevelGeneratorType;
 import java.util.List;
 
 public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
-    private static final float[] BIOME_WEIGHT_TABLE = Util.create(new float[25], (floats_1) -> {
+    private static final float[] BIOME_WEIGHT_TABLE = Util.make(new float[25], (floats_1) -> {
         for (int int_1 = -2; int_1 <= 2; ++int_1) {
             for (int int_2 = -2; int_2 <= 2; ++int_2) {
                 float float_1 = 10.0F / MathHelper.sqrt((float) (int_1 * int_1 + int_2 * int_2) + 0.2F);
@@ -55,7 +55,7 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
     public void populateEntities(ChunkRegion chunkRegion_1) {
         int int_1 = chunkRegion_1.getCenterChunkX();
         int int_2 = chunkRegion_1.getCenterChunkZ();
-        Biome biome_1 = chunkRegion_1.method_23753((new ChunkPos(int_1, int_2)).getCenterBlockPos());
+        Biome biome_1 = chunkRegion_1.getBiome((new ChunkPos(int_1, int_2)).getCenterBlockPos());
         ChunkRandom chunkRandom_1 = new ChunkRandom();
         chunkRandom_1.setSeed(chunkRegion_1.getSeed(), int_1 << 4, int_2 << 4);
         SpawnHelper.populateEntities(chunkRegion_1, biome_1, int_1, int_2, chunkRandom_1);

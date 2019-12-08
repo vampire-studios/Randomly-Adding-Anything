@@ -1,104 +1,126 @@
 package io.github.vampirestudios.raa.utils;
 
+import net.minecraft.client.util.math.Vector3d;
+import net.minecraft.util.math.Vec3i;
+
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class JsonConverter {
 
-    public class StructureValues {
+    public static class StructureValues {
         private String name;
-        private List<Integer> size;
+        private Vec3i size;
         private int entities; //Figure out what to do with this
-        private List<List<Integer>> block_positions;
-        private List<Integer> block_states;
-        private List<String> block_types;
+        private List<Vec3i> blockPositions;
+        private List<Integer> blockStates;
+        private List<String> blockTypes;
+        private List<Map<String, String>> blockProperties;
 
         StructureValues() {
             name = "";
-            size = new ArrayList<>();
+            size = Vec3i.ZERO;
             entities = 0;
-            block_positions = new ArrayList<>();
-            block_states = new ArrayList<>();
-            block_types = new ArrayList<>();
+            blockPositions = new ArrayList<>();
+            blockStates = new ArrayList<>();
+            blockTypes = new ArrayList<>();
+            blockProperties = new ArrayList<>();
         }
 
-        public void setName(String name_in) { name = name_in; }
-        public void setSize(List<Integer> size_in) { size = new ArrayList<>(size_in); }
+        public void setName(String nameIn) { name = nameIn; }
+        public void setSize(List<Integer> sizeIn) { size = new Vec3i(sizeIn.get(0), sizeIn.get(1), sizeIn.get(2)); }
         public void setEntities() {}
-        public void setBlock_positions(List<Integer> positions_in) { block_positions.add(new ArrayList<>(positions_in)); }
-        public void setBlock_states(Integer states_in) { block_states.add(states_in); }
-        public void setBlock_types(String blocks_in) { block_types.add(blocks_in); }
+        public void setBlockPositions(List<Integer> positionsIn) { blockPositions.add(new Vec3i(positionsIn.get(0), positionsIn.get(1), positionsIn.get(2))); }
+        public void setBlockStates(Integer statesIn) { blockStates.add(statesIn); }
+        public void setBlockTypes(String blocksIn) { blockTypes.add(blocksIn); }
+        public void setBlockProperties(Map<String, String> propertiesIn) { blockProperties.add(propertiesIn); }
 
         public String getName() { return name; }
-        public List<Integer> getSize() { return size; }
+        public Vec3i getSize() { return size; }
         public int getEntities() { return entities; }
-        public List<List<Integer>> getBlock_positions() { return block_positions; }
-        public List<Integer> getBlock_states() { return block_states; }
-        public List<String> getBlock_types() { return block_types; }
+        public List<Vec3i> getBlockPositions() { return blockPositions; }
+        public List<Integer> getBlockStates() { return blockStates; }
+        public List<String> getBlockTypes() { return blockTypes; }
+        public List<Map<String, String>> getBlockProperties() { return blockProperties; }
     }
 
-    public StructureValues LoadStructure(String FileIn) {
+    public StructureValues loadStructure(String FileIn) {
         StructureValues structure = new StructureValues();
 
         try {
             Scanner scanner = new Scanner(new File("../src/main/resources/assets/raa/structures/" + FileIn));
 
-            int indent_class = 0;
-            int indent_list = 0;
+            int indentClass = 0;
+            int indentList = 0;
             String section = "";
-            List<Integer> temp_list = new ArrayList<>();
+            String property = "";
+            List<Integer> tempList = new ArrayList<>();
+            Map<String, String> tempMap = new HashMap<>();
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
 
-                if (line.contains("}")) { indent_class--; }
-                if (line.contains("]")) { indent_list--; }
+                if (line.contains("}")) { indentClass--; }
+                if (line.contains("]")) { indentList--; }
 
-                if (indent_class == 1 && line.contains("name")) {
+                if (indentClass == 1 && line.contains("name")) {
                     structure.setName(line.substring(line.indexOf("name") + 8, line.length() - 2)); //Get the name of the structure
                 }
-                else if (indent_class == 3 && line.contains("name")) {
+                else if (indentClass == 3 && line.contains("name")) {
                     section = line.substring(line.indexOf("name") + 8, line.length() - 2);
                 }
-                else if (section.equals("size") && indent_list == 3) {
-                    temp_list.add(Integer.parseInt(line.replaceAll("[^\\d-]", "")));
-                    if (temp_list.size() == 3) {
-                        structure.setSize(temp_list); //Get the size of the structure
-                        temp_list.clear();
+                else if (section.equals("size") && indentList == 3) {
+                    tempList.add(Integer.parseInt(line.replaceAll("[^\\d-]", "")));
+                    if (tempList.size() == 3) {
+                        structure.setSize(tempList); //Get the size of the structure
+                        tempList.clear();
                     }
                 }
-                else if (section.equals("entities") && indent_class == 4 && line.contains("list")) {
+                else if (section.equals("entities") && indentClass == 4 && line.contains("list")) {
                     structure.setEntities(); //Get the entities
                 }
-                else if (section.contains("blocks") && line.contains("pos")) {
+                else if (section.contains("blocks") && line.contains(": \"nbt\"")) {
+                    section = "blocks0"; //Structure block!
+                }
+                else if (section.contains("blocks") && line.contains(": \"pos\"")) {
                     section = "blocks1";
                 }
-                else if (section.contains("blocks") && line.contains("state")) {
+                else if (section.contains("blocks") && line.contains(": \"state\"")) {
                     section = "blocks2";
                 }
-                else if (section.equals("blocks1") && indent_list == 5) {
-                    temp_list.add(Integer.parseInt(line.replaceAll("[^\\d-]", "")));
-                    if (temp_list.size() == 3) {
-                        structure.setBlock_positions(temp_list); //Get the positions of the blocks in the structure
-                        temp_list.clear();
+                else if (section.equals("blocks1") && indentList == 5) {
+                    tempList.add(Integer.parseInt(line.replaceAll("[^\\d-]", "")));
+                    if (tempList.size() == 3) {
+                        structure.setBlockPositions(tempList); //Get the positions of the blocks in the structure
+                        tempList.clear();
                     }
                 }
-                else if (section.equals("blocks2") && indent_class == 5 && line.contains("value")) {
-                    structure.setBlock_states(Integer.parseInt(line.replaceAll("[^\\d-]", ""))); //Get the states of the blocks in the structure
+                else if (section.equals("blocks2") && indentClass == 5 && line.contains("value")) {
+                    structure.setBlockStates(Integer.parseInt(line.replaceAll("[^\\d-]", ""))); //Get the states of the blocks in the structure
                 }
-                else if (section.equals("palette") && line.contains("Name")) {
+                else if (section.equals("palette") && line.contains("Properties")) {
+                    section = "Properties";
+                }
+                else if ((section.equals("palette") || section.equals("Properties")) && line.contains("Name")) {
                     section = "Name";
                 }
+                else if (section.equals("Properties") && line.contains("name")) {
+                    property = line.substring(line.indexOf("name") + 8, line.length() - 2);
+                }
+                else if (section.equals("Properties") && line.contains("value") && !line.contains("[")) {
+                    tempMap.put(property, line.substring(line.indexOf("value") + 9, line.length() - 1).toUpperCase());
+                }
                 else if (section.equals("Name") && line.contains("value")) {
-                    structure.setBlock_types(line.substring(line.indexOf("value") + 9, line.length() - 1)); //Get the type of blocks used in the structure
+                    structure.setBlockProperties(tempMap); //Get the properties of the blocks used in the structure
+                    tempMap = new HashMap<>();
+                    structure.setBlockTypes(line.substring(line.indexOf("value") + 9, line.length() - 1)); //Get the type of blocks used in the structure
                     section = "palette";
                 }
 
-                if (line.contains("{")) { indent_class++; }
-                if (line.contains("[")) { indent_list++; }
+                if (line.contains("{")) { indentClass++; }
+                if (line.contains("[")) { indentList++; }
             }
+
             return structure; //Success!
         }
         catch (Exception e) {

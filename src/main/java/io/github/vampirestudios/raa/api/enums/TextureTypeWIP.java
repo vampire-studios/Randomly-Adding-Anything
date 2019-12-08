@@ -9,6 +9,8 @@ public enum TextureTypeWIP {
 
     STONE,
 
+    ICE,
+
     PLANT,
 
     MUSHROOM_ITEM,

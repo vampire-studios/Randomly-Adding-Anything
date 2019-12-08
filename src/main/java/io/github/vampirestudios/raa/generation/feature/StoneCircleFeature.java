@@ -3,8 +3,9 @@ package io.github.vampirestudios.raa.generation.feature;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.FeatureUtils;
-import io.github.vampirestudios.raa.utils.OctaveOpenSimplexNoise;
+import io.github.vampirestudios.raa.utils.noise.OctaveOpenSimplexNoise;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -38,6 +39,9 @@ public class StoneCircleFeature extends Feature<DefaultFeatureConfig> {
     }
 
     private boolean generate(IWorld world, Random rand, BlockPos pos) {
+        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
+            return true;
+
         int centreX = pos.getX() + rand.nextInt(16) - 8;
         int centreZ = pos.getZ() + rand.nextInt(16) - 8;
         int lowY = pos.getY() - 1;

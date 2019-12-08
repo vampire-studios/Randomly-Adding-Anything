@@ -14,9 +14,10 @@ public class DimensionTextureData {
     private Identifier crackedChiseledTexture;
     private Identifier mossyChiseledTexture;
     private Identifier polishedTexture;
+    private Identifier iceTexture;
 
-    public DimensionTextureData(Identifier stoneTexture, Identifier stoneBricksTexture, Identifier mossyStoneBricksTexture, Identifier crackedStoneBricksTexture, Identifier cobblestoneTexture, Identifier mossyCobblestoneTexture,
-                                Identifier chiseledTexture, Identifier crackedChiseledTexture, Identifier mossyChiseledTexture, Identifier polishedTexture) {
+    public DimensionTexturesInformation(Identifier stoneTexture, Identifier stoneBricksTexture, Identifier mossyStoneBricksTexture, Identifier crackedStoneBricksTexture, Identifier cobblestoneTexture, Identifier mossyCobblestoneTexture,
+                                        Identifier chiseledTexture, Identifier crackedChiseledTexture, Identifier mossyChiseledTexture, Identifier polishedTexture, Identifier iceTexture) {
         this.stoneTexture = stoneTexture;
         this.stoneBricksTexture = stoneBricksTexture;
         this.mossyStoneBricksTexture = mossyStoneBricksTexture;
@@ -27,6 +28,7 @@ public class DimensionTextureData {
         this.crackedChiseledTexture = crackedChiseledTexture;
         this.mossyChiseledTexture = mossyChiseledTexture;
         this.polishedTexture = polishedTexture;
+        this.iceTexture = iceTexture;
     }
 
     public Identifier getStoneTexture() {
@@ -69,6 +71,8 @@ public class DimensionTextureData {
         return polishedTexture;
     }
 
+    public Identifier getIceTexture() { return iceTexture; }
+
     public static class Builder {
 
         private Identifier stoneTexture;
@@ -81,6 +85,7 @@ public class DimensionTextureData {
         private Identifier crackedChiseledTexture;
         private Identifier mossyChiseledTexture;
         private Identifier polishedTexture;
+        private Identifier iceTexture;
 
         public static Builder create() {
             return new Builder();
@@ -136,9 +141,14 @@ public class DimensionTextureData {
             return this;
         }
 
-        public DimensionTextureData build() {
-            return new DimensionTextureData(stoneTexture, stoneBricksTexture, mossyStoneBricksTexture, crackedStoneBricksTexture, cobblestoneTexture, mossyCobblestoneTexture,
-                    chiseledTexture, crackedChiseledTexture, mossyChiseledTexture, polishedTexture);
+        public Builder iceTexture(Identifier iceTexture) {
+            this.iceTexture = iceTexture;
+            return this;
+        }
+
+        public DimensionTexturesInformation build() {
+            return new DimensionTexturesInformation(stoneTexture, stoneBricksTexture, mossyStoneBricksTexture, crackedStoneBricksTexture, cobblestoneTexture, mossyCobblestoneTexture,
+                    chiseledTexture, crackedChiseledTexture, mossyChiseledTexture, polishedTexture, iceTexture);
         }
 
     }

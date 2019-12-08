@@ -7,12 +7,17 @@ import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
 import io.github.vampirestudios.raa.predicate.block.BlockPredicate;
-import io.github.vampirestudios.raa.utils.*;
+import io.github.vampirestudios.raa.utils.DebugUtils;
+import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.RegistryUtils;
+import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
+import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.Block;
@@ -31,13 +36,14 @@ public class Materials {
     public static final Set<Identifier> MATERIAL_IDS = new HashSet<>();
     public static final Registry<Material> MATERIALS = new DefaultedRegistry<>("materials");
     public static final Set<Identifier> DIMENSION_MATERIAL_IDS = new HashSet<>();
-    public static final Registry<Material> DIMENSION_MATERIALS = new DefaultedRegistry<>("dimension_materials");
+    public static final Registry<DimensionMaterial> DIMENSION_MATERIALS = new DefaultedRegistry<>("dimension_materials");
     public static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
     public static boolean ready = false;
     public static boolean dimensionReady = false;
 
     public static void generate() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
+            System.out.println(String.format("Generating material %d out of %d", a, RandomlyAddingAnything.CONFIG.materialNumber));
             Color RGB = Rands.randColor();
             Random random = Rands.getRandom();
             INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
@@ -77,7 +83,9 @@ public class Materials {
 
     public static void generateDimensionMaterials() {
         for (DimensionData dimensionData : Dimensions.DIMENSIONS) {
+            int i = Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.materialNumber);
             for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.materialNumber); a++) {
+                System.out.println(String.format("Generating dimension material %d out of %d for %s", a, i, dimensionData.getName()));
                 Color RGB = Rands.randColor();
                 Random random = Rands.getRandom();
                 INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
@@ -100,7 +108,7 @@ public class Materials {
                         )
                 );
 
-                Material material = Material.Builder.create(id, name)
+                DimensionMaterial material = DimensionMaterial.Builder.create(id, name)
                         .oreType(Rands.values(OreType.values()))
                         .color(RGB.getColor())
                         .generatesIn(generatesIn)
@@ -113,6 +121,7 @@ public class Materials {
                         .maxXPAmount(Rands.randIntRange(0, 4))
                         .oreClusterSize(Rands.randIntRange(2, 6))
                         .food(Rands.chance(4))
+                        .dimensionData(dimensionData)
                         .build();
 
                 Registry.register(DIMENSION_MATERIALS, id, material);

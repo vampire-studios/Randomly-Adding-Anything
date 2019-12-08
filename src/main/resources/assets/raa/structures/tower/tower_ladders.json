@@ -1,8 +1,5 @@
 {
-  "name": "Named Binary Tag to JSON",
-  "version": "0.3.0",
-  "nbt2JsonUrl": "https://github.com/midnightfreddie/nbt2json",
-  "conversionTime": "2019-11-14T00:05:00-05:00",
+  "name": "tower_ladders",
   "nbt": [
     {
       "tagType": 10,

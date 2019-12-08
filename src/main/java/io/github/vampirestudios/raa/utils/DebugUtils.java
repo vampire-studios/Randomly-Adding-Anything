@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.vampirelib.utils.Color;
 
 public class DebugUtils {
 

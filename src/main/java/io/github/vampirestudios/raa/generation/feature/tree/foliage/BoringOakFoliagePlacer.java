@@ -22,16 +22,16 @@ public class BoringOakFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public void method_23448(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
+    public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
         int int_4 = Rands.randIntRange(1, 2); //replace with foliage size
         for(int int_5 = i; int_5 >= j + 2; --int_5) {
             if (int_5 == j + 2) int_4 = 1; //smooth out bigger trees
-            this.method_23449(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_5, int_4, set);
+            this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_5, int_4, set);
         }
     }
 
     @Override
-    public int method_23452(Random random, int i, int j, BranchedTreeFeatureConfig branchedTreeFeatureConfig) {
+    public int getRadius(Random random, int i, int j, BranchedTreeFeatureConfig branchedTreeFeatureConfig) {
         return this.radius + random.nextInt(this.randomRadius + 1);
     }
 

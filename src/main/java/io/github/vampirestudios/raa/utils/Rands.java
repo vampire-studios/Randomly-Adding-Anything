@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
+import io.github.vampirestudios.vampirelib.utils.Color;
+
 import java.util.*;
 
 public class Rands {
@@ -40,6 +42,12 @@ public class Rands {
 
     public static <O extends Object> O list(List<O> list) {
         return list.get(randInt(list.size()));
+    }
+
+    public static <O extends Object> List<O> lists(List<O> list, List<O> list2) {
+        int int1 = randInt(list.size());
+        int int2 = randInt(list2.size());
+        return Arrays.asList(list.get(int1), list2.get(int2));
     }
 
     public static <K, V extends Object> Map.Entry<K, V> map(Map<K, V> map) {

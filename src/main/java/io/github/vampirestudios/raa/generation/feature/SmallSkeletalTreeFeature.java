@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.generation.feature;
 
-import com.google.common.collect.Sets;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.BlockState;
@@ -9,10 +8,7 @@ import net.minecraft.block.PillarBlock;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.ModifiableTestableWorld;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 
@@ -29,11 +25,6 @@ public class SmallSkeletalTreeFeature extends AbstractTreeFeature<TreeFeatureCon
 
     public SmallSkeletalTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> function) {
         super(function);
-    }
-
-    @Override
-    public boolean generate(IWorld iWorld, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig) {
-        return this.generate(iWorld, new Random(), blockPos, Sets.newTreeSet(), Sets.newTreeSet(), BlockBox.empty(), treeFeatureConfig);
     }
 
     @Override

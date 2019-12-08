@@ -1,6 +1,8 @@
 package io.github.vampirestudios.raa.blocks;
 
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.api.dimension.PlayerPlacementHandlers;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -21,19 +23,16 @@ import net.minecraft.world.dimension.DimensionType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators.*;
+
 public class PortalBlock extends Block {
     private DimensionType dimensionType;
     private DimensionData dimensionData;
 
     public PortalBlock(DimensionData dimensionData, DimensionType dimensionType) {
-        super(Block.Settings.of(Material.STONE).strength(8.f, 80.f));
+        super(Block.Settings.of(Material.STONE).strength(8.f, 80.f).nonOpaque());
         this.dimensionType = dimensionType;
         this.dimensionData = dimensionData;
-    }
-
-    @Override
-    public Text getName() {
-        return new TranslatableText("text.raa.block.portal", new LiteralText(dimensionData.getName()));
     }
 
     @Override
@@ -43,7 +42,7 @@ public class PortalBlock extends Block {
             if (playerPos.getX() == pos.getX() && playerPos.getZ() == pos.getZ() && playerPos.getY() == pos.getY() + 1) {
                 if (playerEntity_1.world.dimension.getType() == this.dimensionType) {
                     // coming from our custom dimension
-                    FabricDimensions.teleport(playerEntity_1, DimensionType.OVERWORLD, null);
+                    FabricDimensions.teleport(playerEntity_1, DimensionType.OVERWORLD, PlayerPlacementHandlers.OVERWORLD.getEntityPlacer());
                 } else {
                     // going to our custom dimension
                     FabricDimensions.teleport(playerEntity_1, this.dimensionType, null);

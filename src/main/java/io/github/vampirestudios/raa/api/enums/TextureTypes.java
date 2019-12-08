@@ -32,6 +32,8 @@ public class TextureTypes {
     public static List<Identifier> CRACKED_CHISELED_STONE_TEXTURES = new ArrayList<>();
     public static List<Identifier> POLISHED_STONE_TEXTURES = new ArrayList<>();
 
+    public static List<Identifier> ICE_TEXTURES = new ArrayList<>();
+
     public static Map<Identifier, Identifier> HORSE_ARMOR = new HashMap<>();
     public static Map<Identifier, Identifier> PICKAXES = new HashMap<>();
     public static Map<Identifier, Identifier> AXES = new HashMap<>();

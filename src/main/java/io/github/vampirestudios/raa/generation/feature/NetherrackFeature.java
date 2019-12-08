@@ -19,7 +19,7 @@ public class NetherrackFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
-        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque())
+        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
             return true;
         this.setBlockState(world, pos.add(0, -1, 0), Blocks.NETHERRACK.getDefaultState());
         if (Rands.chance(3)) {

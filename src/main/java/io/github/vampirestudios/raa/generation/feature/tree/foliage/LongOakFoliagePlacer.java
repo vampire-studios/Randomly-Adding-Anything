@@ -20,17 +20,17 @@ public class LongOakFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public void method_23448(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
+    public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
         //long oak
 
         for(int int_4 = i; int_4 >= j; --int_4) {
             int int_5 = Math.max(k - 1 - (int_4 - i) / Math.max(i / 3, 1), 0)+1;
-            this.method_23449(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_4, Math.min(int_5, 4), set);
+            this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_4, Math.min(int_5, 4), set);
         }
     }
 
     @Override
-    public int method_23452(Random random, int i, int j, BranchedTreeFeatureConfig branchedTreeFeatureConfig) {
+    public int getRadius(Random random, int i, int j, BranchedTreeFeatureConfig branchedTreeFeatureConfig) {
         return this.radius + random.nextInt(this.randomRadius + 1);
     }
 

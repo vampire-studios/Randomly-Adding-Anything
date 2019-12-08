@@ -4,11 +4,14 @@ import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.MaterialsConfig;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.registries.*;
+import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.RegistryUtils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -18,10 +21,11 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.source.BiomeSourceType;
-import net.minecraft.world.biome.source.TheEndBiomeSource;
-import net.minecraft.world.biome.source.TheEndBiomeSourceConfig;
+import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,37 +76,50 @@ public class RandomlyAddingAnything implements ModInitializer {
             e.printStackTrace();
         }
 
-
-//        DIMENSIONAL_BIOMES = Registry.register(Registry.BIOME_SOURCE_TYPE, "raa:gay", new BiomeSourceType(DimensionalBiomeSource::new, DimensionalBiomeSourceConfig::new));
-
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
-        if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
-            MATERIALS_CONFIG.generate();
-            MATERIALS_CONFIG.save();
-        } else {
-            MATERIALS_CONFIG.load();
+        if(CONFIG.materialNumber > 0) {
+            if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
+                MATERIALS_CONFIG.generate();
+                MATERIALS_CONFIG.save();
+            } else {
+                MATERIALS_CONFIG.load();
+            }
         }
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-        if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
-            DIMENSIONS_CONFIG.generate();
-            DIMENSIONS_CONFIG.save();
-        } else {
-            DIMENSIONS_CONFIG.load();
+        if(CONFIG.dimensionNumber > 0) {
+            if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
+                DIMENSIONS_CONFIG.generate();
+                DIMENSIONS_CONFIG.save();
+            } else {
+                DIMENSIONS_CONFIG.load();
+            }
         }
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
-        if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
-            DIMENSION_MATERIALS_CONFIG.generate();
-            DIMENSION_MATERIALS_CONFIG.save();
-        } else {
-            DIMENSION_MATERIALS_CONFIG.load();
+        if(CONFIG.materialNumber > 0) {
+            if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
+                DIMENSION_MATERIALS_CONFIG.generate();
+                DIMENSION_MATERIALS_CONFIG.save();
+            } else {
+                DIMENSION_MATERIALS_CONFIG.load();
+            }
         }
 
         Dimensions.createDimensions();
+        DimensionRecipes.init();
         Materials.generateDimensionMaterials();
         Materials.createMaterialResources();
         MaterialRecipes.init();
         MaterialWorldSpawning.init();
+
+        RegistryUtils.forEveryBiome(biome -> {
+            if (biome != Biomes.OCEAN | biome != Biomes.COLD_OCEAN | biome != Biomes.LUKEWARM_OCEAN | biome != Biomes.WARM_OCEAN |
+                    biome != Biomes.DEEP_OCEAN | biome != Biomes.DEEP_COLD_OCEAN | biome != Biomes.DEEP_LUKEWARM_OCEAN | biome != Biomes.DEEP_WARM_OCEAN)
+                biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
+                        createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
+                                configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.001125F), 1))));
+        });
+        Criterions.init();
     }
 }
