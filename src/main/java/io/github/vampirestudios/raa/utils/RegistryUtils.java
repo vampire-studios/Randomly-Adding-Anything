@@ -103,7 +103,7 @@ public class RegistryUtils {
     }
 
     public static GeneratesIn registerGeneratesIn(Identifier name, GeneratesIn generatesIn) {
-        if (RAARegistery.GENERATES_IN_REGISTRY.get(name) == null) {
+        if (RAARegistery.GENERATES_IN_REGISTRY.get(name) == GeneratesIn.NONE) {
             return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, name, generatesIn);
         } else {
             return generatesIn;
@@ -112,7 +112,7 @@ public class RegistryUtils {
 
     public static GeneratesIn registerGeneratesIn(String name, GeneratesIn generatesIn) {
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
-        if (RAARegistery.GENERATES_IN_REGISTRY.get(identifier) == null) {
+        if (RAARegistery.GENERATES_IN_REGISTRY.get(identifier) == GeneratesIn.NONE) {
             return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, identifier, generatesIn);
         } else {
             return generatesIn;
@@ -120,7 +120,7 @@ public class RegistryUtils {
     }
 
     public static GeneratesIn registerGeneratesIn(Identifier name, Block block, OreFeatureConfig.Target target) {
-        if (RAARegistery.GENERATES_IN_REGISTRY.get(name) == null) {
+        if (RAARegistery.GENERATES_IN_REGISTRY.get(name) == GeneratesIn.NONE) {
             return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, name, new GeneratesIn(name, block, target));
         } else {
             return new GeneratesIn(name, block, target);
@@ -138,7 +138,7 @@ public class RegistryUtils {
 
     public static OreFeatureConfig.Target registerOreTarget(String name, OreFeatureConfig.Target target) {
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
-        if (RAARegistery.TARGET_REGISTRY.get(identifier) == null) {
+        if (RAARegistery.TARGET_REGISTRY.get(identifier) == OreFeatureConfig.Target.NONE) {
             return Registry.register(RAARegistery.TARGET_REGISTRY, identifier, target);
         } else {
             return target;
@@ -148,8 +148,25 @@ public class RegistryUtils {
     public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate) {
         OreFeatureConfig.Target target = new OreFeatureConfig.Target(name, blockStatePredicate);
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, target.getName());
-        if (RAARegistery.TARGET_REGISTRY.get(identifier) == null) {
+        if (RAARegistery.TARGET_REGISTRY.get(identifier) == OreFeatureConfig.Target.NONE) {
             return Registry.register(RAARegistery.TARGET_REGISTRY, identifier, target);
+        } else {
+            return target;
+        }
+    }
+
+    public static OreFeatureConfig.Target registerOreTarget(Identifier name, OreFeatureConfig.Target target) {
+        if (RAARegistery.TARGET_REGISTRY.get(name) == OreFeatureConfig.Target.NONE) {
+            return Registry.register(RAARegistery.TARGET_REGISTRY, name, target);
+        } else {
+            return target;
+        }
+    }
+
+    public static OreFeatureConfig.Target registerOreTarget(Identifier name, Predicate<BlockState> blockStatePredicate) {
+        OreFeatureConfig.Target target = new OreFeatureConfig.Target(name.getPath(), blockStatePredicate);
+        if (RAARegistery.TARGET_REGISTRY.get(name) == OreFeatureConfig.Target.NONE) {
+            return Registry.register(RAARegistery.TARGET_REGISTRY, name, target);
         } else {
             return target;
         }

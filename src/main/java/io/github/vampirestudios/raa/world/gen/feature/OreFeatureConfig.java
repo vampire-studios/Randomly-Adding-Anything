@@ -43,6 +43,7 @@ public class OreFeatureConfig implements FeatureConfig {
 
     public static class Target {
 
+        public static final Target NONE = RegistryUtils.registerOreTarget("none", new BlockPredicate(Blocks.AIR));
         public static final Target STONE = RegistryUtils.registerOreTarget("stone", new BlockPredicate(Blocks.STONE));
         public static final Target ANDESITE = RegistryUtils.registerOreTarget("andesite", new BlockPredicate(Blocks.ANDESITE));
         public static final Target DIORITE = RegistryUtils.registerOreTarget("diorite", new BlockPredicate(Blocks.DIORITE));
