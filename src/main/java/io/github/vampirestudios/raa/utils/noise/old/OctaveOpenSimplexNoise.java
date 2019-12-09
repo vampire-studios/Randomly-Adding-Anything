@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.utils.noise;
+package io.github.vampirestudios.raa.utils.noise.old;
 
 import java.util.Random;
 

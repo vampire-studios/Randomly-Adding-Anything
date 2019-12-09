@@ -4,6 +4,9 @@ import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.MaterialsConfig;
+import io.github.vampirestudios.raa.generation.CavePostProcessor;
+import io.github.vampirestudios.raa.generation.RiverPostProcessor;
+import io.github.vampirestudios.raa.generation.chunkgenerator.OverworldChunkGenerator;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
@@ -64,6 +67,8 @@ public class RandomlyAddingAnything implements ModInitializer {
         Features.init();
         Decorators.init();
         SurfaceBuilders.init();
+        OverworldChunkGenerator.addTerrainPostProcessor(RiverPostProcessor::new);
+        OverworldChunkGenerator.addTerrainPostProcessor(CavePostProcessor::new);
         ChunkGenerators.init();
 
         //Reflection hacks

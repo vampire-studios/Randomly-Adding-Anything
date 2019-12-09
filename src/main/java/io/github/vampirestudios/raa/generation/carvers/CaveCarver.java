@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.feature;
+package io.github.vampirestudios.raa.generation.carvers;
 
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
@@ -10,7 +10,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;

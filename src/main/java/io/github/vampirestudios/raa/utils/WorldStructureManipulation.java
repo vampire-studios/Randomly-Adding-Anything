@@ -20,7 +20,7 @@ import net.minecraft.world.IWorld;
 import java.util.*;
 
 public class WorldStructureManipulation {
-    public static Vec3i CircularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float TOLERANCE) {
+    public static Vec3i CircularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float tolerance) {
         //Make sure the structure can spawn here
         int xOrigin = pos.getX();
         int zOrigin = pos.getZ();
@@ -64,15 +64,10 @@ public class WorldStructureManipulation {
             int xChosen = flatnessList.get(chosen).get(0).intValue();
             int yChosen = flatnessList.get(chosen).get(1).intValue();
             int zChosen = flatnessList.get(chosen).get(2).intValue();
-            newPos = trySpawning(world, new BlockPos(xChosen, yChosen, zChosen), size, TOLERANCE);
+            newPos = trySpawning(world, new BlockPos(xChosen, yChosen, zChosen), size, tolerance);
         }
 
         if (newPos.compareTo(Vec3i.ZERO) == 0 || newPos.getY() > 255 - size.getY()) {
-            /*if (maxFlatness > 20) {
-                System.out.println("---Failed to spawn! Origin Coords: " + xOrigin + "/" + yOrigin + "/" + zOrigin);
-                System.out.println("New Coords: " + pos.getX() + "/" + pos.getY() + "/" + pos.getZ());
-                System.out.println("Flatness: " + maxFlatness);
-            }*/
             return Vec3i.ZERO;
         }
 

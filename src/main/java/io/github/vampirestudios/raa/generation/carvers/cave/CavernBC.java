@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.feature.cave;
+package io.github.vampirestudios.raa.generation.carvers.cave;
 
 import io.github.vampirestudios.raa.utils.BetterCavesConfig;
 import io.github.vampirestudios.raa.utils.CavernType;

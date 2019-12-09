@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.generation.feature;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.FeatureUtils;
-import io.github.vampirestudios.raa.utils.noise.OctaveOpenSimplexNoise;
+import io.github.vampirestudios.raa.utils.noise.old.OctaveOpenSimplexNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;

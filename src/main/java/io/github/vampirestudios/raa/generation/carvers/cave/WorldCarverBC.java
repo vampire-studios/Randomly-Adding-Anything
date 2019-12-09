@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.feature.cave;
+package io.github.vampirestudios.raa.generation.carvers.cave;
 
 
 import com.mojang.datafixers.util.Pair;

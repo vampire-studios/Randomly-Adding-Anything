@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.feature.cave;
+package io.github.vampirestudios.raa.generation.carvers.cave;
 
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
