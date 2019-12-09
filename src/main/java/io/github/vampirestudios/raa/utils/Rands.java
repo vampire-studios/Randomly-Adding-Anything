@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
+import io.github.vampirestudios.vampirelib.utils.Color;
+
 import java.util.*;
 
 public class Rands {

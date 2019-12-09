@@ -21,7 +21,7 @@ import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.level.LevelGeneratorType;
 
-public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
+public class QuadrupleAmplifiedChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
     private static final float[] BIOME_WEIGHT_TABLE = Util.make(new float[25], (floats_1) -> {
         for (int int_1 = -2; int_1 <= 2; ++int_1) {
             for (int int_2 = -2; int_2 <= 2; ++int_2) {
@@ -42,7 +42,7 @@ public class QuadrupleAplifiedChunkGenerator extends SurfaceChunkGenerator<Overw
     private final OctavePerlinNoiseSampler field_16581;
     private final OctavePerlinNoiseSampler field_16575;
 
-    public QuadrupleAplifiedChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
+    public QuadrupleAmplifiedChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
         super(iWorld_1, biomeSource_1, 4, 4, 256, overworldChunkGeneratorConfig_1, true);
         this.random.consume(Rands.randInt(1000000000));
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, 15, 0);

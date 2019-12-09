@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.generation.feature;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.FeatureUtils;
-import io.github.vampirestudios.raa.utils.OctaveOpenSimplexNoise;
+import io.github.vampirestudios.raa.utils.noise.old.OctaveOpenSimplexNoise;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;

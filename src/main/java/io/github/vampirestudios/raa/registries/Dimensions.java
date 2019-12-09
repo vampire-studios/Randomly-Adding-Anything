@@ -13,10 +13,15 @@ import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.items.dimension.*;
-import io.github.vampirestudios.raa.utils.*;
+import io.github.vampirestudios.raa.utils.DebugUtils;
+import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.RegistryUtils;
+import io.github.vampirestudios.raa.utils.Utils;
+import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.IceBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ToolMaterial;
@@ -44,7 +49,6 @@ public class Dimensions {
         //This is only the data needed for civilization simulation
         ArrayList<ProtoDimension> protoDimensions = new ArrayList<>();
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
-            System.out.println(String.format("Generating dimension %d out of %d", a, RandomlyAddingAnything.CONFIG.dimensionNumber));
             float temperature = Rands.randFloat(2.0F);
             int flags = generateDimensionFlags();
 
@@ -79,15 +83,10 @@ public class Dimensions {
         civs.forEach(Civilization::simulate);
 
         for (Civilization civ : civs) {
-//            System.out.println("++++++++++++++++++++++++++++");
-//            System.out.println(civ.getName());
-//            System.out.println("r: " + civ.getInfluenceRadius());
-//            System.out.println("l: " +  civ.getTechLevel());
 
             //tech level 0 civs get no influence
             if (civ.getTechLevel() == 0) continue;
 
-//            System.out.println("=== " + civ.getName() + " ===");
             for (ProtoDimension dimension : protoDimensions) {
                 if (dimension != civ.getHomeDimension()) {
                     double d = Utils.dist(dimension.getX(), dimension.getY(), civ.getHomeDimension().getX(), civ.getHomeDimension().getY());
@@ -108,7 +107,6 @@ public class Dimensions {
                         if (percent > 0.70) {
                             if (civ.getTechLevel() >= 3) dimension.setCivilized();
                         }
-//                        System.out.println(dimension.getName().getLeft() + ": " + (int)Math.ceil(((civ.getInfluenceRadius() - d)/civ.getInfluenceRadius())*100) +"%");
                     }
                 } else {
                     //a civ's home dimension has 100% influence by that civ
@@ -131,9 +129,6 @@ public class Dimensions {
             float stoneColor = hue + Rands.randFloatRange(-0.45F, 0.45F);
             float fogHue = hue + 0.3333f;
             float skyHue = fogHue + 0.3333f;
-
-            float waterHue = hue + 0.3333f;
-            float stoneHue = hue + 0.3333f;
 
             float saturation = Rands.randFloatRange(0.5F, 1.0F);
             float stoneSaturation = Rands.randFloatRange(0.2F, 0.6F);
@@ -189,6 +184,7 @@ public class Dimensions {
                     .mossyChiseledTexture(Rands.list(TextureTypes.MOSSY_CHISELED_STONE_TEXTURES))
                     .crackedChiseledTexture(Rands.list(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES))
                     .polishedTexture(Rands.list(TextureTypes.POLISHED_STONE_TEXTURES))
+                    .iceTexture(TextureTypes.ICE_TEXTURES.get(0))
                     .build();
             builder.texturesInformation(texturesInformation);
 
@@ -259,7 +255,6 @@ public class Dimensions {
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
-//                    return dimension.getToolDurability();
                     return ToolMaterials.STONE.getDurability();
                 }
 
@@ -365,7 +360,11 @@ public class Dimensions {
                             "polished_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polished");
 
-            Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimension, dimensionType),
+            RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), new Identifier(RandomlyAddingAnything.MOD_ID,
+                            dimension.getName().toLowerCase() + "_ice"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "ice");
+
+            Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimensionType),
                     new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
             RegistryUtils.registerItem(new RAABlockItemAlt(dimension.getName(), "portal", portalBlock, new Item.Settings().group(ItemGroup.TRANSPORTATION)),
                     new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
@@ -511,6 +510,14 @@ public class Dimensions {
         }
         if (Rands.chance(10)) {
             flags |= Utils.TECTONIC;
+        }
+        boolean chance = Rands.chance(10);
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
+            chance = true;
+        }
+        if (chance) {
+            flags |= Utils.FROZEN;
         }
         return flags;
     }

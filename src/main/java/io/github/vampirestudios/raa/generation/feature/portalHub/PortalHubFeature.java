@@ -69,8 +69,8 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public static void placePiece(IWorld world, BlockPos pos, JsonConverter.StructureValues piece, int decay) {
-        PortalHubTheme theme = PortalHubThemes.PORTAL_HUB_THEMES.get(Rands.randInt(
-                PortalHubThemes.PORTAL_HUB_THEMES.getIds().size()));
+        int themeNum = Rands.randInt(PortalHubThemes.PORTAL_HUB_THEMES.getIds().size());
+        PortalHubTheme theme = PortalHubThemes.PORTAL_HUB_THEMES.get(themeNum);
         assert theme != null;
         for (int i = 0; i < piece.getBlockPositions().size(); i++) {
             Vec3i currBlockPos = piece.getBlockPositions().get(i);
@@ -89,7 +89,14 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                         WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getStairs()).toString(), currBlockProp, 0);
                         break;
                     case "minecraft:stone_brick_wall":
-                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), currBlockProp, 0);
+                        if (themeNum < 14) {
+                            WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), currBlockProp, 0);
+                        } else if (themeNum < 16) {
+                            WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), new HashMap<>(), 0);
+                        } else {
+                            currBlockProp.remove("up");
+                            WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), currBlockProp, 0);
+                        }
                         break;
                     case "minecraft:orange_wool":
                         List<DimensionData> dimensionDataList = new ArrayList<>();

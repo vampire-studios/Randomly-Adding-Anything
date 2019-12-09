@@ -4,6 +4,9 @@ import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
 import io.github.vampirestudios.raa.config.MaterialsConfig;
+import io.github.vampirestudios.raa.generation.CavePostProcessor;
+import io.github.vampirestudios.raa.generation.RiverPostProcessor;
+import io.github.vampirestudios.raa.generation.chunkgenerator.OverworldChunkGenerator;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
@@ -64,6 +67,8 @@ public class RandomlyAddingAnything implements ModInitializer {
         Features.init();
         Decorators.init();
         SurfaceBuilders.init();
+        OverworldChunkGenerator.addTerrainPostProcessor(RiverPostProcessor::new);
+        OverworldChunkGenerator.addTerrainPostProcessor(CavePostProcessor::new);
         ChunkGenerators.init();
 
         //Reflection hacks
@@ -75,9 +80,6 @@ public class RandomlyAddingAnything implements ModInitializer {
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
-
-//        DIMENSIONAL_BIOMES = Registry.register(Registry.BIOME_SOURCE_TYPE, "raa:gay", new BiomeSourceType(DimensionalBiomeSource::new, DimensionalBiomeSourceConfig::new));
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
         if(CONFIG.materialNumber > 0) {
@@ -121,7 +123,7 @@ public class RandomlyAddingAnything implements ModInitializer {
                     biome != Biomes.DEEP_OCEAN | biome != Biomes.DEEP_COLD_OCEAN | biome != Biomes.DEEP_LUKEWARM_OCEAN | biome != Biomes.DEEP_WARM_OCEAN)
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
-                                configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.0015F), 1))));
+                                configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.001125F), 1))));
         });
         Criterions.init();
     }

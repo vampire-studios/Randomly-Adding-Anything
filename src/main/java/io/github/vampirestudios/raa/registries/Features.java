@@ -3,9 +3,10 @@ package io.github.vampirestudios.raa.registries;
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.commands.CommandLocateRAAStructure;
+import io.github.vampirestudios.raa.generation.carvers.cave.WorldCarverBC;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
-import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.FossilFeature;
+import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.generation.feature.portalHub.PortalHubFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.BentTreeFeature;
@@ -44,6 +45,7 @@ public class Features {
     public static TowerFeature TOWER;
     public static FossilFeature FOSSIL;
     public static PortalHubFeature PORTAL_HUB;
+    public static ShrineFeature SHRINE;
 
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
@@ -53,6 +55,7 @@ public class Features {
         CAMPFIRE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "campfire"), new CampfireFeature(DefaultFeatureConfig::deserialize));
         TOWER = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "tower"), new TowerFeature(DefaultFeatureConfig::deserialize));
         FOSSIL = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "fossil"), new FossilFeature(DefaultFeatureConfig::deserialize));
+        SHRINE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "shrine"), new ShrineFeature(DefaultFeatureConfig::deserialize));
 
         CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
         CRATER_FEATURE = register("crater_feature", new CraterFeature(CorruptedFeatureConfig::deserialize));
@@ -60,6 +63,7 @@ public class Features {
         CAMPFIRE = register("campfire", new CampfireFeature(DefaultFeatureConfig::deserialize));
         TOWER = register("tower", new TowerFeature(DefaultFeatureConfig::deserialize));
         FOSSIL = register("fossil", new FossilFeature(DefaultFeatureConfig::deserialize));
+        SHRINE = register("shrine", new ShrineFeature(DefaultFeatureConfig::deserialize));
         SMALL_SKELETON_TREE = register("skeleton_tree_small", new SmallSkeletalTreeFeature(TreeFeatureConfig::deserialize));
         LARGE_SKELETON_TREE = register("skeleton_tree_large", new LargeSkeletalTreeFeature(TreeFeatureConfig::deserialize));
         SPIDER_LAIR = register("spider_lair", new SpiderLairFeature(DefaultFeatureConfig::deserialize));
@@ -73,15 +77,17 @@ public class Features {
 
     public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
-            CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
+            WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
+            caveCarver.initialize(-6409096104954950338L);
             biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
-            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
-            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(1)));
+//            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
+//            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(1)));
         } else {
-            CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
+            WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
+            caveCarver.initialize(-6409096104954950338L);
             biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
-            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
-            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
+//            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
+//            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
         }
     }
 

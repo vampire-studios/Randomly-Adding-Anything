@@ -1,4 +1,4 @@
-{
+﻿{
     "itemGroup.raa.ores": "RAA: Cevherler",
     "itemGroup.raa.resources": "RAA: Kaynaklar",
     "itemGroup.raa.tools": "RAA: Aletler",
@@ -13,6 +13,7 @@
     "text.raa.block.chiseled": "Oyma %s",
     "text.raa.block.cobblestone": "%s Kırık Taşı",
     "text.raa.block.polished": "Cilalı %s",
+    "text.raa.block.ice": "%s Ice",
     "text.raa.item.gem": "%s Mücehveri",
     "text.raa.item.ingot": "%s Külçe",
     "text.raa.item.crystal": "%s Kristali",
