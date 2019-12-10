@@ -205,10 +205,10 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 clientResourcePackBuilder.addBlockState(iceId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(iceId.getNamespace(), "block/" + iceId.getPath())))
                 );
-                clientResourcePackBuilder.addBlockModel(iceId, modelBuilder -> {
-                    modelBuilder.parent(new Identifier("block/leaves"));
-                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getIceTexture());
-                });
+//                clientResourcePackBuilder.addBlockModel(iceId, modelBuilder -> {
+//                    modelBuilder.parent(new Identifier("block/leaves"));
+//                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getIceTexture());
+//                });
                 clientResourcePackBuilder.addItemModel(iceId,
                         modelBuilder -> modelBuilder.parent(new Identifier(iceId.getNamespace(), "block/" + iceId.getPath())));
 

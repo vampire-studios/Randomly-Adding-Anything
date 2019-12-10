@@ -48,8 +48,8 @@ public class JsonConverter {
         StructureValues structure = new StructureValues();
 
         try {
-            Scanner scanner = new Scanner(new File("../src/main/resources/assets/raa/structures/" + FileIn));
-
+//            Scanner scanner = new Scanner(new File("../src/main/resources/assets/raa/structures/" + FileIn));
+            Scanner scanner = new Scanner(new File(FileIn));
             int indentClass = 0;
             int indentList = 0;
             String section = "";
