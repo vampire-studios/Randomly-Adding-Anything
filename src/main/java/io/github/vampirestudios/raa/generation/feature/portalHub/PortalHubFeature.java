@@ -42,21 +42,23 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         JsonObject jsonObject = null;
         try {
             Resource path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(path.getInputStream()));
-            JsonReader gson = new Gson().newJsonReader(reader);
-            gson.setLenient(true);
-            String name = "";
-            if (gson.hasNext()) name = gson.nextString();
-            System.out.println(name);
-            gson.beginArray();
-            while (gson.hasNext()) {
-                gson.beginObject();
-                System.out.println(gson.nextString());
-            }
-            JsonElement jsonElement = new Gson().toJsonTree(gson.toString());
-            jsonObject = jsonElement.getAsJsonObject();
+            jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
+            System.out.println(jsonObject.toString());
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(path.getInputStream()));
+//            JsonReader gson = new Gson().newJsonReader(reader);
+//            gson.setLenient(true);
+//            String name = "";
+//            if (gson.hasNext()) name = gson.nextString();
+//            System.out.println(name);
+//            gson.beginArray();
+//            while (gson.hasNext()) {
+//                gson.beginObject();
+//                System.out.println(gson.nextString());
+//            }
+//            JsonElement jsonElement = new Gson().toJsonTree(gson.toString());
+//            jsonObject = jsonElement.getAsJsonObject();
             structures = new HashMap<String, JsonConverter.StructureValues>() {{
-                put("portal_hub", converter.loadStructure(gson.getPath()));
+                put("portal_hub", converter.loadStructure("jsonObject.toString()"));
             }};
         } catch (IOException e) {
             e.printStackTrace();
