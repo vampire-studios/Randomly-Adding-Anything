@@ -59,6 +59,7 @@ public class JsonConverter {
             structure.setSize(size);
         }
 
+        // TODO: Remove this when all structure files are converted.
         if (JsonHelper.hasArray(structureJson, "nbt")) {
             System.out.println("Old structure file! Will still load it.");
             JsonArray nbtArray = JsonHelper.getArray(structureJson, "nbt");
