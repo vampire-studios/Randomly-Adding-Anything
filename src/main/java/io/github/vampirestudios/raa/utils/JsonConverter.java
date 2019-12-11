@@ -6,10 +6,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.Vec3i;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class JsonConverter {
 
@@ -60,6 +57,79 @@ public class JsonConverter {
             size.add(array.get(1).getAsJsonPrimitive().getAsInt());
             size.add(array.get(2).getAsJsonPrimitive().getAsInt());
             structure.setSize(size);
+        }
+
+        if (JsonHelper.hasArray(structureJson, "nbt")) {
+            System.out.println("Old structure file! Will still load it.");
+            JsonArray nbtArray = JsonHelper.getArray(structureJson, "nbt");
+            JsonObject structureJsonObject = nbtArray.get(0).getAsJsonObject();
+            JsonArray array = JsonHelper.getArray(structureJsonObject, "value");
+            array.forEach(jsonElement -> {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                String name = JsonHelper.getString(jsonObject, "name");
+                JsonObject valueArray = JsonHelper.getObject(jsonObject, "value");
+
+                if (name.equals("size")) {
+                    JsonArray list = JsonHelper.getArray(valueArray, "list");
+                    List<Integer> size = new ArrayList<>();
+                    size.add(list.get(0).getAsJsonPrimitive().getAsInt());
+                    size.add(list.get(1).getAsJsonPrimitive().getAsInt());
+                    size.add(list.get(2).getAsJsonPrimitive().getAsInt());
+                    structure.setSize(size);
+                }
+
+                if (name.equals("entities")) structure.setEntities();
+
+                if (name.equals("blocks")) {
+                    JsonArray list = JsonHelper.getArray(valueArray, "list");
+                    list.forEach(jsonElement1 -> {
+                        JsonArray blockProperties = jsonElement1.getAsJsonArray();
+                        blockProperties.forEach(jsonElement2 -> {
+                            JsonObject blockProperty = jsonElement2.getAsJsonObject();
+                            String propertyName = JsonHelper.getString(blockProperty, "name");
+                            if (propertyName.equals("state")) {
+                                int state = JsonHelper.getInt(blockProperty,"value");
+                                structure.setBlockStates(state);
+                            }
+                            if (propertyName.equals("pos")) {
+                                JsonObject valueObject = JsonHelper.getObject(blockProperty, "value");
+                                JsonArray pos = JsonHelper.getArray(valueObject, "list");
+                                List<Integer> posArray = new ArrayList<>();
+                                posArray.add(pos.get(0).getAsJsonPrimitive().getAsInt());
+                                posArray.add(pos.get(1).getAsJsonPrimitive().getAsInt());
+                                posArray.add(pos.get(2).getAsJsonPrimitive().getAsInt());
+                                structure.setBlockPositions(posArray);
+                            }
+                        });
+                    });
+                }
+
+                if (name.equals("palette")) {
+                    JsonArray list = JsonHelper.getArray(valueArray, "list");
+                    list.forEach(jsonElement1 -> {
+                        JsonArray paletteProperties = jsonElement1.getAsJsonArray();
+                        paletteProperties.forEach(jsonElement2 -> {
+                            JsonObject paletteProperty = jsonElement2.getAsJsonObject();
+                            String propertyName = JsonHelper.getString(paletteProperty, "name");
+                            Map<String, String> blockPropertyMap = new HashMap<>();
+                            if (propertyName.equals("Name")) {
+                                structure.setBlockProperties(blockPropertyMap);
+                                String blockId = JsonHelper.getString(paletteProperty,"value");
+                                structure.setBlockTypes(blockId);
+                            }
+                            if (propertyName.equals("Properties")) {
+                                JsonArray properties = JsonHelper.getArray(paletteProperty, "value");
+                                properties.forEach(jsonElement3 -> {
+                                    JsonObject blockProperties = jsonElement3.getAsJsonObject();
+                                    String blockPropertyName = JsonHelper.getString(blockProperties, "name");
+                                    String propertyValue = JsonHelper.getString(blockProperties, "value");
+                                    blockPropertyMap.put(blockPropertyName, propertyValue);
+                                });
+                            }
+                        });
+                    });
+                }
+            });
         }
 
         if (JsonHelper.hasArray(structureJson, "blocks")) {

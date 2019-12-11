@@ -52,32 +52,32 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         JsonObject towerPillar = null;
         JsonObject towerRoof = null;
         try {
-            Resource towerBasePath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_base.json"));
+            Resource towerBasePath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_base.json"));
             towerBase = new Gson().fromJson(new InputStreamReader(towerBasePath.getInputStream()), JsonObject.class);
             System.out.println(towerBasePath.getId());
             JsonObject finalTowerBase = towerBase;
             
-            Resource towerWallsPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_walls.json"));
+            Resource towerWallsPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_walls.json"));
             towerWalls = new Gson().fromJson(new InputStreamReader(towerWallsPath.getInputStream()), JsonObject.class);
             System.out.println(towerWallsPath.getId());
             JsonObject finalTowerWalls = towerWalls;
 
-            Resource towerStairsPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_stairs.json"));
+            Resource towerStairsPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_stairs.json"));
             towerStairs = new Gson().fromJson(new InputStreamReader(towerStairsPath.getInputStream()), JsonObject.class);
             System.out.println(towerStairsPath.getId());
             JsonObject finalTowerStairs = towerStairs;
 
-            Resource towerLaddersPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_ladders.json"));
+            Resource towerLaddersPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_ladders.json"));
             towerLadders = new Gson().fromJson(new InputStreamReader(towerLaddersPath.getInputStream()), JsonObject.class);
             System.out.println(towerLaddersPath.getId());
             JsonObject finalTowerLadders = towerLadders;
 
-            Resource towerPillarPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_pillar.json"));
+            Resource towerPillarPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_pillar.json"));
             towerPillar = new Gson().fromJson(new InputStreamReader(towerPillarPath.getInputStream()), JsonObject.class);
             System.out.println(towerPillarPath.getId());
             JsonObject finalTowerPillar = towerPillar;
 
-            Resource towerRoofPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_roof.json"));
+            Resource towerRoofPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_roof.json"));
             towerRoof = new Gson().fromJson(new InputStreamReader(towerRoofPath.getInputStream()), JsonObject.class);
             System.out.println(towerRoofPath.getId());
             JsonObject finalTowerRoof = towerRoof;

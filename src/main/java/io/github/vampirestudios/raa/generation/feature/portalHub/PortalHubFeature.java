@@ -42,7 +42,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject jsonObject = null;
         try {
-            Resource path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));
+            Resource path = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));
             jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
             JsonObject finalJsonObject = jsonObject;
             structures = new HashMap<String, JsonConverter.StructureValues>() {{

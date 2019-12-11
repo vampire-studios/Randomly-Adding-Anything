@@ -13,6 +13,8 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.registries.*;
+import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.RegistryUtils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -22,7 +24,11 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.source.BiomeSourceType;
+import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -112,13 +118,13 @@ public class RandomlyAddingAnything implements ModInitializer {
         MaterialRecipes.init();
         MaterialWorldSpawning.init();
 
-        /*RegistryUtils.forEveryBiome(biome -> {
+        RegistryUtils.forEveryBiome(biome -> {
             if (biome != Biomes.OCEAN | biome != Biomes.COLD_OCEAN | biome != Biomes.LUKEWARM_OCEAN | biome != Biomes.WARM_OCEAN |
                     biome != Biomes.DEEP_OCEAN | biome != Biomes.DEEP_COLD_OCEAN | biome != Biomes.DEEP_LUKEWARM_OCEAN | biome != Biomes.DEEP_WARM_OCEAN)
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
                                 configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.001125F), 1))));
-        });*/
+        });
         Criterions.init();
     }
 }
