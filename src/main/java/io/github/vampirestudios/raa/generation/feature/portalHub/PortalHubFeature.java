@@ -1,20 +1,18 @@
 package io.github.vampirestudios.raa.generation.feature.portalHub;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.resource.Resource;
 import net.minecraft.server.world.ServerWorld;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -25,7 +23,10 @@ import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.function.Function;
 
@@ -57,8 +58,9 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
 //            }
 //            JsonElement jsonElement = new Gson().toJsonTree(gson.toString());
 //            jsonObject = jsonElement.getAsJsonObject();
+            JsonObject finalJsonObject = jsonObject;
             structures = new HashMap<String, JsonConverter.StructureValues>() {{
-                put("portal_hub", converter.loadStructure("jsonObject.toString()"));
+                put("portal_hub", converter.loadStructure(finalJsonObject.toString()));
             }};
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,8 +70,6 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
             System.out.println("Can't get the file");
             return true;
         }
-
-
 
         //Cheeky way of limiting these structures to the overworld
         if (!world.getDimension().getType().getSuffix().equals("")) {

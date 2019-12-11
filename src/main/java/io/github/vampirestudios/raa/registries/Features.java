@@ -49,13 +49,6 @@ public class Features {
 
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
-        CORRUPTED_NETHRRACK = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "corrupted_netherrack"), new NetherrackFeature(DefaultFeatureConfig::deserialize));
-        CRATER_FEATURE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "crater_feature"), new CraterFeature(CorruptedFeatureConfig::deserialize));
-        OUTPOST = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "outpost"), new OutpostFeature(DefaultFeatureConfig::deserialize));
-        CAMPFIRE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "campfire"), new CampfireFeature(DefaultFeatureConfig::deserialize));
-        TOWER = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "tower"), new TowerFeature(DefaultFeatureConfig::deserialize));
-        FOSSIL = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "fossil"), new FossilFeature(DefaultFeatureConfig::deserialize));
-        SHRINE = Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "shrine"), new ShrineFeature(DefaultFeatureConfig::deserialize));
 
         CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
         CRATER_FEATURE = register("crater_feature", new CraterFeature(CorruptedFeatureConfig::deserialize));

@@ -1,6 +1,8 @@
 package io.github.vampirestudios.raa.generation.feature;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -9,7 +11,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.loot.LootTables;
+import net.minecraft.resource.Resource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -27,19 +31,13 @@ import net.minecraft.world.gen.feature.Feature;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.function.Function;
 
 public class TowerFeature extends Feature<DefaultFeatureConfig> {
     private JsonConverter converter = new JsonConverter();
-    private Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
-        put("tower_base", converter.loadStructure("tower/tower_base.json"));
-        put("tower_walls", converter.loadStructure("tower/tower_walls.json"));
-        put("tower_stairs", converter.loadStructure("tower/tower_stairs.json"));
-        put("tower_ladders", converter.loadStructure("tower/tower_ladders.json"));
-        put("tower_pillar", converter.loadStructure("tower/tower_pillar.json"));
-        put("tower_roof", converter.loadStructure("tower/tower_roof.json"));
-    }};
+    private Map<String, JsonConverter.StructureValues> structures;
 
     public TowerFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
         super(function);
@@ -47,6 +45,64 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+        structures = new HashMap<String, JsonConverter.StructureValues>() {{
+            put("tower_base", converter.loadStructure("tower/tower_base.json"));
+            put("tower_walls", converter.loadStructure("tower/tower_walls.json"));
+            put("tower_stairs", converter.loadStructure("tower/tower_stairs.json"));
+            put("tower_ladders", converter.loadStructure("tower/tower_ladders.json"));
+            put("tower_pillar", converter.loadStructure("tower/tower_pillar.json"));
+            put("tower_roof", converter.loadStructure("tower/tower_roof.json"));
+        }}
+
+        JsonObject tower_base = null;
+        JsonObject tower_walls = null;
+        JsonObject tower_stairs = null;
+        JsonObject tower_ladders = null;
+        JsonObject tower_pillar = null;
+        JsonObject tower_roof = null;
+        try {
+            Resource towerBasePath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_base.json"));
+            tower_base = new Gson().fromJson(new InputStreamReader(towerBasePath.getInputStream()), JsonObject.class);
+            System.out.println(tower_base.toString());
+            JsonObject finalTowerBase = tower_base;
+            
+            Resource towerWallsPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_walls.json"));
+            tower_walls = new Gson().fromJson(new InputStreamReader(towerWallsPath.getInputStream()), JsonObject.class);
+            System.out.println(tower_walls.toString());
+            JsonObject finalJsonObject = tower_walls;
+
+            Resource path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_stairs.json"));
+            tower_stairs = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
+            System.out.println(tower_stairs.toString());
+            JsonObject finalJsonObject = tower_stairs;
+
+            Resource path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_ladders.json"));
+            jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
+            System.out.println(jsonObject.toString());
+            JsonObject finalJsonObject = jsonObject;
+
+            Resource path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_pillar.json"));
+            jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
+            System.out.println(jsonObject.toString());
+            JsonObject finalJsonObject = jsonObject;
+
+            Resource path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_roof.json"));
+            jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
+            System.out.println(jsonObject.toString());
+            JsonObject finalJsonObject = jsonObject;
+            
+            structures = new HashMap<String, JsonConverter.StructureValues>() {{
+                put("tower_base", converter.loadStructure(finalTowerBase.toString()));
+            }};
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonObject == null) {
+            System.out.println("Can't get the file");
+            return true;
+        }
+
 
         //Check if structure can generate in the area
         Vec3i size = structures.get("tower_base").getSize();
