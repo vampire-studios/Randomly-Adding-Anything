@@ -2,11 +2,9 @@ package io.github.vampirestudios.raa.generation.feature;
 
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
-import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.Blocks;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -28,7 +26,7 @@ import java.util.function.Function;
 public class ShrineFeature extends Feature<DefaultFeatureConfig> {
     private JsonConverter converter = new JsonConverter();
     private Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
-        put("shrine", converter.loadStructure("shrine/shrine.json"));
+//        put("shrine", converter.loadStructure(/*"shrine/shrine.json"*/new JsonObject()));
     }};
 
     public ShrineFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
@@ -43,12 +41,6 @@ public class ShrineFeature extends Feature<DefaultFeatureConfig> {
         }
         pos = new BlockPos(tempPos);
 
-        /*int yChosen = new Random().nextInt(25) + 4;
-        while (pos.getY() - yChosen < 5) {
-            yChosen = new Random().nextInt(25) + 4;
-        }
-        pos.add(0, -yChosen, 0);*/
-        
         JsonConverter.StructureValues shrine = structures.get("shrine");
         int rotation = new Random().nextInt(4);
         for (int i = 0; i < shrine.getBlockPositions().size(); i++) {

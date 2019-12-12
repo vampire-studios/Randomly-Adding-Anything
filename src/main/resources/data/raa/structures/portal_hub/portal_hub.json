@@ -1,5 +1,5 @@
 {
-  "name": "portal_hub"
+  "structureName": "portal_hub",
   "nbt": [
     {
       "tagType": 10,
@@ -71291,11 +71291,6 @@
               ]
             ]
           }
-        },
-        {
-          "tagType": 3,
-          "name": "DataVersion",
-          "value": 2215
         }
       ]
     }

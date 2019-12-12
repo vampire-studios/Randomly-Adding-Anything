@@ -1,6 +1,8 @@
 package io.github.vampirestudios.raa.generation.feature;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -9,7 +11,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.loot.LootTables;
+import net.minecraft.resource.Resource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -27,19 +31,13 @@ import net.minecraft.world.gen.feature.Feature;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.function.Function;
 
 public class TowerFeature extends Feature<DefaultFeatureConfig> {
     private JsonConverter converter = new JsonConverter();
-    private Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
-        put("tower_base", converter.loadStructure("tower/tower_base.json"));
-        put("tower_walls", converter.loadStructure("tower/tower_walls.json"));
-        put("tower_stairs", converter.loadStructure("tower/tower_stairs.json"));
-        put("tower_ladders", converter.loadStructure("tower/tower_ladders.json"));
-        put("tower_pillar", converter.loadStructure("tower/tower_pillar.json"));
-        put("tower_roof", converter.loadStructure("tower/tower_roof.json"));
-    }};
+    private Map<String, JsonConverter.StructureValues> structures;
 
     public TowerFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
         super(function);
@@ -47,6 +45,60 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+        JsonObject towerBase = null;
+        JsonObject towerWalls = null;
+        JsonObject towerStairs = null;
+        JsonObject towerLadders = null;
+        JsonObject towerPillar = null;
+        JsonObject towerRoof = null;
+        try {
+            Resource towerBasePath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_base.json"));
+            towerBase = new Gson().fromJson(new InputStreamReader(towerBasePath.getInputStream()), JsonObject.class);
+            System.out.println(towerBasePath.getId());
+            JsonObject finalTowerBase = towerBase;
+            
+            Resource towerWallsPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_walls.json"));
+            towerWalls = new Gson().fromJson(new InputStreamReader(towerWallsPath.getInputStream()), JsonObject.class);
+            System.out.println(towerWallsPath.getId());
+            JsonObject finalTowerWalls = towerWalls;
+
+            Resource towerStairsPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_stairs.json"));
+            towerStairs = new Gson().fromJson(new InputStreamReader(towerStairsPath.getInputStream()), JsonObject.class);
+            System.out.println(towerStairsPath.getId());
+            JsonObject finalTowerStairs = towerStairs;
+
+            Resource towerLaddersPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_ladders.json"));
+            towerLadders = new Gson().fromJson(new InputStreamReader(towerLaddersPath.getInputStream()), JsonObject.class);
+            System.out.println(towerLaddersPath.getId());
+            JsonObject finalTowerLadders = towerLadders;
+
+            Resource towerPillarPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_pillar.json"));
+            towerPillar = new Gson().fromJson(new InputStreamReader(towerPillarPath.getInputStream()), JsonObject.class);
+            System.out.println(towerPillarPath.getId());
+            JsonObject finalTowerPillar = towerPillar;
+
+            Resource towerRoofPath = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/tower/tower_roof.json"));
+            towerRoof = new Gson().fromJson(new InputStreamReader(towerRoofPath.getInputStream()), JsonObject.class);
+            System.out.println(towerRoofPath.getId());
+            JsonObject finalTowerRoof = towerRoof;
+            
+            structures = new HashMap<String, JsonConverter.StructureValues>() {{
+                put("tower_base", converter.loadStructure(finalTowerBase));
+//                put("tower_walls", converter.loadStructure(finalTowerWalls));
+//                put("tower_stairs", converter.loadStructure(finalTowerStairs));
+//                put("tower_ladders", converter.loadStructure(finalTowerLadders));
+//                put("tower_pillar", converter.loadStructure(finalTowerPillar));
+//                put("tower_roof", converter.loadStructure(finalTowerRoof));
+            }};
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (towerBase == null || towerWalls == null || towerStairs == null || towerLadders == null || towerPillar == null || towerRoof == null) {
+            System.out.println("Can't get the file");
+            return true;
+        }
+
 
         //Check if structure can generate in the area
         Vec3i size = structures.get("tower_base").getSize();
@@ -59,7 +111,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         //Generate basement
         if (pos.getY() > 10 && Rands.chance(3)) {
             placePiece(world, pos.add(0, -7, 0), 0, structures.get("tower_base"), 0);
-            placeRoom(world, pos.add(0, -6, 0), structures, "Storage", -2);
+//            placeRoom(world, pos.add(0, -6, 0), structures, "Storage", -2);
         }
         placePiece(world, pos, 0, structures.get("tower_base"), 0);
 
@@ -88,7 +140,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
             else { break; }
         }
 
-        placePiece(world, pos.add(0, 1 + level*7, 0), 0, structures.get("tower_roof"), 2*level + 4);
+//        placePiece(world, pos.add(0, 1 + level*7, 0), 0, structures.get("tower_roof"), 2*level + 4);
 
         //Place in the door
         List<Integer> windowsOpen = Arrays.asList(0,0,0,0);
@@ -138,7 +190,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         for (int i = 0; i < piece.getBlockPositions().size(); i++) {
             Vec3i currBlockPos = piece.getBlockPositions().get(i);
             String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
-            Map<String, String> currBlockProp = piece.getBlockProperties().get(piece.getBlockStates().get(i));
+//            Map<String, String> currBlockProp = piece.getBlockProperties().get(piece.getBlockStates().get(i));
 
             //Rotate
             currBlockPos = WorldStructureManipulation.rotatePos(rotation, currBlockPos, piece.getSize());
@@ -148,11 +200,11 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "minecraft:air", new HashMap<>(), rotation);
             } else {
                 if (currBlockType.equals("minecraft:stone_bricks")) {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", currBlockProp, rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", new HashMap<>(), rotation);
                 } else if (currBlockType.equals("minecraft:ladder")) {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, 4 - rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), 4 - rotation);
                 } else {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), rotation);
                 }
             }
         }
@@ -261,13 +313,13 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
     private static void placeRoom(IWorld world, BlockPos pos, Map<String, JsonConverter.StructureValues> pieces, String type, int decay) {
         //walls
-        placePiece(world, pos.add(1, 0, 1), 0, pieces.get("tower_walls"), decay + 2);
+//        placePiece(world, pos.add(1, 0, 1), 0, pieces.get("tower_walls"), decay + 2);
         //stairs/ladders
-        if (Rands.chance(2)) {
+        /*if (Rands.chance(2)) {
             placePiece(world, pos, new Random().nextInt(4), pieces.get("tower_stairs"), decay - 1);
         } else {
             placePiece(world, pos, new Random().nextInt(4), pieces.get("tower_ladders"), decay - 1);
-        }
+        }*/
 
         //Populate corner items
         String cornerBlocksString = "barrel, barrel, barrel, barrel; wall_torch; smoker; furnace; crafting_table; " +
@@ -402,9 +454,9 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
 
         //pillar
-        if (Rands.chance(2)) {
+        /*if (Rands.chance(2)) {
             placePiece(world, pos.add(6, 0, 6), 0, pieces.get("tower_pillar"), decay);
-        }
+        }*/
     }
 
     private static void InitializeDecos(String blocksString, String posString, String propsString, List<List<String>> blocks, List<List<Vec3i>> pos, List<List<Map<String, String>>> props) {

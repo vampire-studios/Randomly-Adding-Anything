@@ -2,16 +2,13 @@ package io.github.vampirestudios.raa.utils;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.enums.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
@@ -129,7 +126,11 @@ public class WorldStructureManipulation {
         return (pos.add(0, modeHeight - pos.getY(), 0));
     }
 
-    public static void placeBlock(IWorld world, BlockPos pos, String block, Map<String, String> properties, int rotation) {
+    public static void placeBlock (IWorld world, BlockPos pos, String block, Map<String, String> currProps, int rotation) {
+        placeBlock(world, pos, block);
+    }
+
+    public static void placeBlock(IWorld world, BlockPos pos, String block) {
         //Place block
         world.setBlockState(pos, Registry.BLOCK.get(Identifier.tryParse(block)).getDefaultState(), 2);
 
@@ -137,7 +138,7 @@ public class WorldStructureManipulation {
         String facing = "NORTH";
         List<String> directions = Arrays.asList("FALSE", "FALSE", "FALSE", "FALSE");
         String axis = "x";
-        if (properties.get("facing") != null) {
+        /*if (properties.get("facing") != null) {
             facing = properties.get("facing");
             if (!facing.equals("UP") && !facing.equals("DOWN")) {
                 facing = rotateDir(rotation, facing);
@@ -221,7 +222,7 @@ public class WorldStructureManipulation {
                 //TODO: Bone_Block
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.AXIS, Direction.Axis.fromName(axis)), 2);
             }
-        }
+        }*/
 
         //world.setBlockState(pos, StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.valueOf(dir)).with(Properties.WATERLOGGED, properties.get("waterlogged").equals("TRUE"))), 2);
     }

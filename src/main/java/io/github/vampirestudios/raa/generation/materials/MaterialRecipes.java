@@ -135,31 +135,40 @@ public class MaterialRecipes {
                     });
                 }
                 if (material.getOreInformation().getOreType() == OreType.METAL) {
-                    if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR)
+                    if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
                         serverResourcePackBuilder.addSmeltingRecipe(Utils.appendToPath(material.getId(), "_ingot"), cookingRecipeBuilder -> {
                             cookingRecipeBuilder.cookingTime(200);
                             cookingRecipeBuilder.ingredientItem(Utils.appendToPath(material.getId(), "_ore"));
                             cookingRecipeBuilder.experience(0.7);
                             cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
                         });
-                    if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
                         serverResourcePackBuilder.addBlastingRecipe(Utils.appendToPath(material.getId(), "_ingot_from_blasting"), cookingRecipeBuilder -> {
                             cookingRecipeBuilder.cookingTime(100);
                             cookingRecipeBuilder.ingredientItem(Utils.appendToPath(material.getId(), "_ore"));
                             cookingRecipeBuilder.experience(0.7);
                             cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
                         });
+                        serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_ingot_from_nuggets"), shapedRecipeBuilder -> {
+                            shapedRecipeBuilder.group(new Identifier("raa:ingots"));
+                            shapedRecipeBuilder.pattern(
+                                    "###",
+                                    "###",
+                                    "###"
+                            );
+                            shapedRecipeBuilder.ingredientItem('#', Utils.appendToPath(material.getId(), "_nugget"));
+                            shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_ingot"), 1);
+                        });
+                        serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_ingot_from_nuggets"), shapedRecipeBuilder -> {
+                            shapedRecipeBuilder.group(new Identifier("raa:ingots"));
+                            shapedRecipeBuilder.pattern(
+                                    "###",
+                                    "###",
+                                    "###"
+                            );
+                            shapedRecipeBuilder.ingredientItem('#', Utils.appendToPath(material.getId(), "_nugget"));
+                            shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_ingot"), 1);
+                        });
                     }
-                    serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_ingot_from_nuggets"), shapedRecipeBuilder -> {
-                        shapedRecipeBuilder.group(new Identifier("raa:ingots"));
-                        shapedRecipeBuilder.pattern(
-                                "###",
-                                "###",
-                                "###"
-                        );
-                        shapedRecipeBuilder.ingredientItem('#', Utils.appendToPath(material.getId(), "_nugget"));
-                        shapedRecipeBuilder.result(Utils.appendToPath(material.getId(), "_ingot"), 1);
-                    });
                     serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(material.getId(), "_block"), shapedRecipeBuilder -> {
                         shapedRecipeBuilder.group(new Identifier("raa:storage_blocks"));
                         shapedRecipeBuilder.pattern(
