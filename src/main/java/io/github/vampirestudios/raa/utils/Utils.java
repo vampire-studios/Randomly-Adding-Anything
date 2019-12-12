@@ -87,6 +87,8 @@ public class Utils {
                 return DimensionChunkGenerators.QUADRUPLE_AMPLIFIED;
             } else if (chance <= 50) {
                 return DimensionChunkGenerators.PILLAR_WORLD;
+            } else if (chance <= 60) {
+                return DimensionChunkGenerators.CUSTOM_OVERWORLD;
             }
             return DimensionChunkGenerators.OVERWORLD;
         }

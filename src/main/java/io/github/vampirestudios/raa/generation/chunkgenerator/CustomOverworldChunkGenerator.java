@@ -2,6 +2,10 @@ package io.github.vampirestudios.raa.generation.chunkgenerator;
 
 import io.github.vampirestudios.raa.api.Heightmap;
 import io.github.vampirestudios.raa.generation.TerrainPostProcessor;
+import io.github.vampirestudios.raa.generation.chunkgenerator.config.CustomOverworldChunkGeneratorConfig;
+import io.github.vampirestudios.raa.utils.noise.Noise;
+import io.github.vampirestudios.raa.utils.noise.NoiseType;
+import io.github.vampirestudios.raa.utils.noise.OctaveNoiseSampler;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
@@ -22,24 +26,38 @@ import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.*;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.Feature;
 
 import java.util.*;
 import java.util.function.LongFunction;
 
-public class OverworldChunkGenerator extends ChunkGenerator<OverworldChunkGeneratorConfig> implements Heightmap {
+public class CustomOverworldChunkGenerator extends ChunkGenerator<CustomOverworldChunkGeneratorConfig> implements Heightmap {
    private final NoiseSampler surfaceDepthNoise;
    private final PhantomSpawner phantomSpawner = new PhantomSpawner();
    private final PillagerSpawner pillagerSpawner = new PillagerSpawner();
    private final CatSpawner catSpawner = new CatSpawner();
    private final ZombieSiegeManager zombieSiegeManager = new ZombieSiegeManager();
 
+   private final OctaveNoiseSampler heightNoise;
+   private final OctaveNoiseSampler detailNoise;
+   private final OctaveNoiseSampler scaleNoise;
+   private final OctaveNoiseSampler peaksNoise;
+
    private final Iterable<TerrainPostProcessor> terrainPostProcessors;
 
-   public OverworldChunkGenerator(IWorld world, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
+   public CustomOverworldChunkGenerator(IWorld world, BiomeSource biomeSource, CustomOverworldChunkGeneratorConfig config) {
       super(world, biomeSource, config);
       ChunkRandom random = new ChunkRandom(world.getSeed());
+
+      double amplitude = Math.pow(2, this.getConfig().getBaseOctaveAmount());
+
+      Class<? extends Noise> noiseClass = NoiseType.PERLIN.noiseClass;
+      heightNoise = new OctaveNoiseSampler<>(noiseClass, random, this.getConfig().getBaseOctaveAmount(), this.getConfig().getBaseNoiseFrequencyCoefficient()  * amplitude, amplitude, amplitude);
+      detailNoise = new OctaveNoiseSampler<>(noiseClass, random, this.getConfig().getDetailOctaveAmount(), config.getDetailFrequency(), this.getConfig().getDetailAmplitudeHigh(), this.getConfig().getDetailAmplitudeLow());
+      scaleNoise = new OctaveNoiseSampler<>(noiseClass, random, this.getConfig().getScaleOctaveAmount(), Math.pow(2, this.getConfig().getScaleFrequencyExponent()), this.getConfig().getScaleAmplitudeHigh(),
+              this.getConfig().getScaleAmplitudeLow());
+      peaksNoise = new OctaveNoiseSampler<>(noiseClass, random, this.getConfig().getPeaksOctaveAmount(), this.getConfig().getPeaksFrequency(), 1.0, 1.0);
+
       this.surfaceDepthNoise = new OctavePerlinNoiseSampler(random, 4, 0);
 
       List<TerrainPostProcessor> postProcessors = new ArrayList<>();
@@ -69,8 +87,9 @@ public class OverworldChunkGenerator extends ChunkGenerator<OverworldChunkGenera
       Biome biome = this.getDecorationBiome(region.getBiomeAccess(), blockPos.add(8, 8, 8));
       ChunkRandom chunkRandom = new ChunkRandom();
       long seed = chunkRandom.setSeed(region.getSeed(), k, l);
+      GenerationStep.Feature[] features = GenerationStep.Feature.values();
 
-      for (GenerationStep.Feature feature : GenerationStep.Feature.values()) {
+      for (GenerationStep.Feature feature : features) {
          try {
             biome.generateFeatureStep(feature, this, region, seed, chunkRandom, blockPos);
          } catch (Exception exception) {
@@ -99,7 +118,8 @@ public class OverworldChunkGenerator extends ChunkGenerator<OverworldChunkGenera
             int z = startZ + localZ;
             int height = chunk.sampleHeightmap(net.minecraft.world.Heightmap.Type.WORLD_SURFACE_WG, localX, localZ) + 1;
             double noise = this.surfaceDepthNoise.sample((double)x * 0.0625D, (double)z * 0.0625D, 0.0625D, (double)localX * 0.0625D);
-            chunkRegion.getBiome(mutable.set(startX + localX, height, startZ + localZ)).buildSurface(chunkRandom, chunk, x, z, height, noise, this.getConfig().getDefaultBlock(), this.getConfig().getDefaultFluid(), this.getSeaLevel(), this.world.getSeed());
+            chunkRegion.getBiome(mutable.set(startX + localX, height, startZ + localZ)).buildSurface(chunkRandom, chunk, x, z, height, noise, this.getConfig().getDefaultBlock(), this.getConfig().getDefaultFluid(),
+                    this.getSeaLevel(), this.world.getSeed());
          }
       }
 
@@ -110,7 +130,7 @@ public class OverworldChunkGenerator extends ChunkGenerator<OverworldChunkGenera
       BlockPos.Mutable mutable = new BlockPos.Mutable();
       int i = chunk.getPos().getStartX();
       int j = chunk.getPos().getStartZ();
-      OverworldChunkGeneratorConfig chunkGeneratorConfig = this.getConfig();
+      CustomOverworldChunkGeneratorConfig chunkGeneratorConfig = this.getConfig();
       int k = chunkGeneratorConfig.getMinY();
       int l = chunkGeneratorConfig.getMaxY();
       Iterator<BlockPos> var9 = BlockPos.iterate(i, 0, j, i + 15, 0, j + 15).iterator();
@@ -178,26 +198,6 @@ public class OverworldChunkGenerator extends ChunkGenerator<OverworldChunkGenera
       }
    }
 
-   private double sampleNoise(int x, int y) {
-      double d = this.surfaceDepthNoise.sample(x * 200, 10.0D, y * 200, 1.0D) * 65535.0D / 8000.0D;
-      if (d < 0.0D) {
-         d = -d * 0.3D;
-      }
-
-      d = d * 3.0D - 2.0D;
-      if (d < 0.0D) {
-         d /= 28.0D;
-      } else {
-         if (d > 1.0D) {
-            d = 1.0D;
-         }
-
-         d /= 40.0D;
-      }
-
-      return d;
-   }
-
    public List<Biome.SpawnEntry> getEntitySpawnList(EntityCategory category, BlockPos pos) {
       if (Feature.SWAMP_HUT.method_14029(this.world, pos)) {
          if (category == EntityCategory.MONSTER) {
@@ -228,11 +228,7 @@ public class OverworldChunkGenerator extends ChunkGenerator<OverworldChunkGenera
    }
 
    public int getSpawnHeight() {
-      return this.world.getSeaLevel() + 1;
-   }
-
-   public int getSeaLevel() {
-      return 63;
+      return this.getConfig().getSeaLevel();
    }
 
    @Override
@@ -259,10 +255,34 @@ public class OverworldChunkGenerator extends ChunkGenerator<OverworldChunkGenera
               MathHelper.lerp(xProgress, sampleNW, sampleNE),
               MathHelper.lerp(xProgress, sampleSW, sampleSE));
 
-      double detail = 0;
-      /*if (SimplexTerrain.CONFIG.addDetailNoise) {
-         detail = sampleDetail(x, z);
-      }*/
+      double detail = sampleDetail(x, z);
       return (int) (sample + detail);
    }
+
+   private double sampleNoise(int x, int z) {
+      double amplitudeSample = this.scaleNoise.sample(x, z) + this.config.getScaleAmplitudeLow(); // change range to have a minimum value of 0.0
+      return this.heightNoise.sampleCustom(x, z, this.config.getBaseNoiseSamplingFrequency(), amplitudeSample, amplitudeSample, this.config.getBaseOctaveAmount())
+              + modifyPeaksNoise(this.peaksNoise.sample(x, z))
+              + this.config.getBaseHeight();
+   }
+
+   private static double modifyPeaksNoise(double sample) {
+      sample += -0.33;
+      if (sample < 0) {
+         return 0;
+      } else {
+         return sample * 280;
+      }
+   }
+
+   private double sampleDetail(int x, int z) {
+      double sample = detailNoise.sample(x, z);
+      if (sample < this.config.getDetailNoiseThreshold()) {
+         if (scaleNoise.sample(x, z) < this.config.getScaleNoiseThreshold()) {
+            sample = 0;
+         }
+      }
+      return sample;
+   }
+
 }
