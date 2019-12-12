@@ -5,7 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.BetterCaveUtil;
-import io.github.vampirestudios.raa.utils.BetterCavesConfig;
+import io.github.vampirestudios.raa.config.BetterCavesConfig;
 import io.github.vampirestudios.raa.utils.CaveType;
 import io.github.vampirestudios.raa.utils.CavernType;
 import io.github.vampirestudios.raa.utils.noise.FastNoise;
@@ -308,7 +308,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
      * @return threshold value for water biome spawn rate based on Config setting
      */
     private float calcWaterBiomeThreshold() {
-        switch (BetterCavesConfig.waterBiomeFreq) {
+        switch (BetterCavesConfig.waterRegionFreq) {
             case "Rare":
                 return -.4f;
             case "Common":
@@ -327,7 +327,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
      */
     public void initialize(long seed) {
         this.seed = seed;
-        this.enableWaterBiomes = BetterCavesConfig.enableWaterBiomes;
+        this.enableWaterBiomes = BetterCavesConfig.enableWaterRegions;
 
         // Determine noise thresholds for cavern spawns based on user config
         this.lavaCavernThreshold = calcLavaCavernThreshold();
@@ -343,7 +343,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
 
         // Determine cave biome size
         float caveBiomeSize;
-        switch (BetterCavesConfig.caveBiomeSize) {
+        switch (BetterCavesConfig.caveRegionSize) {
             case "Small":
                 caveBiomeSize = .007f;
                 break;
@@ -361,7 +361,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
         // Determine cavern biome size, as well as jitter to make Voronoi regions more varied in shape
         float cavernBiomeSize;
         float waterCavernBiomeSize = .003f;
-        switch (BetterCavesConfig.cavernBiomeSize) {
+        switch (BetterCavesConfig.cavernRegionSize) {
             case "Small":
                 cavernBiomeSize = .01f;
                 break;

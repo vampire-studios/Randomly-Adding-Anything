@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.generation.carvers.cave;
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
-import io.github.vampirestudios.raa.utils.BetterCavesConfig;
+import io.github.vampirestudios.raa.config.BetterCavesConfig;
 import io.github.vampirestudios.raa.utils.CaveType;
 import io.github.vampirestudios.raa.utils.noise.FastNoise;
 import io.github.vampirestudios.raa.utils.noise.NoiseGen;

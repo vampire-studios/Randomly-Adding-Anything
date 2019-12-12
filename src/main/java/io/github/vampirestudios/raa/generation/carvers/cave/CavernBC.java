@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.generation.carvers.cave;
 
-import io.github.vampirestudios.raa.utils.BetterCavesConfig;
+import io.github.vampirestudios.raa.config.BetterCavesConfig;
 import io.github.vampirestudios.raa.utils.CavernType;
 import io.github.vampirestudios.raa.utils.noise.FastNoise;
 import io.github.vampirestudios.raa.utils.noise.NoiseGen;

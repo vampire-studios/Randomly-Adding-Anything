@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.registries;
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.commands.CommandLocateRAAStructure;
+import io.github.vampirestudios.raa.config.BetterCavesConfig;
 import io.github.vampirestudios.raa.generation.carvers.cave.WorldCarverBC;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.FossilFeature;
@@ -23,9 +24,12 @@ import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.ProbabilityConfig;
 import net.minecraft.world.gen.carver.Carver;
 import net.minecraft.world.gen.carver.CarverConfig;
+import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
 import net.minecraft.world.gen.feature.*;
+
+import java.util.List;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
@@ -70,17 +74,43 @@ public class Features {
 
     public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
+            List<ConfiguredCarver<?>> airCarvers = biome.getCarversForStep(GenerationStep.Carver.AIR);
+            List<ConfiguredCarver<?>> liquidCarvers = biome.getCarversForStep(GenerationStep.Carver.LIQUID);
             WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
             caveCarver.initialize(-6409096104954950338L);
-            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
-//            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
-//            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(1)));
+
+            // Remove default carvers
+            airCarvers.clear();
+            liquidCarvers.clear();
+
+            // Add Better Caves carver
+            airCarvers.add(Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
+
+            if (BetterCavesConfig.enableRavines)
+                biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CANYON, new ProbabilityConfig(1)));
+
+            // If enabled, add underwater ravines to ocean biomes
+            if (BetterCavesConfig.enableUnderwaterRavines && biome.getCategory() == Biome.Category.OCEAN)
+                biome.addCarver(GenerationStep.Carver.LIQUID, Biome.configureCarver(Carver.UNDERWATER_CANYON, new ProbabilityConfig(1)));
         } else {
+            List<ConfiguredCarver<?>> airCarvers = biome.getCarversForStep(GenerationStep.Carver.AIR);
+            List<ConfiguredCarver<?>> liquidCarvers = biome.getCarversForStep(GenerationStep.Carver.LIQUID);
             WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
             caveCarver.initialize(-6409096104954950338L);
-            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
-//            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
-//            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
+
+            // Remove default carvers
+            airCarvers.clear();
+            liquidCarvers.clear();
+
+            // Add Better Caves carver
+            airCarvers.add(Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
+
+            if (BetterCavesConfig.enableRavines)
+                biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CANYON, new ProbabilityConfig(0.02F)));
+
+            // If enabled, add underwater ravines to ocean biomes
+            if (BetterCavesConfig.enableUnderwaterRavines && biome.getCategory() == Biome.Category.OCEAN)
+                biome.addCarver(GenerationStep.Carver.LIQUID, Biome.configureCarver(Carver.UNDERWATER_CANYON, new ProbabilityConfig(0.02F)));
         }
     }
 

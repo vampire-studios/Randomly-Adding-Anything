@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import com.google.common.collect.ImmutableSet;
+import io.github.vampirestudios.raa.config.BetterCavesConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
