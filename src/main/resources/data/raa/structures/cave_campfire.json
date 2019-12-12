@@ -7563,11 +7563,6 @@
               ]
             ]
           }
-        },
-        {
-          "tagType": 3,
-          "name": "DataVersion",
-          "value": 1976
         }
       ]
     }

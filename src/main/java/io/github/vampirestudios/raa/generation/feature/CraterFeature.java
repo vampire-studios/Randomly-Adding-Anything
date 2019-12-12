@@ -7,7 +7,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public class CraterFeature extends Feature<CorruptedFeatureConfig> {
         ALLOWED_STATES.add(Blocks.STONE.getDefaultState());
         ALLOWED_STATES.add(Blocks.GRAVEL.getDefaultState());
         ALLOWED_STATES.add(Blocks.SAND.getDefaultState());
-//        ALLOWED_STATES.add(Blocks.GRASS_BLOCK.getDefaultState());
     }
 
     @Override
@@ -59,7 +57,6 @@ public class CraterFeature extends Feature<CorruptedFeatureConfig> {
     private static boolean canSpawn(IWorld world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         if (state == Blocks.GRASS_BLOCK.getDefaultState() || state == Blocks.PODZOL.getDefaultState() || state == Blocks.COARSE_DIRT.getDefaultState()) return true;
-        if (state == Blocks.GRAVEL.getDefaultState() || state == Blocks.SAND.getDefaultState() || state == Blocks.STONE.getDefaultState()) return true;
-        return false;
+        return state == Blocks.GRAVEL.getDefaultState() || state == Blocks.SAND.getDefaultState() || state == Blocks.STONE.getDefaultState();
     }
 }

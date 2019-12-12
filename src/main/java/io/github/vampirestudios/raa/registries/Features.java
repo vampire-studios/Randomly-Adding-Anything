@@ -15,6 +15,7 @@ import io.github.vampirestudios.raa.generation.feature.tree.DoubleTreeFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.FixedTreeFeature;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
@@ -77,7 +78,8 @@ public class Features {
             List<ConfiguredCarver<?>> airCarvers = biome.getCarversForStep(GenerationStep.Carver.AIR);
             List<ConfiguredCarver<?>> liquidCarvers = biome.getCarversForStep(GenerationStep.Carver.LIQUID);
             WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
-            caveCarver.initialize(-6409096104954950338L);
+            assert MinecraftClient.getInstance().world != null;
+            caveCarver.initialize(MinecraftClient.getInstance().world.getSeed());
 
             // Remove default carvers
             airCarvers.clear();
@@ -96,7 +98,8 @@ public class Features {
             List<ConfiguredCarver<?>> airCarvers = biome.getCarversForStep(GenerationStep.Carver.AIR);
             List<ConfiguredCarver<?>> liquidCarvers = biome.getCarversForStep(GenerationStep.Carver.LIQUID);
             WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
-            caveCarver.initialize(-6409096104954950338L);
+            assert MinecraftClient.getInstance().world != null;
+            caveCarver.initialize(MinecraftClient.getInstance().world.getSeed());
 
             // Remove default carvers
             airCarvers.clear();

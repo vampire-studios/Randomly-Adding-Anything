@@ -12824,11 +12824,6 @@
               ]
             ]
           }
-        },
-        {
-          "tagType": 3,
-          "name": "DataVersion",
-          "value": 2215
         }
       ]
     }

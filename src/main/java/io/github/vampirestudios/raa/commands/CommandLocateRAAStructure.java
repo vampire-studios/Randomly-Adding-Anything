@@ -42,7 +42,7 @@ public class CommandLocateRAAStructure {
         float distance = -1f;
         List<Integer> spawnPos = Arrays.asList(0, 0, 0);
         try {
-            if (!"Tower,Outpost,Campfire,SpiderLair,Tomb,Fossil,PortalHub,Shrine".contains(structureName)) {
+            if (!"Tower,Outpost,Campfire,Spider_Lair,Tomb,Fossil,PortalHub,Shrine,Stone_Circle".contains(structureName)) {
                 found = 0;
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
@@ -62,7 +62,7 @@ public class CommandLocateRAAStructure {
                 spawnPath += "outpost_spawns.txt";
             } else if (structureName.equals("Campfire") && isRaaDimension(source)) {
                 spawnPath += "campfire_spawns.txt";
-            } else if (structureName.equals("SpiderLair") && isRaaDimension(source)) {
+            } else if (structureName.equals("Spider_Lair") && isRaaDimension(source)) {
                 spawnPath += "spider_lair_spawns.txt";
             } else if (structureName.equals("Tomb") && isRaaDimension(source)) {
                 spawnPath += "tomb_spawns.txt";
@@ -70,6 +70,8 @@ public class CommandLocateRAAStructure {
                 spawnPath += "fossil_spawns.txt";
             } else if (structureName.equals("Shrine") && isRaaDimension(source)) {
                 spawnPath += "shrine_spawns.txt";
+            }  else if (structureName.equals("Stone_Circle") && isRaaDimension(source)) {
+                spawnPath += "stone_circle_spawns.txt";
             } else {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
@@ -110,7 +112,7 @@ public class CommandLocateRAAStructure {
     }
 
     private static SuggestionProvider<ServerCommandSource> suggestedStrings() {
-        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine"));
+        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "Stone_Circle"));
     }
 
     private static CompletableFuture<Suggestions> getSuggestionsBuilder(SuggestionsBuilder builder, List<String> list) {
