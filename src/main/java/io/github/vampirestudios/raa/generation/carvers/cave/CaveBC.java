@@ -2,12 +2,14 @@ package io.github.vampirestudios.raa.generation.carvers.cave;
 
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.config.BetterCavesConfig;
+import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.utils.BetterCaveUtil;
 import io.github.vampirestudios.raa.utils.CaveType;
 import io.github.vampirestudios.raa.utils.noise.FastNoise;
 import io.github.vampirestudios.raa.utils.noise.NoiseGen;
 import io.github.vampirestudios.raa.utils.noise.NoiseTuple;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
@@ -31,7 +33,13 @@ public class CaveBC extends AbstractBC {
                   float yAdjF1, float yAdjF2, BlockState vBlock) {
         super(seed, fOctaves, fGain, fFreq, numGens, threshold, tOctaves, tGain, tFreq, enableTurbulence, yComp,
                 xzComp, yAdj, yAdjF1, yAdjF2, vBlock);
-        this.alwaysCarvableBlocks = ImmutableSet.of(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone")),
+        Block block;
+        if (dimensionData != null) {
+            block = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone"));
+        } else {
+            block = Blocks.STONE;
+        }
+        this.alwaysCarvableBlocks = ImmutableSet.of(block,
                 Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL,
                 Blocks.GRASS_BLOCK, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA, Blocks.ORANGE_TERRACOTTA, Blocks.MAGENTA_TERRACOTTA,
                 Blocks.LIGHT_BLUE_TERRACOTTA, Blocks.YELLOW_TERRACOTTA, Blocks.LIME_TERRACOTTA, Blocks.PINK_TERRACOTTA, Blocks.GRAY_TERRACOTTA,
@@ -127,7 +135,7 @@ public class CaveBC extends AbstractBC {
 
             BlockState currBlock = chunkIn.getBlockState(new BlockPos(localX, realY, localZ));
 
-            if (canCarveBlock(currBlock, AIR)
+            if (BetterCaveUtil.canReplaceBlock(currBlock, AIR)
                     && (chunkIn.getBlockState(new BlockPos(localX, realY + 1, localZ)) == AIR || chunkIn.getBlockState(new BlockPos(localX, realY + 1, localZ)) == CAVE_AIR)
                     && (chunkIn.getBlockState(new BlockPos(localX, realY - 1, localZ)) == AIR || chunkIn.getBlockState(new BlockPos(localX, realY - 1, localZ)) == CAVE_AIR)
             )

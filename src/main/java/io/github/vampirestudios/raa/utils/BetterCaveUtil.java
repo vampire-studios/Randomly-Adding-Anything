@@ -200,54 +200,41 @@ public class BetterCaveUtil {
 
     /**
      * Returns the y-coordinate of the surface block for a given local block coordinate for a given chunk.
-     * @param chunkIn chunk containing the block
-     * @param x The block's chunk-local x-coordinate
-     * @param z The block's chunk-local z-coordinate
+     * Note that water blocks also count as the surface.
+     * @param chunkIn chunk
+     * @param localX The block's chunk-local x-coordinate
+     * @param localZ The block's chunk-local z-coordinate
      * @return The y-coordinate of the surface block
      */
-    private static int getSurfaceAltitudeForColumn(Chunk chunkIn, int x, int z) {
-//        return recursiveBinarySurfaceSearch(chunkIn, x, z, 255, 0);
-        return linarSurfaceSearch(chunkIn, x, z, 255, 0);
+    private static int getSurfaceAltitudeForColumn(Chunk chunkIn, int localX, int localZ) {
+        return searchSurfaceAltitudeInRangeForColumn(chunkIn, localX, localZ, 255, 0);
     }
 
     /**
-     * Recursive binary search, this search always converges on the surface in 8 in cycles for the range 255 >= y >= 0.
-     * Thanks to Worley's Caves for this idea.
-     * @param chunkIn Chunk
-     * @param x Chunk-local x-coordinate
-     * @param z Chunk-local z-coordinate
-     * @param top Upper y-coordinate search bound
-     * @param bottom Lower y-coordinate search bound
-     * @return Surface height at given coordinate
-     */
-    private static int recursiveBinarySurfaceSearch(Chunk chunkIn, int x, int z, int top, int bottom) {
-        if (top > bottom) {
-            int mid = (top + bottom) / 2;
-
-            if (canReplaceBlock(chunkIn.getBlockState(new BlockPos(x, mid, z)), Blocks.AIR.getDefaultState()))
-                top = recursiveBinarySurfaceSearch(chunkIn, x, z, top, mid + 1);
-            else
-                top = recursiveBinarySurfaceSearch(chunkIn, x, z, mid, bottom);
-        }
-        return top;
-    }
-
-    /**
-     * Linear search from the bottom up to find the surface y-coordinate for a given block.
-     * Slower than binary search, but more reliable since it also works for areas with overhangs or floating islands.
-     * @param chunkIn The chunk containing the block
-     * @param localX The chunk-local x-coordinate
-     * @param localZ The chunk-local z-coordinate
+     * Searches for the y-coordinate of the surface block for a given local block coordinate for a given chunk in a
+     * specific range of y-coordinates.
+     * Note that water blocks also count as the surface.
+     * @param chunkIn chunk
+     * @param localX The block's chunk-local x-coordinate
+     * @param localZ The block's chunk-local z-coordinate
      * @param topY The top y-coordinate to stop searching at
      * @param bottomY The bottom y-coordinate to start searching at
-     * @return Surface height at given coordinate
+     * @return The y-coordinate of the surface block
      */
-    private static int linarSurfaceSearch(Chunk chunkIn, int localX, int localZ, int topY, int bottomY) {
+    public static int searchSurfaceAltitudeInRangeForColumn(Chunk chunkIn, int localX, int localZ, int topY, int bottomY) {
         BlockPos.Mutable blockPos = new BlockPos.Mutable(localX, bottomY, localZ);
+
+        // Edge case: blocks go all the way up to build height
+        if (topY == 255) {
+            BlockPos topPos = new BlockPos(localX, topY, localZ);
+            if (chunkIn.getBlockState(topPos) != Blocks.AIR.getDefaultState() && chunkIn.getBlockState(topPos).getMaterial() != Material.WATER)
+                return 255;
+        }
+
         for (int y = bottomY; y <= topY; y++) {
-            if (chunkIn.getBlockState(blockPos) == Blocks.AIR.getDefaultState() || chunkIn.getBlockState(new BlockPos(localX, y, localZ)) == Blocks.WATER.getDefaultState())
+            if (chunkIn.getBlockState(blockPos) == Blocks.AIR.getDefaultState() || chunkIn.getBlockState(blockPos).getMaterial() == Material.WATER)
                 return y;
-            blockPos.setOffset(Direction.UP);
+            blockPos.offset(Direction.UP);
         }
 
         return -1; // Surface somehow not found

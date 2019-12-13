@@ -9,9 +9,12 @@ import io.github.vampirestudios.raa.config.BetterCavesConfig;
 import io.github.vampirestudios.raa.utils.CaveType;
 import io.github.vampirestudios.raa.utils.CavernType;
 import io.github.vampirestudios.raa.utils.noise.FastNoise;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ProbabilityConfig;
@@ -53,9 +56,6 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
     private float lavaCavernThreshold;
     private float flooredCavernThreshold;
     private float waterBiomeThreshold;
-
-    // Dictates the degree of smoothing along cavern biome boundaries
-    private float transitionRange = .15f;
 
     // Config option for using water biomes
     private boolean enableWaterBiomes;
@@ -109,6 +109,22 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
                 }
             }
         }*/
+        Block block;
+        if (dimensionData != null) {
+            block = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone"));
+        } else {
+            block = Blocks.STONE;
+        }
+
+        for (int localX = 0; localX < 16; localX++) {
+            for (int localZ = 0; localZ < 16; localZ++) {
+                for (int y = 1; y <= 4; y++) {
+                    BlockPos blockPos = new BlockPos(localX, y, localZ);
+                    if (chunkIn.getBlockState(blockPos) == Blocks.BEDROCK.getDefaultState())
+                        chunkIn.setBlockState(blockPos, block.getDefaultState(), false);
+                }
+            }
+        }
 
         int maxSurfaceHeight = chunkIn.getHeight();
         int minSurfaceHeight = 60;
@@ -209,6 +225,8 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
                         }
 
                         // Extra check to provide close-off transitions on cavern edges
+                        // Dictates the degree of smoothing along cavern biome boundaries
+                        float transitionRange = .15f;
                         if (cavernBiomeNoise >= lavaCavernThreshold && cavernBiomeNoise <= lavaCavernThreshold + transitionRange) {
                             float smoothAmp = Math.abs((cavernBiomeNoise - (lavaCavernThreshold + transitionRange)) / transitionRange);
                             this.cavernLava.generateColumn(mainChunkX, mainChunkZ, chunkIn, localX, localZ, BetterCavesConfig.lavaCavernCaveBottom, BetterCavesConfig.lavaCavernCaveTop,

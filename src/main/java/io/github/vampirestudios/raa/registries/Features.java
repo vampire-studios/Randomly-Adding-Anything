@@ -15,7 +15,6 @@ import io.github.vampirestudios.raa.generation.feature.tree.DoubleTreeFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.FixedTreeFeature;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
@@ -74,12 +73,51 @@ public class Features {
     }
 
     public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {
-        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
+        if (dimensionData != null) {
+            if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
+                List<ConfiguredCarver<?>> airCarvers = biome.getCarversForStep(GenerationStep.Carver.AIR);
+                List<ConfiguredCarver<?>> liquidCarvers = biome.getCarversForStep(GenerationStep.Carver.LIQUID);
+                WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
+                caveCarver.initialize(0);
+
+                // Remove default carvers
+                airCarvers.clear();
+                liquidCarvers.clear();
+
+                // Add Better Caves carver
+                airCarvers.add(Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
+
+                if (BetterCavesConfig.enableRavines)
+                    biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CANYON, new ProbabilityConfig(1)));
+
+                // If enabled, add underwater ravines to ocean biomes
+                if (BetterCavesConfig.enableUnderwaterRavines && biome.getCategory() == Biome.Category.OCEAN)
+                    biome.addCarver(GenerationStep.Carver.LIQUID, Biome.configureCarver(Carver.UNDERWATER_CANYON, new ProbabilityConfig(1)));
+            } else {
+                List<ConfiguredCarver<?>> airCarvers = biome.getCarversForStep(GenerationStep.Carver.AIR);
+                List<ConfiguredCarver<?>> liquidCarvers = biome.getCarversForStep(GenerationStep.Carver.LIQUID);
+                WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
+                caveCarver.initialize(0);
+
+                // Remove default carvers
+                airCarvers.clear();
+                liquidCarvers.clear();
+
+                // Add Better Caves carver
+                airCarvers.add(Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
+
+                if (BetterCavesConfig.enableRavines)
+                    biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CANYON, new ProbabilityConfig(0.02F)));
+
+                // If enabled, add underwater ravines to ocean biomes
+                if (BetterCavesConfig.enableUnderwaterRavines && biome.getCategory() == Biome.Category.OCEAN)
+                    biome.addCarver(GenerationStep.Carver.LIQUID, Biome.configureCarver(Carver.UNDERWATER_CANYON, new ProbabilityConfig(0.02F)));
+            }
+        } else {
             List<ConfiguredCarver<?>> airCarvers = biome.getCarversForStep(GenerationStep.Carver.AIR);
             List<ConfiguredCarver<?>> liquidCarvers = biome.getCarversForStep(GenerationStep.Carver.LIQUID);
-            WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
-            assert MinecraftClient.getInstance().world != null;
-            caveCarver.initialize(MinecraftClient.getInstance().world.getSeed());
+            WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(null));
+            caveCarver.initialize(0);
 
             // Remove default carvers
             airCarvers.clear();
@@ -87,26 +125,6 @@ public class Features {
 
             // Add Better Caves carver
             airCarvers.add(Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
-
-            if (BetterCavesConfig.enableRavines)
-                biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CANYON, new ProbabilityConfig(1)));
-
-            // If enabled, add underwater ravines to ocean biomes
-            if (BetterCavesConfig.enableUnderwaterRavines && biome.getCategory() == Biome.Category.OCEAN)
-                biome.addCarver(GenerationStep.Carver.LIQUID, Biome.configureCarver(Carver.UNDERWATER_CANYON, new ProbabilityConfig(1)));
-        } else {
-            List<ConfiguredCarver<?>> airCarvers = biome.getCarversForStep(GenerationStep.Carver.AIR);
-            List<ConfiguredCarver<?>> liquidCarvers = biome.getCarversForStep(GenerationStep.Carver.LIQUID);
-            WorldCarverBC caveCarver = registerCarver("cave_carver", new WorldCarverBC(dimensionData));
-            assert MinecraftClient.getInstance().world != null;
-            caveCarver.initialize(MinecraftClient.getInstance().world.getSeed());
-
-            // Remove default carvers
-            airCarvers.clear();
-            liquidCarvers.clear();
-
-            // Add Better Caves carver
-            airCarvers.add(Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
 
             if (BetterCavesConfig.enableRavines)
                 biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(Carver.CANYON, new ProbabilityConfig(0.02F)));

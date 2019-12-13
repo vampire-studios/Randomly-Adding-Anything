@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.generation.carvers.cave;
 
-import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.utils.BetterCaveUtil;
 import io.github.vampirestudios.raa.utils.noise.FastNoise;
 import io.github.vampirestudios.raa.utils.noise.NoiseTuple;
@@ -113,12 +112,6 @@ public abstract class AbstractBC {
         this.yAdjustF1 = yAdjF1;
         this.yAdjustF2 = yAdjF2;
         this.vBlock = vBlock;
-        this.alwaysCarvableBlocks = ImmutableSet.of(Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL,
-                Blocks.GRASS_BLOCK, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA, Blocks.ORANGE_TERRACOTTA, Blocks.MAGENTA_TERRACOTTA,
-                Blocks.LIGHT_BLUE_TERRACOTTA, Blocks.YELLOW_TERRACOTTA, Blocks.LIME_TERRACOTTA, Blocks.PINK_TERRACOTTA, Blocks.GRAY_TERRACOTTA,
-                Blocks.LIGHT_GRAY_TERRACOTTA, Blocks.CYAN_TERRACOTTA, Blocks.PURPLE_TERRACOTTA, Blocks.BLUE_TERRACOTTA, Blocks.BROWN_TERRACOTTA,
-                Blocks.GREEN_TERRACOTTA, Blocks.RED_TERRACOTTA, Blocks.BLACK_TERRACOTTA, Blocks.SANDSTONE, Blocks.RED_SANDSTONE, Blocks.MYCELIUM,
-                Blocks.SNOW, Blocks.PACKED_ICE);
     }
 
     /**
@@ -191,15 +184,6 @@ public abstract class AbstractBC {
         }
     }
 
-    protected boolean canAlwaysCarveBlock(BlockState state) {
-        return this.alwaysCarvableBlocks.contains(state.getBlock());
-    }
-
-    protected boolean canCarveBlock(BlockState state, BlockState stateAbove) {
-        Block block = state.getBlock();
-        return this.canAlwaysCarveBlock(state) || (block == Blocks.SAND || block == Blocks.GRAVEL) && !stateAbove.getFluidState().matches(FluidTags.WATER);
-    }
-
     /**
      * Calls util digBlock function if there are no water blocks adjacent, to avoid breaking into oceans and lakes.
      * @param chunkIn The chunk
@@ -237,20 +221,6 @@ public abstract class AbstractBC {
         }
 
         BetterCaveUtil.digBlock(chunkIn, lavaBlock, localX, realY, localZ, chunkX, chunkZ);
-    }
-
-    /**
-     * Wrapper function for AbstractBC#digBlock with default lava block.
-     * Calls util digBlock function if there are no water blocks adjacent, to avoid breaking into oceans and lakes.
-     * @param chunkIn The chunk
-     * @param chunkX The chunk's x-coordinate
-     * @param chunkZ The chunk's z-coordinate
-     * @param localX the chunk-local x-coordinate of the block
-     * @param localZ the chunk-local z-coordinate of the block
-     * @param realY the real Y-coordinate of the block
-     */
-    protected void digBlock(Chunk chunkIn, int chunkX, int chunkZ, int localX, int localZ, int realY) {
-        digBlock(chunkIn, Blocks.LAVA.getDefaultState(), chunkX, chunkZ, localX, localZ, realY);
     }
 
     /**
