@@ -80,7 +80,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
 
         // Clear the list occasionally to prevent excessive memory usage.
         // This is a hacky solution, and may introduce bugs due to chunks being over- or under-processed
-        if (coordList.size() > 10000) {
+        if (coordList.size() > 1000) {
             coordList.clear();
             RandomlyAddingAnything.LOGGER.warn("WARNING: BetterCaves chunk list reached max capacity!");
             RandomlyAddingAnything.LOGGER.info("Clearing chunk list...");
@@ -110,7 +110,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
             }
         }*/
 
-        int maxSurfaceHeight = 128;
+        int maxSurfaceHeight = chunkIn.getHeight();
         int minSurfaceHeight = 60;
 
         // Cave generators - we will determine exactly what type these are based on the cave biome for each column
@@ -129,7 +129,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
         for (int subX = 0; subX < 8; subX++) {
             for (int subZ = 0; subZ < 8; subZ++) {
                 if (!BetterCavesConfig.enableDebugVisualizer)
-                    maxSurfaceHeight = BetterCaveUtil.getMaxSurfaceHeightSubChunk(chunkIn, subX, subZ);
+                    maxSurfaceHeight = BetterCaveUtil.getMaxSurfaceAltitudeSubChunk(chunkIn, subX, subZ);
 
                 // maxSurfaceHeight (also used for max cave altitude) cannot exceed Max Cave Altitude setting
                 maxSurfaceHeight = Math.min(maxSurfaceHeight, BetterCavesConfig.maxCaveAltitude);
