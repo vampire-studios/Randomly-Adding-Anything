@@ -1,11 +1,6 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator;
 
-import io.github.vampirestudios.raa.api.Heightmap;
-import io.github.vampirestudios.raa.generation.TerrainPostProcessor;
 import io.github.vampirestudios.raa.generation.chunkgenerator.config.CustomOverworldChunkGeneratorConfig;
-import io.github.vampirestudios.raa.utils.noise.Noise;
-import io.github.vampirestudios.raa.utils.noise.NoiseType;
-import io.github.vampirestudios.raa.utils.noise.OctaveNoiseSampler;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
@@ -27,6 +22,11 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.*;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
+import supercoder79.simplexterrain.api.Heightmap;
+import supercoder79.simplexterrain.api.noise.Noise;
+import supercoder79.simplexterrain.api.noise.NoiseType;
+import supercoder79.simplexterrain.api.noise.OctaveNoiseSampler;
+import supercoder79.simplexterrain.api.postprocess.TerrainPostProcessor;
 
 import java.util.*;
 import java.util.function.LongFunction;

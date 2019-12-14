@@ -6,6 +6,7 @@ import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Utils;
+import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
@@ -135,7 +136,7 @@ public class MaterialRecipes {
                     });
                 }
                 if (material.getOreInformation().getOreType() == OreType.METAL) {
-                    if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
+                    if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR) {
                         serverResourcePackBuilder.addSmeltingRecipe(Utils.appendToPath(material.getId(), "_ingot"), cookingRecipeBuilder -> {
                             cookingRecipeBuilder.cookingTime(200);
                             cookingRecipeBuilder.ingredientItem(Utils.appendToPath(material.getId(), "_ore"));
@@ -318,14 +319,14 @@ public class MaterialRecipes {
                     });
                 }
                 if (dimensionMaterial.getOreInformation().getOreType() == OreType.METAL) {
-                    if (dimensionMaterial.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR)
+                    if (dimensionMaterial.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR)
                         serverResourcePackBuilder.addSmeltingRecipe(Utils.appendToPath(dimensionMaterial.getId(), "_ingot"), cookingRecipeBuilder -> {
                             cookingRecipeBuilder.cookingTime(200);
                             cookingRecipeBuilder.ingredientItem(Utils.appendToPath(dimensionMaterial.getId(), "_ore"));
                             cookingRecipeBuilder.experience(0.7);
                             cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
                         });
-                    if (dimensionMaterial.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
+                    if (dimensionMaterial.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR) {
                         serverResourcePackBuilder.addBlastingRecipe(Utils.appendToPath(dimensionMaterial.getId(), "_ingot_from_blasting"), cookingRecipeBuilder -> {
                             cookingRecipeBuilder.cookingTime(100);
                             cookingRecipeBuilder.ingredientItem(Utils.appendToPath(dimensionMaterial.getId(), "_ore"));

@@ -13,7 +13,7 @@ import io.github.vampirestudios.raa.registries.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Blocks;
@@ -21,7 +21,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSourceType;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
@@ -57,14 +57,13 @@ public class RandomlyAddingAnything implements ModInitializer {
     @Override
     public void onInitialize() {
         MODCOMPAT = new ModCompat();
-        AutoConfig.register(GeneralConfig.class, JanksonConfigSerializer::new);
+        AutoConfig.register(GeneralConfig.class, GsonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
         Textures.init();
         FoliagePlacers.init();
         Features.init();
         Decorators.init();
         SurfaceBuilders.init();
-        SimplexPostProcessors.init();
         ChunkGenerators.init();
 
         //Reflection hacks
@@ -115,12 +114,11 @@ public class RandomlyAddingAnything implements ModInitializer {
         MaterialWorldSpawning.init();
 
         RegistryUtils.forEveryBiome(biome -> {
-            if (biome != Biomes.OCEAN | biome != Biomes.COLD_OCEAN | biome != Biomes.LUKEWARM_OCEAN | biome != Biomes.WARM_OCEAN |
-                    biome != Biomes.DEEP_OCEAN | biome != Biomes.DEEP_COLD_OCEAN | biome != Biomes.DEEP_LUKEWARM_OCEAN | biome != Biomes.DEEP_WARM_OCEAN) {
+            if (biome.getCategory() != Biome.Category.OCEAN) {
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
                                 configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.001125F), 1))));
-                Features.addDefaultCarvers(biome, null);
+//                Features.addDefaultCarvers(biome, null);
             }
         });
         Criterions.init();

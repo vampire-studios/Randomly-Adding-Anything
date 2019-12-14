@@ -9,7 +9,6 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
-import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -75,6 +74,9 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         if (dimensionData.getDifficulty() > 6) difficultyFormatting = Formatting.RED;
         if (dimensionData.getDifficulty() > 10) difficultyFormatting = Formatting.DARK_RED;
         addItem(new TextEntry(new TranslatableText("config.text.raa.difficulty", new LiteralText(dimensionData.getDifficulty() + "").formatted(difficultyFormatting))));
+
+        addItem(new TitleEntry(new TranslatableText("config.title.raa.advancedInformation").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.chunkGenerator", dimensionData.getDimensionChunkGenerator().toString())));
 
         if (dimensionData.getFlags() != 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));

@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.client;
 
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
+import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
@@ -52,7 +53,7 @@ public class DimensionOreBakedModel extends RAABakedModel {
         RenderMaterial mat = renderer.materialFinder().disableAo(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
         int color = dimensionMaterial.getDimensionData().getDimensionColorPalette().getStoneColor();
         Sprite sprite;
-        if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
+        if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR) {
             sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier(Registry.BLOCK.getId(material.getOreInformation()
                     .getGeneratesIn().getBlock()).getNamespace(), "block/" + Registry.BLOCK.getId(material.getOreInformation()
                     .getGeneratesIn().getBlock()).getPath()));
@@ -93,7 +94,7 @@ public class DimensionOreBakedModel extends RAABakedModel {
         color = material.getRGBColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());
 
-        if (material.getOreInformation().getGeneratesIn() != GeneratesIn.GRASS_BLOCK && material.getOreInformation().getGeneratesIn() != GeneratesIn.PODZOL) {
+        if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.GRASS_BLOCK && material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.PODZOL) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)

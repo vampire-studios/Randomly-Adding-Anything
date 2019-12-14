@@ -72,6 +72,8 @@ dependencies {
     modImplementation 'curse.maven:shulkerboxtooltip:2829477'
     modImplementation 'curse.maven:leaf-decay:2827905'
 
+    modImplementation 'com.github.SuperCoder7979:simplexterrain:feature~postprocessors-SNAPSHOT'
+
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
         exclude group :"net.fabricmc.fabric-api"

@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.generation.surface.*;
+import io.github.vampirestudios.raa.generation.surface.vanilla_variants.BadlandsSurfaceBuilder;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
@@ -8,8 +9,11 @@ import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
 public class SurfaceBuilders {
+    public static BadlandsSurfaceBuilder DARK_BADLANDS;
+
     public static PatchyDesertSurfaceBuilder PATCHY_DESERT;
     public static PatchyMesaSurfaceBuilder PATCHY_MESA;
+    public static PatchyDarkMesaSurfaceBuilder PATCHY_DARK_MESA;
     public static ClassicCliffsSurfaceBuilder CLASSIC_CLIFFS;
     public static StratifiedSurfaceBuilder STRATIFIED_CLIFFS;
     public static FloatingIslandSurfaceBuilder FLOATING_ISLANDS;
@@ -18,10 +22,15 @@ public class SurfaceBuilders {
     public static HyperflatSurfaceBuilder HYPERFLAT;
 
     public static void init() {
+        DARK_BADLANDS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "dark_badlands"),
+                new BadlandsSurfaceBuilder(TernarySurfaceConfig::deserialize));
+
         PATCHY_DESERT = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "patchy_desert"),
                 new PatchyDesertSurfaceBuilder(TernarySurfaceConfig::deserialize));
         PATCHY_MESA = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "patchy_mesa"),
                 new PatchyMesaSurfaceBuilder(TernarySurfaceConfig::deserialize));
+        PATCHY_DARK_MESA = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "patchy_dark_mesa"),
+                new PatchyDarkMesaSurfaceBuilder(TernarySurfaceConfig::deserialize));
         CLASSIC_CLIFFS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "classic_cliffs"),
                 new ClassicCliffsSurfaceBuilder(TernarySurfaceConfig::deserialize));
         STRATIFIED_CLIFFS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "stratified_cliffs"),

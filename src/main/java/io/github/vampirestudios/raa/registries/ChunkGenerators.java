@@ -2,11 +2,12 @@ package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.api.dimension.FabricChunkGeneratorType;
 import io.github.vampirestudios.raa.generation.chunkgenerator.*;
-import io.github.vampirestudios.raa.generation.chunkgenerator.CavesChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.FloatingIslandsChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.config.CustomOverworldChunkGeneratorConfig;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.gen.chunk.*;
+import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.ChunkGeneratorType;
+import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 

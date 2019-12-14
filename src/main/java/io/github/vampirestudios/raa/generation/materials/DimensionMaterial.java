@@ -5,6 +5,7 @@ import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
@@ -37,7 +38,7 @@ public class DimensionMaterial extends Material {
         private Identifier id;
         private String name;
         private int RGB = -1;
-        private GeneratesIn generatesIn;
+        private OreFeatureConfig.Target generatesIn;
         private int oreCount;
         private CustomArmorMaterial armorMaterial;
         private CustomToolMaterial toolMaterial;
@@ -101,7 +102,12 @@ public class DimensionMaterial extends Material {
         }
 
         public Builder generatesIn(GeneratesIn generatesIn) {
-            this.generatesIn = generatesIn;
+            this.generatesIn = generatesIn.getTarget();
+            return this;
+        }
+
+        public Builder target(OreFeatureConfig.Target target) {
+            this.generatesIn = target;
             return this;
         }
 

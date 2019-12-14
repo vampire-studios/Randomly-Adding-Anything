@@ -1,8 +1,8 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.config;
 
-import io.github.vampirestudios.raa.generation.PostProcessors;
-import io.github.vampirestudios.raa.utils.noise.NoiseType;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
+import supercoder79.simplexterrain.api.noise.NoiseType;
+import supercoder79.simplexterrain.world.postprocess.PostProcessors;
 
 import java.util.ArrayList;
 import java.util.Arrays;

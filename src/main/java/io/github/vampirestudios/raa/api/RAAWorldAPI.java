@@ -8,7 +8,6 @@ import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import io.github.vampirestudios.raa.world.gen.feature.SimpleRangeDecoratorConfig;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.Decorator;
 
@@ -19,7 +18,7 @@ public class RAAWorldAPI {
      * @param target The block targeted by the ore generator.
      */
     public static void addRandomOres(Biome biome, OreFeatureConfig.Target target) {
-        addRandomOres(new OreGenerationSupport(biome, target, DimensionType.OVERWORLD));
+        addRandomOres(new OreGenerationSupport(biome, target));
     }
 
     /**
@@ -38,7 +37,7 @@ public class RAAWorldAPI {
      */
     public static void addRandomOres(OreGenerationSupport generationSupport) {
         Materials.MATERIALS.forEach(material -> {
-            if (material.getOreInformation().getGeneratesIn().getTarget() == generationSupport.getTarget()) {
+            if (material.getOreInformation().getGeneratesIn() == generationSupport.getTarget()) {
                 generationSupport.getGenerationBiome().addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
                         new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(generationSupport.getTarget(),
                                 Registry.BLOCK.get(Utils.appendToPath(material.getId(), "_ore")).getDefaultState(), 9))
@@ -46,7 +45,7 @@ public class RAAWorldAPI {
             }
         });
         Materials.DIMENSION_MATERIALS.forEach(material -> {
-            if (material.getOreInformation().getGeneratesIn().getTarget() == generationSupport.getTarget()) {
+            if (material.getOreInformation().getGeneratesIn() == generationSupport.getTarget()) {
                 generationSupport.getGenerationBiome().addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
                         new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(generationSupport.getTarget(),
                                 Registry.BLOCK.get(Utils.appendToPath(material.getId(), "_ore")).getDefaultState(), 9))

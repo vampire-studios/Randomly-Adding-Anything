@@ -145,8 +145,8 @@ public class RegistryUtils {
         }
     }
 
-    public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate) {
-        OreFeatureConfig.Target target = new OreFeatureConfig.Target(name, blockStatePredicate);
+    public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate, Block block) {
+        OreFeatureConfig.Target target = new OreFeatureConfig.Target(name, blockStatePredicate, block);
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, target.getName());
         if (RAARegistery.TARGET_REGISTRY.get(identifier) == null) {
             return Registry.register(RAARegistery.TARGET_REGISTRY, identifier, target);

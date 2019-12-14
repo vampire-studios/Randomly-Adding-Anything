@@ -1,18 +1,18 @@
 package io.github.vampirestudios.raa.generation.materials;
 
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
+import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 
 public class OreInformation {
 
     private OreType oreType;
-    private GeneratesIn generatesIn;
+    private OreFeatureConfig.Target generatesIn;
     private int oreCount;
     private int minXPAmount;
     private int maxXPAmount;
     private int oreClusterSize;
 
-    public OreInformation(OreType oreType, GeneratesIn generatesIn, int oreCount, int minXPAmount, int maxXPAmount, int oreClusterSize) {
+    public OreInformation(OreType oreType, OreFeatureConfig.Target generatesIn, int oreCount, int minXPAmount, int maxXPAmount, int oreClusterSize) {
         this.oreType = oreType;
         this.generatesIn = generatesIn;
         this.oreCount = oreCount;
@@ -25,7 +25,7 @@ public class OreInformation {
         return oreType;
     }
 
-    public GeneratesIn getGeneratesIn() {
+    public OreFeatureConfig.Target getGeneratesIn() {
         return generatesIn;
     }
 

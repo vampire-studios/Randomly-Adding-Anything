@@ -56,7 +56,12 @@ public class Utils {
             if (chance < 20) return SurfaceBuilder.DEFAULT;
             if (chance > 20 && chance <= 30) return SurfaceBuilders.HYPERFLAT;
             if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
-            if (chance > 40 && chance <= 50) return SurfaceBuilders.PATCHY_MESA;
+            if (chance > 40 && chance <= 50) {
+                if(Rands.chance(4))
+                    return SurfaceBuilders.PATCHY_DARK_MESA;
+                else
+                    return SurfaceBuilders.PATCHY_MESA;
+            }
             if (chance > 50 && chance <= 60) return SurfaceBuilders.CLASSIC_CLIFFS;
             if (chance > 60 && chance <= 70) return SurfaceBuilders.STRATIFIED_CLIFFS;
             if (chance > 70 && chance <= 80) return SurfaceBuilders.FLOATING_ISLANDS;

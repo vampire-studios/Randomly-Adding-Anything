@@ -1,17 +1,17 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
+import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
+import io.github.vampirestudios.raa.generation.dimensions.Csoct;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
-import io.github.vampirestudios.raa.predicate.block.BlockPredicate;
 import io.github.vampirestudios.raa.utils.DebugUtils;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
@@ -31,6 +31,7 @@ import net.minecraft.util.registry.Registry;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Materials {
     public static final Set<Identifier> MATERIAL_IDS = new HashSet<>();
@@ -58,7 +59,7 @@ public class Materials {
             Material material = Material.Builder.create(id, name)
                     .oreType(Rands.values(OreType.values()))
                     .color(RGB.getColor())
-                    .generatesIn(Rands.list(GeneratesIn.getValues()))
+                    .target(Rands.list())
                     .armor(random.nextBoolean())
                     .tools(Rands.chance(3))
                     .oreFlower(Rands.chance(4))
@@ -96,20 +97,17 @@ public class Materials {
                 } while (DIMENSION_MATERIAL_IDS.contains(id));
                 DIMENSION_MATERIAL_IDS.add(id);
 
-                GeneratesIn generatesIn = RegistryUtils.registerGeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
-                        new GeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
-                                Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())),
-                                new OreFeatureConfig.Target(dimensionData.getId().getPath(), blockState ->
-                                        new BlockPredicate(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())))
-                                                .test(blockState.getBlock())
-                                )
-                        )
-                );
+                Csoct csoct = Registry.register(RAARegistery.TARGET_REGISTRY,
+                        new Identifier(RandomlyAddingAnything.MOD_ID, String.format("%s_stone", dimensionData.getId().getPath())),
+                        new Csoct(String.format("%s_stone", dimensionData.getId().getPath()), blockState -> {
+                            Block block = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, String.format("%s_stone", dimensionData.getId().getPath())));
+                            return blockState.getBlock() == block;
+                        }, Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, String.format("%s_stone", dimensionData.getId().getPath())))));
 
                 DimensionMaterial material = DimensionMaterial.Builder.create(id, name)
                         .oreType(Rands.values(OreType.values()))
                         .color(RGB.getColor())
-                        .generatesIn(generatesIn)
+                        .target(csoct)
                         .armor(random.nextBoolean())
                         .tools(Rands.chance(3))
                         .oreFlower(Rands.chance(4))
@@ -167,7 +165,7 @@ public class Materials {
                     material.getName(),
                     RAABlockItem.BlockType.BLOCK
             );
-            if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
+            if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR) {
                 RegistryUtils.register(
                         new LayeredOreBlock(material, blockSettings.build()),
                         Utils.appendToPath(identifier, "_ore"),
@@ -347,7 +345,7 @@ public class Materials {
                     material.getName(),
                     RAABlockItem.BlockType.BLOCK
             );
-            if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
+            if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR) {
                 RegistryUtils.register(
                         new LayeredOreBlock(material, blockSettings.build()),
                         Utils.appendToPath(identifier, "_ore"),

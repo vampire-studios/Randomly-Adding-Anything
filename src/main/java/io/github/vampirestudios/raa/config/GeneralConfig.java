@@ -9,7 +9,7 @@ import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 public class GeneralConfig implements ConfigData {
 
     public int materialNumber = 100;
-    public int dimensionNumber = 50;
+    public int dimensionNumber = 60;
     public boolean debug = false;
     public boolean regen = false;
     public LangEnum namingLanguage = LangEnum.ENGLISH;
