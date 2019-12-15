@@ -1,11 +1,13 @@
 package io.github.vampirestudios.raa.generation.materials;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
 import io.github.vampirestudios.raa.generation.dimensions.Csoct;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionBiomeData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
+import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
@@ -35,12 +37,7 @@ public class MaterialWorldSpawning {
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
                 for (DimensionBiomeData biomeData : dimensionData.getBiomeData()) {
                     Biome biome1 = Registry.BIOME.get(biomeData.getId());
-                    OreFeatureConfig.Target csoct = RegistryUtils.registerOreTarget(
-                            new Identifier(RandomlyAddingAnything.MOD_ID, String.format("%s_stone", dimensionData.getId().getPath())),
-                            new Csoct(String.format("%s_stone", dimensionData.getId().getPath()), blockState -> {
-                                Block block = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, String.format("%s_stone", dimensionData.getId().getPath())));
-                                return blockState.getBlock() == block;
-                            }, Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, String.format("%s_stone", dimensionData.getId().getPath())))));
+                    OreFeatureConfig.Target csoct = RAARegistery.TARGET_REGISTRY.get(Utils.appendToPath(dimensionData.getId(), "_stone"));
                     RAAWorldAPI.addRandomOres(biome1, csoct);
                 }
             });

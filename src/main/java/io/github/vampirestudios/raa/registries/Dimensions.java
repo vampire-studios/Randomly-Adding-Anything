@@ -233,7 +233,7 @@ public class Dimensions {
             Set<Biome> biomes = new LinkedHashSet<>();
             for (int i = 0; i < dimension.getBiomeData().size(); i++) {
                 CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension, dimension.getBiomeData().get(i));
-                RegistryUtils.registerBiome(new Identifier(MOD_ID, dimension.getBiomeData().get(i).getName().toLowerCase() + "_" + i), biome);
+                RegistryUtils.registerBiome(dimension.getBiomeData().get(i).getId(), biome);
                 biomes.add(biome);
             }
 

@@ -324,7 +324,7 @@ public class Materials {
             String oldTargetName = material.getOreInformation().getGeneratesIn().getName();
             Identifier stoneName = Utils.appendToPath(material.getDimensionData().getId(), "_stone");
             Block block = Registry.BLOCK.get(stoneName);
-            OreFeatureConfig.Target csoct =  RegistryUtils.registerOreTarget(stoneName, new Csoct(stoneName.getPath(), blockState -> blockState.getBlock() == block, block));
+            OreFeatureConfig.Target csoct =  RegistryUtils.registerOreTarget(stoneName, new Csoct(stoneName.getPath(), block));
             material.getOreInformation().setGeneratesIn(csoct);
             System.out.println("Overrided target: " + oldTargetName + " with " + csoct.getName());
 
