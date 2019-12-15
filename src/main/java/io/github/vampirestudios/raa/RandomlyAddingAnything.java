@@ -110,6 +110,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         Dimensions.createDimensions();
         DimensionRecipes.init();
         Materials.generateDimensionMaterials();
+        Materials.createDimensionMaterialResources();
         Materials.createMaterialResources();
         MaterialRecipes.init();
         MaterialWorldSpawning.init();

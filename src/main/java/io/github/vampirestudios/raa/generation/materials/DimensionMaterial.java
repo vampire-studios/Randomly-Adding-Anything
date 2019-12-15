@@ -107,6 +107,7 @@ public class DimensionMaterial extends Material {
         }
 
         public Builder target(OreFeatureConfig.Target target) {
+            System.out.println("Current target: " + target.getName());
             this.generatesIn = target;
             return this;
         }

@@ -10,7 +10,7 @@ import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 public class OreFeatureTargetTypeAdapter extends TypeAdapter<OreFeatureConfig.Target> {
 
@@ -29,12 +29,8 @@ public class OreFeatureTargetTypeAdapter extends TypeAdapter<OreFeatureConfig.Ta
             in.nextNull();
             return null;
         } else {
-            String s = in.nextString();
-            for (OreFeatureConfig.Target value : RAARegistery.TARGET_REGISTRY.stream().collect(Collectors.toList()))
-                if (new Identifier(RandomlyAddingAnything.MOD_ID, value.getName()).toString().equals(s))
-                    return value;
-
-            throw new NullPointerException("Invalid Target: " + s);
+            String name = in.nextString();
+            return Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(new Identifier(name)), "Invalid Target! " + name);
         }
     }
 

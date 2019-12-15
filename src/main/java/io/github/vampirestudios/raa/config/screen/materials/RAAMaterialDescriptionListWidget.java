@@ -17,6 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.DecimalFormat;
@@ -58,6 +59,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         DecimalFormat df = new DecimalFormat("#.##");
         addItem(new ColorEntry("config.text.raa.color", material.getRGBColor()));
         addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getId().toString())));
+        addItem(new TextEntry(new LiteralText("Generates In: " + Registry.BLOCK.getId(material.getOreInformation().getGeneratesIn().getBlock()).toString())));
         if (material.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));

@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
@@ -97,17 +96,10 @@ public class Materials {
                 } while (DIMENSION_MATERIAL_IDS.contains(id));
                 DIMENSION_MATERIAL_IDS.add(id);
 
-
-                Block block = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, String.format("%s_stone", dimensionData.getId().getPath())));
-
-                GeneratesIn csoct =  RegistryUtils.registerGeneratesIn(
-                        new Identifier(RandomlyAddingAnything.MOD_ID, String.format("%s_stone", dimensionData.getId().getPath())), block,
-                        new Csoct(String.format("%s_stone", dimensionData.getId().getPath()), blockState -> blockState.getBlock() == block, block));
-
                 DimensionMaterial material = DimensionMaterial.Builder.create(id, name)
                         .oreType(Rands.values(OreType.values()))
                         .color(RGB.getColor())
-//                        .generatesIn(csoct)
+//                        .target(csoct)
                         .target(OreFeatureConfig.Target.STONE)
                         .armor(random.nextBoolean())
                         .tools(Rands.chance(3))
@@ -329,7 +321,12 @@ public class Materials {
             RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
         }
         DIMENSION_MATERIALS.forEach(material -> {
-            System.out.println(material.getId());
+            String oldTargetName = material.getOreInformation().getGeneratesIn().getName();
+            Identifier stoneName = Utils.appendToPath(material.getDimensionData().getId(), "_stone");
+            Block block = Registry.BLOCK.get(stoneName);
+            OreFeatureConfig.Target csoct =  RegistryUtils.registerOreTarget(stoneName, new Csoct(stoneName.getPath(), blockState -> blockState.getBlock() == block, block));
+            material.getOreInformation().setGeneratesIn(csoct);
+            System.out.println("Overrided target: " + oldTargetName + " with " + csoct.getName());
 
             Identifier identifier = material.getId();
             Item repairItem;

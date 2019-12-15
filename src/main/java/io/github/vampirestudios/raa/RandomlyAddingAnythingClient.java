@@ -121,9 +121,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     Pair<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
-                    System.out.println(entry);
-                    System.out.println(entry.getLeft());
-                    System.out.println(entry.getRight());
                     if (entry.getLeft() == null || entry.getRight() == null) return;
                     modelBuilder.texture("layer0", entry.getLeft());
                     modelBuilder.texture("layer1", entry.getRight());

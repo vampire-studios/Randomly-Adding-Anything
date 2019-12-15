@@ -25,24 +25,48 @@ public class OreInformation {
         return oreType;
     }
 
+    public void setOreType(OreType oreType) {
+        this.oreType = oreType;
+    }
+
     public OreFeatureConfig.Target getGeneratesIn() {
         return generatesIn;
     }
 
-    public int getMinXPAmount() {
-        return minXPAmount;
-    }
-
-    public int getMaxXPAmount() {
-        return maxXPAmount;
+    public void setGeneratesIn(OreFeatureConfig.Target generatesIn) {
+        this.generatesIn = generatesIn;
     }
 
     public int getOreCount() {
         return oreCount;
     }
 
+    public void setOreCount(int oreCount) {
+        this.oreCount = oreCount;
+    }
+
+    public int getMinXPAmount() {
+        return minXPAmount;
+    }
+
+    public void setMinXPAmount(int minXPAmount) {
+        this.minXPAmount = minXPAmount;
+    }
+
+    public int getMaxXPAmount() {
+        return maxXPAmount;
+    }
+
+    public void setMaxXPAmount(int maxXPAmount) {
+        this.maxXPAmount = maxXPAmount;
+    }
+
     public int getOreClusterSize() {
         return oreClusterSize;
+    }
+
+    public void setOreClusterSize(int oreClusterSize) {
+        this.oreClusterSize = oreClusterSize;
     }
 
 }
