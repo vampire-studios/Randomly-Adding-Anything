@@ -1,12 +1,15 @@
 package io.github.vampirestudios.raa.api.enums;
 
+import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class GeneratesIn {
 
@@ -40,6 +43,10 @@ public class GeneratesIn {
         this.identifier = Objects.requireNonNull(identifier);
         this.block = block;
         this.target = target;
+    }
+
+    public static List<GeneratesIn> getValues() {
+        return RAARegistery.GENERATES_IN_REGISTRY.stream().collect(Collectors.toList());
     }
 
     public Identifier getIdentifier() {

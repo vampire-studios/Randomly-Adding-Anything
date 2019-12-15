@@ -7,13 +7,11 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 public class GsonUtils {
     private static final Gson GSON;
@@ -40,31 +38,7 @@ public class GsonUtils {
                         }
                     }
                 })
-                .registerTypeAdapter(OreFeatureConfig.Target.class, new TypeAdapter<OreFeatureConfig.Target>() {
-                    @Override
-                    public void write(JsonWriter out, OreFeatureConfig.Target value) throws IOException {
-                        if (value == null)
-                            out.nullValue();
-                        else
-                            out.value(value.getName());
-                    }
-
-                    @Override
-                    public OreFeatureConfig.Target read(JsonReader in) throws IOException {
-                        JsonToken jsonToken = in.peek();
-                        if (jsonToken == JsonToken.NULL) {
-                            in.nextNull();
-                            return null;
-                        } else {
-                            String s = in.nextString();
-                            for (OreFeatureConfig.Target value : RAARegistery.TARGET_REGISTRY.stream().collect(Collectors.toList()))
-                                if (value.getName().equals(s))
-                                    return value;
-
-                            throw new NullPointerException("Invalid Target: " + s);
-                        }
-                    }
-                })
+                .registerTypeAdapter(OreFeatureConfig.Target.class, new OreFeatureTargetTypeAdapter())
                 .serializeNulls()
                 .setPrettyPrinting()
                 .create();

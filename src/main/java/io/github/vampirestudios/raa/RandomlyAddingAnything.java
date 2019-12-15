@@ -65,6 +65,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         Decorators.init();
         SurfaceBuilders.init();
         ChunkGenerators.init();
+        CustomOverworldPostProcessors.init();
 
         //Reflection hacks
         Constructor<BiomeSourceType> constructor = null;

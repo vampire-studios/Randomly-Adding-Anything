@@ -2,8 +2,6 @@ package io.github.vampirestudios.raa.generation.chunkgenerator;
 
 import io.github.vampirestudios.raa.generation.chunkgenerator.config.CustomOverworldChunkGeneratorConfig;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityCategory;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.math.BlockPos;
@@ -12,16 +10,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.noise.NoiseSampler;
 import net.minecraft.util.math.noise.OctavePerlinNoiseSampler;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.village.ZombieSiegeManager;
 import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.gen.*;
+import net.minecraft.world.gen.ChunkRandom;
+import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
 import supercoder79.simplexterrain.api.Heightmap;
 import supercoder79.simplexterrain.api.noise.Noise;
 import supercoder79.simplexterrain.api.noise.NoiseType;
@@ -33,10 +30,6 @@ import java.util.function.LongFunction;
 
 public class CustomOverworldChunkGenerator extends ChunkGenerator<CustomOverworldChunkGeneratorConfig> implements Heightmap {
    private final NoiseSampler surfaceDepthNoise;
-   private final PhantomSpawner phantomSpawner = new PhantomSpawner();
-   private final PillagerSpawner pillagerSpawner = new PillagerSpawner();
-   private final CatSpawner catSpawner = new CatSpawner();
-   private final ZombieSiegeManager zombieSiegeManager = new ZombieSiegeManager();
 
    private final OctaveNoiseSampler heightNoise;
    private final OctaveNoiseSampler detailNoise;
@@ -196,35 +189,6 @@ public class CustomOverworldChunkGenerator extends ChunkGenerator<CustomOverworl
             }
          }
       }
-   }
-
-   public List<Biome.SpawnEntry> getEntitySpawnList(EntityCategory category, BlockPos pos) {
-      if (Feature.SWAMP_HUT.method_14029(this.world, pos)) {
-         if (category == EntityCategory.MONSTER) {
-            return Feature.SWAMP_HUT.getMonsterSpawns();
-         }
-
-         if (category == EntityCategory.CREATURE) {
-            return Feature.SWAMP_HUT.getCreatureSpawns();
-         }
-      } else if (category == EntityCategory.MONSTER) {
-         if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, pos)) {
-            return Feature.PILLAGER_OUTPOST.getMonsterSpawns();
-         }
-
-         if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(this.world, pos)) {
-            return Feature.OCEAN_MONUMENT.getMonsterSpawns();
-         }
-      }
-
-      return super.getEntitySpawnList(category, pos);
-   }
-
-   public void spawnEntities(ServerWorld serverWorld, boolean spawnMonsters, boolean spawnAnimals) {
-      this.phantomSpawner.spawn(serverWorld, spawnMonsters, spawnAnimals);
-      this.pillagerSpawner.spawn(serverWorld, spawnMonsters, spawnAnimals);
-      this.catSpawner.spawn(serverWorld, spawnMonsters, spawnAnimals);
-      this.zombieSiegeManager.tick(serverWorld, spawnMonsters, spawnAnimals);
    }
 
    public int getSpawnHeight() {
