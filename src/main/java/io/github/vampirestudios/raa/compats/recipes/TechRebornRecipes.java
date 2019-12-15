@@ -90,7 +90,7 @@ public class TechRebornRecipes extends RecipeCompat {
                                 })
                 );
 
-                if (material.getOreInformation().getOreType() == OreType.METAL && material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR) {
+                if (material.getOreInformation().getOreType() == OreType.METAL && material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId()) {
                     addGrinderRecipe(Utils.appendToPath(material.getId(), "_to_dust"), trGrinderRecipeBuilder -> trGrinderRecipeBuilder
                             .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder.item(Utils.appendToPath(material.getId(), "_ore")))
                             .multiResult(raaMultiResultBuilder -> raaMultiResultBuilder.item(Utils.appendToPath(material.getId(), "_dust"), 2))

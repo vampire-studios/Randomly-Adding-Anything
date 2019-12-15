@@ -136,7 +136,7 @@ public class MaterialRecipes {
                     });
                 }
                 if (material.getOreInformation().getOreType() == OreType.METAL) {
-                    if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR) {
+                    if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId()) {
                         serverResourcePackBuilder.addSmeltingRecipe(Utils.appendToPath(material.getId(), "_ingot"), cookingRecipeBuilder -> {
                             cookingRecipeBuilder.cookingTime(200);
                             cookingRecipeBuilder.ingredientItem(Utils.appendToPath(material.getId(), "_ore"));
@@ -319,14 +319,14 @@ public class MaterialRecipes {
                     });
                 }
                 if (dimensionMaterial.getOreInformation().getOreType() == OreType.METAL) {
-                    if (dimensionMaterial.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR)
+                    if (dimensionMaterial.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId())
                         serverResourcePackBuilder.addSmeltingRecipe(Utils.appendToPath(dimensionMaterial.getId(), "_ingot"), cookingRecipeBuilder -> {
                             cookingRecipeBuilder.cookingTime(200);
                             cookingRecipeBuilder.ingredientItem(Utils.appendToPath(dimensionMaterial.getId(), "_ore"));
                             cookingRecipeBuilder.experience(0.7);
                             cookingRecipeBuilder.result(Registry.ITEM.getId(repairItem));
                         });
-                    if (dimensionMaterial.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR) {
+                    if (dimensionMaterial.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId()) {
                         serverResourcePackBuilder.addBlastingRecipe(Utils.appendToPath(dimensionMaterial.getId(), "_ingot_from_blasting"), cookingRecipeBuilder -> {
                             cookingRecipeBuilder.cookingTime(100);
                             cookingRecipeBuilder.ingredientItem(Utils.appendToPath(dimensionMaterial.getId(), "_ore"));

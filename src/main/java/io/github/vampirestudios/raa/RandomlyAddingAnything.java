@@ -87,6 +87,7 @@ public class RandomlyAddingAnything implements ModInitializer {
                 MATERIALS_CONFIG.load();
             }
         }
+        Materials.createMaterialResources();
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
         if(CONFIG.dimensionNumber > 0) {
@@ -97,6 +98,7 @@ public class RandomlyAddingAnything implements ModInitializer {
                 DIMENSIONS_CONFIG.load();
             }
         }
+        Dimensions.createDimensions();
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
         if(CONFIG.materialNumber > 0) {
@@ -108,11 +110,8 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         }
 
-        Dimensions.createDimensions();
         DimensionRecipes.init();
-        Materials.generateDimensionMaterials();
         Materials.createDimensionMaterialResources();
-        Materials.createMaterialResources();
         MaterialRecipes.init();
 
         RegistryUtils.forEveryBiome(biome -> {

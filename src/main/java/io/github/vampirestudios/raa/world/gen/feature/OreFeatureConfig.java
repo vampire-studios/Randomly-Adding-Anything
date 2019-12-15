@@ -3,7 +3,6 @@ package io.github.vampirestudios.raa.world.gen.feature;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.types.DynamicOps;
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.minecraft.block.Block;
@@ -30,14 +29,14 @@ public class OreFeatureConfig implements FeatureConfig {
 
     public static OreFeatureConfig deserialize(Dynamic<?> dynamic) {
         int size = dynamic.get("size").asInt(0);
-        OreFeatureConfig.Target target = RAARegistery.TARGET_REGISTRY.get(new Identifier(RandomlyAddingAnything.MOD_ID, dynamic.get("target").asString("")));
+        OreFeatureConfig.Target target = RAARegistery.TARGET_REGISTRY.get(new Identifier(dynamic.get("target").asString("")));
         BlockState blockState = dynamic.get("state").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
         return new OreFeatureConfig(target, blockState, size);
     }
 
     public <T> Dynamic<T> serialize(DynamicOps<T> ops) {
         return new Dynamic<>(ops, ops.createMap(ImmutableMap.of(ops.createString("size"),
-                ops.createInt(this.size), ops.createString("target"), ops.createString(this.target.getName()),
+                ops.createInt(this.size), ops.createString("target"), ops.createString(this.target.getId().toString()),
                 ops.createString("state"), BlockState.serialize(ops, this.state).getValue())));
     }
 
@@ -89,11 +88,11 @@ public class OreFeatureConfig implements FeatureConfig {
         public static final Target END_STONE = RegistryUtils.registerOreTarget("end_stone", new BlockPredicate(Blocks.END_STONE), Blocks.END_STONE);
         public static final Target DOES_NOT_APPEAR = RegistryUtils.registerOreTarget("does_not_appear", new BlockPredicate(null), null);
 
-        private final String name;
+        private final Identifier name;
         private final Predicate<BlockState> predicate;
         private final Block block;
 
-        public Target(String name, Predicate<BlockState> predicate, Block block) {
+        public Target(Identifier name, Predicate<BlockState> predicate, Block block) {
             this.name = name;
             this.predicate = predicate;
             this.block = block;
@@ -103,7 +102,7 @@ public class OreFeatureConfig implements FeatureConfig {
             return RAARegistery.TARGET_REGISTRY.stream().collect(Collectors.toList());
         }
 
-        public String getName() {
+        public Identifier getId() {
             return this.name;
         }
 

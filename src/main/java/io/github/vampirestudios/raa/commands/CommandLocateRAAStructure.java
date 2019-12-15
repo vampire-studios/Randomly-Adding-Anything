@@ -42,7 +42,7 @@ public class CommandLocateRAAStructure {
         float distance = -1f;
         List<Integer> spawnPos = Arrays.asList(0, 0, 0);
         try {
-            if (!"Tower,Outpost,Campfire,Spider_Lair,Tomb,Fossil,PortalHub,Shrine,Stone_Circle".contains(structureName)) {
+            if (!"Tower,Outpost,Campfire,SpiderLair,Tomb,Fossil,PortalHub,Shrine,StoneCircle".contains(structureName)) {
                 found = 0;
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
@@ -62,7 +62,7 @@ public class CommandLocateRAAStructure {
                 spawnPath += "outpost_spawns.txt";
             } else if (structureName.equals("Campfire") && isRaaDimension(source)) {
                 spawnPath += "campfire_spawns.txt";
-            } else if (structureName.equals("Spider_Lair") && isRaaDimension(source)) {
+            } else if (structureName.equals("SpiderLair") && isRaaDimension(source)) {
                 spawnPath += "spider_lair_spawns.txt";
             } else if (structureName.equals("Tomb") && isRaaDimension(source)) {
                 spawnPath += "tomb_spawns.txt";
@@ -70,7 +70,7 @@ public class CommandLocateRAAStructure {
                 spawnPath += "fossil_spawns.txt";
             } else if (structureName.equals("Shrine") && isRaaDimension(source)) {
                 spawnPath += "shrine_spawns.txt";
-            }  else if (structureName.equals("Stone_Circle") && isRaaDimension(source)) {
+            }  else if (structureName.equals("StoneCircle") && isRaaDimension(source)) {
                 spawnPath += "stone_circle_spawns.txt";
             } else {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
@@ -99,7 +99,9 @@ public class CommandLocateRAAStructure {
         }
 
         if (found == 1) {
-            Text teleportButtonPopup = Texts.bracketed(new TranslatableText("chat.coordinates", spawnPos.get(0), spawnPos.get(1), spawnPos.get(2))).styled((style_1x) -> style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawnPos.get(0) + " " + spawnPos.get(1) + " " + spawnPos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip"))));
+            Text teleportButtonPopup = Texts.bracketed(new TranslatableText("chat.coordinates", spawnPos.get(0), spawnPos.get(1), spawnPos.get(2))).styled((style_1x) ->
+                    style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawnPos.get(0) + " " +
+                            spawnPos.get(1) + " " + spawnPos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip"))));
             source.sendFeedback(new TranslatableText("commands.locate.success", new TranslatableText(structureName), teleportButtonPopup, Math.round(distance)), false);
             return Command.SINGLE_SUCCESS;
         } else if (found == -1) {
@@ -112,7 +114,7 @@ public class CommandLocateRAAStructure {
     }
 
     private static SuggestionProvider<ServerCommandSource> suggestedStrings() {
-        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "Stone_Circle"));
+        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "StoneCircle"));
     }
 
     private static CompletableFuture<Suggestions> getSuggestionsBuilder(SuggestionsBuilder builder, List<String> list) {
@@ -134,4 +136,5 @@ public class CommandLocateRAAStructure {
         String dim = source.getWorld().getDimension().getType().getSuffix();
         return !dim.equals("") && !dim.equals("_end") && !dim.equals("_nether");
     }
+
 }

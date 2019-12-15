@@ -33,6 +33,7 @@ import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.BlockEntityType.Builder;
@@ -52,27 +53,30 @@ import java.util.function.Predicate;
 public class RegistryUtils {
 
     public static Block register(Block block, Identifier name, ItemGroup itemGroup, String upperCaseName, RAABlockItem.BlockType blockType) {
-        Registry.register(Registry.BLOCK, name, block);
-        BlockItem item = new RAABlockItem(upperCaseName, block, (new Settings()).group(itemGroup), blockType);
-        item.appendBlocks(Item.BLOCK_ITEMS, item);
-        Registry.register(Registry.ITEM, name, item);
-        return block;
+        if (Registry.BLOCK.get(name) == Blocks.AIR) {
+            Registry.register(Registry.ITEM, name, new RAABlockItem(upperCaseName, block, (new Settings()).group(itemGroup), blockType));
+            return Registry.register(Registry.BLOCK, name, block);
+        } else {
+            return block;
+        }
     }
 
     public static Block register(Block block, Identifier name, ItemGroup itemGroup, String upperCaseName, String type) {
-        Registry.register(Registry.BLOCK, name, block);
-        BlockItem item = new RAABlockItemAlt(upperCaseName, type, block, (new Settings()).group(itemGroup));
-        item.appendBlocks(Item.BLOCK_ITEMS, item);
-        Registry.register(Registry.ITEM, name, item);
-        return block;
+        if (Registry.BLOCK.get(name) == Blocks.AIR) {
+            Registry.register(Registry.ITEM, name, new RAABlockItemAlt(upperCaseName, type, block, (new Settings()).group(itemGroup)));
+            return Registry.register(Registry.BLOCK, name, block);
+        } else {
+            return block;
+        }
     }
 
     public static Block register(Block block, Identifier name, ItemGroup itemGroup) {
-        Registry.register(Registry.BLOCK, name, block);
-        BlockItem item = new BlockItem(block, new Settings().group(itemGroup));
-        item.appendBlocks(Item.BLOCK_ITEMS, item);
-        Registry.register(Registry.ITEM, name, item);
-        return block;
+        if (Registry.BLOCK.get(name) == Blocks.AIR) {
+            Registry.register(Registry.ITEM, name, new BlockItem(block, (new Settings()).group(itemGroup)));
+            return Registry.register(Registry.BLOCK, name, block);
+        } else {
+            return block;
+        }
     }
 
     public static Block registerBlockWithoutItem(Block block, Identifier identifier) {
@@ -154,10 +158,9 @@ public class RegistryUtils {
     }
 
     public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate, Block block) {
-        OreFeatureConfig.Target target = new OreFeatureConfig.Target(name, blockStatePredicate, block);
-        Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, target.getName());
-        if (RAARegistery.TARGET_REGISTRY.get(identifier) == null) {
-            return Registry.register(RAARegistery.TARGET_REGISTRY, identifier, target);
+        OreFeatureConfig.Target target = new OreFeatureConfig.Target(new Identifier(name), blockStatePredicate, block);
+        if (RAARegistery.TARGET_REGISTRY.get(target.getId()) == null) {
+            return Registry.register(RAARegistery.TARGET_REGISTRY, target.getId(), target);
         } else {
             return target;
         }

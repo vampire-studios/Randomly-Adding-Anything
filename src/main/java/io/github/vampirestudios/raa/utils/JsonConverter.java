@@ -47,7 +47,7 @@ public class JsonConverter {
     }
 
     public StructureValues loadStructure(JsonObject structureJson) {
-        System.out.println("Idk: " + JsonHelper.getString(structureJson, "structureName", "test"));
+//        System.out.println("Idk: " + JsonHelper.getString(structureJson, "structureName", "test"));
         StructureValues structure = new StructureValues();
         structure.setName(JsonHelper.getString(structureJson, "structureName", "test"));
         if (JsonHelper.hasArray(structureJson, "size")) {
@@ -136,7 +136,7 @@ public class JsonConverter {
         if (JsonHelper.hasArray(structureJson, "blocks")) {
             JsonArray blocksArray = JsonHelper.getArray(structureJson, "blocks");
             blocksArray.forEach(jsonElement -> {
-                System.out.println("State: " + jsonElement.getAsJsonObject().get("state").getAsInt());
+//                System.out.println("State: " + jsonElement.getAsJsonObject().get("state").getAsInt());
                 structure.setBlockStates(jsonElement.getAsJsonObject().get("state").getAsInt());
                 List<Integer> pos = new ArrayList<>();
                 JsonArray array = jsonElement.getAsJsonObject().get("pos").getAsJsonArray();
@@ -155,7 +155,7 @@ public class JsonConverter {
             });
         }
 
-        System.out.println(String.format("Loaded %s", structureJson.get("structureName")));
+//        System.out.println(String.format("Loaded %s", structureJson.get("structureName")));
 
         /*try {
 //            Scanner scanner = new Scanner(new File("../src/main/resources/assets/raa/structures/" + FileIn));

@@ -101,7 +101,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
         //Check if structure can generate in the area
         Vec3i size = structures.get("tower_base").getSize();
-        Vec3i tempPos = WorldStructureManipulation.CircularSpawnCheck(world, pos, new Vec3i(size.getX(), 9, size.getZ()), 0.25f);
+        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, new Vec3i(size.getX(), 9, size.getZ()), 0.25f);
         if (tempPos.compareTo(Vec3i.ZERO) == 0) {
             return true;
         }

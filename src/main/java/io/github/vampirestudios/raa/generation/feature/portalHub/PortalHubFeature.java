@@ -10,7 +10,6 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.resource.Resource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -63,7 +62,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         }
 
         //Check if structure can generate in the area
-        Vec3i tempPos = WorldStructureManipulation.CircularSpawnCheck(world, pos, structures.get("portal_hub").getSize(), 0.125f);
+        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, structures.get("portal_hub").getSize(), 0.125f);
         if (tempPos.compareTo(Vec3i.ZERO) == 0) {
             return true;
         }

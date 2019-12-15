@@ -3,7 +3,9 @@ package io.github.vampirestudios.raa;
 import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
+import io.github.vampirestudios.raa.client.DimensionalOreBakedModel;
 import io.github.vampirestudios.raa.client.OreBakedModel;
+import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.registries.Dimensions;
@@ -41,6 +43,7 @@ import java.util.function.Function;
 public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
     private static final Map<Identifier, Map.Entry<Material, RAABlockItem.BlockType>> MATERIAL_ORE_IDENTIFIERS = new HashMap<>();
+    private static final Map<Identifier, Map.Entry<DimensionMaterial, RAABlockItem.BlockType>> DIMENSION_MATERIAL_ORE_IDENTIFIERS = new HashMap<>();
 
     @Override
     @Environment(EnvType.CLIENT)
@@ -317,9 +320,9 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     });
                     clientResourcePackBuilder.addItemModel(id, modelBuilder ->
                             modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
-                    Map<Material, RAABlockItem.BlockType> map = new HashMap<>();
+                    Map<DimensionMaterial, RAABlockItem.BlockType> map = new HashMap<>();
                     map.put(material, blockType);
-                    MATERIAL_ORE_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
+                    DIMENSION_MATERIAL_ORE_IDENTIFIERS.put(id, (Map.Entry<DimensionMaterial, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
                 }
                 if (material.getOreInformation().getOreType() == OreType.GEM) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_gem"), modelBuilder -> {
@@ -514,6 +517,30 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 @Override
                 public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
                     return new OreBakedModel(MATERIAL_ORE_IDENTIFIERS.get(identifier).getKey());
+                }
+            };
+        });
+
+        ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {
+            if (!modelIdentifier.getNamespace().equals(RandomlyAddingAnything.MOD_ID)) {
+                return null;
+            }
+            Identifier identifier = new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath());
+            if (!DIMENSION_MATERIAL_ORE_IDENTIFIERS.containsKey(identifier)) return null;
+            if (DIMENSION_MATERIAL_ORE_IDENTIFIERS.get(identifier).getValue() == RAABlockItem.BlockType.BLOCK) return null;
+            return new UnbakedModel() {
+                @Override
+                public Collection<Identifier> getModelDependencies() {
+                    return Collections.emptyList();
+                }
+
+                @Override
+                public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> unbakedModelGetter, Set<com.mojang.datafixers.util.Pair<String, String>> unresolvedTextureReferences) {
+                    return Collections.emptyList();
+                }
+                @Override
+                public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
+                    return new DimensionalOreBakedModel(DIMENSION_MATERIAL_ORE_IDENTIFIERS.get(identifier).getKey());
                 }
             };
         });

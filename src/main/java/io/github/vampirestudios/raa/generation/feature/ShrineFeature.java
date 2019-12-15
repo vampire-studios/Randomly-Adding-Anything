@@ -55,7 +55,7 @@ public class ShrineFeature extends Feature<DefaultFeatureConfig> {
             return true;
         }
 
-        Vec3i tempPos = WorldStructureManipulation.CircularSpawnCheck(world, pos, structures.get("shrine").getSize(), 0.125f);
+        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, structures.get("shrine").getSize(), 0.125f);
         if (tempPos.compareTo(Vec3i.ZERO) == 0) {
             return true;
         }

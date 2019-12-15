@@ -37,7 +37,7 @@ public class RAAWorldAPI {
      */
     public static void addRandomOres(OreGenerationSupport generationSupport) {
         Materials.MATERIALS.forEach(material -> {
-            if (material.getOreInformation().getGeneratesIn() == generationSupport.getTarget()) {
+            if (material.getOreInformation().getGeneratesIn() == generationSupport.getTarget().getId()) {
                 generationSupport.getGenerationBiome().addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
                         new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(generationSupport.getTarget(),
                                 Registry.BLOCK.get(Utils.appendToPath(material.getId(), "_ore")).getDefaultState(), 9))
@@ -45,7 +45,7 @@ public class RAAWorldAPI {
             }
         });
         Materials.DIMENSION_MATERIALS.forEach(material -> {
-            if (material.getOreInformation().getGeneratesIn() == generationSupport.getTarget()) {
+            if (material.getOreInformation().getGeneratesIn() == generationSupport.getTarget().getId()) {
                 generationSupport.getGenerationBiome().addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
                         new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(generationSupport.getTarget(),
                                 Registry.BLOCK.get(Utils.appendToPath(material.getId(), "_ore")).getDefaultState(), 9))
