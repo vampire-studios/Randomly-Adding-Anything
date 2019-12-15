@@ -27,12 +27,9 @@ import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.level.LevelGeneratorType;
-import supercoder79.simplexterrain.api.postprocess.TerrainPostProcessor;
+//import supercoder79.simplexterrain.api.postprocess.TerrainPostProcessor;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.function.LongFunction;
 
 public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
     private static final float[] BIOME_WEIGHT_TABLE = Util.make(new float[25], (fs) -> {
@@ -51,7 +48,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
     private final CatSpawner catSpawner = new CatSpawner();
     private final ZombieSiegeManager zombieSiegeManager = new ZombieSiegeManager();
 
-    private final Iterable<TerrainPostProcessor> terrainPostProcessors;
+//    private final Iterable<TerrainPostProcessor> terrainPostProcessors;
 
     public OverworldChunkGenerator(IWorld world, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
         super(world, biomeSource, 4, 8, 256, config, true);
@@ -59,16 +56,16 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, 15, 0);
         this.amplified = world.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
 
-        List<TerrainPostProcessor> postProcessors = new ArrayList<>();
-        postProcessorFactories.forEach(factory -> postProcessors.add(factory.apply(this.seed)));
-        terrainPostProcessors = postProcessors;
+//        List<TerrainPostProcessor> postProcessors = new ArrayList<>();
+//        postProcessorFactories.forEach(factory -> postProcessors.add(factory.apply(this.seed)));
+//        terrainPostProcessors = postProcessors;
     }
 
-    private static final Collection<LongFunction<TerrainPostProcessor>> postProcessorFactories = new ArrayList<>();
-
-    public static void addTerrainPostProcessor(LongFunction<TerrainPostProcessor> factory) {
-        postProcessorFactories.add(factory);
-    }
+//    private static final Collection<LongFunction<TerrainPostProcessor>> postProcessorFactories = new ArrayList<>();
+//
+//    public static void addTerrainPostProcessor(LongFunction<TerrainPostProcessor> factory) {
+//        postProcessorFactories.add(factory);
+//    }
 
     public void populateEntities(ChunkRegion region) {
         int i = region.getCenterChunkX();
