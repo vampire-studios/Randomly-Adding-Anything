@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class DimensionMaterial extends Material {
 
-    @Ex
     private DimensionData dimensionData;
 
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
