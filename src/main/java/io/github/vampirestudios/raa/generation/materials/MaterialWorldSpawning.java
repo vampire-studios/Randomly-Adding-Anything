@@ -1,16 +1,11 @@
 package io.github.vampirestudios.raa.generation.materials;
 
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
-import io.github.vampirestudios.raa.generation.dimensions.Csoct;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionBiomeData;
 import io.github.vampirestudios.raa.registries.Dimensions;
-import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
-import net.minecraft.block.Block;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
