@@ -80,7 +80,7 @@ public class Textures {
     }
 
     private static void blockTextures() {
-        for (int i = 1; i < 7 ; i++) {
+        for (int i = 1; i < 7; i++) {
             addTextureToList(TextureTypes.METAL_ORE_TEXTURES, "block/ores/metals/ore_" + i);
         }
         for (int i = 1; i < 5; i++) {

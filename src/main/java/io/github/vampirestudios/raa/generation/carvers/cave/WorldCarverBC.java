@@ -3,9 +3,9 @@ package io.github.vampirestudios.raa.generation.carvers.cave;
 
 import com.mojang.datafixers.util.Pair;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.config.BetterCavesConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.BetterCaveUtil;
-import io.github.vampirestudios.raa.config.BetterCavesConfig;
 import io.github.vampirestudios.raa.utils.CaveType;
 import io.github.vampirestudios.raa.utils.CavernType;
 import io.github.vampirestudios.raa.utils.noise.FastNoise;
@@ -29,39 +29,31 @@ import java.util.function.Function;
 public class WorldCarverBC extends Carver<ProbabilityConfig> {
     public static int counter = 0;
     public long oldSeed = 0;
-
+    // List used to avoid operating on a chunk more than once
+    public Set<Pair<Integer, Integer>> coordList = new HashSet<>();
     // The minecraft world
     private long seed = 0; // world seed
-
     // Cave types
     private AbstractBC caveCubic;
     private AbstractBC caveSimplex;
-
     // Cavern types
     private AbstractBC cavernLava;
     private AbstractBC cavernFloored;
     private AbstractBC cavernWater;
-
     private int surfaceCutoff;
-
     // Noise generators to group caves into cave "biomes" based on xz-coordinates.
     // Cavern Biome Controller uses simplex noise while the others use Voronoi regions (cellular noise)
     private FastNoise waterCavernController;
     private FastNoise cavernBiomeController;
     private FastNoise caveBiomeController;
-
     // Biome generation noise thresholds, based on user config
     private float cubicCaveThreshold;
     private float simplexCaveThreshold;
     private float lavaCavernThreshold;
     private float flooredCavernThreshold;
     private float waterBiomeThreshold;
-
     // Config option for using water biomes
     private boolean enableWaterBiomes;
-
-    // List used to avoid operating on a chunk more than once
-    public Set<Pair<Integer, Integer>> coordList = new HashSet<>();
     private DimensionData dimensionData;
 
     public WorldCarverBC(DimensionData dimensionData) {
@@ -241,11 +233,11 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
                         // Top (Cave) layer:
                         if (caveGen != null)
                             caveGen.generateColumn(mainChunkX, mainChunkZ, chunkIn, localX, localZ, caveBottomY, maxSurfaceHeight,
-                                maxSurfaceHeight, minSurfaceHeight, surfaceCutoff, lavaBlock);
+                                    maxSurfaceHeight, minSurfaceHeight, surfaceCutoff, lavaBlock);
                         // Bottom (Cavern) layer:
                         if (cavernGen != null)
                             cavernGen.generateColumn(mainChunkX, mainChunkZ, chunkIn, localX, localZ, cavernBottomY, cavernTopY,
-                                maxSurfaceHeight, minSurfaceHeight, surfaceCutoff, lavaBlock);
+                                    maxSurfaceHeight, minSurfaceHeight, surfaceCutoff, lavaBlock);
                     }
                 }
             }
@@ -397,18 +389,18 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
 
         // Initialize Biome Controllers using world seed and user config option for biome size
         this.caveBiomeController = new FastNoise();
-        this.caveBiomeController.SetSeed((int)seed + 222);
+        this.caveBiomeController.SetSeed((int) seed + 222);
         this.caveBiomeController.SetFrequency(caveBiomeSize);
         this.caveBiomeController.SetNoiseType(FastNoise.NoiseType.Cellular);
         this.caveBiomeController.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Natural);
 
         // Note that Cavern Biome Controller uses Simplex noise instead of Cellular
         this.cavernBiomeController = new FastNoise();
-        this.cavernBiomeController.SetSeed((int)seed + 333);
+        this.cavernBiomeController.SetSeed((int) seed + 333);
         this.cavernBiomeController.SetFrequency(cavernBiomeSize);
 
         this.waterCavernController = new FastNoise();
-        this.waterCavernController.SetSeed((int)seed + 444);
+        this.waterCavernController.SetSeed((int) seed + 444);
         this.waterCavernController.SetFrequency(waterCavernBiomeSize);
         this.waterCavernController.SetNoiseType(FastNoise.NoiseType.Cellular);
         this.waterCavernController.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Natural);

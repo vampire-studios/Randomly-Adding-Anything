@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 
 public class DimensionTexturesInformation {
 
@@ -72,7 +71,9 @@ public class DimensionTexturesInformation {
         return polishedTexture;
     }
 
-    public Identifier getIceTexture() { return iceTexture; }
+    public Identifier getIceTexture() {
+        return iceTexture;
+    }
 
     public static class Builder {
 

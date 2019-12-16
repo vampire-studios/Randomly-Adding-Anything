@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class EnterRandomDimensionFirstTimeCriterion extends AbstractCriterion<EnterRandomDimensionFirstTimeCriterion.Conditions> {
-    private static final Identifier ID = new Identifier(RandomlyAddingAnything.MOD_ID,"first_random_dimension");
+    private static final Identifier ID = new Identifier(RandomlyAddingAnything.MOD_ID, "first_random_dimension");
 
     public EnterRandomDimensionFirstTimeCriterion() {
     }
@@ -39,8 +39,7 @@ public class EnterRandomDimensionFirstTimeCriterion extends AbstractCriterion<En
         }
 
         public boolean matches(ServerPlayerEntity player) {
-            if (Registry.DIMENSION.getId(player.getServerWorld().dimension.getType()).getNamespace().equals(RandomlyAddingAnything.MOD_ID)) return true;
-            return false;
+            return Registry.DIMENSION.getId(player.getServerWorld().dimension.getType()).getNamespace().equals(RandomlyAddingAnything.MOD_ID);
         }
     }
 }

@@ -23,7 +23,7 @@ public class RandomSpruceFoliagePlacer extends FoliagePlacer {
     @Override
     public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
         //random spruce
-        for(int int_4 = i; int_4 >= j; --int_4) {
+        for (int int_4 = i; int_4 >= j; --int_4) {
             this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_4, Rands.randIntRange(0, 5), set);
         }
     }

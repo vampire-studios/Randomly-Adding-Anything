@@ -58,7 +58,7 @@ public class Utils {
             if (chance > 20 && chance <= 30) return SurfaceBuilders.HYPERFLAT;
             if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
             if (chance > 40 && chance <= 50) {
-                if(Rands.chance(4))
+                if (Rands.chance(4))
                     return SurfaceBuilders.PATCHY_DARK_MESA;
                 else
                     return SurfaceBuilders.PATCHY_MESA;

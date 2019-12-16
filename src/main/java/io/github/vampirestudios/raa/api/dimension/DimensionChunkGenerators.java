@@ -10,7 +10,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.gen.chunk.*;
+import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 
 public enum DimensionChunkGenerators {
     OVERWORLD,
@@ -54,7 +57,8 @@ public enum DimensionChunkGenerators {
         if (this == PILLAR_WORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config);
 
         CustomOverworldChunkGeneratorConfig customConfig = new CustomOverworldChunkGeneratorConfig();
-        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) customConfig.setDefaultFluid(Blocks.LAVA.getDefaultState());
+        if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN))
+            customConfig.setDefaultFluid(Blocks.LAVA.getDefaultState());
         if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) customConfig.setDefaultFluid(Blocks.AIR.getDefaultState());
         customConfig.setDefaultBlock(stoneBlock.getDefaultState());
         customConfig.shouldSacrificeAccuracyForSpeed(true);
@@ -63,7 +67,8 @@ public enum DimensionChunkGenerators {
         customConfig.setBaseOctaveAmount(Rands.randIntRange(5, 15));
         customConfig.setBiomeScaleAmount(Rands.randIntRange(3, 14));
         customConfig.setBaseHeight(Rands.randIntRange(70, 130));
-        if (this == CUSTOM_OVERWORLD && FabricLoader.getInstance().isModLoaded("simplexterrain")) return ChunkGenerators.CUSTOM_SURFACE.create(world, biomeSource, customConfig);
+        if (this == CUSTOM_OVERWORLD && FabricLoader.getInstance().isModLoaded("simplexterrain"))
+            return ChunkGenerators.CUSTOM_SURFACE.create(world, biomeSource, customConfig);
         else {
             if (!FabricLoader.getInstance().isModLoaded("simplexterrain")) {
                 data.setDimensionChunkGenerator(Rands.values(DimensionChunkGenerators.values()));

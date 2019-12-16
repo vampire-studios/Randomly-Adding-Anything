@@ -53,8 +53,10 @@ public class SpiderLairFeature extends Feature<DefaultFeatureConfig> {
             try {
                 String path;
                 World world2 = iWorld.getWorld();
-                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt";
-                else path = iWorld.getLevelProperties().getLevelName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt";
+                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+                    path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt";
+                else
+                    path = iWorld.getLevelProperties().getLevelName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt";
                 BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
                 writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
                 writer.close();

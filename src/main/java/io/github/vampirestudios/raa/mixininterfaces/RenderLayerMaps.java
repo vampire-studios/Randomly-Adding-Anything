@@ -11,13 +11,13 @@ import java.util.Map;
 
 @Mixin(RenderLayers.class)
 public interface RenderLayerMaps {
-  @Accessor("BLOCKS")
-  static Map<Block, RenderLayer> blocks() {
-    throw new AssertionError();
-  }
-  
-  @Accessor("FLUIDS")
-  static Map<Fluid, RenderLayer> fluids() {
-    throw new AssertionError();
-  }
+    @Accessor("BLOCKS")
+    static Map<Block, RenderLayer> blocks() {
+        throw new AssertionError();
+    }
+
+    @Accessor("FLUIDS")
+    static Map<Fluid, RenderLayer> fluids() {
+        throw new AssertionError();
+    }
 }

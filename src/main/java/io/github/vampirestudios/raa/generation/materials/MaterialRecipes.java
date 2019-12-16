@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa.generation.materials;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Utils;

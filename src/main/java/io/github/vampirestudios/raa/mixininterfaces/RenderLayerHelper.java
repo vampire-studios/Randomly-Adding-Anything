@@ -11,15 +11,15 @@ import java.util.Map;
 
 @Mixin(RenderLayers.class)
 public interface RenderLayerHelper {
-  @Accessor("BLOCKS")
-  static Map<Block, RenderLayer> getBlockRenderLayers() {
-    throw new AssertionError();
-  }
+    @Accessor("BLOCKS")
+    static Map<Block, RenderLayer> getBlockRenderLayers() {
+        throw new AssertionError();
+    }
 
-  @Accessor("FLUIDS")
-  static Map<Fluid, RenderLayer> getFluidRenderLayers() {
-    throw new AssertionError();
-  }
+    @Accessor("FLUIDS")
+    static Map<Fluid, RenderLayer> getFluidRenderLayers() {
+        throw new AssertionError();
+    }
 
 //  @Accessor
 //  static void setDefaultBlockRenderLayer(final DefaultRenderLayer layer) {

@@ -32,9 +32,12 @@ public class TechRebornRecipes extends RecipeCompat {
                                 .multiResult(raaMultiResultBuilder -> {
                                     raaMultiResultBuilder
                                             .item(new Identifier("techreborn:dark_ashes_dust"));
-                                    if (material.getOreInformation().getOreType() == OreType.METAL) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 4);
-                                    if (material.getOreInformation().getOreType() == OreType.GEM) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 4);
-                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 4);
+                                    if (material.getOreInformation().getOreType() == OreType.METAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 4);
+                                    if (material.getOreInformation().getOreType() == OreType.GEM)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 4);
+                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 4);
 
                                 })
                 );
@@ -49,9 +52,12 @@ public class TechRebornRecipes extends RecipeCompat {
                                 .multiResult(raaMultiResultBuilder -> {
                                     raaMultiResultBuilder
                                             .item(new Identifier("techreborn:dark_ashes_dust"));
-                                    if (material.getOreInformation().getOreType() == OreType.METAL) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 8);
-                                    if (material.getOreInformation().getOreType() == OreType.GEM) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 8);
-                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 8);
+                                    if (material.getOreInformation().getOreType() == OreType.METAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 8);
+                                    if (material.getOreInformation().getOreType() == OreType.GEM)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 8);
+                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 8);
 
                                 })
                 );
@@ -66,9 +72,12 @@ public class TechRebornRecipes extends RecipeCompat {
                                 .multiResult(raaMultiResultBuilder -> {
                                     raaMultiResultBuilder
                                             .item(new Identifier("techreborn:dark_ashes_dust"));
-                                    if (material.getOreInformation().getOreType() == OreType.METAL) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 5);
-                                    if (material.getOreInformation().getOreType() == OreType.GEM) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 5);
-                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 5);
+                                    if (material.getOreInformation().getOreType() == OreType.METAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 5);
+                                    if (material.getOreInformation().getOreType() == OreType.GEM)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 5);
+                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 5);
 
                                 })
                 );
@@ -83,9 +92,12 @@ public class TechRebornRecipes extends RecipeCompat {
                                 .multiResult(raaMultiResultBuilder -> {
                                     raaMultiResultBuilder
                                             .item(new Identifier("techreborn:dark_ashes_dust"));
-                                    if (material.getOreInformation().getOreType() == OreType.METAL) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 7);
-                                    if (material.getOreInformation().getOreType() == OreType.GEM) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 7);
-                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL) raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 7);
+                                    if (material.getOreInformation().getOreType() == OreType.METAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 7);
+                                    if (material.getOreInformation().getOreType() == OreType.GEM)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 7);
+                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 7);
 
                                 })
                 );
@@ -102,13 +114,13 @@ public class TechRebornRecipes extends RecipeCompat {
 
     private void addBlastingFurnaceRecipe(Identifier id, Processor<TRBlastFurnaceRecipeBuilder> f) {
         addRecipes(id, (r) -> {
-            TRBlastFurnaceRecipeBuilder var10000 = (TRBlastFurnaceRecipeBuilder)f.process(r.type(new Identifier("techreborn:blast_furnace")));
+            TRBlastFurnaceRecipeBuilder var10000 = f.process(r.type(new Identifier("techreborn:blast_furnace")));
         }, TRBlastFurnaceRecipeBuilder::new);
     }
 
     private void addGrinderRecipe(Identifier id, Processor<TRGrinderRecipeBuilder> f) {
         addRecipes(id, (r) -> {
-            TRGrinderRecipeBuilder var10000 = (TRGrinderRecipeBuilder)f.process(r.type(new Identifier("techreborn:grinder")));
+            TRGrinderRecipeBuilder var10000 = f.process(r.type(new Identifier("techreborn:grinder")));
         }, TRGrinderRecipeBuilder::new);
     }
 }

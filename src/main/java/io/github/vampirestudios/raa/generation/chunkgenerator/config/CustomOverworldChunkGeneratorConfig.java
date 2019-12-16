@@ -40,7 +40,7 @@ public class CustomOverworldChunkGeneratorConfig extends ChunkGeneratorConfig {
     private double peaksAmplitude = 280;
 
     private double detailNoiseThreshold = 0.0;
-    private double scaleNoiseThreshold  = -0.02;
+    private double scaleNoiseThreshold = -0.02;
 
     private int lowlandStartHeight = 68;
     private int midlandStartHeight = 90;

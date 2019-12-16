@@ -8,46 +8,46 @@ package io.github.vampirestudios.raa.utils.noise;
  * @author SuperCoder79
  */
 public abstract class Noise {
-	public Noise(long seed) {
-	}
+    public Noise(long seed) {
+    }
 
-	public abstract double sample(double x, double z);
+    protected static double fastSqrt(double d) {
+        return Double.longBitsToDouble(((Double.doubleToLongBits(d) - (1l << 52)) >> 1) + (1l << 61));
+    }
 
-	public abstract double sample(double x, double y, double z);
+    protected static int factorial(int n) {
+        if (n == 1) {
+            return 1;
+        } else {
+            return n * factorial(n - 1);
+        }
+    }
 
-	public int implementedFunctions() {
-		return NoiseImplementation.GOOD_ENOUGH;
-	}
+    protected static double lerp(double progress, double start, double end) {
+        return start + progress * (end - start);
+    }
 
-	//Helper noise functions =======================
+    //Helper noise functions =======================
 
-	protected static double fastSqrt(double d) {
-		return Double.longBitsToDouble(((Double.doubleToLongBits(d)-(1l<<52))>>1 ) + (1l<<61));
-	}
+    protected static double sigmoid(double x) {
+        return (1 / (1 + Math.exp(-x)));
+    }
 
-	protected static int factorial(int n) {
-		if (n == 1) {
-			return 1;
-		} else {
-			return n * factorial(n-1);
-		}
-	}
+    public abstract double sample(double x, double z);
 
-	//ensures that the returned value is in [-1, 1]
-	protected double clamp(double value) {
-		return (value > 1) ? 1 : (value < -1) ? -1 : value;
-	}
+    public abstract double sample(double x, double y, double z);
 
-	//ensures that the returned value is in [0, 1]
-	protected double clampPositive(double value) {
-		return (value < 0) ? 0 : value;
-	}
+    public int implementedFunctions() {
+        return NoiseImplementation.GOOD_ENOUGH;
+    }
 
-	protected static double lerp(double progress, double start, double end) {
-		return start + progress * (end - start);
-	}
+    //ensures that the returned value is in [-1, 1]
+    protected double clamp(double value) {
+        return (value > 1) ? 1 : (value < -1) ? -1 : value;
+    }
 
-	protected static double sigmoid(double x) {
-		return (1/( 1 + Math.exp(-x)));
-	}
+    //ensures that the returned value is in [0, 1]
+    protected double clampPositive(double value) {
+        return (value < 0) ? 0 : value;
+    }
 }
