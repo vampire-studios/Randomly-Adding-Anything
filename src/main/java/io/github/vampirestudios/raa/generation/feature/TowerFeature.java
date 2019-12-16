@@ -11,7 +11,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.loot.LootTables;
 import net.minecraft.resource.Resource;
 import net.minecraft.server.world.ServerWorld;
@@ -84,11 +83,11 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
             
             structures = new HashMap<String, JsonConverter.StructureValues>() {{
                 put("tower_base", converter.loadStructure(finalTowerBase));
-//                put("tower_walls", converter.loadStructure(finalTowerWalls));
-//                put("tower_stairs", converter.loadStructure(finalTowerStairs));
-//                put("tower_ladders", converter.loadStructure(finalTowerLadders));
-//                put("tower_pillar", converter.loadStructure(finalTowerPillar));
-//                put("tower_roof", converter.loadStructure(finalTowerRoof));
+                put("tower_walls", converter.loadStructure(finalTowerWalls));
+                put("tower_stairs", converter.loadStructure(finalTowerStairs));
+                put("tower_ladders", converter.loadStructure(finalTowerLadders));
+                put("tower_pillar", converter.loadStructure(finalTowerPillar));
+                put("tower_roof", converter.loadStructure(finalTowerRoof));
             }};
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,7 +101,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
         //Check if structure can generate in the area
         Vec3i size = structures.get("tower_base").getSize();
-        Vec3i tempPos = WorldStructureManipulation.CircularSpawnCheck(world, pos, new Vec3i(size.getX(), 9, size.getZ()), 0.25f);
+        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, new Vec3i(size.getX(), 9, size.getZ()), 0.25f);
         if (tempPos.compareTo(Vec3i.ZERO) == 0) {
             return true;
         }
@@ -111,7 +110,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         //Generate basement
         if (pos.getY() > 10 && Rands.chance(3)) {
             placePiece(world, pos.add(0, -7, 0), 0, structures.get("tower_base"), 0);
-//            placeRoom(world, pos.add(0, -6, 0), structures, "Storage", -2);
+            placeRoom(world, pos.add(0, -6, 0), structures, "Storage", -2);
         }
         placePiece(world, pos, 0, structures.get("tower_base"), 0);
 
@@ -140,7 +139,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
             else { break; }
         }
 
-//        placePiece(world, pos.add(0, 1 + level*7, 0), 0, structures.get("tower_roof"), 2*level + 4);
+        placePiece(world, pos.add(0, 1 + level*7, 0), 0, structures.get("tower_roof"), 2*level + 4);
 
         //Place in the door
         List<Integer> windowsOpen = Arrays.asList(0,0,0,0);
@@ -248,16 +247,13 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
                 //Spawn entity
                 if (currBlock.equals("armor_stand")) {
-                    float standRotation = 90f;
-                    if (currProps.get("armor") == null) {
-                        if (rotation % 2 == 0) {
-                            standRotation = -45f;
-                        } else {
-                            standRotation = 45f;
-                        }
-                        currProps.put("armor", "ALL");
+                    float standRotation;
+                    if (rotation % 2 == 0) {
+                        standRotation = -45f;
+                    } else {
+                        standRotation = 45f;
                     }
-                    WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, currProps, standRotation);
+                    WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, standRotation);
 
                     //Spawn block
                 } else {
@@ -313,13 +309,13 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
     private static void placeRoom(IWorld world, BlockPos pos, Map<String, JsonConverter.StructureValues> pieces, String type, int decay) {
         //walls
-//        placePiece(world, pos.add(1, 0, 1), 0, pieces.get("tower_walls"), decay + 2);
+        placePiece(world, pos.add(1, 0, 1), 0, pieces.get("tower_walls"), decay + 2);
         //stairs/ladders
-        /*if (Rands.chance(2)) {
+        if (Rands.chance(2)) {
             placePiece(world, pos, new Random().nextInt(4), pieces.get("tower_stairs"), decay - 1);
         } else {
             placePiece(world, pos, new Random().nextInt(4), pieces.get("tower_ladders"), decay - 1);
-        }*/
+        }
 
         //Populate corner items
         String cornerBlocksString = "barrel, barrel, barrel, barrel; wall_torch; smoker; furnace; crafting_table; " +
@@ -346,12 +342,12 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         List<List<String>> cornerBlocks = new ArrayList<>();
         List<List<Vec3i>> cornerPos = new ArrayList<>();
         List<List<Map<String, String>>> cornerProps = new ArrayList<>();
-        InitializeDecos(cornerBlocksString, cornerPosString, cornerPropsString, cornerBlocks, cornerPos, cornerProps);
+        decorateRooms(cornerBlocksString, cornerPosString, cornerPropsString, cornerBlocks, cornerPos, cornerProps);
 
         List<List<String>> centerBlocks = new ArrayList<>();
         List<List<Vec3i>> centerPos = new ArrayList<>();
         List<List<Map<String, String>>> centerProps = new ArrayList<>();
-        InitializeDecos(centerBlocksString, centerPosString, centerPropsString, centerBlocks, centerPos, centerProps);
+        decorateRooms(centerBlocksString, centerPosString, centerPropsString, centerBlocks, centerPos, centerProps);
 
         Random rand = new Random();
         int randIndex;
@@ -454,12 +450,12 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
 
         //pillar
-        /*if (Rands.chance(2)) {
+        if (Rands.chance(2)) {
             placePiece(world, pos.add(6, 0, 6), 0, pieces.get("tower_pillar"), decay);
-        }*/
+        }
     }
 
-    private static void InitializeDecos(String blocksString, String posString, String propsString, List<List<String>> blocks, List<List<Vec3i>> pos, List<List<Map<String, String>>> props) {
+    private static void decorateRooms(String blocksString, String posString, String propsString, List<List<String>> blocks, List<List<Vec3i>> pos, List<List<Map<String, String>>> props) {
         List<String> temp1;
         temp1 = Arrays.asList(blocksString.split("; "));
         for (String i : temp1) {

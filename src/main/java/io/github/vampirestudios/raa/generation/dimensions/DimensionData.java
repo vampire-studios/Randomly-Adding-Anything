@@ -156,6 +156,10 @@ public class DimensionData {
         this.toolDurability = toolDurability;
     }
 
+    public void setDimensionChunkGenerator(DimensionChunkGenerators dimensionChunkGenerator) {
+        this.dimensionChunkGenerator = dimensionChunkGenerator;
+    }
+
     public static class Builder {
         HashMap<String, int[]> mobs;
         private Identifier id;

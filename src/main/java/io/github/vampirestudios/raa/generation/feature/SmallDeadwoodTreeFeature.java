@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.generation.feature;
 
-import com.google.common.collect.Sets;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.BlockState;
@@ -10,10 +9,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.ModifiableTestableWorld;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 

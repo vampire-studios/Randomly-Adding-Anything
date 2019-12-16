@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.utils;
+package io.github.vampirestudios.raa.config;
 
 /**
  * This holds the baked (runtime) values for our config.
@@ -8,10 +8,10 @@ public final class BetterCavesConfig {
     public static int lavaDepth = 10;
 
     // Cave gen vars
-    public static String caveBiomeSize = "Large";
-    public static String cavernBiomeSize = "Small";
+    public static String caveRegionSize = "Large";
+    public static String cavernRegionSize = "Small";
     public static int    surfaceCutoff = 10;
-    public static int    maxCaveAltitude = 120;
+    public static int    maxCaveAltitude = 128;
 
     // Cubic Cave vars
     public static int     cubicCaveBottom = 1;
@@ -83,8 +83,12 @@ public final class BetterCavesConfig {
     public static int     waterCavernNumGenerators  = 2;
 
     // Water biome vars
-    public static boolean enableWaterBiomes = false;
-    public static String waterBiomeFreq = "Normal";
+    public static boolean enableWaterRegions = false;
+    public static String waterRegionFreq = "Normal";
+
+    // Vanilla features vars
+    public static boolean enableRavines = true;
+    public static boolean enableUnderwaterRavines = true;
 
     // Debug vars
     public static boolean enableDebugVisualizer = false;

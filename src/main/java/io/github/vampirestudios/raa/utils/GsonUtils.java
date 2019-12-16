@@ -7,14 +7,11 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
+import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GsonUtils {
     private static final Gson GSON;
@@ -41,32 +38,7 @@ public class GsonUtils {
                         }
                     }
                 })
-                .registerTypeAdapter(GeneratesIn.class, new TypeAdapter<GeneratesIn>() {
-                    @Override
-                    public void write(JsonWriter out, GeneratesIn value) throws IOException {
-                        if (value == null)
-                            out.nullValue();
-                        else
-                            out.value(value.getIdentifier().toString());
-                    }
-
-                    @Override
-                    public GeneratesIn read(JsonReader in) throws IOException {
-                        JsonToken jsonToken = in.peek();
-                        if (jsonToken == JsonToken.NULL) {
-                            in.nextNull();
-                            return null;
-                        } else {
-                            String s = in.nextString();
-                            Identifier identifier = s.contains(":") ? new Identifier(s.toLowerCase()) : new Identifier(RandomlyAddingAnything.MOD_ID, s.toLowerCase());
-                            for (GeneratesIn value : GeneratesIn.getValues())
-                                if (value.getIdentifier().equals(identifier))
-                                    return value;
-
-                            throw new NullPointerException("Invalid GeneratesIn: " + identifier.toString());
-                        }
-                    }
-                })
+                .registerTypeAdapter(OreFeatureConfig.Target.class, new OreFeatureTargetTypeAdapter())
                 .serializeNulls()
                 .setPrettyPrinting()
                 .create();

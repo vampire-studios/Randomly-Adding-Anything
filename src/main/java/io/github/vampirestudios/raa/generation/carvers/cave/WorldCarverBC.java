@@ -5,13 +5,16 @@ import com.mojang.datafixers.util.Pair;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.utils.BetterCaveUtil;
-import io.github.vampirestudios.raa.utils.BetterCavesConfig;
+import io.github.vampirestudios.raa.config.BetterCavesConfig;
 import io.github.vampirestudios.raa.utils.CaveType;
 import io.github.vampirestudios.raa.utils.CavernType;
 import io.github.vampirestudios.raa.utils.noise.FastNoise;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ProbabilityConfig;
@@ -54,9 +57,6 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
     private float flooredCavernThreshold;
     private float waterBiomeThreshold;
 
-    // Dictates the degree of smoothing along cavern biome boundaries
-    private float transitionRange = .15f;
-
     // Config option for using water biomes
     private boolean enableWaterBiomes;
 
@@ -80,7 +80,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
 
         // Clear the list occasionally to prevent excessive memory usage.
         // This is a hacky solution, and may introduce bugs due to chunks being over- or under-processed
-        if (coordList.size() > 10000) {
+        if (coordList.size() > 1000) {
             coordList.clear();
             RandomlyAddingAnything.LOGGER.warn("WARNING: BetterCaves chunk list reached max capacity!");
             RandomlyAddingAnything.LOGGER.info("Clearing chunk list...");
@@ -109,8 +109,24 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
                 }
             }
         }*/
+        Block block;
+        if (dimensionData != null) {
+            block = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone"));
+        } else {
+            block = Blocks.STONE;
+        }
 
-        int maxSurfaceHeight = 128;
+        for (int localX = 0; localX < 16; localX++) {
+            for (int localZ = 0; localZ < 16; localZ++) {
+                for (int y = 1; y <= 4; y++) {
+                    BlockPos blockPos = new BlockPos(localX, y, localZ);
+                    if (chunkIn.getBlockState(blockPos) == Blocks.BEDROCK.getDefaultState())
+                        chunkIn.setBlockState(blockPos, block.getDefaultState(), false);
+                }
+            }
+        }
+
+        int maxSurfaceHeight = chunkIn.getHeight();
         int minSurfaceHeight = 60;
 
         // Cave generators - we will determine exactly what type these are based on the cave biome for each column
@@ -129,7 +145,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
         for (int subX = 0; subX < 8; subX++) {
             for (int subZ = 0; subZ < 8; subZ++) {
                 if (!BetterCavesConfig.enableDebugVisualizer)
-                    maxSurfaceHeight = BetterCaveUtil.getMaxSurfaceHeightSubChunk(chunkIn, subX, subZ);
+                    maxSurfaceHeight = BetterCaveUtil.getMaxSurfaceAltitudeSubChunk(chunkIn, subX, subZ);
 
                 // maxSurfaceHeight (also used for max cave altitude) cannot exceed Max Cave Altitude setting
                 maxSurfaceHeight = Math.min(maxSurfaceHeight, BetterCavesConfig.maxCaveAltitude);
@@ -209,6 +225,8 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
                         }
 
                         // Extra check to provide close-off transitions on cavern edges
+                        // Dictates the degree of smoothing along cavern biome boundaries
+                        float transitionRange = .15f;
                         if (cavernBiomeNoise >= lavaCavernThreshold && cavernBiomeNoise <= lavaCavernThreshold + transitionRange) {
                             float smoothAmp = Math.abs((cavernBiomeNoise - (lavaCavernThreshold + transitionRange)) / transitionRange);
                             this.cavernLava.generateColumn(mainChunkX, mainChunkZ, chunkIn, localX, localZ, BetterCavesConfig.lavaCavernCaveBottom, BetterCavesConfig.lavaCavernCaveTop,
@@ -308,7 +326,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
      * @return threshold value for water biome spawn rate based on Config setting
      */
     private float calcWaterBiomeThreshold() {
-        switch (BetterCavesConfig.waterBiomeFreq) {
+        switch (BetterCavesConfig.waterRegionFreq) {
             case "Rare":
                 return -.4f;
             case "Common":
@@ -327,7 +345,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
      */
     public void initialize(long seed) {
         this.seed = seed;
-        this.enableWaterBiomes = BetterCavesConfig.enableWaterBiomes;
+        this.enableWaterBiomes = BetterCavesConfig.enableWaterRegions;
 
         // Determine noise thresholds for cavern spawns based on user config
         this.lavaCavernThreshold = calcLavaCavernThreshold();
@@ -343,7 +361,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
 
         // Determine cave biome size
         float caveBiomeSize;
-        switch (BetterCavesConfig.caveBiomeSize) {
+        switch (BetterCavesConfig.caveRegionSize) {
             case "Small":
                 caveBiomeSize = .007f;
                 break;
@@ -361,7 +379,7 @@ public class WorldCarverBC extends Carver<ProbabilityConfig> {
         // Determine cavern biome size, as well as jitter to make Voronoi regions more varied in shape
         float cavernBiomeSize;
         float waterCavernBiomeSize = .003f;
-        switch (BetterCavesConfig.cavernBiomeSize) {
+        switch (BetterCavesConfig.cavernRegionSize) {
             case "Small":
                 cavernBiomeSize = .01f;
                 break;
