@@ -14,12 +14,6 @@ public class DimensionMaterial extends Material {
     private DimensionData dimensionData;
 
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
-                      boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, DimensionData dimensionData) {
-        super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, tools, weapons, glowing, oreFlower, food);
-        this.dimensionData = dimensionData;
-    }
-
-    DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
                               CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
                       DimensionData dimensionData) {
         super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
@@ -100,7 +94,6 @@ public class DimensionMaterial extends Material {
         }
 
         public Builder target(Identifier target) {
-            System.out.println("Current target: " + target);
             this.generatesIn = target;
             return this;
         }
