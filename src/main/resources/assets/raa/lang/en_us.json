@@ -75,7 +75,9 @@
 
   "config.button.raa.generalConfig": "General Configuration",
   "config.button.raa.materialConfiguration": "Material Configuration",
+  "config.button.raa.dimensionMaterialConfiguration": "Dimensional Material Configuration",
   "config.button.raa.dimensionConfiguration": "Dimension Configuration",
+  "config.button.raa.dimensionConfigurations": "Dimension Configurations",
 
   "config.text.raa.hasSky": "§7Has sky: %s",
   "config.text.raa.hasSkyLight": "§7Has skylight: %s",

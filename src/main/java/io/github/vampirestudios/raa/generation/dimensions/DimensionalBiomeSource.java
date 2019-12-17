@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Set;
 
 public class DimensionalBiomeSource extends BiomeSource {
-    private final BiomeLayerSampler noiseLayer;
     private static Set<Biome> BIOMES;
+    private final BiomeLayerSampler noiseLayer;
 
     public DimensionalBiomeSource(Object o) {
-        super(((DimensionalBiomeSourceConfig)o).getBiomes());
-        this.noiseLayer = DimensionalBiomeLayers.build(((DimensionalBiomeSourceConfig)o).getSeed(), ((DimensionalBiomeSourceConfig)o).getGeneratorType(), ((DimensionalBiomeSourceConfig)o).getGeneratorSettings(), ((DimensionalBiomeSourceConfig)o).getBiomes());
-        this.BIOMES = ((DimensionalBiomeSourceConfig)o).getBiomes();
+        super(((DimensionalBiomeSourceConfig) o).getBiomes());
+        this.noiseLayer = DimensionalBiomeLayers.build(((DimensionalBiomeSourceConfig) o).getSeed(), ((DimensionalBiomeSourceConfig) o).getGeneratorType(), ((DimensionalBiomeSourceConfig) o).getGeneratorSettings(), ((DimensionalBiomeSourceConfig) o).getBiomes());
+        BIOMES = ((DimensionalBiomeSourceConfig) o).getBiomes();
     }
 
     @Override

@@ -27,15 +27,16 @@ import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.level.LevelGeneratorType;
-//import supercoder79.simplexterrain.api.postprocess.TerrainPostProcessor;
 
 import java.util.List;
 
+//import supercoder79.simplexterrain.api.postprocess.TerrainPostProcessor;
+
 public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
     private static final float[] BIOME_WEIGHT_TABLE = Util.make(new float[25], (fs) -> {
-        for(int i = -2; i <= 2; ++i) {
-            for(int j = -2; j <= 2; ++j) {
-                float f = 10.0F / MathHelper.sqrt((float)(i * i + j * j) + 0.2F);
+        for (int i = -2; i <= 2; ++i) {
+            for (int j = -2; j <= 2; ++j) {
+                float f = 10.0F / MathHelper.sqrt((float) (i * i + j * j) + 0.2F);
                 fs[i + 2 + (j + 2) * 5] = f;
             }
         }
@@ -82,7 +83,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
 
     protected double computeNoiseFalloff(double depth, double scale, int y) {
         double d = 8.5D;
-        double e = ((double)y - (8.5D + depth * 8.5D / 8.0D * 4.0D)) * 12.0D * 128.0D / 256.0D / scale;
+        double e = ((double) y - (8.5D + depth * 8.5D / 8.0D * 4.0D)) * 12.0D * 128.0D / 256.0D / scale;
         if (e < 0.0D) {
             e *= 4.0D;
         }
@@ -98,8 +99,8 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         int j = this.getSeaLevel();
         float k = this.biomeSource.getBiomeForNoiseGen(x, j, z).getDepth();
 
-        for(int l = -2; l <= 2; ++l) {
-            for(int m = -2; m <= 2; ++m) {
+        for (int l = -2; l <= 2; ++l) {
+            for (int m = -2; m <= 2; ++m) {
                 Biome biome = this.biomeSource.getBiomeForNoiseGen(x + l, j, z + m);
                 float n = biome.getDepth();
                 float o = biome.getScale();
@@ -123,7 +124,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         g /= h;
         f = f * 0.9F + 0.1F;
         g = (g * 4.0F - 1.0F) / 8.0F;
-        ds[0] = (double)g + this.sampleNoise(x, z);
+        ds[0] = (double) g + this.sampleNoise(x, z);
         ds[1] = f;
         return ds;
     }

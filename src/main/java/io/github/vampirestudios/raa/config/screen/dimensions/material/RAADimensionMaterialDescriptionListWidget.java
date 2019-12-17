@@ -1,8 +1,9 @@
-package io.github.vampirestudios.raa.config.screen.materials;
+package io.github.vampirestudios.raa.config.screen.dimensions.material;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegisteries;
+import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -27,11 +28,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<RAAMaterialDescriptionListWidget.Entry> {
+public class RAADimensionMaterialDescriptionListWidget extends DynamicElementListWidget<RAADimensionMaterialDescriptionListWidget.Entry> {
 
     Material material;
 
-    public RAAMaterialDescriptionListWidget(MinecraftClient client, int width, int height, int top, int bottom, Identifier backgroundLocation) {
+    public RAADimensionMaterialDescriptionListWidget(MinecraftClient client, int width, int height, int top, int bottom, Identifier backgroundLocation) {
         super(client, width, height, top, bottom, backgroundLocation);
     }
 
@@ -54,14 +55,14 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         clearItems();
     }
 
-    public void addMaterial(MaterialListScreen og, Material material) {
+    public void addMaterial(DimensionMaterialListScreen og, DimensionMaterial material) {
         this.material = material;
         clearItems();
         addItem(new TitleMaterialOverrideEntry(og, material, new LiteralText(WordUtils.capitalizeFully(material.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DecimalFormat df = new DecimalFormat("#.##");
         addItem(new ColorEntry("config.text.raa.color", material.getRGBColor()));
         addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getId().toString())));
-        addItem(new TextEntry(new LiteralText("Generates In: " + Registry.BLOCK.getId(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).toString())));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.generatesIn", material.getOreInformation().getTargetId().toString())));
         if (material.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
@@ -108,7 +109,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         protected String s;
         private ButtonWidget overrideButton;
 
-        public TitleMaterialOverrideEntry(MaterialListScreen og, Material material, Text text) {
+        public TitleMaterialOverrideEntry(DimensionMaterialListScreen og, DimensionMaterial material, Text text) {
             this.s = text.asFormattedString();
             String btnText = I18n.translate("config.button.raa.edit");
             overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText, widget -> {
@@ -117,7 +118,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         }
 
         @SuppressWarnings("deprecation")
-        private static void openClothConfigForMaterial(MaterialListScreen og, Material material) {
+        private static void openClothConfigForMaterial(DimensionMaterialListScreen og, DimensionMaterial material) {
             ConfigBuilder builder = ConfigBuilder.create()
                     .setParentScreen(og)
                     .setTitle(I18n.translate("config.title.raa.config_specific", WordUtils.capitalizeFully(material.getName())));
@@ -196,7 +197,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
                 );
                 category.addEntry(weapons.build());
             }
-            builder.setSavingRunnable(RandomlyAddingAnything.MATERIALS_CONFIG::overrideFile);
+            builder.setSavingRunnable(RandomlyAddingAnything.DIMENSION_MATERIALS_CONFIG::overrideFile);
             MinecraftClient.getInstance().openScreen(builder.build());
         }
 
@@ -299,7 +300,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         }
     }
 
-    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
+    public static abstract class Entry extends ElementEntry<Entry> {
 
     }
 

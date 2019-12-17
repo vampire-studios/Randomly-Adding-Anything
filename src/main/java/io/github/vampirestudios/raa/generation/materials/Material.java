@@ -25,7 +25,7 @@ public class Material {
     private boolean food;
 
     Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor, boolean tools,
-                     boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
+             boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
         this(oreInformation, id, name, texturesInformation, color, miningLevel, armor, null, tools, weapons, null, glowing, oreFlower, food);
 
         if (this.tools || this.weapons) {
@@ -37,7 +37,7 @@ public class Material {
     }
 
     Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
-                     CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
+             CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
         this.id = id;
         this.name = name;

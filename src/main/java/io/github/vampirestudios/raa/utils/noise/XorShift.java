@@ -21,142 +21,134 @@ import java.util.concurrent.ThreadLocalRandom;
  * instances. <code>XorShift</code> itself is threadsafe.
  *
  * @author saybur
- *
  */
-public  class XorShift {
-	/**
-	 * Random number generator instance for <code>XorShift</code>. See the class
-	 * documentation for details.
-	 * <p>
-	 * A reminder: this is <i>not</i> threadsafe.
-	 *
-	 * @author saybur
-	 *
-	 */
-	public final class Instance {
-		private long x, y, z;
+public class XorShift {
+    /**
+     * The space for each of x, y, and z in the seeds table.
+     */
+    private static final int SEED_TABLE_SPACE = 1024;
+    /**
+     * The final size of the seeds table.
+     */
+    private static final int SEED_TABLE_SIZE = SEED_TABLE_SPACE * 3;
+    private final long[] seeds;
 
-		private Instance() {
-			setSeed(0, 0, 0);
-		}
+    private XorShift(long seed) {
+        Random random = new Random(seed);
+        seeds = new long[SEED_TABLE_SIZE];
+        for (int i = 0; i < SEED_TABLE_SIZE; i++) {
+            seeds[i] = random.nextLong();
+        }
+    }
 
-		/**
-		 * Provides a pseudo-random <code>double</code> value on [0.0, 1.0).
-		 *
-		 * @return the next double value.
-		 */
-		public double nextDouble() {
-			// get out of signed range, then divide in the remaining space
-			// of the shifted long value.  i hope this works...
-			return (nextLong() >>> 2) * (1.0 / (1L << 62));
-		}
+    /**
+     * Creates a new random number generator factory with a random seed value.
+     *
+     * @return the random number generator factory.
+     */
+    public static XorShift create() {
+        return new XorShift(ThreadLocalRandom.current().nextLong());
+    }
 
-		/**
-		 * Provides a pseudo-random <code>long</code> value.
-		 *
-		 * @return the next <code>long</code> value.
-		 */
-		public long nextLong() {
-			long t;
-			t = (x ^ (x << 13));
-			x = y;
-			y = z;
-			z = (z ^ (z >>> 3)) ^ (t ^ t >>> 19);
-			return z;
-		}
+    /**
+     * Creates a new random number generator factory with the given seed value.
+     *
+     * @param seed the seed value.
+     * @return the random number generator factory.
+     */
+    public static XorShift create(long seed) {
+        return new XorShift(seed);
+    }
 
-		/**
-		 * Sets the seed for this number generator to the given values.
-		 * <p>
-		 * This is for the cellular noise functions and may be ignored by other
-		 * users, as the constructor will initialize the generator with random
-		 * starting values.
-		 *
-		 * @param x
-		 *            the X component.
-		 * @param y
-		 *            the Y component.
-		 * @param z
-		 *            the Z component.
-		 */
-		public void setSeed(long x, long y, long z) {
-			this.x = seeds[(int) (Math.abs(x) % SEED_TABLE_SPACE)];
-			this.y = seeds[(int) (Math.abs(y) % SEED_TABLE_SPACE)
-					+ SEED_TABLE_SPACE];
-			this.z = seeds[(int) (Math.abs(z) % SEED_TABLE_SPACE)
-					+ SEED_TABLE_SPACE + SEED_TABLE_SPACE];
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof XorShift) {
+            XorShift o = (XorShift) obj;
+            return Objects.equals(seeds, o.seeds);
+        } else {
+            return false;
+        }
+    }
 
-			// decreases spherical artifacts, but obviously is slow
-			// TODO replace by fixing underlying issue
-			for(int i = 0; i < 5; i++)
-				nextLong();
-		}
-	}
+    /**
+     * Creates a new random number generator instance.
+     * <p>
+     * Each instance should be used by a single thread only. See the class
+     * documentation for information about the generator itself.
+     *
+     * @return a new random number generator instance.
+     */
+    public XorShift.Instance getInstance() {
+        return new XorShift.Instance();
+    }
 
-	/**
-	 * The space for each of x, y, and z in the seeds table.
-	 */
-	private static final int SEED_TABLE_SPACE = 1024;
-	/**
-	 * The final size of the seeds table.
-	 */
-	private static final int SEED_TABLE_SIZE = SEED_TABLE_SPACE * 3;
+    @Override
+    public int hashCode() {
+        return Objects.hash(seeds);
+    }
 
-	/**
-	 * Creates a new random number generator factory with a random seed value.
-	 *
-	 * @return the random number generator factory.
-	 */
-	public static XorShift create() {
-		return new XorShift(ThreadLocalRandom.current().nextLong());
-	}
+    /**
+     * Random number generator instance for <code>XorShift</code>. See the class
+     * documentation for details.
+     * <p>
+     * A reminder: this is <i>not</i> threadsafe.
+     *
+     * @author saybur
+     */
+    public final class Instance {
+        private long x, y, z;
 
-	/**
-	 * Creates a new random number generator factory with the given seed value.
-	 *
-	 * @param seed
-	 *            the seed value.
-	 * @return the random number generator factory.
-	 */
-	public static XorShift create(long seed) {
-		return new XorShift(seed);
-	}
+        private Instance() {
+            setSeed(0, 0, 0);
+        }
 
-	private final long[] seeds;
+        /**
+         * Provides a pseudo-random <code>double</code> value on [0.0, 1.0).
+         *
+         * @return the next double value.
+         */
+        public double nextDouble() {
+            // get out of signed range, then divide in the remaining space
+            // of the shifted long value.  i hope this works...
+            return (nextLong() >>> 2) * (1.0 / (1L << 62));
+        }
 
-	private XorShift(long seed) {
-		Random random = new Random(seed);
-		seeds = new long[SEED_TABLE_SIZE];
-		for(int i = 0; i < SEED_TABLE_SIZE; i++) {
-			seeds[i] = random.nextLong();
-		}
-	}
+        /**
+         * Provides a pseudo-random <code>long</code> value.
+         *
+         * @return the next <code>long</code> value.
+         */
+        public long nextLong() {
+            long t;
+            t = (x ^ (x << 13));
+            x = y;
+            y = z;
+            z = (z ^ (z >>> 3)) ^ (t ^ t >>> 19);
+            return z;
+        }
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof XorShift) {
-			XorShift o = (XorShift) obj;
-			return Objects.equals(seeds, o.seeds);
-		}
-		else {
-			return false;
-		}
-	}
+        /**
+         * Sets the seed for this number generator to the given values.
+         * <p>
+         * This is for the cellular noise functions and may be ignored by other
+         * users, as the constructor will initialize the generator with random
+         * starting values.
+         *
+         * @param x the X component.
+         * @param y the Y component.
+         * @param z the Z component.
+         */
+        public void setSeed(long x, long y, long z) {
+            this.x = seeds[(int) (Math.abs(x) % SEED_TABLE_SPACE)];
+            this.y = seeds[(int) (Math.abs(y) % SEED_TABLE_SPACE)
+                    + SEED_TABLE_SPACE];
+            this.z = seeds[(int) (Math.abs(z) % SEED_TABLE_SPACE)
+                    + SEED_TABLE_SPACE + SEED_TABLE_SPACE];
 
-	/**
-	 * Creates a new random number generator instance.
-	 * <p>
-	 * Each instance should be used by a single thread only. See the class
-	 * documentation for information about the generator itself.
-	 *
-	 * @return a new random number generator instance.
-	 */
-	public XorShift.Instance getInstance() {
-		return new XorShift.Instance();
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(seeds);
-	}
+            // decreases spherical artifacts, but obviously is slow
+            // TODO replace by fixing underlying issue
+            for (int i = 0; i < 5; i++)
+                nextLong();
+        }
+    }
 }

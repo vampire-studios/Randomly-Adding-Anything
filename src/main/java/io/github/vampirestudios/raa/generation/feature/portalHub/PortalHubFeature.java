@@ -37,56 +37,6 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         super(function);
     }
 
-    @Override
-    public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
-        JsonObject jsonObject = null;
-        try {
-            Resource path = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));
-            jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
-            JsonObject finalJsonObject = jsonObject;
-            structures = new HashMap<String, JsonConverter.StructureValues>() {{
-                put("portal_hub", converter.loadStructure(finalJsonObject));
-            }};
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (jsonObject == null) {
-            System.out.println("Can't get the file");
-            return true;
-        }
-
-        //Cheeky way of limiting these structures to the overworld
-        if (!world.getDimension().getType().getSuffix().equals("")) {
-            return true;
-        }
-
-        //Check if structure can generate in the area
-        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, structures.get("portal_hub").getSize(), 0.125f);
-        if (tempPos.compareTo(Vec3i.ZERO) == 0) {
-            return true;
-        }
-        pos = new BlockPos(tempPos);
-
-        //Generate portal
-        placePiece(world, pos, structures.get("portal_hub"), 0);
-
-        //Record spawn in text file
-        try {
-            String path;
-            World world2 = world.getWorld();
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/data/portal_hub_spawns.txt";
-            else path = world.getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt";
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
-            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return true;
-    }
-
     public static void placePiece(IWorld world, BlockPos pos, JsonConverter.StructureValues piece, int decay) {
         int themeNum = Rands.randInt(PortalHubThemes.PORTAL_HUB_THEMES.getIds().size());
         PortalHubTheme theme = PortalHubThemes.PORTAL_HUB_THEMES.get(themeNum);
@@ -128,5 +78,56 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+        JsonObject jsonObject = null;
+        try {
+            Resource path = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));
+            jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
+            JsonObject finalJsonObject = jsonObject;
+            structures = new HashMap<String, JsonConverter.StructureValues>() {{
+                put("portal_hub", converter.loadStructure(finalJsonObject));
+            }};
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonObject == null) {
+            System.out.println("Can't get the file");
+            return true;
+        }
+
+        //Cheeky way of limiting these structures to the overworld
+        if (!world.getDimension().getType().getSuffix().equals("")) {
+            return true;
+        }
+
+        //Check if structure can generate in the area
+        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, structures.get("portal_hub").getSize(), 0.125f);
+        if (tempPos.compareTo(Vec3i.ZERO) == 0) {
+            return true;
+        }
+        pos = new BlockPos(tempPos);
+
+        //Generate portal
+        placePiece(world, pos, structures.get("portal_hub"), 0);
+
+        //Record spawn in text file
+        try {
+            String path;
+            World world2 = world.getWorld();
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+                path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/data/portal_hub_spawns.txt";
+            else path = world.getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 }

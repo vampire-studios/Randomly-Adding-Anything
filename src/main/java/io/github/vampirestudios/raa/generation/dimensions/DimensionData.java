@@ -128,6 +128,10 @@ public class DimensionData {
         return dimensionChunkGenerator;
     }
 
+    public void setDimensionChunkGenerator(DimensionChunkGenerators dimensionChunkGenerator) {
+        this.dimensionChunkGenerator = dimensionChunkGenerator;
+    }
+
     public int getFlags() {
         return flags;
     }
@@ -154,10 +158,6 @@ public class DimensionData {
 
     public void setToolDurability(int toolDurability) {
         this.toolDurability = toolDurability;
-    }
-
-    public void setDimensionChunkGenerator(DimensionChunkGenerators dimensionChunkGenerator) {
-        this.dimensionChunkGenerator = dimensionChunkGenerator;
     }
 
     public static class Builder {

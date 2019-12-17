@@ -116,17 +116,17 @@ public class WorldStructureManipulation {
                 }
             }
         }
-        int area = (int) (Math.PI*Math.pow((size.getX() - 2)/2f, 2));
+        int area = (int) (Math.PI * Math.pow((size.getX() - 2) / 2f, 2));
         //TODO: This is where the TOLERANCE for generation is used, which ranges from 0 to 1. The lower this is, the more strict the tower generation is. Increase it for wacky generation.
         TOLERANCE = (TOLERANCE > 1f) ? 1f : Math.max(TOLERANCE, 0f);
-        if (maxHeight - minHeight > 3 && maxHeight*area - totalHeight > area*((maxHeight - minHeight)/2f * TOLERANCE) && maxHeight*area - totalHeight < area*((maxHeight - minHeight)*(1 - TOLERANCE/2f))) {
+        if (maxHeight - minHeight > 3 && maxHeight * area - totalHeight > area * ((maxHeight - minHeight) / 2f * TOLERANCE) && maxHeight * area - totalHeight < area * ((maxHeight - minHeight) * (1 - TOLERANCE / 2f))) {
             return Vec3i.ZERO;
         }
 
         return (pos.add(0, modeHeight - pos.getY(), 0));
     }
 
-    public static void placeBlock (IWorld world, BlockPos pos, String block, Map<String, String> currProps, int rotation) {
+    public static void placeBlock(IWorld world, BlockPos pos, String block, Map<String, String> currProps, int rotation) {
         placeBlock(world, pos, block);
     }
 

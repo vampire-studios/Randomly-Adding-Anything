@@ -127,8 +127,10 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
         try {
             String path;
             World world2 = world.getWorld();
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
-            else path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+                path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
+            else
+                path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
             writer.close();

@@ -11,10 +11,10 @@ import java.util.Map;
 
 public class DimensionMaterial extends Material {
 
-    private DimensionData dimensionData;
+    private transient DimensionData dimensionData;
 
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
-                              CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
+                      CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
                       DimensionData dimensionData) {
         super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
         this.dimensionData = dimensionData;

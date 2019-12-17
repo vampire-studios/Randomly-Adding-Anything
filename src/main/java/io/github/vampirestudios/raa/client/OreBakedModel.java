@@ -1,8 +1,8 @@
 package io.github.vampirestudios.raa.client;
 
-import io.github.vampirestudios.raa.api.RAARegistery;
+import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.generation.materials.Material;
-import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
+import io.github.vampirestudios.raa.registries.CustomTargets;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
@@ -53,15 +53,15 @@ public class OreBakedModel extends RAABakedModel {
         RenderMaterial mat = renderer.materialFinder().disableAo(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
         int color = 0xFFFFFFFF;
         Sprite sprite;
-        if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId()) {
+        if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
             sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier(Registry.BLOCK.getId(Objects.
-                    requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock()).getNamespace(), "block/" +
-                    Registry.BLOCK.getId(Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock()).getPath()));
+                    requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).getNamespace(), "block/" +
+                    Registry.BLOCK.getId(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).getPath()));
         } else {
             sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/oak_planks"));
         }
 
-        if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.GRASS_BLOCK.getId() && material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.PODZOL.getId()) {
+        if (material.getOreInformation().getTargetId() != CustomTargets.GRASS_BLOCK.getId() && material.getOreInformation().getTargetId() != CustomTargets.PODZOL.getId()) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
@@ -86,16 +86,16 @@ public class OreBakedModel extends RAABakedModel {
                     .material(mat)
                     .spriteColor(0, color, color, color, color)
                     .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV).emit();
-        } else if (material.getOreInformation().getGeneratesIn() == OreFeatureConfig.Target.GRASS_BLOCK.getId()) {
+        } else if (material.getOreInformation().getTargetId() == CustomTargets.GRASS_BLOCK.getId()) {
             mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
             Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/grass_block_side"));
             Sprite sideOverlaySprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/grass_block_side_overlay"));
             Sprite topSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/grass_block_top"));
             Sprite bottomSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/dirt"));
             int color2 = 0xffffff;
-            BlockColorProvider blockColor = ColorProviderRegistry.BLOCK.get(Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock());
+            BlockColorProvider blockColor = ColorProviderRegistry.BLOCK.get(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock());
             if (blockColor != null) {
-                color2 = 0xff000000 | blockColor.getColor(Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock().getDefaultState(), blockView, pos, 1);
+                color2 = 0xff000000 | blockColor.getColor(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getDefaultState(), blockView, pos, 1);
             }
 
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
@@ -179,7 +179,7 @@ public class OreBakedModel extends RAABakedModel {
         color = material.getRGBColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());
 
-        if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.GRASS_BLOCK.getId() && material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.PODZOL.getId()) {
+        if (material.getOreInformation().getTargetId() != CustomTargets.GRASS_BLOCK.getId() && material.getOreInformation().getTargetId() != CustomTargets.PODZOL.getId()) {
             emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                     .material(mat)
                     .spriteColor(0, color, color, color, color)

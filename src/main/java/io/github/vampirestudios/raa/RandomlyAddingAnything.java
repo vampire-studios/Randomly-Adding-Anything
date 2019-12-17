@@ -7,8 +7,8 @@ import io.github.vampirestudios.raa.config.MaterialsConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
+import io.github.vampirestudios.raa.generation.materials.MaterialOreGenerator;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
-import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.registries.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
@@ -67,19 +67,20 @@ public class RandomlyAddingAnything implements ModInitializer {
         SurfaceBuilders.init();
         ChunkGenerators.init();
         if (FabricLoader.getInstance().isModLoaded("simplexterrain")) CustomOverworldPostProcessors.init();
+        new CustomTargets();
 
         //Reflection hacks
         Constructor<BiomeSourceType> constructor = null;
         try {
             constructor = BiomeSourceType.class.getDeclaredConstructor(Function.class, Function.class);
             constructor.setAccessible(true);
-            DIMENSIONAL_BIOMES = constructor.newInstance((Function)DimensionalBiomeSource::new, (Function)DimensionalBiomeSourceConfig::new);
+            DIMENSIONAL_BIOMES = constructor.newInstance((Function) DimensionalBiomeSource::new, (Function) DimensionalBiomeSourceConfig::new);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
-        if(CONFIG.materialNumber > 0) {
+        if (CONFIG.materialNumber > 0) {
             if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
                 MATERIALS_CONFIG.generate();
                 MATERIALS_CONFIG.save();
@@ -90,7 +91,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         Materials.createMaterialResources();
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-        if(CONFIG.dimensionNumber > 0) {
+        if (CONFIG.dimensionNumber > 0) {
             if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
                 DIMENSIONS_CONFIG.generate();
                 DIMENSIONS_CONFIG.save();
@@ -101,7 +102,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         Dimensions.createDimensions();
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
-        if(CONFIG.materialNumber > 0) {
+        if (CONFIG.materialNumber > 0) {
             if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
                 DIMENSION_MATERIALS_CONFIG.generate();
                 DIMENSION_MATERIALS_CONFIG.save();
@@ -123,6 +124,6 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         });
         Criterions.init();
-        MaterialWorldSpawning.init();
+        MaterialOreGenerator.init();
     }
 }

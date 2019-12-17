@@ -4,7 +4,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import io.github.vampirestudios.raa.api.RAARegistery;
+import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
 
@@ -29,7 +29,7 @@ public class OreFeatureTargetTypeAdapter extends TypeAdapter<OreFeatureConfig.Ta
             return null;
         } else {
             String name = in.nextString();
-            return Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(new Identifier(name)), "Invalid Target! " + name);
+            return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(new Identifier(name)), "Invalid Target! " + name);
         }
     }
 

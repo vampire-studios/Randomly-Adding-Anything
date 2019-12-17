@@ -28,18 +28,19 @@ public class ChunkGenerators {
 
     public static void init() {
         //End-like chunk generators
-        FLOATING_ISLANDS =  FabricChunkGeneratorType.register(new Identifier(MOD_ID, "floating_islands"), FloatingIslandsChunkGenerator::new, FloatingIslandsChunkGeneratorConfig::new, false);
+        FLOATING_ISLANDS = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "floating_islands"), FloatingIslandsChunkGenerator::new, FloatingIslandsChunkGeneratorConfig::new, false);
         LAYERED_FLOATING = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "layered_floating"), LayeredFloatingIslandsChunkGenerator::new, FloatingIslandsChunkGeneratorConfig::new, false);
         PRECLASSIC_FLOATING = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "preclassic_floating"), PreClassicFloatingIslandsChunkGenerator::new, FloatingIslandsChunkGeneratorConfig::new, false);
 
         //Nether-like chunk generators
-        CAVES =  FabricChunkGeneratorType.register(new Identifier(MOD_ID, "caves"), CavesChunkGenerator::new, CavesChunkGeneratorConfig::new, false);
+        CAVES = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "caves"), CavesChunkGenerator::new, CavesChunkGeneratorConfig::new, false);
         FLAT_CAVES = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "flat_caves"), FlatCavesChunkGenerator::new, CavesChunkGeneratorConfig::new, false);
         HIGH_CAVES = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "high_caves"), HighCavesChunkGenerator::new, CavesChunkGeneratorConfig::new, false);
 
         //Overworld-like chunk generators
-        SURFACE =  FabricChunkGeneratorType.register(new Identifier(MOD_ID, "surface"), OverworldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
-        if (FabricLoader.getInstance().isModLoaded("simplexterrain")) CUSTOM_SURFACE =  FabricChunkGeneratorType.register(new Identifier(MOD_ID, "custom_surface"), CustomOverworldChunkGenerator::new, CustomOverworldChunkGeneratorConfig::new, false);
+        SURFACE = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "surface"), OverworldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
+        if (FabricLoader.getInstance().isModLoaded("simplexterrain"))
+            CUSTOM_SURFACE = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "custom_surface"), CustomOverworldChunkGenerator::new, CustomOverworldChunkGeneratorConfig::new, false);
         QUADRUPLE_AMPLIFIED = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "quadruple_amplified"), QuadrupleAmplifiedChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         PILLAR_WORLD = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "pillar_world"), PillarWorldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
     }

@@ -3,8 +3,6 @@ package io.github.vampirestudios.raa.generation.materials;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
-import java.util.Map;
-
 public class MaterialTexturesInformation {
 
     private Pair<Identifier, Identifier> pickaxeTexture;

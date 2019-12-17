@@ -59,9 +59,9 @@ public class UpsideDownOakFoliagePlacer extends FoliagePlacer {
 
         //upside down oak
         int int_4 = 3; //replace with foliage size
-        for(int int_5 = i; int_5 >= j; --int_5) {
+        for (int int_5 = i; int_5 >= j; --int_5) {
             this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_5, int_4, set);
-            if (int_5%2 == 0) --int_4;
+            if (int_5 % 2 == 0) --int_4;
             if (int_4 == 0) break;
         }
     }

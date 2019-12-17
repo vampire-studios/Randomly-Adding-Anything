@@ -2,9 +2,8 @@ package io.github.vampirestudios.raa.config.screen;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.vampirestudios.raa.config.GeneralConfig;
-import io.github.vampirestudios.raa.config.screen.materials.MaterialListScreen;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import io.github.vampirestudios.raa.config.screen.dimensions.DimensionListScreen;
+import io.github.vampirestudios.raa.config.screen.dimensions.material.DimensionMaterialListScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,12 +14,12 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
 
-public class ConfigScreen extends Screen {
+public class DimensionsConfigScreen extends Screen {
 
     private Screen parent;
 
-    public ConfigScreen(Screen parent) {
-        super(new TranslatableText("config.title.raa"));
+    public DimensionsConfigScreen(Screen parent) {
+        super(new TranslatableText("config.title.raaDimensions"));
         this.parent = parent;
     }
 
@@ -40,6 +39,7 @@ public class ConfigScreen extends Screen {
     @Override
     public boolean keyPressed(int int_1, int int_2, int int_3) {
         if (int_1 == 256) {
+            assert minecraft != null;
             minecraft.openScreen(parent);
             return true;
         }
@@ -49,13 +49,13 @@ public class ConfigScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.generalConfig"), var1 ->
-                minecraft.openScreen(AutoConfig.getConfigScreen(GeneralConfig.class, this).get())));
-        addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, I18n.translate("config.button.raa.materialConfiguration"), var1 ->
-                minecraft.openScreen(new MaterialListScreen(this))));
-        addButton(new ButtonWidget(width / 2 - 75, 130, 150, 20, I18n.translate("config.button.raa.dimensionConfigurations"), var1 ->
-                minecraft.openScreen(new DimensionsConfigScreen(this))));
-        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
+        assert minecraft != null;
+        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.dimensionConfiguration"), var1 -> minecraft.openScreen(new DimensionListScreen(this))));
+        addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, I18n.translate("config.button.raa.dimensionMaterialConfiguration"), var1 ->
+                minecraft.openScreen(new DimensionMaterialListScreen(this))));
+        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> {
+            minecraft.openScreen(parent);
+        }));
     }
 
     @Override

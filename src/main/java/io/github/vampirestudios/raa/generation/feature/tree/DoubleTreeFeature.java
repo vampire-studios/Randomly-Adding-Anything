@@ -45,7 +45,7 @@ public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureCo
                 if (i == loopAmt - 1) {
                     this.generate(modifiableTestableWorld_1, random_1, int_1, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), branchedTreeFeatureConfig_1.trunkTopOffsetRandom + random_1.nextInt(branchedTreeFeatureConfig_1.trunkTopOffsetRandom + 1), set_1, blockBox_1, branchedTreeFeatureConfig_1);
                     branchedTreeFeatureConfig_1.foliagePlacer.generate(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), set_2);
-                } else{
+                } else {
                     this.generate(modifiableTestableWorld_1, random_1, offset, blockPos_2.add(offsetX * (i + 1), offsetTotal, offsetZ * (i + 1)), 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
                 }
                 offsetTotal += offset;
@@ -63,7 +63,7 @@ public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureCo
                 if (i == loopAmt - 1) {
                     this.generate(modifiableTestableWorld_1, random_1, int_1, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), branchedTreeFeatureConfig_1.trunkTopOffsetRandom + random_1.nextInt(branchedTreeFeatureConfig_1.trunkTopOffsetRandom + 1), set_1, blockBox_1, branchedTreeFeatureConfig_1);
                     branchedTreeFeatureConfig_1.foliagePlacer.generate(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(offsetX * (i + 1), (offsetTotal), offsetZ * (i + 1)), set_2);
-                } else{
+                } else {
                     this.generate(modifiableTestableWorld_1, random_1, offset, blockPos_2.add(offsetX * (i + 1), offsetTotal, offsetZ * (i + 1)), 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
                 }
                 offsetTotal += offset;
@@ -73,7 +73,7 @@ public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureCo
             offsetTotal = 2;
             for (int i = 0; i < loopAmt; i++) {
                 int offset = Rands.randIntRange(3, 6);
-                offsetTotal+= offset;
+                offsetTotal += offset;
                 int offsetX = 1;
                 int offsetZ = -1;
 
@@ -88,7 +88,7 @@ public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureCo
             offsetTotal = 2;
             for (int i = 0; i < loopAmt; i++) {
                 int offset = Rands.randIntRange(3, 6);
-                offsetTotal+= offset;
+                offsetTotal += offset;
                 int offsetX = -1;
                 int offsetZ = 1;
 
