@@ -7,9 +7,9 @@ import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.compats.recipes.artifice.TRBlastFurnaceRecipeBuilder;
 import io.github.vampirestudios.raa.compats.recipes.artifice.TRGrinderRecipeBuilder;
 import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.registries.CustomTargets;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Utils;
-import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
 
 public class TechRebornRecipes extends RecipeCompat {
@@ -102,7 +102,7 @@ public class TechRebornRecipes extends RecipeCompat {
                                 })
                 );
 
-                if (material.getOreInformation().getOreType() == OreType.METAL && material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId()) {
+                if (material.getOreInformation().getOreType() == OreType.METAL && material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
                     addGrinderRecipe(Utils.appendToPath(material.getId(), "_to_dust"), trGrinderRecipeBuilder -> trGrinderRecipeBuilder
                             .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder.item(Utils.appendToPath(material.getId(), "_ore")))
                             .multiResult(raaMultiResultBuilder -> raaMultiResultBuilder.item(Utils.appendToPath(material.getId(), "_dust"), 2))

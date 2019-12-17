@@ -7,8 +7,8 @@ import io.github.vampirestudios.raa.config.MaterialsConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
+import io.github.vampirestudios.raa.generation.materials.MaterialOreGenerator;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
-import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
 import io.github.vampirestudios.raa.registries.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
@@ -67,6 +67,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         SurfaceBuilders.init();
         ChunkGenerators.init();
         if (FabricLoader.getInstance().isModLoaded("simplexterrain")) CustomOverworldPostProcessors.init();
+        new CustomTargets();
 
         //Reflection hacks
         Constructor<BiomeSourceType> constructor = null;
@@ -123,6 +124,6 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         });
         Criterions.init();
-        MaterialWorldSpawning.init();
+        MaterialOreGenerator.init();
     }
 }
