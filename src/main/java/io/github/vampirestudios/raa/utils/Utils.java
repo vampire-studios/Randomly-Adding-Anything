@@ -59,9 +59,9 @@ public class Utils {
             if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
             if (chance > 40 && chance <= 50) {
                 if(Rands.chance(4))
-                    return SurfaceBuilders.PATCHY_DARK_MESA;
+                    return SurfaceBuilders.DARK_PATCHY_BADLANDS;
                 else
-                    return SurfaceBuilders.PATCHY_MESA;
+                    return SurfaceBuilders.PATCHY_BADLANDS;
             }
             if (chance > 50 && chance <= 60) return SurfaceBuilders.CLASSIC_CLIFFS;
             if (chance > 60 && chance <= 70) return SurfaceBuilders.STRATIFIED_CLIFFS;

@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Function;
 
-public class BadlandsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
+public class DarkBadlandsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
     private static final BlockState GRAY_TERRACOTTA;
     private static final BlockState WHITE_TERRACOTTA;
     private static final BlockState BLACK_TERRACOTTA;
@@ -34,7 +34,7 @@ public class BadlandsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig>
     protected OctaveSimplexNoiseSampler heightNoise;
     protected OctaveSimplexNoiseSampler layerNoise;
 
-    public BadlandsSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function) {
+    public DarkBadlandsSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function) {
         super(function);
     }
 
