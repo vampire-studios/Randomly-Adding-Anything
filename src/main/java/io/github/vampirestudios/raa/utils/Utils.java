@@ -53,20 +53,21 @@ public class Utils {
         //30% default
         //10% all others
 
-        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.OVERWORLD) {
+        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.OVERWORLD || data.getDimensionChunkGenerator() == DimensionChunkGenerators.CUSTOM_OVERWORLD) {
             if (chance < 20) return SurfaceBuilder.DEFAULT;
-            if (chance > 20 && chance <= 30) return SurfaceBuilders.HYPERFLAT;
+            if (chance > 20 && chance <= 30) return SurfaceBuilders.HYPER_FLAT;
             if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
             if (chance > 40 && chance <= 50) {
-                if(Rands.chance(4))
-                    return SurfaceBuilders.DARK_PATCHY_BADLANDS;
-                else
-                    return SurfaceBuilders.PATCHY_BADLANDS;
+                if(Rands.chance(4)) return SurfaceBuilders.DARK_PATCHY_BADLANDS;
+                else return SurfaceBuilders.PATCHY_BADLANDS;
             }
             if (chance > 50 && chance <= 60) return SurfaceBuilders.CLASSIC_CLIFFS;
             if (chance > 60 && chance <= 70) return SurfaceBuilders.STRATIFIED_CLIFFS;
             if (chance > 70 && chance <= 80) return SurfaceBuilders.FLOATING_ISLANDS;
-            if (chance > 80 && chance <= 90) return SurfaceBuilders.DUNES;
+            if (chance > 80 && chance <= 90) {
+                if(Rands.chance(10)) return SurfaceBuilders.SANDY_DUNES;
+                else return SurfaceBuilders.DUNES;
+            }
             if (chance > 90 && chance <= 100) return SurfaceBuilders.LAZY_NOISE;
         }
 

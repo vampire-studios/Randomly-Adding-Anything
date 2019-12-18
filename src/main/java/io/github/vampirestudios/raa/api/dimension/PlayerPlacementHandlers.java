@@ -12,20 +12,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 
+import java.util.Objects;
+
 public enum PlayerPlacementHandlers {
     SURFACE_WORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
         BlockPos blockPos = getSurfacePos(destination, teleported, 255);
-        destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.appendToPath(Registry.DIMENSION.getId(destination.getDimension().getType()), "_portal")).getDefaultState());
+        destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.appendToPath(Objects.requireNonNull(Registry.DIMENSION.getId(destination.getDimension().getType())), "_portal")).getDefaultState());
         return new BlockPattern.TeleportTarget(new Vec3d(blockPos), Vec3d.ZERO, 0);
     }),
     CAVE_WORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
         BlockPos blockPos = getSurfacePos(destination, teleported, 126);
-        destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.appendToPath(Registry.DIMENSION.getId(destination.getDimension().getType()), "_portal")).getDefaultState());
+        destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.appendToPath(Objects.requireNonNull(Registry.DIMENSION.getId(destination.getDimension().getType())), "_portal")).getDefaultState());
         return new BlockPattern.TeleportTarget(new Vec3d(blockPos), Vec3d.ZERO, 0);
     }),
     OVERWORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
         BlockPos blockPos = getSurfacePos(destination, teleported, 255);
-        destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.appendToPath(Registry.DIMENSION.getId(teleported.getEntityWorld().dimension.getType()), "_portal")).getDefaultState());
+        destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.appendToPath(Objects.requireNonNull(Registry.DIMENSION.getId(teleported.getEntityWorld().dimension.getType())), "_portal")).getDefaultState());
         return new BlockPattern.TeleportTarget(new Vec3d(blockPos), Vec3d.ZERO, 0);
     });
 

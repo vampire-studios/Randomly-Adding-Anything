@@ -71,7 +71,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         SurfaceBuilders.init();
         ChunkGenerators.init();
         if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
-            List<PostProcessors> list = ImmutableList.of(PostProcessors.RIVERS, PostProcessors.SIMPLEX_CAVES, PostProcessors.EROSION, PostProcessors.SOIL,
+            List<PostProcessors> list = ImmutableList.of(PostProcessors.SIMPLEX_CAVES, PostProcessors.EROSION, PostProcessors.SOIL,
                     PostProcessors.STRATA);
             for (PostProcessors postProcess : list) {
                 postProcess.postProcessor.setup();
