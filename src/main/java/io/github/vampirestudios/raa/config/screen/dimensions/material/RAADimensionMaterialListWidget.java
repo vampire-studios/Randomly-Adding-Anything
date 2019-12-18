@@ -134,7 +134,7 @@ public class RAADimensionMaterialListWidget extends DynamicElementListWidget<RAA
         }
     }
 
-    public static abstract class Entry extends ElementEntry<Entry> {
+    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
 
     }
 

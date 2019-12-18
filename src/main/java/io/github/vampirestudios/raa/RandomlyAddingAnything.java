@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa;
 
+import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
@@ -29,9 +30,11 @@ import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import supercoder79.simplexterrain.world.postprocess.PostProcessors;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.function.Function;
 
 public class RandomlyAddingAnything implements ModInitializer {
@@ -42,7 +45,8 @@ public class RandomlyAddingAnything implements ModInitializer {
     public static final ItemGroup RAA_ARMOR = FabricItemGroupBuilder.build(new Identifier("raa", "armor"), () -> new ItemStack(Items.IRON_HELMET));
     public static final ItemGroup RAA_WEAPONS = FabricItemGroupBuilder.build(new Identifier("raa", "weapons"), () -> new ItemStack(Items.IRON_SWORD));
     public static final ItemGroup RAA_FOOD = FabricItemGroupBuilder.build(new Identifier("raa", "food"), () -> new ItemStack(Items.GOLDEN_APPLE));
-    public static final ItemGroup RAA_DIMENSION_BLOCKS = FabricItemGroupBuilder.build(new Identifier("raa", "dimension_blocks"), () -> new ItemStack(Items.STONE));
+    public static final ItemGroup RAA_DIMENSION_BLOCKS = FabricItemGroupBuilder.build(new Identifier("raa", "dimension_blocks"), () ->
+            new ItemStack(Items.STONE));
     public static final String MOD_ID = "raa";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
@@ -66,11 +70,18 @@ public class RandomlyAddingAnything implements ModInitializer {
         Decorators.init();
         SurfaceBuilders.init();
         ChunkGenerators.init();
-        if (FabricLoader.getInstance().isModLoaded("simplexterrain")) CustomOverworldPostProcessors.init();
+        if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
+            List<PostProcessors> list = ImmutableList.of(PostProcessors.RIVERS, PostProcessors.SIMPLEX_CAVES, PostProcessors.EROSION, PostProcessors.SOIL,
+                    PostProcessors.STRATA);
+            for (PostProcessors postProcess : list) {
+                postProcess.postProcessor.setup();
+            }
+            CustomOverworldPostProcessors.init(list);
+        }
         new CustomTargets();
 
         //Reflection hacks
-        Constructor<BiomeSourceType> constructor = null;
+        Constructor<BiomeSourceType> constructor;
         try {
             constructor = BiomeSourceType.class.getDeclaredConstructor(Function.class, Function.class);
             constructor.setAccessible(true);

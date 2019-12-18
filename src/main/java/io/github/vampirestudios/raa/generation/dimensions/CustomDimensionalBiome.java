@@ -64,7 +64,7 @@ public class CustomDimensionalBiome extends Biome {
 
         DefaultBiomeFeatures.addDefaultLakes(this);
         DefaultBiomeFeatures.addDungeons(this);
-        if (Utils.randomSurfaceBuilder(dimensionData.getSurfaceBuilder(), dimensionData) == SurfaceBuilders.HYPERFLAT) {
+        if (Utils.randomSurfaceBuilder(dimensionData.getSurfaceBuilder(), dimensionData) == SurfaceBuilders.HYPER_FLAT) {
             DefaultBiomeFeatures.addMoreSeagrass(this);
             DefaultBiomeFeatures.addKelp(this);
         }

@@ -85,6 +85,7 @@
   "config.text.raa.waterVaporize": "§7Water vaporizes: %s",
   "config.text.raa.renderFog": "§7Thick Fog: %s",
   "config.text.raa.difficulty": "§7Dimension difficulty: %s",
+  "config.text.raa.targetBlock": "§7Target block for ores: §f%s",
 
   "config.field.raa.hasSky": "Has sky:",
   "config.field.raa.hasSkyLight": "Has skylight:",

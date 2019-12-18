@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa.config.screen.materials;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -18,13 +17,11 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<RAAMaterialDescriptionListWidget.Entry> {
@@ -61,7 +58,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         DecimalFormat df = new DecimalFormat("#.##");
         addItem(new ColorEntry("config.text.raa.color", material.getRGBColor()));
         addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getId().toString())));
-        addItem(new TextEntry(new LiteralText("Generates In: " + Registry.BLOCK.getId(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).toString())));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.targetBlock", material.getOreInformation().getTargetId().toString())));
         if (material.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
