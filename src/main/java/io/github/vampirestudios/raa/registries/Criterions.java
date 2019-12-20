@@ -10,8 +10,7 @@ public class Criterions {
     public static void init() {
         Method[] methods = net.minecraft.advancement.criterion.Criterions.class.getDeclaredMethods();
         for (Method method : methods)
-            if (method.getName() == "register") {
-                System.out.println("Space!");
+            if (method.getName().equals("register")) {
                 method.setAccessible(true);
                 try {
                     method.invoke(net.minecraft.advancement.criterion.Criterions.class, new EnterRandomDimensionFirstTimeCriterion());

@@ -140,7 +140,6 @@ public class Materials {
             RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
         }
         MATERIALS.forEach(material -> {
-            System.out.println(material.getOreInformation().getTargetId().toString());
             Identifier identifier = material.getId();
             Item repairItem;
             FabricBlockSettings blockSettings;

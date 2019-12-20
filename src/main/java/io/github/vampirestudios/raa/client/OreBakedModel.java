@@ -169,7 +169,7 @@ public class OreBakedModel extends RAABakedModel {
                     .spriteBake(0, bottomSprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                     .material(mat)
-                    .spriteColor(0, color2, color2, color2, color2)
+                    .spriteColor(0, color, color, color, color)
                     .spriteBake(0, topSprite, MutableQuadView.BAKE_LOCK_UV).emit();
         } else if (material.getOreInformation().getTargetId() == CustomTargets.RED_SANDSTONE.getId()) {
             mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
@@ -200,7 +200,7 @@ public class OreBakedModel extends RAABakedModel {
                     .spriteBake(0, bottomSprite, MutableQuadView.BAKE_LOCK_UV).emit();
             emitter.square(Direction.UP, 0, 0, 1, 1, 0)
                     .material(mat)
-                    .spriteColor(0, color2, color2, color2, color2)
+                    .spriteColor(0, color, color, color, color)
                     .spriteBake(0, topSprite, MutableQuadView.BAKE_LOCK_UV).emit();
         } else {
             mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
