@@ -78,7 +78,7 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
             CustomOverworldPostProcessors.init(list);
         }
-        new CustomTargets();
+        CustomTargets.init();
 
         //Reflection hacks
         Constructor<BiomeSourceType> constructor;
