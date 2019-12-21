@@ -46,7 +46,7 @@
     "fabric": "*",
     "minecraft": ">=1.15-rc.6"
   },
-  "requires": {
+  "suggests": {
     "thehallow": "*"
   }
 }

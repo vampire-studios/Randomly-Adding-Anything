@@ -73,22 +73,18 @@ dependencies {
     modImplementation("com.github.emilyploszaj:trinkets:${trinkets_version}") {
         transitive = false
     }
-    include "com.github.emilyploszaj:trinkets:${trinkets_version}"
 
     modCompile("com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${cardinal_components_version}") {
         transitive = false
     }
-    include "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${cardinal_components_version}"
 
     modCompile("com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${cardinal_components_version}") {
         transitive = false
     }
-    include "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${cardinal_components_version}"
 
     modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
         transitive = false
     }
-    include "com.github.Draylar:world-traveler:${world_traveler_version}"
 
     modImplementation 'com.github.SuperCoder7979:simplexterrain:update~0.5.0-SNAPSHOT'
 
