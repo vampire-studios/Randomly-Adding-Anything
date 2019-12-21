@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa;
 
-import com.google.common.collect.ImmutableList;
+import io.github.vampirestudios.raa.compats.SimplexRAACompat;
 import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
@@ -10,7 +10,16 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialOreGenerator;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
-import io.github.vampirestudios.raa.registries.*;
+import io.github.vampirestudios.raa.registries.ChunkGenerators;
+import io.github.vampirestudios.raa.registries.Criterions;
+import io.github.vampirestudios.raa.registries.CustomTargets;
+import io.github.vampirestudios.raa.registries.Decorators;
+import io.github.vampirestudios.raa.registries.Dimensions;
+import io.github.vampirestudios.raa.registries.Features;
+import io.github.vampirestudios.raa.registries.FoliagePlacers;
+import io.github.vampirestudios.raa.registries.Materials;
+import io.github.vampirestudios.raa.registries.SurfaceBuilders;
+import io.github.vampirestudios.raa.registries.Textures;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
@@ -30,7 +39,6 @@ import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import supercoder79.simplexterrain.world.postprocess.PostProcessors;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -71,12 +79,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         SurfaceBuilders.init();
         ChunkGenerators.init();
         if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
-            List<PostProcessors> list = ImmutableList.of(PostProcessors.SIMPLEX_CAVES, PostProcessors.EROSION, PostProcessors.SOIL,
-                    PostProcessors.STRATA);
-            for (PostProcessors postProcess : list) {
-                postProcess.postProcessor.setup();
-            }
-            CustomOverworldPostProcessors.init(list);
+            SimplexRAACompat.init();
         }
         CustomTargets.init();
 
