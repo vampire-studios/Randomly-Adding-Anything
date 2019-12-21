@@ -9,10 +9,7 @@ import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.DimensionalStone;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.*;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionColorPalette;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTextureData;
+import io.github.vampirestudios.raa.generation.dimensions.data.*;
 import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
@@ -22,6 +19,7 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.vampirelib.utils.Color;
+import io.github.vampirestudios.vampirelib.utils.registry.WoodType;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -38,6 +36,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.foliage.FoliagePlacerType;
 
 import java.util.*;
 
@@ -206,6 +205,22 @@ public class Dimensions {
 
             for (int i = 0; i < Rands.randIntRange(1, 12); i++) {
                 float grassColor = hue + Rands.randFloatRange(-0.15f, 0.15f);
+                List<DimensionTreeData> treeDataList = new ArrayList<>();
+
+                int treeAmount = Rands.randIntRange(0, 4);
+                if (Utils.checkBitFlag(flags, Utils.DEAD) || Utils.checkBitFlag(flags, Utils.CORRUPTED)) treeAmount = 0;
+                if (Utils.checkBitFlag(flags, Utils.LUSH)) treeAmount = 8;
+                for (int j = 0; j < treeAmount; j++) {
+                    DimensionTreeData treeData = DimensionTreeData.Builder.create()
+                            .setWoodType(Rands.list(Arrays.asList(DimensionWoodType.values())))
+                            .setFoliagePlacerType(Rands.list(Arrays.asList(DimensionFoliagePlacers.values())))
+                            .setTreeType(Rands.list(Arrays.asList(DimensionTreeTypes.values())))
+                            .setBaseHeight(Rands.randIntRange(2, 24))
+                            .setFoliageHeight(0)
+                            .setChance(Rands.randFloatRange(0.05f, 0.6f))
+                            .build();
+                    treeDataList.add(treeData);
+                }
                 DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendToPath(name.getRight(), "_biome" + "_" + i), name.getLeft())
                         .surfaceBuilderVariantChance(Rands.randInt(100))
                         .depth(Rands.randFloatRange(-1F, 3F))
@@ -215,6 +230,7 @@ public class Dimensions {
                         .waterColor(WATER_COLOR.getColor())
                         .grassColor(new Color(Color.HSBtoRGB(grassColor, saturation, value)).getColor())
                         .setFoliageColor(new Color(Color.HSBtoRGB(grassColor + Rands.randFloatRange(-0.1f, 0.1f), saturation, value)).getColor())
+                        .setTreeData(treeDataList)
                         .build();
                 builder.biome(biomeData);
             }

@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa.generation.materials;
 
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
 import io.github.vampirestudios.raa.api.enums.GeneratesIn;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionBiomeData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;

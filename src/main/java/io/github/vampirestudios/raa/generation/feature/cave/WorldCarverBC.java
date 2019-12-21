@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.generation.feature.cave;
 
 import com.mojang.datafixers.util.Pair;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.BetterCaveUtil;
 import io.github.vampirestudios.raa.utils.BetterCavesConfig;
 import io.github.vampirestudios.raa.utils.CaveType;

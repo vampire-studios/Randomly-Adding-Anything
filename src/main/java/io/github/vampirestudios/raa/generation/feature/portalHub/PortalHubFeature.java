@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.generation.feature.portalHub;
 
-import com.mojang.datafixers.Dynamic;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import com.mojang.datafixers.Dynamic;;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;

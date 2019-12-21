@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions.data;
 
 public enum DimensionFoliagePlacers {
-    NULL, // used for mega trees
+    MEGA, // used for mega trees
 
     //Vanilla
     OAK,

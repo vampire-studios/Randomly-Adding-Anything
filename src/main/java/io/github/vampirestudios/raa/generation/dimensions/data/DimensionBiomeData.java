@@ -2,6 +2,9 @@ package io.github.vampirestudios.raa.generation.dimensions.data;
 
 import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DimensionBiomeData {
     private Identifier id;
     private String biomeName;
@@ -13,8 +16,9 @@ public class DimensionBiomeData {
     private int waterColor;
     private int grassColor;
     private int foliageColor;
+    private List<DimensionTreeData> treeData;
 
-    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor, int grassColor, int foliageColor) {
+    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor, int grassColor, int foliageColor, List<DimensionTreeData> treeData) {
         this.id = id;
         this.biomeName = biomeName;
         this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
@@ -25,6 +29,7 @@ public class DimensionBiomeData {
         this.waterColor = waterColor;
         this.grassColor = grassColor;
         this.foliageColor = foliageColor;
+        this.treeData = treeData;
     }
 
     public Identifier getId() {
@@ -103,6 +108,10 @@ public class DimensionBiomeData {
         this.foliageColor = foliageColor;
     }
 
+    public List<DimensionTreeData> getTreeData() {
+        return treeData;
+    }
+
     public static class Builder {
         private Identifier id;
         private String name;
@@ -114,6 +123,7 @@ public class DimensionBiomeData {
         private int waterColor;
         private int grassColor;
         private int foliageColor;
+        private List<DimensionTreeData> treeData;
 
         private Builder() {
 
@@ -181,8 +191,13 @@ public class DimensionBiomeData {
             return this;
         }
 
+        public Builder setTreeData(List<DimensionTreeData> treeData) {
+            this.treeData = treeData;
+            return this;
+        }
+
         public DimensionBiomeData build() {
-            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor);
+            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor, treeData);
         }
     }
 }
