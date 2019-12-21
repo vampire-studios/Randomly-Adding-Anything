@@ -4,18 +4,20 @@
   "version": "${version}",
 
   "name": "Randomly Adding Anything",
-  "description": "A mod adding anything randomly to Minecraft",
+  "description": "This mod adds randomly generated dimensions and materials based on a lot of different parameters, like name, color and more",
   "authors": [
     "Vampire Studios"
   ],
   "contributors": [
     "Shnupbups",
-    "Kiroto"
+    "Kiroto",
+    "shedaniel",
+    "Siphalor"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/randomly-adding-anything",
     "sources": "https://github.com/vampire-studios/Randomly-Adding-Anything",
-    "discord": "https://discord.gg/t4Tbm7r",
+    "discord": "https://discord.gg/2HKGqJE",
     "issues": "https://github.com/vampire-studios/Randomly-Adding-Anything/issues"
   },
 
@@ -41,6 +43,7 @@
 
   "depends": {
     "fabricloader": ">=0.6.0",
-    "fabric": "*"
+    "fabric": "*",
+    "minecraft": ">=1.15-rc.6"
   }
 }

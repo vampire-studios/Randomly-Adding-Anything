@@ -1,9 +1,11 @@
 package io.github.vampirestudios.raa.utils;
 
-import net.minecraft.client.util.math.Vector3d;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.Vec3i;
 
-import java.io.File;
 import java.util.*;
 
 public class JsonConverter {
@@ -44,12 +46,121 @@ public class JsonConverter {
         public List<Map<String, String>> getBlockProperties() { return blockProperties; }
     }
 
-    public StructureValues loadStructure(String FileIn) {
+    public StructureValues loadStructure(JsonObject structureJson) {
+//        System.out.println("Idk: " + JsonHelper.getString(structureJson, "structureName", "test"));
         StructureValues structure = new StructureValues();
+        structure.setName(JsonHelper.getString(structureJson, "structureName", "test"));
+        if (JsonHelper.hasArray(structureJson, "size")) {
+            List<Integer> size = new ArrayList<>();
+            JsonArray array = JsonHelper.getArray(structureJson, "size");
+            size.add(array.get(0).getAsJsonPrimitive().getAsInt());
+            size.add(array.get(1).getAsJsonPrimitive().getAsInt());
+            size.add(array.get(2).getAsJsonPrimitive().getAsInt());
+            structure.setSize(size);
+        }
 
-        try {
-            Scanner scanner = new Scanner(new File("../src/main/resources/assets/raa/structures/" + FileIn));
+        // TODO: Remove this when all structure files are converted.
+        if (JsonHelper.hasArray(structureJson, "nbt")) {
+            System.out.println("Old structure file! Will still load it.");
+            JsonArray nbtArray = JsonHelper.getArray(structureJson, "nbt");
+            JsonObject structureJsonObject = nbtArray.get(0).getAsJsonObject();
+            JsonArray array = JsonHelper.getArray(structureJsonObject, "value");
+            array.forEach(jsonElement -> {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                String name = JsonHelper.getString(jsonObject, "name");
+                JsonObject valueArray = JsonHelper.getObject(jsonObject, "value");
 
+                if (name.equals("size")) {
+                    JsonArray list = JsonHelper.getArray(valueArray, "list");
+                    List<Integer> size = new ArrayList<>();
+                    size.add(list.get(0).getAsJsonPrimitive().getAsInt());
+                    size.add(list.get(1).getAsJsonPrimitive().getAsInt());
+                    size.add(list.get(2).getAsJsonPrimitive().getAsInt());
+                    structure.setSize(size);
+                }
+
+                if (name.equals("entities")) structure.setEntities();
+
+                if (name.equals("blocks")) {
+                    JsonArray list = JsonHelper.getArray(valueArray, "list");
+                    list.forEach(jsonElement1 -> {
+                        JsonArray blockProperties = jsonElement1.getAsJsonArray();
+                        blockProperties.forEach(jsonElement2 -> {
+                            JsonObject blockProperty = jsonElement2.getAsJsonObject();
+                            String propertyName = JsonHelper.getString(blockProperty, "name");
+                            if (propertyName.equals("state")) {
+                                int state = JsonHelper.getInt(blockProperty,"value");
+                                structure.setBlockStates(state);
+                            }
+                            if (propertyName.equals("pos")) {
+                                JsonObject valueObject = JsonHelper.getObject(blockProperty, "value");
+                                JsonArray pos = JsonHelper.getArray(valueObject, "list");
+                                List<Integer> posArray = new ArrayList<>();
+                                posArray.add(pos.get(0).getAsJsonPrimitive().getAsInt());
+                                posArray.add(pos.get(1).getAsJsonPrimitive().getAsInt());
+                                posArray.add(pos.get(2).getAsJsonPrimitive().getAsInt());
+                                structure.setBlockPositions(posArray);
+                            }
+                        });
+                    });
+                }
+
+                if (name.equals("palette")) {
+                    JsonArray list = JsonHelper.getArray(valueArray, "list");
+                    list.forEach(jsonElement1 -> {
+                        JsonArray paletteProperties = jsonElement1.getAsJsonArray();
+                        paletteProperties.forEach(jsonElement2 -> {
+                            JsonObject paletteProperty = jsonElement2.getAsJsonObject();
+                            String propertyName = JsonHelper.getString(paletteProperty, "name");
+                            Map<String, String> blockPropertyMap = new HashMap<>();
+                            if (propertyName.equals("Name")) {
+                                structure.setBlockProperties(blockPropertyMap);
+                                String blockId = JsonHelper.getString(paletteProperty,"value");
+                                structure.setBlockTypes(blockId);
+                            }
+                            if (propertyName.equals("Properties")) {
+                                JsonArray properties = JsonHelper.getArray(paletteProperty, "value");
+                                properties.forEach(jsonElement3 -> {
+                                    JsonObject blockProperties = jsonElement3.getAsJsonObject();
+                                    String blockPropertyName = JsonHelper.getString(blockProperties, "name");
+                                    String propertyValue = JsonHelper.getString(blockProperties, "value");
+                                    blockPropertyMap.put(blockPropertyName, propertyValue);
+                                });
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        if (JsonHelper.hasArray(structureJson, "blocks")) {
+            JsonArray blocksArray = JsonHelper.getArray(structureJson, "blocks");
+            blocksArray.forEach(jsonElement -> {
+//                System.out.println("State: " + jsonElement.getAsJsonObject().get("state").getAsInt());
+                structure.setBlockStates(jsonElement.getAsJsonObject().get("state").getAsInt());
+                List<Integer> pos = new ArrayList<>();
+                JsonArray array = jsonElement.getAsJsonObject().get("pos").getAsJsonArray();
+                pos.add(array.get(0).getAsJsonPrimitive().getAsInt());
+                pos.add(array.get(1).getAsJsonPrimitive().getAsInt());
+                pos.add(array.get(2).getAsJsonPrimitive().getAsInt());
+                structure.setBlockPositions(pos);
+            });
+        }
+
+        if (JsonHelper.hasArray(structureJson, "palette")) {
+            JsonArray blocksArray = JsonHelper.getArray(structureJson, "palette");
+            blocksArray.forEach(jsonElement -> {
+                Identifier identifier = Identifier.tryParse(jsonElement.getAsJsonObject().get("name").getAsString());
+                structure.setBlockTypes(Objects.requireNonNull(identifier).toString());
+            });
+        }
+
+//        System.out.println(String.format("Loaded %s", structureJson.get("structureName")));
+
+        /*try {
+//            Scanner scanner = new Scanner(new File("../src/main/resources/assets/raa/structures/" + FileIn));
+            System.out.println(structureFileContent);
+            Scanner scanner = new Scanner(new File(structureFileContent));
             int indentClass = 0;
             int indentList = 0;
             String section = "";
@@ -126,6 +237,8 @@ public class JsonConverter {
         catch (Exception e) {
             e.printStackTrace();
             return null; //Something went wrong
-        }
+        }*/
+
+        return structure;
     }
 }

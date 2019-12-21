@@ -8,10 +8,12 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
@@ -50,7 +52,8 @@ public class SpiderLairFeature extends Feature<DefaultFeatureConfig> {
 
             try {
                 String path;
-                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + iWorld.getLevelProperties().getLevelName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt";
+                World world2 = iWorld.getWorld();
+                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt";
                 else path = iWorld.getLevelProperties().getLevelName() + "/DIM_raa_" + iWorld.getDimension().getType().getSuffix().substring(4) + "/data/spider_lair_spawns.txt";
                 BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
                 writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");

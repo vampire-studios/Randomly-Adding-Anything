@@ -75,6 +75,9 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         if (dimensionData.getDifficulty() > 10) difficultyFormatting = Formatting.DARK_RED;
         addItem(new TextEntry(new TranslatableText("config.text.raa.difficulty", new LiteralText(dimensionData.getDifficulty() + "").formatted(difficultyFormatting))));
 
+        addItem(new TitleEntry(new TranslatableText("config.title.raa.advancedInformation").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.chunkGenerator", dimensionData.getDimensionChunkGenerator().toString())));
+
         if (dimensionData.getFlags() != 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             int flags = dimensionData.getFlags();

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class GeneratesIn {
 
+    public static final GeneratesIn NONE = RegistryUtils.registerGeneratesIn("none", Blocks.AIR, OreFeatureConfig.Target.NONE);
     public static final GeneratesIn STONE = RegistryUtils.registerGeneratesIn("stone", Blocks.STONE, OreFeatureConfig.Target.STONE);
     public static final GeneratesIn GRASS_BLOCK = RegistryUtils.registerGeneratesIn("grass_block", Blocks.GRASS_BLOCK, OreFeatureConfig.Target.GRASS_BLOCK);
     public static final GeneratesIn DIRT_SURFACE = RegistryUtils.registerGeneratesIn("dirt_surface", Blocks.DIRT, OreFeatureConfig.Target.DIRT);

@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.config.screen.materials;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.config.screen.ConfigScreen;
+import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.minecraft.client.gui.screen.Screen;
@@ -67,6 +68,24 @@ public class MaterialListScreen extends Screen {
             });
         }
         if (!materials.isEmpty()) materialList.addItem(new RAAMaterialListWidget.EmptyEntry(10));
+
+        List<DimensionMaterial> dimensionMaterials = new ArrayList<>();
+        for (DimensionMaterial material : Materials.DIMENSION_MATERIALS) dimensionMaterials.add(material);
+        dimensionMaterials.sort(Comparator.comparing(material -> WordUtils.capitalizeFully(material.getName()), String::compareToIgnoreCase));
+        for (DimensionMaterial material : dimensionMaterials) {
+            materialList.addItem(new RAAMaterialListWidget.MaterialEntry(material) {
+                @Override
+                public void onClick() {
+                    descriptionList.addMaterial(MaterialListScreen.this, material);
+                }
+
+                @Override
+                public boolean isSelected(Material material) {
+                    return descriptionList.material == material;
+                }
+            });
+        }
+        if (!dimensionMaterials.isEmpty()) materialList.addItem(new RAAMaterialListWidget.EmptyEntry(10));
     }
 
     @Override

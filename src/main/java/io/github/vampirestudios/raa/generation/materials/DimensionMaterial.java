@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.generation.materials;
 
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
@@ -13,12 +12,6 @@ import java.util.Map;
 public class DimensionMaterial extends Material {
 
     private DimensionData dimensionData;
-
-    DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
-                      boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, DimensionData dimensionData) {
-        super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, tools, weapons, glowing, oreFlower, food);
-        this.dimensionData = dimensionData;
-    }
 
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
                               CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
@@ -37,7 +30,7 @@ public class DimensionMaterial extends Material {
         private Identifier id;
         private String name;
         private int RGB = -1;
-        private GeneratesIn generatesIn;
+        private Identifier generatesIn;
         private int oreCount;
         private CustomArmorMaterial armorMaterial;
         private CustomToolMaterial toolMaterial;
@@ -100,8 +93,8 @@ public class DimensionMaterial extends Material {
             return this;
         }
 
-        public Builder generatesIn(GeneratesIn generatesIn) {
-            this.generatesIn = generatesIn;
+        public Builder target(Identifier target) {
+            this.generatesIn = target;
             return this;
         }
 

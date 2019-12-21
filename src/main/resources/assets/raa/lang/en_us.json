@@ -41,6 +41,11 @@
   "text.autoconfig.raa.title": "RAA Config: General",
   "config.title.raa.config_specific": "Config for %d",
 
+  "config.title.raa.tools": "Tools",
+  "config.title.raa.weapons": "Weapons",
+  "config.title.raa.biomeData": "Biome Data",
+  "config.title.raa.advancedInformation": "Advanced Information",
+
   "config.text.raa.identifier": "§7Identifier: §f%s",
   "config.text.raa.color": "§7Color: §f%s",
   "config.text.raa.enchantability": "§7Enchantability: §f%d",
@@ -48,9 +53,7 @@
   "config.text.raa.mining_level": "§7Mining Level: §f%d",
   "config.text.raa.tool_speed": "§7Tool Speed: §f%s",
   "config.text.raa.attack_damage": "§7Attack Damage: §f%s",
-  "config.title.raa.tools": "Tools",
-  "config.title.raa.weapons": "Weapons",
-  "config.title.raa.biomeData": "Biome Data",
+  "config.text.raa.chunkGenerator": "§7Chunk Generator: §f%s",
 
   "config.field.raa.biomeData.id": "Biome Identifier:",
   "config.field.raa.biomeData.name": "Biome Name:",

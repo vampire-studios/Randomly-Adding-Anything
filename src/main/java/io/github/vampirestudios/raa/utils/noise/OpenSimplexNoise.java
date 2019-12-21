@@ -15,20 +15,14 @@ package io.github.vampirestudios.raa.utils.noise;
  *   of any particular randomization library, so results
  *   will be the same when ported to other languages.
  */
-
-//Code kindly taken from Terraform. Thank you, coderbot, Prospector, and Valoeghese!
-public class OpenSimplexNoise {
-
+public class OpenSimplexNoise extends Noise {
     private static final double STRETCH_CONSTANT_2D = -0.211324865405187;    //(1/Math.sqrt(2+1)-1)/2;
     private static final double SQUISH_CONSTANT_2D = 0.366025403784439;      //(Math.sqrt(2+1)-1)/2;
     private static final double STRETCH_CONSTANT_3D = -1.0 / 6;              //(1/Math.sqrt(3+1)-1)/3;
     private static final double SQUISH_CONSTANT_3D = 1.0 / 3;                //(Math.sqrt(3+1)-1)/3;
-    private static final double STRETCH_CONSTANT_4D = -0.138196601125011;    //(1/Math.sqrt(4+1)-1)/4;
-    private static final double SQUISH_CONSTANT_4D = 0.309016994374947;      //(Math.sqrt(4+1)-1)/4;
 
     private static final double NORM_CONSTANT_2D = 47;
     private static final double NORM_CONSTANT_3D = 103;
-    private static final double NORM_CONSTANT_4D = 30;
 
     private static final long DEFAULT_SEED = 0;
     //Gradients for 2D. They approximate the directions to the
@@ -61,32 +55,33 @@ public class OpenSimplexNoise {
         this(DEFAULT_SEED);
     }
 
-    public OpenSimplexNoise(short[] perm) {
-        this.perm = perm;
-        permGradIndex3D = new short[256];
-
-        for (int i = 0; i < 256; i++) {
-            //Since 3D has 24 gradients, simple bitmask won't work, so precompute modulo array.
-            permGradIndex3D[i] = (short) ((perm[i] % (gradients3D.length / 3)) * 3);
-        }
-    }
+//    public OpenSimplexNoise(short[] perm) {
+//        super(seed);
+//        this.perm = perm;
+//        permGradIndex3D = new short[256];
+//
+//        for (int i = 0; i < 256; i++) {
+//            //Since 3D has 24 gradients, simple bitmask won't work, so precompute modulo array.
+//            permGradIndex3D[i] = (short) ((perm[i] % (gradients3D.length / 3)) * 3);
+//        }
+//    }
 
     //Initializes the class using a permutation array generated from a 64-bit seed.
     //Generates a proper permutation (i.e. doesn't merely perform N successive pair swaps on a base array)
     //Uses a simple 64-bit LCG.
     public OpenSimplexNoise(long seed) {
-
+        super(seed);
         this.seed = seed;
         perm = new short[256];
         permGradIndex3D = new short[256];
         short[] source = new short[256];
         for (short i = 0; i < 256; i++)
             source[i] = i;
-        seed = seed * 6364136223846793005l + 1442695040888963407l;
-        seed = seed * 6364136223846793005l + 1442695040888963407l;
-        seed = seed * 6364136223846793005l + 1442695040888963407l;
+        seed = seed * 6364136223846793005L + 1442695040888963407L;
+        seed = seed * 6364136223846793005L + 1442695040888963407L;
+        seed = seed * 6364136223846793005L + 1442695040888963407L;
         for (int i = 255; i >= 0; i--) {
-            seed = seed * 6364136223846793005l + 1442695040888963407l;
+            seed = seed * 6364136223846793005L + 1442695040888963407L;
             int r = (int) ((seed + 31) % (i + 1));
             if (r < 0)
                 r += (i + 1);

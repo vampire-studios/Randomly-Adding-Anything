@@ -3,7 +3,9 @@ package io.github.vampirestudios.raa;
 import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
+import io.github.vampirestudios.raa.client.DimensionalOreBakedModel;
 import io.github.vampirestudios.raa.client.OreBakedModel;
+import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.registries.Dimensions;
@@ -41,6 +43,7 @@ import java.util.function.Function;
 public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
     private static final Map<Identifier, Map.Entry<Material, RAABlockItem.BlockType>> MATERIAL_ORE_IDENTIFIERS = new HashMap<>();
+    private static final Map<Identifier, Map.Entry<DimensionMaterial, RAABlockItem.BlockType>> DIMENSION_MATERIAL_ORE_IDENTIFIERS = new HashMap<>();
 
     @Override
     @Environment(EnvType.CLIENT)
@@ -121,9 +124,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     Pair<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
-                    System.out.println(entry);
-                    System.out.println(entry.getLeft());
-                    System.out.println(entry.getRight());
                     if (entry.getLeft() == null || entry.getRight() == null) return;
                     modelBuilder.texture("layer0", entry.getLeft());
                     modelBuilder.texture("layer1", entry.getRight());
@@ -205,10 +205,10 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 clientResourcePackBuilder.addBlockState(iceId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(iceId.getNamespace(), "block/" + iceId.getPath())))
                 );
-                clientResourcePackBuilder.addBlockModel(iceId, modelBuilder -> {
-                    modelBuilder.parent(new Identifier("block/leaves"));
-                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getIceTexture());
-                });
+//                clientResourcePackBuilder.addBlockModel(iceId, modelBuilder -> {
+//                    modelBuilder.parent(new Identifier("block/leaves"));
+//                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getIceTexture());
+//                });
                 clientResourcePackBuilder.addItemModel(iceId,
                         modelBuilder -> modelBuilder.parent(new Identifier(iceId.getNamespace(), "block/" + iceId.getPath())));
 
@@ -320,9 +320,9 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     });
                     clientResourcePackBuilder.addItemModel(id, modelBuilder ->
                             modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
-                    Map<Material, RAABlockItem.BlockType> map = new HashMap<>();
+                    Map<DimensionMaterial, RAABlockItem.BlockType> map = new HashMap<>();
                     map.put(material, blockType);
-                    MATERIAL_ORE_IDENTIFIERS.put(id, (Map.Entry<Material, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
+                    DIMENSION_MATERIAL_ORE_IDENTIFIERS.put(id, (Map.Entry<DimensionMaterial, RAABlockItem.BlockType>) map.entrySet().toArray()[0]);
                 }
                 if (material.getOreInformation().getOreType() == OreType.GEM) {
                     clientResourcePackBuilder.addItemModel(Utils.appendToPath(bid, "_gem"), modelBuilder -> {
@@ -520,6 +520,30 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 }
             };
         });
+
+        ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {
+            if (!modelIdentifier.getNamespace().equals(RandomlyAddingAnything.MOD_ID)) {
+                return null;
+            }
+            Identifier identifier = new Identifier(modelIdentifier.getNamespace(), modelIdentifier.getPath());
+            if (!DIMENSION_MATERIAL_ORE_IDENTIFIERS.containsKey(identifier)) return null;
+            if (DIMENSION_MATERIAL_ORE_IDENTIFIERS.get(identifier).getValue() == RAABlockItem.BlockType.BLOCK) return null;
+            return new UnbakedModel() {
+                @Override
+                public Collection<Identifier> getModelDependencies() {
+                    return Collections.emptyList();
+                }
+
+                @Override
+                public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> unbakedModelGetter, Set<com.mojang.datafixers.util.Pair<String, String>> unresolvedTextureReferences) {
+                    return Collections.emptyList();
+                }
+                @Override
+                public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
+                    return new DimensionalOreBakedModel(DIMENSION_MATERIAL_ORE_IDENTIFIERS.get(identifier).getKey());
+                }
+            };
+        });
     }
 
     public static void initColoring() {
@@ -534,11 +558,11 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         }, Items.GRASS_BLOCK);
 
         ColorProviderRegistry.ITEM.register((stack, var2) ->
-                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColorAt(),
+                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColor(),
                 Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
 
         ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
-                MinecraftClient.getInstance().world.getBiomeAccess().getBiome(blockPos).getFoliageColorAt(), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
+                MinecraftClient.getInstance().world.getBiomeAccess().getBiome(blockPos).getFoliageColor(), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
     }
 
 }

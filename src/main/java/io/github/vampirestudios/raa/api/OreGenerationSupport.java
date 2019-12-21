@@ -5,7 +5,6 @@ import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.dimension.DimensionType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +14,10 @@ public class OreGenerationSupport {
 
     private Biome generationBiome;
     private OreFeatureConfig.Target target;
-    private DimensionType dimensionType;
 
-    public OreGenerationSupport(Biome generationBiome, OreFeatureConfig.Target target, DimensionType dimensionType) {
+    public OreGenerationSupport(Biome generationBiome, OreFeatureConfig.Target target) {
         this.generationBiome = generationBiome;
         this.target = target;
-        this.dimensionType = dimensionType;
     }
 
     public Biome getGenerationBiome() {
@@ -29,10 +26,6 @@ public class OreGenerationSupport {
 
     public OreFeatureConfig.Target getTarget() {
         return target;
-    }
-
-    public DimensionType getDimensionType() {
-        return dimensionType;
     }
 
     public static class Target {

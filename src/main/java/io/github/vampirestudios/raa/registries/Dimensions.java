@@ -52,7 +52,6 @@ public class Dimensions {
         //This is only the data needed for civilization simulation
         ArrayList<ProtoDimension> protoDimensions = new ArrayList<>();
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
-            System.out.println(String.format("Generating dimension %d out of %d", a, RandomlyAddingAnything.CONFIG.dimensionNumber));
             float temperature = Rands.randFloat(2.0F);
             int flags = generateDimensionFlags();
 
@@ -87,15 +86,10 @@ public class Dimensions {
         civs.forEach(Civilization::simulate);
 
         for (Civilization civ : civs) {
-//            System.out.println("++++++++++++++++++++++++++++");
-//            System.out.println(civ.getName());
-//            System.out.println("r: " + civ.getInfluenceRadius());
-//            System.out.println("l: " +  civ.getTechLevel());
 
             //tech level 0 civs get no influence
             if (civ.getTechLevel() == 0) continue;
 
-//            System.out.println("=== " + civ.getName() + " ===");
             for (ProtoDimension dimension : protoDimensions) {
                 if (dimension != civ.getHomeDimension()) {
                     double d = Utils.dist(dimension.getX(), dimension.getY(), civ.getHomeDimension().getX(), civ.getHomeDimension().getY());
@@ -116,7 +110,6 @@ public class Dimensions {
                         if (percent > 0.70) {
                             if (civ.getTechLevel() >= 3) dimension.setCivilized();
                         }
-//                        System.out.println(dimension.getName().getLeft() + ": " + (int)Math.ceil(((civ.getInfluenceRadius() - d)/civ.getInfluenceRadius())*100) +"%");
                     }
                 } else {
                     //a civ's home dimension has 100% influence by that civ
@@ -139,9 +132,6 @@ public class Dimensions {
             float stoneColor = hue + Rands.randFloatRange(-0.45F, 0.45F);
             float fogHue = hue + 0.3333f;
             float skyHue = fogHue + 0.3333f;
-
-            float waterHue = hue + 0.3333f;
-            float stoneHue = hue + 0.3333f;
 
             float saturation = Rands.randFloatRange(0.5F, 1.0F);
             float stoneSaturation = Rands.randFloatRange(0.2F, 0.6F);
@@ -263,7 +253,7 @@ public class Dimensions {
             Set<Biome> biomes = new LinkedHashSet<>();
             for (int i = 0; i < dimension.getBiomeData().size(); i++) {
                 CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension, dimension.getBiomeData().get(i));
-                RegistryUtils.registerBiome(new Identifier(MOD_ID, dimension.getBiomeData().get(i).getName().toLowerCase() + "_" + i), biome);
+                RegistryUtils.registerBiome(dimension.getBiomeData().get(i).getId(), biome);
                 biomes.add(biome);
             }
 
@@ -285,7 +275,6 @@ public class Dimensions {
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
-//                    return dimension.getToolDurability();
                     return ToolMaterials.STONE.getDurability();
                 }
 
@@ -395,7 +384,7 @@ public class Dimensions {
                             dimension.getName().toLowerCase() + "_ice"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "ice");
 
-            Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimension, dimensionType),
+            Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimensionType),
                     new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
             RegistryUtils.registerItem(new RAABlockItemAlt(dimension.getName(), "portal", portalBlock, new Item.Settings().group(ItemGroup.TRANSPORTATION)),
                     new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));

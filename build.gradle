@@ -19,13 +19,6 @@ repositories {
 	maven { url "https://dl.bintray.com/shedaniel/autoconfig1u/" }
 
 	maven { url = "https://jitpack.io"}
-
-    // TechReborn
-    maven { url = "http://maven.modmuss50.me/" }
-    maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven'
-    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -48,7 +41,7 @@ minecraft {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
@@ -71,6 +64,8 @@ dependencies {
     modImplementation 'curse.maven:carpet-extra:2830934'
     modImplementation 'curse.maven:shulkerboxtooltip:2829477'
     modImplementation 'curse.maven:leaf-decay:2827905'
+
+    modImplementation 'com.github.SuperCoder7979:simplexterrain:feature~postprocessors-SNAPSHOT'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
@@ -98,14 +93,6 @@ dependencies {
         exclude group: "io.github.prospector.modmenu"
         exclude group :"net.fabricmc.fabric-api"
     }
-
-    // Mod Compat
-    // TechReborn
-//    modCompile("TechReborn:TechReborn-1.15:3.0.20+build.9")
-//    compile 'org.spongepowered:configurate-hocon:3.6'
-//    compile 'org.spongepowered:configurate-core:3.6'
-//    compile 'com.typesafe:config:1.3.1'
-//    compile 'teamreborn:energy:0.0.8'
 }
 
 github {

@@ -1,17 +1,17 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
+import io.github.vampirestudios.raa.api.RAARegistery;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.Csoct;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
-import io.github.vampirestudios.raa.predicate.block.BlockPredicate;
 import io.github.vampirestudios.raa.utils.DebugUtils;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
@@ -21,6 +21,7 @@ import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.FoodComponents;
 import net.minecraft.item.Item;
@@ -29,6 +30,7 @@ import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
@@ -43,7 +45,6 @@ public class Materials {
 
     public static void generate() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
-            System.out.println(String.format("Generating material %d out of %d", a, RandomlyAddingAnything.CONFIG.materialNumber));
             Color RGB = Rands.randColor();
             Random random = Rands.getRandom();
             INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
@@ -59,7 +60,7 @@ public class Materials {
             Material material = Material.Builder.create(id, name)
                     .oreType(Rands.values(OreType.values()))
                     .color(RGB.getColor())
-                    .generatesIn(Rands.list(GeneratesIn.getValues()))
+                    .target(Rands.list(OreFeatureConfig.Target.getValues()).getId())
                     .armor(random.nextBoolean())
                     .tools(Rands.chance(3))
                     .oreFlower(Rands.chance(4))
@@ -85,7 +86,6 @@ public class Materials {
         for (DimensionData dimensionData : Dimensions.DIMENSIONS) {
             int i = Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.materialNumber);
             for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.materialNumber); a++) {
-                System.out.println(String.format("Generating dimension material %d out of %d for %s", a, i, dimensionData.getName()));
                 Color RGB = Rands.randColor();
                 Random random = Rands.getRandom();
                 INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
@@ -98,20 +98,13 @@ public class Materials {
                 } while (DIMENSION_MATERIAL_IDS.contains(id));
                 DIMENSION_MATERIAL_IDS.add(id);
 
-                GeneratesIn generatesIn = RegistryUtils.registerGeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
-                        new GeneratesIn(new Identifier(RandomlyAddingAnything.MOD_ID, "dimension_stone"),
-                                Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())),
-                                new OreFeatureConfig.Target(dimensionData.getId().getPath(), blockState ->
-                                        new BlockPredicate(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath())))
-                                                .test(blockState.getBlock())
-                                )
-                        )
-                );
-
+                Identifier stoneName = Utils.appendToPath(dimensionData.getId(), "_stone");
+                RegistryUtils.registerOreTarget(stoneName, new Csoct(stoneName, Registry.BLOCK.get(stoneName)));
                 DimensionMaterial material = DimensionMaterial.Builder.create(id, name)
                         .oreType(Rands.values(OreType.values()))
                         .color(RGB.getColor())
-                        .generatesIn(generatesIn)
+//                        .target(csoct)
+                        .target(stoneName)
                         .armor(random.nextBoolean())
                         .tools(Rands.chance(3))
                         .oreFlower(Rands.chance(4))
@@ -148,11 +141,18 @@ public class Materials {
             RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
         }
         MATERIALS.forEach(material -> {
+            System.out.println(material.getOreInformation().getGeneratesIn().toString());
             Identifier identifier = material.getId();
             Item repairItem;
-            FabricBlockSettings blockSettings = FabricBlockSettings.copy(material.getOreInformation().getGeneratesIn().getBlock());
+            FabricBlockSettings blockSettings;
+            Block idk = Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn()), "Invalid target!" + material.getOreInformation().getGeneratesIn().toString()).getBlock();
+            if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId()) {
+                blockSettings = FabricBlockSettings.copy(idk != null ? idk : Blocks.STONE);
+            } else {
+                blockSettings = FabricBlockSettings.copy(Blocks.STONE);
+            }
 
-            Block baseBlock = material.getOreInformation().getGeneratesIn().getBlock();
+            Block baseBlock = material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId() ? idk != null ? idk : Blocks.STONE : Blocks.STONE;
             net.minecraft.block.Material baseBlockMaterial = baseBlock.getMaterial(baseBlock.getDefaultState());
             if (baseBlockMaterial == net.minecraft.block.Material.STONE) {
                 blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
@@ -169,7 +169,7 @@ public class Materials {
                     material.getName(),
                     RAABlockItem.BlockType.BLOCK
             );
-            if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
+            if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId()) {
                 RegistryUtils.register(
                         new LayeredOreBlock(material, blockSettings.build()),
                         Utils.appendToPath(identifier, "_ore"),
@@ -326,13 +326,16 @@ public class Materials {
             RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
         }
         DIMENSION_MATERIALS.forEach(material -> {
-            System.out.println(material.getId());
+            /*Identifier stoneName = Utils.appendToPath(material.getDimensionData().getId(), "_stone");
+            Block block = Registry.BLOCK.get(stoneName);
+            OreFeatureConfig.Target csoct =  RegistryUtils.registerOreTarget(stoneName, new Csoct(stoneName, block));
+            material.getOreInformation().setGeneratesIn(csoct.getId());*/
 
             Identifier identifier = material.getId();
             Item repairItem;
-            FabricBlockSettings blockSettings = FabricBlockSettings.copy(material.getOreInformation().getGeneratesIn().getBlock());
+            FabricBlockSettings blockSettings = FabricBlockSettings.copy(Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock());
 
-            Block baseBlock = material.getOreInformation().getGeneratesIn().getBlock();
+            Block baseBlock = Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock();
             net.minecraft.block.Material baseBlockMaterial = baseBlock.getMaterial(baseBlock.getDefaultState());
             if (baseBlockMaterial == net.minecraft.block.Material.STONE) {
                 blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
@@ -349,7 +352,7 @@ public class Materials {
                     material.getName(),
                     RAABlockItem.BlockType.BLOCK
             );
-            if (material.getOreInformation().getGeneratesIn() != GeneratesIn.DOES_NOT_APPEAR) {
+            if (material.getOreInformation().getGeneratesIn() != OreFeatureConfig.Target.DOES_NOT_APPEAR.getId()) {
                 RegistryUtils.register(
                         new LayeredOreBlock(material, blockSettings.build()),
                         Utils.appendToPath(identifier, "_ore"),

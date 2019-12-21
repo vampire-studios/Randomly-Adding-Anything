@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.generation.surface;
 
 import com.mojang.datafixers.Dynamic;
-import io.github.vampirestudios.raa.utils.noise.OpenSimplexNoise;
+import io.github.vampirestudios.raa.utils.noise.old.OpenSimplexNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
