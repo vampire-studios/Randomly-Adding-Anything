@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.generation.surface.*;
 import io.github.vampirestudios.raa.generation.surface.vanilla_variants.DarkBadlandsSurfaceBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
@@ -17,8 +18,8 @@ public class SurfaceBuilders {
     public static ClassicCliffsSurfaceBuilder CLASSIC_CLIFFS;
     public static StratifiedSurfaceBuilder STRATIFIED_CLIFFS;
     public static FloatingIslandSurfaceBuilder FLOATING_ISLANDS;
-    public static DuneSurfaceBuilder DUNES;
-    public static SandyDunesSurfaceBuilder SANDY_DUNES;
+    public static DuneSurfaceBuilder DUNES = null;
+    public static SandyDunesSurfaceBuilder SANDY_DUNES = null;
     public static LazyNoiseSurfaceBuilder LAZY_NOISE;
     public static HyperflatSurfaceBuilder HYPER_FLAT;
 
@@ -38,10 +39,12 @@ public class SurfaceBuilders {
                 new StratifiedSurfaceBuilder(TernarySurfaceConfig::deserialize));
         FLOATING_ISLANDS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "floating_islands"),
                 new FloatingIslandSurfaceBuilder(TernarySurfaceConfig::deserialize));
-        DUNES = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "dunes"),
-                new DuneSurfaceBuilder(TernarySurfaceConfig::deserialize));
-        SANDY_DUNES = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "sandy_dunes"),
-                new SandyDunesSurfaceBuilder(TernarySurfaceConfig::deserialize));
+        if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
+            DUNES = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "dunes"),
+                    new DuneSurfaceBuilder(TernarySurfaceConfig::deserialize));
+            SANDY_DUNES = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "sandy_dunes"),
+                    new SandyDunesSurfaceBuilder(TernarySurfaceConfig::deserialize));
+        }
         LAZY_NOISE = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "lazy_noise"),
                 new LazyNoiseSurfaceBuilder(TernarySurfaceConfig::deserialize));
         HYPER_FLAT = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "hyper_flat"),

@@ -64,7 +64,7 @@ public class Utils {
             if (chance > 50 && chance <= 60) return SurfaceBuilders.CLASSIC_CLIFFS;
             if (chance > 60 && chance <= 70) return SurfaceBuilders.STRATIFIED_CLIFFS;
             if (chance > 70 && chance <= 80) return SurfaceBuilders.FLOATING_ISLANDS;
-            if (chance > 80 && chance <= 90) {
+            if (chance > 80 && chance <= 90 && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
                 if(Rands.chance(10)) return SurfaceBuilders.SANDY_DUNES;
                 else return SurfaceBuilders.DUNES;
             }
