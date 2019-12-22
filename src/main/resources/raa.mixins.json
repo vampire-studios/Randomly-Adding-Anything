@@ -5,8 +5,6 @@
   "injectors": { "defaultRequire": 1 },
   "mixins": [
     "ItemEntityMixin",
-    "ServerPlayerEntityMixin",
-    "AccessorLevelGeneratorType",
-    "AccessorRegistry"
+    "ServerPlayerEntityMixin"
   ]
 }
