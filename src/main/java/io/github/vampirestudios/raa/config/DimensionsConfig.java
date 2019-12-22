@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa.config;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.GsonUtils;
 import io.github.vampirestudios.raa.utils.Utils;

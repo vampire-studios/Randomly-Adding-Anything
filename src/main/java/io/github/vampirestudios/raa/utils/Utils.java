@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.SurfaceBuilders;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;

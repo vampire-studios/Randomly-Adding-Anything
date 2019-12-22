@@ -2,10 +2,11 @@ package io.github.vampirestudios.raa.registries;
 
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.commands.CommandLocateRAAStructure;
 import io.github.vampirestudios.raa.generation.carvers.CaveCarver;
 import io.github.vampirestudios.raa.generation.carvers.RavineCarver;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.FossilFeature;
 import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;

@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa.generation.materials;
 
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;

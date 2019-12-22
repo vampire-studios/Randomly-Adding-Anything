@@ -3,6 +3,10 @@ package io.github.vampirestudios.raa.generation.dimensions;
 import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeTypes;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
 import io.github.vampirestudios.raa.generation.feature.TombFeature;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
@@ -25,10 +29,7 @@ import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.*;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.foliage.AcaciaFoliagePlacer;
-import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
-import net.minecraft.world.gen.foliage.PineFoliagePlacer;
-import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
+import net.minecraft.world.gen.foliage.*;
 import net.minecraft.world.gen.stateprovider.SimpleStateProvider;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 
@@ -75,130 +76,158 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addMineables(this);
         DefaultBiomeFeatures.addDefaultOres(this);
         DefaultBiomeFeatures.addDefaultDisks(this);
-        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DRY) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.MOLTEN)) {
-            int forestConfig = Rands.randInt(4);
-            if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH)) forestConfig = 0;
-            BranchedTreeFeatureConfig config = getTreeConfig();
-            switch (forestConfig) {
-                case 0: //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
-                    for (int i = 0; i < Rands.randInt((Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH)) ? 4 : 3) + ((Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH)) ? 4 : 1); i++) {
-                        if (Rands.chance(5)) {
-                            switch (Rands.randInt(3)) {
-                                case 0:
-                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.MEGA_JUNGLE_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, Rands.randFloatRange(0.05F, 0.4F), 1))));
-                                    break;
-                                case 1:
-                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.MEGA_SPRUCE_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, Rands.randFloatRange(0.05F, 0.4F), 1))));
-                                    break;
-                                case 2:
-                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.DARK_OAK_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, Rands.randFloatRange(0.05F, 0.4F), 1))));
-                                    break;
-                            }
-                        } else {
-                            BranchedTreeFeatureConfig treeConfig = getTreeConfig();
-                            if (treeConfig.foliagePlacer instanceof AcaciaFoliagePlacer) {
-                                if (!Rands.chance(4)) {
-                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.ACACIA_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.05F, 0.6F), 1))));
-                                    continue;
-                                }
-                            }
+//        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.DRY) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.MOLTEN)) {
+//            int forestConfig = Rands.randInt(4);
+//            if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH)) forestConfig = 0;
+//            BranchedTreeFeatureConfig config = getTreeConfig();
+//            switch (forestConfig) {
+//                case 0: //33% chance of full forest, 33% chance of patchy forest, 33% of no forest
+//                    for (int i = 0; i < Rands.randInt((Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH)) ? 4 : 3) + ((Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH)) ? 4 : 1); i++) {
+//                        if (Rands.chance(5)) {
+//                            switch (Rands.randInt(3)) {
+//                                case 0:
+//                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.MEGA_JUNGLE_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, Rands.randFloatRange(0.05F, 0.4F), 1))));
+//                                    break;
+//                                case 1:
+//                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.MEGA_SPRUCE_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, Rands.randFloatRange(0.05F, 0.4F), 1))));
+//                                    break;
+//                                case 2:
+//                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.DARK_OAK_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, Rands.randFloatRange(0.05F, 0.4F), 1))));
+//                                    break;
+//                            }
+//                        } else {
+//                            BranchedTreeFeatureConfig treeConfig = getTreeConfig();
+//                            if (treeConfig.foliagePlacer instanceof AcaciaFoliagePlacer) {
+//                                if (!Rands.chance(4)) {
+//                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.ACACIA_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.05F, 0.6F), 1))));
+//                                    continue;
+//                                }
+//                            }
+//
+//                            switch (Rands.randInt(8)) {
+//                                case 0:
+//                                case 1:
+//                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.BENT_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.05F, 0.6F), 1))));
+//                                    break;
+//                                case 2:
+//                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.DOUBLE_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.05F, 0.6F), 1))));
+//                                default:
+//                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.05F, 0.6F), 1))));
+//                                    break;
+//                            }
+//                        }
+//                    }
+//                    break;
+//                case 1:
+//                    //Small, inbetween forests and larger, thinner forests
+//                    BranchedTreeFeatureConfig treeConfig = getTreeConfig();
+//                    float chance = Rands.randInt(24) * 10F + 80F;
+//                    float chance2 = Rands.randInt(12) * 10F + 120F;
+//                    if (treeConfig.foliagePlacer instanceof AcaciaFoliagePlacer) {
+//                        if (!Rands.chance(4)) {
+//                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.ACACIA_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
+//                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.ACACIA_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
+//                            break;
+//                        }
+//                    }
+//                    switch (Rands.randInt(8)) {
+//                        case 0:
+//                        case 1:
+//                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.BENT_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG)))));
+//                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.BENT_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)))));
+//                            break;
+//                        case 2:
+//                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.DOUBLE_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG)))));
+//                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.DOUBLE_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)))));
+//                            break;
+//                        default:
+//                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG)))));
+//                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)))));
+//                            break;
+//                    }
+////                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
+////                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
+//                    break;
+//                case 2:
+//                    if (Rands.chance(5)) {
+//                        switch (Rands.randInt(3)) {
+//                            case 0:
+//                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.MEGA_JUNGLE_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
+//                                break;
+//                            case 1:
+//                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.MEGA_SPRUCE_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
+//                                break;
+//                            case 2:
+//                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.DARK_OAK_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
+//                                break;
+//                        }
+//                    } else {
+//                        BranchedTreeFeatureConfig normalTreeConfig = getTreeConfig();
+//                        if (normalTreeConfig.foliagePlacer instanceof AcaciaFoliagePlacer) {
+//                            if (!Rands.chance(4)) {
+//                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.ACACIA_TREE.configure(normalTreeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
+//                                break;
+//                            }
+//                        }
+//                        switch (Rands.randInt(8)) {
+//                            case 0:
+//                            case 1:
+//                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.BENT_TREE.configure(normalTreeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 1, 1))));
+//                                break;
+//                            case 2:
+//                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.DOUBLE_TREE.configure(normalTreeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 1, 1))));
+//                                break;
+//                            default:
+//                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(normalTreeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 1, 1))));
+//                                break;
+//                        }
+//                    }
+//                    break;
+//                case 3:
+//                    DefaultBiomeFeatures.addPlainsFeatures(this);
+//                    break;
+//                case 4:
+//                    //DEBUG ONLY! this is used for testing new trees. Should never be called in non development versions!
+//                    BranchedTreeFeatureConfig testConfig = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(Blocks.OAK_LOG.getDefaultState()), new SimpleStateProvider(Blocks.OAK_LEAVES.getDefaultState()), new RandomSpruceFoliagePlacer(2, 0)))
+//                            .baseHeight(6) //tree height rand 1
+//                            .heightRandA(8) //tree height rand 2
+////                            .foliageHeight(4) //foliage height
+//                            .trunkHeight(1) //trunk height
+//                            .trunkHeightRandom(1) //trunk height random
+//                            .trunkTopOffsetRandom(2) //foliage height
+//                            .build();
+//                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(testConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
+//                    break;
+//            }
+//        }
 
-                            switch (Rands.randInt(8)) {
-                                case 0:
-                                case 1:
-                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.BENT_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.05F, 0.6F), 1))));
-                                    break;
-                                case 2:
-                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.DOUBLE_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.05F, 0.6F), 1))));
-                                default:
-                                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(treeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.05F, 0.6F), 1))));
-                                    break;
-                            }
-                        }
-                    }
-                    break;
-                case 1:
-                    //Small, inbetween forests and larger, thinner forests
-                    BranchedTreeFeatureConfig treeConfig = getTreeConfig();
-                    float chance = Rands.randInt(24) * 10F + 80F;
-                    float chance2 = Rands.randInt(12) * 10F + 120F;
-                    if (treeConfig.foliagePlacer instanceof AcaciaFoliagePlacer) {
-                        if (!Rands.chance(4)) {
-                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.ACACIA_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
-                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.ACACIA_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
-                            break;
-                        }
-                    }
-                    switch (Rands.randInt(8)) {
-                        case 0:
-                        case 1:
-                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.BENT_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG)))));
-                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.BENT_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)))));
-                            break;
-                        case 2:
-                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.DOUBLE_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG)))));
-                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.DOUBLE_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)))));
-                            break;
-                        default:
-                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG)))));
-                            this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(config).createDecoratedFeature((Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG)))));
-                            break;
-                    }
-//                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(20), chance, 1, Heightmap.Type.WORLD_SURFACE_WG))));
-//                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.NORMAL_TREE.configure(config).createDecoratedFeature(Decorators.BIASED_NOISE_DECORATOR.configure(new BiasedNoiseBasedDecoratorConfig(Rands.randInt(10), chance2, 0.0D, Heightmap.Type.WORLD_SURFACE_WG))));
-                    break;
-                case 2:
-                    if (Rands.chance(5)) {
-                        switch (Rands.randInt(3)) {
-                            case 0:
-                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.MEGA_JUNGLE_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
-                                break;
-                            case 1:
-                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.MEGA_SPRUCE_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
-                                break;
-                            case 2:
-                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.DARK_OAK_TREE.configure(getMegaTreeConfig()).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
-                                break;
-                        }
-                    } else {
-                        BranchedTreeFeatureConfig normalTreeConfig = getTreeConfig();
-                        if (normalTreeConfig.foliagePlacer instanceof AcaciaFoliagePlacer) {
-                            if (!Rands.chance(4)) {
-                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.ACACIA_TREE.configure(normalTreeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
-                                break;
-                            }
-                        }
-                        switch (Rands.randInt(8)) {
-                            case 0:
-                            case 1:
-                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.BENT_TREE.configure(normalTreeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 1, 1))));
-                                break;
-                            case 2:
-                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.DOUBLE_TREE.configure(normalTreeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 1, 1))));
-                                break;
-                            default:
-                                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(normalTreeConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 1, 1))));
-                                break;
-                        }
-                    }
-                    break;
-                case 3:
-                    DefaultBiomeFeatures.addPlainsFeatures(this);
-                    break;
-                case 4:
-                    //DEBUG ONLY! this is used for testing new trees. Should never be called in non development versions!
-                    BranchedTreeFeatureConfig testConfig = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(Blocks.OAK_LOG.getDefaultState()), new SimpleStateProvider(Blocks.OAK_LEAVES.getDefaultState()), new RandomSpruceFoliagePlacer(2, 0)))
-                            .baseHeight(6) //tree height rand 1
-                            .heightRandA(8) //tree height rand 2
-//                            .foliageHeight(4) //foliage height
-                            .trunkHeight(1) //trunk height
-                            .trunkHeightRandom(1) //trunk height random
-                            .trunkTopOffsetRandom(2) //foliage height
-                            .build();
-                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.FIXED_TREE.configure(testConfig).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(1, 1, 0))));
-                    break;
+        for (DimensionTreeData treeData : data.getTreeData()) {
+            if (treeData.getTreeType() == DimensionTreeTypes.MEGA_JUNGLE || treeData.getTreeType() == DimensionTreeTypes.MEGA_SPRUCE || treeData.getTreeType() == DimensionTreeTypes.DARK_OAK) {
+                MegaTreeFeatureConfig config = (new MegaTreeFeatureConfig.Builder(new SimpleStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState())))
+                        .baseHeight(treeData.getBaseHeight()).heightInterval(treeData.getFoliageHeightRandom()).build();
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
+                        getMegaTree(treeData.getTreeType())
+                            .configure(
+                                    config
+                            ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, treeData.getChance(), 1))));
+            } else {
+                BranchedTreeFeatureConfig config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState()),
+                        getFoliagePlacer(treeData))
+                        .baseHeight(Rands.randIntRange(1, 6)) //
+                        .heightRandA(treeData.getBaseHeight()) //trunk height
+                        .foliageHeight(treeData.getFoliageHeight()) //foliage amount
+                        .foliageHeightRandom(treeData.getFoliageHeightRandom()) //random foliage offset
+                        .noVines()
+                        .build());
+                this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
+                        getNormalTree(treeData.getTreeType())
+                                .configure(
+                                        config
+                                ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, treeData.getChance(), 1))));
             }
         }
+
+
         if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(DefaultBiomeFeatures.SUNFLOWER_CONFIG)
                     .createDecoratedFeature(Decorator.COUNT_HEIGHTMAP_DOUBLE.configure(new CountDecoratorConfig(Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUSH) ? 50 : 20))));
@@ -446,35 +475,74 @@ public class CustomDimensionalBiome extends Biome {
         return config;
     }
 
-    private static MegaTreeFeatureConfig getMegaTreeConfig() {
-        MegaTreeFeatureConfig config;
-        int height = Rands.randIntRange(10, 40);
-        WoodType woodType = new ArrayList<>(Arrays.asList(WoodType.VANILLA)).get(Rands.randInt(WoodType.VANILLA.length));
-        BlockState logState = woodType.getLog().getDefaultState();
-        BlockState leafState = woodType.getLeaves().getDefaultState();
+    private static FoliagePlacer getFoliagePlacer(DimensionTreeData treeData) {
+        switch (treeData.getFoliagePlacerType()) {
+            case OAK:
+                return new BlobFoliagePlacer(treeData.getFoliageRange(), 0);
+            case ACACIA:
+                return new AcaciaFoliagePlacer(treeData.getFoliageRange(), 0);
+            case SPRUCE:
+                return new SpruceFoliagePlacer(treeData.getFoliageRange(), 0);
+            case PINE:
+                return new PineFoliagePlacer(treeData.getFoliageRange(), 0);
+            case LONG:
+                return new LongOakFoliagePlacer(treeData.getFoliageRange(), 0);
+            case UPSIDE_DOWN:
+                return new UpsideDownOakFoliagePlacer(treeData.getFoliageRange(), 0);
+            case BORING:
+                return new BoringOakFoliagePlacer(treeData.getFoliageRange(), 0);
+            case RANDOM:
+                return new RandomSpruceFoliagePlacer(treeData.getFoliageRange(), 0);
+        }
+        return null;
+    }
 
-        ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
-        if (Rands.chance(3)) decoratorsRaw.add(new LeaveVineTreeDecorator());
-        if (Rands.chance(3)) decoratorsRaw.add(new TrunkVineTreeDecorator());
-        if (Rands.chance(3)) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
-        if (Rands.chance(4))
-            decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleStateProvider(Blocks.PODZOL.getDefaultState())));
-        ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
-        config = (new MegaTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState)))
-                .baseHeight(height - 2).heightInterval(height + 4).treeDecorators(decorators).build();
-        return config;
+    private static Feature<MegaTreeFeatureConfig> getMegaTree(DimensionTreeTypes treeTypes) {
+//        MegaTreeFeatureConfig config;
+//        int height = Rands.randIntRange(10, 40);
+//        WoodType woodType = new ArrayList<>(Arrays.asList(WoodType.VANILLA)).get(Rands.randInt(WoodType.VANILLA.length));
+//        BlockState logState = woodType.getLog().getDefaultState();
+//        BlockState leafState = woodType.getLeaves().getDefaultState();
+//
+//        ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
+//        if (Rands.chance(3)) decoratorsRaw.add(new LeaveVineTreeDecorator());
+//        if (Rands.chance(3)) decoratorsRaw.add(new TrunkVineTreeDecorator());
+//        if (Rands.chance(3)) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
+//        if (Rands.chance(4))
+//            decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleStateProvider(Blocks.PODZOL.getDefaultState())));
+//        ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
+//        config = (new MegaTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState)))
+//                .baseHeight(height-2).heightInterval(height + 4).treeDecorators(decorators).build();
+//        return config;
+        switch (treeTypes) {
+            case MEGA_JUNGLE:
+                return Feature.MEGA_JUNGLE_TREE;
+            case MEGA_SPRUCE:
+                return Feature.MEGA_SPRUCE_TREE;
+            case DARK_OAK:
+                return Feature.DARK_OAK_TREE;
+        }
+        return null;
+    }
+
+    private static Feature<BranchedTreeFeatureConfig> getNormalTree(DimensionTreeTypes treeTypes) {
+        switch (treeTypes) {
+            case NORMAL:
+                return Feature.NORMAL_TREE;
+            case ACACIA:
+                return Feature.ACACIA_TREE;
+            case DOUBLE:
+                return Features.DOUBLE_TREE;
+            case BENT:
+                return Features.BENT_TREE;
+        }
+        return null;
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getSkyColor() {
         return dimensionData.getDimensionColorPalette().getSkyColor();
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public int getFoliageColor() {
-        return dimensionData.getDimensionColorPalette().getFoliageColor();
     }
 
     @Override

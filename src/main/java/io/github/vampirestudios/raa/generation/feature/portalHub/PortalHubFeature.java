@@ -1,9 +1,10 @@
 package io.github.vampirestudios.raa.generation.feature.portalHub;
 
+import com.mojang.datafixers.Dynamic;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.Dynamic;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
