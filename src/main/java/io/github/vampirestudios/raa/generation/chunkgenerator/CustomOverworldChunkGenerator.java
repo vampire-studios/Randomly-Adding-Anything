@@ -70,7 +70,7 @@ public class CustomOverworldChunkGenerator extends ChunkGenerator<CustomOverworl
       int chunkZ = region.getCenterChunkZ();
       ChunkRandom rand = new ChunkRandom();
       rand.setSeed(chunkX, chunkZ);
-      this.terrainPostProcessors.forEach(postProcessor -> postProcessor.postProcess(region, rand, chunkX, chunkZ, this));
+      this.terrainPostProcessors.forEach(postProcessor -> postProcessor.process(region, rand, chunkX, chunkZ, this));
 
       int i = region.getCenterChunkX();
       int j = region.getCenterChunkZ();

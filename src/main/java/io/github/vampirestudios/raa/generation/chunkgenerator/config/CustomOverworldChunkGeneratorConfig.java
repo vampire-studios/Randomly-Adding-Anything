@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa.generation.chunkgenerator.config;
 
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import supercoder79.simplexterrain.api.noise.NoiseType;
-import supercoder79.simplexterrain.world.postprocess.PostProcessors;
+import supercoder79.simplexterrain.world.postprocessor.PostProcessors;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -546,12 +546,6 @@ public class CustomDimensionalBiome extends Biome {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public int getFoliageColor() {
-        return dimensionData.getDimensionColorPalette().getFoliageColor();
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
     public int getGrassColorAt(double double_1, double double_2) {
         return dimensionData.getDimensionColorPalette().getGrassColor();
     }
