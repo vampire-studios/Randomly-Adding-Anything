@@ -65,7 +65,7 @@ public class CustomDimensionalBiome extends Biome {
 
         DefaultBiomeFeatures.addDefaultLakes(this);
         DefaultBiomeFeatures.addDungeons(this);
-        if (Utils.randomSurfaceBuilder(dimensionData.getSurfaceBuilder(), dimensionData) == SurfaceBuilders.HYPERFLAT) {
+        if (Utils.randomSurfaceBuilder(dimensionData.getSurfaceBuilder(), dimensionData) == SurfaceBuilders.HYPER_FLAT) {
             DefaultBiomeFeatures.addMoreSeagrass(this);
             DefaultBiomeFeatures.addKelp(this);
         }
@@ -291,7 +291,7 @@ public class CustomDimensionalBiome extends Biome {
                     Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG)
             )).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.01F, 1F), 1))));
         }
-        if(Rands.chance(8))
+        if (Rands.chance(8))
             DefaultBiomeFeatures.addMossyRocks(this);
 
         DefaultBiomeFeatures.addDefaultMushrooms(this);
@@ -356,7 +356,8 @@ public class CustomDimensionalBiome extends Biome {
         if (Rands.chance(3)) decoratorsRaw.add(new TrunkVineTreeDecorator());
         if (Rands.chance(3)) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
         //if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
-        if (Rands.chance(3)) decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleStateProvider(Blocks.PODZOL.getDefaultState())));
+        if (Rands.chance(3))
+            decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleStateProvider(Blocks.PODZOL.getDefaultState())));
         ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
 
         switch (Rands.randInt(9)) {
@@ -373,19 +374,19 @@ public class CustomDimensionalBiome extends Biome {
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
-            break;
+                break;
             case 2:
                 config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new PineFoliagePlacer(Rands.randIntRange(1, 2), 0)))
                         .baseHeight(Rands.randIntRange(1, 4))
                         .heightRandA(height - 1)
                         .trunkTopOffset(Rands.randIntRange(1, 2))
-                        .foliageHeight(foliageHeight/2)
+                        .foliageHeight(foliageHeight / 2)
                         .foliageHeightRandom(Rands.randIntRange(1, 4))
                         .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
-            break;
+                break;
             case 3:
                 config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(logState), new SimpleStateProvider(leafState), new AcaciaFoliagePlacer(Rands.randIntRange(1, 4), 0)))
                         .baseHeight(Rands.randIntRange(1, 6))

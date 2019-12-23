@@ -36,7 +36,7 @@ public class CylinderFoliagePlacer extends FoliagePlacer {
 //                ++int_4;
 //            }
 //        }
-        for(int int_4 = i; int_4 >= j; --int_4) {
+        for (int int_4 = i; int_4 >= j; --int_4) {
             this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_4, Rands.randIntRange(0, 5), set);
         }
     }
@@ -44,14 +44,14 @@ public class CylinderFoliagePlacer extends FoliagePlacer {
     public void placeLeaves(ModifiableTestableWorld modifiableTestableWorld_1, Random random_1, BranchedTreeFeatureConfig branchedTreeFeatureConfig_1, int int_1, BlockPos blockPos_1, int int_2, int int_3, Set<BlockPos> set_1) {
         BlockPos.Mutable blockPos$Mutable_1 = new BlockPos.Mutable();
 
-        for(int int_4 = -int_3; int_4 <= int_3; ++int_4) {
+        for (int int_4 = -int_3; int_4 <= int_3; ++int_4) {
             //trunk checking here
-            for(int int_5 = -int_3; int_5 <= int_3; ++int_5) {
+            for (int int_5 = -int_3; int_5 <= int_3; ++int_5) {
                 if (!this.method_23451(random_1, int_1, int_4, int_2, int_5, int_3)) {
                     blockPos$Mutable_1.set(int_4 + blockPos_1.getX(), int_2 + blockPos_1.getY(), int_5 + blockPos_1.getZ());
 //                    if (!modifiableTestableWorld_1.testBlockState(blockPos$Mutable_1, i -> i == Blocks.OAK_LOG.getDefaultState() || i == Blocks.SPRUCE_LOG.getDefaultState() || i == Blocks.ACACIA_LOG.getDefaultState() || i == Blocks.BIRCH_LOG.getDefaultState() || i == Blocks.JUNGLE_LOG.getDefaultState() || i == Blocks.DARK_OAK_LOG.getDefaultState()))
 //                    if (!(int_4 == 0 && int_5 == 0) && int_2 < int_1)
-                        this.method_23450(modifiableTestableWorld_1, random_1, blockPos$Mutable_1, branchedTreeFeatureConfig_1, set_1);
+                    this.method_23450(modifiableTestableWorld_1, random_1, blockPos$Mutable_1, branchedTreeFeatureConfig_1, set_1);
                 }
             }
         }

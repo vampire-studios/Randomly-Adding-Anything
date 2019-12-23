@@ -24,7 +24,7 @@ public class BoringOakFoliagePlacer extends FoliagePlacer {
     @Override
     public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
         int int_4 = Rands.randIntRange(1, 2); //replace with foliage size
-        for(int int_5 = i; int_5 >= j + 2; --int_5) {
+        for (int int_5 = i; int_5 >= j + 2; --int_5) {
             if (int_5 == j + 2) int_4 = 1; //smooth out bigger trees
             this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_5, int_4, set);
         }

@@ -4,7 +4,8 @@ import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 
 public abstract class ModelCompat {
 
-    public ModelCompat() {}
+    public ModelCompat() {
+    }
 
     public void generate(ArtificeResourcePack.ClientResourcePackBuilder resourcePackBuilder) {
         blockStates(resourcePackBuilder);

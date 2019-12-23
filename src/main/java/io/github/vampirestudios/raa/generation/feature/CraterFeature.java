@@ -1,4 +1,5 @@
 package io.github.vampirestudios.raa.generation.feature;
+
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -15,12 +16,20 @@ import java.util.function.Function;
 
 public class CraterFeature extends Feature<CorruptedFeatureConfig> {
     public static final ArrayList<BlockState> ALLOWED_STATES = new ArrayList<BlockState>();
+
     public CraterFeature(Function<Dynamic<?>, ? extends CorruptedFeatureConfig> function) {
         super(function);
         ALLOWED_STATES.add(Blocks.GRASS_BLOCK.getDefaultState());
         ALLOWED_STATES.add(Blocks.STONE.getDefaultState());
         ALLOWED_STATES.add(Blocks.GRAVEL.getDefaultState());
         ALLOWED_STATES.add(Blocks.SAND.getDefaultState());
+    }
+
+    private static boolean canSpawn(IWorld world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        if (state == Blocks.GRASS_BLOCK.getDefaultState() || state == Blocks.PODZOL.getDefaultState() || state == Blocks.COARSE_DIRT.getDefaultState())
+            return true;
+        return state == Blocks.GRAVEL.getDefaultState() || state == Blocks.SAND.getDefaultState() || state == Blocks.STONE.getDefaultState();
     }
 
     @Override
@@ -52,11 +61,5 @@ public class CraterFeature extends Feature<CorruptedFeatureConfig> {
         }
 
         return true;
-    }
-
-    private static boolean canSpawn(IWorld world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
-        if (state == Blocks.GRASS_BLOCK.getDefaultState() || state == Blocks.PODZOL.getDefaultState() || state == Blocks.COARSE_DIRT.getDefaultState()) return true;
-        return state == Blocks.GRAVEL.getDefaultState() || state == Blocks.SAND.getDefaultState() || state == Blocks.STONE.getDefaultState();
     }
 }

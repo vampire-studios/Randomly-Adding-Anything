@@ -32,7 +32,7 @@ public class CommandLocateRAAStructure {
     // First make method to register
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         LiteralCommandNode<ServerCommandSource> basenode = dispatcher.register(literal("locateRAA")
-                .then(CommandManager.argument("RAAstructure", greedyString()).suggests(suggestedStrings()) .executes(ctx -> locateStructure(ctx.getSource(),
+                .then(CommandManager.argument("RAAstructure", greedyString()).suggests(suggestedStrings()).executes(ctx -> locateStructure(ctx.getSource(),
                         getString(ctx, "RAAstructure"))))
         );
     }
@@ -48,15 +48,15 @@ public class CommandLocateRAAStructure {
             }
 
             String worldPath;
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) worldPath = "saves/" + source.getWorld().getSaveHandler().getWorldDir().getName();
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+                worldPath = "saves/" + source.getWorld().getSaveHandler().getWorldDir().getName();
             else worldPath = source.getWorld().getLevelProperties().getLevelName();
 
             String spawnPath = worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/";
 
             if (structureName.equals("PortalHub") && source.getWorld().getDimension().getType().getSuffix().equals("")) {
                 spawnPath = worldPath + "/data/portal_hub_spawns.txt";
-            }
-            else if (structureName.equals("Tower") && isRaaDimension(source)) {
+            } else if (structureName.equals("Tower") && isRaaDimension(source)) {
                 spawnPath += "tower_spawns.txt";
             } else if (structureName.equals("Outpost") && isRaaDimension(source)) {
                 spawnPath += "outpost_spawns.txt";
@@ -70,7 +70,7 @@ public class CommandLocateRAAStructure {
                 spawnPath += "fossil_spawns.txt";
             } else if (structureName.equals("Shrine") && isRaaDimension(source)) {
                 spawnPath += "shrine_spawns.txt";
-            }  else if (structureName.equals("StoneCircle") && isRaaDimension(source)) {
+            } else if (structureName.equals("StoneCircle") && isRaaDimension(source)) {
                 spawnPath += "stone_circle_spawns.txt";
             } else {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
@@ -120,7 +120,7 @@ public class CommandLocateRAAStructure {
     private static CompletableFuture<Suggestions> getSuggestionsBuilder(SuggestionsBuilder builder, List<String> list) {
         String remaining = builder.getRemaining().toLowerCase(Locale.ROOT);
 
-        if(list.isEmpty()) { // If the list is empty then return no suggestions
+        if (list.isEmpty()) { // If the list is empty then return no suggestions
             return Suggestions.empty(); // No suggestions
         }
 

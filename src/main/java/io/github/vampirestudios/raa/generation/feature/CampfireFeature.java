@@ -58,8 +58,10 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
         );
         Block stair = Rands.list(stairs);
 
-        if (Rands.chance(2)) world.setBlockState(pos.add(0, 0, 2), stair.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH), 2);
-        if (Rands.chance(2)) world.setBlockState(pos.add(0, 0, -2), stair.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH), 2);
+        if (Rands.chance(2))
+            world.setBlockState(pos.add(0, 0, 2), stair.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH), 2);
+        if (Rands.chance(2))
+            world.setBlockState(pos.add(0, 0, -2), stair.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH), 2);
         if (Rands.chance(4)) {
             world.setBlockState(pos, Blocks.CAMPFIRE.getDefaultState(), 2);
         } else {
@@ -71,7 +73,8 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
             world.setBlockState(pos.add(-2, 0, 0), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST)), 2);
             LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(-2, 0, 0), RAALootTables.CAMPFIRE_LOOT);
         } else {
-            if (Rands.chance(2)) world.setBlockState(pos.add(-2, 0, 0), stair.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST), 2);
+            if (Rands.chance(2))
+                world.setBlockState(pos.add(-2, 0, 0), stair.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST), 2);
         }
 
         Block woolBlock = Rands.values(new Block[]{Blocks.WHITE_WOOL, Blocks.ORANGE_WOOL, Blocks.MAGENTA_WOOL, Blocks.LIGHT_BLUE_WOOL,
@@ -122,19 +125,23 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
             world.setBlockState(pos.add(2, 0, 0), carpetBlock.getDefaultState(), 2);
 
             // 1/2 chance for a lantern
-            if (Rands.chance(2)) world.setBlockState(pos.add(3, 1, -1), Blocks.LANTERN.getDefaultState().with(Properties.HANGING, true), 2);
+            if (Rands.chance(2))
+                world.setBlockState(pos.add(3, 1, -1), Blocks.LANTERN.getDefaultState().with(Properties.HANGING, true), 2);
 
             world.setBlockState(pos.add(3, 0, 2), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST)), 2);
             LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(3, 0, 2), RAALootTables.CAMPFIRE_TENT_LOOT);
         } else {
-            if (Rands.chance(2)) world.setBlockState(pos.add(2, 0, 0), stair.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST), 2);
+            if (Rands.chance(2))
+                world.setBlockState(pos.add(2, 0, 0), stair.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST), 2);
         }
 
         try {
             String path;
             World world2 = world.getWorld();
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt";
-            else path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt";
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+                path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt";
+            else
+                path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/campfire_spawns.txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
             writer.close();

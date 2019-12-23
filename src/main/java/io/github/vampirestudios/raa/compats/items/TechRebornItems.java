@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.compats.items;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -12,16 +11,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-import org.apache.commons.lang3.text.WordUtils;
 
 public class TechRebornItems extends ItemCompat {
     private ItemGroup POWDER_ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(RandomlyAddingAnything.MOD_ID, "tr_dust"), () -> new ItemStack(Items.GUNPOWDER));
 
-    public TechRebornItems() {super();}
+    public TechRebornItems() {
+        super();
+    }
 
     @Override
     public void generateItems() {

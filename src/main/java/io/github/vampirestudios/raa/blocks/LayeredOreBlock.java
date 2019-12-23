@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.blocks;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.RAARegistery;
+import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -64,27 +64,27 @@ public class LayeredOreBlock extends OreBlock {
 
     @Override
     public float getBlastResistance() {
-        return Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock().getBlastResistance();
+        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getBlastResistance();
     }
 
     @Override
     public BlockSoundGroup getSoundGroup(BlockState blockState_1) {
-        return Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock().getSoundGroup(blockState_1);
+        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getSoundGroup(blockState_1);
     }
 
     @Override
     public float getSlipperiness() {
-        return Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock().getSlipperiness();
+        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getSlipperiness();
     }
 
     @Override
     public net.minecraft.block.Material getMaterial(BlockState blockState_1) {
-        return Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock().getMaterial(blockState_1);
+        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getMaterial(blockState_1);
     }
 
     @Override
     public float getHardness(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
-        return Objects.requireNonNull(RAARegistery.TARGET_REGISTRY.get(material.getOreInformation().getGeneratesIn())).getBlock().getHardness(blockState_1, blockView_1, blockPos_1);
+        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getHardness(blockState_1, blockView_1, blockPos_1);
     }
 
     public void onStacksDropped(BlockState blockState_1, World world_1, BlockPos blockPos_1, ItemStack itemStack_1) {

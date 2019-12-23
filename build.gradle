@@ -17,6 +17,10 @@ repositories {
         url = "http://server.bbkr.space:8081/artifactory/libs-release"
     }
 	maven { url "https://dl.bintray.com/shedaniel/autoconfig1u/" }
+    maven {
+        name = "NerdHubMC"
+        url = "https://maven.abusedmaster.xyz/"
+    }
 
 	maven { url = "https://jitpack.io"}
 }
@@ -56,14 +60,31 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    modImplementation 'curse.maven:slightly-altered-terrain-generation:2834529'
-    modImplementation 'curse.maven:trees-do-not-float:2833870'
-    modImplementation 'curse.maven:carpet:2834141'
-    modImplementation 'curse.maven:fabric-vertigo:2834529'
-    modImplementation 'curse.maven:expanded-storage:2832473'
-    modImplementation 'curse.maven:carpet-extra:2830934'
-    modImplementation 'curse.maven:shulkerboxtooltip:2829477'
-    modImplementation 'curse.maven:leaf-decay:2827905'
+    modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
+    modRuntime 'curse.maven:trees-do-not-float:2833870'
+    modRuntime 'curse.maven:carpet:2834141'
+    modRuntime 'curse.maven:fabric-vertigo:2834529'
+    modRuntime 'curse.maven:expanded-storage:2832473'
+    modRuntime 'curse.maven:carpet-extra:2830934'
+    modRuntime 'curse.maven:shulkerboxtooltip:2829477'
+    modRuntime 'curse.maven:leaf-decay:2827905'
+    modRuntime 'curse.maven:the-hallow:2845161'
+
+    modImplementation("com.github.emilyploszaj:trinkets:${trinkets_version}") {
+        transitive = false
+    }
+
+    modCompile("com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${cardinal_components_version}") {
+        transitive = false
+    }
+
+    modCompile("com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${cardinal_components_version}") {
+        transitive = false
+    }
+
+    modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
+        transitive = false
+    }
 
     modImplementation 'com.github.SuperCoder7979:simplexterrain:update~0.5.0-SNAPSHOT'
 

@@ -35,7 +35,7 @@ public class ServerPlayerEntityMixin implements PlayerDiscoveryProvider {
 
     @Inject(method = "copyFrom", at = @At("RETURN"))
     public void copyFromPlayer(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo ci) {
-        this.setDiscoveryState(((PlayerDiscoveryProvider)oldPlayer).getDiscoveryState());
+        this.setDiscoveryState(((PlayerDiscoveryProvider) oldPlayer).getDiscoveryState());
     }
 
 

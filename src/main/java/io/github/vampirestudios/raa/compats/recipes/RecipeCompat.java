@@ -13,19 +13,20 @@ import java.util.function.Supplier;
 public abstract class RecipeCompat {
     private ArtificeResourcePack.ServerResourcePackBuilder dataPackBuilder;
 
-    protected RecipeCompat() {}
+    protected RecipeCompat() {
+    }
 
     public ArtificeResourcePack.ServerResourcePackBuilder getDataPackBuilder() {
         return dataPackBuilder;
     }
 
+    public void setDataPackBuilder(ArtificeResourcePack.ServerResourcePackBuilder dataPackBuilder) {
+        this.dataPackBuilder = dataPackBuilder;
+    }
+
     public abstract void registerRecipes(ArtificeResourcePack.ServerResourcePackBuilder dataPackBuilder);
 
     protected <T extends TypedJsonBuilder<? extends JsonResource>> void addRecipes(Identifier id, Processor<T> f, Supplier<T> ctor) {
-        this.dataPackBuilder.add(IdUtils.wrapPath("recipes/", id, ".json"), (ArtificeResource)((TypedJsonBuilder)f.process(ctor.get())).build());
-    }
-
-    public void setDataPackBuilder(ArtificeResourcePack.ServerResourcePackBuilder dataPackBuilder) {
-        this.dataPackBuilder = dataPackBuilder;
+        this.dataPackBuilder.add(IdUtils.wrapPath("recipes/", id, ".json"), (ArtificeResource) ((TypedJsonBuilder) f.process(ctor.get())).build());
     }
 }

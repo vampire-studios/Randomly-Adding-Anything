@@ -262,7 +262,8 @@ public class Dimensions {
                     .skyLight(dimension.hasSkyLight())
                     .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, Rands.chance(50) ? Blocks.STONE : stoneBlock));
 
-            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES) typee.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
+            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES)
+                typee.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
             else typee.defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer());
 
             DimensionType type = typee.buildAndRegister(dimension.getId());

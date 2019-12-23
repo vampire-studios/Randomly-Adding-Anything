@@ -3,7 +3,6 @@ package io.github.vampirestudios.raa.config.screen;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.config.GeneralConfig;
-import io.github.vampirestudios.raa.config.screen.dimensions.DimensionListScreen;
 import io.github.vampirestudios.raa.config.screen.materials.MaterialListScreen;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import net.minecraft.client.MinecraftClient;
@@ -50,15 +49,12 @@ public class ConfigScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.generalConfig"), var1 -> {
-            minecraft.openScreen(AutoConfig.getConfigScreen(GeneralConfig.class, this).get());
-        }));
-        addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, I18n.translate("config.button.raa.materialConfiguration"), var1 -> {
-            minecraft.openScreen(new MaterialListScreen(this));
-        }));
-        addButton(new ButtonWidget(width / 2 - 75, 130, 150, 20, I18n.translate("config.button.raa.dimensionConfiguration"), var1 -> {
-            minecraft.openScreen(new DimensionListScreen(this));
-        }));
+        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.generalConfig"), var1 ->
+                minecraft.openScreen(AutoConfig.getConfigScreen(GeneralConfig.class, this).get())));
+        addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, I18n.translate("config.button.raa.materialConfiguration"), var1 ->
+                minecraft.openScreen(new MaterialListScreen(this))));
+        addButton(new ButtonWidget(width / 2 - 75, 130, 150, 20, I18n.translate("config.button.raa.dimensionConfigurations"), var1 ->
+                minecraft.openScreen(new DimensionsConfigScreen(this))));
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
     }
 

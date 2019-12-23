@@ -10,42 +10,6 @@ import java.util.*;
 
 public class JsonConverter {
 
-    public static class StructureValues {
-        private String name;
-        private Vec3i size;
-        private int entities; //Figure out what to do with this
-        private List<Vec3i> blockPositions;
-        private List<Integer> blockStates;
-        private List<String> blockTypes;
-        private List<Map<String, String>> blockProperties;
-
-        StructureValues() {
-            name = "";
-            size = Vec3i.ZERO;
-            entities = 0;
-            blockPositions = new ArrayList<>();
-            blockStates = new ArrayList<>();
-            blockTypes = new ArrayList<>();
-            blockProperties = new ArrayList<>();
-        }
-
-        public void setName(String nameIn) { name = nameIn; }
-        public void setSize(List<Integer> sizeIn) { size = new Vec3i(sizeIn.get(0), sizeIn.get(1), sizeIn.get(2)); }
-        public void setEntities() {}
-        public void setBlockPositions(List<Integer> positionsIn) { blockPositions.add(new Vec3i(positionsIn.get(0), positionsIn.get(1), positionsIn.get(2))); }
-        public void setBlockStates(Integer statesIn) { blockStates.add(statesIn); }
-        public void setBlockTypes(String blocksIn) { blockTypes.add(blocksIn); }
-        public void setBlockProperties(Map<String, String> propertiesIn) { blockProperties.add(propertiesIn); }
-
-        public String getName() { return name; }
-        public Vec3i getSize() { return size; }
-        public int getEntities() { return entities; }
-        public List<Vec3i> getBlockPositions() { return blockPositions; }
-        public List<Integer> getBlockStates() { return blockStates; }
-        public List<String> getBlockTypes() { return blockTypes; }
-        public List<Map<String, String>> getBlockProperties() { return blockProperties; }
-    }
-
     public StructureValues loadStructure(JsonObject structureJson) {
 //        System.out.println("Idk: " + JsonHelper.getString(structureJson, "structureName", "test"));
         StructureValues structure = new StructureValues();
@@ -89,7 +53,7 @@ public class JsonConverter {
                             JsonObject blockProperty = jsonElement2.getAsJsonObject();
                             String propertyName = JsonHelper.getString(blockProperty, "name");
                             if (propertyName.equals("state")) {
-                                int state = JsonHelper.getInt(blockProperty,"value");
+                                int state = JsonHelper.getInt(blockProperty, "value");
                                 structure.setBlockStates(state);
                             }
                             if (propertyName.equals("pos")) {
@@ -115,7 +79,7 @@ public class JsonConverter {
                             Map<String, String> blockPropertyMap = new HashMap<>();
                             if (propertyName.equals("Name")) {
                                 structure.setBlockProperties(blockPropertyMap);
-                                String blockId = JsonHelper.getString(paletteProperty,"value");
+                                String blockId = JsonHelper.getString(paletteProperty, "value");
                                 structure.setBlockTypes(blockId);
                             }
                             if (propertyName.equals("Properties")) {
@@ -240,5 +204,80 @@ public class JsonConverter {
         }*/
 
         return structure;
+    }
+
+    public static class StructureValues {
+        private String name;
+        private Vec3i size;
+        private int entities; //Figure out what to do with this
+        private List<Vec3i> blockPositions;
+        private List<Integer> blockStates;
+        private List<String> blockTypes;
+        private List<Map<String, String>> blockProperties;
+
+        StructureValues() {
+            name = "";
+            size = Vec3i.ZERO;
+            entities = 0;
+            blockPositions = new ArrayList<>();
+            blockStates = new ArrayList<>();
+            blockTypes = new ArrayList<>();
+            blockProperties = new ArrayList<>();
+        }
+
+        public void setEntities() {
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String nameIn) {
+            name = nameIn;
+        }
+
+        public Vec3i getSize() {
+            return size;
+        }
+
+        public void setSize(List<Integer> sizeIn) {
+            size = new Vec3i(sizeIn.get(0), sizeIn.get(1), sizeIn.get(2));
+        }
+
+        public int getEntities() {
+            return entities;
+        }
+
+        public List<Vec3i> getBlockPositions() {
+            return blockPositions;
+        }
+
+        public void setBlockPositions(List<Integer> positionsIn) {
+            blockPositions.add(new Vec3i(positionsIn.get(0), positionsIn.get(1), positionsIn.get(2)));
+        }
+
+        public List<Integer> getBlockStates() {
+            return blockStates;
+        }
+
+        public void setBlockStates(Integer statesIn) {
+            blockStates.add(statesIn);
+        }
+
+        public List<String> getBlockTypes() {
+            return blockTypes;
+        }
+
+        public void setBlockTypes(String blocksIn) {
+            blockTypes.add(blocksIn);
+        }
+
+        public List<Map<String, String>> getBlockProperties() {
+            return blockProperties;
+        }
+
+        public void setBlockProperties(Map<String, String> propertiesIn) {
+            blockProperties.add(propertiesIn);
+        }
     }
 }

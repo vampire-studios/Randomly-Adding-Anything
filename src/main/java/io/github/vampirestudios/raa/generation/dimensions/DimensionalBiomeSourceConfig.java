@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSourceConfig;
-import net.minecraft.world.biome.source.VanillaLayeredBiomeSourceConfig;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.level.LevelGeneratorType;
 import net.minecraft.world.level.LevelProperties;
@@ -21,18 +20,8 @@ public class DimensionalBiomeSourceConfig implements BiomeSourceConfig {
     }
 
     public DimensionalBiomeSourceConfig(Object o) {
-        this.seed = ((LevelProperties)o).getSeed();
-        this.generatorType = ((LevelProperties)o).getGeneratorType();
-    }
-
-    public DimensionalBiomeSourceConfig setGeneratorSettings(OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
-        this.generatorSettings = overworldChunkGeneratorConfig_1;
-        return this;
-    }
-
-    public DimensionalBiomeSourceConfig setBiomes(Set<Biome> biomes) {
-        this.biomes = biomes;
-        return this;
+        this.seed = ((LevelProperties) o).getSeed();
+        this.generatorType = ((LevelProperties) o).getGeneratorType();
     }
 
     public long getSeed() {
@@ -47,7 +36,17 @@ public class DimensionalBiomeSourceConfig implements BiomeSourceConfig {
         return this.generatorSettings;
     }
 
+    public DimensionalBiomeSourceConfig setGeneratorSettings(OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
+        this.generatorSettings = overworldChunkGeneratorConfig_1;
+        return this;
+    }
+
     public Set<Biome> getBiomes() {
         return biomes;
+    }
+
+    public DimensionalBiomeSourceConfig setBiomes(Set<Biome> biomes) {
+        this.biomes = biomes;
+        return this;
     }
 }

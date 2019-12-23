@@ -51,37 +51,30 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
         try {
             Resource towerBasePath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil01.json"));
             fossil1 = new Gson().fromJson(new InputStreamReader(towerBasePath.getInputStream()), JsonObject.class);
-            System.out.println(fossil1.toString());
             JsonObject finalTowerBase = fossil1;
 
             Resource towerWallsPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil02.json"));
             fossil2 = new Gson().fromJson(new InputStreamReader(towerWallsPath.getInputStream()), JsonObject.class);
-            System.out.println(fossil2.toString());
             JsonObject finalTowerWalls = fossil2;
 
             Resource towerStairsPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil03.json"));
             fossil3 = new Gson().fromJson(new InputStreamReader(towerStairsPath.getInputStream()), JsonObject.class);
-            System.out.println(fossil3.toString());
             JsonObject finalTowerStairs = fossil3;
 
             Resource towerLaddersPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil04.json"));
             fossil4 = new Gson().fromJson(new InputStreamReader(towerLaddersPath.getInputStream()), JsonObject.class);
-            System.out.println(fossil4.toString());
             JsonObject finalTowerLadders = fossil4;
 
             Resource towerPillarPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil05.json"));
             fossil5 = new Gson().fromJson(new InputStreamReader(towerPillarPath.getInputStream()), JsonObject.class);
-            System.out.println(fossil5.toString());
             JsonObject finalTowerPillar = fossil5;
 
             Resource fossil6Path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil06.json"));
             fossil6 = new Gson().fromJson(new InputStreamReader(fossil6Path.getInputStream()), JsonObject.class);
-            System.out.println(fossil6.toString());
             JsonObject finalFossil6 = fossil6;
 
             Resource fossil7Path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil07.json"));
             fossil7 = new Gson().fromJson(new InputStreamReader(fossil7Path.getInputStream()), JsonObject.class);
-            System.out.println(fossil7.toString());
             JsonObject finalFossil7 = fossil7;
 
             structures = new HashMap<String, JsonConverter.StructureValues>() {{
@@ -127,8 +120,10 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
         try {
             String path;
             World world2 = world.getWorld();
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
-            else path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+                path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
+            else
+                path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/fossil_spawns.txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
             writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
             writer.close();

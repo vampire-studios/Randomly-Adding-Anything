@@ -25,8 +25,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.RAARegistery;
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
+import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
@@ -106,52 +105,27 @@ public class RegistryUtils {
         }
     }
 
-    public static GeneratesIn registerGeneratesIn(Identifier name, GeneratesIn generatesIn) {
-        if (RAARegistery.GENERATES_IN_REGISTRY.get(name) == GeneratesIn.NONE) {
-            return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, name, generatesIn);
-        } else {
-            return generatesIn;
-        }
-    }
-
-    public static GeneratesIn registerGeneratesIn(String name, GeneratesIn generatesIn) {
-        Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
-        if (RAARegistery.GENERATES_IN_REGISTRY.get(identifier) == GeneratesIn.NONE) {
-            return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, identifier, generatesIn);
-        } else {
-            return generatesIn;
-        }
-    }
-
-    public static GeneratesIn registerGeneratesIn(Identifier name, Block block, OreFeatureConfig.Target target) {
-        if (RAARegistery.GENERATES_IN_REGISTRY.get(name) == GeneratesIn.NONE) {
-            return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, name, new GeneratesIn(name, block, target));
-        } else {
-            return new GeneratesIn(name, block, target);
-        }
-    }
-
-    public static GeneratesIn registerGeneratesIn(String name, Block block, OreFeatureConfig.Target target) {
-        Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
-        if (RAARegistery.GENERATES_IN_REGISTRY.get(identifier) == null) {
-            return Registry.register(RAARegistery.GENERATES_IN_REGISTRY, identifier, new GeneratesIn(identifier, block, target));
-        } else {
-            return new GeneratesIn(identifier, block, target);
-        }
-    }
-
     public static OreFeatureConfig.Target registerOreTarget(String name, OreFeatureConfig.Target target) {
         Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
-        if (RAARegistery.TARGET_REGISTRY.get(identifier) == OreFeatureConfig.Target.NONE) {
-            return Registry.register(RAARegistery.TARGET_REGISTRY, identifier, target);
+        if (RAARegisteries.TARGET_REGISTRY.get(identifier) == null) {
+            return Registry.register(RAARegisteries.TARGET_REGISTRY, identifier, target);
         } else {
             return target;
         }
     }
 
     public static OreFeatureConfig.Target registerOreTarget(Identifier name, OreFeatureConfig.Target target) {
-        if (RAARegistery.TARGET_REGISTRY.get(name) == null) {
-            return Registry.register(RAARegistery.TARGET_REGISTRY, name, target);
+        if (RAARegisteries.TARGET_REGISTRY.get(name) == null) {
+            return Registry.register(RAARegisteries.TARGET_REGISTRY, name, target);
+        } else {
+            return target;
+        }
+    }
+
+    public static OreFeatureConfig.Target registerOreTarget(Identifier name, Predicate<BlockState> blockStatePredicate, Block block) {
+        OreFeatureConfig.Target target = new OreFeatureConfig.Target(name, blockStatePredicate, block);
+        if (RAARegisteries.TARGET_REGISTRY.get(target.getId()) == null) {
+            return Registry.register(RAARegisteries.TARGET_REGISTRY, target.getId(), target);
         } else {
             return target;
         }
@@ -159,8 +133,8 @@ public class RegistryUtils {
 
     public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate, Block block) {
         OreFeatureConfig.Target target = new OreFeatureConfig.Target(new Identifier(name), blockStatePredicate, block);
-        if (RAARegistery.TARGET_REGISTRY.get(target.getId()) == null) {
-            return Registry.register(RAARegistery.TARGET_REGISTRY, target.getId(), target);
+        if (RAARegisteries.TARGET_REGISTRY.get(target.getId()) == null) {
+            return Registry.register(RAARegisteries.TARGET_REGISTRY, target.getId(), target);
         } else {
             return target;
         }

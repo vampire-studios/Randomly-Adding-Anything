@@ -32,11 +32,11 @@ public class BentTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureConf
             int offset = Rands.randIntRange(3, 6);
             int offsetX = Rands.chance(3) ? -1 : Rands.chance(2) ? 0 : 1;
             int offsetZ = Rands.chance(3) ? -1 : Rands.chance(2) ? 0 : 1;
-            this.generate(modifiableTestableWorld_1, random_1, offset-2, blockPos_2, 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
+            this.generate(modifiableTestableWorld_1, random_1, offset - 2, blockPos_2, 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
 
-            this.generate(modifiableTestableWorld_1, random_1, offset, blockPos_2.add(offsetX, offset-2, offsetZ), 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
-            this.generate(modifiableTestableWorld_1, random_1, int_1, blockPos_2.add(offsetX*2, (offset*2) - 2, offsetZ*2), branchedTreeFeatureConfig_1.trunkTopOffsetRandom + random_1.nextInt(branchedTreeFeatureConfig_1.trunkTopOffsetRandom + 1), set_1, blockBox_1, branchedTreeFeatureConfig_1);
-            branchedTreeFeatureConfig_1.foliagePlacer.generate(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(offsetX*2, (offset*2) - 2, offsetZ*2), set_2);
+            this.generate(modifiableTestableWorld_1, random_1, offset, blockPos_2.add(offsetX, offset - 2, offsetZ), 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
+            this.generate(modifiableTestableWorld_1, random_1, int_1, blockPos_2.add(offsetX * 2, (offset * 2) - 2, offsetZ * 2), branchedTreeFeatureConfig_1.trunkTopOffsetRandom + random_1.nextInt(branchedTreeFeatureConfig_1.trunkTopOffsetRandom + 1), set_1, blockBox_1, branchedTreeFeatureConfig_1);
+            branchedTreeFeatureConfig_1.foliagePlacer.generate(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(offsetX * 2, (offset * 2) - 2, offsetZ * 2), set_2);
 
             return true;
         }

@@ -71,7 +71,9 @@ public class DimensionTextureData {
         return polishedTexture;
     }
 
-    public Identifier getIceTexture() { return iceTexture; }
+    public Identifier getIceTexture() {
+        return iceTexture;
+    }
 
     public static class Builder {
 

@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa;
 
+import io.github.vampirestudios.raa.compats.SimplexRAACompat;
 import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
@@ -7,9 +8,18 @@ import io.github.vampirestudios.raa.config.MaterialsConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
+import io.github.vampirestudios.raa.generation.materials.MaterialOreGenerator;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
-import io.github.vampirestudios.raa.generation.materials.MaterialWorldSpawning;
-import io.github.vampirestudios.raa.registries.*;
+import io.github.vampirestudios.raa.registries.ChunkGenerators;
+import io.github.vampirestudios.raa.registries.Criterions;
+import io.github.vampirestudios.raa.registries.CustomTargets;
+import io.github.vampirestudios.raa.registries.Decorators;
+import io.github.vampirestudios.raa.registries.Dimensions;
+import io.github.vampirestudios.raa.registries.Features;
+import io.github.vampirestudios.raa.registries.FoliagePlacers;
+import io.github.vampirestudios.raa.registries.Materials;
+import io.github.vampirestudios.raa.registries.SurfaceBuilders;
+import io.github.vampirestudios.raa.registries.Textures;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
@@ -32,6 +42,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.function.Function;
 
 public class RandomlyAddingAnything implements ModInitializer {
@@ -42,7 +53,8 @@ public class RandomlyAddingAnything implements ModInitializer {
     public static final ItemGroup RAA_ARMOR = FabricItemGroupBuilder.build(new Identifier("raa", "armor"), () -> new ItemStack(Items.IRON_HELMET));
     public static final ItemGroup RAA_WEAPONS = FabricItemGroupBuilder.build(new Identifier("raa", "weapons"), () -> new ItemStack(Items.IRON_SWORD));
     public static final ItemGroup RAA_FOOD = FabricItemGroupBuilder.build(new Identifier("raa", "food"), () -> new ItemStack(Items.GOLDEN_APPLE));
-    public static final ItemGroup RAA_DIMENSION_BLOCKS = FabricItemGroupBuilder.build(new Identifier("raa", "dimension_blocks"), () -> new ItemStack(Items.STONE));
+    public static final ItemGroup RAA_DIMENSION_BLOCKS = FabricItemGroupBuilder.build(new Identifier("raa", "dimension_blocks"), () ->
+            new ItemStack(Items.STONE));
     public static final String MOD_ID = "raa";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
@@ -66,20 +78,23 @@ public class RandomlyAddingAnything implements ModInitializer {
         Decorators.init();
         SurfaceBuilders.init();
         ChunkGenerators.init();
-        if (FabricLoader.getInstance().isModLoaded("simplexterrain")) CustomOverworldPostProcessors.init();
+        if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
+            SimplexRAACompat.init();
+        }
+        CustomTargets.init();
 
         //Reflection hacks
-        Constructor<BiomeSourceType> constructor = null;
+        Constructor<BiomeSourceType> constructor;
         try {
             constructor = BiomeSourceType.class.getDeclaredConstructor(Function.class, Function.class);
             constructor.setAccessible(true);
-            DIMENSIONAL_BIOMES = constructor.newInstance((Function)DimensionalBiomeSource::new, (Function)DimensionalBiomeSourceConfig::new);
+            DIMENSIONAL_BIOMES = constructor.newInstance((Function) DimensionalBiomeSource::new, (Function) DimensionalBiomeSourceConfig::new);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
-        if(CONFIG.materialNumber > 0) {
+        if (CONFIG.materialNumber > 0) {
             if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
                 MATERIALS_CONFIG.generate();
                 MATERIALS_CONFIG.save();
@@ -90,7 +105,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         Materials.createMaterialResources();
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-        if(CONFIG.dimensionNumber > 0) {
+        if (CONFIG.dimensionNumber > 0) {
             if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
                 DIMENSIONS_CONFIG.generate();
                 DIMENSIONS_CONFIG.save();
@@ -101,7 +116,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         Dimensions.createDimensions();
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
-        if(CONFIG.materialNumber > 0) {
+        if (CONFIG.materialNumber > 0) {
             if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
                 DIMENSION_MATERIALS_CONFIG.generate();
                 DIMENSION_MATERIALS_CONFIG.save();
@@ -123,6 +138,6 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         });
         Criterions.init();
-        MaterialWorldSpawning.init();
+        MaterialOreGenerator.init();
     }
 }
