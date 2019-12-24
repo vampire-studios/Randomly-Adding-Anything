@@ -329,6 +329,10 @@ public class Materials {
             OreFeatureConfig.Target csoct =  RegistryUtils.registerOreTarget(stoneName, new Csoct(stoneName, block));
             material.getOreInformation().setGeneratesIn(csoct.getId());*/
 
+            Identifier diemnsionId = new Identifier(material.getId().getNamespace(), material.getId().getPath().split("_")[0]);
+            Identifier stoneName = Utils.appendToPath(diemnsionId, "_stone");
+            RegistryUtils.registerOreTarget(stoneName, new Csoct(stoneName, Registry.BLOCK.get(stoneName)));
+
             Identifier identifier = material.getId();
             Item repairItem;
             FabricBlockSettings blockSettings = FabricBlockSettings.copy(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock());
