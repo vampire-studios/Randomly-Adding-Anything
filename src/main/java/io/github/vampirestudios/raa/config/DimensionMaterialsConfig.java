@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.generation.materials.data.CustomArmorMaterial;
+import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.GsonUtils;
@@ -90,7 +91,7 @@ public class DimensionMaterialsConfig extends RAADataConfig {
 
     @Override
     protected void load(JsonObject jsonObject) {
-        Material[] materials = GsonUtils.getGson().fromJson(JsonHelper.getArray(jsonObject, "dimension_materials"), Material[].class);
+        DimensionMaterial[] materials = GsonUtils.getGson().fromJson(JsonHelper.getArray(jsonObject, "dimension_materials"), DimensionMaterial[].class);
         Arrays.stream(materials).forEach(material -> {
             if (material.getArmorMaterial() != null) {
                 material.getArmorMaterial().setMaterialId(material.getId());
@@ -100,14 +101,14 @@ public class DimensionMaterialsConfig extends RAADataConfig {
                 material.getToolMaterial().setMaterialId(material.getId());
                 material.getToolMaterial().setOreType(material.getOreInformation().getOreType());
             }
-            Registry.register(Materials.MATERIALS, material.getId(), material);
+            Registry.register(Materials.DIMENSION_MATERIALS, material.getId(), material);
         });
     }
 
     @Override
     protected void save(FileWriter fileWriter) {
         JsonObject main = new JsonObject();
-        main.add("dimension_materials", GsonUtils.getGson().toJsonTree(Materials.DIMENSION_MATERIALS.stream().toArray(Material[]::new)));
+        main.add("dimension_materials", GsonUtils.getGson().toJsonTree(Materials.DIMENSION_MATERIALS.stream().toArray(DimensionMaterial[]::new)));
         main.addProperty("configVersion", CURRENT_VERSION);
         GsonUtils.getGson().toJson(main, fileWriter);
     }

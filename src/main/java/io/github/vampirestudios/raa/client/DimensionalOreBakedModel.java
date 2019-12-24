@@ -1,6 +1,9 @@
 package io.github.vampirestudios.raa.client;
 
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
+import io.github.vampirestudios.raa.registries.Dimensions;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
@@ -18,6 +21,7 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockRenderView;
@@ -46,10 +50,13 @@ public class DimensionalOreBakedModel extends RAABakedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
+        Identifier diemnsionId = new Identifier(dimensionMaterial.getId().getNamespace(), dimensionMaterial.getId().getPath().split("_")[0]);
+        DimensionData dimensionData = Dimensions.DIMENSIONS.get(diemnsionId);
+
         RenderMaterial mat = renderer.materialFinder().disableAo(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
-        int color = dimensionMaterial.getDimensionData().getDimensionColorPalette().getStoneColor();
+        int color = dimensionData.getDimensionColorPalette().getStoneColor();
         Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
-                .apply(dimensionMaterial.getDimensionData().getTexturesInformation().getStoneTexture());
+                .apply(dimensionData.getTexturesInformation().getStoneTexture());
 //        System.out.println(sprite.getId().toString());
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
