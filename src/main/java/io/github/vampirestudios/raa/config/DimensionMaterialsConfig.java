@@ -71,7 +71,7 @@ public class DimensionMaterialsConfig extends RAADataConfig {
 
                     JsonObject oreInformation = material.getAsJsonObject("oreInformation");
                     if (!JsonHelper.isString(oreInformation.get("targetId")))
-                        oreInformation.addProperty("targetId", GsonUtils.idFromOldStyle(JsonHelper.getObject(oreInformation, "")));
+                        oreInformation.addProperty("targetId", GsonUtils.idFromOldStyle(JsonHelper.getObject(oreInformation, "generatesIn")).toString());
                     oreInformation.addProperty("minXPAmount", 0);
 
                     JsonObject texturesInformation = material.getAsJsonObject("texturesInformation");
