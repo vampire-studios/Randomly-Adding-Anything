@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.materials;
+package io.github.vampirestudios.raa.generation.materials.data;
 
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.utils.Rands;

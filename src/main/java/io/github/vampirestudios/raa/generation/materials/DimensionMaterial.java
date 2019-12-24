@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.generation.materials;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.generation.materials.data.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -15,8 +16,9 @@ public class DimensionMaterial extends Material {
 
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
                       CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
-                      DimensionData dimensionData) {
-        super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
+                      DimensionData dimensionData, MaterialFoodData foodData, float compostbleAmount, boolean compostable) {
+        super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, foodData,
+                compostbleAmount, compostable);
         this.dimensionData = dimensionData;
     }
 
@@ -34,6 +36,7 @@ public class DimensionMaterial extends Material {
         private int oreCount;
         private CustomArmorMaterial armorMaterial;
         private CustomToolMaterial toolMaterial;
+        private MaterialFoodData foodData;
         private boolean armor = false;
         private boolean tools = false;
         private boolean weapons = false;
@@ -45,6 +48,8 @@ public class DimensionMaterial extends Material {
         private int oreClusterSize = 9;
         private int miningLevel;
         private DimensionData dimensionData;
+        private float compostbleAmount;
+        private boolean compostable;
 
         protected Builder() {
             oreCount = Rands.randInt(19) + 1;
@@ -93,6 +98,16 @@ public class DimensionMaterial extends Material {
             return this;
         }
 
+        public Builder compostbleAmount(float compostbleAmount) {
+            this.compostbleAmount = compostbleAmount;
+            return this;
+        }
+
+        public Builder compostable(boolean compostable) {
+            this.compostable = compostable;
+            return this;
+        }
+
         public Builder target(Identifier target) {
             this.generatesIn = target;
             return this;
@@ -106,6 +121,11 @@ public class DimensionMaterial extends Material {
         public Builder armor(CustomArmorMaterial armorMaterial) {
             this.armor = true;
             this.armorMaterial = armorMaterial;
+            return this;
+        }
+
+        public Builder foodData(MaterialFoodData foodData) {
+            this.foodData = foodData;
             return this;
         }
 
@@ -222,7 +242,8 @@ public class DimensionMaterial extends Material {
 
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
-            return new DimensionMaterial(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, dimensionData);
+            return new DimensionMaterial(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing,
+                    oreFlower, food, dimensionData, foodData, compostbleAmount, compostable);
         }
     }
 

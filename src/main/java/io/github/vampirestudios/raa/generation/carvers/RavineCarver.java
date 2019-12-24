@@ -41,21 +41,21 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
         return random_1.nextFloat() <= probabilityConfig_1.probability;
     }
 
-    public boolean carve(Chunk chunk_1, Function<BlockPos, Biome> function_1, Random random_1, int int_1, int int_2, int int_3, int int_4, int int_5, BitSet bitSet_1, ProbabilityConfig probabilityConfig_1) {
-        int int_6 = (this.getBranchFactor() * 2 - 1) * 16;
-        double double_1 = int_2 * 16 + random_1.nextInt(16);
-        double double_2 = random_1.nextInt(random_1.nextInt(40) + 8) + 20;
-        double double_3 = int_3 * 16 + random_1.nextInt(16);
-        float float_1 = random_1.nextFloat() * 6.2831855F;
-        float float_2 = (random_1.nextFloat() - 0.5F) * 2.0F / 8.0F;
-        float float_3 = (random_1.nextFloat() * 2.0F + random_1.nextFloat()) * 2.0F;
-        int int_7 = int_6 - random_1.nextInt(int_6 / 4);
-        this.carveRavine(chunk_1, function_1, random_1.nextLong(), int_1, int_4, int_5, double_1, double_2, double_3, float_3, float_1, float_2, int_7, bitSet_1);
+    public boolean carve(Chunk chunk, Function<BlockPos, Biome> posBiomeFunction, Random random, int chunkX, int chunkZ, int mainChunkX, int mainChunkZ, int i, BitSet bitSet, ProbabilityConfig carverConfig) {
+        int branchFactor = (this.getBranchFactor() * 2 - 1) * 16;
+        double v = chunkZ * 16 + random.nextInt(16);
+        double double_2 = random.nextInt(random.nextInt(40) + 8) + 20;
+        double double_3 = mainChunkX * 16 + random.nextInt(16);
+        float float_1 = random.nextFloat() * 6.2831855F;
+        float float_2 = (random.nextFloat() - 0.5F) * 2.0F / 8.0F;
+        float float_3 = (random.nextFloat() * 2.0F + random.nextFloat()) * 2.0F;
+        int int_7 = branchFactor - random.nextInt(branchFactor / 4);
+        this.carveRavine(chunk, posBiomeFunction, random.nextLong(), chunkX, mainChunkZ, i, v, double_2, double_3, float_3, float_1, float_2, int_7, bitSet);
         return true;
     }
 
-    private void carveRavine(Chunk chunk_1, Function<BlockPos, Biome> function_1, long long_1, int int_1, int int_2, int int_3, double double_1, double double_2, double double_3, float float_1, float float_2, float float_3, int int_5, BitSet bitSet_1) {
-        Random random_1 = new Random(long_1);
+    private void carveRavine(Chunk chunk, Function<BlockPos, Biome> posBiomeFunction, long l, int chunkX, int chunkZ, int mainChunkZ, double v, double v1, double v2, float float_1, float float_2, float float_3, int int_5, BitSet bitSet_1) {
+        Random random_1 = new Random(l);
         float float_4 = 1.0F;
 
         for (int int_6 = 0; int_6 < 256; ++int_6) {
@@ -76,9 +76,9 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
             double_6 *= (double) random_1.nextFloat() * 0.25D + 0.75D;
             float float_7 = MathHelper.cos(float_3);
             float float_8 = MathHelper.sin(float_3);
-            double_1 += MathHelper.cos(float_2) * float_7;
-            double_2 += float_8;
-            double_3 += MathHelper.sin(float_2) * float_7;
+            v += MathHelper.cos(float_2) * float_7;
+            v1 += float_8;
+            v2 += MathHelper.sin(float_2) * float_7;
             float_3 *= 0.7F;
             float_3 += float_6 * 0.05F;
             float_2 += float_5 * 0.05F;
@@ -87,11 +87,11 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
             float_6 += (random_1.nextFloat() - random_1.nextFloat()) * random_1.nextFloat() * 2.0F;
             float_5 += (random_1.nextFloat() - random_1.nextFloat()) * random_1.nextFloat() * 4.0F;
             if (random_1.nextInt(4) != 0) {
-                if (!this.canCarveBranch(int_2, int_3, double_1, double_3, int_7, int_5, float_1)) {
+                if (!this.canCarveBranch(chunkZ, mainChunkZ, v, v2, int_7, int_5, float_1)) {
                     return;
                 }
 
-                this.carveRegion(chunk_1, function_1, long_1, int_1, int_2, int_3, double_1, double_2, double_3, double_5, double_6, bitSet_1);
+                this.carveRegion(chunk, posBiomeFunction, l, chunkX, chunkZ, mainChunkZ, v, v1, v2, double_5, double_6, bitSet_1);
             }
         }
 

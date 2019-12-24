@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.materials;
+package io.github.vampirestudios.raa.generation.materials.data;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;

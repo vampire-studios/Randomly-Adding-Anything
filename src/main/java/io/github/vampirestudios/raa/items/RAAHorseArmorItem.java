@@ -31,7 +31,7 @@ public class RAAHorseArmorItem extends DyeableHorseArmorItem {
 
     @Override
     public int getColor(ItemStack itemStack_1) {
-        return material.getRGBColor();
+        return material.getColor();
     }
 
     @Override

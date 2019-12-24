@@ -82,7 +82,7 @@ public class DimensionalOreBakedModel extends RAABakedModel {
         } else {
             mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
         }
-        color = dimensionMaterial.getRGBColor();
+        color = dimensionMaterial.getColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.dimensionMaterial.getTexturesInformation().getOverlayTexture());
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)

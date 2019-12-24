@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa;
 
+import io.github.vampirestudios.raa.api.RAARegisteries;
+import io.github.vampirestudios.raa.api.RAAWorldAPI;
 import io.github.vampirestudios.raa.compats.SimplexRAACompat;
 import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
@@ -8,7 +10,6 @@ import io.github.vampirestudios.raa.config.MaterialsConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
-import io.github.vampirestudios.raa.generation.materials.MaterialOreGenerator;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import io.github.vampirestudios.raa.registries.Criterions;
@@ -32,6 +33,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSourceType;
 import net.minecraft.world.gen.GenerationStep;
@@ -42,7 +44,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.function.Function;
 
 public class RandomlyAddingAnything implements ModInitializer {
@@ -115,7 +116,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
         Dimensions.createDimensions();
 
-        DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("materials/dimension_material_config");
+        DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("dimensions/dimensional_material_config");
         if (CONFIG.materialNumber > 0) {
             if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
                 DIMENSION_MATERIALS_CONFIG.generate();
@@ -134,10 +135,9 @@ public class RandomlyAddingAnything implements ModInitializer {
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
                                 configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.001125F), 1))));
-//                Features.addDefaultCarvers(biome, null);
             }
         });
         Criterions.init();
-        MaterialOreGenerator.init();
+        Registry.BIOME.forEach(biome -> RAARegisteries.TARGET_REGISTRY.forEach(target -> RAAWorldAPI.generateOresForTarget(biome, target)));
     }
 }

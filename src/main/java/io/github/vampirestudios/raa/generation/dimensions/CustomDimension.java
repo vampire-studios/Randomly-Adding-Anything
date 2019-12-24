@@ -26,29 +26,28 @@ public class CustomDimension extends Dimension {
 
     private DimensionType dimensionType;
     private DimensionData dimensionData;
-    private Set<Biome> biomes;
+    private Set<Biome> biomeSet;
     private Block stoneBlock;
 
-    public CustomDimension(World world_1, DimensionType dimensionType_1, DimensionData dimensionData, Set<Biome> biomes, Block stoneBlock) {
-        super(world_1, dimensionType_1, 0.0F);
-        this.dimensionType = dimensionType_1;
-        this.dimensionData = dimensionData;
-        this.biomes = biomes;
+    public CustomDimension(World world, DimensionType dimensionType, DimensionData data, Set<Biome> biomeSet, Block stoneBlock) {
+        super(world, dimensionType, 0.0F);
+        this.dimensionType = dimensionType;
+        this.dimensionData = data;
+        this.biomeSet = biomeSet;
         this.stoneBlock = stoneBlock;
     }
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-//        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, new FixedBiomeSource(new FixedBiomeSourceConfig(this.world.getLevelProperties()).setBiome(this.dimensionalBiome)), this.dimensionData, this.stoneBlock);
-        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, RandomlyAddingAnything.DIMENSIONAL_BIOMES.applyConfig(new DimensionalBiomeSourceConfig(this.world.getLevelProperties()).setBiomes(biomes)), this.dimensionData, this.stoneBlock);
-
+        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, RandomlyAddingAnything.DIMENSIONAL_BIOMES.
+                applyConfig(new DimensionalBiomeSourceConfig(this.world.getLevelProperties()).setBiomes(biomeSet)), this.dimensionData, this.stoneBlock);
     }
 
     @Override
-    public BlockPos getSpawningBlockInChunk(ChunkPos chunkPos, boolean b) {
-        for (int int_1 = chunkPos.getStartX(); int_1 <= chunkPos.getEndX(); ++int_1) {
-            for (int int_2 = chunkPos.getStartZ(); int_2 <= chunkPos.getEndZ(); ++int_2) {
-                BlockPos blockPos_1 = this.getTopSpawningBlockPosition(int_1, int_2, b);
+    public BlockPos getSpawningBlockInChunk(ChunkPos pos, boolean checkMobSpawnValidity) {
+        for (int int_1 = pos.getStartX(); int_1 <= pos.getEndX(); ++int_1) {
+            for (int int_2 = pos.getStartZ(); int_2 <= pos.getEndZ(); ++int_2) {
+                BlockPos blockPos_1 = this.getTopSpawningBlockPosition(int_1, int_2, checkMobSpawnValidity);
                 if (blockPos_1 != null) {
                     return blockPos_1;
                 }
@@ -58,22 +57,22 @@ public class CustomDimension extends Dimension {
     }
 
     @Override
-    public BlockPos getTopSpawningBlockPosition(int int_1, int int_2, boolean boolean_1) {
-        BlockPos.Mutable blockPos$Mutable_1 = new BlockPos.Mutable(int_1, 0, int_2);
+    public BlockPos getTopSpawningBlockPosition(int x, int z, boolean checkMobSpawnValidity) {
+        BlockPos.Mutable blockPos$Mutable_1 = new BlockPos.Mutable(x, 0, z);
         Biome biome_1 = this.world.getBiomeAccess().getBiome(blockPos$Mutable_1);
         BlockState blockState_1 = biome_1.getSurfaceConfig().getTopMaterial();
-        if (boolean_1 && !blockState_1.getBlock().matches(BlockTags.VALID_SPAWN)) {
+        if (checkMobSpawnValidity && !blockState_1.getBlock().matches(BlockTags.VALID_SPAWN)) {
             return null;
         } else {
-            Chunk worldChunk_1 = this.world.getChunk(int_1 >> 4, int_2 >> 4);
-            int int_3 = worldChunk_1.sampleHeightmap(Heightmap.Type.MOTION_BLOCKING, int_1 & 15, int_2 & 15);
+            Chunk worldChunk_1 = this.world.getChunk(x >> 4, z >> 4);
+            int int_3 = worldChunk_1.sampleHeightmap(Heightmap.Type.MOTION_BLOCKING, x & 15, z & 15);
             if (int_3 < 0) {
                 return null;
-            } else if (worldChunk_1.sampleHeightmap(Heightmap.Type.WORLD_SURFACE, int_1 & 15, int_2 & 15) > worldChunk_1.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR, int_1 & 15, int_2 & 15)) {
+            } else if (worldChunk_1.sampleHeightmap(Heightmap.Type.WORLD_SURFACE, x & 15, z & 15) > worldChunk_1.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR, x & 15, z & 15)) {
                 return null;
             } else {
                 for (int int_4 = int_3 + 1; int_4 >= 0; --int_4) {
-                    blockPos$Mutable_1.set(int_1, int_4, int_2);
+                    blockPos$Mutable_1.set(x, int_4, z);
                     BlockState blockState_2 = this.world.getBlockState(blockPos$Mutable_1);
                     if (!blockState_2.getFluidState().isEmpty()) {
                         break;
@@ -90,18 +89,18 @@ public class CustomDimension extends Dimension {
     }
 
     @Override
-    public float getSkyAngle(long l, float v) {
+    public float getSkyAngle(long timeOfDay, float tickDelta) {
         if (dimensionData.hasSky()) {
-            double double_1 = MathHelper.fractionalPart((double) l / 24000.0D - 0.25D);
-            double double_2 = 0.5D - Math.cos(double_1 * 3.141592653589793D) / 2.0D;
-            return (float) (double_1 * 2.0D + double_2) / 3.0F;
+            double fractionalPart = MathHelper.fractionalPart((double) timeOfDay / 24000.0D - 0.25D);
+            double v1 = 0.5D - Math.cos(fractionalPart * 3.141592653589793D) / 2.0D;
+            return (float) (fractionalPart * 2.0D + v1) / 3.0F;
         } else {
             return 0.0F;
         }
     }
 
     @Environment(EnvType.CLIENT)
-    public float[] getBackgroundColor(float float_1, float float_2) {
+    public float[] getBackgroundColor(float skyAngle, float tickDelta) {
         return null;
     }
 
@@ -112,7 +111,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public Vec3d getFogColor(float v, float v1) {
+    public Vec3d getFogColor(float skyAngle, float tickDelta) {
         int fogColor = dimensionData.getDimensionColorPalette().getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor);
         return new Vec3d(rgbColor[0] / 255.0, rgbColor[1] / 255.0, rgbColor[2] / 255.0);
@@ -130,7 +129,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public boolean isFogThick(int var1, int var2) {
+    public boolean isFogThick(int x, int z) {
         return dimensionData.shouldRenderFog();
     }
 

@@ -45,6 +45,7 @@
   "config.title.raa.weapons": "Weapons",
   "config.title.raa.biomeData": "Biome Data",
   "config.title.raa.advancedInformation": "Advanced Information",
+  "config.title.raa.dimensionMaterial": "Dimension Materials",
 
   "config.text.raa.identifier": "§7Identifier: §f%s",
   "config.text.raa.color": "§7Color: §f%s",
@@ -54,6 +55,23 @@
   "config.text.raa.tool_speed": "§7Tool Speed: §f%s",
   "config.text.raa.attack_damage": "§7Attack Damage: §f%s",
   "config.text.raa.chunkGenerator": "§7Chunk Generator: §f%s",
+
+  "config.title.raa.armor": "Armor",
+  "config.text.raa.helmetDurability": "§7Helmet Durability: §f%s",
+  "config.text.raa.chestplateDurability": "§7Chestplate Durability: §f%s",
+  "config.text.raa.leggingsDurability": "§7Leggings Durability: §f%s",
+  "config.text.raa.bootsDurability": "§7Boots Durability: §f%s",
+  "config.text.raa.horseArmorBonus": "§7Horse Armor Bonus: §f%s",
+  "config.text.raa.equipmentSound": "§7Equipment Sound: §f%s",
+  "config.text.raa.repairItem": "§7Repair Item: §f%s",
+  "config.text.raa.toughness": "§7Toughness: §f%s",
+
+  "config.title.raa.food": "Food",
+  "config.text.raa.hunger": "§7Hunuger: §f%s",
+  "config.text.raa.saturationModifier": "§7Saturation Modifier: §f%s",
+  "config.text.raa.alwaysEdible": "§7Is always edible?: §f%s",
+  "config.text.raa.meat": "§7Is meat?: §f%s",
+  "config.text.raa.snack": "§7Is snack?: §f%s",
 
   "config.field.raa.biomeData.id": "Biome Identifier:",
   "config.field.raa.biomeData.name": "Biome Name:",
@@ -85,7 +103,8 @@
   "config.text.raa.waterVaporize": "§7Water vaporizes: %s",
   "config.text.raa.renderFog": "§7Thick Fog: %s",
   "config.text.raa.difficulty": "§7Dimension difficulty: %s",
-  "config.text.raa.targetBlock": "§7Target block for ores: §f%s",
+  "config.text.raa.targetIdentifier": "§7Target identifier: §f%s",
+  "config.text.raa.targetBlock": "§7Spawns in: §f%s",
 
   "config.field.raa.hasSky": "Has sky:",
   "config.field.raa.hasSkyLight": "Has skylight:",

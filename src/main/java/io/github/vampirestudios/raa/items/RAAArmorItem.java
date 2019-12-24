@@ -22,7 +22,7 @@ public class RAAArmorItem extends DyeableArmorItem {
 
     @Override
     public int getColor(ItemStack stack) {
-        return ((RAAArmorItem) stack.getItem()).material.getRGBColor();
+        return ((RAAArmorItem) stack.getItem()).material.getColor();
     }
 
     @Override

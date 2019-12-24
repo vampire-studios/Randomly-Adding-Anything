@@ -440,7 +440,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         Materials.MATERIALS.forEach(material -> {
             Identifier id = material.getId();
             ColorProviderRegistry.ITEM.register((stack, layer) -> {
-                        if (layer == 0) return material.getRGBColor();
+                        if (layer == 0) return material.getColor();
                         else return -1;
                     },
                     Registry.ITEM.get(Utils.appendToPath(id, "_helmet")),
@@ -461,7 +461,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.BLOCK.get(Utils.appendToPath(id, "_block")),
                     Registry.ITEM.get(Utils.appendToPath(id, "_shears"))
             );
-            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getRGBColor(),
+            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
                     Registry.BLOCK.get(Utils.appendToPath(id, "_block")));
         });
         Dimensions.DIMENSIONS.forEach(dimensionData -> {
@@ -490,7 +490,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         Materials.DIMENSION_MATERIALS.forEach(material -> {
             Identifier id = material.getId();
             ColorProviderRegistry.ITEM.register((stack, layer) -> {
-                        if (layer == 0) return material.getRGBColor();
+                        if (layer == 0) return material.getColor();
                         else return -1;
                     },
                     Registry.ITEM.get(Utils.appendToPath(id, "_helmet")),
@@ -512,7 +512,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.ITEM.get(Utils.appendToPath(id, "_shears"))
             );
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
-                            layer == 0 ? material.getDimensionData().getDimensionColorPalette().getStoneColor() : material.getRGBColor(),
+                            layer == 0 ? material.getDimensionData().getDimensionColorPalette().getStoneColor() : material.getColor(),
                     Registry.BLOCK.get(Utils.appendToPath(id, "_block")));
         });
 

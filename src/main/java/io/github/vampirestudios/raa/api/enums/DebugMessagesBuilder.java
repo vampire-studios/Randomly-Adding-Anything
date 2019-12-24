@@ -22,7 +22,7 @@ public class DebugMessagesBuilder {
     }
 
     public DebugMessagesBuilder name() {
-        Color color = new Color(material.getRGBColor());
+        Color color = new Color(material.getColor());
         playerEntity.addChatMessage(new LiteralText("Name: " + material.getName()), false);
         playerEntity.addChatMessage(new LiteralText(String.format("Color: " + "\n" + "  R: %d, G: %d, B: %d, A: %d", color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())), false);
         return this;

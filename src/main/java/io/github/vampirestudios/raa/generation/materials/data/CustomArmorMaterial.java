@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.materials;
+package io.github.vampirestudios.raa.generation.materials.data;
 
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -51,6 +51,10 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
     public void setOreType(OreType oreType) {
         this.oreType = oreType;
+    }
+
+    public OreType getOreType() {
+        return oreType;
     }
 
     public int getDurability(EquipmentSlot equipmentSlot_1) {
