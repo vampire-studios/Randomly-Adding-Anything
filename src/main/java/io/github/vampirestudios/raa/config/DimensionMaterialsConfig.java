@@ -5,9 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreType;
-import io.github.vampirestudios.raa.generation.materials.data.CustomArmorMaterial;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
-import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.data.CustomArmorMaterial;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.GsonUtils;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -71,12 +70,14 @@ public class DimensionMaterialsConfig extends RAADataConfig {
                         material.addProperty("food", Rands.chance(4));
 
                     JsonObject oreInformation = material.getAsJsonObject("oreInformation");
+                    if (!JsonHelper.isString(oreInformation.get("targetId")))
+                        oreInformation.addProperty("targetId", GsonUtils.idFromOldStyle(JsonHelper.getObject(oreInformation, "")));
+                    oreInformation.addProperty("minXPAmount", 0);
+
+                    JsonObject texturesInformation = material.getAsJsonObject("texturesInformation");
                     if (!JsonHelper.isString(oreInformation.get("overlayTexture"))) {
                         oreInformation.addProperty("overlayTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(oreInformation, "overlayTexture")).toString());
                     }
-                    oreInformation.add("generatesIn", oreInformation.get("generateIn"));
-                    oreInformation.addProperty("minXPAmount", 0);
-
                     if (!JsonHelper.isString(material.get("resourceItemTexture")))
                         material.addProperty("resourceItemTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(material, "resourceItemTexture")).toString());
                     if (!JsonHelper.isString(material.get("storageBlockTexture")))
