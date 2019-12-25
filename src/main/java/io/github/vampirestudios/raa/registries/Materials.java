@@ -370,9 +370,10 @@ public class Materials {
             RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
         }
         DIMENSION_MATERIALS.forEach(material -> {
-            Identifier diemnsionId = new Identifier(material.getId().getNamespace(), material.getId().getPath().split("_")[0]);
-            Identifier stoneName = Utils.appendToPath(diemnsionId, "_stone");
-            RegistryUtils.registerOreTarget(stoneName, new Csoct(stoneName, Registry.BLOCK.get(stoneName)));
+            Identifier dimensionId = new Identifier(material.getId().getNamespace(), material.getId().getPath().split("_")[0]);
+            Identifier stoneName = Utils.appendToPath(dimensionId, "_stone");
+            Block blockIn = Registry.BLOCK.get(stoneName);
+            RegistryUtils.registerOreTarget(stoneName, new OreFeatureConfig.Target(stoneName, new BlockPredicate(blockIn), blockIn));
 
             Identifier identifier = material.getId();
             Item repairItem;

@@ -75,13 +75,15 @@ public class DimensionMaterialsConfig extends RAADataConfig {
                     oreInformation.addProperty("minXPAmount", 0);
 
                     JsonObject texturesInformation = material.getAsJsonObject("texturesInformation");
-                    if (!JsonHelper.isString(oreInformation.get("overlayTexture"))) {
-                        oreInformation.addProperty("overlayTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(oreInformation, "overlayTexture")).toString());
+                    if (!JsonHelper.isString(texturesInformation.get("overlayTexture"))) {
+                        texturesInformation.addProperty("overlayTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(oreInformation, "overlayTexture")).toString());
                     }
-                    if (!JsonHelper.isString(material.get("resourceItemTexture")))
-                        material.addProperty("resourceItemTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(material, "resourceItemTexture")).toString());
-                    if (!JsonHelper.isString(material.get("storageBlockTexture")))
-                        material.addProperty("storageBlockTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(material, "storageBlockTexture")).toString());
+                    if (texturesInformation.has("nuggetTexture") && !JsonHelper.isString(texturesInformation.get("nuggetTexture")))
+                        texturesInformation.addProperty("nuggetTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(material, "nuggetTexture")).toString());
+                    if (!JsonHelper.isString(texturesInformation.get("resourceItemTexture")))
+                        texturesInformation.addProperty("resourceItemTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(material, "resourceItemTexture")).toString());
+                    if (!JsonHelper.isString(texturesInformation.get("storageBlockTexture")))
+                        texturesInformation.addProperty("storageBlockTexture", GsonUtils.idFromOldStyle(JsonHelper.getObject(material, "storageBlockTexture")).toString());
                 });
                 break;
             default:

@@ -11,11 +11,18 @@ public class DimensionTreeData {
 	private int maxWaterDepth;
 	private float chance;
 
+	private boolean hasLeafVines;
+	private boolean hasTrunkVines;
+	private boolean hasCocoaBeans;
+	private boolean hasPodzolUnderneath;
+
 	private int foliageRange;
 
 	private DimensionWoodType woodType;
 
-	public DimensionTreeData(DimensionFoliagePlacers foliagePlacerType, DimensionTreeTypes treeType, boolean plainsTrees, int baseHeight, int foliageHeight, int foliageHeightRandom, int maxWaterDepth, DimensionWoodType woodType, int foliageRange, float chance) {
+	public DimensionTreeData(DimensionFoliagePlacers foliagePlacerType, DimensionTreeTypes treeType, boolean plainsTrees, int baseHeight, int foliageHeight,
+							 int foliageHeightRandom, int maxWaterDepth, DimensionWoodType woodType, int foliageRange, float chance, boolean hasLeafVines,
+							 boolean hasTrunkVines, boolean hasCocoaBeans, boolean hasPodzolUnderneath) {
 		this.foliagePlacerType = foliagePlacerType;
 		this.treeType = treeType;
 		this.plainsTrees = plainsTrees;
@@ -26,6 +33,10 @@ public class DimensionTreeData {
 		this.foliageRange = foliageRange;
 		this.woodType = woodType;
 		this.chance = chance;
+		this.hasLeafVines = hasLeafVines;
+		this.hasTrunkVines = hasTrunkVines;
+		this.hasCocoaBeans = hasCocoaBeans;
+		this.hasPodzolUnderneath = hasPodzolUnderneath;
 	}
 
 	public DimensionFoliagePlacers getFoliagePlacerType() {
@@ -68,6 +79,22 @@ public class DimensionTreeData {
 		return chance;
 	}
 
+	public boolean hasLeafVines() {
+		return hasLeafVines;
+	}
+
+	public boolean hasTrunkVines() {
+		return hasTrunkVines;
+	}
+
+	public boolean hasCocoaBeans() {
+		return hasCocoaBeans;
+	}
+
+	public boolean hasPodzolUnderneath() {
+		return hasPodzolUnderneath;
+	}
+
 	public static class Builder {
 		private DimensionFoliagePlacers foliagePlacerType;
 		private DimensionTreeTypes treeType;
@@ -78,6 +105,11 @@ public class DimensionTreeData {
 		private int maxWaterDepth;
 		private float chance;
 
+		private boolean hasLeafVines;
+		private boolean hasTrunkVines;
+		private boolean hasCocoaBeans;
+		private boolean hasPodzolUnderneath;
+
 		private int foliageRange;
 
 		private DimensionWoodType woodType;
@@ -86,58 +118,79 @@ public class DimensionTreeData {
 			return new Builder();
 		}
 
-		public Builder setFoliagePlacerType(DimensionFoliagePlacers foliagePlacerType) {
+		public Builder foliagePlacerType(DimensionFoliagePlacers foliagePlacerType) {
 			this.foliagePlacerType = foliagePlacerType;
 			return this;
 		}
 
-		public Builder setTreeType(DimensionTreeTypes treeType) {
+		public Builder treeType(DimensionTreeTypes treeType) {
 			this.treeType = treeType;
 			return this;
 		}
 
-		public Builder setPlainsTrees(boolean plainsTrees) {
+		public Builder plainsTrees(boolean plainsTrees) {
 			this.plainsTrees = plainsTrees;
 			return this;
 		}
 
-		public Builder setBaseHeight(int baseHeight) {
+		public Builder baseHeight(int baseHeight) {
 			this.baseHeight = baseHeight;
 			return this;
 		}
 
-		public Builder setFoliageHeight(int foliageHeight) {
+		public Builder foliageHeight(int foliageHeight) {
 			this.foliageHeight = foliageHeight;
 			return this;
 		}
 
-		public Builder setFoliageHeightRandom(int foliageHeightRandom) {
+		public Builder foliageHeightRandom(int foliageHeightRandom) {
 			this.foliageHeightRandom = foliageHeightRandom;
 			return this;
 		}
 
-		public Builder setMaxWaterDepth(int maxWaterDepth) {
+		public Builder maxWaterDepth(int maxWaterDepth) {
 			this.maxWaterDepth = maxWaterDepth;
 			return this;
 		}
 
-		public Builder setFoliageRange(int foliageRange) {
+		public Builder foliageRange(int foliageRange) {
 			this.foliageRange = foliageRange;
 			return this;
 		}
 
-		public Builder setWoodType(DimensionWoodType woodType) {
+		public Builder woodType(DimensionWoodType woodType) {
 			this.woodType = woodType;
 			return this;
 		}
 
-		public Builder setChance(float chance) {
+		public Builder chance(float chance) {
 			this.chance = chance;
 			return this;
 		}
 
+		public Builder hasLeafVines(boolean hasLeafVines) {
+			this.hasLeafVines = hasLeafVines;
+			return this;
+		}
+
+		public Builder hasTrunkVines(boolean hasTrunkVines) {
+			this.hasTrunkVines = hasTrunkVines;
+			return this;
+		}
+
+		public Builder hasCocoaBeans(boolean hasCocoaBeans) {
+			this.hasCocoaBeans = hasCocoaBeans;
+			return this;
+		}
+
+		public Builder hasPodzolUnderneath(boolean hasPodzolUnderneath) {
+			this.hasPodzolUnderneath = hasPodzolUnderneath;
+			return this;
+		}
+
 		public DimensionTreeData build() {
-			return new DimensionTreeData(foliagePlacerType, treeType, plainsTrees, baseHeight, foliageHeight, foliageHeightRandom, maxWaterDepth, woodType, foliageRange, chance);
+			return new DimensionTreeData(foliagePlacerType, treeType, plainsTrees, baseHeight, foliageHeight, foliageHeightRandom, maxWaterDepth, woodType,
+					foliageRange, chance, hasLeafVines, hasTrunkVines, hasCocoaBeans, hasPodzolUnderneath);
 		}
 	}
 }

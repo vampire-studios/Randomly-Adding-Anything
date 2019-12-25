@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa.generation.dimensions.data;
 
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DimensionBiomeData {
@@ -17,8 +16,20 @@ public class DimensionBiomeData {
     private int grassColor;
     private int foliageColor;
     private List<DimensionTreeData> treeData;
+    private float corruptedCratersChance;
+    private float nonCorruptedCratersChance;
+    private boolean spawnsCratersInNonCorrupted;
+    private float largeSkeletonTreeChance;
+    private float campfireChance;
+    private float outpostChance;
+    private float towerChance;
+    private boolean hasMushrooms;
+    private boolean hasMossyRocks;
 
-    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor, int grassColor, int foliageColor, List<DimensionTreeData> treeData) {
+    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor,
+                       int grassColor, int foliageColor, List<DimensionTreeData> treeData, float corruptedCratersChance, float nonCorruptedCratersChance,
+                       boolean spawnsCratersInNonCorrupted, float largeSkeletonTreeChance, float campfireChance, float outpostChance, float towerChance,
+                       boolean hasMushrooms, boolean hasMossyRocks) {
         this.id = id;
         this.biomeName = biomeName;
         this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
@@ -30,6 +41,15 @@ public class DimensionBiomeData {
         this.grassColor = grassColor;
         this.foliageColor = foliageColor;
         this.treeData = treeData;
+        this.corruptedCratersChance = corruptedCratersChance;
+        this.nonCorruptedCratersChance = nonCorruptedCratersChance;
+        this.spawnsCratersInNonCorrupted = spawnsCratersInNonCorrupted;
+        this.largeSkeletonTreeChance = largeSkeletonTreeChance;
+        this.campfireChance = campfireChance;
+        this.outpostChance = outpostChance;
+        this.towerChance = towerChance;
+        this.hasMushrooms = hasMushrooms;
+        this.hasMossyRocks = hasMossyRocks;
     }
 
     public Identifier getId() {
@@ -112,6 +132,42 @@ public class DimensionBiomeData {
         return treeData;
     }
 
+    public float getCorruptedCratersChance() {
+        return corruptedCratersChance;
+    }
+
+    public float getNonCorruptedCratersChance() {
+        return nonCorruptedCratersChance;
+    }
+
+    public boolean spawnsCratersInNonCorrupted() {
+        return spawnsCratersInNonCorrupted;
+    }
+
+    public float getLargeSkeletonTreeChance() {
+        return largeSkeletonTreeChance;
+    }
+
+    public float getCampfireChance() {
+        return campfireChance;
+    }
+
+    public float getOutpostChance() {
+        return outpostChance;
+    }
+
+    public float getTowerChance() {
+        return towerChance;
+    }
+
+    public boolean hasMushrooms() {
+        return hasMushrooms;
+    }
+
+    public boolean hasMossyRocks() {
+        return hasMossyRocks;
+    }
+
     public static class Builder {
         private Identifier id;
         private String name;
@@ -124,6 +180,15 @@ public class DimensionBiomeData {
         private int grassColor;
         private int foliageColor;
         private List<DimensionTreeData> treeData;
+        private float corruptedCratersChance;
+        private float nonCorruptedCratersChance;
+        private boolean spawnsCratersInNonCorrupted;
+        private float largeSkeletonTreeChance;
+        private float campfireChance;
+        private float outpostChance;
+        private float towerChance;
+        private boolean hasMushrooms;
+        private boolean hasMossyRocks;
 
         private Builder() {
 
@@ -186,18 +251,63 @@ public class DimensionBiomeData {
             return this;
         }
 
-        public Builder setFoliageColor(int foliageColor) {
+        public Builder foliageColor(int foliageColor) {
             this.foliageColor = foliageColor;
             return this;
         }
 
-        public Builder setTreeData(List<DimensionTreeData> treeData) {
+        public Builder treeData(List<DimensionTreeData> treeData) {
             this.treeData = treeData;
             return this;
         }
 
         public DimensionBiomeData build() {
-            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor, treeData);
+            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor, treeData, corruptedCratersChance, nonCorruptedCratersChance, spawnsCratersInNonCorrupted, largeSkeletonTreeChance, campfireChance, outpostChance, towerChance, hasMushrooms, hasMossyRocks);
+        }
+
+        public Builder hasMossyRocks(boolean hasMossyRocks) {
+            this.hasMossyRocks = hasMossyRocks;
+            return this;
+        }
+
+        public Builder hasMushrooms(boolean hasMushrooms) {
+            this.hasMushrooms = hasMushrooms;
+            return this;
+        }
+
+        public Builder towerChance(float towerChance) {
+            this.towerChance = towerChance;
+            return this;
+        }
+
+        public Builder outpostChance(float outpostChance) {
+            this.outpostChance = outpostChance;
+            return this;
+        }
+
+        public Builder campfireChance(float campfireChance) {
+            this.campfireChance = campfireChance;
+            return this;
+        }
+
+        public Builder largeSkeletonTreeChance(float largeSkeletonTreeChance) {
+            this.largeSkeletonTreeChance = largeSkeletonTreeChance;
+            return this;
+        }
+
+        public Builder spawnsCratersInNonCorrupted(boolean spawnsCratersInNonCorrupted) {
+            this.spawnsCratersInNonCorrupted = spawnsCratersInNonCorrupted;
+            return this;
+        }
+
+        public Builder nonCorruptedCratersChance(float nonCorruptedCratersChance) {
+            this.nonCorruptedCratersChance = nonCorruptedCratersChance;
+            return this;
+        }
+
+        public Builder corruptedCratersChance(float corruptedCratersChance) {
+            this.corruptedCratersChance = corruptedCratersChance;
+            return this;
         }
     }
 }

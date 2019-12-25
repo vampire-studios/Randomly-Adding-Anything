@@ -10,7 +10,7 @@ public enum DimensionFoliagePlacers {
     ACACIA,
 
     //RAA
-    CLYLINDER,
+    CYLINDER,
     LONG,
     UPSIDE_DOWN,
     BORING,

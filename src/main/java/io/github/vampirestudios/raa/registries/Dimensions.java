@@ -19,7 +19,6 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.vampirelib.utils.Color;
-import io.github.vampirestudios.vampirelib.utils.registry.WoodType;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -36,7 +35,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.gen.foliage.FoliagePlacerType;
 
 import java.util.*;
 
@@ -202,25 +200,37 @@ public class Dimensions {
                 if (Utils.checkBitFlag(flags, Utils.LUSH)) treeAmount = 8;
                 for (int j = 0; j < treeAmount; j++) {
                     DimensionTreeData treeData = DimensionTreeData.Builder.create()
-                            .setWoodType(Rands.list(Arrays.asList(DimensionWoodType.values())))
-                            .setFoliagePlacerType(Rands.list(Arrays.asList(DimensionFoliagePlacers.values())))
-                            .setTreeType(Rands.list(Arrays.asList(DimensionTreeTypes.values())))
-                            .setBaseHeight(Rands.randIntRange(2, 24))
-                            .setFoliageHeight(0)
-                            .setChance(Rands.randFloatRange(0.05f, 0.6f))
+                            .woodType(Rands.list(Arrays.asList(DimensionWoodType.values())))
+                            .foliagePlacerType(Rands.list(Arrays.asList(DimensionFoliagePlacers.values())))
+                            .treeType(Rands.list(Arrays.asList(DimensionTreeTypes.values())))
+                            .baseHeight(Rands.randIntRange(2, 24))
+                            .maxWaterDepth(Rands.randIntRange(0, 8))
+                            .foliageHeight(Rands.randIntRange(1, 5))
+                            .chance(Rands.randFloatRange(0.05f, 0.6f))
+                            .hasCocoaBeans(Rands.chance(3))
+                            .hasLeafVines(Rands.chance(3))
+                            .hasPodzolUnderneath(Rands.chance(3))
+                            .hasTrunkVines(Rands.chance(3))
                             .build();
                     treeDataList.add(treeData);
                 }
                 DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendToPath(name.getRight(), "_biome" + "_" + i), name.getLeft())
                         .surfaceBuilderVariantChance(Rands.randInt(100))
-                        .depth(Rands.randFloatRange(-1F, 3F))
+                        .depth(Rands.randFloatRange(-2F, 5F))
                         .scale(scale + Rands.randFloatRange(-0.75f, 0.75f))
                         .temperature(dimension.getTemperature() + Rands.randFloatRange(-0.5f, 0.5f))
                         .downfall(Rands.randFloat(1F))
                         .waterColor(WATER_COLOR.getColor())
                         .grassColor(new Color(Color.HSBtoRGB(grassColor, saturation, value)).getColor())
-                        .setFoliageColor(new Color(Color.HSBtoRGB(grassColor + Rands.randFloatRange(-0.1f, 0.1f), saturation, value)).getColor())
-                        .setTreeData(treeDataList)
+                        .foliageColor(new Color(Color.HSBtoRGB(grassColor + Rands.randFloatRange(-0.1f, 0.1f), saturation, value)).getColor())
+                        .treeData(treeDataList)
+                        .largeSkeletonTreeChance(Rands.randFloatRange(0, 0.5F))
+                        .spawnsCratersInNonCorrupted(Rands.chance(4))
+                        .campfireChance(Rands.randFloatRange(0.003F, 0.005F))
+                        .outpostChance(Rands.randFloatRange(0.001F, 0.003F))
+                        .towerChance(Rands.randFloatRange(0.001F, 0.0015F))
+                        .hasMushrooms(Rands.chance(6))
+                        .hasMossyRocks(Rands.chance(8))
                         .build();
                 builder.biome(biomeData);
             }
