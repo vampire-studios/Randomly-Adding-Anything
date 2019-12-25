@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.api.enums;
 
-import io.github.vampirestudios.raa.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
@@ -22,7 +22,7 @@ public class DebugMessagesBuilder {
     }
 
     public DebugMessagesBuilder name() {
-        Color color = new Color(material.getRGBColor());
+        Color color = new Color(material.getColor());
         playerEntity.addChatMessage(new LiteralText("Name: " + material.getName()), false);
         playerEntity.addChatMessage(new LiteralText(String.format("Color: " + "\n" + "  R: %d, G: %d, B: %d, A: %d", color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())), false);
         return this;
@@ -34,15 +34,15 @@ public class DebugMessagesBuilder {
     }
 
     public DebugMessagesBuilder generatesIn() {
-        playerEntity.addChatMessage(new LiteralText("Generates In: " + material.getOreInformation().getGenerateIn().name()), false);
+        playerEntity.addChatMessage(new LiteralText("Generates In: " + material.getOreInformation().getTargetId().toString()), false);
         return this;
     }
 
     public DebugMessagesBuilder textures() {
         playerEntity.addChatMessage(new LiteralText(Formatting.BOLD + "Textures"), false);
-        playerEntity.addChatMessage(new LiteralText("Overlay Texture: " + material.getOreInformation().getOverlayTexture()), false);
-        playerEntity.addChatMessage(new LiteralText("Resource Item Texture: " + material.getResourceItemTexture()), false);
-        playerEntity.addChatMessage(new LiteralText("Storage Block Texture: " + material.getStorageBlockTexture()), false);
+        playerEntity.addChatMessage(new LiteralText("Overlay Texture: " + material.getTexturesInformation().getOverlayTexture()), false);
+        playerEntity.addChatMessage(new LiteralText("Resource Item Texture: " + material.getTexturesInformation().getResourceItemTexture()), false);
+        playerEntity.addChatMessage(new LiteralText("Storage Block Texture: " + material.getTexturesInformation().getStorageBlockTexture()), false);
         return this;
     }
 

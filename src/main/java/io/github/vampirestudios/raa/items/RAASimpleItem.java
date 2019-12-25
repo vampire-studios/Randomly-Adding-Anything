@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class RAASimpleItem extends Item {
     private String name;
@@ -18,7 +19,7 @@ public class RAASimpleItem extends Item {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item." + getItemType().name().toLowerCase(), new LiteralText(name));
+        return new TranslatableText("text.raa.item." + getItemType().name().toLowerCase(), new LiteralText(WordUtils.capitalize(name)));
     }
 
     public SimpleItemType getItemType() {
@@ -26,6 +27,6 @@ public class RAASimpleItem extends Item {
     }
 
     public enum SimpleItemType {
-        GEM,INGOT,NUGGET,CRYSTAL
+        GEM, INGOT, NUGGET, CRYSTAL
     }
 }

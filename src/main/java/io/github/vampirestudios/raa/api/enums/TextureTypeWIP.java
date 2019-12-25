@@ -1,0 +1,45 @@
+package io.github.vampirestudios.raa.api.enums;
+
+public enum TextureTypeWIP {
+
+    ORE_OVERLAY,
+    STORAGE_BLOCK,
+    RESOURCE_ITEM,
+    NUGGET,
+
+    STONE,
+
+    ICE,
+
+    PLANT,
+
+    MUSHROOM_ITEM,
+    MUSHROOM_STEM,
+    MUSHROOM_INSIDE,
+    MUSHROOM_OUTSIDE,
+
+    LOG_TOP,
+    LOG_SIDE,
+    LEAVES,
+    SAPLING,
+    STTRIPPED_LOG_TOP,
+    STRIPPED_LOG_SIDE,
+    BOOKSHELF_BASE,
+    BOOKSHELF_OVERLAY,
+    DOOR_TOP,
+    DOOR_BOTTOM,
+    TRAPDOOR,
+    LADDER/*,
+
+    DYE_ITEM,
+    WOOL,
+    TERRACOTTA,
+    GLAZED_TERRACOTTA,
+    STAINED_GLASS,
+    BED,
+    CONCRETE,
+    CONCRETE_POWDER,
+    BANNER,
+    SHULKER_BOX*/
+
+}
