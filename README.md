@@ -12,9 +12,22 @@ This mod turns Minecraft back to that unexplored place that we once loved to lea
 ### Randomize Ores!
 
 When the mod is initially installed, it will create a new set of minerals and gems.
+
 Each one of these ores are randomly colorized and generated.
 These minerals can be found anywhere like sand or gravel, not only stone!
 Each mineral has it's uses, and some are better than others in some situations.
+
+### Randomize Dimensions!
+
+When the mod is initially installed, it will create a new set of dimensions with between 1-12 biomes.
+
+The dimensions will have their own stone blocks, stone brick blocks and more.
+They have random trees which uses vanilla materials, random generation of the terrain and random structures.
+They have different kinda mobs which spawn in them and all of those you can change in the config.
+
+To get to the dimensions you will have to find a portal hub that will spawn around in all dimensions, 
+even vanilla ones, and there it will spawn 4 different portals. The portal hubs can have different themes like for 
+example quartz, red sandstone, sandstone and more
 
 ## FAQ
 
@@ -26,14 +39,29 @@ A: In the configs folder there is a `raa.json5` document. If you set the `"regen
 
 #### Q: Is there any way I can suggest my ideas or anythying of the sort? Is there a chat?
 
-A: Yes, there is! The team has a Discord server that you can join through this link: https://discord.gg/t4Tbm7r. _Remember to be respectful and read the rules~_
+A: Yes, there is! The team has a Discord server that you can join through this link: https://discord.gg/2HKGqJE. _Remember to be respectful and read the rules~_
+
+#### Q: AAAAA I FOUND A BUG, How do I report it?
+
+A: You have two options. If the bug seems like something minor and doesn't heavily impact gameplay, you may want to ask in the Discord Server first! (#raa-mod-talk or #raa-brainstorming).
+
+However, if the bug causes a crash or heavily impacts gameplay, you should post an issue that contains:
+
+- Operative System (Commonly Windows)
+- Minecraft Console Log
+
+The contents of these files:
+- config/raa.json5
+- config/raa/materials/material_config.json
+- config/raa/materials/dimension_material_config.json
+- config/raa/dimensions/dimension_config.json
 
 #### More to come!
 
 ## Planned Features
 
 - Randomized effects for tools, weapons and armor.
-- Randomly generated biomes with their own colors, trees and plants with their own characteristics and woods.
-- New dimensions, with all of the above.
+- Randomly generated trees and plants with their own characteristics and woods.
 - Random material information through Roughly Enough Items (REI)
 - Automatic synchronization of materials files when connecting to a server.
+- A guidebook system which will unlock information about dimensions and materisls whenever you discover them
