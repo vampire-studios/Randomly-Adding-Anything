@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.world.player;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
 import net.minecraft.nbt.CompoundTag;
@@ -48,7 +49,7 @@ public class PlayerDiscoveryState {
         if (dimensionDiscoverList.isEmpty()) return;
         for (String string_1 : dimensionDiscoverList.getKeys()) {
             CompoundTag compoundTag1 = dimensionDiscoverList.getCompound(string_1);
-            Material material = Materials.DIMENSION_MATERIALS.get(new Identifier(RandomlyAddingAnything.MOD_ID, compoundTag1.getString("name")));
+            DimensionMaterial material = Materials.DIMENSION_MATERIALS.get(new Identifier(RandomlyAddingAnything.MOD_ID, compoundTag1.getString("name")));
             if (material == null) {
                 System.out.println("Could not find this dimension material : " + compoundTag1.getString("name"));
                 continue;
@@ -78,7 +79,7 @@ public class PlayerDiscoveryState {
         for (int c = 0; c < dimensionMaterialDiscoveryState.size(); c++) {
             if (dimensionMaterialDiscoveryState.get(c) == null) continue;
             dimensionDiscoverListInformation = new CompoundTag();
-            dimensionDiscoverListInformation.putString("name", dimensionMaterialDiscoveryState.get(c).getMaterial().getName());
+            dimensionDiscoverListInformation.putString("name", dimensionMaterialDiscoveryState.get(c).getMaterial().getId().getPath());
             dimensionDiscoverListInformation.putInt("discoverTimes", dimensionMaterialDiscoveryState.get(c).getDiscoverTimes());
             dimensionDiscoverListInformation.putBoolean("discovered", dimensionMaterialDiscoveryState.get(c).isDiscovered());
             dimensionDiscoverListCompound.put("" + c + "", dimensionDiscoverListInformation.copy());

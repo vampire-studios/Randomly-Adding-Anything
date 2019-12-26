@@ -90,9 +90,9 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandA(treeData.getBaseHeight()) //trunk height
                         .foliageHeight(treeData.getFoliageHeight()) //foliage amount
                         .foliageHeightRandom(treeData.getFoliageHeightRandom()) //random foliage offset
+                        .trunkHeight(0)
                         .noVines()
                         .build());
-                assert getNormalTree(treeData.getTreeType()) != null;
                 this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
                         getNormalTree(treeData.getTreeType())
                                 .configure(
