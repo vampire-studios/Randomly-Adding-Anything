@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.world.player;
 
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -33,7 +32,7 @@ public class PlayerDiscoveryState {
         if (discoverList.isEmpty()) return;
         for (String string_1 : discoverList.getKeys()) {
             CompoundTag compoundTag1 = discoverList.getCompound(string_1);
-            Material material = Materials.MATERIALS.get(new Identifier(RandomlyAddingAnything.MOD_ID, compoundTag1.getString("name")));
+            Material material = Materials.MATERIALS.get(Identifier.tryParse(compoundTag1.getString("id")));
             if (material == null) {
                 System.out.println("Could not find this material : " + compoundTag1.getString("name"));
                 continue;
@@ -49,7 +48,7 @@ public class PlayerDiscoveryState {
         if (dimensionDiscoverList.isEmpty()) return;
         for (String string_1 : dimensionDiscoverList.getKeys()) {
             CompoundTag compoundTag1 = dimensionDiscoverList.getCompound(string_1);
-            DimensionMaterial material = Materials.DIMENSION_MATERIALS.get(new Identifier(RandomlyAddingAnything.MOD_ID, compoundTag1.getString("name")));
+            DimensionMaterial material = Materials.DIMENSION_MATERIALS.get(Identifier.tryParse(compoundTag1.getString("id")));
             if (material == null) {
                 System.out.println("Could not find this dimension material : " + compoundTag1.getString("name"));
                 continue;
@@ -67,7 +66,7 @@ public class PlayerDiscoveryState {
         for (int c = 0; c < materialDiscoveryState.size(); c++) {
             if (materialDiscoveryState.get(c) == null) continue;
             discoverListInformation = new CompoundTag();
-            discoverListInformation.putString("name", materialDiscoveryState.get(c).getMaterial().getName());
+            discoverListInformation.putString("name", materialDiscoveryState.get(c).getMaterial().getId().toString());
             discoverListInformation.putInt("discoverTimes", materialDiscoveryState.get(c).getDiscoverTimes());
             discoverListInformation.putBoolean("discovered", materialDiscoveryState.get(c).isDiscovered());
             discoverListCompound.put("" + c + "", discoverListInformation.copy());
@@ -79,7 +78,7 @@ public class PlayerDiscoveryState {
         for (int c = 0; c < dimensionMaterialDiscoveryState.size(); c++) {
             if (dimensionMaterialDiscoveryState.get(c) == null) continue;
             dimensionDiscoverListInformation = new CompoundTag();
-            dimensionDiscoverListInformation.putString("name", dimensionMaterialDiscoveryState.get(c).getMaterial().getId().getPath());
+            dimensionDiscoverListInformation.putString("id", dimensionMaterialDiscoveryState.get(c).getMaterial().getId().toString());
             dimensionDiscoverListInformation.putInt("discoverTimes", dimensionMaterialDiscoveryState.get(c).getDiscoverTimes());
             dimensionDiscoverListInformation.putBoolean("discovered", dimensionMaterialDiscoveryState.get(c).isDiscovered());
             dimensionDiscoverListCompound.put("" + c + "", dimensionDiscoverListInformation.copy());
