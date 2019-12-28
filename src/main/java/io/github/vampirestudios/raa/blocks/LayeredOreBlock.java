@@ -4,11 +4,14 @@ import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.registries.CustomTargets;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.OreBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -36,10 +39,13 @@ public class LayeredOreBlock extends OreBlock {
 
     private boolean complainedAboutLoot = false;
     private Material material;
+    private Block block;
 
     public LayeredOreBlock(Material material, Settings settings) {
         super(settings);
         this.material = material;
+        this.block = material.getOreInformation().getTargetId() == CustomTargets.DOES_NOT_APPEAR.getId() ? Blocks.STONE :
+                Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock();
     }
 
     @Environment(EnvType.CLIENT)
@@ -64,27 +70,27 @@ public class LayeredOreBlock extends OreBlock {
 
     @Override
     public float getBlastResistance() {
-        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getBlastResistance();
+        return block.getBlastResistance();
     }
 
     @Override
     public BlockSoundGroup getSoundGroup(BlockState blockState_1) {
-        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getSoundGroup(blockState_1);
+        return block.getSoundGroup(blockState_1);
     }
 
     @Override
     public float getSlipperiness() {
-        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getSlipperiness();
+        return block.getSlipperiness();
     }
 
     @Override
     public net.minecraft.block.Material getMaterial(BlockState blockState_1) {
-        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getMaterial(blockState_1);
+        return block.getMaterial(blockState_1);
     }
 
     @Override
     public float getHardness(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
-        return Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock().getHardness(blockState_1, blockView_1, blockPos_1);
+        return block.getHardness(blockState_1, blockView_1, blockPos_1);
     }
 
     public void onStacksDropped(BlockState blockState_1, World world_1, BlockPos blockPos_1, ItemStack itemStack_1) {

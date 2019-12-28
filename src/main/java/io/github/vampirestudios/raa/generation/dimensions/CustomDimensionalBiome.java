@@ -127,7 +127,7 @@ public class CustomDimensionalBiome extends Biome {
         float outpostChance = biomeData.getOutpostChance();
         float towerChance = biomeData.getTowerChance();
         float fossilChance = 0;
-        float shrineChance = 0.5F;
+        float shrineChance = 0.002F;
 
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) {
             outpostChance = Rands.randFloatRange(0.002F, 0.003F);

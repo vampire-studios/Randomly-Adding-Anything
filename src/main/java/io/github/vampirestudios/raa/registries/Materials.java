@@ -186,13 +186,13 @@ public class Materials {
             );
             if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(Registry.ITEM.get(Registry.BLOCK.getId(block)), material.getCompostableAmount());
             if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
-                Block block2 = RegistryUtils.register(
+                RegistryUtils.register(
                         new LayeredOreBlock(material, blockSettings.build()),
                         Utils.appendToPath(identifier, "_ore"),
                         RandomlyAddingAnything.RAA_ORES,
                         material.getName(),
                         RAABlockItem.BlockType.ORE);
-                if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(Registry.ITEM.get(Registry.BLOCK.getId(block2)), material.getCompostableAmount());
+//                if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(Registry.ITEM.get(Registry.BLOCK.getId(block2)), material.getCompostableAmount());
             }
             if (material.getOreInformation().getOreType() == OreType.METAL) {
                 Item item;

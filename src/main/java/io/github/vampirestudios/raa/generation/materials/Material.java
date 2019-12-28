@@ -47,6 +47,7 @@ public class Material {
         this.food = food;
         this.foodData = materialFoodData;
         this.compostableAmount = compostableAmount;
+        this.compostable = compostable;
     }
 
     public OreInformation getOreInformation() {
@@ -304,7 +305,7 @@ public class Material {
             else resourceItemTexture = Rands.list(TextureTypes.CRYSTAL_ITEM_TEXTURES);
 
             Identifier nuggetTexture;
-            if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
+            if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.METAL_NUGGET_TEXTURES);
             else nuggetTexture = null;
 
             Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);

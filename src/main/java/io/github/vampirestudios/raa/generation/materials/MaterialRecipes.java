@@ -308,9 +308,9 @@ public class MaterialRecipes {
                     serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(dimensionMaterial.getId(), "_sword"), shapedRecipeBuilder -> {
                         shapedRecipeBuilder.group(new Identifier("raa:swords"));
                         shapedRecipeBuilder.pattern(
-                                " # ",
-                                " # ",
-                                " % "
+                                "#",
+                                "#",
+                                "%"
                         );
                         shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
                         shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));

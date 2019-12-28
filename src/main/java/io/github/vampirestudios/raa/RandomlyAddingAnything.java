@@ -126,8 +126,8 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         }
 
-        DimensionRecipes.init();
         Materials.createDimensionMaterialResources();
+        DimensionRecipes.init();
         MaterialRecipes.init();
 
         RegistryUtils.forEveryBiome(biome -> {
