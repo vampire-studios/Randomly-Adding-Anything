@@ -64,7 +64,7 @@ public class LayeredOreBlock extends OreBlock {
     @Override
     protected int getExperienceWhenMined(Random random_1) {
         if (this.material.getOreInformation().getOreType() != OreType.METAL)
-            return Rands.randIntRange(material.getOreInformation().getMinXPAmount(), material.getOreInformation().getMaxXPAmount());
+            return Rands.randIntRange(0, material.getOreInformation().getMaxXPAmount());
         return 0;
     }
 
