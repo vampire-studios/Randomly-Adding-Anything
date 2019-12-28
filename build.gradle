@@ -23,6 +23,7 @@ repositories {
     }
 
 	maven { url = "https://jitpack.io"}
+    jcenter()
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -50,10 +51,8 @@ dependencies {
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.7-unofficial"
-    include ("com.github.vampire-studios:artifice-unofficial:0.3.7-unofficial") {
-        exclude group :"net.fabricmc.fabric-api"
-    }
+    modImplementation "com.lettuce.fudge:artifice:0.4.0+1.15.1"
+    include ("com.lettuce.fudge:artifice:0.4.0+1.15.1")
 
     modImplementation "curse.maven:vampirelib:${project.vampirelib_version}"
     include ("curse.maven:vampirelib:${project.vampirelib_version}") {
@@ -72,7 +71,7 @@ dependencies {
         transitive = false
     }
 
-    modImplementation 'com.github.SuperCoder7979:simplexterrain:dev~0.5.0-SNAPSHOT'
+    modImplementation 'curse.maven:simplex-terrain-generation:2850537'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
@@ -84,12 +83,6 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    /*modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
-        exclude group :"net.fabricmc.fabric-api"
-    }
-    include ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
-        exclude group :"net.fabricmc.fabric-api"
-    }*/
     modImplementation ("com.github.CottonMC:Jankson-Fabric:-SNAPSHOT")
 
     include ("me.zeroeightsix:fiber:0.6.0-7") {
