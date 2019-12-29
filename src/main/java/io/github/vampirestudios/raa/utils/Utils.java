@@ -1,15 +1,18 @@
 package io.github.vampirestudios.raa.utils;
 
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.SurfaceBuilders;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
-import java.util.Locale;
-import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 public class Utils {
     //dimension bit flags
@@ -108,4 +111,23 @@ public class Utils {
     public static double dist(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
+
+    public static String generateCivsName() throws IOException {
+        String civilizationName;
+        Random rand = new Random();
+        Identifier surnames = new Identifier(RandomlyAddingAnything.MOD_ID, "names/civilizations.txt");
+        InputStream stream = MinecraftClient.getInstance().getResourceManager().getResource(surnames).getInputStream();
+        Scanner scanner = new Scanner(Objects.requireNonNull(stream));
+        StringBuilder builder = new StringBuilder();
+        while (scanner.hasNextLine()) {
+            builder.append(scanner.nextLine());
+            builder.append(",");
+        }
+        String[] strings = builder.toString().split(",");
+        civilizationName = strings[rand.nextInt(strings.length)];
+        stream.close();
+        scanner.close();
+        return civilizationName;
+    }
+
 }

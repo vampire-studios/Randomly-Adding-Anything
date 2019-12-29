@@ -7,7 +7,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
@@ -38,7 +37,6 @@ public class GsonUtils {
                         }
                     }
                 })
-                .registerTypeAdapter(OreFeatureConfig.Target.class, new OreFeatureTargetTypeAdapter())
                 .serializeNulls()
                 .setPrettyPrinting()
                 .create();

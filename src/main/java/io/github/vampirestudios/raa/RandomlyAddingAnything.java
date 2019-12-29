@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa;
 
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
-import io.github.vampirestudios.raa.compats.SimplexRAACompat;
 import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
@@ -11,23 +10,13 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
-import io.github.vampirestudios.raa.registries.ChunkGenerators;
-import io.github.vampirestudios.raa.registries.Criterions;
-import io.github.vampirestudios.raa.registries.CustomTargets;
-import io.github.vampirestudios.raa.registries.Decorators;
-import io.github.vampirestudios.raa.registries.Dimensions;
-import io.github.vampirestudios.raa.registries.Features;
-import io.github.vampirestudios.raa.registries.FoliagePlacers;
-import io.github.vampirestudios.raa.registries.Materials;
-import io.github.vampirestudios.raa.registries.SurfaceBuilders;
-import io.github.vampirestudios.raa.registries.Textures;
+import io.github.vampirestudios.raa.registries.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -79,9 +68,9 @@ public class RandomlyAddingAnything implements ModInitializer {
         Decorators.init();
         SurfaceBuilders.init();
         ChunkGenerators.init();
-        if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
+        /*if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
             SimplexRAACompat.init();
-        }
+        }*/
         CustomTargets.init();
 
         //Reflection hacks

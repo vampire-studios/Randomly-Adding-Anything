@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.api.dimension;
 
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
-import io.github.vampirestudios.raa.generation.chunkgenerator.config.CustomOverworldChunkGeneratorConfig;
 import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -57,19 +56,7 @@ public enum DimensionChunkGenerators {
         if (this == PILLAR_WORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config);
 
         if (this == CUSTOM_OVERWORLD && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
-            CustomOverworldChunkGeneratorConfig customConfig = new CustomOverworldChunkGeneratorConfig();
-            if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN))
-                customConfig.setDefaultFluid(Blocks.LAVA.getDefaultState());
-            if (Utils.checkBitFlag(data.getFlags(), Utils.DRY))
-                customConfig.setDefaultFluid(Blocks.AIR.getDefaultState());
-            customConfig.setDefaultBlock(stoneBlock.getDefaultState());
-            customConfig.shouldSacrificeAccuracyForSpeed(true);
-            customConfig.shouldAddDetailNoise(true);
-            customConfig.setBaseHeight(Rands.randIntRange(60, 140));
-            customConfig.setBaseOctaveAmount(Rands.randIntRange(5, 15));
-            customConfig.setBiomeScaleAmount(Rands.randIntRange(3, 14));
-            customConfig.setBaseHeight(Rands.randIntRange(70, 130));
-            return ChunkGenerators.CUSTOM_SURFACE.create(world, biomeSource, customConfig);
+            return ChunkGenerators.CUSTOM_SURFACE.create(world, biomeSource, config);
         } else {
             if (!FabricLoader.getInstance().isModLoaded("simplexterrain")) {
                 data.setDimensionChunkGenerator(Rands.values(DimensionChunkGenerators.values()));

@@ -71,6 +71,9 @@ dependencies {
         transitive = false
     }
 
+    modRuntime 'com.github.jellysquid3:Lithium:1.15.x~fabric-SNAPSHOT'
+    modRuntime 'com.github.jellysquid3:Phosphor:1.15.x~fabric-SNAPSHOT'
+
     modImplementation 'curse.maven:simplex-terrain-generation:2850537'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"

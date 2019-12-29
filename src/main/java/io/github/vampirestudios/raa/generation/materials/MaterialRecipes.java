@@ -209,7 +209,14 @@ public class MaterialRecipes {
                 }
             });
             Materials.DIMENSION_MATERIALS.forEach(dimensionMaterial -> {
-                Item repairItem = Registry.BLOCK.get(Utils.appendToPath(dimensionMaterial.getId(), "_cobblestone")).asItem();
+                Item repairItem;
+                if (dimensionMaterial.getOreInformation().getOreType() == OreType.METAL) {
+                     repairItem = Registry.ITEM.get(Utils.appendToPath(dimensionMaterial.getId(), "_ingot")).asItem();
+                } else if(dimensionMaterial.getOreInformation().getOreType() == OreType.GEM) {
+                    repairItem = Registry.ITEM.get(Utils.appendToPath(dimensionMaterial.getId(), "_gem")).asItem();
+                } else {
+                    repairItem = Registry.ITEM.get(Utils.appendToPath(dimensionMaterial.getId(), "_crystal")).asItem();
+                }
                 if (dimensionMaterial.hasArmor()) {
                     serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(dimensionMaterial.getId(), "_helmet"), shapedRecipeBuilder -> {
                         shapedRecipeBuilder.group(new Identifier("raa:helmets"));
@@ -308,9 +315,9 @@ public class MaterialRecipes {
                     serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(dimensionMaterial.getId(), "_sword"), shapedRecipeBuilder -> {
                         shapedRecipeBuilder.group(new Identifier("raa:swords"));
                         shapedRecipeBuilder.pattern(
-                                "#",
-                                "#",
-                                "%"
+                                " # ",
+                                " # ",
+                                " % "
                         );
                         shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
                         shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
