@@ -51,8 +51,8 @@ dependencies {
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "com.lettuce.fudge:artifice:0.4.0+1.15.1"
-    include ("com.lettuce.fudge:artifice:0.4.0+1.15.1")
+    modImplementation "com.lettuce.fudge:artifice:0.4.1+1.15.1"
+    include ("com.lettuce.fudge:artifice:0.4.1+1.15.1")
 
     modImplementation "curse.maven:vampirelib:${project.vampirelib_version}"
     include ("curse.maven:vampirelib:${project.vampirelib_version}") {
