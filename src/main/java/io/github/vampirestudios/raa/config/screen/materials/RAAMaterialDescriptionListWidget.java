@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.config.screen.materials;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.utils.Utils;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -12,6 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -56,8 +58,10 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         clearItems();
         addItem(new TitleMaterialOverrideEntry(og, material, new LiteralText(WordUtils.capitalizeFully(material.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DecimalFormat df = new DecimalFormat("#.##");
-        addItem(new ColorEntry("config.text.raa.color", material.getRGBColor()));
+        addItem(new ColorEntry("config.text.raa.color", material.getColor()));
         addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getId().toString())));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.targetIdentifier", material.getOreInformation().getTargetId().toString())));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.targetBlock", WordUtils.capitalizeFully(material.getOreInformation().getTargetId().getPath().replace("_", " ")))));
         if (material.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
@@ -71,6 +75,26 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.durability", material.getToolMaterial().getDurability())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.attack_damage", df.format(material.getToolMaterial().getAttackDamage()))));
+        }
+        if (material.hasArmor()) {
+            addItem(new TitleEntry(new TranslatableText("config.title.raa.armor").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getArmorMaterial().getEnchantability())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.helmetDurability", material.getArmorMaterial().getDurability(EquipmentSlot.HEAD))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.chestplateDurability", material.getArmorMaterial().getDurability(EquipmentSlot.CHEST))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.leggingsDurability", material.getArmorMaterial().getDurability(EquipmentSlot.LEGS))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.bootsDurability", material.getArmorMaterial().getDurability(EquipmentSlot.FEET))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.horseArmorBonus", material.getArmorMaterial().getHorseArmorBonus())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.equipmentSound", material.getArmorMaterial().getEquipSound().getId())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.repairItem", Utils.appendToPath(material.getId(), material.getArmorMaterial().getOreType().getSuffix()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.toughness", material.getArmorMaterial().getToughness())));
+        }
+        if (material.hasFood()) {
+            addItem(new TitleEntry(new TranslatableText("config.title.raa.food").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.hunger", material.getFoodData().getHunger())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.saturationModifier", material.getFoodData().getSaturationModifier())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.alwaysEdible", material.getFoodData().isAlwaysEdible())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.meat", material.getFoodData().isMeat())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.snack", material.getFoodData().isSnack())));
         }
     }
 

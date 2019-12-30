@@ -2,14 +2,13 @@ package io.github.vampirestudios.raa.config.screen.dimensions;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionColorPalette;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionColorPalette;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.Utils;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
-import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -66,7 +65,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         addItem(new TextEntry(new TranslatableText("config.text.raa.hasSkyLight", new TranslatableText("config.text.raa.boolean.value." + dimensionData.hasSkyLight()))));
         addItem(new TextEntry(new TranslatableText("config.text.raa.canSleep", new TranslatableText("config.text.raa.boolean.value." + dimensionData.canSleep()))));
         addItem(new TextEntry(new TranslatableText("config.text.raa.waterVaporize", new TranslatableText("config.text.raa.boolean.value." + dimensionData.doesWaterVaporize()))));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog", new TranslatableText("config.text.raa.boolean.value." + dimensionData.shouldRenderFog()))));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog", new TranslatableText("config.text.raa.boolean.value." + dimensionData.hasThickFog()))));
 
         //determine formatting colors
         //the numbers will have to change when more dangerous dimensions are added
@@ -75,6 +74,9 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         if (dimensionData.getDifficulty() > 6) difficultyFormatting = Formatting.RED;
         if (dimensionData.getDifficulty() > 10) difficultyFormatting = Formatting.DARK_RED;
         addItem(new TextEntry(new TranslatableText("config.text.raa.difficulty", new LiteralText(dimensionData.getDifficulty() + "").formatted(difficultyFormatting))));
+
+        addItem(new TitleEntry(new TranslatableText("config.title.raa.advancedInformation").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.chunkGenerator", WordUtils.capitalizeFully(dimensionData.getDimensionChunkGenerator().toString().replace("_", " ").toLowerCase()))));
 
         if (dimensionData.getFlags() != 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
@@ -272,8 +274,8 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                             .build()
             );
             category.addEntry(
-                    eb.startBooleanToggle("config.field.raa.shouldRenderFog", material.shouldRenderFog())
-                            .setDefaultValue(material.shouldRenderFog())
+                    eb.startBooleanToggle("config.field.raa.shouldRenderFog", material.hasThickFog())
+                            .setDefaultValue(material.hasThickFog())
                             .setSaveConsumer(material::setRenderFog)
                             .build()
             );

@@ -8,7 +8,9 @@ import net.minecraft.util.Identifier;
 
 public class TechRebornModels extends ModelCompat {
 
-    public TechRebornModels() {super();}
+    public TechRebornModels() {
+        super();
+    }
 
     @Override
     protected void blockStates(ArtificeResourcePack.ClientResourcePackBuilder resourcePackBuilder) {

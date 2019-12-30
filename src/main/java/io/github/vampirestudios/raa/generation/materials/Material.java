@@ -1,8 +1,8 @@
 package io.github.vampirestudios.raa.generation.materials;
 
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
+import io.github.vampirestudios.raa.generation.materials.data.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -21,24 +21,17 @@ public class Material {
     private boolean tools;
     private boolean weapons;
     private CustomToolMaterial toolMaterial;
+    private MaterialFoodData foodData;
     private boolean glowing;
     private boolean oreFlower;
     private boolean food;
+    private float compostableAmount;
+    private boolean compostable;
     private int rank;
 
-    Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor, boolean tools,
-             boolean weapons, boolean glowing, boolean oreFlower, boolean food) {
-        this(oreInformation, id, name, texturesInformation, color, miningLevel, armor, null, tools, weapons, null, glowing, oreFlower, food);
-
-        if (this.tools || this.weapons) {
-            this.toolMaterial = CustomToolMaterial.generate(id, getOreInformation().getOreType(), miningLevel);
-        }
-        if (this.armor) {
-            this.armorMaterial = CustomArmorMaterial.generate(id, getOreInformation().getOreType());
-        }
-    }
-
     Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
+             CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
+             MaterialFoodData materialFoodData, float compostableAmount, boolean compostable) {
              CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food) {
         this.oreInformation = oreInformation;
         this.id = id;
@@ -54,6 +47,9 @@ public class Material {
         this.glowing = glowing;
         this.oreFlower = oreFlower;
         this.food = food;
+        this.foodData = materialFoodData;
+        this.compostableAmount = compostableAmount;
+        this.compostable = compostable;
     }
 
     public OreInformation getOreInformation() {
@@ -77,7 +73,7 @@ public class Material {
         return texturesInformation;
     }
 
-    public int getRGBColor() {
+    public int getColor() {
         return color;
     }
 
@@ -117,6 +113,18 @@ public class Material {
         return miningLevel;
     }
 
+    public MaterialFoodData getFoodData() {
+        return foodData;
+    }
+
+    public float getCompostableAmount() {
+        return compostableAmount;
+    }
+
+    public boolean isCompostable() {
+        return compostable;
+    }
+
     public int getRank() {
         return rank;
     }
@@ -127,10 +135,11 @@ public class Material {
         private Identifier id;
         private String name;
         private int RGB = -1;
-        private GeneratesIn generatesIn;
+        private Identifier generatesIn;
         private int oreCount;
         private CustomArmorMaterial armorMaterial;
         private CustomToolMaterial toolMaterial;
+        private MaterialFoodData foodData;
         private boolean armor = false;
         private boolean tools = false;
         private boolean weapons = false;
@@ -141,6 +150,8 @@ public class Material {
         private int maxXPAmount = 10;
         private int oreClusterSize = 9;
         private int miningLevel;
+        private float compostableAmount;
+        private boolean compostable;
         private int rank = 0;
 
         protected Builder() {
@@ -190,8 +201,8 @@ public class Material {
             return this;
         }
 
-        public Builder generatesIn(GeneratesIn generatesIn) {
-            this.generatesIn = generatesIn;
+        public Builder target(Identifier target) {
+            this.generatesIn = target;
             return this;
         }
 
@@ -200,9 +211,24 @@ public class Material {
             return this;
         }
 
+        public Builder compostbleAmount(float compostbleAmount) {
+            this.compostableAmount = compostbleAmount;
+            return this;
+        }
+
+        public Builder compostable(boolean compostable) {
+            this.compostable = compostable;
+            return this;
+        }
+
         public Builder armor(CustomArmorMaterial armorMaterial) {
             this.armor = true;
             this.armorMaterial = armorMaterial;
+            return this;
+        }
+
+        public Builder foodData(MaterialFoodData foodData) {
+            this.foodData = foodData;
             return this;
         }
 
@@ -286,7 +312,7 @@ public class Material {
             else resourceItemTexture = Rands.list(TextureTypes.CRYSTAL_ITEM_TEXTURES);
 
             Identifier nuggetTexture;
-            if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
+            if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.METAL_NUGGET_TEXTURES);
             else nuggetTexture = null;
 
             Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);
@@ -314,7 +340,8 @@ public class Material {
 
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
-            return new Material(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
+            return new Material(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower,
+                    food, foodData, compostableAmount, compostable);
         }
     }
 }

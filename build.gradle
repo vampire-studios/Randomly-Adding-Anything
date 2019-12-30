@@ -17,15 +17,13 @@ repositories {
         url = "http://server.bbkr.space:8081/artifactory/libs-release"
     }
 	maven { url "https://dl.bintray.com/shedaniel/autoconfig1u/" }
+    maven {
+        name = "NerdHubMC"
+        url = "https://maven.abusedmaster.xyz/"
+    }
 
 	maven { url = "https://jitpack.io"}
-
-    // TechReborn
-    maven { url = "http://maven.modmuss50.me/" }
-    maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven'
-    }
+    jcenter()
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -48,29 +46,32 @@ minecraft {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "com.github.vampire-studios:artifice-unofficial:0.3.7-unofficial"
-    include ("com.github.vampire-studios:artifice-unofficial:0.3.7-unofficial") {
-        exclude group :"net.fabricmc.fabric-api"
-    }
+    modImplementation "com.lettuce.fudge:artifice:0.4.1+1.15.1"
+    include ("com.lettuce.fudge:artifice:0.4.1+1.15.1")
 
     modImplementation "curse.maven:vampirelib:${project.vampirelib_version}"
     include ("curse.maven:vampirelib:${project.vampirelib_version}") {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    modImplementation 'curse.maven:slightly-altered-terrain-generation:2834529'
-    modImplementation 'curse.maven:trees-do-not-float:2833870'
-    modImplementation 'curse.maven:carpet:2834141'
-    modImplementation 'curse.maven:fabric-vertigo:2834529'
-    modImplementation 'curse.maven:expanded-storage:2832473'
-    modImplementation 'curse.maven:carpet-extra:2830934'
-    modImplementation 'curse.maven:shulkerboxtooltip:2829477'
-    modImplementation 'curse.maven:leaf-decay:2827905'
+    modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
+    modRuntime 'curse.maven:trees-do-not-float:2833870'
+    modRuntime 'curse.maven:carpet:2834141'
+    modRuntime 'curse.maven:fabric-vertigo:2834529'
+    modRuntime 'curse.maven:expanded-storage:2832473'
+    modRuntime 'curse.maven:carpet-extra:2830934'
+    modRuntime 'curse.maven:shulkerboxtooltip:2829477'
+    modRuntime 'curse.maven:leaf-decay:2827905'
+    modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
+        transitive = false
+    }
+
+    modImplementation 'curse.maven:simplex-terrain-generation:2850537'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
@@ -82,12 +83,6 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    /*modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
-        exclude group :"net.fabricmc.fabric-api"
-    }
-    include ("io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0") {
-        exclude group :"net.fabricmc.fabric-api"
-    }*/
     modImplementation ("com.github.CottonMC:Jankson-Fabric:-SNAPSHOT")
 
     include ("me.zeroeightsix:fiber:0.6.0-7") {
@@ -98,14 +93,6 @@ dependencies {
         exclude group: "io.github.prospector.modmenu"
         exclude group :"net.fabricmc.fabric-api"
     }
-
-    // Mod Compat
-    // TechReborn
-//    modCompile("TechReborn:TechReborn-1.15:3.0.20+build.9")
-//    compile 'org.spongepowered:configurate-hocon:3.6'
-//    compile 'org.spongepowered:configurate-core:3.6'
-//    compile 'com.typesafe:config:1.3.1'
-//    compile 'teamreborn:energy:0.0.8'
 }
 
 github {
@@ -193,9 +180,6 @@ curseforge {
                 embeddedLibrary "auto-config"
             }
         }
-//		addArtifact file("build/libs/${archivesBaseName}-${version}-dev.jar")
-//		addArtifact file("build/libs/${archivesBaseName}-${version}-sources.jar")
-//		addArtifact file("build/libs/${archivesBaseName}-${version}-sources-dev.jar")
     }
     options{
         forgeGradleIntegration = false

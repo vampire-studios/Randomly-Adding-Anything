@@ -107,12 +107,10 @@ public class EnglishMaterials implements INameGenerator {
     }
 
     public char fillConsonant(char src) {
-        switch (src) {
-            case 'd':
-                return 'o';
-            default:
-                return 'u';
+        if (src == 'd') {
+            return 'o';
         }
+        return 'u';
     }
 
     @Override

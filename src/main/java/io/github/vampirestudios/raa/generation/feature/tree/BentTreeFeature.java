@@ -19,24 +19,29 @@ public class BentTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureConf
     }
 
     @Override
-    protected boolean generate(ModifiableTestableWorld modifiableTestableWorld_1, Random random_1, BlockPos blockPos_1, Set<BlockPos> set_1, Set<BlockPos> set_2, BlockBox blockBox_1, BranchedTreeFeatureConfig branchedTreeFeatureConfig_1) {
-        int int_1 = branchedTreeFeatureConfig_1.baseHeight + random_1.nextInt(branchedTreeFeatureConfig_1.heightRandA + 1) + random_1.nextInt(branchedTreeFeatureConfig_1.heightRandB + 1);
-        int int_2 = branchedTreeFeatureConfig_1.trunkHeight >= 0 ? branchedTreeFeatureConfig_1.trunkHeight + random_1.nextInt(branchedTreeFeatureConfig_1.trunkHeightRandom + 1) : int_1 - (branchedTreeFeatureConfig_1.foliageHeight + random_1.nextInt(branchedTreeFeatureConfig_1.foliageHeightRandom + 1));
-        int int_3 = branchedTreeFeatureConfig_1.foliagePlacer.getRadius(random_1, int_2, int_1, branchedTreeFeatureConfig_1);
-        Optional<BlockPos> optional_1 = this.findPositionToGenerate(modifiableTestableWorld_1, int_1, int_2, int_3, blockPos_1, branchedTreeFeatureConfig_1);
-        if (!optional_1.isPresent()) {
+    protected boolean generate(ModifiableTestableWorld world, Random random, BlockPos pos, Set<BlockPos> logPositions, Set<BlockPos> leavesPositions,
+                               BlockBox blockBox, BranchedTreeFeatureConfig config) {
+        int height = config.baseHeight + random.nextInt(config.heightRandA + 1) + random.nextInt(config.heightRandB + 1);
+        int trunkHeight = config.trunkHeight >= 0 ? config.trunkHeight + random.nextInt(config.trunkHeightRandom + 1) : height - (config.foliageHeight +
+                random.nextInt(config.foliageHeightRandom + 1));
+        int radius = config.foliagePlacer.getRadius(random, trunkHeight, height, config);
+        Optional<BlockPos> positionToGenerate = this.findPositionToGenerate(world, height, trunkHeight, radius, pos, config);
+        if (!positionToGenerate.isPresent()) {
             return false;
         } else {
-            BlockPos blockPos_2 = optional_1.get();
-            this.setToDirt(modifiableTestableWorld_1, blockPos_2.down());
+            BlockPos generationPos = positionToGenerate.get();
+            this.setToDirt(world, generationPos.down());
             int offset = Rands.randIntRange(3, 6);
             int offsetX = Rands.chance(3) ? -1 : Rands.chance(2) ? 0 : 1;
             int offsetZ = Rands.chance(3) ? -1 : Rands.chance(2) ? 0 : 1;
-            this.generate(modifiableTestableWorld_1, random_1, offset-2, blockPos_2, 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
+            this.generate(world, random, offset - 2, generationPos, 0, logPositions, blockBox, config);
 
-            this.generate(modifiableTestableWorld_1, random_1, offset, blockPos_2.add(offsetX, offset-2, offsetZ), 0, set_1, blockBox_1, branchedTreeFeatureConfig_1);
-            this.generate(modifiableTestableWorld_1, random_1, int_1, blockPos_2.add(offsetX*2, (offset*2) - 2, offsetZ*2), branchedTreeFeatureConfig_1.trunkTopOffsetRandom + random_1.nextInt(branchedTreeFeatureConfig_1.trunkTopOffsetRandom + 1), set_1, blockBox_1, branchedTreeFeatureConfig_1);
-            branchedTreeFeatureConfig_1.foliagePlacer.generate(modifiableTestableWorld_1, random_1, branchedTreeFeatureConfig_1, int_1, int_2, int_3, blockPos_2.add(offsetX*2, (offset*2) - 2, offsetZ*2), set_2);
+            this.generate(world, random, offset, generationPos.add(offsetX, offset - 2, offsetZ), 0, logPositions, blockBox,
+                    config);
+            this.generate(world, random, height, generationPos.add(offsetX * 2, (offset * 2) - 2, offsetZ * 2),
+                    config.trunkTopOffsetRandom + random.nextInt(config.trunkTopOffsetRandom + 1), logPositions, blockBox, config);
+            config.foliagePlacer.generate(world, random, config, height, trunkHeight, radius, generationPos.add(offsetX * 2, (offset * 2) - 2, offsetZ * 2),
+                    leavesPositions);
 
             return true;
         }

@@ -1,9 +1,9 @@
 package io.github.vampirestudios.raa.generation.materials;
 
-import io.github.vampirestudios.raa.api.enums.GeneratesIn;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.generation.materials.data.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -12,18 +12,13 @@ import java.util.Map;
 
 public class DimensionMaterial extends Material {
 
-    private DimensionData dimensionData;
+    private transient DimensionData dimensionData;
 
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
-                      boolean tools, boolean weapons, boolean glowing, boolean oreFlower, boolean food, DimensionData dimensionData) {
-        super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, tools, weapons, glowing, oreFlower, food);
-        this.dimensionData = dimensionData;
-    }
-
-    DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
-                              CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
-                      DimensionData dimensionData) {
-        super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food);
+                      CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
+                      DimensionData dimensionData, MaterialFoodData foodData, float compostbleAmount, boolean compostable) {
+        super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, foodData,
+                compostbleAmount, compostable);
         this.dimensionData = dimensionData;
     }
 
@@ -37,10 +32,11 @@ public class DimensionMaterial extends Material {
         private Identifier id;
         private String name;
         private int RGB = -1;
-        private GeneratesIn generatesIn;
+        private Identifier generatesIn;
         private int oreCount;
         private CustomArmorMaterial armorMaterial;
         private CustomToolMaterial toolMaterial;
+        private MaterialFoodData foodData;
         private boolean armor = false;
         private boolean tools = false;
         private boolean weapons = false;
@@ -52,6 +48,8 @@ public class DimensionMaterial extends Material {
         private int oreClusterSize = 9;
         private int miningLevel;
         private DimensionData dimensionData;
+        private float compostbleAmount;
+        private boolean compostable;
 
         protected Builder() {
             oreCount = Rands.randInt(19) + 1;
@@ -100,8 +98,18 @@ public class DimensionMaterial extends Material {
             return this;
         }
 
-        public Builder generatesIn(GeneratesIn generatesIn) {
-            this.generatesIn = generatesIn;
+        public Builder compostbleAmount(float compostbleAmount) {
+            this.compostbleAmount = compostbleAmount;
+            return this;
+        }
+
+        public Builder compostable(boolean compostable) {
+            this.compostable = compostable;
+            return this;
+        }
+
+        public Builder target(Identifier target) {
+            this.generatesIn = target;
             return this;
         }
 
@@ -113,6 +121,11 @@ public class DimensionMaterial extends Material {
         public Builder armor(CustomArmorMaterial armorMaterial) {
             this.armor = true;
             this.armorMaterial = armorMaterial;
+            return this;
+        }
+
+        public Builder foodData(MaterialFoodData foodData) {
+            this.foodData = foodData;
             return this;
         }
 
@@ -201,7 +214,7 @@ public class DimensionMaterial extends Material {
             else resourceItemTexture = Rands.list(TextureTypes.CRYSTAL_ITEM_TEXTURES);
 
             Identifier nuggetTexture;
-            if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
+            if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.METAL_NUGGET_TEXTURES);
             else nuggetTexture = null;
 
             Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);
@@ -229,7 +242,8 @@ public class DimensionMaterial extends Material {
 
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
-            return new DimensionMaterial(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, dimensionData);
+            return new DimensionMaterial(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing,
+                    oreFlower, food, dimensionData, foodData, compostbleAmount, compostable);
         }
     }
 

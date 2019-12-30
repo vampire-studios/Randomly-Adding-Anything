@@ -1,9 +1,10 @@
 package io.github.vampirestudios.raa.generation.feature;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.FeatureUtils;
-import io.github.vampirestudios.raa.utils.noise.OctaveOpenSimplexNoise;
+import io.github.vampirestudios.raa.utils.Utils;
+import io.github.vampirestudios.raa.utils.noise.old.OctaveOpenSimplexNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
@@ -113,6 +114,9 @@ public class StoneCircleFeature extends Feature<DefaultFeatureConfig> {
         if (rand.nextInt(3) == 0) {
             FeatureUtils.setLootChest(world, new BlockPos(centreX + rand.nextInt(3) - 1, lowY - 2 - rand.nextInt(3), centreZ + rand.nextInt(3) - 1), LOOT_TABLE, rand);
         }
+
+        //Record spawn in text file
+        Utils.createSpawnsFile("stone_circle", world, pos);
 
         return true;
     }

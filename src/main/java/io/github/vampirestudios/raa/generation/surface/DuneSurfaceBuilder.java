@@ -1,8 +1,8 @@
 package io.github.vampirestudios.raa.generation.surface;
 
 import com.mojang.datafixers.Dynamic;
-import io.github.vampirestudios.raa.utils.noise.OpenSimplexNoise;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -11,6 +11,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
+import supercoder79.simplexterrain.noise.worley.WorleyNoise;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -18,7 +19,7 @@ import java.util.function.Function;
 //Code kindly taken from Terrestria. Thank you, coderbot, Prospector, and Valoeghese!
 public class DuneSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
 
-    private static final OpenSimplexNoise NOISE = new OpenSimplexNoise(3445);
+    private static final WorleyNoise NOISE = new WorleyNoise(3445);
 
     public DuneSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function) {
         super(function);
@@ -50,7 +51,7 @@ public class DuneSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
         }
 
         for (int i = 0; i < 3 + (noise / 2); i++) {
-            chunk.setBlockState(pos, DIRT, false);
+            chunk.setBlockState(pos, Blocks.SANDSTONE.getDefaultState(), false);
             pos.setOffset(Direction.UP);
         }
         chunk.setBlockState(pos, config.getTopMaterial(), false);

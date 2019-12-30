@@ -29,10 +29,15 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class CommandLocateRAAStructure {
 
+    private static List<String> STRUCTURES = Arrays.asList(
+            "Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "StoneCircle",
+            "BeeNest", "UndergroundBeeNest", "CaveCampfire", "MushroomRuin"
+    );
+
     // First make method to register
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         LiteralCommandNode<ServerCommandSource> basenode = dispatcher.register(literal("locateRAA")
-                .then(CommandManager.argument("RAAstructure", greedyString()).suggests(suggestedStrings()) .executes(ctx -> locateStructure(ctx.getSource(),
+                .then(CommandManager.argument("RAAstructure", greedyString()).suggests(suggestedStrings()).executes(ctx -> locateStructure(ctx.getSource(),
                         getString(ctx, "RAAstructure"))))
         );
     }
@@ -42,21 +47,21 @@ public class CommandLocateRAAStructure {
         float distance = -1f;
         List<Integer> spawnPos = Arrays.asList(0, 0, 0);
         try {
-            if (!"Tower,Outpost,Campfire,SpiderLair,Tomb,Fossil,PortalHub,Shrine".contains(structureName)) {
+            if (!STRUCTURES.contains(structureName)) {
                 found = 0;
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
 
             String worldPath;
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) worldPath = "saves/" + source.getWorld().getSaveHandler().getWorldDir().getName();
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+                worldPath = "saves/" + source.getWorld().getSaveHandler().getWorldDir().getName();
             else worldPath = source.getWorld().getLevelProperties().getLevelName();
 
             String spawnPath = worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/";
 
             if (structureName.equals("PortalHub") && source.getWorld().getDimension().getType().getSuffix().equals("")) {
                 spawnPath = worldPath + "/data/portal_hub_spawns.txt";
-            }
-            else if (structureName.equals("Tower") && isRaaDimension(source)) {
+            } else if (structureName.equals("Tower") && isRaaDimension(source)) {
                 spawnPath += "tower_spawns.txt";
             } else if (structureName.equals("Outpost") && isRaaDimension(source)) {
                 spawnPath += "outpost_spawns.txt";
@@ -70,6 +75,16 @@ public class CommandLocateRAAStructure {
                 spawnPath += "fossil_spawns.txt";
             } else if (structureName.equals("Shrine") && isRaaDimension(source)) {
                 spawnPath += "shrine_spawns.txt";
+            } else if (structureName.equals("StoneCircle") && isRaaDimension(source)) {
+                spawnPath += "stone_circle_spawns.txt";
+            } else if (structureName.equals("BeeNest") && isRaaDimension(source)) {
+                spawnPath += "bee_nest_spawns.txt";
+            } else if (structureName.equals("UndergroundBeeNest") && isRaaDimension(source)) {
+                spawnPath += "underground_bee_hive_spawns.txt";
+            } else if (structureName.equals("CaveCampfire") && isRaaDimension(source)) {
+                spawnPath += "cave_campfire_spawns.txt";
+            } else if (structureName.equals("MushroomRuin") && isRaaDimension(source)) {
+                spawnPath += "mushruin_spawns.txt";
             } else {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
@@ -97,7 +112,9 @@ public class CommandLocateRAAStructure {
         }
 
         if (found == 1) {
-            Text teleportButtonPopup = Texts.bracketed(new TranslatableText("chat.coordinates", spawnPos.get(0), spawnPos.get(1), spawnPos.get(2))).styled((style_1x) -> style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawnPos.get(0) + " " + spawnPos.get(1) + " " + spawnPos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip"))));
+            Text teleportButtonPopup = Texts.bracketed(new TranslatableText("chat.coordinates", spawnPos.get(0), spawnPos.get(1), spawnPos.get(2))).styled((style_1x) ->
+                    style_1x.setColor(Formatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + spawnPos.get(0) + " " +
+                            spawnPos.get(1) + " " + spawnPos.get(2))).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.coordinates.tooltip"))));
             source.sendFeedback(new TranslatableText("commands.locate.success", new TranslatableText(structureName), teleportButtonPopup, Math.round(distance)), false);
             return Command.SINGLE_SUCCESS;
         } else if (found == -1) {
@@ -110,13 +127,13 @@ public class CommandLocateRAAStructure {
     }
 
     private static SuggestionProvider<ServerCommandSource> suggestedStrings() {
-        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine"));
+        return (ctx, builder) -> getSuggestionsBuilder(builder, STRUCTURES);
     }
 
     private static CompletableFuture<Suggestions> getSuggestionsBuilder(SuggestionsBuilder builder, List<String> list) {
         String remaining = builder.getRemaining().toLowerCase(Locale.ROOT);
 
-        if(list.isEmpty()) { // If the list is empty then return no suggestions
+        if (list.isEmpty()) { // If the list is empty then return no suggestions
             return Suggestions.empty(); // No suggestions
         }
 
@@ -132,4 +149,5 @@ public class CommandLocateRAAStructure {
         String dim = source.getWorld().getDimension().getType().getSuffix();
         return !dim.equals("") && !dim.equals("_end") && !dim.equals("_nether");
     }
+
 }

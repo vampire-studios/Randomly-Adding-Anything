@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import com.google.common.collect.ImmutableList;
+import io.github.vampirestudios.raa.registries.RAATags;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.*;
 import net.minecraft.entity.Entity;
@@ -20,7 +21,12 @@ import net.minecraft.world.IWorld;
 import java.util.*;
 
 public class WorldStructureManipulation {
-    public static Vec3i CircularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float TOLERANCE) {
+
+    public static Vec3i circularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float tolerance) {
+        return circularSpawnCheck(world, pos, size, tolerance, false);
+    }
+
+    public static Vec3i circularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float tolerance, boolean isUnderground) {
         //Make sure the structure can spawn here
         int xOrigin = pos.getX();
         int zOrigin = pos.getZ();
@@ -64,24 +70,26 @@ public class WorldStructureManipulation {
             int xChosen = flatnessList.get(chosen).get(0).intValue();
             int yChosen = flatnessList.get(chosen).get(1).intValue();
             int zChosen = flatnessList.get(chosen).get(2).intValue();
-            newPos = trySpawning(world, new BlockPos(xChosen, yChosen, zChosen), size, TOLERANCE);
+            newPos = trySpawning(world, new BlockPos(xChosen, yChosen, zChosen), size, tolerance, isUnderground);
         }
 
         if (newPos.compareTo(Vec3i.ZERO) == 0 || newPos.getY() > 255 - size.getY()) {
-            /*if (maxFlatness > 20) {
-                System.out.println("---Failed to spawn! Origin Coords: " + xOrigin + "/" + yOrigin + "/" + zOrigin);
-                System.out.println("New Coords: " + pos.getX() + "/" + pos.getY() + "/" + pos.getZ());
-                System.out.println("Flatness: " + maxFlatness);
-            }*/
             return Vec3i.ZERO;
         }
 
         return newPos;
     }
 
-    private static Vec3i trySpawning(IWorld world, BlockPos pos, Vec3i size, float TOLERANCE) {
-        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
-            return Vec3i.ZERO;
+    private static Vec3i trySpawning(IWorld world, BlockPos pos, Vec3i size, float tolerance, boolean isUnderground) {
+        if (!isUnderground) {
+            if (world.getBlockState(pos.add(0, -1, 0)).isAir() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
+                return Vec3i.ZERO;
+            }
+        } else {
+            if (!world.getBlockState(pos.add(0, -1, 0)).getBlock().matches(RAATags.UNDERGROUND_BLOCKS) ||
+                    world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
+                return Vec3i.ZERO;
+            }
         }
         Map<Integer, Float> heights = new HashMap<>();
         for (int i = 0; i < 256; i++) {
@@ -124,10 +132,10 @@ public class WorldStructureManipulation {
                 }
             }
         }
-        int area = (int) (Math.PI*Math.pow((size.getX() - 2)/2f, 2));
-        //TODO: This is where the TOLERANCE for generation is used, which ranges from 0 to 1. The lower this is, the more strict the tower generation is. Increase it for wacky generation.
-        TOLERANCE = (TOLERANCE > 1f) ? 1f : Math.max(TOLERANCE, 0f);
-        if (maxHeight - minHeight > 3 && maxHeight*area - totalHeight > area*((maxHeight - minHeight)/2f * TOLERANCE) && maxHeight*area - totalHeight < area*((maxHeight - minHeight)*(1 - TOLERANCE/2f))) {
+        int area = (int) (Math.PI * Math.pow((size.getX() - 2) / 2f, 2));
+        //TODO: This is where the tolerance for generation is used, which ranges from 0 to 1. The lower this is, the more strict the tower generation is. Increase it for wacky generation.
+        tolerance = (tolerance > 1f) ? 1f : Math.max(tolerance, 0f);
+        if (maxHeight - minHeight > 3 && maxHeight * area - totalHeight > area * ((maxHeight - minHeight) / 2f * tolerance) && maxHeight * area - totalHeight < area * ((maxHeight - minHeight) * (1 - tolerance / 2f))) {
             return Vec3i.ZERO;
         }
 
@@ -231,84 +239,44 @@ public class WorldStructureManipulation {
         //world.setBlockState(pos, StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.valueOf(dir)).with(Properties.WATERLOGGED, properties.get("waterlogged").equals("TRUE"))), 2);
     }
 
-    public static void spawnEntity(IWorld world, BlockPos pos, String entity, Map<String, String> properties, float rotation) {
+    public static void spawnEntity(IWorld world, BlockPos pos, String entity, float rotation) {
         if (entity.equals("minecraft:armor_stand")) {
             Entity armorStand = EntityType.ARMOR_STAND.create(world.getWorld());
 
-            if (properties.get("armor") != null) {
-                if (properties.get("armor").equals("ALL")) {
-                    //Put armor on the stand
-                    List<ItemStack> helmets = ImmutableList.of(
-                            new ItemStack(Items.LEATHER_HELMET),
-                            new ItemStack(Items.CHAINMAIL_HELMET),
-                            new ItemStack(Items.GOLDEN_HELMET),
-                            new ItemStack(Items.IRON_HELMET),
-                            new ItemStack(Items.DIAMOND_HELMET)
-                    );
-                    List<ItemStack> chestplates = ImmutableList.of(
-                            new ItemStack(Items.LEATHER_CHESTPLATE),
-                            new ItemStack(Items.CHAINMAIL_CHESTPLATE),
-                            new ItemStack(Items.GOLDEN_CHESTPLATE),
-                            new ItemStack(Items.IRON_CHESTPLATE),
-                            new ItemStack(Items.DIAMOND_CHESTPLATE)
-                    );
-                    List<ItemStack> leggings = ImmutableList.of(
-                            new ItemStack(Items.LEATHER_LEGGINGS),
-                            new ItemStack(Items.CHAINMAIL_LEGGINGS),
-                            new ItemStack(Items.GOLDEN_LEGGINGS),
-                            new ItemStack(Items.IRON_LEGGINGS),
-                            new ItemStack(Items.DIAMOND_LEGGINGS)
-                    );
-                    List<ItemStack> boots = ImmutableList.of(
-                            new ItemStack(Items.LEATHER_BOOTS),
-                            new ItemStack(Items.CHAINMAIL_BOOTS),
-                            new ItemStack(Items.GOLDEN_BOOTS),
-                            new ItemStack(Items.IRON_BOOTS),
-                            new ItemStack(Items.DIAMOND_BOOTS)
-                    );
-                    Objects.requireNonNull(armorStand).setPositionAndAngles(pos, rotation, 0f);
-                    world.spawnEntity(armorStand);
-                    armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
-                    armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));
-                    armorStand.equipStack(EquipmentSlot.LEGS, Rands.list(leggings));
-                    armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
-                }
-            } else {
-                List<ItemStack> helmets = ImmutableList.of(
-                        new ItemStack(Items.LEATHER_HELMET),
-                        new ItemStack(Items.CHAINMAIL_HELMET),
-                        new ItemStack(Items.GOLDEN_HELMET),
-                        new ItemStack(Items.IRON_HELMET),
-                        new ItemStack(Items.DIAMOND_HELMET)
-                );
-                List<ItemStack> chestplates = ImmutableList.of(
-                        new ItemStack(Items.LEATHER_CHESTPLATE),
-                        new ItemStack(Items.CHAINMAIL_CHESTPLATE),
-                        new ItemStack(Items.GOLDEN_CHESTPLATE),
-                        new ItemStack(Items.IRON_CHESTPLATE),
-                        new ItemStack(Items.DIAMOND_CHESTPLATE)
-                );
-                List<ItemStack> leggings = ImmutableList.of(
-                        new ItemStack(Items.LEATHER_LEGGINGS),
-                        new ItemStack(Items.CHAINMAIL_LEGGINGS),
-                        new ItemStack(Items.GOLDEN_LEGGINGS),
-                        new ItemStack(Items.IRON_LEGGINGS),
-                        new ItemStack(Items.DIAMOND_LEGGINGS)
-                );
-                List<ItemStack> boots = ImmutableList.of(
-                        new ItemStack(Items.LEATHER_BOOTS),
-                        new ItemStack(Items.CHAINMAIL_BOOTS),
-                        new ItemStack(Items.GOLDEN_BOOTS),
-                        new ItemStack(Items.IRON_BOOTS),
-                        new ItemStack(Items.DIAMOND_BOOTS)
-                );
-                Objects.requireNonNull(armorStand).setPositionAndAngles(pos, rotation, 0f);
-                world.spawnEntity(armorStand);
-                armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
-                armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));
-                armorStand.equipStack(EquipmentSlot.LEGS, Rands.list(leggings));
-                armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
-            }
+            List<ItemStack> helmets = ImmutableList.of(
+                    new ItemStack(Items.LEATHER_HELMET),
+                    new ItemStack(Items.CHAINMAIL_HELMET),
+                    new ItemStack(Items.GOLDEN_HELMET),
+                    new ItemStack(Items.IRON_HELMET),
+                    new ItemStack(Items.DIAMOND_HELMET)
+            );
+            List<ItemStack> chestplates = ImmutableList.of(
+                    new ItemStack(Items.LEATHER_CHESTPLATE),
+                    new ItemStack(Items.CHAINMAIL_CHESTPLATE),
+                    new ItemStack(Items.GOLDEN_CHESTPLATE),
+                    new ItemStack(Items.IRON_CHESTPLATE),
+                    new ItemStack(Items.DIAMOND_CHESTPLATE)
+            );
+            List<ItemStack> leggings = ImmutableList.of(
+                    new ItemStack(Items.LEATHER_LEGGINGS),
+                    new ItemStack(Items.CHAINMAIL_LEGGINGS),
+                    new ItemStack(Items.GOLDEN_LEGGINGS),
+                    new ItemStack(Items.IRON_LEGGINGS),
+                    new ItemStack(Items.DIAMOND_LEGGINGS)
+            );
+            List<ItemStack> boots = ImmutableList.of(
+                    new ItemStack(Items.LEATHER_BOOTS),
+                    new ItemStack(Items.CHAINMAIL_BOOTS),
+                    new ItemStack(Items.GOLDEN_BOOTS),
+                    new ItemStack(Items.IRON_BOOTS),
+                    new ItemStack(Items.DIAMOND_BOOTS)
+            );
+            Objects.requireNonNull(armorStand).setPositionAndAngles(pos, rotation, 0f);
+            world.spawnEntity(armorStand);
+            armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
+            armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));
+            armorStand.equipStack(EquipmentSlot.LEGS, Rands.list(leggings));
+            armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
         }
     }
 

@@ -8,12 +8,14 @@ import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.DimensionalStone;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
-import io.github.vampirestudios.raa.generation.dimensions.*;
+import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
+import io.github.vampirestudios.raa.generation.dimensions.CustomDimensionalBiome;
+import io.github.vampirestudios.raa.generation.dimensions.data.*;
 import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.items.dimension.*;
-import io.github.vampirestudios.raa.utils.DebugUtils;
+import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -49,7 +51,6 @@ public class Dimensions {
         //This is only the data needed for civilization simulation
         ArrayList<ProtoDimension> protoDimensions = new ArrayList<>();
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
-            System.out.println(String.format("Generating dimension %d out of %d", a, RandomlyAddingAnything.CONFIG.dimensionNumber));
             float temperature = Rands.randFloat(2.0F);
             int flags = generateDimensionFlags();
 
@@ -77,22 +78,24 @@ public class Dimensions {
             ProtoDimension generatedDimension = Rands.list(protoDimensions);
             if (usedDimensions.contains(generatedDimension)) continue;
             else usedDimensions.add(generatedDimension);
-            civs.add(new Civilization(name.getLeft(), generatedDimension));
+            /*String civilizationName;
+            try {
+                civilizationName = Utils.generateCivsName();
+            } catch (IOException e) {
+                e.printStackTrace();
+                civilizationName = name.getLeft();
+            }*/
+            civs.add(new Civilization(/*civilizationName*/name.getLeft(), generatedDimension));
         }
 
         //tick the civs and get their influence
         civs.forEach(Civilization::simulate);
 
         for (Civilization civ : civs) {
-//            System.out.println("++++++++++++++++++++++++++++");
-//            System.out.println(civ.getName());
-//            System.out.println("r: " + civ.getInfluenceRadius());
-//            System.out.println("l: " +  civ.getTechLevel());
 
             //tech level 0 civs get no influence
             if (civ.getTechLevel() == 0) continue;
 
-//            System.out.println("=== " + civ.getName() + " ===");
             for (ProtoDimension dimension : protoDimensions) {
                 if (dimension != civ.getHomeDimension()) {
                     double d = Utils.dist(dimension.getX(), dimension.getY(), civ.getHomeDimension().getX(), civ.getHomeDimension().getY());
@@ -113,7 +116,6 @@ public class Dimensions {
                         if (percent > 0.70) {
                             if (civ.getTechLevel() >= 3) dimension.setCivilized();
                         }
-//                        System.out.println(dimension.getName().getLeft() + ": " + (int)Math.ceil(((civ.getInfluenceRadius() - d)/civ.getInfluenceRadius())*100) +"%");
                     }
                 } else {
                     //a civ's home dimension has 100% influence by that civ
@@ -136,9 +138,6 @@ public class Dimensions {
             float stoneColor = hue + Rands.randFloatRange(-0.45F, 0.45F);
             float fogHue = hue + 0.3333f;
             float skyHue = fogHue + 0.3333f;
-
-            float waterHue = hue + 0.3333f;
-            float stoneHue = hue + 0.3333f;
 
             float saturation = Rands.randFloatRange(0.5F, 1.0F);
             float stoneSaturation = Rands.randFloatRange(0.2F, 0.6F);
@@ -183,7 +182,7 @@ public class Dimensions {
                     .civilizationInfluences(dimension.getCivilizationInfluences())
                     .surfaceBuilder(Rands.randInt(100));
 
-            DimensionTexturesInformation texturesInformation = DimensionTexturesInformation.Builder.create()
+            DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
                     .stoneBricksTexture(Rands.list(TextureTypes.STONE_BRICKS_TEXTURES))
                     .mossyStoneBricksTexture(Rands.list(TextureTypes.MOSSY_STONE_BRICKS_TEXTURES))
@@ -202,15 +201,43 @@ public class Dimensions {
 
             for (int i = 0; i < Rands.randIntRange(1, 12); i++) {
                 float grassColor = hue + Rands.randFloatRange(-0.15f, 0.15f);
+                List<DimensionTreeData> treeDataList = new ArrayList<>();
+
+                int treeAmount = Rands.randIntRange(1, 5);
+                if (Utils.checkBitFlag(flags, Utils.LUSH)) treeAmount = 8;
+                for (int j = 0; j < treeAmount; j++) {
+                    DimensionTreeData treeData = DimensionTreeData.Builder.create()
+                            .woodType(Rands.list(Arrays.asList(DimensionWoodType.values())))
+                            .foliagePlacerType(Rands.list(Arrays.asList(DimensionFoliagePlacers.values())))
+                            .treeType(Rands.list(Arrays.asList(DimensionTreeTypes.values())))
+                            .baseHeight(Rands.randIntRange(2, 24))
+                            .maxWaterDepth(Rands.randIntRange(0, 8))
+                            .foliageHeight(Rands.randIntRange(1, 5))
+                            .chance(Rands.randFloatRange(0.05f, 0.6f))
+                            .hasCocoaBeans(Rands.chance(3))
+                            .hasLeafVines(Rands.chance(3))
+                            .hasPodzolUnderneath(Rands.chance(3))
+                            .hasTrunkVines(Rands.chance(3))
+                            .build();
+                    treeDataList.add(treeData);
+                }
                 DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendToPath(name.getRight(), "_biome" + "_" + i), name.getLeft())
                         .surfaceBuilderVariantChance(Rands.randInt(100))
-                        .depth(Rands.randFloatRange(-1F, 3F))
+                        .depth(Rands.randFloatRange(-2F, 5F))
                         .scale(scale + Rands.randFloatRange(-0.75f, 0.75f))
                         .temperature(dimension.getTemperature() + Rands.randFloatRange(-0.5f, 0.5f))
                         .downfall(Rands.randFloat(1F))
                         .waterColor(WATER_COLOR.getColor())
                         .grassColor(new Color(Color.HSBtoRGB(grassColor, saturation, value)).getColor())
-                        .setFoliageColor(new Color(Color.HSBtoRGB(grassColor + Rands.randFloatRange(-0.1f, 0.1f), saturation, value)).getColor())
+                        .foliageColor(new Color(Color.HSBtoRGB(grassColor + Rands.randFloatRange(-0.1f, 0.1f), saturation, value)).getColor())
+                        .treeData(treeDataList)
+                        .largeSkeletonTreeChance(Rands.randFloatRange(0, 0.5F))
+                        .spawnsCratersInNonCorrupted(Rands.chance(4))
+                        .campfireChance(Rands.randFloatRange(0.003F, 0.005F))
+                        .outpostChance(Rands.randFloatRange(0.001F, 0.003F))
+                        .towerChance(Rands.randFloatRange(0.001F, 0.0015F))
+                        .hasMushrooms(Rands.chance(6))
+                        .hasMossyRocks(Rands.chance(8))
                         .build();
                 builder.biome(biomeData);
             }
@@ -228,7 +255,7 @@ public class Dimensions {
 
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
-                DebugUtils.dimensionDebug(dimensionData);
+                ConsolePrinting.dimensionDebug(dimensionData);
             }
         }
     }
@@ -243,7 +270,7 @@ public class Dimensions {
             Set<Biome> biomes = new LinkedHashSet<>();
             for (int i = 0; i < dimension.getBiomeData().size(); i++) {
                 CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension, dimension.getBiomeData().get(i));
-                RegistryUtils.registerBiome(new Identifier(MOD_ID, dimension.getBiomeData().get(i).getName().toLowerCase() + "_" + i), biome);
+                RegistryUtils.registerBiome(dimension.getBiomeData().get(i).getId(), biome);
                 biomes.add(biome);
             }
 
@@ -252,7 +279,8 @@ public class Dimensions {
                     .skyLight(dimension.hasSkyLight())
                     .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, Rands.chance(50) ? Blocks.STONE : stoneBlock));
 
-            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES) typee.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
+            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES)
+                typee.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
             else typee.defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer());
 
             DimensionType type = typee.buildAndRegister(dimension.getId());
@@ -265,7 +293,6 @@ public class Dimensions {
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
-//                    return dimension.getToolDurability();
                     return ToolMaterials.STONE.getDurability();
                 }
 
@@ -375,7 +402,7 @@ public class Dimensions {
                             dimension.getName().toLowerCase() + "_ice"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "ice");
 
-            Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimension, dimensionType),
+            Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimensionType),
                     new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
             RegistryUtils.registerItem(new RAABlockItemAlt(dimension.getName(), "portal", portalBlock, new Item.Settings().group(ItemGroup.TRANSPORTATION)),
                     new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));

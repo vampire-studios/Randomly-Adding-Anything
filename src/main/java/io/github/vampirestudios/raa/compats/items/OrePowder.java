@@ -9,7 +9,8 @@ import org.apache.commons.lang3.text.WordUtils;
 
 public class OrePowder extends Item {
     private String name;
-    public OrePowder(String name,Settings settings) {
+
+    public OrePowder(String name, Settings settings) {
         super(settings);
         this.name = name;
     }

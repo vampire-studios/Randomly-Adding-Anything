@@ -1,14 +1,19 @@
 package io.github.vampirestudios.raa.generation.feature.portalHub;
 
 import com.mojang.datafixers.Dynamic;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionData;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
-import net.minecraft.server.world.ServerWorld;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.resource.Resource;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
@@ -21,51 +26,16 @@ import net.minecraft.world.gen.feature.Feature;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.function.Function;
 
 public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     private JsonConverter converter = new JsonConverter();
-    private Map<String, JsonConverter.StructureValues> structures = new HashMap<String, JsonConverter.StructureValues>() {{
-        put("portal_hub", converter.loadStructure("portal_hub/portal_hub.json"));
-    }};
+    private Map<String, JsonConverter.StructureValues> structures;
 
     public PortalHubFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
         super(function);
-    }
-
-    @Override
-    public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
-
-        //Cheeky way of limiting these structures to the overworld
-        if (!world.getDimension().getType().getSuffix().equals("")) {
-            return true;
-        }
-
-        //Check if structure can generate in the area
-        Vec3i tempPos = WorldStructureManipulation.CircularSpawnCheck(world, pos, structures.get("portal_hub").getSize(), 0.125f);
-        if (tempPos.compareTo(Vec3i.ZERO) == 0) {
-            return true;
-        }
-        pos = new BlockPos(tempPos);
-
-        //Generate portal
-        placePiece(world, pos, structures.get("portal_hub"), 0);
-
-        //Record spawn in text file
-        try {
-            String path;
-            World world2 = world.getWorld();
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/data/portal_hub_spawns.txt";
-            else path = world.getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt";
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
-            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return true;
     }
 
     public static void placePiece(IWorld world, BlockPos pos, JsonConverter.StructureValues piece, int decay) {
@@ -109,5 +79,56 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+        JsonObject jsonObject = null;
+        try {
+            Resource path = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));
+            jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
+            JsonObject finalJsonObject = jsonObject;
+            structures = new HashMap<String, JsonConverter.StructureValues>() {{
+                put("portal_hub", converter.loadStructure(finalJsonObject));
+            }};
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonObject == null) {
+            System.out.println("Can't get the file");
+            return true;
+        }
+
+        //Cheeky way of limiting these structures to the overworld
+        if (!world.getDimension().getType().getSuffix().equals("")) {
+            return true;
+        }
+
+        //Check if structure can generate in the area
+        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, structures.get("portal_hub").getSize(), 0.125f);
+        if (tempPos.compareTo(Vec3i.ZERO) == 0) {
+            return true;
+        }
+        pos = new BlockPos(tempPos);
+
+        //Generate portal
+        placePiece(world, pos, structures.get("portal_hub"), 0);
+
+        //Record spawn in text file
+        try {
+            String path;
+            World world2 = world.getWorld();
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+                path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/data/portal_hub_spawns.txt";
+            else path = world.getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 }

@@ -1,10 +1,10 @@
 package io.github.vampirestudios.raa.mixins;
 
 import io.github.vampirestudios.raa.generation.materials.Material;
-import io.github.vampirestudios.raa.world.player.PlayerDiscoveryProvider;
-import io.github.vampirestudios.raa.world.player.PlayerDiscoveryState;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.world.player.OreDiscoverState;
+import io.github.vampirestudios.raa.world.player.PlayerDiscoveryProvider;
+import io.github.vampirestudios.raa.world.player.PlayerDiscoveryState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

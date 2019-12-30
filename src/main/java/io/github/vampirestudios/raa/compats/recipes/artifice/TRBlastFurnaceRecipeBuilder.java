@@ -5,15 +5,16 @@ import com.swordglowsblue.artifice.api.util.Processor;
 
 public class TRBlastFurnaceRecipeBuilder extends RecipeBuilder<TRBlastFurnaceRecipeBuilder> {
 
-    public TRBlastFurnaceRecipeBuilder() {}
+    public TRBlastFurnaceRecipeBuilder() {
+    }
 
     public TRBlastFurnaceRecipeBuilder multiIngredient(Processor<RAAMultiIngredientBuilder> settings) {
-        this.root.add("ingredients", ((RAAMultiIngredientBuilder)settings.process(new RAAMultiIngredientBuilder())).build());
+        this.root.add("ingredients", settings.process(new RAAMultiIngredientBuilder()).build());
         return this;
     }
 
     public TRBlastFurnaceRecipeBuilder multiResult(Processor<RAAMultiResultBuilder> settings) {
-        this.root.add("results", ((RAAMultiResultBuilder)settings.process(new RAAMultiResultBuilder())).build());
+        this.root.add("results", settings.process(new RAAMultiResultBuilder()).build());
         return this;
     }
 
