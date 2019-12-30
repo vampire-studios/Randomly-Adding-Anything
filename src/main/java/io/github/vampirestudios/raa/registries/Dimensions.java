@@ -15,7 +15,7 @@ import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.items.dimension.*;
-import io.github.vampirestudios.raa.utils.DebugUtils;
+import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -255,7 +255,7 @@ public class Dimensions {
 
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
-                DebugUtils.dimensionDebug(dimensionData);
+                ConsolePrinting.dimensionDebug(dimensionData);
             }
         }
     }

@@ -115,7 +115,7 @@ public class DimensionData {
         this.waterVaporize = waterVaporize;
     }
 
-    public boolean shouldRenderFog() {
+    public boolean hasThickFog() {
         return renderFog;
     }
 

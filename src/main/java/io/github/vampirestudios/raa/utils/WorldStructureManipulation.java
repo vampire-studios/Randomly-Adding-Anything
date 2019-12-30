@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import com.google.common.collect.ImmutableList;
+import io.github.vampirestudios.raa.registries.RAATags;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.*;
 import net.minecraft.entity.Entity;
@@ -20,7 +21,12 @@ import net.minecraft.world.IWorld;
 import java.util.*;
 
 public class WorldStructureManipulation {
+
     public static Vec3i circularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float tolerance) {
+        return circularSpawnCheck(world, pos, size, tolerance, false);
+    }
+
+    public static Vec3i circularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float tolerance, boolean isUnderground) {
         //Make sure the structure can spawn here
         int xOrigin = pos.getX();
         int zOrigin = pos.getZ();
@@ -64,7 +70,7 @@ public class WorldStructureManipulation {
             int xChosen = flatnessList.get(chosen).get(0).intValue();
             int yChosen = flatnessList.get(chosen).get(1).intValue();
             int zChosen = flatnessList.get(chosen).get(2).intValue();
-            newPos = trySpawning(world, new BlockPos(xChosen, yChosen, zChosen), size, tolerance);
+            newPos = trySpawning(world, new BlockPos(xChosen, yChosen, zChosen), size, tolerance, isUnderground);
         }
 
         if (newPos.compareTo(Vec3i.ZERO) == 0 || newPos.getY() > 255 - size.getY()) {
@@ -74,9 +80,16 @@ public class WorldStructureManipulation {
         return newPos;
     }
 
-    private static Vec3i trySpawning(IWorld world, BlockPos pos, Vec3i size, float TOLERANCE) {
-        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
-            return Vec3i.ZERO;
+    private static Vec3i trySpawning(IWorld world, BlockPos pos, Vec3i size, float tolerance, boolean isUnderground) {
+        if (!isUnderground) {
+            if (world.getBlockState(pos.add(0, -1, 0)).isAir() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
+                return Vec3i.ZERO;
+            }
+        } else {
+            if (!world.getBlockState(pos.add(0, -1, 0)).getBlock().matches(RAATags.UNDERGROUND_BLOCKS) ||
+                    world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
+                return Vec3i.ZERO;
+            }
         }
         Map<Integer, Float> heights = new HashMap<>();
         for (int i = 0; i < 256; i++) {
@@ -120,9 +133,9 @@ public class WorldStructureManipulation {
             }
         }
         int area = (int) (Math.PI * Math.pow((size.getX() - 2) / 2f, 2));
-        //TODO: This is where the TOLERANCE for generation is used, which ranges from 0 to 1. The lower this is, the more strict the tower generation is. Increase it for wacky generation.
-        TOLERANCE = (TOLERANCE > 1f) ? 1f : Math.max(TOLERANCE, 0f);
-        if (maxHeight - minHeight > 3 && maxHeight * area - totalHeight > area * ((maxHeight - minHeight) / 2f * TOLERANCE) && maxHeight * area - totalHeight < area * ((maxHeight - minHeight) * (1 - TOLERANCE / 2f))) {
+        //TODO: This is where the tolerance for generation is used, which ranges from 0 to 1. The lower this is, the more strict the tower generation is. Increase it for wacky generation.
+        tolerance = (tolerance > 1f) ? 1f : Math.max(tolerance, 0f);
+        if (maxHeight - minHeight > 3 && maxHeight * area - totalHeight > area * ((maxHeight - minHeight) / 2f * tolerance) && maxHeight * area - totalHeight < area * ((maxHeight - minHeight) * (1 - tolerance / 2f))) {
             return Vec3i.ZERO;
         }
 

@@ -12,7 +12,7 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.MaterialFoodData;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
-import io.github.vampirestudios.raa.utils.DebugUtils;
+import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -89,7 +89,7 @@ public class Materials {
 
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
-                DebugUtils.materialDebug(material, RGB);
+                ConsolePrinting.materialDebug(material, RGB);
             }
         }
         ready = true;
@@ -145,7 +145,7 @@ public class Materials {
 
                 // Debug Only
                 if (RandomlyAddingAnything.CONFIG.debug) {
-                    DebugUtils.materialDebug(material, RGB);
+                    ConsolePrinting.materialDebug(material, RGB);
                 }
             }
         }
