@@ -14,18 +14,18 @@ public class JsonConverter {
 //        System.out.println("Idk: " + JsonHelper.getString(structureJson, "structureName", "test"));
         StructureValues structure = new StructureValues();
         structure.setName(JsonHelper.getString(structureJson, "structureName", "test"));
-        if (JsonHelper.hasArray(structureJson, "size")) {
+        /*if (JsonHelper.hasArray(structureJson, "size")) {
             List<Integer> size = new ArrayList<>();
             JsonArray array = JsonHelper.getArray(structureJson, "size");
             size.add(array.get(0).getAsJsonPrimitive().getAsInt());
             size.add(array.get(1).getAsJsonPrimitive().getAsInt());
             size.add(array.get(2).getAsJsonPrimitive().getAsInt());
             structure.setSize(size);
-        }
+        }*/
 
         // TODO: Remove this when all structure files are converted.
         if (JsonHelper.hasArray(structureJson, "nbt")) {
-            System.out.println("Old structure file! Will still load it.");
+//            System.out.println("Old structure file! Will still load it.");
             JsonArray nbtArray = JsonHelper.getArray(structureJson, "nbt");
             JsonObject structureJsonObject = nbtArray.get(0).getAsJsonObject();
             JsonArray array = JsonHelper.getArray(structureJsonObject, "value");

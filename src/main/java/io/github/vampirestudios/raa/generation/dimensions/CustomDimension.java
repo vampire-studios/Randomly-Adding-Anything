@@ -130,7 +130,7 @@ public class CustomDimension extends Dimension {
     @Override
     @Environment(EnvType.CLIENT)
     public boolean isFogThick(int x, int z) {
-        return dimensionData.shouldRenderFog();
+        return dimensionData.hasThickFog();
     }
 
     @Override

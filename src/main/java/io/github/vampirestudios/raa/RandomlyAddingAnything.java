@@ -1,8 +1,9 @@
 package io.github.vampirestudios.raa;
 
+import com.swordglowsblue.artifice.api.Artifice;
+import com.swordglowsblue.artifice.api.util.Processor;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
-import io.github.vampirestudios.raa.compats.SimplexRAACompat;
 import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
 import io.github.vampirestudios.raa.config.DimensionsConfig;
 import io.github.vampirestudios.raa.config.GeneralConfig;
@@ -10,24 +11,16 @@ import io.github.vampirestudios.raa.config.MaterialsConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
-import io.github.vampirestudios.raa.registries.ChunkGenerators;
-import io.github.vampirestudios.raa.registries.Criterions;
-import io.github.vampirestudios.raa.registries.CustomTargets;
-import io.github.vampirestudios.raa.registries.Decorators;
-import io.github.vampirestudios.raa.registries.Dimensions;
-import io.github.vampirestudios.raa.registries.Features;
-import io.github.vampirestudios.raa.registries.FoliagePlacers;
-import io.github.vampirestudios.raa.registries.Materials;
-import io.github.vampirestudios.raa.registries.SurfaceBuilders;
-import io.github.vampirestudios.raa.registries.Textures;
+import io.github.vampirestudios.raa.registries.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
+import io.github.vampirestudios.raa.utils.Utils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -79,9 +72,9 @@ public class RandomlyAddingAnything implements ModInitializer {
         Decorators.init();
         SurfaceBuilders.init();
         ChunkGenerators.init();
-        if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
+        /*if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
             SimplexRAACompat.init();
-        }
+        }*/
         CustomTargets.init();
 
         //Reflection hacks
@@ -126,8 +119,8 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         }
 
-        DimensionRecipes.init();
         Materials.createDimensionMaterialResources();
+        DimensionRecipes.init();
         MaterialRecipes.init();
 
         RegistryUtils.forEveryBiome(biome -> {
@@ -139,5 +132,20 @@ public class RandomlyAddingAnything implements ModInitializer {
         });
         Criterions.init();
         Registry.BIOME.forEach(biome -> RAARegisteries.TARGET_REGISTRY.forEach(target -> RAAWorldAPI.generateOresForTarget(biome, target)));
+
+        Artifice.registerData(new Identifier(MOD_ID, "raa_tags"), serverResourcePackBuilder ->
+            serverResourcePackBuilder.addBlockTag(new Identifier(MOD_ID, "underground_blocks"), tagBuilder -> {
+                tagBuilder.replace(false);
+                tagBuilder.values(
+                    new Identifier("andesite"),
+                    new Identifier("diorite"),
+                    new Identifier("granite"),
+                    new Identifier("diorite"),
+                    new Identifier("stone")
+                );
+                Dimensions.DIMENSIONS.forEach((Processor<DimensionData>) dimensionData ->
+                        tagBuilder.values(Utils.appendToPath(dimensionData.getId(), "_stone")));
+            })
+        );
     }
 }

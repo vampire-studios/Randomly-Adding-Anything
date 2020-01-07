@@ -3,25 +3,19 @@ package io.github.vampirestudios.raa.generation.feature;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.registries.RAALootTables;
 import io.github.vampirestudios.raa.utils.Rands;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.loot.LootTables;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -174,19 +168,7 @@ public class OutpostFeature extends Feature<DefaultFeatureConfig> {
             }
         }
 
-        try {
-            String path;
-            World world2 = world.getWorld();
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-                path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt";
-            else
-                path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/outpost_spawns.txt";
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
-            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Utils.createSpawnsFile("outpost", world, pos);
         return true;
     }
 }

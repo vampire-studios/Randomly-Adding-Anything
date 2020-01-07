@@ -1,5 +1,5 @@
 {
-  "name": "cave_campfire",
+  "structureName": "cave_campfire",
   "nbt": [
     {
       "tagType": 10,

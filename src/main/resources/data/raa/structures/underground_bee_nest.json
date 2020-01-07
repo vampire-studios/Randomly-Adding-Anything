@@ -1,5 +1,5 @@
 {
-  "name": "underground_bee_nest",
+  "structureName": "underground_bee_nest",
   "nbt": [
     {
       "tagType": 10,
@@ -31937,11 +31937,6 @@
               ]
             ]
           }
-        },
-        {
-          "tagType": 3,
-          "name": "DataVersion",
-          "value": 2220
         }
       ]
     }

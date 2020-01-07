@@ -65,7 +65,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         addItem(new TextEntry(new TranslatableText("config.text.raa.hasSkyLight", new TranslatableText("config.text.raa.boolean.value." + dimensionData.hasSkyLight()))));
         addItem(new TextEntry(new TranslatableText("config.text.raa.canSleep", new TranslatableText("config.text.raa.boolean.value." + dimensionData.canSleep()))));
         addItem(new TextEntry(new TranslatableText("config.text.raa.waterVaporize", new TranslatableText("config.text.raa.boolean.value." + dimensionData.doesWaterVaporize()))));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog", new TranslatableText("config.text.raa.boolean.value." + dimensionData.shouldRenderFog()))));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog", new TranslatableText("config.text.raa.boolean.value." + dimensionData.hasThickFog()))));
 
         //determine formatting colors
         //the numbers will have to change when more dangerous dimensions are added
@@ -76,7 +76,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         addItem(new TextEntry(new TranslatableText("config.text.raa.difficulty", new LiteralText(dimensionData.getDifficulty() + "").formatted(difficultyFormatting))));
 
         addItem(new TitleEntry(new TranslatableText("config.title.raa.advancedInformation").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.chunkGenerator", dimensionData.getDimensionChunkGenerator().toString())));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.chunkGenerator", WordUtils.capitalizeFully(dimensionData.getDimensionChunkGenerator().toString().replace("_", " ").toLowerCase()))));
 
         if (dimensionData.getFlags() != 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
@@ -274,8 +274,8 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                             .build()
             );
             category.addEntry(
-                    eb.startBooleanToggle("config.field.raa.shouldRenderFog", material.shouldRenderFog())
-                            .setDefaultValue(material.shouldRenderFog())
+                    eb.startBooleanToggle("config.field.raa.shouldRenderFog", material.hasThickFog())
+                            .setDefaultValue(material.hasThickFog())
                             .setSaveConsumer(material::setRenderFog)
                             .build()
             );

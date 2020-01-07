@@ -214,7 +214,7 @@ public class DimensionMaterial extends Material {
             else resourceItemTexture = Rands.list(TextureTypes.CRYSTAL_ITEM_TEXTURES);
 
             Identifier nuggetTexture;
-            if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.INGOT_TEXTURES);
+            if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.METAL_NUGGET_TEXTURES);
             else nuggetTexture = null;
 
             Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);

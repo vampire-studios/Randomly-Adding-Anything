@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -472,19 +473,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
 
         //Record spawn in text file
-        try {
-            String path;
-            World world2 = world.getWorld();
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-                path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt";
-            else
-                path = world.getLevelProperties().getLevelName() + "/DIM_raa_" + world.getDimension().getType().getSuffix().substring(4) + "/data/tower_spawns.txt";
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
-            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Utils.createSpawnsFile("tower", world, pos);
 
         return true;
     }

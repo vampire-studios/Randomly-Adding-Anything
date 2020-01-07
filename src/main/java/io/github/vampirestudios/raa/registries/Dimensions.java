@@ -8,13 +8,14 @@ import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.DimensionalStone;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
-import io.github.vampirestudios.raa.generation.dimensions.*;
+import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
+import io.github.vampirestudios.raa.generation.dimensions.CustomDimensionalBiome;
 import io.github.vampirestudios.raa.generation.dimensions.data.*;
 import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.items.dimension.*;
-import io.github.vampirestudios.raa.utils.DebugUtils;
+import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -77,7 +78,14 @@ public class Dimensions {
             ProtoDimension generatedDimension = Rands.list(protoDimensions);
             if (usedDimensions.contains(generatedDimension)) continue;
             else usedDimensions.add(generatedDimension);
-            civs.add(new Civilization(name.getLeft(), generatedDimension));
+            /*String civilizationName;
+            try {
+                civilizationName = Utils.generateCivsName();
+            } catch (IOException e) {
+                e.printStackTrace();
+                civilizationName = name.getLeft();
+            }*/
+            civs.add(new Civilization(/*civilizationName*/name.getLeft(), generatedDimension));
         }
 
         //tick the civs and get their influence
@@ -195,8 +203,7 @@ public class Dimensions {
                 float grassColor = hue + Rands.randFloatRange(-0.15f, 0.15f);
                 List<DimensionTreeData> treeDataList = new ArrayList<>();
 
-                int treeAmount = Rands.randIntRange(0, 4);
-                if (Utils.checkBitFlag(flags, Utils.DEAD) || Utils.checkBitFlag(flags, Utils.CORRUPTED)) treeAmount = 0;
+                int treeAmount = Rands.randIntRange(1, 5);
                 if (Utils.checkBitFlag(flags, Utils.LUSH)) treeAmount = 8;
                 for (int j = 0; j < treeAmount; j++) {
                     DimensionTreeData treeData = DimensionTreeData.Builder.create()
@@ -248,7 +255,7 @@ public class Dimensions {
 
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
-                DebugUtils.dimensionDebug(dimensionData);
+                ConsolePrinting.dimensionDebug(dimensionData);
             }
         }
     }

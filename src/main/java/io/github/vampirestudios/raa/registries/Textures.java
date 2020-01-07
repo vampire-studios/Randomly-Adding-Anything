@@ -24,7 +24,7 @@ public class Textures {
         for (int i = 1; i < 8; i++) {
             addTextureToList(TextureTypes.CRYSTAL_ITEM_TEXTURES, "item/crystals/crystal_" + i);
         }
-        for (int i = 1; i < 6; i++) {
+        for (int i = 1; i < 5; i++) {
             addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/nuggets/nugget_" + i);
         }
 

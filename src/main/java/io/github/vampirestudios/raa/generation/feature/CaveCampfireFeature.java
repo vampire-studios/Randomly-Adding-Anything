@@ -23,11 +23,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Function;
 
-public class ShrineFeature extends Feature<DefaultFeatureConfig> {
+public class CaveCampfireFeature extends Feature<DefaultFeatureConfig> {
     private JsonConverter converter = new JsonConverter();
     private Map<String, JsonConverter.StructureValues> structures;
 
-    public ShrineFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
+    public CaveCampfireFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
         super(function);
     }
 
@@ -35,11 +35,11 @@ public class ShrineFeature extends Feature<DefaultFeatureConfig> {
     public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject jsonObject = null;
         try {
-            Resource path = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/shrine/shrine.json"));
+            Resource path = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/cave_campfire.json"));
             jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
             JsonObject finalJsonObject = jsonObject;
             structures = new HashMap<String, JsonConverter.StructureValues>() {{
-                put("shrine", converter.loadStructure(finalJsonObject));
+                put("cave_campfire", converter.loadStructure(finalJsonObject));
             }};
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,17 +50,17 @@ public class ShrineFeature extends Feature<DefaultFeatureConfig> {
             return true;
         }
 
-        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, structures.get("shrine").getSize(), 0.125f);
+        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, structures.get("cave_campfire").getSize(), 0.125f, true);
         if (tempPos.compareTo(Vec3i.ZERO) == 0) {
             return true;
         }
         pos = new BlockPos(tempPos);
 
-        JsonConverter.StructureValues shrine = structures.get("shrine");
+        JsonConverter.StructureValues shrine = structures.get("cave_campfire");
         int rotation = new Random().nextInt(4);
         for (int i = 0; i < shrine.getBlockPositions().size(); i++) {
             String currBlockType = shrine.getBlockTypes().get(shrine.getBlockStates().get(i));
-            if (true/*!Rands.chance(6)*/ || currBlockType.equals("minecraft:air")) {
+            if (currBlockType.equals("minecraft:cave_air")) {
                 Vec3i currBlockPos = shrine.getBlockPositions().get(i);
                 Map<String, String> currBlockProp = shrine.getBlockProperties().get(shrine.getBlockStates().get(i));
 
@@ -70,7 +70,7 @@ public class ShrineFeature extends Feature<DefaultFeatureConfig> {
             }
         }
 
-        Utils.createSpawnsFile("shrine", world, pos);
+        Utils.createSpawnsFile("cave_campfire", world, pos);
 
         return true;
     }

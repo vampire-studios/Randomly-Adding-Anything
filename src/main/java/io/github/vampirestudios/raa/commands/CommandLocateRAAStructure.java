@@ -29,6 +29,11 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class CommandLocateRAAStructure {
 
+    private static List<String> STRUCTURES = Arrays.asList(
+            "Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "StoneCircle",
+            "BeeNest", "UndergroundBeeNest", "CaveCampfire", "MushroomRuin"
+    );
+
     // First make method to register
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         LiteralCommandNode<ServerCommandSource> basenode = dispatcher.register(literal("locateRAA")
@@ -42,7 +47,7 @@ public class CommandLocateRAAStructure {
         float distance = -1f;
         List<Integer> spawnPos = Arrays.asList(0, 0, 0);
         try {
-            if (!"Tower,Outpost,Campfire,SpiderLair,Tomb,Fossil,PortalHub,Shrine,StoneCircle".contains(structureName)) {
+            if (!STRUCTURES.contains(structureName)) {
                 found = 0;
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
@@ -72,6 +77,14 @@ public class CommandLocateRAAStructure {
                 spawnPath += "shrine_spawns.txt";
             } else if (structureName.equals("StoneCircle") && isRaaDimension(source)) {
                 spawnPath += "stone_circle_spawns.txt";
+            } else if (structureName.equals("BeeNest") && isRaaDimension(source)) {
+                spawnPath += "bee_nest_spawns.txt";
+            } else if (structureName.equals("UndergroundBeeNest") && isRaaDimension(source)) {
+                spawnPath += "underground_bee_hive_spawns.txt";
+            } else if (structureName.equals("CaveCampfire") && isRaaDimension(source)) {
+                spawnPath += "cave_campfire_spawns.txt";
+            } else if (structureName.equals("MushroomRuin") && isRaaDimension(source)) {
+                spawnPath += "mushruin_spawns.txt";
             } else {
                 throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
             }
@@ -114,7 +127,7 @@ public class CommandLocateRAAStructure {
     }
 
     private static SuggestionProvider<ServerCommandSource> suggestedStrings() {
-        return (ctx, builder) -> getSuggestionsBuilder(builder, Arrays.asList("Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "StoneCircle"));
+        return (ctx, builder) -> getSuggestionsBuilder(builder, STRUCTURES);
     }
 
     private static CompletableFuture<Suggestions> getSuggestionsBuilder(SuggestionsBuilder builder, List<String> list) {

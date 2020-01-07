@@ -12,7 +12,7 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.MaterialFoodData;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
-import io.github.vampirestudios.raa.utils.DebugUtils;
+import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -89,7 +89,7 @@ public class Materials {
 
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {
-                DebugUtils.materialDebug(material, RGB);
+                ConsolePrinting.materialDebug(material, RGB);
             }
         }
         ready = true;
@@ -145,7 +145,7 @@ public class Materials {
 
                 // Debug Only
                 if (RandomlyAddingAnything.CONFIG.debug) {
-                    DebugUtils.materialDebug(material, RGB);
+                    ConsolePrinting.materialDebug(material, RGB);
                 }
             }
         }
@@ -185,14 +185,14 @@ public class Materials {
                     RAABlockItem.BlockType.BLOCK
             );
             if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(Registry.ITEM.get(Registry.BLOCK.getId(block)), material.getCompostableAmount());
-            if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
-                Block block2 = RegistryUtils.register(
+            if (!material.getOreInformation().getTargetId().toString().equals(CustomTargets.DOES_NOT_APPEAR.getId().toString())) {
+                RegistryUtils.register(
                         new LayeredOreBlock(material, blockSettings.build()),
                         Utils.appendToPath(identifier, "_ore"),
                         RandomlyAddingAnything.RAA_ORES,
                         material.getName(),
                         RAABlockItem.BlockType.ORE);
-                if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(Registry.ITEM.get(Registry.BLOCK.getId(block2)), material.getCompostableAmount());
+//                if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(Registry.ITEM.get(Registry.BLOCK.getId(block2)), material.getCompostableAmount());
             }
             if (material.getOreInformation().getOreType() == OreType.METAL) {
                 Item item;
