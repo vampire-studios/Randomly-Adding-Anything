@@ -16,10 +16,10 @@ import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
 public class DimensionalStone extends Block {
     private String dimensionName;
-    private boolean isNaturalStone;
 
     public DimensionalStone(String dimensionName) {
-        super(Settings.copy(Blocks.STONE).strength(Rands.randFloatRange(0.25f, 4), Rands.randFloatRange(4, 20)));
+        super(Settings.copy(Blocks.STONE).strength(Rands.randFloatRange(0.25f, 4), Rands.randFloatRange(4, 20))
+                .jumpVelocityMultiplier(Rands.randFloatRange(1.0F, 60.0F)));
         this.dimensionName = dimensionName;
     }
 
