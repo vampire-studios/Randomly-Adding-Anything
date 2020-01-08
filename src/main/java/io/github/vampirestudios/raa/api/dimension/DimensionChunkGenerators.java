@@ -19,6 +19,7 @@ public enum DimensionChunkGenerators {
     QUADRUPLE_AMPLIFIED,
     PILLAR_WORLD,
     CUSTOM_OVERWORLD,
+    TEST,
 
     FLOATING,
     LAYERED_FLOATING,
@@ -54,6 +55,8 @@ public enum DimensionChunkGenerators {
 
         if (this == QUADRUPLE_AMPLIFIED) return ChunkGenerators.QUADRUPLE_AMPLIFIED.create(world, biomeSource, config);
         if (this == PILLAR_WORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config);
+
+        if (this == TEST) return ChunkGenerators.TEST.create(world, biomeSource, config);
 
         if (this == CUSTOM_OVERWORLD && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
             return ChunkGenerators.CUSTOM_SURFACE.create(world, biomeSource, config);

@@ -212,7 +212,7 @@ public class Dimensions {
                             .treeType(Rands.list(Arrays.asList(DimensionTreeTypes.values())))
                             .baseHeight(Rands.randIntRange(2, 24))
                             .maxWaterDepth(Rands.randIntRange(0, 8))
-                            .foliageHeight(Rands.randIntRange(1, 5))
+                            .foliageHeight(Rands.randIntRange(1, 2))
                             .chance(Rands.randFloatRange(0.05f, 0.6f))
                             .hasCocoaBeans(Rands.chance(3))
                             .hasLeafVines(Rands.chance(3))
@@ -223,7 +223,7 @@ public class Dimensions {
                 }
                 DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.appendToPath(name.getRight(), "_biome" + "_" + i), name.getLeft())
                         .surfaceBuilderVariantChance(Rands.randInt(100))
-                        .depth(Rands.randFloatRange(-2F, 5F))
+                        .depth(Rands.randFloatRange(-1F, 3F))
                         .scale(scale + Rands.randFloatRange(-0.75f, 0.75f))
                         .temperature(dimension.getTemperature() + Rands.randFloatRange(-0.5f, 0.5f))
                         .downfall(Rands.randFloat(1F))
