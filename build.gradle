@@ -169,9 +169,11 @@ curseforge {
     project {
         id = "341464"
         releaseType = "release"
-        changelog = "Fix crash again."
+        changelog = project.changelog
         gameVersionStrings.clear()
         gameVersionStrings.add("1.15-Snapshot")
+        gameVersionStrings.add("1.15")
+        gameVersionStrings.add("1.15.1")
         gameVersionStrings.add("Fabric")
         mainArtifact(file("build/libs/${archivesBaseName}-${version}.jar")) {
             displayName = "[" + minecraft_version + "] " + version
