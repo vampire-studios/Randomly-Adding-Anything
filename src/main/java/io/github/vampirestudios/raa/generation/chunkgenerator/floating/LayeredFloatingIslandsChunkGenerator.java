@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.chunkgenerator;
+package io.github.vampirestudios.raa.generation.chunkgenerator.floating;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;

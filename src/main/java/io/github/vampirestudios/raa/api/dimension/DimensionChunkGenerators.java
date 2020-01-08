@@ -19,7 +19,7 @@ public enum DimensionChunkGenerators {
     QUADRUPLE_AMPLIFIED,
     PILLAR_WORLD,
     CUSTOM_OVERWORLD,
-    TEST,
+    SMOOTH_OVERWORLD,
 
     FLOATING,
     LAYERED_FLOATING,
@@ -27,7 +27,8 @@ public enum DimensionChunkGenerators {
 
     CAVE,
     FLAT_CAVES,
-    HIGH_CAVES;
+    HIGH_CAVES,
+    HOLE_CAVES;
 
     public ChunkGenerator<?> getChunkGenerator(World world, BiomeSource biomeSource, DimensionData data, Block stoneBlock) {
         OverworldChunkGeneratorConfig config = new OverworldChunkGeneratorConfig();
@@ -56,7 +57,8 @@ public enum DimensionChunkGenerators {
         if (this == QUADRUPLE_AMPLIFIED) return ChunkGenerators.QUADRUPLE_AMPLIFIED.create(world, biomeSource, config);
         if (this == PILLAR_WORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config);
 
-        if (this == TEST) return ChunkGenerators.TEST.create(world, biomeSource, config);
+        if (this == SMOOTH_OVERWORLD) return ChunkGenerators.SMOOTH.create(world, biomeSource, config);
+        if (this == HOLE_CAVES) return ChunkGenerators.HOLE_CAVES.create(world, biomeSource, config);
 
         if (this == CUSTOM_OVERWORLD && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
             return ChunkGenerators.CUSTOM_SURFACE.create(world, biomeSource, config);

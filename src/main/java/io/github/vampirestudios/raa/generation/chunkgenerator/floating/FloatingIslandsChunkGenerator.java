@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.chunkgenerator;
+package io.github.vampirestudios.raa.generation.chunkgenerator.floating;
 
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.source.BiomeSource;

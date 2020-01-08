@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.chunkgenerator;
+package io.github.vampirestudios.raa.generation.chunkgenerator.caves;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;

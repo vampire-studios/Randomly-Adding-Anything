@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.generation.chunkgenerator;
+package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.server.world.ServerWorld;

@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package io.github.vampirestudios.raa.generation.chunkgenerator;
+package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
