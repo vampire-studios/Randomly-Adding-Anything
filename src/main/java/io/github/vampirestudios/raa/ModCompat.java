@@ -1,19 +1,25 @@
 package io.github.vampirestudios.raa;
 
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import io.github.vampirestudios.raa.compats.ModCompatProvider;
-import io.github.vampirestudios.raa.compats.TechReborn;
-import net.fabricmc.loader.FabricLoader;
+import io.github.vampirestudios.raa.compats.*;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModCompat {
     private List<ModCompatProvider> modCompatProviders = new ArrayList<>();
+    private List<ModCompatClientProvider> modCompatClientProviders = new ArrayList<>();
 
     public ModCompat() {
-        if (FabricLoader.INSTANCE.isModLoaded("techreborn")) {
+        if (FabricLoader.getInstance().isModLoaded("techreborn")) {
             modCompatProviders.add(new TechReborn());
+            modCompatClientProviders.add(new TechRebornCompatClient());
+        }
+        if (FabricLoader.getInstance().isModLoaded("beeproductive")) {
+            modCompatProviders.add(new BeeProductiveCompat());
         }
     }
 
@@ -29,5 +35,11 @@ public class ModCompat {
         for (ModCompatProvider modCompatProvider : modCompatProviders) {
             if (modCompatProvider.asItems()) modCompatProvider.generateItems();
         }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void generateCompatModels(ArtificeResourcePack.ClientResourcePackBuilder resourcePackBuilder) {
+        for (ModCompatClientProvider modCompatClientProvider : modCompatClientProviders)
+            modCompatClientProvider.generateModels(resourcePackBuilder);
     }
 }

@@ -25,6 +25,13 @@ public class TechRebornModels extends ModelCompat {
                 modelBuilder.texture("layer0", material.getTexturesInformation().getResourceItemTexture());
             });
         }
+
+        for (Material material : Materials.DIMENSION_MATERIALS) {
+            resourcePackBuilder.addItemModel(Utils.appendToPath(material.getId(), "dust"), modelBuilder -> {
+                modelBuilder.parent(new Identifier("item/generated"));
+                modelBuilder.texture("layer0", material.getTexturesInformation().getResourceItemTexture());
+            });
+        }
     }
 
     @Override

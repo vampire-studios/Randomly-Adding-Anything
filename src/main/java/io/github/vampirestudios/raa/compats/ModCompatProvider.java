@@ -11,4 +11,8 @@ public interface ModCompatProvider {
     boolean asItems();
 
     void generateItems();
+
+    boolean asCustomSaveFile();
+
+    void loadOrGenerateSaveFile();
 }

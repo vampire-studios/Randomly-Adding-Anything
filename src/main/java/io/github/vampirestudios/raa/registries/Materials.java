@@ -362,7 +362,6 @@ public class Materials {
                 CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
             }
         });
-        RandomlyAddingAnything.MODCOMPAT.generateCompatItems();
     }
 
     public static void createDimensionMaterialResources() {

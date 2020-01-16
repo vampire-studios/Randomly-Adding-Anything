@@ -17,7 +17,6 @@ public class MaterialRecipes {
 
     public static void init() {
         Artifice.registerData(new Identifier(MOD_ID, "recipe_pack_1"), serverResourcePackBuilder -> {
-                    RandomlyAddingAnything.MODCOMPAT.generateCompatRecipes(serverResourcePackBuilder);
                     Materials.MATERIALS.forEach(material -> {
                         Item repairItem;
                         if (material.getOreInformation().getOreType() == OreType.METAL) {

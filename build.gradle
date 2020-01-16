@@ -67,6 +67,7 @@ dependencies {
     modRuntime 'curse.maven:carpet-extra:2830934'
     modRuntime 'curse.maven:shulkerboxtooltip:2829477'
     modRuntime 'curse.maven:leaf-decay:2827905'
+    modImplementation 'curse.maven:bee-productive:2851222'
     modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
         transitive = false
     }

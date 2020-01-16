@@ -120,8 +120,10 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
 
         Materials.createDimensionMaterialResources();
+        MODCOMPAT.generateCompatItems();
         DimensionRecipes.init();
         MaterialRecipes.init();
+        Artifice.registerData(new Identifier(MOD_ID, "compat_pack"), serverResourcePackBuilder -> MODCOMPAT.generateCompatRecipes(serverResourcePackBuilder));
 
         RegistryUtils.forEveryBiome(biome -> {
             if (biome.getCategory() != Biome.Category.OCEAN) {

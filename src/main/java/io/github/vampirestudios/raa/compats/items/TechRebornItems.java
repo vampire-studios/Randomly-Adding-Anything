@@ -27,5 +27,10 @@ public class TechRebornItems extends ItemCompat {
                 RegistryUtils.registerItem(new OrePowder(material.getName(), new Item.Settings().group(POWDER_ITEM_GROUP)), Utils.appendToPath(material.getId(), "_dust"));
             }
         }
+        for (Material material : Materials.DIMENSION_MATERIALS) {
+            if (material.getOreInformation().getOreType() == OreType.METAL) {
+                RegistryUtils.registerItem(new OrePowder(material.getName(), new Item.Settings().group(POWDER_ITEM_GROUP)), Utils.appendToPath(material.getId(), "_dust"));
+            }
+        }
     }
 }

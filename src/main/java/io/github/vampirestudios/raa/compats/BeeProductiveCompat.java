@@ -1,23 +1,24 @@
 package io.github.vampirestudios.raa.compats;
 
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
+import io.github.vampirestudios.raa.compats.items.BeeProductiveCompatItems;
 import io.github.vampirestudios.raa.compats.items.ItemCompat;
-import io.github.vampirestudios.raa.compats.items.TechRebornItems;
-import io.github.vampirestudios.raa.compats.recipes.RecipeCompat;
-import io.github.vampirestudios.raa.compats.recipes.TechRebornRecipes;
+import io.github.vampirestudios.raa.generation.materials.Material;
 
-public class TechReborn implements ModCompatProvider {
-    RecipeCompat recipeCompat;
+import java.util.HashMap;
+import java.util.Map;
+
+public class BeeProductiveCompat implements ModCompatProvider {
+    public static Map<Material, Integer> materialStringMap = new HashMap<>();
     ItemCompat itemCompat;
 
-    public TechReborn() {
-        this.recipeCompat = new TechRebornRecipes();
-        this.itemCompat = new TechRebornItems();
+    public BeeProductiveCompat() {
+        this.itemCompat = new BeeProductiveCompatItems();
     }
 
     @Override
     public void generateRecipes(ArtificeResourcePack.ServerResourcePackBuilder dataPackBuilder) {
-        this.recipeCompat.registerRecipes(dataPackBuilder);
+
     }
 
     @Override
@@ -37,7 +38,7 @@ public class TechReborn implements ModCompatProvider {
 
     @Override
     public boolean asCustomSaveFile() {
-        return false;
+        return true;
     }
 
     @Override

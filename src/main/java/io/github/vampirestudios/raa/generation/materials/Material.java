@@ -1,11 +1,15 @@
 package io.github.vampirestudios.raa.generation.materials;
 
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.generation.materials.data.*;
 import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.Utils;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
+import net.minecraft.util.registry.Registry;
 
 import java.util.Map;
 
@@ -121,6 +125,10 @@ public class Material {
 
     public boolean isCompostable() {
         return compostable;
+    }
+
+    public Item getMaterialResourceItem() {
+        return Registry.ITEM.get(Utils.appendToPath(this.getId(), this.getOreInformation().getOreType().getSuffix()));
     }
 
     public static class Builder {

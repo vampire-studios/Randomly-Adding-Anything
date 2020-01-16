@@ -436,6 +436,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 }
             });
         });
+        Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "compat_pack"),
+                resourcePackBuilder -> RandomlyAddingAnything.MODCOMPAT.generateCompatModels(resourcePackBuilder));
 
         Materials.MATERIALS.forEach(material -> {
             Identifier id = material.getId();

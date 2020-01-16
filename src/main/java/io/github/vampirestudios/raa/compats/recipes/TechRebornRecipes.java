@@ -110,6 +110,97 @@ public class TechRebornRecipes extends RecipeCompat {
                 }
             }
         }
+
+        for (Material material : Materials.DIMENSION_MATERIALS) {
+            if (material.hasArmor()) {
+                addBlastingFurnaceRecipe(new Identifier(RandomlyAddingAnything.MOD_ID, "boots_to_" + material.getName()),
+                        trBlastFurnaceRecipeBuilder -> trBlastFurnaceRecipeBuilder.heat(1000)
+                                .power(128)
+                                .time(140)
+                                .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder
+                                        .item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_boots"))
+                                        .item(new Identifier("sand")))
+                                .multiResult(raaMultiResultBuilder -> {
+                                    raaMultiResultBuilder
+                                            .item(new Identifier("techreborn:dark_ashes_dust"));
+                                    if (material.getOreInformation().getOreType() == OreType.METAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 4);
+                                    if (material.getOreInformation().getOreType() == OreType.GEM)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 4);
+                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 4);
+
+                                })
+                );
+
+                addBlastingFurnaceRecipe(new Identifier(RandomlyAddingAnything.MOD_ID, "chestplate_to_" + material.getName()),
+                        trBlastFurnaceRecipeBuilder -> trBlastFurnaceRecipeBuilder.heat(1000)
+                                .power(128)
+                                .time(140)
+                                .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder
+                                        .item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_chestplate"))
+                                        .item(new Identifier("sand")))
+                                .multiResult(raaMultiResultBuilder -> {
+                                    raaMultiResultBuilder
+                                            .item(new Identifier("techreborn:dark_ashes_dust"));
+                                    if (material.getOreInformation().getOreType() == OreType.METAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 8);
+                                    if (material.getOreInformation().getOreType() == OreType.GEM)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 8);
+                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 8);
+
+                                })
+                );
+
+                addBlastingFurnaceRecipe(new Identifier(RandomlyAddingAnything.MOD_ID, "helmet_to_" + material.getName()),
+                        trBlastFurnaceRecipeBuilder -> trBlastFurnaceRecipeBuilder.heat(1000)
+                                .power(128)
+                                .time(140)
+                                .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder
+                                        .item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_helmet"))
+                                        .item(new Identifier("sand")))
+                                .multiResult(raaMultiResultBuilder -> {
+                                    raaMultiResultBuilder
+                                            .item(new Identifier("techreborn:dark_ashes_dust"));
+                                    if (material.getOreInformation().getOreType() == OreType.METAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 5);
+                                    if (material.getOreInformation().getOreType() == OreType.GEM)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 5);
+                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 5);
+
+                                })
+                );
+
+                addBlastingFurnaceRecipe(new Identifier(RandomlyAddingAnything.MOD_ID, "leggings_to_" + material.getName()),
+                        trBlastFurnaceRecipeBuilder -> trBlastFurnaceRecipeBuilder.heat(1000)
+                                .power(128)
+                                .time(140)
+                                .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder
+                                        .item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_leggings"))
+                                        .item(new Identifier("sand")))
+                                .multiResult(raaMultiResultBuilder -> {
+                                    raaMultiResultBuilder
+                                            .item(new Identifier("techreborn:dark_ashes_dust"));
+                                    if (material.getOreInformation().getOreType() == OreType.METAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_ingot"), 7);
+                                    if (material.getOreInformation().getOreType() == OreType.GEM)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_gem"), 7);
+                                    if (material.getOreInformation().getOreType() == OreType.CRYSTAL)
+                                        raaMultiResultBuilder.item(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName() + "_crystal"), 7);
+
+                                })
+                );
+
+                if (material.getOreInformation().getOreType() == OreType.METAL && material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
+                    addGrinderRecipe(Utils.appendToPath(material.getId(), "_to_dust"), trGrinderRecipeBuilder -> trGrinderRecipeBuilder
+                            .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder.item(Utils.appendToPath(material.getId(), "_ore")))
+                            .multiResult(raaMultiResultBuilder -> raaMultiResultBuilder.item(Utils.appendToPath(material.getId(), "_dust"), 2))
+                            .power(material.getMiningLevel() + 2).time(270));
+                }
+            }
+        }
     }
 
     private void addBlastingFurnaceRecipe(Identifier id, Processor<TRBlastFurnaceRecipeBuilder> f) {
