@@ -67,7 +67,13 @@ dependencies {
     modRuntime 'curse.maven:carpet-extra:2830934'
     modRuntime 'curse.maven:shulkerboxtooltip:2829477'
     modRuntime 'curse.maven:leaf-decay:2827905'
+
     modImplementation 'curse.maven:bee-productive:2851222'
+    modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:2.1.0"
+    modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:2.1.0"
+    modImplementation "io.github.cottonmc:BeeCompatible:2.0.0+1.15.1"
+
+
     modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
         transitive = false
     }

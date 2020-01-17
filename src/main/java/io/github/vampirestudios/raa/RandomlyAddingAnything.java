@@ -72,9 +72,6 @@ public class RandomlyAddingAnything implements ModInitializer {
         Decorators.init();
         SurfaceBuilders.init();
         ChunkGenerators.init();
-        /*if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
-            SimplexRAACompat.init();
-        }*/
         CustomTargets.init();
 
         //Reflection hacks

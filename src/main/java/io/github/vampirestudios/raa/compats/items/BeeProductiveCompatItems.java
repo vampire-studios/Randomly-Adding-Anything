@@ -11,12 +11,14 @@ import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.Map;
 
 public class BeeProductiveCompatItems extends ItemCompat {
+
+    public BeeProductiveCompatItems() {}
+
     @Override
     public void generateItems() {
         for (Map.Entry<Material, Integer> entry : BeeProductiveCompat.materialStringMap.entrySet()) {
