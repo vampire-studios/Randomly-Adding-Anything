@@ -37,6 +37,12 @@ public class ModCompat {
         }
     }
 
+    public void generateCompatSaveFiles() {
+        for (ModCompatProvider modCompatProvider : modCompatProviders) {
+            if (modCompatProvider.asCustomSaveFile()) modCompatProvider.loadOrGenerateSaveFile();
+        }
+    }
+
     @Environment(EnvType.CLIENT)
     public void generateCompatModels(ArtificeResourcePack.ClientResourcePackBuilder resourcePackBuilder) {
         for (ModCompatClientProvider modCompatClientProvider : modCompatClientProviders)

@@ -117,6 +117,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
 
         Materials.createDimensionMaterialResources();
+        MODCOMPAT.generateCompatSaveFiles();
         MODCOMPAT.generateCompatItems();
         DimensionRecipes.init();
         MaterialRecipes.init();

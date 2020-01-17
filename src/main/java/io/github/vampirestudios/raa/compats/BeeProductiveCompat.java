@@ -3,9 +3,9 @@ package io.github.vampirestudios.raa.compats;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import io.github.vampirestudios.raa.compats.items.BeeProductiveCompatItems;
 import io.github.vampirestudios.raa.compats.items.ItemCompat;
+import io.github.vampirestudios.raa.compats.savefiles.BeeProductionSaveFileCompat;
+import io.github.vampirestudios.raa.compats.savefiles.SaveFileCompat;
 import io.github.vampirestudios.raa.generation.materials.Material;
-import io.github.vampirestudios.raa.registries.Materials;
-import io.github.vampirestudios.raa.utils.Rands;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,9 +13,11 @@ import java.util.Map;
 public class BeeProductiveCompat implements ModCompatProvider {
     public static Map<Material, Integer> materialStringMap = new HashMap<>();
     ItemCompat itemCompat;
+    SaveFileCompat saveFileCompat;
 
     public BeeProductiveCompat() {
         this.itemCompat = new BeeProductiveCompatItems();
+        this.saveFileCompat = new BeeProductionSaveFileCompat();
     }
 
     @Override
@@ -35,13 +37,6 @@ public class BeeProductiveCompat implements ModCompatProvider {
 
     @Override
     public void generateItems() {
-        // Temporary code
-        for (Material material : Materials.MATERIALS)
-            materialStringMap.put(material, Rands.randIntRange(1,9));
-        for (Material material : Materials.DIMENSION_MATERIALS)
-            materialStringMap.put(material, Rands.randIntRange(1,9));
-
-
         this.itemCompat.generateItems();
     }
 
@@ -52,6 +47,7 @@ public class BeeProductiveCompat implements ModCompatProvider {
 
     @Override
     public void loadOrGenerateSaveFile() {
-
+        if (!this.saveFileCompat.savingFileExist()) this.saveFileCompat.generate();
+        materialStringMap.putAll(this.saveFileCompat.load());
     }
 }

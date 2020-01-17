@@ -3,8 +3,6 @@ package io.github.vampirestudios.raa.compats.items;
 import io.github.alloffabric.beeproductive.BeeProductive;
 import io.github.alloffabric.beeproductive.api.HoneyFlavor;
 import io.github.alloffabric.beeproductive.api.Nectar;
-import io.github.alloffabric.beeproductive.init.BeeProdItems;
-import io.github.alloffabric.beeproductive.item.NectarItem;
 import io.github.vampirestudios.raa.compats.BeeProductiveCompat;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -26,7 +24,7 @@ public class BeeProductiveCompatItems extends ItemCompat {
                     new HoneyFlavor(new ItemStack(entry.getKey().getMaterialResourceItem(), entry.getValue().intValue()), new ItemStack(Items.AIR)));
             Nectar nectar = Registry.register(BeeProductive.NECTARS, entry.getKey().getId(), (beeEntity, beehive) -> beehive.addHoneyFlavor(honeyFlavor));
             Item item = Registry.register(Registry.ITEM, Utils.appendToPath(entry.getKey().getId(), "_nectar"),
-                    new NectarItem(nectar, new Item.Settings().group(BeeProdItems.NECTAR_GROUP)));
+                    new MaterialNectarItem(entry.getKey(), nectar));
         }
     }
 }
