@@ -21,7 +21,7 @@ public class BeeProductiveCompatItems extends ItemCompat {
     public void generateItems() {
         for (Map.Entry<Material, Integer> entry : BeeProductiveCompat.materialStringMap.entrySet()) {
             HoneyFlavor honeyFlavor = Registry.register(BeeProductive.HONEY_FLAVORS, entry.getKey().getId(),
-                    new HoneyFlavor(new ItemStack(entry.getKey().getMaterialResourceItem(), entry.getValue().intValue()), new ItemStack(Items.AIR)));
+                    new HoneyFlavor(new ItemStack(entry.getKey().getMaterialResourceItem(), entry.getValue().intValue()), new ItemStack(Items.HONEY_BOTTLE)));
             Nectar nectar = Registry.register(BeeProductive.NECTARS, entry.getKey().getId(), (beeEntity, beehive) -> beehive.addHoneyFlavor(honeyFlavor));
             Item item = Registry.register(Registry.ITEM, Utils.appendToPath(entry.getKey().getId(), "_nectar"),
                     new MaterialNectarItem(entry.getKey(), nectar));
