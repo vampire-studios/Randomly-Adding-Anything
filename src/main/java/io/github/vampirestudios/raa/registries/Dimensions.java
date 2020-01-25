@@ -285,10 +285,10 @@ public class Dimensions {
 
             DimensionType type = typee.buildAndRegister(dimension.getId());
             DimensionType dimensionType;
-            if (Registry.DIMENSION.get(dimension.getId()) == null)
-                dimensionType = Registry.register(Registry.DIMENSION, dimension.getId(), type);
+            if (Registry.DIMENSION_TYPE.get(dimension.getId()) == null)
+                dimensionType = Registry.register(Registry.DIMENSION_TYPE, dimension.getId(), type);
             else
-                dimensionType = Registry.DIMENSION.get(dimension.getId());
+                dimensionType = Registry.DIMENSION_TYPE.get(dimension.getId());
 
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
