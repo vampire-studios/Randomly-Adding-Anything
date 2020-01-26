@@ -50,8 +50,7 @@ dependencies {
 
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 
-//    modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modCompile "com.github.JamiesWhiteShirt:fabric:dfbf5fe3d0"
+    modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation "com.lettuce.fudge:artifice:0.4.1+1.15.1"
     include ("com.lettuce.fudge:artifice:0.4.1+1.15.1")
