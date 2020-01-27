@@ -62,10 +62,8 @@ dependencies {
 
     modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
     modRuntime 'curse.maven:trees-do-not-float:2833870'
-    modRuntime 'curse.maven:carpet:2834141'
     modRuntime 'curse.maven:fabric-vertigo:2834529'
     modRuntime 'curse.maven:expanded-storage:2832473'
-    modRuntime 'curse.maven:carpet-extra:2830934'
     modRuntime 'curse.maven:shulkerboxtooltip:2829477'
     modRuntime 'curse.maven:leaf-decay:2827905'
     modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
