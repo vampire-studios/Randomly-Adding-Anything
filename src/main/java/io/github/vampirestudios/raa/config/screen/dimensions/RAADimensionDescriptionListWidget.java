@@ -45,7 +45,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
     }
 
     @Override
-    public int addItem(Entry item) {
+    public int addItem(io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry item) {
         return super.addItem(item);
     }
 
@@ -122,7 +122,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         addItem(new ColorEntry("config.text.raa.waterColor", dimensionData.getBiomeData().get(0).getWaterColor()));
     }
 
-    public static class ColorEntry extends Entry {
+    public static class ColorEntry extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
         private String s;
         private int color;
 
@@ -148,7 +148,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
     }
 
-    public static class TitleMaterialOverrideEntry extends Entry {
+    public static class TitleMaterialOverrideEntry extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
         protected String s;
         private ButtonWidget overrideButton;
 
@@ -305,7 +305,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
     }
 
-    public static class TextEntryWithTooltip extends Entry {
+    public static class TextEntryWithTooltip extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
         protected String s;
         protected String tooltip;
         protected DimensionListScreen screen;
@@ -334,7 +334,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
     }
 
-    public static class TextEntry extends Entry {
+    public static class TextEntry extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
         protected String s;
 
         public TextEntry(Text text) {
@@ -357,7 +357,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
     }
 
-    public static class TitleEntry extends Entry {
+    public static class TitleEntry extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
         protected String s;
 
         public TitleEntry(String s) {
@@ -384,7 +384,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
     }
 
-    public static class EmptyEntry extends Entry {
+    public static class EmptyEntry extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
         private int height;
 
         public EmptyEntry(int height) {
@@ -407,7 +407,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
     }
 
-    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
+    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry> {
 
     }
 

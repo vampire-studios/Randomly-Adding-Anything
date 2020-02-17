@@ -32,11 +32,11 @@ public class RAADimensionMaterialListWidget extends DynamicElementListWidget<RAA
     }
 
     @Override
-    public int addItem(Entry item) {
+    public int addItem(io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialListWidget.Entry item) {
         return super.addItem(item);
     }
 
-    public abstract static class MaterialEntry extends Entry {
+    public abstract static class MaterialEntry extends io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialListWidget.Entry {
         private PackWidget widget;
         private Material material;
 
@@ -111,7 +111,7 @@ public class RAADimensionMaterialListWidget extends DynamicElementListWidget<RAA
         }
     }
 
-    public static class EmptyEntry extends Entry {
+    public static class EmptyEntry extends io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialListWidget.Entry {
         private int height;
 
         public EmptyEntry(int height) {
@@ -134,7 +134,7 @@ public class RAADimensionMaterialListWidget extends DynamicElementListWidget<RAA
         }
     }
 
-    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
+    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialListWidget.Entry> {
 
     }
 

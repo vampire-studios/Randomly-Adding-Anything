@@ -45,7 +45,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
     }
 
     @Override
-    public int addItem(Entry item) {
+    public int addItem(io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialDescriptionListWidget.Entry item) {
         return super.addItem(item);
     }
 
@@ -98,7 +98,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
         }
     }
 
-    public static class ColorEntry extends Entry {
+    public static class ColorEntry extends io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialDescriptionListWidget.Entry {
         private String s;
         private int color;
 
@@ -124,7 +124,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
         }
     }
 
-    public static class TitleMaterialOverrideEntry extends Entry {
+    public static class TitleMaterialOverrideEntry extends io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialDescriptionListWidget.Entry {
         protected String s;
         private ButtonWidget overrideButton;
 
@@ -242,7 +242,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
         }
     }
 
-    public static class TextEntry extends Entry {
+    public static class TextEntry extends io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialDescriptionListWidget.Entry {
         protected String s;
 
         public TextEntry(String s) {
@@ -269,7 +269,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
         }
     }
 
-    public static class TitleEntry extends Entry {
+    public static class TitleEntry extends io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialDescriptionListWidget.Entry {
         protected String s;
 
         public TitleEntry(String s) {
@@ -296,7 +296,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
         }
     }
 
-    public static class EmptyEntry extends Entry {
+    public static class EmptyEntry extends io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialDescriptionListWidget.Entry {
         private int height;
 
         public EmptyEntry(int height) {
@@ -319,7 +319,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
         }
     }
 
-    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
+    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<io.github.vampirestudios.raa.config.screen.dimensions.material.RAADimensionMaterialDescriptionListWidget.Entry> {
 
     }
 
