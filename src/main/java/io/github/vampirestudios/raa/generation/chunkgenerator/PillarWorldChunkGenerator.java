@@ -168,7 +168,7 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
         this.phantomSpawner.spawn(serverWorld_1, boolean_1, boolean_2);
         this.pillagerSpawner.spawn(serverWorld_1, boolean_1, boolean_2);
         this.catSpawner.spawn(serverWorld_1, boolean_1, boolean_2);
-        this.zombieSiegeManager.spawn(serverWorld_1, boolean_1, boolean_2);
+        this.zombieSiegeManager.tick(serverWorld_1, boolean_1, boolean_2);
     }
 
     public int getSpawnHeight() {

@@ -32,11 +32,11 @@ public class RAAMaterialListWidget extends DynamicElementListWidget<RAAMaterialL
     }
 
     @Override
-    public int addItem(io.github.vampirestudios.raa.config.screen.materials.RAAMaterialListWidget.Entry item) {
+    public int addItem(Entry item) {
         return super.addItem(item);
     }
 
-    public abstract static class MaterialEntry extends io.github.vampirestudios.raa.config.screen.materials.RAAMaterialListWidget.Entry {
+    public abstract static class MaterialEntry extends Entry {
         private PackWidget widget;
         private Material material;
 
@@ -111,7 +111,7 @@ public class RAAMaterialListWidget extends DynamicElementListWidget<RAAMaterialL
         }
     }
 
-    public static class EmptyEntry extends io.github.vampirestudios.raa.config.screen.materials.RAAMaterialListWidget.Entry {
+    public static class EmptyEntry extends Entry {
         private int height;
 
         public EmptyEntry(int height) {
@@ -134,7 +134,7 @@ public class RAAMaterialListWidget extends DynamicElementListWidget<RAAMaterialL
         }
     }
 
-    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<io.github.vampirestudios.raa.config.screen.materials.RAAMaterialListWidget.Entry> {
+    public static abstract class Entry extends DynamicElementListWidget.ElementEntry<Entry> {
 
     }
 
