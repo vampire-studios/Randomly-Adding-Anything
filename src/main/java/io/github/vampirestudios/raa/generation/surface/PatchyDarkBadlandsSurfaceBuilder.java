@@ -12,9 +12,10 @@ import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 import java.util.Random;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 public class PatchyDarkBadlandsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
-    public static final OctaveSimplexNoiseSampler MESA_NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), 6, 0);
+    public static final OctaveSimplexNoiseSampler MESA_NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), IntStream.of(6, 0));
 
     public PatchyDarkBadlandsSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function_1) {
         super(function_1);

@@ -15,10 +15,10 @@ import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.items.dimension.*;
-import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
+import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
@@ -285,10 +285,10 @@ public class Dimensions {
 
             DimensionType type = builder.buildAndRegister(dimension.getId());
             DimensionType dimensionType;
-            if (Registry.DIMENSION.get(dimension.getId()) == null)
-                dimensionType = Registry.register(Registry.DIMENSION, dimension.getId(), type);
+            if (Registry.DIMENSION_TYPE.get(dimension.getId()) == null)
+                dimensionType = Registry.register(Registry.DIMENSION_TYPE, dimension.getId(), type);
             else
-                dimensionType = Registry.DIMENSION.get(dimension.getId());
+                dimensionType = Registry.DIMENSION_TYPE.get(dimension.getId());
 
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override

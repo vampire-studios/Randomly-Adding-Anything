@@ -39,7 +39,7 @@ public class EnterRandomDimensionFirstTimeCriterion extends AbstractCriterion<En
         }
 
         public boolean matches(ServerPlayerEntity player) {
-            return Registry.DIMENSION.getId(player.getServerWorld().dimension.getType()).getNamespace().equals(RandomlyAddingAnything.MOD_ID);
+            return Registry.DIMENSION_TYPE.getId(player.getServerWorld().dimension.getType()).getNamespace().equals(RandomlyAddingAnything.MOD_ID);
         }
     }
 }

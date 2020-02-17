@@ -271,7 +271,7 @@ public class WorldStructureManipulation {
                     new ItemStack(Items.IRON_BOOTS),
                     new ItemStack(Items.DIAMOND_BOOTS)
             );
-            Objects.requireNonNull(armorStand).setPositionAndAngles(pos, rotation, 0f);
+            Objects.requireNonNull(armorStand).refreshPositionAndAngles(pos, rotation, 0f);
             world.spawnEntity(armorStand);
             armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
             armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));

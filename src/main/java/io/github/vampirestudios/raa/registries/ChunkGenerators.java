@@ -2,25 +2,11 @@ package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.api.dimension.FabricChunkGeneratorType;
 import io.github.vampirestudios.raa.generation.chunkgenerator.*;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
-
-import io.github.vampirestudios.raa.generation.chunkgenerator.caves.CavesChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.caves.FlatCavesChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.caves.HighCavesChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.caves.HoleCaveChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.floating.FloatingIslandsChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.floating.LayeredFloatingIslandsChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.floating.PreClassicFloatingIslandsChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.OverworldChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.PillarWorldChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.QuadrupleAmplifiedChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.SmoothOverworldChunkGenerator;
-import supercoder79.simplexterrain.world.gen.SimplexChunkGenerator;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
@@ -34,6 +20,7 @@ public class ChunkGenerators {
     public static ChunkGeneratorType<CavesChunkGeneratorConfig, HighCavesChunkGenerator> HIGH_CAVES;
 
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, OverworldChunkGenerator> SURFACE;
+//    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, SimplexChunkGenerator> CUSTOM_SURFACE;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, QuadrupleAmplifiedChunkGenerator> QUADRUPLE_AMPLIFIED;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, PillarWorldChunkGenerator> PILLAR_WORLD;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, SmoothOverworldChunkGenerator> SMOOTH;
@@ -59,7 +46,7 @@ public class ChunkGenerators {
         SMOOTH = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "smooth_overworld"), SmoothOverworldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         HOLE_CAVES = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "hole_caves"), HoleCaveChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
 
-        if (FabricLoader.getInstance().isModLoaded("simplexterrain"))
-            CUSTOM_SURFACE = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "custom_surface"), SimplexChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
+        // if (FabricLoader.getInstance().isModLoaded("simplexterrain"))
+        //     CUSTOM_SURFACE = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "custom_surface"), SimplexChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
     }
 }

@@ -23,12 +23,13 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.*;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.foliage.*;
-import net.minecraft.world.gen.stateprovider.SimpleStateProvider;
+import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 
 import java.util.ArrayList;
@@ -46,8 +47,13 @@ public class CustomDimensionalBiome extends Biome {
                 .scale(biomeData.getScale())
                 .temperature(biomeData.getTemperature())
                 .downfall(biomeData.getDownfall())
-                .waterColor(biomeData.getWaterColor())
-                .waterFogColor(biomeData.getWaterColor())
+                .effects(
+                        new BiomeEffects.Builder()
+                                .fogColor(dimensionData.getDimensionColorPalette().getFogColor())
+                                .waterColor(biomeData.getWaterColor())
+                                .waterFogColor(biomeData.getWaterColor())
+                                .build()
+                )
                 .parent(null)
         ));
         this.dimensionData = dimensionData;
@@ -77,7 +83,7 @@ public class CustomDimensionalBiome extends Biome {
         if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
             for (DimensionTreeData treeData : biomeData.getTreeData()) {
                 if (treeData.getTreeType() == DimensionTreeTypes.MEGA_JUNGLE || treeData.getTreeType() == DimensionTreeTypes.MEGA_SPRUCE || treeData.getTreeType() == DimensionTreeTypes.DARK_OAK) {
-                    MegaTreeFeatureConfig config = (new MegaTreeFeatureConfig.Builder(new SimpleStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState())))
+                    MegaTreeFeatureConfig config = (new MegaTreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState())))
                             .baseHeight(treeData.getBaseHeight()).heightInterval(treeData.getFoliageHeightRandom()).build();
                     this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
                             getMegaTree(treeData.getTreeType())
@@ -85,7 +91,7 @@ public class CustomDimensionalBiome extends Biome {
                                             config
                                     ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, treeData.getChance(), 1))));
                 } else {
-                    BranchedTreeFeatureConfig config = (new BranchedTreeFeatureConfig.Builder(new SimpleStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState()),
+                    BranchedTreeFeatureConfig config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState()),
                             getFoliagePlacer(treeData))
                             .baseHeight(Rands.randIntRange(1, 6)) //
                             .heightRandA(treeData.getBaseHeight()) //trunk height
@@ -226,6 +232,138 @@ public class CustomDimensionalBiome extends Biome {
             this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.ENDERMAN, dimensionData.getMobs().get("enderman")[0], dimensionData.getMobs().get("enderman")[1], dimensionData.getMobs().get("enderman")[2]));
         if (dimensionData.getMobs().containsKey("witch"))
             this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("witch")[0], dimensionData.getMobs().get("witch")[1], dimensionData.getMobs().get("witch")[2]));
+    }
+
+    public static BranchedTreeFeatureConfig getTreeConfig(DimensionTreeData treeData) {
+        BranchedTreeFeatureConfig config;
+        int height = treeData.getBaseHeight();
+        int foliageHeight = treeData.getFoliageHeight();
+        WoodType woodType = treeData.getWoodType().woodType;
+        BlockState logState = woodType.getLog().getDefaultState();
+        BlockState leafState = woodType.getLeaves().getDefaultState();
+
+        ArrayList<TreeDecorator> decoratorsRaw = new ArrayList<>();
+        if (treeData.hasLeafVines()) decoratorsRaw.add(new LeaveVineTreeDecorator());
+        if (treeData.hasTrunkVines()) decoratorsRaw.add(new TrunkVineTreeDecorator());
+        if (treeData.hasCocoaBeans()) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
+        //if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
+        if (treeData.hasPodzolUnderneath())
+            decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState())));
+        ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
+
+        switch (Rands.randInt(9)) {
+            case 1:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(logState), new SimpleBlockStateProvider(leafState), new SpruceFoliagePlacer(Rands.randIntRange(1, 4), 0)))
+                        .baseHeight(Rands.randIntRange(1, 6)) //trunk height rand 1
+                        .heightRandA(height - 1) //trunk height rand 2
+                        .foliageHeight(foliageHeight) //foliage amount
+                        .foliageHeightRandom(Rands.randIntRange(1, 6)) //random foliage offset
+                        .maxWaterDepth(treeData.getMaxWaterDepth()) //water depth
+                        .trunkHeight(Rands.randIntRange(1, 8)) //trunk height
+                        .trunkHeightRandom(Rands.randIntRange(1, 4)) //trunk height offset
+                        .trunkTopOffsetRandom(Rands.randIntRange(1, 2)) //foliage height
+                        .noVines()
+                        .treeDecorators(decorators)
+                        .build();
+                break;
+            case 2:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(logState), new SimpleBlockStateProvider(leafState), new PineFoliagePlacer(Rands.randIntRange(1, 2), 0)))
+                        .baseHeight(Rands.randIntRange(1, 4))
+                        .heightRandA(height - 1)
+                        .trunkTopOffset(Rands.randIntRange(1, 2))
+                        .foliageHeight(foliageHeight / 2)
+                        .foliageHeightRandom(Rands.randIntRange(1, 4))
+                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .noVines()
+                        .treeDecorators(decorators)
+                        .build();
+                break;
+            case 3:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(logState), new SimpleBlockStateProvider(leafState), new AcaciaFoliagePlacer(Rands.randIntRange(1, 4), 0)))
+                        .baseHeight(Rands.randIntRange(1, 6))
+                        .heightRandA(height - 1)
+                        .heightRandB(height + Rands.randIntRange(1, 4))
+                        .trunkHeight(Rands.randIntRange(1, 8))
+                        .foliageHeight(foliageHeight) //foliage amount
+                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .noVines()
+                        .treeDecorators(decorators)
+                        .build();
+                break;
+            case 4:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(logState), new SimpleBlockStateProvider(leafState), new CylinderFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                        .baseHeight(Rands.randIntRange(1, 6))
+                        .heightRandA(height - 1)
+                        .heightRandB(height + Rands.randIntRange(1, 4))
+                        .trunkHeight(Rands.randIntRange(1, 8))
+                        .foliageHeight(foliageHeight) //foliage amount
+                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .noVines()
+                        .treeDecorators(decorators)
+                        .build();
+                break;
+            case 5:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(logState), new SimpleBlockStateProvider(leafState), new UpsideDownOakFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                        .baseHeight(Rands.randIntRange(1, 6))
+                        .heightRandA(height - 1)
+                        .heightRandB(height + Rands.randIntRange(1, 4))
+                        .trunkHeight(Rands.randIntRange(1, 8))
+                        .foliageHeight(foliageHeight) //foliage amount
+                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .noVines()
+                        .treeDecorators(decorators)
+                        .build();
+                break;
+            case 6:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(logState), new SimpleBlockStateProvider(leafState), new LongOakFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                        .baseHeight(Rands.randIntRange(1, 6))
+                        .heightRandA(height - 1)
+                        .heightRandB(height + Rands.randIntRange(1, 4))
+                        .trunkHeight(Rands.randIntRange(1, 8))
+                        .foliageHeight(foliageHeight) //foliage amount
+                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .noVines()
+                        .treeDecorators(decorators)
+                        .build();
+                break;
+            case 7:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(logState), new SimpleBlockStateProvider(leafState), new BoringOakFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                        .baseHeight(Rands.randIntRange(1, 6))
+                        .heightRandA(height - 1)
+                        .heightRandB(height + Rands.randIntRange(1, 4))
+                        .trunkHeight(Rands.randIntRange(1, 8))
+                        .foliageHeight(foliageHeight) //foliage amount
+                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .noVines()
+                        .treeDecorators(decorators)
+                        .build();
+                break;
+            case 8:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(logState), new SimpleBlockStateProvider(leafState), new RandomSpruceFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                        .baseHeight(Rands.randIntRange(1, 6))
+                        .heightRandA(height - 1)
+                        .heightRandB(height + Rands.randIntRange(1, 4))
+                        .trunkHeight(Rands.randIntRange(1, 8))
+                        .foliageHeight(foliageHeight) //foliage amount
+                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .noVines()
+                        .treeDecorators(decorators)
+                        .build();
+                break;
+            case 0:
+            default:
+                config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(logState), new SimpleBlockStateProvider(leafState), new BlobFoliagePlacer(Rands.randIntRange(1, 3), 0)))
+                        .baseHeight(Rands.randIntRange(1, 6)) //
+                        .heightRandA(height - 1) //trunk height
+                        .foliageHeight(foliageHeight) //foliage amount
+                        .foliageHeightRandom(Rands.randIntRange(1, 6)) //random foliage offset
+                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .noVines()
+                        .treeDecorators(decorators)
+                        .build();
+
+        }
+        return config;
     }
 
     private static FoliagePlacer getFoliagePlacer(DimensionTreeData treeData) {
