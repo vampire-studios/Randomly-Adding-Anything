@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.2.6-SNAPSHOT'
+    id 'fabric-loom' version '0.2.7-SNAPSHOT'
     id 'maven-publish'
     id "co.riiid.gradle" version "0.4.2"
     id "com.matthewprenger.cursegradle" version "1.4.0"
@@ -52,25 +52,23 @@ dependencies {
 
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "com.lettuce.fudge:artifice:0.4.1+1.15.1"
-    include ("com.lettuce.fudge:artifice:0.4.1+1.15.1")
+    modImplementation "com.lettuce.fudge:artifice:0.6.0+20w06a"
+    include ("com.lettuce.fudge:artifice:0.6.0+20w06a")
 
-    modImplementation "vampirelib:vampirelib:${project.vampirelib_version}"
-    include ("vampirelib:vampirelib:${project.vampirelib_version}") {
-        exclude group :"net.fabricmc.fabric-api"
-    }
+    modImplementation "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
+    include "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
 
-    modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
-    modRuntime 'curse.maven:trees-do-not-float:2833870'
-    modRuntime 'curse.maven:fabric-vertigo:2834529'
-    modRuntime 'curse.maven:expanded-storage:2832473'
+//    modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
+//    modRuntime 'curse.maven:trees-do-not-float:2833870'
+//    modRuntime 'curse.maven:fabric-vertigo:2834529'
+//    modRuntime 'curse.maven:expanded-storage:2832473'
     modRuntime 'curse.maven:shulkerboxtooltip:2829477'
     modRuntime 'curse.maven:leaf-decay:2827905'
     modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
         transitive = false
     }
 
-    modImplementation 'curse.maven:simplex-terrain-generation:2850537'
+//    modImplementation 'curse.maven:simplex-terrain-generation:2850537'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {

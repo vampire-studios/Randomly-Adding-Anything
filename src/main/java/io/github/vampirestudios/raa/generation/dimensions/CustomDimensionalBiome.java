@@ -23,6 +23,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.*;
@@ -46,8 +47,13 @@ public class CustomDimensionalBiome extends Biome {
                 .scale(biomeData.getScale())
                 .temperature(biomeData.getTemperature())
                 .downfall(biomeData.getDownfall())
-                .waterColor(biomeData.getWaterColor())
-                .waterFogColor(biomeData.getWaterColor())
+                .effects(
+                        new BiomeEffects.Builder()
+                                .fogColor(dimensionData.getDimensionColorPalette().getFogColor())
+                                .waterColor(biomeData.getWaterColor())
+                                .waterFogColor(biomeData.getWaterColor())
+                                .build()
+                )
                 .parent(null)
         ));
         this.dimensionData = dimensionData;

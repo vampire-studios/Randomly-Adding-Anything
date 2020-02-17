@@ -111,9 +111,9 @@ public class CustomDimension extends Dimension {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public Vec3d modifyFogColor(float skyAngle, float tickDelta) {
-        int fogColor = dimensionData.getDimensionColorPalette().getFogColor();
-        int[] rgbColor = Color.intToRgb(fogColor);
+    public Vec3d modifyFogColor(int fogColor, float tickDelta) {
+        int fogColor2 = dimensionData.getDimensionColorPalette().getFogColor();
+        int[] rgbColor = Color.intToRgb(fogColor2);
         return new Vec3d(rgbColor[0] / 255.0, rgbColor[1] / 255.0, rgbColor[2] / 255.0);
     }
 
@@ -137,9 +137,4 @@ public class CustomDimension extends Dimension {
     public DimensionType getType() {
         return dimensionType;
     }
-
-//    @Override
-//    public float method_23759(int int_1) {
-//        return 0.0F;
-//    }
 }

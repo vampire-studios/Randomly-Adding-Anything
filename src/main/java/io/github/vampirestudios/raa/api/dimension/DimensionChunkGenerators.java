@@ -2,9 +2,7 @@ package io.github.vampirestudios.raa.api.dimension;
 
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.ChunkGenerators;
-import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.World;
@@ -55,14 +53,14 @@ public enum DimensionChunkGenerators {
         if (this == QUADRUPLE_AMPLIFIED) return ChunkGenerators.QUADRUPLE_AMPLIFIED.create(world, biomeSource, config);
         if (this == PILLAR_WORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config);
 
-        if (this == CUSTOM_OVERWORLD && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
+        /*if (this == CUSTOM_OVERWORLD && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
             return ChunkGenerators.CUSTOM_SURFACE.create(world, biomeSource, config);
         } else {
             if (!FabricLoader.getInstance().isModLoaded("simplexterrain")) {
                 data.setDimensionChunkGenerator(Rands.values(DimensionChunkGenerators.values()));
                 data.getDimensionChunkGenerator().getChunkGenerator(world, biomeSource, data, stoneBlock);
             }
-        }
+        }*/
 
         return ChunkGenerators.SURFACE.create(world, biomeSource, config);
     }

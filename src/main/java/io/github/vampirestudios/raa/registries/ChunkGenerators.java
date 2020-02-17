@@ -2,13 +2,11 @@ package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.api.dimension.FabricChunkGeneratorType;
 import io.github.vampirestudios.raa.generation.chunkgenerator.*;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
-import supercoder79.simplexterrain.world.gen.SimplexChunkGenerator;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
@@ -22,7 +20,7 @@ public class ChunkGenerators {
     public static ChunkGeneratorType<CavesChunkGeneratorConfig, HighCavesChunkGenerator> HIGH_CAVES;
 
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, OverworldChunkGenerator> SURFACE;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, SimplexChunkGenerator> CUSTOM_SURFACE;
+//    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, SimplexChunkGenerator> CUSTOM_SURFACE;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, QuadrupleAmplifiedChunkGenerator> QUADRUPLE_AMPLIFIED;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, PillarWorldChunkGenerator> PILLAR_WORLD;
 
@@ -39,8 +37,8 @@ public class ChunkGenerators {
 
         //Overworld-like chunk generators
         SURFACE = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "surface"), OverworldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
-        if (FabricLoader.getInstance().isModLoaded("simplexterrain"))
-            CUSTOM_SURFACE = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "custom_surface"), SimplexChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
+//        if (FabricLoader.getInstance().isModLoaded("simplexterrain"))
+//            CUSTOM_SURFACE = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "custom_surface"), SimplexChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         QUADRUPLE_AMPLIFIED = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "quadruple_amplified"), QuadrupleAmplifiedChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         PILLAR_WORLD = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "pillar_world"), PillarWorldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
     }

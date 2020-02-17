@@ -29,6 +29,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.level.LevelGeneratorType;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 //import supercoder79.simplexterrain.api.postprocess.TerrainPostProcessor;
 
@@ -54,7 +55,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
     public OverworldChunkGenerator(IWorld world, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
         super(world, biomeSource, 4, 8, 256, config, true);
         this.random.consume(2620);
-        this.noiseSampler = new OctavePerlinNoiseSampler(this.random, 15, 0);
+        this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
         this.amplified = world.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
 
 //        List<TerrainPostProcessor> postProcessors = new ArrayList<>();
