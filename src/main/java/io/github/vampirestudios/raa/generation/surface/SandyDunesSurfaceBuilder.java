@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.generation.surface;
 
 import com.mojang.datafixers.Dynamic;
-import io.github.vampirestudios.raa.utils.WorleyNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -12,6 +11,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
+import supercoder79.simplexterrain.noise.worley.WorleyNoise;
 
 import java.util.Random;
 import java.util.function.Function;

@@ -1,4 +1,3 @@
-/*
 package io.github.vampirestudios.raa.registries;
 
 import supercoder79.simplexterrain.world.gen.SimplexChunkGenerator;
@@ -19,4 +18,3 @@ public class CustomOverworldGeneratorThings {
     }
 
 }
-*/

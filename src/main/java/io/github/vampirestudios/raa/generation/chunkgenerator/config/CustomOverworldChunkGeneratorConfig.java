@@ -1,4 +1,3 @@
-/*
 package io.github.vampirestudios.raa.generation.chunkgenerator.config;
 
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
@@ -281,4 +280,3 @@ public class CustomOverworldChunkGeneratorConfig extends ChunkGeneratorConfig {
     }
 
 }
-*/

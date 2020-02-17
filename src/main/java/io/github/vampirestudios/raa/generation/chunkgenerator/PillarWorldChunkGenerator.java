@@ -24,7 +24,6 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.level.LevelGeneratorType;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
     private static final float[] BIOME_WEIGHT_TABLE = Util.make(new float[25], (floats_1) -> {
@@ -48,9 +47,9 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
     public PillarWorldChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
         super(iWorld_1, biomeSource_1, 8, 4, 256, overworldChunkGeneratorConfig_1, true);
         this.random.consume(2620);
-        this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
+        this.noiseSampler = new OctavePerlinNoiseSampler(this.random, 15, 0);
         this.amplified = iWorld_1.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
-        this.simplexNoise = new OctaveSimplexNoiseSampler(this.random, IntStream.of(4, 0));
+        this.simplexNoise = new OctaveSimplexNoiseSampler(this.random, 4, 0);
     }
 
     public void populateEntities(ChunkRegion chunkRegion_1) {

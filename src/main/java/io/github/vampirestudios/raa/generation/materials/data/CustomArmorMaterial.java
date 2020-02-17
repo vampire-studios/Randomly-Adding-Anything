@@ -23,9 +23,8 @@ public class CustomArmorMaterial implements ArmorMaterial {
     private final int horseArmorBonus;
     private transient Identifier materialId;
     private transient OreType oreType;
-    private final float knockbackResistance;
 
-    public CustomArmorMaterial(Identifier materialId, OreType oreType, int durabilityMultiplier, int[] protectionAmounts, int enchantability, float toughness, int horseArmorBonus, float knockbackResistance) {
+    public CustomArmorMaterial(Identifier materialId, OreType oreType, int durabilityMultiplier, int[] protectionAmounts, int enchantability, float toughness, int horseArmorBonus) {
         this.materialId = materialId;
         this.oreType = oreType;
         this.durabilityMultiplier = durabilityMultiplier;
@@ -33,7 +32,6 @@ public class CustomArmorMaterial implements ArmorMaterial {
         this.enchantability = enchantability;
         this.toughness = toughness;
         this.horseArmorBonus = horseArmorBonus;
-        this.knockbackResistance = knockbackResistance;
     }
 
     public static CustomArmorMaterial generate(Identifier materialId, OreType oreType) {
@@ -43,8 +41,7 @@ public class CustomArmorMaterial implements ArmorMaterial {
                         Rands.randIntRange(2, 12), Rands.randIntRange(1, 6)},
                 Rands.randIntRange(7, 30),
                 (Rands.chance(4) ? Rands.randFloat(4.0F) : 0.0F),
-                Rands.randInt(30),
-                Rands.randFloatRange(0.0F, 0.5F)
+                Rands.randInt(30)
         );
     }
 
@@ -83,11 +80,6 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
     public float getToughness() {
         return this.toughness;
-    }
-
-    @Override
-    public float method_24355() {
-        return this.knockbackResistance;
     }
 
     public int getHorseArmorBonus() {
