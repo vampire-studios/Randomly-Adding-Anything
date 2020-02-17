@@ -42,11 +42,7 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.6.0",
-    "fabric": "*",
-    "minecraft": ">=1.15-rc.6"
-  },
-  "suggests": {
-    "thehallow": "*"
+    "fabricloader": ">=0.7.2",
+    "fabric": "*"
   }
 }
