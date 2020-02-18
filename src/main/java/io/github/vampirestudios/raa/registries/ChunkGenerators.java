@@ -34,7 +34,7 @@ public class ChunkGenerators {
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, QuadrupleAmplifiedChunkGenerator> QUADRUPLE_AMPLIFIED;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, PillarWorldChunkGenerator> PILLAR_WORLD;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, SmoothOverworldChunkGenerator> SMOOTH;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, HoleCaveChunkGenerator> HOLE_CAVES;
+    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, HoleCaveChunkGenerator> TOTALLY_CUSTOM;
 
 //    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, SimplexChunkGenerator> CUSTOM_SURFACE;
 
@@ -54,7 +54,7 @@ public class ChunkGenerators {
         QUADRUPLE_AMPLIFIED = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "quadruple_amplified"), QuadrupleAmplifiedChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         PILLAR_WORLD = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "pillar_world"), PillarWorldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         SMOOTH = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "smooth_overworld"), SmoothOverworldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
-        HOLE_CAVES = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "hole_caves"), HoleCaveChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
+        TOTALLY_CUSTOM = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "totally_custom"), HoleCaveChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
 
 //        if (FabricLoader.getInstance().isModLoaded("simplexterrain"))
 //            CUSTOM_SURFACE = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "custom_surface"), SimplexChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);

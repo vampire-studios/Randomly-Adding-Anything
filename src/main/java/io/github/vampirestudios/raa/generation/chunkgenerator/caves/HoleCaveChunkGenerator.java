@@ -43,8 +43,33 @@ public class HoleCaveChunkGenerator extends SurfaceChunkGenerator<OverworldChunk
     private final OctavePerlinNoiseSampler field_16581;
     private final OctavePerlinNoiseSampler field_16575;
 
+    private float b1 = Rands.randFloatRange(256, 4096);
+    private float b2 = Rands.randFloatRange(256, 4096);
+    private float c1 = Rands.randFloatRange(2, 24);
+    private float c2 = Rands.randFloatRange(2, 24);
+    private int div = Rands.randIntRange(3, 64);
+    private int mod = Rands.randIntRange(-4096, 4096);
+
+    private float nmul = Rands.randFloatRange(65535.0f / 2, 65535.0f * 1.5f);
+    private float ndiv = Rands.randFloatRange(2000, 10000);
+    private float nx = Rands.randFloatRange(50, 800);
+    private float nz = Rands.randFloatRange(50, 800);
+
+    private float rdiv = Rands.randFloatRange(3, 24);
+    private float rdiv2 = Rands.randFloatRange(0.5f, 4);
+
+    private float fmul = Rands.randFloatRange(32, 512);
+    private float fdiv = Rands.randFloatRange(32, 512);
+    private float fcoef = Rands.randFloatRange(-7.5f, 7.5f);
+
+    private float t1 = 0;
+    private float t2 = 0;
+    private float t3 = 0;
+    private float t4 = 0;
+    private float t5 = 0;
+
     public HoleCaveChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
-        super(iWorld_1, biomeSource_1, 8, 8, 256, overworldChunkGeneratorConfig_1, true);
+        super(iWorld_1, biomeSource_1, (int) Math.pow(2, Rands.randIntRange(3, 3)), (int) Math.pow(2, Rands.randIntRange(3, 3)), 256, overworldChunkGeneratorConfig_1, true);
         this.random.consume(Rands.randInt(100000));
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
         this.amplified = iWorld_1.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
@@ -82,14 +107,10 @@ public class HoleCaveChunkGenerator extends SurfaceChunkGenerator<OverworldChunk
                 Biome biome = this.biomeSource.getBiomeForNoiseGen(x + l, j, z + m);
                 float n = biome.getDepth();
                 float o = biome.getScale()+0.4f;
-                if (this.amplified && n > 0.0F) {
-                    n = 1.0F + n * 2.0F;
-                    o = 1.0F + o * 4.0F;
-                }
 
                 float p = BIOME_WEIGHT_TABLE[l + 2 + (m + 2) * 5] / (n + 3.0F);
                 if (biome.getDepth() > k) {
-                    p /= 2.0F;
+                    p /= 2;
                 }
 
                 f += o * p;
@@ -101,7 +122,7 @@ public class HoleCaveChunkGenerator extends SurfaceChunkGenerator<OverworldChunk
         f /= h;
         g /= h;
         f = f * 0.8F + 0.1F;
-        g = (g * 4.0F - 1.0F) / 12.0F;
+        g = (g * 4.0F - 1.0F) / 8.f;
         ds[0] = (double)g + this.sampleNoise(x, z);
         ds[1] = (double)f;
         return ds;
@@ -109,9 +130,9 @@ public class HoleCaveChunkGenerator extends SurfaceChunkGenerator<OverworldChunk
 
     @Override
     protected double computeNoiseFalloff(double depth, double scale, int y) {
-        double e = ((double)y - (8.5D + depth*1.6 * 8.5D / 8.0D * 4.0D)) * 14.0D * 128.0D / 256.0D / scale*1.3;
+        double e = ((double)y - (8.5D + depth * 8.5D / 8.0D * 4.0D)) * 14.0D * 128.0D / 256.0D / scale*1.6;
         if (e < 0.0D) {
-            e *= 5.0D;
+            e *= 5;
         }
 
         return e;
@@ -119,7 +140,7 @@ public class HoleCaveChunkGenerator extends SurfaceChunkGenerator<OverworldChunk
 
     @Override
     protected void sampleNoiseColumn(double[] buffer, int x, int z) {
-        this.sampleNoiseColumn(buffer, x, z, 1024, 512, 16, 2, 16, (int) (field_16574.sample(x / 20f, 0, z / 20f)*1000)); //a disaster
+        this.sampleNoiseColumn(buffer, x, z, b1, b2, c1, c2, div, mod);
     }
 
     private double sampleNoise(int x, int y) {
