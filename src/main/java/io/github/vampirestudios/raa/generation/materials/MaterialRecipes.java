@@ -135,7 +135,7 @@ public class MaterialRecipes {
                             });
                         }
                         if (material.getOreInformation().getOreType() == OreType.METAL) {
-                            if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
+                            if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId() && Registry.BLOCK.containsId(Utils.appendToPath(material.getId(), "_ore"))) {
                                 serverResourcePackBuilder.addSmeltingRecipe(Utils.appendToPath(material.getId(), "_ingot"), cookingRecipeBuilder -> {
                                     cookingRecipeBuilder.cookingTime(200);
                                     cookingRecipeBuilder.ingredientItem(Utils.appendToPath(material.getId(), "_ore"));

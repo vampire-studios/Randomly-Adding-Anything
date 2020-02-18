@@ -17,6 +17,7 @@ import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.items.dimension.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
+import io.github.vampirestudios.raa.utils.StoneRegistry;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.vampirelib.utils.Color;
@@ -263,9 +264,11 @@ public class Dimensions {
     public static void createDimensions() {
         DIMENSIONS.forEach(dimension -> {
             Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
+            StoneRegistry.Builder stoneRegistry = StoneRegistry.of(dimension.getId()).itemGroup(RandomlyAddingAnything.RAA_DIMENSION_BLOCKS);
 
             Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension.getName()), Utils.appendToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
+            stoneRegistry.raw(stoneBlock).slab().stairs().wall();
 
             Set<Biome> biomes = new LinkedHashSet<>();
             for (int i = 0; i < dimension.getBiomeData().size(); i++) {
@@ -370,18 +373,20 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_sword")
             );
 
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
+            Block stoneBrick = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBricks");
+            stoneRegistry.bricks(stoneBrick).brickStairs().brickSlab().brickWall();
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "mossy_" + dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyStoneBricks");
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "cracked_" + dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedStoneBricks");*/
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
+            Block cobblestone = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_cobblestone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestone");
+            stoneRegistry.cobblestone(cobblestone).cobblestoneSlab().cobblestoneStairs().cobblestoneWall();
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_mossy_cobblestone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyCobblestone");*/
@@ -394,9 +399,10 @@ public class Dimensions {
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "mossy_chiseled_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyChiseled");*/
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
+            Block polished = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "polished_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polished");
+            stoneRegistry.polished(polished).polishedSlab().polishedStairs().polishedWall();
 
             RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_ice"),

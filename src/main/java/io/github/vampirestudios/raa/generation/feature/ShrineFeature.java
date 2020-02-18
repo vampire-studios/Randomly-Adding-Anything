@@ -60,13 +60,21 @@ public class ShrineFeature extends Feature<DefaultFeatureConfig> {
         int rotation = new Random().nextInt(4);
         for (int i = 0; i < shrine.getBlockPositions().size(); i++) {
             String currBlockType = shrine.getBlockTypes().get(shrine.getBlockStates().get(i));
-            if (true/*!Rands.chance(6)*/ || currBlockType.equals("minecraft:air")) {
-                Vec3i currBlockPos = shrine.getBlockPositions().get(i);
-                Map<String, String> currBlockProp = shrine.getBlockProperties().get(shrine.getBlockStates().get(i));
+            Vec3i currBlockPos = shrine.getBlockPositions().get(i);
+//                Map<String, String> currBlockProp = shrine.getBlockProperties().get(shrine.getBlockStates().get(i));
 
-                currBlockPos = WorldStructureManipulation.rotatePos(rotation, currBlockPos, shrine.getSize());
+            currBlockPos = WorldStructureManipulation.rotatePos(rotation, currBlockPos, shrine.getSize());
 
-                WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, rotation);
+            if (currBlockType.equals("minecraft:air")) {
+                WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "minecraft:air", new HashMap<>(), rotation);
+            } else {
+                if (currBlockType.equals("minecraft:stone_bricks")) {
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", new HashMap<>(), rotation);
+                } else if (currBlockType.equals("minecraft:ladder")) {
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), 4 - rotation);
+                } else {
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), rotation);
+                }
             }
         }
 

@@ -51,12 +51,7 @@ public class CustomTargets {
         }
     }, Blocks.SANDSTONE);
     public static OreFeatureConfig.Target NETHERRACK = RegistryUtils.registerOreTarget("netherrack", new BlockPredicate(Blocks.NETHERRACK), Blocks.NETHERRACK);
-    public static OreFeatureConfig.Target END_STONE;
-    public static OreFeatureConfig.Target DOES_NOT_APPEAR;
-
-    public static void init() {
-        END_STONE = RegistryUtils.registerOreTarget("end_stone", new BlockPredicate(Blocks.END_STONE), Blocks.END_STONE);
-        DOES_NOT_APPEAR = RegistryUtils.registerOreTarget("does_not_appear", new BlockPredicate(null), null);
-    }
+    public static OreFeatureConfig.Target END_STONE = RegistryUtils.registerOreTarget("end_stone", new BlockPredicate(Blocks.END_STONE), Blocks.END_STONE);
+    public static OreFeatureConfig.Target DOES_NOT_APPEAR = RegistryUtils.registerOreTarget("does_not_appear", new BlockPredicate(null), null);
 
 }

@@ -78,6 +78,17 @@ public class RegistryUtils {
         }
     }
 
+
+
+    public static Block register(Block block, Identifier name) {
+        if (Registry.BLOCK.get(name) == Blocks.AIR) {
+            Registry.register(Registry.ITEM, name, new BlockItem(block, (new Settings()).group(ItemGroup.BUILDING_BLOCKS)));
+            return Registry.register(Registry.BLOCK, name, block);
+        } else {
+            return block;
+        }
+    }
+
     public static Block registerBlockWithoutItem(Block block, Identifier identifier) {
         Registry.register(Registry.BLOCK, identifier, block);
         return block;

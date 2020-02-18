@@ -75,7 +75,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         /*if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
             SimplexRAACompat.init();
         }*/
-        CustomTargets.init();
+        new CustomTargets();
 
         //Reflection hacks
         Constructor<BiomeSourceType> constructor;

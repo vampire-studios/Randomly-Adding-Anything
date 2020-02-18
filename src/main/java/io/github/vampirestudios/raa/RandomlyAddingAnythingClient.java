@@ -10,6 +10,7 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Materials;
+import io.github.vampirestudios.raa.utils.ModelUtils;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.ClientModInitializer;
@@ -208,6 +209,16 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder -> modelBuilder.parent(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())));
 
 
+                Identifier stoneStairsId = Utils.appendToPath(identifier, "_stone_stairs");
+                ModelUtils.stairs(clientResourcePackBuilder, stoneStairsId, dimensionData.getTexturesInformation().getStoneTexture());
+
+                Identifier stoneSlabId = Utils.appendToPath(identifier, "_stone_slab");
+                ModelUtils.slab(clientResourcePackBuilder, stoneSlabId, stoneId, dimensionData.getTexturesInformation().getStoneTexture());
+
+                Identifier stoneWallId = Utils.appendToPath(identifier, "_stone_wall");
+                ModelUtils.wall(clientResourcePackBuilder, stoneWallId, dimensionData.getTexturesInformation().getStoneTexture());
+
+
                 Identifier stoneBricksId = Utils.appendToPath(identifier, "_stone_bricks");
                 clientResourcePackBuilder.addBlockState(stoneBricksId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())))
@@ -218,6 +229,16 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
                 clientResourcePackBuilder.addItemModel(stoneBricksId,
                         modelBuilder -> modelBuilder.parent(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())));
+
+
+                Identifier stoneBricksStairsId = Utils.appendToPath(identifier, "_stone_brick_stairs");
+                ModelUtils.stairs(clientResourcePackBuilder, stoneBricksStairsId, dimensionData.getTexturesInformation().getStoneBricksTexture());
+
+                Identifier stoneBricksSlabId = Utils.appendToPath(identifier, "_stone_brick_slab");
+                ModelUtils.slab(clientResourcePackBuilder, stoneBricksSlabId, stoneBricksId, dimensionData.getTexturesInformation().getStoneBricksTexture());
+
+                Identifier stoneBricksWallId = Utils.appendToPath(identifier, "_stone_brick_wall");
+                ModelUtils.wall(clientResourcePackBuilder, stoneBricksWallId, dimensionData.getTexturesInformation().getStoneBricksTexture());
 
 
                 Identifier iceId = Utils.appendToPath(identifier, "_ice");
@@ -244,6 +265,16 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder -> modelBuilder.parent(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())));
 
 
+                Identifier cobblestoneStairsId = Utils.appendToPath(identifier, "_cobblestone_stairs");
+                ModelUtils.stairs(clientResourcePackBuilder, cobblestoneStairsId, dimensionData.getTexturesInformation().getCobblestoneTexture());
+
+                Identifier cobblestoneSlabId = Utils.appendToPath(identifier, "_cobblestone_slab");
+                ModelUtils.slab(clientResourcePackBuilder, cobblestoneSlabId, cobblestoneId, dimensionData.getTexturesInformation().getCobblestoneTexture());
+
+                Identifier cobblestoneWallId = Utils.appendToPath(identifier, "_cobblestone_wall");
+                ModelUtils.wall(clientResourcePackBuilder, cobblestoneWallId, dimensionData.getTexturesInformation().getCobblestoneTexture());
+
+
                 Identifier chiseledId = Utils.prependToPath(identifier, "chiseled_");
                 clientResourcePackBuilder.addBlockState(chiseledId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())))
@@ -266,6 +297,17 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
                 clientResourcePackBuilder.addItemModel(polishedId,
                         modelBuilder -> modelBuilder.parent(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())));
+
+
+                Identifier polishedStairsId = Utils.appendAndPrependToPath(identifier, "polished_", "_stone_stairs");
+                ModelUtils.stairs(clientResourcePackBuilder, polishedStairsId, dimensionData.getTexturesInformation().getPolishedTexture());
+
+                Identifier polishedSlabId = Utils.appendAndPrependToPath(identifier, "polished_", "_stone_slab");
+                ModelUtils.slab(clientResourcePackBuilder, polishedSlabId, polishedId, dimensionData.getTexturesInformation().getPolishedTexture());
+
+                Identifier polishedWallId = Utils.appendAndPrependToPath(identifier, "polished_", "_stone_wall");
+                ModelUtils.wall(clientResourcePackBuilder, polishedWallId, dimensionData.getTexturesInformation().getPolishedTexture());
+
 
                 Identifier portalId = Utils.appendToPath(identifier, "_portal");
                 clientResourcePackBuilder.addBlockState(portalId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
@@ -466,19 +508,34 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         });
         Dimensions.DIMENSIONS.forEach(dimensionData -> {
             Block stone = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone"));
+            Block stoneStairs = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone_stairs"));
+            Block stoneSlab = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone_slab"));
+            Block stoneWall = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone_wall"));
             Block stoneBricks = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone_bricks"));
+            Block stoneBrickStairs = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone_brick_stairs"));
+            Block stoneBrickSlab = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone_brick_slab"));
+            Block stoneBrickWall = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone_brick_wall"));
             Block cobblestone = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_cobblestone"));
+            Block cobblestoneStairs = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_cobblestone_stairs"));
+            Block cobblestoneSlab = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_cobblestone_slab"));
+            Block cobblestoneWall = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_cobblestone_wall"));
             Block chiseled = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "chiseled_" + dimensionData.getId().getPath()));
             Block polished = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath()));
+            Block polishedStairs = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_stone_stairs"));
+            Block polishedSlab = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_stone_slab"));
+            Block polishedWall = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_stone_wall"));
 
             Block ice = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_ice"));
 
             ColorProviderRegistry.ITEM.register((stack, layer) -> {
                 if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
                 else return -1;
-            }, stone, stoneBricks, cobblestone, chiseled, polished);
+            }, stone, stoneSlab, stoneStairs, stoneWall, stoneBricks, stoneBrickSlab, stoneBrickStairs, stoneBrickWall, cobblestone,
+                    cobblestoneSlab, cobblestoneStairs, cobblestoneWall, chiseled, polished, polishedSlab, polishedStairs, polishedWall);
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
-                    dimensionData.getDimensionColorPalette().getStoneColor(), stone, stoneBricks, cobblestone, chiseled, polished);
+                    dimensionData.getDimensionColorPalette().getStoneColor(),
+                    stone, stoneSlab, stoneStairs, stoneWall, stoneBricks, stoneBrickSlab, stoneBrickStairs, stoneBrickWall, cobblestone,
+                cobblestoneSlab, cobblestoneStairs, cobblestoneWall, chiseled, polished, polishedSlab, polishedStairs, polishedWall);
 
             ColorProviderRegistry.ITEM.register((stack, layer) -> {
                 if (layer == 0) return dimensionData.getBiomeData().get(0).getWaterColor();
