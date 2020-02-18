@@ -109,7 +109,7 @@ public class Utils {
 //            }
 //            return DimensionChunkGenerators.OVERWORLD;
 //        }
-        return DimensionChunkGenerators.HOLE_CAVES;
+        return DimensionChunkGenerators.TOTALLY_CUSTOM;
     }
 
     public static boolean checkBitFlag(int toCheck, int flag) {
