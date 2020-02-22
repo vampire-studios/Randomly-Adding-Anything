@@ -61,7 +61,7 @@ public class CustomDimension extends Dimension {
         BlockPos.Mutable blockPos$Mutable_1 = new BlockPos.Mutable(x, 0, z);
         Biome biome_1 = this.world.getBiomeAccess().getBiome(blockPos$Mutable_1);
         BlockState blockState_1 = biome_1.getSurfaceConfig().getTopMaterial();
-        if (checkMobSpawnValidity && !blockState_1.getBlock().matches(BlockTags.VALID_SPAWN)) {
+        if (checkMobSpawnValidity && !blockState_1.getBlock().isIn(BlockTags.VALID_SPAWN)) {
             return null;
         } else {
             Chunk worldChunk_1 = this.world.getChunk(x >> 4, z >> 4);

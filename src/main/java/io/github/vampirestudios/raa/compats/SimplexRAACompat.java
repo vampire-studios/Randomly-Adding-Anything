@@ -1,4 +1,3 @@
-/*
 package io.github.vampirestudios.raa.compats;
 
 import com.google.common.collect.ImmutableList;
@@ -25,4 +24,3 @@ public class SimplexRAACompat {
         CustomOverworldGeneratorThings.init(postProcessors, modifiers);
     }
 }
-*/

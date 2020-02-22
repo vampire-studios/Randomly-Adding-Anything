@@ -23,51 +23,51 @@ public class DebugMessagesBuilder {
 
     public DebugMessagesBuilder name() {
         Color color = new Color(material.getColor());
-        playerEntity.addChatMessage(new LiteralText("Name: " + material.getName()), false);
-        playerEntity.addChatMessage(new LiteralText(String.format("Color: " + "\n" + "  R: %d, G: %d, B: %d, A: %d", color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())), false);
+        playerEntity.addMessage(new LiteralText("Name: " + material.getName()), false);
+        playerEntity.addMessage(new LiteralText(String.format("Color: " + "\n" + "  R: %d, G: %d, B: %d, A: %d", color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())), false);
         return this;
     }
 
     public DebugMessagesBuilder oreType() {
-        playerEntity.addChatMessage(new LiteralText("Ore Type: " + material.getOreInformation().getOreType().name()), false);
+        playerEntity.addMessage(new LiteralText("Ore Type: " + material.getOreInformation().getOreType().name()), false);
         return this;
     }
 
     public DebugMessagesBuilder generatesIn() {
-        playerEntity.addChatMessage(new LiteralText("Generates In: " + material.getOreInformation().getTargetId().toString()), false);
+        playerEntity.addMessage(new LiteralText("Generates In: " + material.getOreInformation().getTargetId().toString()), false);
         return this;
     }
 
     public DebugMessagesBuilder textures() {
-        playerEntity.addChatMessage(new LiteralText(Formatting.BOLD + "Textures"), false);
-        playerEntity.addChatMessage(new LiteralText("Overlay Texture: " + material.getTexturesInformation().getOverlayTexture()), false);
-        playerEntity.addChatMessage(new LiteralText("Resource Item Texture: " + material.getTexturesInformation().getResourceItemTexture()), false);
-        playerEntity.addChatMessage(new LiteralText("Storage Block Texture: " + material.getTexturesInformation().getStorageBlockTexture()), false);
+        playerEntity.addMessage(new LiteralText(Formatting.BOLD + "Textures"), false);
+        playerEntity.addMessage(new LiteralText("Overlay Texture: " + material.getTexturesInformation().getOverlayTexture()), false);
+        playerEntity.addMessage(new LiteralText("Resource Item Texture: " + material.getTexturesInformation().getResourceItemTexture()), false);
+        playerEntity.addMessage(new LiteralText("Storage Block Texture: " + material.getTexturesInformation().getStorageBlockTexture()), false);
         return this;
     }
 
     public DebugMessagesBuilder armor() {
-        playerEntity.addChatMessage(new LiteralText("Has Armor: " + material.hasArmor()), false);
+        playerEntity.addMessage(new LiteralText("Has Armor: " + material.hasArmor()), false);
         return this;
     }
 
     public DebugMessagesBuilder weapons() {
-        playerEntity.addChatMessage(new LiteralText("Has Weapons: " + material.hasWeapons()), false);
+        playerEntity.addMessage(new LiteralText("Has Weapons: " + material.hasWeapons()), false);
         return this;
     }
 
     public DebugMessagesBuilder tools() {
-        playerEntity.addChatMessage(new LiteralText("Has Tools: " + material.hasTools()), false);
+        playerEntity.addMessage(new LiteralText("Has Tools: " + material.hasTools()), false);
         return this;
     }
 
     public DebugMessagesBuilder glowing() {
-        playerEntity.addChatMessage(new LiteralText("Is Glowing: " + material.isGlowing()), false);
+        playerEntity.addMessage(new LiteralText("Is Glowing: " + material.isGlowing()), false);
         return this;
     }
 
     public DebugMessagesBuilder oreFlower() {
-        playerEntity.addChatMessage(new LiteralText("Has Ore Flower: " + material.hasOreFlower()), false);
+        playerEntity.addMessage(new LiteralText("Has Ore Flower: " + material.hasOreFlower()), false);
         return this;
     }
 

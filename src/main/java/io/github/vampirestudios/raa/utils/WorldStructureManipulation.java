@@ -86,7 +86,7 @@ public class WorldStructureManipulation {
                 return Vec3i.ZERO;
             }
         } else {
-            if (!world.getBlockState(pos.add(0, -1, 0)).getBlock().matches(RAATags.UNDERGROUND_BLOCKS) ||
+            if (!world.getBlockState(pos.add(0, -1, 0)).getBlock().isIn(RAATags.UNDERGROUND_BLOCKS) ||
                     world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
                 return Vec3i.ZERO;
             }

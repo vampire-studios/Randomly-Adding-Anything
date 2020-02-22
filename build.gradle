@@ -70,7 +70,7 @@ dependencies {
         transitive = false
     }
 
-//    modImplementation 'curse.maven:simplex-terrain-generation:2850537'
+    modImplementation 'com.github.SuperCoder7979:simplexterrain:dev~0.5.0-SNAPSHOT'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {

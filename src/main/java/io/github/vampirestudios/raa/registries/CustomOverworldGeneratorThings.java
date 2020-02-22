@@ -1,7 +1,6 @@
-/*
 package io.github.vampirestudios.raa.registries;
 
-import supercoder79.simplexterrain.world.gen.SimplexChunkGenerator;
+import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.CustomOverworldChunkGenerator;
 import supercoder79.simplexterrain.world.noisemodifier.NoiseModifiers;
 import supercoder79.simplexterrain.world.postprocessor.PostProcessors;
 
@@ -11,12 +10,11 @@ public class CustomOverworldGeneratorThings {
 
     public static void init(List<PostProcessors> postProcessors, List<NoiseModifiers> noiseModifiers) {
         for (PostProcessors postProcess : postProcessors) {
-            SimplexChunkGenerator.addTerrainPostProcessor(postProcess.postProcessor);
+            CustomOverworldChunkGenerator.addTerrainPostProcessor(postProcess.postProcessor);
         }
         for (NoiseModifiers modifier : noiseModifiers) {
-            SimplexChunkGenerator.addNoiseModifier(modifier.noiseModifier);
+            CustomOverworldChunkGenerator.addNoiseModifier(modifier.noiseModifier);
         }
     }
 
 }
-*/

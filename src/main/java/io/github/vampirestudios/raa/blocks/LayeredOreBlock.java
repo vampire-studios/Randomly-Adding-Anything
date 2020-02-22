@@ -122,7 +122,7 @@ public class LayeredOreBlock extends OreBlock {
         } else {
             LootContext context = builder.put(LootContextParameters.BLOCK_STATE, state).build(LootContextTypes.BLOCK);
             ServerWorld world = context.getWorld();
-            LootTable lootSupplier = world.getServer().getLootManager().getSupplier(tableId);
+            LootTable lootSupplier = world.getServer().getLootManager().getTable(tableId);
 
             List<ItemStack> result = lootSupplier.getDrops(context);
             if (result.isEmpty()) {

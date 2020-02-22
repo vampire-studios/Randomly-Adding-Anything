@@ -85,31 +85,33 @@ public class Utils {
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {
-//        if (chance < 15) {
-//            if (chance <= 5) {
-//                return DimensionChunkGenerators.FLAT_CAVES;
-//            } else if (chance <= 10) {
-//                return DimensionChunkGenerators.HIGH_CAVES;
-//            }
-//            return DimensionChunkGenerators.CAVE;
-//        } else if (chance > 15 && chance < 30) {
-//            if (chance <= 20) {
-//                return DimensionChunkGenerators.LAYERED_FLOATING;
-//            } else if (chance <= 25) {
-//                return DimensionChunkGenerators.PRE_CLASSIC_FLOATING;
-//            }
-//            return DimensionChunkGenerators.FLOATING;
-//        } else {
-//            if (chance <= 40) {
-//                return DimensionChunkGenerators.QUADRUPLE_AMPLIFIED;
-//            } else if (chance <= 50) {
-//                return DimensionChunkGenerators.PILLAR_WORLD;
-//            } else if (chance <= 60 && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
-//                return DimensionChunkGenerators.CUSTOM_OVERWORLD;
-//            }
-//            return DimensionChunkGenerators.OVERWORLD;
-//        }
-        return DimensionChunkGenerators.TOTALLY_CUSTOM;
+        if (chance < 15) {
+            if (chance <= 5) {
+                return DimensionChunkGenerators.FLAT_CAVES;
+            } else if (chance <= 10) {
+                return DimensionChunkGenerators.HIGH_CAVES;
+            }
+            return DimensionChunkGenerators.CAVE;
+        } else if (chance > 15 && chance < 30) {
+            if (chance <= 20) {
+                return DimensionChunkGenerators.LAYERED_FLOATING;
+            } else if (chance <= 25) {
+                return DimensionChunkGenerators.PRE_CLASSIC_FLOATING;
+            }
+            return DimensionChunkGenerators.FLOATING;
+        } else {
+            if (chance <= 40) {
+                return DimensionChunkGenerators.QUADRUPLE_AMPLIFIED;
+            } else if (chance <= 50) {
+                return DimensionChunkGenerators.PILLAR_WORLD;
+            } else if (chance <= 60 && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
+                return DimensionChunkGenerators.CUSTOM_OVERWORLD;
+            } else if (chance <= 70) {
+                return DimensionChunkGenerators.TOTALLY_CUSTOM;
+            }
+            return DimensionChunkGenerators.OVERWORLD;
+        }
+//        return DimensionChunkGenerators.TOTALLY_CUSTOM;
     }
 
     public static boolean checkBitFlag(int toCheck, int flag) {
