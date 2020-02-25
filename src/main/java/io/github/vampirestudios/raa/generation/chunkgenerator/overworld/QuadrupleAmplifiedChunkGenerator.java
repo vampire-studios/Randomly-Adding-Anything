@@ -19,7 +19,6 @@ import net.minecraft.world.gen.PhantomSpawner;
 import net.minecraft.world.gen.PillagerSpawner;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
-import net.minecraft.world.level.LevelGeneratorType;
 
 import java.util.stream.IntStream;
 
@@ -34,7 +33,6 @@ public class QuadrupleAmplifiedChunkGenerator extends SurfaceChunkGenerator<Over
 
     });
     private final OctavePerlinNoiseSampler noiseSampler;
-    private final boolean amplified;
     private final PhantomSpawner phantomSpawner = new PhantomSpawner();
     private final PillagerSpawner pillagerSpawner = new PillagerSpawner();
     private final CatSpawner catSpawner = new CatSpawner();
@@ -48,7 +46,6 @@ public class QuadrupleAmplifiedChunkGenerator extends SurfaceChunkGenerator<Over
         super(iWorld_1, biomeSource_1, 4, 4, 256, overworldChunkGeneratorConfig_1, true);
         this.random.consume(Rands.randInt(100000));
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
-        this.amplified = iWorld_1.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
 
         this.field_16574 = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
         this.field_16581 = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
@@ -128,7 +125,6 @@ public class QuadrupleAmplifiedChunkGenerator extends SurfaceChunkGenerator<Over
     }
 
     protected double computeNoiseFalloff(double double_1, double double_2, int int_1) {
-        double double_3 = 8.5D;
         double double_4 = (((double) int_1 - MathHelper.sin((float) (8.5D + double_1 * 8.5D / 8.0D * 4.0D))) * MathHelper.sin((float) (12.0D * 128.0D / 256.0D / double_2))) + MathHelper.sin((float) (double_1 * double_2));
         if (double_4 < 0.0D) {
             double_4 *= 4.0D;
@@ -142,7 +138,6 @@ public class QuadrupleAmplifiedChunkGenerator extends SurfaceChunkGenerator<Over
         float float_1 = 0.0F;
         float float_2 = 0.0F;
         float float_3 = 0.0F;
-        int int_3 = 1;
         int int_4 = this.getSeaLevel();
         float float_4 = this.biomeSource.getBiomeForNoiseGen(int_1, int_4, int_2).getDepth();
         float_4 += MathHelper.sin(float_4);
@@ -152,7 +147,6 @@ public class QuadrupleAmplifiedChunkGenerator extends SurfaceChunkGenerator<Over
                 Biome biome_1 = this.biomeSource.getBiomeForNoiseGen(int_1 + int_5, int_4, int_2 + int_6);
                 float float_5 = biome_1.getDepth();
                 float float_6 = biome_1.getScale();
-//                float_5 = 1.0F + float_5 * 2.0F;
                 float_6 = 1.0F + float_6 * 8.0F;
 
                 float float_7 = BIOME_WEIGHT_TABLE[int_5 + 2 + (int_6 + 2) * 5] / (float_5 + 1.0F);

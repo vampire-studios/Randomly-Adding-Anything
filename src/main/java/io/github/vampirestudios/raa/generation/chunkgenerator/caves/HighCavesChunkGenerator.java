@@ -25,22 +25,22 @@ public class HighCavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGen
     }
 
     private double[] buildNoiseFalloff() {
-        double[] doubles_1 = new double[this.getNoiseSizeY()];
+        double[] doubles = new double[this.getNoiseSizeY()];
 
-        for (int int_1 = 0; int_1 < this.getNoiseSizeY(); ++int_1) {
-            doubles_1[int_1] = Math.cos((double) int_1 * 3.141592653589793D * 6.0D / (double) this.getNoiseSizeY()) * 2.0D;
-            double double_1 = int_1;
-            if (int_1 > this.getNoiseSizeY() / 2) {
-                double_1 = this.getNoiseSizeY() - 1 - int_1;
+        for (int i = 0; i < this.getNoiseSizeY(); ++i) {
+            doubles[i] = Math.cos((double) i * 3.141592653589793D * 6.0D / (double) this.getNoiseSizeY()) * 2.0D;
+            double v = i;
+            if (i > this.getNoiseSizeY() / 2) {
+                v = this.getNoiseSizeY() - 1 - i;
             }
 
-            if (double_1 < 4.0D) {
-                double_1 = 4.0D - double_1;
-                doubles_1[int_1] -= double_1 * double_1 * double_1 * 10.0D;
+            if (v < 4.0D) {
+                v = 4.0D - v;
+                doubles[i] -= v * v * v * 10.0D;
             }
         }
 
-        return doubles_1;
+        return doubles;
     }
 
     public int getSpawnHeight() {

@@ -4,7 +4,7 @@ import io.github.vampirestudios.raa.api.dimension.FabricChunkGeneratorType;
 import io.github.vampirestudios.raa.generation.chunkgenerator.caves.CavesChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.caves.FlatCavesChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.caves.HighCavesChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.caves.HoleCaveChunkGenerator;
+import io.github.vampirestudios.raa.generation.chunkgenerator.TotallyCustomChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.floating.FloatingIslandsChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.floating.LayeredFloatingIslandsChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.floating.PreClassicFloatingIslandsChunkGenerator;
@@ -32,7 +32,7 @@ public class ChunkGenerators {
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, QuadrupleAmplifiedChunkGenerator> QUADRUPLE_AMPLIFIED;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, PillarWorldChunkGenerator> PILLAR_WORLD;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, SmoothOverworldChunkGenerator> SMOOTH;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, HoleCaveChunkGenerator> TOTALLY_CUSTOM;
+    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, TotallyCustomChunkGenerator> TOTALLY_CUSTOM;
 
     public static void init() {
         //End-like chunk generators
@@ -50,7 +50,7 @@ public class ChunkGenerators {
         QUADRUPLE_AMPLIFIED = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "quadruple_amplified"), QuadrupleAmplifiedChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         PILLAR_WORLD = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "pillar_world"), PillarWorldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         SMOOTH = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "smooth_overworld"), SmoothOverworldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
-        TOTALLY_CUSTOM = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "totally_custom"), HoleCaveChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
+        TOTALLY_CUSTOM = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "totally_custom"), TotallyCustomChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
 
         if (FabricLoader.getInstance().isModLoaded("simplexterrain"))
             CUSTOM_SURFACE = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "custom_surface"), CustomOverworldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);

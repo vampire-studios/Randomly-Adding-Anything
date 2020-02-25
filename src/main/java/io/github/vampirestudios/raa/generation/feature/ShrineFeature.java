@@ -70,6 +70,16 @@ public class ShrineFeature extends Feature<DefaultFeatureConfig> {
             } else {
                 if (currBlockType.equals("minecraft:stone_bricks")) {
                     WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", new HashMap<>(), rotation);
+                } else if (currBlockType.equals("minecraft:chiseled_stone_bricks")) {
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:chiseled_" + (world.getDimension().getType().getSuffix()).substring(4), new HashMap<>(), rotation);
+                } else if (currBlockType.equals("minecraft:stone")) {
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone", new HashMap<>(), rotation);
+                } else if (currBlockType.equals("minecraft:stone_brick_slab")) {
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_brick_slab", new HashMap<>(), rotation);
+                } else if (currBlockType.equals("minecraft:stone_slab")) {
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_slab", new HashMap<>(), rotation);
+                } else if (currBlockType.equals("minecraft:stone_brick_stairs")) {
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_brick_stairs", new HashMap<>(), rotation);
                 } else if (currBlockType.equals("minecraft:ladder")) {
                     WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), 4 - rotation);
                 } else {

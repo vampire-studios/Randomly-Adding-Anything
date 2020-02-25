@@ -827,13 +827,13 @@ public class ModelUtils {
     public static void slab(ArtificeResourcePack.ClientResourcePackBuilder pack, Identifier id, Identifier fullBlockId, Identifier textureId) {
         pack.addBlockState(id, blockStateBuilder -> {
             blockStateBuilder.variant("type=bottom", variant ->
-                    variant.model(new Identifier(id.getNamespace(), "block/" + fullBlockId.getPath())));
+                    variant.model(new Identifier(id.getNamespace(), "block/" + id.getPath() + "_bottom")));
             blockStateBuilder.variant("type=top", variant ->
                     variant.model(new Identifier(id.getNamespace(), "block/" + id.getPath() + "_top")));
             blockStateBuilder.variant("type=double", variant ->
                     variant.model(new Identifier(fullBlockId.getNamespace(), "block/" + fullBlockId.getPath())));
         });
-        pack.addBlockModel(id, modelBuilder -> {
+        pack.addBlockModel(new Identifier(id.getNamespace(), id.getPath() + "_bottom"), modelBuilder -> {
             modelBuilder.parent(new Identifier("raa:block/slab"));
             modelBuilder.texture("bottom", textureId);
             modelBuilder.texture("top", textureId);
@@ -845,7 +845,7 @@ public class ModelUtils {
             modelBuilder.texture("top", textureId);
             modelBuilder.texture("side", textureId);
         });
-        pack.addItemModel(id, modelBuilder -> modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath())));
+        pack.addItemModel(id, modelBuilder -> modelBuilder.parent(new Identifier(id.getNamespace(), "block/" + id.getPath() + "_bottom")));
     }
 
 }

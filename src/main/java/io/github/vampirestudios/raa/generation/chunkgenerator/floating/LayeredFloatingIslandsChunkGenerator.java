@@ -1,17 +1,14 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.floating;
 
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 
 public class LayeredFloatingIslandsChunkGenerator extends SurfaceChunkGenerator<FloatingIslandsChunkGeneratorConfig> {
-    private final BlockPos center;
 
     public LayeredFloatingIslandsChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, FloatingIslandsChunkGeneratorConfig floatingIslandsChunkGeneratorConfig_1) {
         super(iWorld_1, biomeSource_1, 16, 2, 128, floatingIslandsChunkGeneratorConfig_1, true);
-        this.center = floatingIslandsChunkGeneratorConfig_1.getCenter();
     }
 
     protected void sampleNoiseColumn(double[] doubles_1, int int_1, int int_2) {
@@ -27,7 +24,7 @@ public class LayeredFloatingIslandsChunkGenerator extends SurfaceChunkGenerator<
     }
 
     protected double method_16409() {
-        return (int) super.method_16409() / 2;
+        return super.method_16409() / 2;
     }
 
     protected double method_16410() {
@@ -41,4 +38,5 @@ public class LayeredFloatingIslandsChunkGenerator extends SurfaceChunkGenerator<
     public int getSeaLevel() {
         return 0;
     }
+
 }

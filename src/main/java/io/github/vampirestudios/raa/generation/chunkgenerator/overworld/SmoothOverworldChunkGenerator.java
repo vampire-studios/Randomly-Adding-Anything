@@ -1,21 +1,16 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
 import io.github.vampirestudios.raa.utils.Rands;
-
 import net.minecraft.util.Util;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.noise.OctavePerlinNoiseSampler;
-import net.minecraft.village.ZombieSiegeManager;
 import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.gen.CatSpawner;
 import net.minecraft.world.gen.ChunkRandom;
-import net.minecraft.world.gen.PhantomSpawner;
-import net.minecraft.world.gen.PillagerSpawner;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.level.LevelGeneratorType;
@@ -34,24 +29,12 @@ public class SmoothOverworldChunkGenerator extends SurfaceChunkGenerator<Overwor
     });
     private final OctavePerlinNoiseSampler noiseSampler;
     private final boolean amplified;
-    private final PhantomSpawner phantomSpawner = new PhantomSpawner();
-    private final PillagerSpawner pillagerSpawner = new PillagerSpawner();
-    private final CatSpawner catSpawner = new CatSpawner();
-    private final ZombieSiegeManager zombieSiegeManager = new ZombieSiegeManager();
-
-    private final OctavePerlinNoiseSampler field_16574;
-    private final OctavePerlinNoiseSampler field_16581;
-    private final OctavePerlinNoiseSampler field_16575;
 
     public SmoothOverworldChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
         super(iWorld_1, biomeSource_1, 16, 16, 256, overworldChunkGeneratorConfig_1, true);
         this.random.consume(Rands.randInt(100000));
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
         this.amplified = iWorld_1.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
-
-        this.field_16574 = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
-        this.field_16581 = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
-        this.field_16575 = new OctavePerlinNoiseSampler(this.random, IntStream.of(7, 0));
     }
 
     public void populateEntities(ChunkRegion chunkRegion_1) {
@@ -103,7 +86,7 @@ public class SmoothOverworldChunkGenerator extends SurfaceChunkGenerator<Overwor
         f = f * 0.8F + 0.1F;
         g = (g * 4.0F - 1.0F) / 12.0F;
         ds[0] = (double)g + this.sampleNoise(x, z);
-        ds[1] = (double)f;
+        ds[1] = f;
         return ds;
     }
 
@@ -123,7 +106,7 @@ public class SmoothOverworldChunkGenerator extends SurfaceChunkGenerator<Overwor
     }
 
     private double sampleNoise(int x, int y) {
-        double d = this.noiseSampler.sample((double)(x * 200), 10.0D, (double)(y * 200), 1.0D, 0.0D, true) * 65535.0D / 8000.0D;
+        double d = this.noiseSampler.sample(x * 200, 10.0D, y * 200, 1.0D, 0.0D, true) * 65535.0D / 8000.0D;
         if (d < 0.0D) {
             d = -d * 0.3D;
         }
