@@ -100,10 +100,11 @@ public class CustomDimensionalBiome extends Biome {
                             .trunkHeight(0)
                             .noVines()
                             .build());
+                    BranchedTreeFeatureConfig config1 = getTreeConfig(treeData);
                     this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
                             getNormalTree(treeData.getTreeType())
                                     .configure(
-                                            config
+                                            config1
                                     ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, treeData.getChance(), 1))));
                 }
             }
@@ -424,8 +425,13 @@ public class CustomDimensionalBiome extends Biome {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public int getGrassColorAt(double double_1, double double_2) {
+    public int getGrassColorAt(double x, double z) {
         return dimensionData.getDimensionColorPalette().getGrassColor();
+    }
+
+    @Override
+    public int getFoliageColor() {
+        return dimensionData.getDimensionColorPalette().getFoliageColor();
     }
 
 }

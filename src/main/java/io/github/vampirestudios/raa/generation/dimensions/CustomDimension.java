@@ -111,7 +111,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public Vec3d modifyFogColor(int fogColor, float tickDelta) {
+    public Vec3d modifyFogColor(Vec3d fogColor, float tickDelta) {
         int fogColor2 = dimensionData.getDimensionColorPalette().getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor2);
         return new Vec3d(rgbColor[0] / 255.0, rgbColor[1] / 255.0, rgbColor[2] / 255.0);

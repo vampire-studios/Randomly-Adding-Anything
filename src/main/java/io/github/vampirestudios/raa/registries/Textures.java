@@ -87,6 +87,12 @@ public class Textures {
         for (int i = 1; i < 8; i++) {
             addTextureToList(TextureTypes.CRYSTAL_ORE_TEXTURES, "block/ores/crystals/ore_" + i);
         }
+        for (int i = 1; i < 3; i++) {
+            addTextureToList(TextureTypes.METAL_ORE_TEXTURES, "block/ores/generic_ore_" + i);
+            addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/generic_ore_" + i);
+            addTextureToList(TextureTypes.CRYSTAL_ORE_TEXTURES, "block/ores/generic_ore_" + i);
+        }
+
 
         for (int i = 1; i < 5; i++) {
             addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/metals/metal_" + i);
@@ -99,7 +105,7 @@ public class Textures {
         for (int i = 1; i < 5; i++) {
             addTextureToList(TextureTypes.STONE_BRICKS_TEXTURES, "block/stone/bricks_" + i);
         }
-        for (int i = 1; i < 6; i++) {
+        for (int i = 1; i < 7; i++) {
             addTextureToList(TextureTypes.CHISELED_STONE_TEXTURES, "block/stone/chiseled_" + i);
         }
         for (int i = 1; i < 5; i++) {
