@@ -15,6 +15,8 @@ import net.minecraft.util.Identifier;
 
 public class TechRebornItems extends ItemCompat {
     private ItemGroup POWDER_ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(RandomlyAddingAnything.MOD_ID, "tr_dust"), () -> new ItemStack(Items.GUNPOWDER));
+    private ItemGroup PLATE_ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(RandomlyAddingAnything.MOD_ID, "tr_plate"), () -> new ItemStack(Items.GUNPOWDER));
+    private ItemGroup GEAR_ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(RandomlyAddingAnything.MOD_ID, "tr_gear"), () -> new ItemStack(Items.GUNPOWDER));
 
     public TechRebornItems() {
         super();
@@ -25,6 +27,8 @@ public class TechRebornItems extends ItemCompat {
         for (Material material : Materials.MATERIALS) {
             if (material.getOreInformation().getOreType() == OreType.METAL) {
                 RegistryUtils.registerItem(new OrePowder(material.getName(), new Item.Settings().group(POWDER_ITEM_GROUP)), Utils.appendToPath(material.getId(), "_dust"));
+                RegistryUtils.registerItem(new OrePlate(material.getName(), new Item.Settings().group(PLATE_ITEM_GROUP)), Utils.appendToPath(material.getId(), "_plate"));
+                RegistryUtils.registerItem(new OreGear(material.getName(), new Item.Settings().group(GEAR_ITEM_GROUP)), Utils.appendToPath(material.getId(), "_gear"));
             }
         }
     }
