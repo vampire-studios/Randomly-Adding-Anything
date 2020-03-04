@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.client;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.registries.Dimensions;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
@@ -12,7 +13,6 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
@@ -132,11 +132,7 @@ public class DimensionalOreBakedModel extends RAABakedModel {
 
     @Override
     public ModelItemPropertyOverrideList getItemPropertyOverrides() {
-        if (FabricLoader.getInstance().isModLoaded("optifabric")) {
-            return ItemProxy.EMPTY;
-        } else {
-            return new ItemProxy();
-        }
+        return new ItemProxy();
     }
 
     protected class ItemProxy extends ModelItemPropertyOverrideList {

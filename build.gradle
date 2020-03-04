@@ -172,8 +172,9 @@ curseforge {
         releaseType = "release"
         changelog = project.changelog
         gameVersionStrings.clear()
-        gameVersionStrings.add("1.16")
-        gameVersionStrings.add("1.16-Snapshot")
+        gameVersionStrings.add("1.15-Snapshot")
+        gameVersionStrings.add("1.15")
+        gameVersionStrings.add("1.15.1")
         gameVersionStrings.add("Fabric")
         mainArtifact(file("build/libs/${archivesBaseName}-${version}.jar")) {
             displayName = "[" + minecraft_version + "] " + version
