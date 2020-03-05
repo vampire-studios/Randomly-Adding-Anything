@@ -13,8 +13,8 @@ public class RAAHoeItem extends HoeItem {
 
     private Material material;
 
-    public RAAHoeItem(Material material, ToolMaterial toolMaterial_1, float float_1, Settings item$Settings_1) {
-        super(toolMaterial_1, float_1, item$Settings_1);
+    public RAAHoeItem(Material material, ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Settings settings) {
+        super(toolMaterial, (int) attackDamage, attackSpeed, settings);
         this.material = material;
     }
 

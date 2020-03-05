@@ -360,6 +360,7 @@ public class Dimensions {
                     new DimensionalHoeItem(
                             dimension,
                             toolMaterial,
+                            1.5F,
                             -2.0F,
                             new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(Registry.ITEM.get(Utils.appendToPath(identifier, "_cobblestone")))
                     ),

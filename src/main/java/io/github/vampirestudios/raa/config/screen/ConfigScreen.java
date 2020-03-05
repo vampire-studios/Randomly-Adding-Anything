@@ -63,8 +63,8 @@ public class ConfigScreen extends Screen {
         overlayBackground(0, 0, width, height, 32, 32, 32, 255, 255);
         overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA.value, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA.value,
-                GlStateManager.SrcFactor.ZERO.value, GlStateManager.DstFactor.ONE.value
+        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA.field_22545, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA.field_22528,
+                GlStateManager.SrcFactor.ZERO.field_22545, GlStateManager.DstFactor.ONE.field_22528
         );
         RenderSystem.disableAlphaTest();
         RenderSystem.shadeModel(7425);
@@ -81,6 +81,7 @@ public class ConfigScreen extends Screen {
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
+
         drawCenteredString(font, title.asFormattedString(), width / 2, 10, 16777215);
         super.render(mouseX, mouseY, delta);
     }

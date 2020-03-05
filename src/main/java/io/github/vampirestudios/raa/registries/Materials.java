@@ -318,6 +318,7 @@ public class Materials {
                         new RAAHoeItem(
                                 material,
                                 material.getToolMaterial(),
+                                1.5F,
                                 -3.0F + material.getToolMaterial().getHoeAttackSpeed(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
@@ -531,6 +532,7 @@ public class Materials {
                         new RAAHoeItem(
                                 material,
                                 material.getToolMaterial(),
+                                1.5F + material.getToolMaterial().getAttackDamage(),
                                 -3.0F + material.getToolMaterial().getHoeAttackSpeed(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),

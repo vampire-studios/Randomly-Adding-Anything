@@ -79,8 +79,8 @@ public class DimensionMaterialListScreen extends Screen {
         ConfigScreen.overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
         ConfigScreen.overlayBackground(0, height - 5, width, height, 64, 64, 64, 255, 255);
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA.value, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA.value,
-                GlStateManager.SrcFactor.ZERO.value, GlStateManager.DstFactor.ONE.value
+        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA.field_22545, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA.field_22528,
+                GlStateManager.SrcFactor.ZERO.field_22545, GlStateManager.DstFactor.ONE.field_22528
         );
         RenderSystem.disableAlphaTest();
         RenderSystem.shadeModel(7425);
