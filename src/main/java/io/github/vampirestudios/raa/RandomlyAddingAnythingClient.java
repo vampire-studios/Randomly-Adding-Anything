@@ -49,16 +49,16 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     public static void initColoring() {
         ColorProviderRegistry.ITEM.register((stack, layer) -> {
             if (MinecraftClient.getInstance().world != null) {
-                return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getBlockPos())
-                        .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos().getX(), MinecraftClient.getInstance().player.getBlockPos().getZ());
+                return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getSenseCenterPos())
+                        .getGrassColorAt(MinecraftClient.getInstance().player.getSenseCenterPos().getX(), MinecraftClient.getInstance().player.getSenseCenterPos().getZ());
             } else {
                 BlockState blockState_1 = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
-                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos());
+                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getSenseCenterPos());
             }
         }, Items.GRASS_BLOCK);
 
         ColorProviderRegistry.ITEM.register((stack, var2) ->
-                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColor(),
+                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getSenseCenterPos()).getFoliageColor(),
                 Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
 
         ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->

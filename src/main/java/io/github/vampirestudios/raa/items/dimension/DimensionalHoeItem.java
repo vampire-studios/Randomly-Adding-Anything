@@ -13,8 +13,8 @@ public class DimensionalHoeItem extends HoeItem {
 
     private DimensionData dimensionData;
 
-    public DimensionalHoeItem(DimensionData dimensionData, ToolMaterial toolMaterial, float attackSpeed, Settings settings) {
-        super(toolMaterial, attackSpeed, settings);
+    public DimensionalHoeItem(DimensionData dimensionData, ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Settings settings) {
+        super(toolMaterial, (int) attackDamage, attackSpeed, settings);
         this.dimensionData = dimensionData;
     }
 
