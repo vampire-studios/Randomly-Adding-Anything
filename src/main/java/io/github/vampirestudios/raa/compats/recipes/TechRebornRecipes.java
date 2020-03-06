@@ -103,9 +103,9 @@ public class TechRebornRecipes extends RecipeCompat {
                 );
 
                 if (material.getOreInformation().getOreType() == OreType.METAL && material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
-                    addGrinderRecipe(Utils.appendToPath(material.getId(), "_to_dust"), trGrinderRecipeBuilder -> trGrinderRecipeBuilder
-                            .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder.item(Utils.appendToPath(material.getId(), "_ore")))
-                            .multiResult(raaMultiResultBuilder -> raaMultiResultBuilder.item(Utils.appendToPath(material.getId(), "_dust"), 2))
+                    addGrinderRecipe(Utils.addSuffixToPath(material.getId(), "_to_dust"), trGrinderRecipeBuilder -> trGrinderRecipeBuilder
+                            .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder.item(Utils.addSuffixToPath(material.getId(), "_ore")))
+                            .multiResult(raaMultiResultBuilder -> raaMultiResultBuilder.item(Utils.addSuffixToPath(material.getId(), "_dust"), 2))
                             .power(material.getMiningLevel() + 2).time(270));
                 }
             }

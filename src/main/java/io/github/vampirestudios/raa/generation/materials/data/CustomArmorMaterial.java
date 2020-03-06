@@ -96,7 +96,7 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(Registry.ITEM.get(Utils.appendToPath(materialId, oreType.getSuffix())));
+        return Ingredient.ofItems(Registry.ITEM.get(Utils.addSuffixToPath(materialId, oreType.getSuffix())));
     }
 
 }

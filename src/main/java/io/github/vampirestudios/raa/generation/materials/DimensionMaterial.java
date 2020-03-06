@@ -217,6 +217,22 @@ public class DimensionMaterial extends Material {
             if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.METAL_NUGGET_TEXTURES);
             else nuggetTexture = null;
 
+            Identifier plateTexture;
+            if (oreType == OreType.METAL) plateTexture = Rands.list(TextureTypes.METAL_PLATE_TEXTURES);
+            else plateTexture = null;
+
+            Identifier gearTexture;
+            if (oreType == OreType.METAL) gearTexture = Rands.list(TextureTypes.METAL_GEAR_TEXTURES);
+            else gearTexture = null;
+
+            Identifier dustTexture;
+            if (oreType == OreType.METAL) dustTexture = Rands.list(TextureTypes.DUST_TEXTURES);
+            else dustTexture = null;
+
+            Identifier smallDustTexture;
+            if (oreType == OreType.METAL) smallDustTexture = Rands.list(TextureTypes.SMALL_DUST_TEXTURES);
+            else smallDustTexture = null;
+
             Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);
             Map.Entry<Identifier, Identifier> axe = Rands.map(TextureTypes.AXES);
             Map.Entry<Identifier, Identifier> hoe = Rands.map(TextureTypes.HOES);
@@ -236,6 +252,10 @@ public class DimensionMaterial extends Material {
                     .overlayTexture(overlayTexture)
                     .storageBlockTexture(storageBlockTexture)
                     .resourceItemTexture(resourceItemTexture)
+                    .dustTexture(dustTexture)
+                    .smallDustTexture(smallDustTexture)
+                    .gearTexture(gearTexture)
+                    .plateTexture(plateTexture)
                     .nuggetTexture(nuggetTexture)
                     .fruitTexture(Rands.list(TextureTypes.FRUIT_TEXTURES))
                     .build();

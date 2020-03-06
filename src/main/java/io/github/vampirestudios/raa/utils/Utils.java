@@ -47,7 +47,7 @@ public class Utils {
         return name.toLowerCase(Locale.ENGLISH);
     }
 
-    public static Identifier appendToPath(Identifier identifier, String suffix) {
+    public static Identifier addSuffixToPath(Identifier identifier, String suffix) {
         return new Identifier(identifier.getNamespace(), identifier.getPath() + suffix);
     }
 
@@ -84,6 +84,40 @@ public class Utils {
         return SurfaceBuilder.DEFAULT;
     }
 
+    public static SurfaceBuilder<TernarySurfaceConfig> newRandomSurfaceBuilder(Identifier name, DimensionData data) {
+        //30% default
+        //10% all others
+
+        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.OVERWORLD || data.getDimensionChunkGenerator() == DimensionChunkGenerators.CUSTOM_OVERWORLD) {
+            switch (name.toString()) {
+                case "raa:hyper_flat":
+                    return SurfaceBuilders.HYPER_FLAT;
+                case "raa:patchy_desert":
+                    return SurfaceBuilders.PATCHY_DESERT;
+                case "raa:dark_patchy_badlands":
+                    return SurfaceBuilders.DARK_PATCHY_BADLANDS;
+                case "raa:patchy_badlands":
+                    return SurfaceBuilders.PATCHY_BADLANDS;
+                case "raa:classic_cliffs":
+                    return SurfaceBuilders.CLASSIC_CLIFFS;
+                case "raa:stratified_cliffs":
+                    return SurfaceBuilders.STRATIFIED_CLIFFS;
+                case "raa:floating_islands":
+                    return SurfaceBuilders.FLOATING_ISLANDS;
+                case "raa:sandy_dunes":
+                    return SurfaceBuilders.SANDY_DUNES;
+                case "raa:dunes":
+                    return SurfaceBuilders.DUNES;
+                case "raa:lazy_noise":
+                    return SurfaceBuilders.LAZY_NOISE;
+                case "minecraft:default":
+                    return SurfaceBuilder.DEFAULT;
+            }
+        }
+
+        return SurfaceBuilder.DEFAULT;
+    }
+
     public static DimensionChunkGenerators randomCG(int chance) {
         if (chance < 15) {
             if (chance <= 5) {
@@ -111,8 +145,33 @@ public class Utils {
             }
             return DimensionChunkGenerators.OVERWORLD;
         }
-//        return DimensionChunkGenerators.TOTALLY_CUSTOM;
     }
+
+    /*public static DimensionChunkGenerators newRandomCG(Identifier name) {
+        if (chance < 15) {
+            if (name.equals("raa:flat_caves")) return DimensionChunkGenerators.FLAT_CAVES;
+            if (name.equals("raa:high_caves")) return DimensionChunkGenerators.HIGH_CAVES;
+            if (name.equals("raa:high_caves")) return DimensionChunkGenerators.CAVE;
+        } else if (chance > 15 && chance < 30) {
+            if (chance <= 20) {
+                return DimensionChunkGenerators.LAYERED_FLOATING;
+            } else if (chance <= 25) {
+                return DimensionChunkGenerators.PRE_CLASSIC_FLOATING;
+            }
+            return DimensionChunkGenerators.FLOATING;
+        } else {
+            if (chance <= 40) {
+                return DimensionChunkGenerators.QUADRUPLE_AMPLIFIED;
+            } else if (chance <= 50) {
+                return DimensionChunkGenerators.PILLAR_WORLD;
+            } else if (chance <= 60 && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
+                return DimensionChunkGenerators.CUSTOM_OVERWORLD;
+            } else if (chance <= 70) {
+                return DimensionChunkGenerators.TOTALLY_CUSTOM;
+            }
+            return DimensionChunkGenerators.OVERWORLD;
+        }
+    }*/
 
     public static boolean checkBitFlag(int toCheck, int flag) {
         return (toCheck & flag) == flag;

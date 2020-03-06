@@ -47,10 +47,6 @@ public class FancyCliffsSurfaceBuilder extends SurfaceBuilder<CustomTernarySurfa
                 basaltLayers += 1;
             }
 
-            if (height >= seaLevel + 7) {
-                basaltLayers += (seaLevel + 5 - height) / 2;
-            }
-
             for (int i = 0; i < basaltLayers; i++) {
                 placeBlock(config, chunk, pos, stone, rand);
                 pos.setOffset(Direction.UP);

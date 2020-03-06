@@ -16,86 +16,86 @@ public class DimensionRecipes {
                 Dimensions.DIMENSIONS.forEach(dimension -> {
                             Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
 
-                            serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_hoe"), shapedRecipeBuilder -> {
+                            serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(identifier, "_hoe"), shapedRecipeBuilder -> {
                                 shapedRecipeBuilder.group(new Identifier("raa:hoes"));
                                 shapedRecipeBuilder.pattern(
                                         "## ",
                                         " % ",
                                         " % "
                                 );
-                                shapedRecipeBuilder.ingredientItem('#', Utils.appendToPath(identifier, "_cobblestone"));
+                                shapedRecipeBuilder.ingredientItem('#', Utils.addSuffixToPath(identifier, "_cobblestone"));
                                 shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                                shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_hoe"), 1);
+                                shapedRecipeBuilder.result(Utils.addSuffixToPath(identifier, "_hoe"), 1);
                             });
-                            serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_shovel"), shapedRecipeBuilder -> {
+                            serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(identifier, "_shovel"), shapedRecipeBuilder -> {
                                 shapedRecipeBuilder.group(new Identifier("raa:shovels"));
                                 shapedRecipeBuilder.pattern(
                                         " # ",
                                         " % ",
                                         " % "
                                 );
-                                shapedRecipeBuilder.ingredientItem('#', Utils.appendToPath(identifier, "_cobblestone"));
+                                shapedRecipeBuilder.ingredientItem('#', Utils.addSuffixToPath(identifier, "_cobblestone"));
                                 shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                                shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_shovel"), 1);
+                                shapedRecipeBuilder.result(Utils.addSuffixToPath(identifier, "_shovel"), 1);
                             });
-                            serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_axe"), shapedRecipeBuilder -> {
+                            serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(identifier, "_axe"), shapedRecipeBuilder -> {
                                 shapedRecipeBuilder.group(new Identifier("raa:axes"));
                                 shapedRecipeBuilder.pattern(
                                         "## ",
                                         "#% ",
                                         " % "
                                 );
-                                shapedRecipeBuilder.ingredientItem('#', Utils.appendToPath(identifier, "_cobblestone"));
+                                shapedRecipeBuilder.ingredientItem('#', Utils.addSuffixToPath(identifier, "_cobblestone"));
                                 shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                                shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_axe"), 1);
+                                shapedRecipeBuilder.result(Utils.addSuffixToPath(identifier, "_axe"), 1);
                             });
-                            serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_pickaxe"), shapedRecipeBuilder -> {
+                            serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(identifier, "_pickaxe"), shapedRecipeBuilder -> {
                                 shapedRecipeBuilder.group(new Identifier("raa:pickaxes"));
                                 shapedRecipeBuilder.pattern(
                                         "###",
                                         " % ",
                                         " % "
                                 );
-                                shapedRecipeBuilder.ingredientItem('#', Utils.appendToPath(identifier, "_cobblestone"));
+                                shapedRecipeBuilder.ingredientItem('#', Utils.addSuffixToPath(identifier, "_cobblestone"));
                                 shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                                shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_pickaxe"), 1);
+                                shapedRecipeBuilder.result(Utils.addSuffixToPath(identifier, "_pickaxe"), 1);
                             });
                             serverResourcePackBuilder.addItemTag(new Identifier("fabric", "pickaxes"), tagBuilder -> {
                                 tagBuilder.replace(false);
-                                tagBuilder.value(Utils.appendToPath(identifier, "_pickaxe"));
+                                tagBuilder.value(Utils.addSuffixToPath(identifier, "_pickaxe"));
                             });
                             serverResourcePackBuilder.addItemTag(new Identifier("fabric", "shovels"), tagBuilder -> {
                                 tagBuilder.replace(false);
-                                tagBuilder.value(Utils.appendToPath(identifier, "_shovel"));
+                                tagBuilder.value(Utils.addSuffixToPath(identifier, "_shovel"));
                             });
-                            serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_sword"), shapedRecipeBuilder -> {
+                            serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(identifier, "_sword"), shapedRecipeBuilder -> {
                                 shapedRecipeBuilder.group(new Identifier("raa:swords"));
                                 shapedRecipeBuilder.pattern(
                                         " # ",
                                         " # ",
                                         " % "
                                 );
-                                shapedRecipeBuilder.ingredientItem('#', Utils.appendToPath(identifier, "_cobblestone"));
+                                shapedRecipeBuilder.ingredientItem('#', Utils.addSuffixToPath(identifier, "_cobblestone"));
                                 shapedRecipeBuilder.ingredientItem('%', Registry.ITEM.getId(Items.STICK));
-                                shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_sword"), 1);
+                                shapedRecipeBuilder.result(Utils.addSuffixToPath(identifier, "_sword"), 1);
                             });
 
-                            serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_portal"), shapedRecipeBuilder -> {
-                                shapedRecipeBuilder.ingredientItem('S', Utils.appendToPath(identifier, "_stone"));
+                            serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(identifier, "_portal"), shapedRecipeBuilder -> {
+                                shapedRecipeBuilder.ingredientItem('S', Utils.addSuffixToPath(identifier, "_stone"));
                                 shapedRecipeBuilder.ingredientItem('O', new Identifier("obsidian"));
                                 shapedRecipeBuilder.ingredientItem('C', new Identifier("cauldron"));
                                 shapedRecipeBuilder.pattern("SOS", "SCS", "SSS");
-                                shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_portal"), 1);
+                                shapedRecipeBuilder.result(Utils.addSuffixToPath(identifier, "_portal"), 1);
                             });
 
-                            serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_stone_bricks"), shapedRecipeBuilder -> {
-                                shapedRecipeBuilder.ingredientItem('S', Utils.appendToPath(identifier, "_stone"));
+                            serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(identifier, "_stone_bricks"), shapedRecipeBuilder -> {
+                                shapedRecipeBuilder.ingredientItem('S', Utils.addSuffixToPath(identifier, "_stone"));
                                 shapedRecipeBuilder.pattern("SS", "SS");
-                                shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_stone_bricks"), 1);
+                                shapedRecipeBuilder.result(Utils.addSuffixToPath(identifier, "_stone_bricks"), 1);
                             });
 
                             serverResourcePackBuilder.addShapedRecipe(new Identifier("raa:" + identifier.getPath() + "_furnace"), shapedRecipeBuilder -> {
-                                shapedRecipeBuilder.ingredientItem('S', Utils.appendToPath(identifier, "_cobblestone"));
+                                shapedRecipeBuilder.ingredientItem('S', Utils.addSuffixToPath(identifier, "_cobblestone"));
                                 shapedRecipeBuilder.pattern("SSS", "S S", "SSS");
                                 shapedRecipeBuilder.result(new Identifier("furnace"), 1);
                             });
