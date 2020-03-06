@@ -3,16 +3,20 @@ package io.github.vampirestudios.raa.compats;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import io.github.vampirestudios.raa.compats.items.ItemCompat;
 import io.github.vampirestudios.raa.compats.items.TechRebornItems;
+import io.github.vampirestudios.raa.compats.models.ModelCompat;
+import io.github.vampirestudios.raa.compats.models.TechRebornModels;
 import io.github.vampirestudios.raa.compats.recipes.RecipeCompat;
 import io.github.vampirestudios.raa.compats.recipes.TechRebornRecipes;
 
 public class TechReborn implements ModCompatProvider {
     RecipeCompat recipeCompat;
     ItemCompat itemCompat;
+    ModelCompat modelCompat;
 
     public TechReborn() {
         this.recipeCompat = new TechRebornRecipes();
         this.itemCompat = new TechRebornItems();
+        this.modelCompat = new TechRebornModels();
     }
 
     @Override
@@ -21,12 +25,22 @@ public class TechReborn implements ModCompatProvider {
     }
 
     @Override
-    public boolean asCustomRecipes() {
+    public void generateModels(ArtificeResourcePack.ClientResourcePackBuilder resourcePackBuilder) {
+        this.modelCompat.generate(resourcePackBuilder);
+    }
+
+    @Override
+    public boolean hasCustomRecipes() {
         return true;
     }
 
     @Override
-    public boolean asItems() {
+    public boolean hasCustomModels() {
+        return true;
+    }
+
+    @Override
+    public boolean hasItems() {
         return true;
     }
 

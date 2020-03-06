@@ -18,7 +18,7 @@ public class Textures {
         for (int i = 1; i < 4; i++) {
             addTextureToList(TextureTypes.INGOT_TEXTURES, "item/ingots/ingot_" + i);
         }
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 17; i++) {
             addTextureToList(TextureTypes.GEM_ITEM_TEXTURES, "item/gems/gem_" + i);
         }
         for (int i = 1; i < 8; i++) {
@@ -75,6 +75,17 @@ public class Textures {
         addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_4", "item/tools/sword/sword_4_handle");
         addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_6", "item/tools/sword/sword_6_handle");
         addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_7", "item/tools/sword/sword_7_handle");
+
+
+        addTextureToList(TextureTypes.METAL_GEAR_TEXTURES, "item/gears/gear_1");
+
+        addTextureToList(TextureTypes.METAL_PLATE_TEXTURES, "item/plates/plate_1");
+        addTextureToList(TextureTypes.METAL_PLATE_TEXTURES, "item/plates/plate_2");
+
+        addTextureToList(TextureTypes.SMALL_DUST_TEXTURES, "item/small_dusts/small_dust_1");
+
+        addTextureToList(TextureTypes.DUST_TEXTURES, "item/dusts/dust_1");
+        addTextureToList(TextureTypes.DUST_TEXTURES, "item/dusts/dust_2");
     }
 
     private static void blockTextures() {

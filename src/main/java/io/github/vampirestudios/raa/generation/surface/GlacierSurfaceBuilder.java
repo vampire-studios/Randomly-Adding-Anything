@@ -28,16 +28,16 @@ public class GlacierSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> 
     }
 
     @Override
-    public void generate(Random rand, Chunk chunk, Biome biome, int x, int z, int worldHeight, double noiseVal, BlockState var9, BlockState var10, int var11, long seed, TernarySurfaceConfig configToIgnore) {
-        TernarySurfaceConfig config = configProvider.apply(noiseVal);
+    public void generate(Random rand, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig surfaceBlocks) {
+        TernarySurfaceConfig config = configProvider.apply(noise);
 
         if (noiseGenerator == null || seed != currentSeed) {
             noiseGenerator = new SimplexNoiseSampler(new Random(seed));
             currentSeed = seed;
         }
 
-        double noise = noiseGenerator.sample((double) x / 260D, (double) z / 260D);
-        int glacierDifference = (int) ((noise > 0.1D && noise < 0.5D) ? (1171875 * Math.pow(noise - 0.26, 4)) - 3 : 0);
+        double sample = noiseGenerator.sample((double) x / 260D, (double) z / 260D);
+        int glacierDifference = (int) ((sample > 0.1D && sample < 0.5D) ? (1171875 * Math.pow(sample - 0.26, 4)) - 3 : 0);
 
         int localX = x & 15;
         int localZ = z & 15;
@@ -45,21 +45,21 @@ public class GlacierSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> 
         BlockPos.Mutable pos = new BlockPos.Mutable(localX, 255, localZ);
 
         if (glacierDifference != 0) {
-            pos.setY(worldHeight);
+            pos.setY(height);
             chunk.setBlockState(pos, AIR, false);
 
-            pos.setY(worldHeight - 1);
+            pos.setY(height - 1);
             chunk.setBlockState(pos, AIR, false);
 
-            worldHeight -= 2;
+            height -= 2;
         }
 
-        for (int y = worldHeight; y >= 0; --y) {
+        for (int y = height; y >= 0; --y) {
             pos.setY(y);
             BlockState toSet = STONE;
 
-            if (y - worldHeight > glacierDifference) {
-                toSet = (y - worldHeight == -1) ? bICE : pICE;
+            if (y - height > glacierDifference) {
+                toSet = (y - height == -1) ? bICE : pICE;
             } else {
                 if (y < 255) {
                     BlockState upState = chunk.getBlockState(pos.up());

@@ -85,7 +85,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
             addItem(new TextEntry(new TranslatableText("config.text.raa.bootsDurability", material.getArmorMaterial().getDurability(EquipmentSlot.FEET))));
             addItem(new TextEntry(new TranslatableText("config.text.raa.horseArmorBonus", material.getArmorMaterial().getHorseArmorBonus())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.equipmentSound", material.getArmorMaterial().getEquipSound().getId())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.repairItem", Utils.appendToPath(material.getId(), material.getArmorMaterial().getOreType().getSuffix()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.repairItem", Utils.addSuffixToPath(material.getId(), material.getArmorMaterial().getOreType().getSuffix()))));
             addItem(new TextEntry(new TranslatableText("config.text.raa.toughness", material.getArmorMaterial().getToughness())));
         }
         if (material.hasFood()) {

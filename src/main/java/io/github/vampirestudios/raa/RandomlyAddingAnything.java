@@ -147,7 +147,7 @@ public class RandomlyAddingAnything implements ModInitializer {
                     new Identifier("stone")
                 );
                 Dimensions.DIMENSIONS.forEach((Processor<DimensionData>) dimensionData ->
-                        tagBuilder.values(Utils.appendToPath(dimensionData.getId(), "_stone")));
+                        tagBuilder.values(Utils.addSuffixToPath(dimensionData.getId(), "_stone")));
             })
         );
     }

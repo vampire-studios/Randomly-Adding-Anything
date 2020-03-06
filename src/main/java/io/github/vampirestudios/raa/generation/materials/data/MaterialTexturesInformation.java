@@ -18,14 +18,19 @@ public class MaterialTexturesInformation {
 
     private Identifier overlayTexture;
     private Identifier resourceItemTexture;
+    private Identifier dustTexture;
+    private Identifier smallDustTexture;
+    private Identifier gearTexture;
+    private Identifier plateTexture;
     private Identifier storageBlockTexture;
     private Identifier nuggetTexture;
     private Identifier fruitTexture;
 
     public MaterialTexturesInformation(Pair<Identifier, Identifier> pickaxeTexture, Pair<Identifier, Identifier> axeTexture, Pair<Identifier, Identifier> hoeTexture,
                                        Pair<Identifier, Identifier> swordTexture, Pair<Identifier, Identifier> shovelTexture, Identifier helmetTexture, Identifier chestplateTexture,
-                                       Identifier leggingsTexture, Identifier bootsTexture, Identifier overlayTexture, Identifier resourceItemTexture, Identifier storageBlockTexture,
-                                       Identifier nuggetTexture, Identifier fruitTexture) {
+                                       Identifier leggingsTexture, Identifier bootsTexture, Identifier overlayTexture, Identifier resourceItemTexture, Identifier dustTexture,
+                                       Identifier smallDustTexture, Identifier gearTexture, Identifier plateTexture, Identifier storageBlockTexture, Identifier nuggetTexture,
+                                       Identifier fruitTexture) {
         this.pickaxeTexture = pickaxeTexture;
         this.axeTexture = axeTexture;
         this.hoeTexture = hoeTexture;
@@ -37,6 +42,10 @@ public class MaterialTexturesInformation {
         this.bootsTexture = bootsTexture;
         this.overlayTexture = overlayTexture;
         this.resourceItemTexture = resourceItemTexture;
+        this.dustTexture = dustTexture;
+        this.smallDustTexture = smallDustTexture;
+        this.gearTexture = gearTexture;
+        this.plateTexture = plateTexture;
         this.storageBlockTexture = storageBlockTexture;
         this.nuggetTexture = nuggetTexture;
         this.fruitTexture = fruitTexture;
@@ -86,6 +95,22 @@ public class MaterialTexturesInformation {
         return resourceItemTexture;
     }
 
+    public Identifier getDustTexture() {
+        return dustTexture;
+    }
+
+    public Identifier getSmallDustTexture() {
+        return smallDustTexture;
+    }
+
+    public Identifier getGearTexture() {
+        return gearTexture;
+    }
+
+    public Identifier getPlateTexture() {
+        return plateTexture;
+    }
+
     public Identifier getStorageBlockTexture() {
         return storageBlockTexture;
     }
@@ -113,6 +138,10 @@ public class MaterialTexturesInformation {
 
         private Identifier overlayTexture;
         private Identifier resourceItemTexture;
+        private Identifier dustTexture;
+        private Identifier smallDustTexture;
+        private Identifier gearTexture;
+        private Identifier plateTexture;
         private Identifier storageBlockTexture;
         private Identifier nuggetTexture;
         private Identifier fruitTexture;
@@ -176,6 +205,26 @@ public class MaterialTexturesInformation {
             return this;
         }
 
+        public Builder dustTexture(Identifier dustTexture) {
+            this.dustTexture = dustTexture;
+            return this;
+        }
+
+        public Builder smallDustTexture(Identifier smallDustTexture) {
+            this.smallDustTexture = smallDustTexture;
+            return this;
+        }
+
+        public Builder gearTexture(Identifier gearTexture) {
+            this.gearTexture = gearTexture;
+            return this;
+        }
+
+        public Builder plateTexture(Identifier plateTexture) {
+            this.plateTexture = plateTexture;
+            return this;
+        }
+
         public Builder storageBlockTexture(Identifier storageBlockTexture) {
             this.storageBlockTexture = storageBlockTexture;
             return this;
@@ -194,7 +243,7 @@ public class MaterialTexturesInformation {
         public MaterialTexturesInformation build() {
             if (this.axeTexture == null) throw new RuntimeException("bad");
             return new MaterialTexturesInformation(pickaxeTexture, axeTexture, hoeTexture, swordTexture, shovelTexture, helmetTexture, chestplateTexture, leggingsTexture, bootsTexture,
-                    overlayTexture, resourceItemTexture, storageBlockTexture, nuggetTexture, fruitTexture);
+                    overlayTexture, resourceItemTexture, dustTexture, smallDustTexture, gearTexture, plateTexture, storageBlockTexture, nuggetTexture, fruitTexture);
         }
 
     }

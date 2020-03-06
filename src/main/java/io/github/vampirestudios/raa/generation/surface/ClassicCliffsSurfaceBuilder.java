@@ -15,8 +15,8 @@ import java.util.function.Function;
 //Code kindly taken from Terraform. Thank you, coderbot, Prospector, and Valoeghese!
 public class ClassicCliffsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
 
-    public ClassicCliffsSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function_1) {
-        super(function_1);
+    public ClassicCliffsSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> dynamicFunction) {
+        super(dynamicFunction);
     }
 
     @Override
@@ -44,10 +44,6 @@ public class ClassicCliffsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceCo
                 basaltLayers += 1;
             }
 
-            if (height >= seaLevel + 7) {
-                basaltLayers += (seaLevel + 5 - height) / 2;
-            }
-
             for (int i = 0; i < basaltLayers; i++) {
                 chunk.setBlockState(pos, DIRT, false);
                 pos.setOffset(Direction.UP);
@@ -62,4 +58,5 @@ public class ClassicCliffsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceCo
             SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, z, height, noise, stone, water, var11, seed, config);
         }
     }
+
 }

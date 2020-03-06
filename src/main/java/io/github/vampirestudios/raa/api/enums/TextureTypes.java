@@ -20,6 +20,10 @@ public class TextureTypes {
     public static List<Identifier> CRYSTAL_BLOCK_TEXTURES = new ArrayList<>();
     public static List<Identifier> CRYSTAL_ITEM_TEXTURES = new ArrayList<>();
     public static List<Identifier> FRUIT_TEXTURES = new ArrayList<>();
+    public static List<Identifier> METAL_PLATE_TEXTURES = new ArrayList<>();
+    public static List<Identifier> METAL_GEAR_TEXTURES = new ArrayList<>();
+    public static List<Identifier> SMALL_DUST_TEXTURES = new ArrayList<>();
+    public static List<Identifier> DUST_TEXTURES = new ArrayList<>();
 
     public static List<Identifier> STONE_TEXTURES = new ArrayList<>();
     public static List<Identifier> STONE_BRICKS_TEXTURES = new ArrayList<>();

@@ -26,11 +26,12 @@ public class DimensionData {
     private int difficulty;
     private HashMap<String, Double> civilizationInfluences;
     private int surfaceBuilder;
+    private Identifier newSurfaceBuilder;
     private int toolDurability;
 
     public DimensionData(Identifier id, String name, int dimensionId, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
                          boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags,
-                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int surfaceBuilder, int toolDurability) {
+                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int surfaceBuilder, Identifier newSurfaceBuilder, int toolDurability) {
         this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
@@ -48,6 +49,7 @@ public class DimensionData {
         this.difficulty = difficulty;
         this.civilizationInfluences = civilizationInfluences;
         this.surfaceBuilder = surfaceBuilder;
+        this.newSurfaceBuilder = newSurfaceBuilder;
         this.toolDurability = toolDurability;
     }
 
@@ -152,6 +154,10 @@ public class DimensionData {
         return surfaceBuilder;
     }
 
+    public Identifier getNewSurfaceBuilder() {
+        return newSurfaceBuilder;
+    }
+
     public int getToolDurability() {
         return toolDurability;
     }
@@ -178,6 +184,7 @@ public class DimensionData {
         private int difficulty;
         private HashMap<String, Double> civilizationInfluences;
         private int surfaceBuilder;
+        private Identifier newSurfaceBuilder;
         private int toolDurability;
 
         private Builder() {
@@ -286,6 +293,10 @@ public class DimensionData {
             return this;
         }
 
+        public Builder newSurfaceBuilder(Identifier newSurfaceBuilder) {
+            this.newSurfaceBuilder = newSurfaceBuilder;
+            return this;
+        }
 
         public Builder toolDurability(int toolDurability) {
             this.toolDurability = toolDurability;
@@ -294,7 +305,7 @@ public class DimensionData {
 
         public DimensionData build() {
             return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, texturesInformation, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags,
-                    mobs, difficulty, civilizationInfluences, surfaceBuilder, toolDurability);
+                    mobs, difficulty, civilizationInfluences, surfaceBuilder, newSurfaceBuilder, toolDurability);
         }
     }
 }
