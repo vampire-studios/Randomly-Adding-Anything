@@ -5,6 +5,7 @@
   "injectors": { "defaultRequire": 1 },
   "mixins": [
     "ItemEntityMixin",
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "MixinLeavesBlock"
   ]
 }

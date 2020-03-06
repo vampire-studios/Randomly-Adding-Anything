@@ -41,7 +41,7 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
         int int_2 = chunkRegion_1.getCenterChunkZ();
         Biome biome_1 = chunkRegion_1.getBiome((new ChunkPos(int_1, int_2)).getCenterBlockPos());
         ChunkRandom chunkRandom_1 = new ChunkRandom();
-        chunkRandom_1.setSeed(chunkRegion_1.getSeed(), int_1 << 4, int_2 << 4);
+        chunkRandom_1.setPopulationSeed(chunkRegion_1.getSeed(), int_1 << 4, int_2 << 4);
         SpawnHelper.populateEntities(chunkRegion_1, biome_1, int_1, int_2, chunkRandom_1);
     }
 

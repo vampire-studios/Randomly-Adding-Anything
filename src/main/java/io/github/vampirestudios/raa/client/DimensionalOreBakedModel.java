@@ -53,7 +53,7 @@ public class DimensionalOreBakedModel extends RAABakedModel {
         Identifier diemnsionId = new Identifier(dimensionMaterial.getId().getNamespace(), dimensionMaterial.getId().getPath().split("_")[0]);
         DimensionData dimensionData = Dimensions.DIMENSIONS.get(diemnsionId);
 
-        RenderMaterial mat = renderer.materialFinder().disableAo(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
+        RenderMaterial mat = renderer.materialFinder().disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
         int color = dimensionData.getDimensionColorPalette().getStoneColor();
         Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .apply(dimensionData.getTexturesInformation().getStoneTexture());

@@ -68,6 +68,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         MODCOMPAT = new ModCompat();
         AutoConfig.register(GeneralConfig.class, GsonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
+        RAAMiscBlocks.init();
         Textures.init();
         FoliagePlacers.init();
         Features.init();

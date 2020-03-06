@@ -94,7 +94,7 @@ public class Textures {
         }
 
 
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 6; i++) {
             addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/metals/metal_" + i);
         }
         for (int i = 1; i < 4; i++) {
@@ -102,19 +102,19 @@ public class Textures {
         }
         addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/crystals/crystal_1");
 
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 7; i++) {
             addTextureToList(TextureTypes.STONE_BRICKS_TEXTURES, "block/stone/bricks_" + i);
         }
-        for (int i = 1; i < 7; i++) {
+        for (int i = 1; i < 9; i++) {
             addTextureToList(TextureTypes.CHISELED_STONE_TEXTURES, "block/stone/chiseled_" + i);
         }
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 9; i++) {
             addTextureToList(TextureTypes.COBBLESTONE_TEXTURES, "block/stone/cobblestone_" + i);
         }
         for (int i = 1; i < 4; i++) {
             addTextureToList(TextureTypes.POLISHED_STONE_TEXTURES, "block/stone/polished_" + i);
         }
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 8; i++) {
             addTextureToList(TextureTypes.STONE_TEXTURES, "block/stone/stone_" + i);
         }
 

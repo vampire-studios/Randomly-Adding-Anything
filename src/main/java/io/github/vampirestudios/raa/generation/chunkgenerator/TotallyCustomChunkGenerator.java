@@ -42,13 +42,13 @@ public class TotallyCustomChunkGenerator extends SurfaceChunkGenerator<Overworld
 
     }
 
-    public void populateEntities(ChunkRegion chunkRegion_1) {
-        int int_1 = chunkRegion_1.getCenterChunkX();
-        int int_2 = chunkRegion_1.getCenterChunkZ();
-        Biome biome_1 = chunkRegion_1.getBiome((new ChunkPos(int_1, int_2)).getCenterBlockPos());
-        ChunkRandom chunkRandom_1 = new ChunkRandom();
-        chunkRandom_1.setSeed(chunkRegion_1.getSeed(), int_1 << 4, int_2 << 4);
-        SpawnHelper.populateEntities(chunkRegion_1, biome_1, int_1, int_2, chunkRandom_1);
+    public void populateEntities(ChunkRegion chunkRegion) {
+        int centerChunkX = chunkRegion.getCenterChunkX();
+        int centerChunkZ = chunkRegion.getCenterChunkZ();
+        Biome chunkRegionBiome = chunkRegion.getBiome((new ChunkPos(centerChunkX, centerChunkZ)).getCenterBlockPos());
+        ChunkRandom chunkRandom = new ChunkRandom();
+        chunkRandom.setPopulationSeed(chunkRegion.getSeed(), centerChunkX << 4, centerChunkZ << 4);
+        SpawnHelper.populateEntities(chunkRegion, chunkRegionBiome, centerChunkX, centerChunkZ, chunkRandom);
     }
 
     @Override
@@ -62,17 +62,17 @@ public class TotallyCustomChunkGenerator extends SurfaceChunkGenerator<Overworld
         float f = 0.0F;
         float g = 0.0F;
         float h = 0.0F;
-        int j = this.getSeaLevel();
-        float k = this.biomeSource.getBiomeForNoiseGen(x, j, z).getDepth() + 0.1f;
+        int seaLevel = this.getSeaLevel();
+        float v = this.biomeSource.getBiomeForNoiseGen(x, seaLevel, z).getDepth() + 0.1f;
 
         for(int l = -2; l <= 2; ++l) {
             for(int m = -2; m <= 2; ++m) {
-                Biome biome = this.biomeSource.getBiomeForNoiseGen(x + l, j, z + m);
+                Biome biome = this.biomeSource.getBiomeForNoiseGen(x + l, seaLevel, z + m);
                 float n = biome.getDepth();
                 float o = biome.getScale()+0.4f;
 
                 float p = BIOME_WEIGHT_TABLE[l + 2 + (m + 2) * 5] / (n + 3.0F);
-                if (biome.getDepth() > k) {
+                if (biome.getDepth() > v) {
                     p /= 2;
                 }
 

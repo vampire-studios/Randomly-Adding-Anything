@@ -74,7 +74,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         int j = region.getCenterChunkZ();
         Biome biome = region.getBiome((new ChunkPos(i, j)).getCenterBlockPos());
         ChunkRandom chunkRandom = new ChunkRandom();
-        chunkRandom.setSeed(region.getSeed(), i << 4, j << 4);
+        chunkRandom.setPopulationSeed(region.getSeed(), i << 4, j << 4);
         SpawnHelper.populateEntities(region, biome, i, j, chunkRandom);
     }
 
@@ -177,7 +177,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         int chunkX = region.getCenterChunkX();
         int chunkZ = region.getCenterChunkZ();
         ChunkRandom rand = new ChunkRandom();
-        rand.setSeed(chunkX, chunkZ);
+        rand.setTerrainSeed(chunkX, chunkZ);
 //        this.terrainPostProcessors.forEach(postProcessor -> postProcessor.postProcess(region, rand, chunkX, chunkZ, this));
 
         int i = region.getCenterChunkX();
@@ -187,7 +187,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         BlockPos blockPos = new BlockPos(k, 0, l);
         Biome biome = this.getDecorationBiome(region.getBiomeAccess(), blockPos.add(8, 8, 8));
         ChunkRandom chunkRandom = new ChunkRandom();
-        long seed = chunkRandom.setSeed(region.getSeed(), k, l);
+        long seed = chunkRandom.setCarverSeed(region.getSeed(), k, l);
         GenerationStep.Feature[] features = GenerationStep.Feature.values();
 
         for (GenerationStep.Feature feature : features) {

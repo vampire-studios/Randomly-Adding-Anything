@@ -42,7 +42,7 @@ public class DimensionListScreen extends Screen {
     @Override
     public boolean keyPressed(int int_1, int int_2, int int_3) {
         if (int_1 == 256 && this.shouldCloseOnEsc()) {
-            minecraft.openScreen(parent);
+            client.openScreen(parent);
             return true;
         }
         return super.keyPressed(int_1, int_2, int_3);
@@ -51,11 +51,11 @@ public class DimensionListScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
-        children.add(dimensionList = new RAADimensionListWidget(minecraft, width / 2 - 10, height,
+        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> client.openScreen(parent)));
+        children.add(dimensionList = new RAADimensionListWidget(client, width / 2 - 10, height,
                 28 + 5, height - 5, background
         ));
-        children.add(descriptionList = new RAADimensionDescriptionListWidget(minecraft, width / 2 - 10, height,
+        children.add(descriptionList = new RAADimensionDescriptionListWidget(client, width / 2 - 10, height,
                 28 + 5, height - 5, background
         ));
         dimensionList.setLeftPos(5);
@@ -106,7 +106,7 @@ public class DimensionListScreen extends Screen {
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
-        drawCenteredString(font, title.asFormattedString(), width / 2, 10, 16777215);
+        drawCenteredString(textRenderer, title.asFormattedString(), width / 2, 10, 16777215);
         super.render(mouseX, mouseY, delta);
         if (tooltip != null)
             renderTooltip(Arrays.asList(tooltip.split("\n")), mouseX, mouseY);

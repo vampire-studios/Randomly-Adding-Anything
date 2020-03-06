@@ -39,8 +39,8 @@ public class DimensionsConfigScreen extends Screen {
     @Override
     public boolean keyPressed(int int_1, int int_2, int int_3) {
         if (int_1 == 256) {
-            assert minecraft != null;
-            minecraft.openScreen(parent);
+            assert client != null;
+            client.openScreen(parent);
             return true;
         }
         return super.keyPressed(int_1, int_2, int_3);
@@ -49,12 +49,12 @@ public class DimensionsConfigScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        assert minecraft != null;
-        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.dimensionConfiguration"), var1 -> minecraft.openScreen(new DimensionListScreen(this))));
+        assert client != null;
+        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.dimensionConfiguration"), var1 -> client.openScreen(new DimensionListScreen(this))));
         addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, I18n.translate("config.button.raa.dimensionMaterialConfiguration"), var1 ->
-                minecraft.openScreen(new DimensionMaterialListScreen(this))));
+                client.openScreen(new DimensionMaterialListScreen(this))));
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> {
-            minecraft.openScreen(parent);
+            client.openScreen(parent);
         }));
     }
 
@@ -81,7 +81,7 @@ public class DimensionsConfigScreen extends Screen {
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
-        drawCenteredString(font, title.asFormattedString(), width / 2, 10, 16777215);
+        drawCenteredString(textRenderer, title.asFormattedString(), width / 2, 10, 16777215);
         super.render(mouseX, mouseY, delta);
     }
 

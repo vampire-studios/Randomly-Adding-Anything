@@ -40,7 +40,7 @@ public class ConfigScreen extends Screen {
     @Override
     public boolean keyPressed(int int_1, int int_2, int int_3) {
         if (int_1 == 256) {
-            minecraft.openScreen(parent);
+            client.openScreen(parent);
             return true;
         }
         return super.keyPressed(int_1, int_2, int_3);
@@ -50,12 +50,12 @@ public class ConfigScreen extends Screen {
     protected void init() {
         super.init();
         addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.generalConfig"), var1 ->
-                minecraft.openScreen(AutoConfig.getConfigScreen(GeneralConfig.class, this).get())));
+                client.openScreen(AutoConfig.getConfigScreen(GeneralConfig.class, this).get())));
         addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, I18n.translate("config.button.raa.materialConfiguration"), var1 ->
-                minecraft.openScreen(new MaterialListScreen(this))));
+                client.openScreen(new MaterialListScreen(this))));
         addButton(new ButtonWidget(width / 2 - 75, 130, 150, 20, I18n.translate("config.button.raa.dimensionConfigurations"), var1 ->
-                minecraft.openScreen(new DimensionsConfigScreen(this))));
-        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
+                client.openScreen(new DimensionsConfigScreen(this))));
+        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> client.openScreen(parent)));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ConfigScreen extends Screen {
         RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
 
-        drawCenteredString(font, title.asFormattedString(), width / 2, 10, 16777215);
+        drawCenteredString(textRenderer, title.asFormattedString(), width / 2, 10, 16777215);
         super.render(mouseX, mouseY, delta);
     }
 
