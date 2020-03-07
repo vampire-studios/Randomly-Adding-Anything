@@ -90,6 +90,8 @@ public class RandomlyAddingAnything implements ModInitializer {
             e.printStackTrace();
         }
 
+        RAARegisteries.TARGET_REGISTRY.forEach(target -> System.out.println(target.getId().toString()));
+
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
         if (CONFIG.materialNumber > 0) {
             if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {

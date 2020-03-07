@@ -68,7 +68,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     @Override
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
-        if (RandomlyAddingAnything.CONFIG.enableVanillaItemColoring) initColoring();
+        initColoring();
 
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
@@ -82,7 +82,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     }
                 });
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
-            RandomlyAddingAnything.MODCOMPAT.generateCompatModels(clientResourcePackBuilder);
             Materials.MATERIALS.forEach(material -> {
                 Identifier bid = material.getId();
                 for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
@@ -195,6 +194,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder.texture("layer0", material.getTexturesInformation().getFruitTexture());
                     });
                 }
+                RandomlyAddingAnything.MODCOMPAT.generateCompatModels(clientResourcePackBuilder);
             });
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
                 Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase());
@@ -208,7 +208,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
                 clientResourcePackBuilder.addItemModel(stoneId,
                         modelBuilder -> modelBuilder.parent(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())));
-
 
                 Identifier stoneStairsId = Utils.addSuffixToPath(identifier, "_stone_stairs");
                 ModelUtils.stairs(clientResourcePackBuilder, stoneStairsId, dimensionData.getTexturesInformation().getStoneTexture());
@@ -337,27 +336,27 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/axe/stone_axe_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/axe/axe_stick"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/axe/axe_stick_1"));
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/shovel/stone_shovel_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/shovel/shovel_stick"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/shovel/shovel_4_handle"));
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/pickaxe/stone_pickaxe_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/pickaxe/pickaxe_stick"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/pickaxe/pickaxe_1_handle"));
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_sword"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/sword/stone_sword_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/sword/sword_stick"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/sword/sword_1_handle"));
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_hoe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
                     modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/hoe/stone_hoe_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/hoe/hoe_stick"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/hoe/hoe_stick_1"));
                 });
 
                 ColorProviderRegistry.ITEM.register((stack, layer) -> {

@@ -5,6 +5,7 @@ import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
+import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
@@ -53,9 +54,11 @@ public class Materials {
 
             String name;
             Identifier id;
+            PortalBlock
             do {
-                name = nameGenerator.generate();
-                id = new Identifier(RandomlyAddingAnything.MOD_ID, nameGenerator.asId(name));
+                String generatedName = nameGenerator.generate();
+                name = generatedName;
+                id = new Identifier(RandomlyAddingAnything.MOD_ID, nameGenerator.asId(generatedName));
             } while (MATERIAL_IDS.contains(id));
             MATERIAL_IDS.add(id);
 

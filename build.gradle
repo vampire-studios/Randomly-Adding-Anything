@@ -70,7 +70,8 @@ dependencies {
         transitive = false
     }
 
-    modImplementation "curse.maven:immersive-portals-mod:2893204"
+//    modImplementation "curse.maven:immersive-portals-mod:2893204"
+    modImplementation "curse.maven:dark-loading-screen:2894480"
 
     modImplementation 'com.github.SuperCoder7979:simplexterrain:feature~terrain-rewrite-SNAPSHOT'
 
@@ -89,6 +90,8 @@ dependencies {
     include ("me.zeroeightsix:fiber:0.6.0-7") {
         exclude group :"net.fabricmc.fabric-api"
     }
+
+    modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
 
     modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
         exclude group: "io.github.prospector.modmenu"
