@@ -19,7 +19,7 @@ public class DimensionalStone extends Block {
 
     public DimensionalStone(String dimensionName) {
         super(Settings.copy(Blocks.STONE).strength(Rands.randFloatRange(0.25f, 4), Rands.randFloatRange(4, 20))
-                .jumpVelocityMultiplier(Rands.randFloatRange(1.0F, 60.0F)));
+                .jumpVelocityMultiplier(Rands.randFloatRange(1.0F, 3.0F)));
         this.dimensionName = dimensionName;
     }
 

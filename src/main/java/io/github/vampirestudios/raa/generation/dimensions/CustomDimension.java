@@ -142,4 +142,9 @@ public class CustomDimension extends Dimension {
 //    public float method_23759(int int_1) {
 //        return 0.0F;
 //    }
+
+
+    public Block getStoneBlock() {
+        return stoneBlock;
+    }
 }
