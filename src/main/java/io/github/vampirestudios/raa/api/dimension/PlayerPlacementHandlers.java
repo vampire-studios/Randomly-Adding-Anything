@@ -49,7 +49,18 @@ public enum PlayerPlacementHandlers {
             destination.setBlockState(blockPos.south(), stone);
             destination.setBlockState(blockPos.south().west(), stone);
 
-            return new BlockPattern.TeleportTarget(new Vec3d(blockPos.up()), Vec3d.ZERO, 0);
+            blockPos = blockPos.down();
+            destination.setBlockState(blockPos, stone);
+            destination.setBlockState(blockPos.west(), stone);
+            destination.setBlockState(blockPos.west().north(), stone);
+            destination.setBlockState(blockPos.north(), stone);
+            destination.setBlockState(blockPos.north().east(), stone);
+            destination.setBlockState(blockPos.east(), stone);
+            destination.setBlockState(blockPos.east().south(), stone);
+            destination.setBlockState(blockPos.south(), stone);
+            destination.setBlockState(blockPos.south().west(), stone);
+
+            return new BlockPattern.TeleportTarget(new Vec3d(blockPos.up(2)), Vec3d.ZERO, 0);
         } else {
             destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.appendToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(destination.getDimension().getType())), "_portal")).getDefaultState());
             return new BlockPattern.TeleportTarget(new Vec3d(blockPos), Vec3d.ZERO, 0);
