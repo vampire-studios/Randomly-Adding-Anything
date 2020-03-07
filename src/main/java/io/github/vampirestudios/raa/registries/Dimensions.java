@@ -281,6 +281,8 @@ public class Dimensions {
 
             if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES)
                 typee.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
+            else if (dimension.getDimensionChunkGenerator() == FLOATING || dimension.getDimensionChunkGenerator() == LAYERED_FLOATING || dimension.getDimensionChunkGenerator() == PRE_CLASSIC_FLOATING)
+                typee.defaultPlacer(PlayerPlacementHandlers.FLOATING_WORLD.getEntityPlacer());
             else typee.defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer());
 
             DimensionType type = typee.buildAndRegister(dimension.getId());
