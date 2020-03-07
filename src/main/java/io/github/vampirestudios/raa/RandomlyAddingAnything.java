@@ -68,7 +68,6 @@ public class RandomlyAddingAnything implements ModInitializer {
         MODCOMPAT = new ModCompat();
         AutoConfig.register(GeneralConfig.class, GsonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
-        RAAMiscBlocks.init();
         Textures.init();
         FoliagePlacers.init();
         Features.init();
@@ -89,8 +88,6 @@ public class RandomlyAddingAnything implements ModInitializer {
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
-        RAARegisteries.TARGET_REGISTRY.forEach(target -> System.out.println(target.getId().toString()));
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
         if (CONFIG.materialNumber > 0) {

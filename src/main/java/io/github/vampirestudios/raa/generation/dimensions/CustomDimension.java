@@ -137,4 +137,8 @@ public class CustomDimension extends Dimension {
     public DimensionType getType() {
         return dimensionType;
     }
+
+    public Block getStoneBlock() {
+        return stoneBlock;
+    }
 }

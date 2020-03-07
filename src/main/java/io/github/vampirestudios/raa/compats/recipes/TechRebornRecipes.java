@@ -10,7 +10,9 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.CustomTargets;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Utils;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class TechRebornRecipes extends RecipeCompat {
     public TechRebornRecipes() {
@@ -21,6 +23,10 @@ public class TechRebornRecipes extends RecipeCompat {
     public void registerRecipes(ArtificeResourcePack.ServerResourcePackBuilder dataPackBuilder) {
         this.setDataPackBuilder(dataPackBuilder);
         for (Material material : Materials.MATERIALS) {
+            if (Registry.ITEM.get(Utils.addSuffixToPath(material.getId(), "_ore")) == null || Registry.ITEM.get(Utils.addSuffixToPath(material.getId(), "_ore")) == Items.AIR) {
+                System.out.println("[RAA] couldn't find ore :" + material.getId().toString());
+                continue;
+            }
             if (material.hasArmor()) {
                 addBlastingFurnaceRecipe(new Identifier(RandomlyAddingAnything.MOD_ID, "boots_to_" + material.getName()),
                         trBlastFurnaceRecipeBuilder -> trBlastFurnaceRecipeBuilder.heat(1000)

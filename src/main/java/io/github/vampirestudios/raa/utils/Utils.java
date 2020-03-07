@@ -51,11 +51,11 @@ public class Utils {
         return new Identifier(identifier.getNamespace(), identifier.getPath() + suffix);
     }
 
-    public static Identifier prependToPath(Identifier identifier, String prefix) {
+    public static Identifier addPrefixToPath(Identifier identifier, String prefix) {
         return new Identifier(identifier.getNamespace(), prefix + identifier.getPath());
     }
 
-    public static Identifier appendAndPrependToPath(Identifier identifier, String prefix, String suffix) {
+    public static Identifier addPrefixAndSuffixToPath(Identifier identifier, String prefix, String suffix) {
         return new Identifier(identifier.getNamespace(), prefix + identifier.getPath() + suffix);
     }
 

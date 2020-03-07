@@ -1,9 +1,11 @@
 package io.github.vampirestudios.raa.api.dimension;
 
 import io.github.vampirestudios.raa.blocks.PortalBlock;
+import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.dimension.v1.EntityPlacer;
 import net.minecraft.block.AirBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.client.util.math.Vector3f;
@@ -22,7 +24,7 @@ public enum PlayerPlacementHandlers {
         return new BlockPattern.TeleportTarget(new Vec3d(new Vector3f(blockPos.getX(), blockPos.getY(), blockPos.getZ())), Vec3d.ZERO, 0);
     }),
     CAVE_WORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
-        BlockPos blockPos = getSurfacePos(destination, teleported, 126);
+        BlockPos blockPos = getSurfacePos(destination, teleported, 255);
         destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(destination.getDimension().getType())), "_portal")).getDefaultState());
         return new BlockPattern.TeleportTarget(new Vec3d(new Vector3f(blockPos.getX(), blockPos.getY(), blockPos.getZ())), Vec3d.ZERO, 0);
     }),
@@ -30,6 +32,40 @@ public enum PlayerPlacementHandlers {
         BlockPos blockPos = getSurfacePos(destination, teleported, 255);
         destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(teleported.getEntityWorld().dimension.getType())), "_portal")).getDefaultState());
         return new BlockPattern.TeleportTarget(new Vec3d(new Vector3f(blockPos.getX(), blockPos.getY(), blockPos.getZ())), Vec3d.ZERO, 0);
+    }),
+    FLOATING_WORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
+        BlockPos blockPos = getSurfacePos(destination, teleported, 255);
+        if (blockPos.getY() == 255 || blockPos.getY() == 256) {
+            blockPos = new BlockPos(blockPos.getX(), teleported.getY(), blockPos.getZ());
+            destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(destination.getDimension().getType())), "_portal")).getDefaultState());
+
+            BlockState stone = ((CustomDimension) destination.dimension).getStoneBlock().getDefaultState();
+            blockPos = blockPos.down();
+            destination.setBlockState(blockPos.west(), stone);
+            destination.setBlockState(blockPos.west().north(), stone);
+            destination.setBlockState(blockPos.north(), stone);
+            destination.setBlockState(blockPos.north().east(), stone);
+            destination.setBlockState(blockPos.east(), stone);
+            destination.setBlockState(blockPos.east().south(), stone);
+            destination.setBlockState(blockPos.south(), stone);
+            destination.setBlockState(blockPos.south().west(), stone);
+
+            blockPos = blockPos.down();
+            destination.setBlockState(blockPos, stone);
+            destination.setBlockState(blockPos.west(), stone);
+            destination.setBlockState(blockPos.west().north(), stone);
+            destination.setBlockState(blockPos.north(), stone);
+            destination.setBlockState(blockPos.north().east(), stone);
+            destination.setBlockState(blockPos.east(), stone);
+            destination.setBlockState(blockPos.east().south(), stone);
+            destination.setBlockState(blockPos.south(), stone);
+            destination.setBlockState(blockPos.south().west(), stone);
+
+            return new BlockPattern.TeleportTarget(new Vec3d(new Vector3f(blockPos.up(2).getX(), blockPos.up(2).getY(), blockPos.up(2).getZ())), Vec3d.ZERO, 0);
+        } else {
+            destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(destination.getDimension().getType())), "_portal")).getDefaultState());
+            return new BlockPattern.TeleportTarget(new Vec3d(new Vector3f(blockPos.getX(), blockPos.getY(), blockPos.getZ())), Vec3d.ZERO, 0);
+        }
     });
 
     private EntityPlacer entityPlacer;

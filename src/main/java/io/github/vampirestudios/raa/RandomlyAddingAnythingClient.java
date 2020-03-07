@@ -275,7 +275,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 ModelUtils.wall(clientResourcePackBuilder, cobblestoneWallId, dimensionData.getTexturesInformation().getCobblestoneTexture());
 
 
-                Identifier chiseledId = Utils.prependToPath(identifier, "chiseled_");
+                Identifier chiseledId = Utils.addPrefixToPath(identifier, "chiseled_");
                 clientResourcePackBuilder.addBlockState(chiseledId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())))
                 );
@@ -287,7 +287,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder -> modelBuilder.parent(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())));
 
 
-                Identifier polishedId = Utils.prependToPath(identifier, "polished_");
+                Identifier polishedId = Utils.addPrefixToPath(identifier, "polished_");
                 clientResourcePackBuilder.addBlockState(polishedId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())))
                 );
@@ -299,13 +299,13 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder -> modelBuilder.parent(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())));
 
 
-                Identifier polishedStairsId = Utils.appendAndPrependToPath(identifier, "polished_", "_stone_stairs");
+                Identifier polishedStairsId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stone_stairs");
                 ModelUtils.stairs(clientResourcePackBuilder, polishedStairsId, dimensionData.getTexturesInformation().getPolishedTexture());
 
-                Identifier polishedSlabId = Utils.appendAndPrependToPath(identifier, "polished_", "_stone_slab");
+                Identifier polishedSlabId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stone_slab");
                 ModelUtils.slab(clientResourcePackBuilder, polishedSlabId, polishedId, dimensionData.getTexturesInformation().getPolishedTexture());
 
-                Identifier polishedWallId = Utils.appendAndPrependToPath(identifier, "polished_", "_stone_wall");
+                Identifier polishedWallId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stone_wall");
                 ModelUtils.wall(clientResourcePackBuilder, polishedWallId, dimensionData.getTexturesInformation().getPolishedTexture());
 
 

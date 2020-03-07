@@ -16,7 +16,7 @@ public class CavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGenerat
     private final double[] noiseFalloff = this.buildNoiseFalloff();
 
     public CavesChunkGenerator(World world, BiomeSource biomeSource, CavesChunkGeneratorConfig config) {
-        super(world, biomeSource, 4, 8, 128, config, false);
+        super(world, biomeSource, 4, 8, 256, config, true);
     }
 
     protected void sampleNoiseColumn(double[] buffer, int x, int z) {
@@ -69,7 +69,7 @@ public class CavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGenerat
     }
 
     public int getMaxY() {
-        return 128;
+        return 256;
     }
 
     public int getSeaLevel() {

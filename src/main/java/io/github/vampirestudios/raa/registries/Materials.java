@@ -5,7 +5,6 @@ import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
-import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
@@ -13,10 +12,10 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.MaterialFoodData;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
-import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
+import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
@@ -54,7 +53,7 @@ public class Materials {
 
             String name;
             Identifier id;
-            PortalBlock
+
             do {
                 String generatedName = nameGenerator.generate();
                 name = generatedName;

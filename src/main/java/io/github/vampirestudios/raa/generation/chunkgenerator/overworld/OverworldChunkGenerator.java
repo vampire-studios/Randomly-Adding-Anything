@@ -31,8 +31,6 @@ import net.minecraft.world.level.LevelGeneratorType;
 import java.util.List;
 import java.util.stream.IntStream;
 
-//import supercoder79.simplexterrain.api.postprocess.TerrainPostProcessor;
-
 public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
     private static final float[] BIOME_WEIGHT_TABLE = Util.make(new float[25], (fs) -> {
         for (int i = -2; i <= 2; ++i) {
@@ -50,24 +48,12 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
     private final CatSpawner catSpawner = new CatSpawner();
     private final ZombieSiegeManager zombieSiegeManager = new ZombieSiegeManager();
 
-//    private final Iterable<TerrainPostProcessor> terrainPostProcessors;
-
     public OverworldChunkGenerator(IWorld world, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
-        super(world, biomeSource, 4, 8, 256, config, true);
+        super(world, biomeSource, 4, 8, 256, config, false);
         this.random.consume(2620);
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
         this.amplified = world.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
-
-//        List<TerrainPostProcessor> postProcessors = new ArrayList<>();
-//        postProcessorFactories.forEach(factory -> postProcessors.add(factory.apply(this.seed)));
-//        terrainPostProcessors = postProcessors;
     }
-
-//    private static final Collection<LongFunction<TerrainPostProcessor>> postProcessorFactories = new ArrayList<>();
-//
-//    public static void addTerrainPostProcessor(LongFunction<TerrainPostProcessor> factory) {
-//        postProcessorFactories.add(factory);
-//    }
 
     public void populateEntities(ChunkRegion region) {
         int i = region.getCenterChunkX();
@@ -178,7 +164,6 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         int chunkZ = region.getCenterChunkZ();
         ChunkRandom rand = new ChunkRandom();
         rand.setTerrainSeed(chunkX, chunkZ);
-//        this.terrainPostProcessors.forEach(postProcessor -> postProcessor.postProcess(region, rand, chunkX, chunkZ, this));
 
         int i = region.getCenterChunkX();
         int j = region.getCenterChunkZ();

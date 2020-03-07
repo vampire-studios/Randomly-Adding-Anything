@@ -8,8 +8,8 @@ import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 public class HighCavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGeneratorConfig> {
     private final double[] noiseFalloff = this.buildNoiseFalloff();
 
-    public HighCavesChunkGenerator(World world_1, BiomeSource biomeSource_1, CavesChunkGeneratorConfig cavesChunkGeneratorConfig_1) {
-        super(world_1, biomeSource_1, 2, 16, 128, cavesChunkGeneratorConfig_1, false);
+    public HighCavesChunkGenerator(World world, BiomeSource biomeSource, CavesChunkGeneratorConfig config) {
+        super(world, biomeSource, 2, 16, 256, config, true);
     }
 
     protected void sampleNoiseColumn(double[] doubles_1, int int_1, int int_2) {
