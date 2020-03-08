@@ -31,7 +31,7 @@ public class TechReborn implements ModCompatProvider {
 
     @Override
     public boolean hasCustomRecipes() {
-        return true;
+        return false;
     }
 
     @Override

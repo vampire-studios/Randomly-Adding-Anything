@@ -1,7 +1,5 @@
 package io.github.vampirestudios.raa;
 
-import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.api.util.Processor;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
 import io.github.vampirestudios.raa.compats.SimplexRAACompat;
@@ -12,16 +10,14 @@ import io.github.vampirestudios.raa.config.MaterialsConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.registries.*;
 import io.github.vampirestudios.raa.utils.Rands;
-import io.github.vampirestudios.raa.utils.RegistryUtils;
-import io.github.vampirestudios.raa.utils.Utils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
@@ -39,6 +35,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class RandomlyAddingAnything implements ModInitializer {
@@ -120,34 +118,24 @@ public class RandomlyAddingAnything implements ModInitializer {
                 DIMENSION_MATERIALS_CONFIG.load();
             }
         }
-
         Materials.createDimensionMaterialResources();
+
         DimensionRecipes.init();
         MaterialRecipes.init();
 
-        RegistryUtils.forEveryBiome(biome -> {
-            if (biome.getCategory() != Biome.Category.OCEAN) {
+        Criterions.init();
+
+        List<Biome> biomes = new ArrayList<>();
+        Registry.BIOME.forEach(biomes::add);
+        RegistryEntryAddedCallback.event(Registry.BIOME).register((i, identifier, biome) -> biomes.add(biome));
+
+        biomes.forEach(biome -> {
+            RAARegisteries.TARGET_REGISTRY.forEach(target -> RAAWorldAPI.generateOresForTarget(biome, target));
+            if (biome.getCategory() != Biome.Category.OCEAN && CONFIG.shouldSpawnPortalHub) {
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
                                 configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.001125F), 1))));
             }
         });
-        Criterions.init();
-        Registry.BIOME.forEach(biome -> RAARegisteries.TARGET_REGISTRY.forEach(target -> RAAWorldAPI.generateOresForTarget(biome, target)));
-
-        Artifice.registerData(new Identifier(MOD_ID, "raa_tags"), serverResourcePackBuilder ->
-            serverResourcePackBuilder.addBlockTag(new Identifier(MOD_ID, "underground_blocks"), tagBuilder -> {
-                tagBuilder.replace(false);
-                tagBuilder.values(
-                    new Identifier("andesite"),
-                    new Identifier("diorite"),
-                    new Identifier("granite"),
-                    new Identifier("diorite"),
-                    new Identifier("stone")
-                );
-                Dimensions.DIMENSIONS.forEach((Processor<DimensionData>) dimensionData ->
-                        tagBuilder.values(Utils.addSuffixToPath(dimensionData.getId(), "_stone")));
-            })
-        );
     }
 }

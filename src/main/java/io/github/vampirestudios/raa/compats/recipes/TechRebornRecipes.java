@@ -24,7 +24,7 @@ public class TechRebornRecipes extends RecipeCompat {
         this.setDataPackBuilder(dataPackBuilder);
         for (Material material : Materials.MATERIALS) {
             if (Registry.ITEM.get(Utils.addSuffixToPath(material.getId(), "_ore")) == null || Registry.ITEM.get(Utils.addSuffixToPath(material.getId(), "_ore")) == Items.AIR) {
-                System.out.println("[RAA] couldn't find ore :" + material.getId().toString());
+                System.out.println("[RAA] couldn't find ore: " + material.getId().toString());
                 continue;
             }
             if (material.hasArmor()) {
