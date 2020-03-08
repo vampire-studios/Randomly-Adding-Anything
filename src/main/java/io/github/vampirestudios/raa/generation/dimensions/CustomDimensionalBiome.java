@@ -22,6 +22,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -31,6 +32,7 @@ import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.foliage.*;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 import java.util.ArrayList;
 
@@ -40,7 +42,7 @@ public class CustomDimensionalBiome extends Biome {
 
     public CustomDimensionalBiome(DimensionData dimensionData, DimensionBiomeData biomeData) {
         super((new Settings()
-                .configureSurfaceBuilder(Utils.randomSurfaceBuilder(dimensionData.getSurfaceBuilder(), dimensionData), SurfaceBuilder.GRASS_CONFIG)
+                .configureSurfaceBuilder((SurfaceBuilder< TernarySurfaceConfig>) Registry.SURFACE_BUILDER.get(dimensionData.getNewSurfaceBuilder()), SurfaceBuilder.GRASS_CONFIG)
                 .precipitation(Utils.checkBitFlag(dimensionData.getFlags(), Utils.FROZEN) ? Precipitation.SNOW : Rands.chance(10) ? Precipitation.RAIN : Precipitation.NONE)
                 .category(Category.PLAINS)
                 .depth(biomeData.getDepth())

@@ -55,6 +55,7 @@
   "config.text.raa.tool_speed": "§7Tool Speed: §f%s",
   "config.text.raa.attack_damage": "§7Attack Damage: §f%s",
   "config.text.raa.chunkGenerator": "§7Chunk Generator: §f%s",
+  "config.text.raa.surfaceBuilder": "§7Surface Builder: §f%s",
 
   "config.title.raa.armor": "Armor",
   "config.text.raa.helmetDurability": "§7Helmet Durability: §f%s",

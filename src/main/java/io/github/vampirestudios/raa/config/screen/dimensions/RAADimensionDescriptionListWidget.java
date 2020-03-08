@@ -77,6 +77,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
 
         addItem(new TitleEntry(new TranslatableText("config.title.raa.advancedInformation").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         addItem(new TextEntry(new TranslatableText("config.text.raa.chunkGenerator", WordUtils.capitalizeFully(dimensionData.getDimensionChunkGenerator().toString().replace("_", " ").toLowerCase()))));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.surfaceBuilder", WordUtils.capitalizeFully(dimensionData.getNewSurfaceBuilder().getPath().replace("_", " ").toLowerCase()))));
 
         if (dimensionData.getFlags() != 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));

@@ -37,6 +37,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 
 import java.util.*;
 
@@ -161,7 +162,6 @@ public class Dimensions {
             Color WATER_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), saturation, Rands.randFloatRange(0.5F, 1.0F)));
             Color STONE_COLOR = new Color(Color.HSBtoRGB(stoneColor, stoneSaturation, value));
 
-
             DimensionChunkGenerators gen = Utils.randomCG(Rands.randIntRange(0, 100));
             if (gen == DimensionChunkGenerators.FLOATING) difficulty++;
             if (gen == CAVE) difficulty += 2;
@@ -169,6 +169,8 @@ public class Dimensions {
             if (scale > 0.8) difficulty++;
             if (scale > 1.6) difficulty++;
             Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
+
+            SurfaceBuilder<?> surfaceBuilder = Utils.newRandomSurfaceBuilder();
 
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
                     .hasSkyLight(Rands.chance(1))
@@ -181,7 +183,8 @@ public class Dimensions {
                     .difficulty(difficultyAndMobs.getLeft())
                     .mobs(difficultyAndMobs.getRight())
                     .civilizationInfluences(dimension.getCivilizationInfluences())
-                    .surfaceBuilder(Rands.randInt(100));
+                    .surfaceBuilder(Rands.randInt(100))
+                    .newSurfaceBuilder(Registry.SURFACE_BUILDER.getId(surfaceBuilder));
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))

@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.api.dimension.DimensionSurfaceBuilders;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.SurfaceBuilders;
 import net.fabricmc.api.EnvType;
@@ -84,38 +85,20 @@ public class Utils {
         return SurfaceBuilder.DEFAULT;
     }
 
-    public static SurfaceBuilder<TernarySurfaceConfig> newRandomSurfaceBuilder(Identifier name, DimensionData data) {
-        //30% default
-        //10% all others
-
-        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.OVERWORLD || data.getDimensionChunkGenerator() == DimensionChunkGenerators.CUSTOM_OVERWORLD) {
-            switch (name.toString()) {
-                case "raa:hyper_flat":
-                    return SurfaceBuilders.HYPER_FLAT;
-                case "raa:patchy_desert":
-                    return SurfaceBuilders.PATCHY_DESERT;
-                case "raa:dark_patchy_badlands":
-                    return SurfaceBuilders.DARK_PATCHY_BADLANDS;
-                case "raa:patchy_badlands":
-                    return SurfaceBuilders.PATCHY_BADLANDS;
-                case "raa:classic_cliffs":
-                    return SurfaceBuilders.CLASSIC_CLIFFS;
-                case "raa:stratified_cliffs":
-                    return SurfaceBuilders.STRATIFIED_CLIFFS;
-                case "raa:floating_islands":
-                    return SurfaceBuilders.FLOATING_ISLANDS;
-                case "raa:sandy_dunes":
-                    return SurfaceBuilders.SANDY_DUNES;
-                case "raa:dunes":
-                    return SurfaceBuilders.DUNES;
-                case "raa:lazy_noise":
-                    return SurfaceBuilders.LAZY_NOISE;
-                case "minecraft:default":
-                    return SurfaceBuilder.DEFAULT;
-            }
-        }
-
-        return SurfaceBuilder.DEFAULT;
+    public static SurfaceBuilder<?> newRandomSurfaceBuilder() {
+        Map<String, SurfaceBuilder<?>> surfaceBuilders = new HashMap<>();
+        surfaceBuilders.put("raa:hyper_flat", DimensionSurfaceBuilders.HYPER_FLAT.getSurfaceBuilder());
+        surfaceBuilders.put("raa:patchy_desert", DimensionSurfaceBuilders.PATCHY_DESERT.getSurfaceBuilder());
+        surfaceBuilders.put("raa:dark_patchy_badlands", DimensionSurfaceBuilders.DARK_PATCHY_BADLANDS.getSurfaceBuilder());
+        surfaceBuilders.put("raa:patchy_badlands", DimensionSurfaceBuilders.PATCHY_BADLANDS.getSurfaceBuilder());
+        surfaceBuilders.put("raa:classic_cliffs", DimensionSurfaceBuilders.CLASSIC_CLIFFS.getSurfaceBuilder());
+        surfaceBuilders.put("raa:stratified_cliffs", DimensionSurfaceBuilders.STRATIFIED_CLIFFS.getSurfaceBuilder());
+        surfaceBuilders.put("raa:floating_islands", DimensionSurfaceBuilders.FLOATING_ISLANDS.getSurfaceBuilder());
+        surfaceBuilders.put("raa:sandy_dunes", DimensionSurfaceBuilders.SANDY_DUNES.getSurfaceBuilder());
+        surfaceBuilders.put("raa:dunes", DimensionSurfaceBuilders.DUNES.getSurfaceBuilder());
+        surfaceBuilders.put("raa:lazy_noise", DimensionSurfaceBuilders.LAZY_NOISE.getSurfaceBuilder());
+        surfaceBuilders.put("minecraft:default", SurfaceBuilder.DEFAULT);
+        return Rands.map(surfaceBuilders).getValue();
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {
