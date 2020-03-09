@@ -17,9 +17,11 @@ import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.items.dimension.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
-import io.github.vampirestudios.raa.utils.StoneRegistry;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
+import io.github.vampirestudios.vampirelib.blocks.SlabBaseBlock;
+import io.github.vampirestudios.vampirelib.blocks.StairsBaseBlock;
+import io.github.vampirestudios.vampirelib.blocks.WallBaseBlock;
 import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
@@ -274,11 +276,15 @@ public class Dimensions {
     public static void createDimensions() {
         DIMENSIONS.forEach(dimension -> {
             Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
-            StoneRegistry.Builder stoneRegistry = StoneRegistry.of(dimension.getId()).itemGroup(RandomlyAddingAnything.RAA_DIMENSION_BLOCKS);
 
             Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension.getName()), Utils.addSuffixToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
-            stoneRegistry.raw(stoneBlock).slab().stairs().wall();
+            RegistryUtils.register(new StairsBaseBlock(stoneBlock.getDefaultState()), Utils.addSuffixToPath(identifier, "_stone_stairs"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneStairs");
+            RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier, "_stone_slab"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneSlab");
+            RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier, "_stone_wall"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneWall");
 
             Set<Biome> biomes = new LinkedHashSet<>();
             for (int i = 0; i < dimension.getBiomeData().size(); i++) {
@@ -389,7 +395,12 @@ public class Dimensions {
             Block stoneBrick = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBricks");
-            stoneRegistry.bricks(stoneBrick).brickStairs().brickSlab().brickWall();
+            RegistryUtils.register(new StairsBaseBlock(stoneBrick.getDefaultState()), Utils.addSuffixToPath(identifier, "_stone_brick_stairs"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBrickStairs");
+            RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier, "_stone_brick_slab"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBrickSlab");
+            RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier, "_stone_brick_wall"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBrickWall");
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "mossy_" + dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyStoneBricks");
@@ -399,13 +410,18 @@ public class Dimensions {
             Block cobblestone = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_cobblestone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestone");
-            stoneRegistry.cobblestone(cobblestone).cobblestoneSlab().cobblestoneStairs().cobblestoneWall();
+            RegistryUtils.register(new StairsBaseBlock(cobblestone.getDefaultState()), Utils.addSuffixToPath(identifier, "_cobblestone_stairs"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestoneStairs");
+            RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier, "_cobblestone_slab"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestoneSlab");
+            RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier, "_cobblestone_wall"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestoneWall");
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_mossy_cobblestone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyCobblestone");*/
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "chiseled_" + dimension.getName().toLowerCase()),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "chiseled");
+                            "chiseled_" + dimension.getName().toLowerCase() + "_stone_bricks"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "chiseled_stone_bricks");
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "cracked_chiseled_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedChiseled");
@@ -415,7 +431,12 @@ public class Dimensions {
             Block polished = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "polished_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polished");
-            stoneRegistry.polished(polished).polishedSlab().polishedStairs().polishedWall();
+            RegistryUtils.register(new StairsBaseBlock(polished.getDefaultState()), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stairs"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polishedStairs");
+            RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_slab"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polishedSlab");
+            RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_wall"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polishedWall");
 
             RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_ice"),
@@ -527,6 +548,31 @@ public class Dimensions {
         if (Rands.chance(2)) {
             int spawnSize = Rands.randIntRange(2, 3);
             list.put("witch", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
+        } else {
+            difficulty -= 2;
+        }
+
+        if (Rands.chance(10)) {
+            int spawnSize = Rands.randIntRange(2, 3);
+            list.put("blaze", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
+        } else {
+            difficulty -= 2;
+        }
+        if (Rands.chance(10)) {
+            int spawnSize = Rands.randIntRange(2, 3);
+            list.put("piglin", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
+        } else {
+            difficulty -= 2;
+        }
+        if (Rands.chance(10)) {
+            int spawnSize = Rands.randIntRange(2, 3);
+            list.put("zombified_piglin", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
+        } else {
+            difficulty -= 2;
+        }
+        if (Rands.chance(10)) {
+            int spawnSize = Rands.randIntRange(2, 3);
+            list.put("ghast", new int[]{Rands.randIntRange(1, 300), spawnSize, spawnSize});
         } else {
             difficulty -= 2;
         }

@@ -275,7 +275,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 ModelUtils.wall(clientResourcePackBuilder, cobblestoneWallId, dimensionData.getTexturesInformation().getCobblestoneTexture());
 
 
-                Identifier chiseledId = Utils.addPrefixToPath(identifier, "chiseled_");
+                Identifier chiseledId = Utils.addPrefixAndSuffixToPath(identifier, "chiseled_", "_stone_bricks");
                 clientResourcePackBuilder.addBlockState(chiseledId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())))
                 );
@@ -299,13 +299,13 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder -> modelBuilder.parent(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())));
 
 
-                Identifier polishedStairsId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stone_stairs");
+                Identifier polishedStairsId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stairs");
                 ModelUtils.stairs(clientResourcePackBuilder, polishedStairsId, dimensionData.getTexturesInformation().getPolishedTexture());
 
-                Identifier polishedSlabId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stone_slab");
+                Identifier polishedSlabId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_slab");
                 ModelUtils.slab(clientResourcePackBuilder, polishedSlabId, polishedId, dimensionData.getTexturesInformation().getPolishedTexture());
 
-                Identifier polishedWallId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stone_wall");
+                Identifier polishedWallId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_wall");
                 ModelUtils.wall(clientResourcePackBuilder, polishedWallId, dimensionData.getTexturesInformation().getPolishedTexture());
 
 
@@ -519,11 +519,11 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             Block cobblestoneStairs = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_cobblestone_stairs"));
             Block cobblestoneSlab = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_cobblestone_slab"));
             Block cobblestoneWall = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_cobblestone_wall"));
-            Block chiseled = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "chiseled_" + dimensionData.getId().getPath()));
+            Block chiseled = Registry.BLOCK.get(Utils.addPrefixAndSuffixToPath(dimensionData.getId(), "chiseled_", "_stone_bricks"));
             Block polished = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath()));
-            Block polishedStairs = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_stone_stairs"));
-            Block polishedSlab = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_stone_slab"));
-            Block polishedWall = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_stone_wall"));
+            Block polishedStairs = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_stairs"));
+            Block polishedSlab = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_slab"));
+            Block polishedWall = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_wall"));
 
             Block ice = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_ice"));
 

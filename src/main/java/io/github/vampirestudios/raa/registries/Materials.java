@@ -85,6 +85,7 @@ public class Materials {
                     .food(Rands.chance(4))
                     .compostbleAmount(Rands.randFloatRange(0.3F, 3.0F))
                     .compostable(Rands.chance(10))
+                    .beaconBase(Rands.chance(10))
                     .build();
 
             Registry.register(MATERIALS, id, material);
@@ -141,6 +142,7 @@ public class Materials {
                         .dimensionData(dimensionData)
                         .compostbleAmount(Rands.randFloatRange(0.3F, 3.0F))
                         .compostable(Rands.chance(10))
+                        .beaconBase(Rands.chance(10))
                         .build();
 
                 Registry.register(DIMENSION_MATERIALS, id, material);

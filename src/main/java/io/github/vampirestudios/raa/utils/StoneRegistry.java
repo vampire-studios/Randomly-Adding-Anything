@@ -210,7 +210,8 @@ public class StoneRegistry {
         }
 
         public StoneRegistry.Builder slab() {
-            this.stoneRegistry.slab = RegistryUtils.register(new SlabBaseBlock(Settings.copy(Blocks.STONE_SLAB)), new Identifier(this.name.getNamespace(), this.name.getPath() + "_stone_slab"), itemGroup);
+            this.stoneRegistry.slab = RegistryUtils.register(new SlabBaseBlock(Settings.copy(Blocks.STONE_SLAB)), new Identifier(this.name.getNamespace(),
+                    this.name.getPath() + "_stone_slab"), itemGroup);
             return this;
         }
 

@@ -27,10 +27,11 @@ public class Material {
     private boolean food;
     private float compostableAmount;
     private boolean compostable;
+    private boolean beaconBase;
 
     Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
              CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
-             MaterialFoodData materialFoodData, float compostableAmount, boolean compostable) {
+             MaterialFoodData materialFoodData, float compostableAmount, boolean compostable, boolean beaconBase) {
         this.oreInformation = oreInformation;
         this.id = id;
         this.name = name;
@@ -48,6 +49,7 @@ public class Material {
         this.foodData = materialFoodData;
         this.compostableAmount = compostableAmount;
         this.compostable = compostable;
+        this.beaconBase = beaconBase;
     }
 
     public OreInformation getOreInformation() {
@@ -123,6 +125,10 @@ public class Material {
         return compostable;
     }
 
+    public boolean isBeaconBase() {
+        return beaconBase;
+    }
+
     public static class Builder {
 
         private OreType oreType;
@@ -146,6 +152,7 @@ public class Material {
         private int miningLevel;
         private float compostableAmount;
         private boolean compostable;
+        private boolean beaconBase;
 
         protected Builder() {
             oreCount = Rands.randInt(19) + 1;
@@ -277,6 +284,11 @@ public class Material {
             return this;
         }
 
+        public Builder beaconBase(boolean beaconBase) {
+            this.beaconBase = beaconBase;
+            return this;
+        }
+
         public Material build() {
             if (id == null || name == null) {
                 throw new IllegalStateException("A Material must not have a null name or identifier");
@@ -354,7 +366,7 @@ public class Material {
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
             return new Material(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower,
-                    food, foodData, compostableAmount, compostable);
+                    food, foodData, compostableAmount, compostable, beaconBase);
         }
     }
 

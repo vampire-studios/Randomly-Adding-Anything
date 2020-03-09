@@ -16,9 +16,9 @@ public class DimensionMaterial extends Material {
 
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
                       CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
-                      DimensionData dimensionData, MaterialFoodData foodData, float compostbleAmount, boolean compostable) {
+                      DimensionData dimensionData, MaterialFoodData foodData, float compostbleAmount, boolean compostable, boolean beaconBase) {
         super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, foodData,
-                compostbleAmount, compostable);
+                compostbleAmount, compostable, beaconBase);
         this.dimensionData = dimensionData;
     }
 
@@ -50,6 +50,7 @@ public class DimensionMaterial extends Material {
         private DimensionData dimensionData;
         private float compostbleAmount;
         private boolean compostable;
+        private boolean beaconBase;
 
         protected Builder() {
             oreCount = Rands.randInt(19) + 1;
@@ -57,132 +58,137 @@ public class DimensionMaterial extends Material {
         }
 
         @Deprecated
-        public static io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder create() {
-            return new io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder();
+        public static Builder create() {
+            return new Builder();
         }
 
-        public static io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder create(Identifier id, String name) {
-            io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder builder = new io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder();
+        public static Builder create(Identifier id, String name) {
+            Builder builder = new Builder();
             builder.id = id;
             builder.name = name;
             return builder;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder oreCount(int oreCount) {
+        public Builder oreCount(int oreCount) {
             this.oreCount = oreCount;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder miningLevel(int miningLevel) {
+        public Builder miningLevel(int miningLevel) {
             this.miningLevel = miningLevel;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder id(Identifier id) {
+        public Builder id(Identifier id) {
             this.id = id;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder name(String name) {
+        public Builder name(String name) {
             this.name = name;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder oreType(OreType oreType) {
+        public Builder oreType(OreType oreType) {
             this.oreType = oreType;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder color(int RGB) {
+        public Builder color(int RGB) {
             this.RGB = RGB;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder compostbleAmount(float compostbleAmount) {
+        public Builder compostbleAmount(float compostbleAmount) {
             this.compostbleAmount = compostbleAmount;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder compostable(boolean compostable) {
+        public Builder compostable(boolean compostable) {
             this.compostable = compostable;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder target(Identifier target) {
+        public Builder target(Identifier target) {
             this.generatesIn = target;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder armor(boolean armor) {
+        public Builder armor(boolean armor) {
             this.armor = armor;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder armor(CustomArmorMaterial armorMaterial) {
+        public Builder armor(CustomArmorMaterial armorMaterial) {
             this.armor = true;
             this.armorMaterial = armorMaterial;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder foodData(MaterialFoodData foodData) {
+        public Builder foodData(MaterialFoodData foodData) {
             this.foodData = foodData;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder tools(boolean tools) {
+        public Builder tools(boolean tools) {
             this.tools = tools;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder tools(CustomToolMaterial toolMaterial) {
+        public Builder tools(CustomToolMaterial toolMaterial) {
             this.tools = true;
             this.toolMaterial = toolMaterial;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder weapons(boolean weapons) {
+        public Builder weapons(boolean weapons) {
             this.weapons = weapons;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder weapons(CustomToolMaterial toolMaterial) {
+        public Builder weapons(CustomToolMaterial toolMaterial) {
             this.weapons = true;
             this.toolMaterial = toolMaterial;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder glowing(boolean glowing) {
+        public Builder glowing(boolean glowing) {
             this.glowing = glowing;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder oreFlower(boolean oreFlower) {
+        public Builder oreFlower(boolean oreFlower) {
             this.oreFlower = oreFlower;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder food(boolean food) {
+        public Builder food(boolean food) {
             this.food = food;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder minXPAmount(int minXPAmount) {
+        public Builder minXPAmount(int minXPAmount) {
             this.minXPAmount = minXPAmount;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder maxXPAmount(int maxXPAmount) {
+        public Builder maxXPAmount(int maxXPAmount) {
             this.maxXPAmount = maxXPAmount;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder oreClusterSize(int oreClusterSize) {
+        public Builder oreClusterSize(int oreClusterSize) {
             this.oreClusterSize = oreClusterSize;
             return this;
         }
 
-        public io.github.vampirestudios.raa.generation.materials.DimensionMaterial.Builder dimensionData(DimensionData dimensionData) {
+        public Builder dimensionData(DimensionData dimensionData) {
             this.dimensionData = dimensionData;
+            return this;
+        }
+
+        public Builder beaconBase(boolean beaconBase) {
+            this.beaconBase = beaconBase;
             return this;
         }
 
@@ -263,7 +269,7 @@ public class DimensionMaterial extends Material {
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
             return new DimensionMaterial(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing,
-                    oreFlower, food, dimensionData, foodData, compostbleAmount, compostable);
+                    oreFlower, food, dimensionData, foodData, compostbleAmount, compostable, beaconBase);
         }
     }
 
