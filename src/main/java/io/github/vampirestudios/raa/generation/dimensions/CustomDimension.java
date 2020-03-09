@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.api.EnvType;
@@ -45,11 +46,11 @@ public class CustomDimension extends Dimension {
 
     @Override
     public BlockPos getSpawningBlockInChunk(ChunkPos pos, boolean checkMobSpawnValidity) {
-        for (int int_1 = pos.getStartX(); int_1 <= pos.getEndX(); ++int_1) {
-            for (int int_2 = pos.getStartZ(); int_2 <= pos.getEndZ(); ++int_2) {
-                BlockPos blockPos_1 = this.getTopSpawningBlockPosition(int_1, int_2, checkMobSpawnValidity);
-                if (blockPos_1 != null) {
-                    return blockPos_1;
+        for (int startX = pos.getStartX(); startX <= pos.getEndX(); ++startX) {
+            for (int startZ = pos.getStartZ(); startZ <= pos.getEndZ(); ++startZ) {
+                BlockPos topSpawningBlockPosition = this.getTopSpawningBlockPosition(startX, startZ, checkMobSpawnValidity);
+                if (topSpawningBlockPosition != null) {
+                    return topSpawningBlockPosition;
                 }
             }
         }
@@ -58,28 +59,28 @@ public class CustomDimension extends Dimension {
 
     @Override
     public BlockPos getTopSpawningBlockPosition(int x, int z, boolean checkMobSpawnValidity) {
-        BlockPos.Mutable blockPos$Mutable_1 = new BlockPos.Mutable(x, 0, z);
-        Biome biome_1 = this.world.getBiomeAccess().getBiome(blockPos$Mutable_1);
-        BlockState blockState_1 = biome_1.getSurfaceConfig().getTopMaterial();
-        if (checkMobSpawnValidity && !blockState_1.getBlock().isIn(BlockTags.VALID_SPAWN)) {
+        BlockPos.Mutable mutable = new BlockPos.Mutable(x, 0, z);
+        Biome biome = this.world.getBiomeAccess().getBiome(mutable);
+        BlockState topMaterial = biome.getSurfaceConfig().getTopMaterial();
+        if (checkMobSpawnValidity && !topMaterial.getBlock().isIn(BlockTags.VALID_SPAWN)) {
             return null;
         } else {
-            Chunk worldChunk_1 = this.world.getChunk(x >> 4, z >> 4);
-            int int_3 = worldChunk_1.sampleHeightmap(Heightmap.Type.MOTION_BLOCKING, x & 15, z & 15);
-            if (int_3 < 0) {
+            Chunk chunk = this.world.getChunk(x >> 4, z >> 4);
+            int heightmap = chunk.sampleHeightmap(Heightmap.Type.MOTION_BLOCKING, x & 15, z & 15);
+            if (heightmap < 0) {
                 return null;
-            } else if (worldChunk_1.sampleHeightmap(Heightmap.Type.WORLD_SURFACE, x & 15, z & 15) > worldChunk_1.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR, x & 15, z & 15)) {
+            } else if (chunk.sampleHeightmap(Heightmap.Type.WORLD_SURFACE, x & 15, z & 15) > chunk.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR, x & 15, z & 15)) {
                 return null;
             } else {
-                for (int int_4 = int_3 + 1; int_4 >= 0; --int_4) {
-                    blockPos$Mutable_1.set(x, int_4, z);
-                    BlockState blockState_2 = this.world.getBlockState(blockPos$Mutable_1);
-                    if (!blockState_2.getFluidState().isEmpty()) {
+                for (int i = heightmap + 1; i >= 0; --i) {
+                    mutable.set(x, i, z);
+                    BlockState blockState = this.world.getBlockState(mutable);
+                    if (!blockState.getFluidState().isEmpty()) {
                         break;
                     }
 
-                    if (blockState_2.equals(blockState_1)) {
-                        return blockPos$Mutable_1.up().toImmutable();
+                    if (blockState.equals(topMaterial)) {
+                        return mutable.up().toImmutable();
                     }
                 }
 
@@ -107,6 +108,18 @@ public class CustomDimension extends Dimension {
     @Override
     public boolean hasVisibleSky() {
         return dimensionData.hasSky();
+    }
+
+    @Override
+    public boolean hasGround() {
+        return !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.FLOATING) &&
+                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.LAYERED_FLOATING) &&
+                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.PRE_CLASSIC_FLOATING);
+    }
+
+    @Override
+    public float getCloudHeight() {
+        return dimensionData.getCloudHeight();
     }
 
     @Override

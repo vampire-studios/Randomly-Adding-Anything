@@ -1,6 +1,8 @@
 package io.github.vampirestudios.raa.generation.dimensions.data;
 
+import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 import java.util.List;
 
@@ -25,11 +27,13 @@ public class DimensionBiomeData {
     private float towerChance;
     private boolean hasMushrooms;
     private boolean hasMossyRocks;
+    private Identifier surfaceBuilder;
+    private Identifier surfaceConfig;
 
     DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor,
                        int grassColor, int foliageColor, List<DimensionTreeData> treeData, float corruptedCratersChance, float nonCorruptedCratersChance,
                        boolean spawnsCratersInNonCorrupted, float largeSkeletonTreeChance, float campfireChance, float outpostChance, float towerChance,
-                       boolean hasMushrooms, boolean hasMossyRocks) {
+                       boolean hasMushrooms, boolean hasMossyRocks, Identifier surfaceBuilder, Identifier surfaceConfig) {
         this.id = id;
         this.biomeName = biomeName;
         this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
@@ -50,6 +54,8 @@ public class DimensionBiomeData {
         this.towerChance = towerChance;
         this.hasMushrooms = hasMushrooms;
         this.hasMossyRocks = hasMossyRocks;
+        this.surfaceBuilder = surfaceBuilder;
+        this.surfaceConfig = surfaceConfig;
     }
 
     public Identifier getId() {
@@ -168,6 +174,14 @@ public class DimensionBiomeData {
         return hasMossyRocks;
     }
 
+    public Identifier getSurfaceBuilder() {
+        return surfaceBuilder;
+    }
+
+    public TernarySurfaceConfig getSurfaceConfig() {
+        return Utils.fromIdentifierToConfig(surfaceConfig);
+    }
+
     public static class Builder {
         private Identifier id;
         private String name;
@@ -189,6 +203,8 @@ public class DimensionBiomeData {
         private float towerChance;
         private boolean hasMushrooms;
         private boolean hasMossyRocks;
+        private Identifier surfaceBuilder;
+        private Identifier surfaceConfig;
 
         private Builder() {
 
@@ -261,10 +277,6 @@ public class DimensionBiomeData {
             return this;
         }
 
-        public DimensionBiomeData build() {
-            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor, treeData, corruptedCratersChance, nonCorruptedCratersChance, spawnsCratersInNonCorrupted, largeSkeletonTreeChance, campfireChance, outpostChance, towerChance, hasMushrooms, hasMossyRocks);
-        }
-
         public Builder hasMossyRocks(boolean hasMossyRocks) {
             this.hasMossyRocks = hasMossyRocks;
             return this;
@@ -308,6 +320,22 @@ public class DimensionBiomeData {
         public Builder corruptedCratersChance(float corruptedCratersChance) {
             this.corruptedCratersChance = corruptedCratersChance;
             return this;
+        }
+
+        public Builder surfaceBuilder(Identifier surfaceBuilder) {
+            this.surfaceBuilder = surfaceBuilder;
+            return this;
+        }
+
+        public Builder surfaceConfig(Identifier surfaceConfig) {
+            this.surfaceConfig = surfaceConfig;
+            return this;
+        }
+
+        public DimensionBiomeData build() {
+            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor, treeData,
+                    corruptedCratersChance, nonCorruptedCratersChance, spawnsCratersInNonCorrupted, largeSkeletonTreeChance, campfireChance, outpostChance,
+                    towerChance, hasMushrooms, hasMossyRocks, surfaceBuilder, surfaceConfig);
         }
     }
 }

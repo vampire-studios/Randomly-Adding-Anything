@@ -60,7 +60,7 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
         DecimalFormat df = new DecimalFormat("#.##");
         addItem(new ColorEntry("config.text.raa.color", material.getColor()));
         addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", material.getId().toString())));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.targetIdentifier", material.getOreInformation().getTargetId().toString())));
+//        addItem(new TextEntry(new TranslatableText("config.text.raa.targetIdentifier", material.getOreInformation().getTargetId().toString())));
         addItem(new TextEntry(new TranslatableText("config.text.raa.targetBlock", WordUtils.capitalizeFully(material.getOreInformation().getTargetId().getPath().replace("_", " ")))));
         if (material.hasTools()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.tools").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
@@ -85,16 +85,16 @@ public class RAAMaterialDescriptionListWidget extends DynamicElementListWidget<R
             addItem(new TextEntry(new TranslatableText("config.text.raa.bootsDurability", material.getArmorMaterial().getDurability(EquipmentSlot.FEET))));
             addItem(new TextEntry(new TranslatableText("config.text.raa.horseArmorBonus", material.getArmorMaterial().getHorseArmorBonus())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.equipmentSound", material.getArmorMaterial().getEquipSound().getId())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.repairItem", Utils.addSuffixToPath(material.getId(), material.getArmorMaterial().getOreType().getSuffix()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.repairItem", WordUtils.capitalizeFully(Utils.addSuffixToPath(material.getId(), material.getArmorMaterial().getOreType().getSuffix()).getPath().replace("_", " ")))));
             addItem(new TextEntry(new TranslatableText("config.text.raa.toughness", material.getArmorMaterial().getToughness())));
         }
         if (material.hasFood()) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.food").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
             addItem(new TextEntry(new TranslatableText("config.text.raa.hunger", material.getFoodData().getHunger())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.saturationModifier", material.getFoodData().getSaturationModifier())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.alwaysEdible", material.getFoodData().isAlwaysEdible())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.meat", material.getFoodData().isMeat())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.snack", material.getFoodData().isSnack())));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.alwaysEdible", material.getFoodData().isAlwaysEdible() ? "Yes": "No")));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.meat", material.getFoodData().isMeat() ? "Yes": "No")));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.snack", material.getFoodData().isSnack() ? "Yes": "No")));
         }
     }
 

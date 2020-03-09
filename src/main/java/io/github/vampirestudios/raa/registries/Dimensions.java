@@ -38,6 +38,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 import java.util.*;
 
@@ -170,8 +171,6 @@ public class Dimensions {
             if (scale > 1.6) difficulty++;
             Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
 
-            SurfaceBuilder<?> surfaceBuilder = Utils.newRandomSurfaceBuilder();
-
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
                     .hasSkyLight(Rands.chance(1))
                     .hasSky(!Rands.chance(2))
@@ -183,8 +182,7 @@ public class Dimensions {
                     .difficulty(difficultyAndMobs.getLeft())
                     .mobs(difficultyAndMobs.getRight())
                     .civilizationInfluences(dimension.getCivilizationInfluences())
-                    .surfaceBuilder(Rands.randInt(100))
-                    .newSurfaceBuilder(Registry.SURFACE_BUILDER.getId(surfaceBuilder));
+                    .cloudHeight(Rands.randFloatRange(80F, 256F));
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
@@ -203,12 +201,12 @@ public class Dimensions {
 
             //TODO: make proper number generation
 
-            for (int i = 0; i < Rands.randIntRange(1, 12); i++) {
+            for (int i = 0; i < Rands.randIntRange(1, 20); i++) {
                 float grassColor = hue + Rands.randFloatRange(-0.15f, 0.15f);
                 List<DimensionTreeData> treeDataList = new ArrayList<>();
 
-                int treeAmount = Rands.randIntRange(1, 5);
-                if (Utils.checkBitFlag(flags, Utils.LUSH)) treeAmount = 8;
+                int treeAmount = Rands.randIntRange(1, 8);
+                if (Utils.checkBitFlag(flags, Utils.LUSH)) treeAmount = 11;
                 for (int j = 0; j < treeAmount; j++) {
                     DimensionTreeData treeData = DimensionTreeData.Builder.create()
                             .woodType(Rands.list(Arrays.asList(DimensionWoodType.values())))
@@ -226,6 +224,10 @@ public class Dimensions {
                             .build();
                     treeDataList.add(treeData);
                 }
+
+                SurfaceBuilder<?> surfaceBuilder = Utils.newRandomSurfaceBuilder();
+                TernarySurfaceConfig surfaceConfig = Utils.randomSurfaceBuilderConfig();
+
                 DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.addSuffixToPath(name.getRight(), "_biome" + "_" + i), name.getLeft())
                         .surfaceBuilderVariantChance(Rands.randInt(100))
                         .depth(Rands.randFloatRange(-1F, 3F))
@@ -243,6 +245,10 @@ public class Dimensions {
                         .towerChance(Rands.randFloatRange(0.001F, 0.0015F))
                         .hasMushrooms(Rands.chance(6))
                         .hasMossyRocks(Rands.chance(8))
+                        .nonCorruptedCratersChance(Rands.randFloatRange(0, 0.05F))
+                        .corruptedCratersChance(Rands.randFloatRange(0, 0.05F))
+                        .surfaceBuilder(Registry.SURFACE_BUILDER.getId(surfaceBuilder))
+                        .surfaceConfig(Utils.fromConfigToIdentifier(surfaceConfig))
                         .build();
                 builder.biome(biomeData);
             }

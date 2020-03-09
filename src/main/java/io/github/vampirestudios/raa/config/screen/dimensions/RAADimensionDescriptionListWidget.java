@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.config.screen.dimensions;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionColorPalette;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -49,10 +50,6 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         return super.addItem(item);
     }
 
-    public void clearItemsPublic() {
-        clearItems();
-    }
-
     public void addMaterial(DimensionListScreen og, DimensionData dimensionData) {
         this.data = dimensionData;
         clearItems();
@@ -77,7 +74,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
 
         addItem(new TitleEntry(new TranslatableText("config.title.raa.advancedInformation").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         addItem(new TextEntry(new TranslatableText("config.text.raa.chunkGenerator", WordUtils.capitalizeFully(dimensionData.getDimensionChunkGenerator().toString().replace("_", " ").toLowerCase()))));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.surfaceBuilder", WordUtils.capitalizeFully(dimensionData.getNewSurfaceBuilder().getPath().replace("_", " ").toLowerCase()))));
+//        addItem(new TextEntry(new TranslatableText("config.text.raa.surfaceBuilder", WordUtils.capitalizeFully(dimensionData.getNewSurfaceBuilder().getPath().replace("_", " ").toLowerCase()))));
 
         if (dimensionData.getFlags() != 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
@@ -121,6 +118,10 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         addItem(new ColorEntry("config.text.raa.foliageColor", colorPalette.getFoliageColor()));
         addItem(new ColorEntry("config.text.raa.stoneColor", colorPalette.getStoneColor()));
         addItem(new ColorEntry("config.text.raa.waterColor", dimensionData.getBiomeData().get(0).getWaterColor()));
+
+        for (DimensionBiomeData biomeData : dimensionData.getBiomeData()) {
+
+        }
     }
 
     public static class ColorEntry extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
@@ -246,22 +247,22 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                             .build()
             );
             // TODO Fix this
-//            if (material.hasSky()) {
-//                category.addEntry(
-//                        eb.startStrField("config.field.raa.skyColor", Integer.toHexString(material.getDimensionColorPalette().getSkyColor()).replaceFirst("ff", ""))
-//                                .setDefaultValue(Integer.toHexString(material.getDimensionColorPalette().getSkyColor()).replaceFirst("ff", ""))
-//                                .setSaveConsumer(str -> material.getDimensionColorPalette().setSkyColor(Integer.decode("0x" + str)))
-//                                .setErrorSupplier(str -> {
-//                                    try {
-//                                        Integer.decode("0x" + str);
-//                                        return Optional.empty();
-//                                    } catch (Exception e) {
-//                                        return Optional.of(I18n.translate("config.error.raa.invalid.color"));
-//                                    }
-//                                })
-//                                .build()
-//                );
-//            }
+            if (material.hasSky()) {
+                category.addEntry(
+                        eb.startStrField("config.field.raa.skyColor", Integer.toHexString(material.getDimensionColorPalette().getSkyColor()).replaceFirst("ff", ""))
+                                .setDefaultValue(Integer.toHexString(material.getDimensionColorPalette().getSkyColor()).replaceFirst("ff", ""))
+                                .setSaveConsumer(str -> material.getDimensionColorPalette().setSkyColor(Integer.decode("0x" + str)))
+                                .setErrorSupplier(str -> {
+                                    try {
+                                        Integer.decode("0x" + str);
+                                        return Optional.empty();
+                                    } catch (Exception e) {
+                                        return Optional.of(I18n.translate("config.error.raa.invalid.color"));
+                                    }
+                                })
+                                .build()
+                );
+            }
             category.addEntry(
                     eb.startBooleanToggle("config.field.raa.canSleep", material.canSleep())
                             .setDefaultValue(material.canSleep())

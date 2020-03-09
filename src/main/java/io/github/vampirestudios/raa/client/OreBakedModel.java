@@ -51,7 +51,7 @@ public class OreBakedModel extends RAABakedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        RenderMaterial mat = renderer.materialFinder().disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, true).find();
+        RenderMaterial mat = renderer.materialFinder().blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, true).disableAo(0, false).find();
         int color = 0xFFFFFFFF;
         Sprite sprite;
         if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
@@ -65,9 +65,9 @@ public class OreBakedModel extends RAABakedModel {
         this.renderBase(emitter, mat, sprite, renderer, blockView, pos, color);
 
         if (material.isGlowing()) {
-            mat = renderer.materialFinder().disableDiffuse(0, true).disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).emissive(0, true).find();
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).emissive(0, true).find();
         } else {
-            mat = renderer.materialFinder().disableDiffuse(0, true).disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
         }
         color = material.getColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());
@@ -107,7 +107,7 @@ public class OreBakedModel extends RAABakedModel {
                     .spriteColor(0, color, color, color, color)
                     .spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV + MutableQuadView.BAKE_FLIP_U).emit();
         } else if (material.getOreInformation().getTargetId().toString().equals(CustomTargets.GRASS_BLOCK.getId().toString())) {
-            mat = renderer.materialFinder().disableDiffuse(0, true).disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
             Sprite sideSprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/grass_block_side"));
             Sprite sideOverlaySprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).
                     apply(new Identifier("block/grass_block_side_overlay"));

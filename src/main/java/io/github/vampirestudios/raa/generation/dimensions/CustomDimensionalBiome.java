@@ -42,7 +42,7 @@ public class CustomDimensionalBiome extends Biome {
 
     public CustomDimensionalBiome(DimensionData dimensionData, DimensionBiomeData biomeData) {
         super((new Settings()
-                .configureSurfaceBuilder((SurfaceBuilder< TernarySurfaceConfig>) Registry.SURFACE_BUILDER.get(dimensionData.getNewSurfaceBuilder()), SurfaceBuilder.GRASS_CONFIG)
+                .configureSurfaceBuilder((SurfaceBuilder< TernarySurfaceConfig>) Registry.SURFACE_BUILDER.get(biomeData.getSurfaceBuilder()), biomeData.getSurfaceConfig())
                 .precipitation(Utils.checkBitFlag(dimensionData.getFlags(), Utils.FROZEN) ? Precipitation.SNOW : Rands.chance(10) ? Precipitation.RAIN : Precipitation.NONE)
                 .category(Category.PLAINS)
                 .depth(biomeData.getDepth())
@@ -70,7 +70,7 @@ public class CustomDimensionalBiome extends Biome {
 
         DefaultBiomeFeatures.addDefaultLakes(this);
         DefaultBiomeFeatures.addDungeons(this);
-        if (Utils.randomSurfaceBuilder(dimensionData.getSurfaceBuilder(), dimensionData) == SurfaceBuilders.HYPER_FLAT) {
+        if (Registry.SURFACE_BUILDER.get(biomeData.getSurfaceBuilder()) == SurfaceBuilders.HYPER_FLAT) {
             DefaultBiomeFeatures.addMoreSeagrass(this);
             DefaultBiomeFeatures.addKelp(this);
         }
@@ -93,15 +93,6 @@ public class CustomDimensionalBiome extends Biome {
                                             config
                                     ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, treeData.getChance(), 1))));
                 } else {
-                    BranchedTreeFeatureConfig config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState()),
-                            getFoliagePlacer(treeData))
-                            .baseHeight(Rands.randIntRange(1, 6)) //
-                            .heightRandA(treeData.getBaseHeight()) //trunk height
-                            .foliageHeight(treeData.getFoliageHeight()) //foliage amount
-                            .foliageHeightRandom(treeData.getFoliageHeightRandom()) //random foliage offset
-                            .trunkHeight(0)
-                            .noVines()
-                            .build());
                     BranchedTreeFeatureConfig config1 = getTreeConfig(treeData);
                     this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
                             getNormalTree(treeData.getTreeType())

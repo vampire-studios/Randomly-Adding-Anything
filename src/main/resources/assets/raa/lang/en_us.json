@@ -68,7 +68,7 @@
   "config.text.raa.toughness": "§7Toughness: §f%s",
 
   "config.title.raa.food": "Food",
-  "config.text.raa.hunger": "§7Hunuger: §f%s",
+  "config.text.raa.hunger": "§7Hunger: §f%s",
   "config.text.raa.saturationModifier": "§7Saturation Modifier: §f%s",
   "config.text.raa.alwaysEdible": "§7Is always edible?: §f%s",
   "config.text.raa.meat": "§7Is meat?: §f%s",
