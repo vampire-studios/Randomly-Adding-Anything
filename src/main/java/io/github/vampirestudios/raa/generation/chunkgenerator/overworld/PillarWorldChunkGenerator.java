@@ -1,10 +1,10 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
+import io.github.vampirestudios.raa.utils.noise.old.OctaveOpenSimplexNoise;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.noise.OctaveSimplexNoiseSampler;
 import net.minecraft.village.ZombieSiegeManager;
 import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.IWorld;
@@ -20,7 +20,6 @@ import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
     private final PhantomSpawner phantomSpawner = new PhantomSpawner();
@@ -28,21 +27,21 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
     private final CatSpawner catSpawner = new CatSpawner();
     private final ZombieSiegeManager zombieSiegeManager = new ZombieSiegeManager();
 
-    private final OctaveSimplexNoiseSampler simplexNoise;
+    private final OctaveOpenSimplexNoise simplexNoise;
 
-    public PillarWorldChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
-        super(iWorld_1, biomeSource_1, 8, 4, 256, overworldChunkGeneratorConfig_1, true);
+    public PillarWorldChunkGenerator(IWorld iWorld, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
+        super(iWorld, biomeSource, 8, 4, 256, config, false);
         this.random.consume(2620);
-        this.simplexNoise = new OctaveSimplexNoiseSampler(this.random, IntStream.of(4, 0));
+        this.simplexNoise = new OctaveOpenSimplexNoise(this.random, 4, 1024.0D, 384.0D, -128.0D);
     }
 
-    public void populateEntities(ChunkRegion chunkRegion_1) {
-        int int_1 = chunkRegion_1.getCenterChunkX();
-        int int_2 = chunkRegion_1.getCenterChunkZ();
-        Biome biome_1 = chunkRegion_1.getBiome((new ChunkPos(int_1, int_2)).getCenterBlockPos());
-        ChunkRandom chunkRandom_1 = new ChunkRandom();
-        chunkRandom_1.setPopulationSeed(chunkRegion_1.getSeed(), int_1 << 4, int_2 << 4);
-        SpawnHelper.populateEntities(chunkRegion_1, biome_1, int_1, int_2, chunkRandom_1);
+    public void populateEntities(ChunkRegion region) {
+        int centerChunkX = region.getCenterChunkX();
+        int centerChunkZ = region.getCenterChunkZ();
+        Biome biome = region.getBiome((new ChunkPos(centerChunkX, centerChunkZ)).getCenterBlockPos());
+        ChunkRandom chunkRandom = new ChunkRandom();
+        chunkRandom.setPopulationSeed(region.getSeed(), centerChunkX << 4, centerChunkZ << 4);
+        SpawnHelper.populateEntities(region, biome, centerChunkX, centerChunkZ, chunkRandom);
     }
 
     protected void sampleNoiseColumn(double[] doubles_1, int int_1, int int_2) {
@@ -59,10 +58,10 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
     }
 
     protected double[] computeNoiseRange(int x, int z) {
-        double[] doubles_1 = new double[2];
-        doubles_1[0] = simplexNoise.sample(x, z, false) * 128;
-        doubles_1[1] = simplexNoise.sample(z, x, false) * 128;
-        return doubles_1;
+        double[] doubles = new double[2];
+        doubles[0] = simplexNoise.sample(x, z) * 128;
+        doubles[1] = simplexNoise.sample(z, x) * 128;
+        return doubles;
     }
 
     public List<Biome.SpawnEntry> getEntitySpawnList(EntityCategory entityCategory_1, BlockPos blockPos_1) {
