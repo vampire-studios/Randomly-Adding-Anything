@@ -27,11 +27,10 @@ public class DimensionData {
     private HashMap<String, Double> civilizationInfluences;
     private int toolDurability;
     private float cloudHeight;
-    private float dimensionStoneJumpHeight;
 
     public DimensionData(Identifier id, String name, int dimensionId, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
                          boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags,
-                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int toolDurability, float cloudHeight, float dimensionStoneJumpHeight) {
+                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int toolDurability, float cloudHeight) {
         this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
@@ -50,7 +49,6 @@ public class DimensionData {
         this.civilizationInfluences = civilizationInfluences;
         this.toolDurability = toolDurability;
         this.cloudHeight = cloudHeight;
-        this.dimensionStoneJumpHeight = dimensionStoneJumpHeight;
     }
 
     public Identifier getId() {
@@ -158,10 +156,6 @@ public class DimensionData {
         return cloudHeight;
     }
 
-    public float getDimensionStoneJumpHeight() {
-        return dimensionStoneJumpHeight;
-    }
-
     public static class Builder {
         HashMap<String, int[]> mobs;
         private Identifier id;
@@ -181,7 +175,6 @@ public class DimensionData {
         private HashMap<String, Double> civilizationInfluences;
         private int toolDurability;
         private float cloudHeight;
-        private float dimensionStoneJumpHeight;
 
         private Builder() {
 
@@ -294,14 +287,9 @@ public class DimensionData {
             return this;
         }
 
-        public Builder dimensionStoneJumpHeight(float dimensionStoneJumpHeight) {
-            this.dimensionStoneJumpHeight = dimensionStoneJumpHeight;
-            return this;
-        }
-
         public DimensionData build() {
             return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, texturesInformation, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog,
-                    dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, toolDurability, cloudHeight, dimensionStoneJumpHeight);
+                    dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, toolDurability, cloudHeight);
         }
     }
 }

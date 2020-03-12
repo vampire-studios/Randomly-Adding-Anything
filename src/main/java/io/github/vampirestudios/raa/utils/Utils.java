@@ -119,7 +119,7 @@ public class Utils {
 
     public static SurfaceBuilder<?> newRandomSurfaceBuilder() {
         Map<String, SurfaceBuilder<?>> surfaceBuilders = new HashMap<>();
-//        surfaceBuilders.put("raa:hyper_flat", DimensionSurfaceBuilders.HYPER_FLAT.getSurfaceBuilder());
+        surfaceBuilders.put("raa:hyper_flat", DimensionSurfaceBuilders.HYPER_FLAT.getSurfaceBuilder());
         surfaceBuilders.put("raa:patchy_desert", DimensionSurfaceBuilders.PATCHY_DESERT.getSurfaceBuilder());
         surfaceBuilders.put("raa:dark_patchy_badlands", DimensionSurfaceBuilders.DARK_PATCHY_BADLANDS.getSurfaceBuilder());
         surfaceBuilders.put("raa:patchy_badlands", DimensionSurfaceBuilders.PATCHY_BADLANDS.getSurfaceBuilder());
@@ -128,7 +128,7 @@ public class Utils {
         surfaceBuilders.put("raa:floating_islands", DimensionSurfaceBuilders.FLOATING_ISLANDS.getSurfaceBuilder());
         surfaceBuilders.put("raa:sandy_dunes", DimensionSurfaceBuilders.SANDY_DUNES.getSurfaceBuilder());
         surfaceBuilders.put("raa:dunes", DimensionSurfaceBuilders.DUNES.getSurfaceBuilder());
-//        surfaceBuilders.put("raa:lazy_noise", DimensionSurfaceBuilders.LAZY_NOISE.getSurfaceBuilder());
+        surfaceBuilders.put("raa:lazy_noise", DimensionSurfaceBuilders.LAZY_NOISE.getSurfaceBuilder());
         surfaceBuilders.put("minecraft:default", SurfaceBuilder.DEFAULT);
         return Rands.map(surfaceBuilders).getValue();
     }

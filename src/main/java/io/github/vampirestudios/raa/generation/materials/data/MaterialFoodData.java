@@ -1,8 +1,5 @@
 package io.github.vampirestudios.raa.generation.materials.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MaterialFoodData {
 
     private int hunger;
@@ -10,9 +7,8 @@ public class MaterialFoodData {
     private boolean meat;
     private boolean alwaysEdible;
     private boolean snack;
-    private List<MaterialFoodEffectData> effects = new ArrayList<>();
 
-    public MaterialFoodData(int hunger, float saturationModifier, boolean meat, boolean alwaysEdible, boolean snack, List<MaterialFoodEffectData> effects) {
+    public MaterialFoodData(int hunger, float saturationModifier, boolean meat, boolean alwaysEdible, boolean snack) {
         this.hunger = hunger;
         this.saturationModifier = saturationModifier;
         this.meat = meat;
@@ -40,10 +36,6 @@ public class MaterialFoodData {
         return snack;
     }
 
-    public List<MaterialFoodEffectData> getEffects() {
-        return effects;
-    }
-
     public static class Builder {
 
         private int hunger;
@@ -51,7 +43,6 @@ public class MaterialFoodData {
         private boolean meat;
         private boolean alwaysEdible;
         private boolean snack;
-        private List<MaterialFoodEffectData> effects;
 
         public static Builder create() {
             return new Builder();
@@ -82,13 +73,8 @@ public class MaterialFoodData {
             return this;
         }
 
-        public Builder effects(List<MaterialFoodEffectData> effects) {
-            this.effects = effects;
-            return this;
-        }
-
         public MaterialFoodData build() {
-            return new MaterialFoodData(hunger, saturationModifier, meat, alwaysEdible, snack, effects);
+            return new MaterialFoodData(hunger, saturationModifier, meat, alwaysEdible, snack);
         }
 
     }
