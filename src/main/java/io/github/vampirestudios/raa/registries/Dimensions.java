@@ -184,7 +184,8 @@ public class Dimensions {
                     .difficulty(difficultyAndMobs.getLeft())
                     .mobs(difficultyAndMobs.getRight())
                     .civilizationInfluences(dimension.getCivilizationInfluences())
-                    .cloudHeight(Rands.randFloatRange(80F, 256F));
+                    .cloudHeight(Rands.randFloatRange(80F, 256F))
+                    .dimensionStoneJumpHeight(Rands.randFloatRange(1F, 3.5F));
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
@@ -277,7 +278,7 @@ public class Dimensions {
         DIMENSIONS.forEach(dimension -> {
             Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
 
-            Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension.getName()), Utils.addSuffixToPath(identifier, "_stone"),
+            Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension), Utils.addSuffixToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
             RegistryUtils.register(new StairsBaseBlock(stoneBlock.getDefaultState()), Utils.addSuffixToPath(identifier, "_stone_stairs"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneStairs");

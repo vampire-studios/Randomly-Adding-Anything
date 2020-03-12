@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.registries;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.enums.OreType;
@@ -10,6 +12,7 @@ import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.MaterialFoodData;
+import io.github.vampirestudios.raa.generation.materials.data.MaterialFoodEffectData;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -24,6 +27,7 @@ import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.predicate.block.BlockPredicate;
@@ -31,10 +35,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Materials {
     public static final Set<Identifier> MATERIAL_IDS = new HashSet<>();
@@ -114,12 +115,29 @@ public class Materials {
                 } while (DIMENSION_MATERIAL_IDS.contains(id));
                 DIMENSION_MATERIAL_IDS.add(id);
 
+                List<MaterialFoodEffectData> foodEffectData = new ArrayList<>();
+
+                List<Identifier> effects = Lists.newArrayList(Registry.STATUS_EFFECT.getIds().iterator());
+
+                for (int i = 0; i < Rands.randIntRange(1, 10); i++) {
+                    MaterialFoodEffectData foodEffectData1 = MaterialFoodEffectData.Builder.create()
+                            .effectName(Rands.list(effects).toString())
+                            .duration(Rands.randIntRange(1, 20))
+                            .amplifier(Rands.randIntRange(1, 2))
+                            .ambient(Rands.chance(10))
+                            .shouldShowIcon(false)
+                            .shouldShowParticles(false)
+                            .build();
+                    foodEffectData.add(foodEffectData1);
+                }
+
                 MaterialFoodData materialFoodData = MaterialFoodData.Builder.create()
                         .alwaysEdible(Rands.chance(10))
                         .hunger(Rands.randIntRange(4, 30))
                         .meat(Rands.chance(5))
                         .saturationModifier(Rands.randFloatRange(1.0F, 4.0F))
                         .snack(Rands.chance(10))
+                        .effects(foodEffectData)
                         .build();
 
                 Identifier stoneName = Utils.addSuffixToPath(dimensionData.getId(), "_stone");
@@ -355,6 +373,19 @@ public class Materials {
                 if (material.getFoodData().isSnack()) foodComponent.snack();
                 foodComponent.hunger(material.getFoodData().getHunger());
                 foodComponent.saturationModifier(material.getFoodData().getSaturationModifier());
+                for (MaterialFoodEffectData foodEffectData : material.getFoodData().getEffects()) {
+                    foodComponent.statusEffect(
+                            new StatusEffectInstance(
+                                    Registry.STATUS_EFFECT.get(new Identifier(foodEffectData.getEffectName())),
+                                    foodEffectData.getDuration(),
+                                    foodEffectData.getAmplifier(),
+                                    foodEffectData.isAmbient(),
+                                    foodEffectData.isShouldShowParticles(),
+                                    foodEffectData.isShouldShowIcon()
+                            ),
+                            foodEffectData.getChance()
+                    );
+                }
 
                 Item item = RegistryUtils.registerItem(
                         new RAAFoodItem(
