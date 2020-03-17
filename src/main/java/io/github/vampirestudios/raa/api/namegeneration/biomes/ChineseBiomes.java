@@ -6,27 +6,29 @@ import io.github.vampirestudios.raa.utils.Utils;
 import java.util.*;
 
 public class ChineseBiomes implements INameGenerator {
-    public static final String[] LATIN_PREFIXES = {
+    public static final String[] PREFIXES = {
             "源", "高", "全", "古", "冠", "典", "捷", "康", "立", "缺", "牙", "反", "又", "自", "出",
             "兼", "使", "下", "内", "或", "近", "美", "否", "布", "阻", "公", "通", "延", "前", "多",
             "加", "尼", "巡", "重", "洪", "朋", "瑟", "塞", "森", "星", "索", "子", "秘", "超", "天",
             "路", "川", "兆", "吉", "外", "托"
     };
 
-    public static final String[] MIDDLES = {
+    public static final String[] SUFFIXES = {
             "奧", "阿姆", "安", "比", "博", "卡", "括", "德", "良", "依", "恩", "佛", "伽", "因", "卡利",
             "里", "洛", "拉", "米", "抹", "孟", "捺", "乃", "挪", "昵", "沃", "歐姆", "玻", "任", "柔", "瑞",
             "西克", "西", "坦", "拓", "三", "四", "武", "西", "兹"
     };
 
-    public static Map<String, String> prefixMap = new HashMap<>(50);
-    public static Map<String, String> middleMap = new HashMap<>(39);
+    public static final String[] MIDDLES = {
+    		"阿", "伊", "偶", "厄", "巴", "茨", "滋", "伺", "置", "蚩", "什", "珀", "摩", "珐", "迪",
+    		"挞", "嚢", "喇", "咕", "喀", "吽", "己", "琦", "希"
+    };
 
     public static void main(String[] args) {
         ChineseBiomes gen = new ChineseBiomes();
         Collection<String> generated = gen.generate(100);
 
-        System.out.println("Lowercase:" + generated);
+        System.out.println("Chinese:" + generated);
 
         //List<String> titleCased = new ArrayList<>();
         //for (String s : generated) {
@@ -37,103 +39,12 @@ public class ChineseBiomes implements INameGenerator {
     }
 
     public String generate() {
-        prefixMap.put("源", "ab");
-        prefixMap.put("高", "ad");
-        prefixMap.put("全", "ambi");
-        prefixMap.put("古", "ante");
-        prefixMap.put("冠", "circum");
-        prefixMap.put("典", "co");
-        prefixMap.put("接", "com");
-        prefixMap.put("康", "con");
-        prefixMap.put("立", "contra");
-        prefixMap.put("缺", "de");
-        prefixMap.put("牙", "den");
-        prefixMap.put("反", "dis");
-        prefixMap.put("又", "di");
-        prefixMap.put("自", "ex");
-        prefixMap.put("出", "extra");
-        prefixMap.put("兼", "in");
-        prefixMap.put("使", "en");
-        prefixMap.put("下", "infra");
-        prefixMap.put("内", "inter");
-        prefixMap.put("或", "intra");
-        prefixMap.put("近", "juxta");
-        prefixMap.put("美", "me");
-        prefixMap.put("否", "ne");
-        prefixMap.put("布", "non");
-        prefixMap.put("阻", "ob");
-        prefixMap.put("公", "ox");
-        prefixMap.put("通", "per");
-        prefixMap.put("延", "post");
-        prefixMap.put("前", "prae");
-        prefixMap.put("多", "preter");
-        prefixMap.put("加", "pro");
-        prefixMap.put("尼", "quasi");
-        prefixMap.put("巡", "ques");
-        prefixMap.put("重", "re");
-        prefixMap.put("洪", "red");
-        prefixMap.put("朋", "retro");
-        prefixMap.put("瑟", "se");
-        prefixMap.put("塞", "sed");
-        prefixMap.put("森", "sen");
-        prefixMap.put("星", "sin");
-        prefixMap.put("索", "sod");
-        prefixMap.put("子", "sub");
-        prefixMap.put("秘", "subter");
-        prefixMap.put("超", "super");
-        prefixMap.put("天", "supra");
-        prefixMap.put("路", "tran");
-        prefixMap.put("川", "trans");
-        prefixMap.put("兆", "ult");
-        prefixMap.put("吉", "ultra");
-        prefixMap.put("外", "out");
-        prefixMap.put("托", "outr");
-
-        middleMap.put("奧", "al");
-        middleMap.put("阿姆", "am");
-        middleMap.put("安", "an");
-        middleMap.put("比", "be");
-        middleMap.put("博", "bor");
-        middleMap.put("卡", "cal");
-        middleMap.put("括", "co");
-        middleMap.put("德", "de");
-        middleMap.put("良", "duo");
-        middleMap.put("依", "eth");
-        middleMap.put("恩", "en");
-        middleMap.put("佛", "for");
-        middleMap.put("伽", "gal");
-        middleMap.put("因", "in");
-        middleMap.put("卡利", "kary");
-        middleMap.put("里", "li");
-        middleMap.put("洛", "lo");
-        middleMap.put("拉", "la");
-        middleMap.put("米", "mi");
-        middleMap.put("抹", "ma");
-        middleMap.put("孟", "mun");
-        middleMap.put("捺", "nat");
-        middleMap.put("乃", "net");
-        middleMap.put("挪", "nor");
-        middleMap.put("昵", "nit");
-        middleMap.put("沃", "or");
-        middleMap.put("歐姆", "om");
-        middleMap.put("玻", "per");
-        middleMap.put("任", "rhen");
-        middleMap.put("柔", "rho");
-        middleMap.put("瑞", "ri");
-        middleMap.put("西克", "sic");
-        middleMap.put("西", "sit");
-        middleMap.put("坦", "tan");
-        middleMap.put("拓", "tor");
-        middleMap.put("三", "tri");
-        middleMap.put("四", "vi");
-        middleMap.put("武", "w");
-        middleMap.put("西", "x");
-        middleMap.put("兹", "z");
 
         Random rnd = new Random();
-        String prefix = LATIN_PREFIXES[rnd.nextInt(LATIN_PREFIXES.length)];
+        String prefix = PREFIXES[rnd.nextInt(PREFIXES.length)];
         String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
-        return combine(prefix, middle);
+        String suffix = SUFFIXES[rnd.nextInt(SUFFIXES.length)];
+        return combine(prefix, middle, suffix);
     }
 
     public Collection<String> generate(int count) {
@@ -146,38 +57,8 @@ public class ChineseBiomes implements INameGenerator {
         return result;
     }
 
-    public String combine(String a, String b) {
-        if (a.isEmpty() || b.isEmpty()) return a + b;
-
-        char bStart = middleMap.get(b).charAt(0);
-        char aEnd = prefixMap.get(a).charAt(a.length() - 1);
-        // if (bStart == aEnd) b = b.substring(1);
-        if (isConsonant(aEnd) && isConsonant(bStart)) {
-            return Utils.toTitleCase(a + fillConsonant(aEnd) + b);
-        }
-
-        return Utils.toTitleCase(a + b);
-    }
-
-    public boolean isConsonant(char ch) {
-        switch (ch) {
-            case 'a':
-            case 'e':
-            case 'i':
-            case 'o':
-            case 'u':
-            case 'y':
-                return false;
-            default:
-                return true;
-        }
-    }
-
-    public char fillConsonant(char src) {
-        if (src == 'd') {
-            return 'o';
-        }
-        return 'u';
+    public String combine(String a, String b, String c) {
+        return a + b + c;
     }
 
     @Override
@@ -273,7 +154,32 @@ public class ChineseBiomes implements INameGenerator {
         map.put("四", "vi");
         map.put("武", "w");
         map.put("西", "x");
-        map.put("兹", "z");        
+        map.put("兹", "z");
+        map.put("阿", "a");
+        map.put("伊", "i");
+        map.put("偶", "o");
+        map.put("厄", "e");
+        map.put("巴", "aba");
+        map.put("茨", "itsi");
+        map.put("滋", "izi");
+        map.put("伺", "isi");
+        map.put("置", "edge");
+        map.put("蚩", "ichi");
+        map.put("什", "ishi");
+        map.put("珀", "opo");
+        map.put("摩", "omo");
+        map.put("珐", "afa");
+        map.put("迪", "edi");
+        map.put("挞", "ata");
+        map.put("嚢", "ana");
+        map.put("喇", "ala");
+        map.put("咕", "ugu");
+        map.put("喀", "aka");
+        map.put("吽", "oho");
+        map.put("己", "izy");
+        map.put("琦", "itsi");
+        map.put("希", "isy");
+        return map;
     }
 
 }
