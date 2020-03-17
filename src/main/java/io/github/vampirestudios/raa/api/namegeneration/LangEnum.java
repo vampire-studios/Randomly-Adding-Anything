@@ -38,6 +38,12 @@ public enum LangEnum {
             new SpanishBiomes(),
             new SpanishDimensions(),
             new SpanishEntities()
+    ),
+    CHINESE(
+            new ChineseMaterials(),
+            new ChineseBiomes(),
+            new ChineseDimensions(),
+            new ChineseEntities()
     );
 
     private INameGenerator materialNameGenerator;
