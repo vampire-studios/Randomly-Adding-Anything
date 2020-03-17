@@ -18,6 +18,7 @@ import io.github.vampirestudios.raa.api.namegeneration.material.ChineseMaterials
 import io.github.vampirestudios.raa.api.namegeneration.material.EnglishMaterials;
 import io.github.vampirestudios.raa.api.namegeneration.material.FrenchMaterials;
 import io.github.vampirestudios.raa.api.namegeneration.material.SpanishMaterials;
+import org.apache.commons.lang3.text.WordUtils;
 
 public enum LangEnum {
     ENGLISH(
