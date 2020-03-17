@@ -15,7 +15,7 @@ public class ChineseBiomes implements INameGenerator {
 
     public static final String[] SUFFIXES = {
             "奧", "阿姆", "安", "比", "博", "卡", "括", "德", "良", "依", "恩", "佛", "伽", "因", "卡利",
-            "里", "洛", "拉", "米", "抹", "孟", "捺", "乃", "挪", "昵", "沃", "歐姆", "玻", "任", "柔", "瑞",
+            "里", "洛", "拉", "米", "抹", "孟", "捺", "乃", "挪", "昵", "沃", "歐", "玻", "任", "柔", "瑞",
             "西克", "西", "坦", "拓", "三", "四", "武", "西", "兹"
     };
 
@@ -29,13 +29,23 @@ public class ChineseBiomes implements INameGenerator {
         Collection<String> generated = gen.generate(100);
 
         System.out.println("Chinese:" + generated);
-
-        //List<String> titleCased = new ArrayList<>();
-        //for (String s : generated) {
-        //    titleCased.add(Utils.toTitleCase(s));
-        //}
-
-        //System.out.println("TitleCase:" + titleCased);
+        
+        List<String> generated_identifier = new ArrayList<>();
+        for (String s : generated) {
+        	String id = s;
+        	
+            ChineseBiomes biomes = new ChineseBiomes();
+            Map<String, String> specialCharacters = biomes.getSpecialCharactersMap();
+            if (specialCharacters != null) {
+                for (Map.Entry<String, String> specialCharacter : specialCharacters.entrySet()) {
+                    id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                }
+            }
+            id = id.toLowerCase(Locale.ENGLISH);
+            generated_identifier.add(id);
+            
+        }
+        System.out.println("Identifier:" + generated_identifier);
     }
 
     public String generate() {
@@ -116,7 +126,6 @@ public class ChineseBiomes implements INameGenerator {
         map.put("外", "out");
         map.put("托", "outr");
         map.put("奧", "al");
-        map.put("阿姆", "am");
         map.put("安", "an");
         map.put("比", "be");
         map.put("博", "bor");
@@ -129,7 +138,8 @@ public class ChineseBiomes implements INameGenerator {
         map.put("佛", "for");
         map.put("伽", "gal");
         map.put("因", "in");
-        map.put("卡利", "kary");
+        map.put("卡", "ka");
+        map.put("利", "ry");
         map.put("里", "li");
         map.put("洛", "lo");
         map.put("拉", "la");
@@ -141,12 +151,12 @@ public class ChineseBiomes implements INameGenerator {
         map.put("挪", "nor");
         map.put("昵", "nit");
         map.put("沃", "or");
-        map.put("歐姆", "om");
+        map.put("歐", "om");
         map.put("玻", "per");
         map.put("任", "rhen");
         map.put("柔", "rho");
         map.put("瑞", "ri");
-        map.put("西克", "sic");
+        map.put("克", "c");
         map.put("西", "sit");
         map.put("坦", "tan");
         map.put("拓", "tor");
@@ -179,6 +189,7 @@ public class ChineseBiomes implements INameGenerator {
         map.put("己", "izy");
         map.put("琦", "itsi");
         map.put("希", "isy");
+        map.put("姆", "um");
         return map;
     }
 

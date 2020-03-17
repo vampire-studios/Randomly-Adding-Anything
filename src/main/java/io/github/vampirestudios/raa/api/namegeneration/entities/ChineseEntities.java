@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.api.namegeneration.entities;
 
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+import io.github.vampirestudios.raa.api.namegeneration.biomes.ChineseBiomes;
 import io.github.vampirestudios.raa.utils.Utils;
 
 import java.util.*;
@@ -15,7 +16,7 @@ public class ChineseEntities implements INameGenerator {
 
     public static final String[] MIDDLES = {
             "奧", "阿姆", "安", "比", "博", "卡", "括", "德", "良", "依", "恩", "佛", "伽", "因", "卡利",
-            "里", "洛", "拉", "米", "抹", "孟", "捺", "乃", "挪", "昵", "沃", "歐姆", "玻", "任", "柔", "瑞",
+            "里", "洛", "拉", "米", "抹", "孟", "捺", "乃", "挪", "昵", "沃", "歐", "玻", "任", "柔", "瑞",
             "西克", "西", "坦", "拓", "三", "四", "武", "西", "兹"
     };
 
@@ -28,7 +29,24 @@ public class ChineseEntities implements INameGenerator {
         ChineseEntities gen = new ChineseEntities();
         Collection<String> generated = gen.generate(100);
 
-        System.out.println("Lowercase:" + generated);
+        System.out.println("Chinese:" + generated);
+        
+        List<String> generated_identifier = new ArrayList<>();
+        for (String s : generated) {
+        	String id = s;
+        	
+            ChineseBiomes biomes = new ChineseBiomes();
+            Map<String, String> specialCharacters = biomes.getSpecialCharactersMap();
+            if (specialCharacters != null) {
+                for (Map.Entry<String, String> specialCharacter : specialCharacters.entrySet()) {
+                    id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                }
+            }
+            id = id.toLowerCase(Locale.ENGLISH);
+            generated_identifier.add(id);
+            
+        }
+        System.out.println("Identifier:" + generated_identifier);
     }
 
     public String generate() {
