@@ -64,7 +64,7 @@ public class ChineseDimensions implements INameGenerator {
         map.put("古", "ante");
         map.put("冠", "circum");
         map.put("典", "co");
-        map.put("接", "com");
+        map.put("捷", "com");
         map.put("康", "con");
         map.put("立", "contra");
         map.put("缺", "de");
