@@ -3,6 +3,8 @@ package io.github.vampirestudios.raa.api.namegeneration.material;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class NorwegianMaterials implements INameGenerator {
 
@@ -15,5 +17,9 @@ public class NorwegianMaterials implements INameGenerator {
     public Map<String, String> getSpecialCharactersMap() {
         return null;
     }
-
+    
+    @Override
+    public SortedMap<String, String> getSpecialCharactersMapSorted() {
+        return new TreeMap<>();
+    }
 }

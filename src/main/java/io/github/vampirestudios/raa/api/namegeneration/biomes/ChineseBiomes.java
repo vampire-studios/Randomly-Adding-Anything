@@ -36,8 +36,14 @@ public class ChineseBiomes implements INameGenerator {
         	
             ChineseBiomes biomes = new ChineseBiomes();
             Map<String, String> specialCharacters = biomes.getSpecialCharactersMap();
+            SortedMap<String, String> specialCharactersSorted = biomes.getSpecialCharactersMapSorted();
             if (specialCharacters != null) {
                 for (Map.Entry<String, String> specialCharacter : specialCharacters.entrySet()) {
+                    id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                }
+            }
+            if (specialCharactersSorted != null) {
+                for (Map.Entry<String, String> specialCharacter : specialCharactersSorted.entrySet()) {
                     id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
                 }
             }
@@ -72,8 +78,18 @@ public class ChineseBiomes implements INameGenerator {
     }
 
     @Override
-    public Map<String, String> getSpecialCharactersMap() {
-        Map<String, String> map = new HashMap<>();
+    public SortedMap<String, String> getSpecialCharactersMapSorted() {
+        SortedMap<String, String> map = new TreeMap<>(new Comparator<String>() {
+        	public int compare(String a, String b) {
+        		if (a.equals(b)) {
+        			return 0;
+        		}
+        		if (a.length() == b.length()) {
+        			return -1;
+        		}
+        		return a.length() > b.length() ? -1 : 1;
+        	}
+        });
         map.put("源", "ab");
         map.put("高", "ad");
         map.put("全", "ambi");
@@ -193,4 +209,8 @@ public class ChineseBiomes implements INameGenerator {
         return map;
     }
 
+    @Override
+    public Map<String, String> getSpecialCharactersMap() {
+        return new HashMap<>();
+    }
 }

@@ -35,18 +35,27 @@ public class ChineseEntities implements INameGenerator {
         for (String s : generated) {
         	String id = s;
         	
-            ChineseBiomes biomes = new ChineseBiomes();
-            Map<String, String> specialCharacters = biomes.getSpecialCharactersMap();
+            ChineseEntities entities = new ChineseEntities();
+            Map<String, String> specialCharacters = entities.getSpecialCharactersMap();
+            SortedMap<String, String> specialCharactersSorted = entities.getSpecialCharactersMapSorted();
             if (specialCharacters != null) {
                 for (Map.Entry<String, String> specialCharacter : specialCharacters.entrySet()) {
                     id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
                 }
             }
+            if (specialCharactersSorted != null) {
+                for (Map.Entry<String, String> specialCharacter : specialCharactersSorted.entrySet()) {
+                    id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                }
+            }
             id = id.toLowerCase(Locale.ENGLISH);
             generated_identifier.add(id);
-            
         }
         System.out.println("Identifier:" + generated_identifier);
+        
+        String testVariable = "下坦伊克斯";
+        testVariable = testVariable.replace("伊克斯", "ix");
+        System.out.println(testVariable);
     }
 
     public String generate() {
@@ -92,8 +101,15 @@ public class ChineseEntities implements INameGenerator {
     }
 
     @Override
-    public Map<String, String> getSpecialCharactersMap() {
-        Map<String, String> map = new HashMap<>();
+    public SortedMap<String, String> getSpecialCharactersMapSorted() {
+        SortedMap<String, String> map = new TreeMap<>(new Comparator<String>() {
+        	public int compare(String a, String b) {
+        		if (a.length() == b.length()) {
+        			return 0;
+        		}
+        		return a.length() > b.length() ? 1 : -1;
+        	}
+        });
         map.put("源", "ab");
         map.put("高", "ad");
         map.put("全", "ambi");
@@ -225,9 +241,12 @@ public class ChineseEntities implements INameGenerator {
         map.put("尹", "yn");
         map.put("艾素", "ice");
         map.put("克斯", "ixe");
-        map.put("艾司", "ise");
+        map.put("埃司", "ise");
         map.put("素", "ium");
         return map;
     }
-
+    @Override
+    public Map<String, String> getSpecialCharactersMap() {
+        return new HashMap<>();
+    }
 }

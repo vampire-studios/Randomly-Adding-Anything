@@ -34,11 +34,18 @@ public class ChineseMaterials implements INameGenerator {
         for (String s : generated) {
         	String id = s;
         	
-            ChineseBiomes biomes = new ChineseBiomes();
-            Map<String, String> specialCharacters = biomes.getSpecialCharactersMap();
+            ChineseMaterials materials = new ChineseMaterials();
+            Map<String, String> specialCharacters = materials.getSpecialCharactersMap();
+            SortedMap<String, String> specialCharactersSorted = materials.getSpecialCharactersMapSorted();
             if (specialCharacters != null) {
                 for (Map.Entry<String, String> specialCharacter : specialCharacters.entrySet()) {
                     id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                }
+            }
+            if (specialCharactersSorted != null) {
+                for (Map.Entry<String, String> specialCharacter : specialCharactersSorted.entrySet()) {
+                    id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                    System.out.println(id+","+specialCharacter.getKey()+","+specialCharacter.getValue());
                 }
             }
             id = id.toLowerCase(Locale.ENGLISH);
@@ -91,8 +98,18 @@ public class ChineseMaterials implements INameGenerator {
     }
 
     @Override
-    public Map<String, String> getSpecialCharactersMap() {
-        Map<String, String> map = new HashMap<>();
+    public SortedMap<String, String> getSpecialCharactersMapSorted() {
+        SortedMap<String, String> map = new TreeMap<>(new Comparator<String>() {
+        	public int compare(String a, String b) {
+        		if (a.equals(b)) {
+        			return 0;
+        		}
+        		if (a.length() == b.length()) {
+        			return -1;
+        		}
+        		return a.length() > b.length() ? -1 : 1;
+        	}
+        });
         map.put("源", "ab");
         map.put("高", "ad");
         map.put("全", "ambi");
@@ -224,10 +241,12 @@ public class ChineseMaterials implements INameGenerator {
         map.put("尹", "yn");
         map.put("艾素", "ice");
         map.put("克斯", "ixe");
-        map.put("艾司", "ise");
+        map.put("埃司", "ise");
         map.put("素", "ium");
         return map;
     }
-
-
+    @Override
+    public Map<String, String> getSpecialCharactersMap() {
+        return new HashMap<>();
+    }
 }
