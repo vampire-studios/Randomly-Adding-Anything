@@ -34,7 +34,6 @@ public class ChineseDimensions implements INameGenerator {
         List<String> generated_identifier = new ArrayList<>();
         for (String s : generated) {
         	String id = s;
-        	
             ChineseDimensions dimensions = new ChineseDimensions();
             Map<String, String> specialCharacters = dimensions.getSpecialCharactersMap();
             SortedMap<String, String> specialCharactersSorted = dimensions.getSpecialCharactersMapSorted();
@@ -50,7 +49,6 @@ public class ChineseDimensions implements INameGenerator {
             }
             id = id.toLowerCase(Locale.ENGLISH);
             generated_identifier.add(id);
-            
         }
         System.out.println("Identifier:" + generated_identifier);
     }
