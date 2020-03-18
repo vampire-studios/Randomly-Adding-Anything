@@ -31,17 +31,17 @@ public interface INameGenerator {
     default String asId(String name) {
         String id = name;
         Map<String, String> specialCharacters = getSpecialCharactersMap();
-//        SortedMap<String, String> specialCharactersSorted = getSpecialCharactersMapSorted();
+        SortedMap<String, String> specialCharactersSorted = getSpecialCharactersMapSorted();
         if (specialCharacters != null) {
             for (Map.Entry<String, String> specialCharacter : specialCharacters.entrySet()) {
                 id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
             }
         }
-//        if (specialCharactersSorted != null) {
-//            for (Map.Entry<String, String> specialCharacter : specialCharactersSorted.entrySet()) {
-//                id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
-//            }
-//       }
+        if (specialCharactersSorted != null) {
+            for (Map.Entry<String, String> specialCharacter : specialCharactersSorted.entrySet()) {
+                id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+            }
+       }
         id = id.toLowerCase(Locale.ENGLISH);
         return id;
     }
