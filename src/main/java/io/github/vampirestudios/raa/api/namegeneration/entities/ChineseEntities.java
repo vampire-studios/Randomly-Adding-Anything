@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.api.namegeneration.entities;
 
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
-import io.github.vampirestudios.raa.api.namegeneration.biomes.ChineseBiomes;
 import io.github.vampirestudios.raa.utils.Utils;
 
 import java.util.*;
