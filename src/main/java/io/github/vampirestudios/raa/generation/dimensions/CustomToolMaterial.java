@@ -44,7 +44,7 @@ public class CustomToolMaterial implements ToolMaterial {
     }
 
     @Override
-    public float getMiningSpeed() {
+    public float getMiningSpeedMultiplier() {
         return miningSpeed;
     }
 

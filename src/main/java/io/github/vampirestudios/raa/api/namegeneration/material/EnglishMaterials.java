@@ -20,7 +20,7 @@ public class EnglishMaterials implements INameGenerator {
     };
 
     public static final String[] ORE_SUFFIXES = { //Except "ium" and "ite" which will carry about 86% of the generated items
-            "um", "ule", "ion", "ment", "icle", "ile", "ole", "ule", "ate", "and", "ant", "yn", "ice", "ixe"
+            "um", "ule", "ion", "ment", "icle", "ile", "ole", "ule", "ate", "and", "ant", "yn", "ice", "ixe", "stone"
     };
 
     public static final String[] CONSONANT_FILL = { //Stuffed between consonants
@@ -29,7 +29,7 @@ public class EnglishMaterials implements INameGenerator {
 
     public static void main(String[] args) {
         EnglishMaterials gen = new EnglishMaterials();
-        Collection<String> generated = gen.generate(100);
+        Collection<String> generated = gen.generate(200);
 
         System.out.println("Lowercase:" + generated);
 

@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.generation.chunkgenerator.caves;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
@@ -15,7 +15,7 @@ import java.util.List;
 public class CavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGeneratorConfig> {
     private final double[] noiseFalloff = this.buildNoiseFalloff();
 
-    public CavesChunkGenerator(World world, BiomeSource biomeSource, CavesChunkGeneratorConfig config) {
+    public CavesChunkGenerator(IWorld world, BiomeSource biomeSource, CavesChunkGeneratorConfig config) {
         super(world, biomeSource, 4, 8, 256, config, true);
     }
 

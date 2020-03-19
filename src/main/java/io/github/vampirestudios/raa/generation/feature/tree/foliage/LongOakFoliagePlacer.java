@@ -20,27 +20,25 @@ public class LongOakFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
-        //long oak
-
-        for (int int_4 = i; int_4 >= j; --int_4) {
-            int int_5 = Math.max(k - 1 - (int_4 - i) / Math.max(i / 3, 1), 0) + 1;
-            this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_4, Math.min(int_5, 4), set);
+    public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int baseHeight, int trunkHeight, int radius, BlockPos blockPos, Set<BlockPos> set) {
+        for (int height = baseHeight; height >= trunkHeight; --height) {
+            int i = Math.max(radius - 1 - (height - baseHeight) / Math.max(baseHeight / 3, 1), 0) + 1;
+            this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, baseHeight, blockPos, height, Math.min(i, 4), set);
         }
     }
 
     @Override
-    public int getRadius(Random random, int i, int j, BranchedTreeFeatureConfig branchedTreeFeatureConfig) {
+    public int getRadius(Random random, int baseHeight, int trunkHeight, BranchedTreeFeatureConfig config) {
         return this.radius + random.nextInt(this.randomRadius + 1);
     }
 
     @Override
-    protected boolean method_23451(Random random, int i, int j, int k, int l, int m) {
-        return Math.abs(j) == m && Math.abs(l) == m && m > 0;
+    protected boolean isInvalidForLeaves(Random random, int baseHeight, int x, int y, int z, int radius) {
+        return Math.abs(x) == radius && Math.abs(z) == radius && radius > 0;
     }
 
     @Override
-    public int method_23447(int i, int j, int k, int l) {
-        return l <= 1 ? 0 : 2;
+    public int getRadiusForPlacement(int trunkHeight, int baseHeight, int radius, int currentTreeHeight) {
+        return currentTreeHeight <= 1 ? 0 : 2;
     }
 }

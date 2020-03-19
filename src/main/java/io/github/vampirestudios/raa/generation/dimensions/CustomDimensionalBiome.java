@@ -266,7 +266,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandA(height - 1) //trunk height rand 2
                         .foliageHeight(foliageHeight) //foliage amount
                         .foliageHeightRandom(Rands.randIntRange(1, 6)) //random foliage offset
-                        .maxWaterDepth(treeData.getMaxWaterDepth()) //water depth
+                        .maxFluidDepth(treeData.getMaxWaterDepth()) //water depth
                         .trunkHeight(Rands.randIntRange(1, 8)) //trunk height
                         .trunkHeightRandom(Rands.randIntRange(1, 4)) //trunk height offset
                         .trunkTopOffsetRandom(Rands.randIntRange(1, 2)) //foliage height
@@ -281,7 +281,7 @@ public class CustomDimensionalBiome extends Biome {
                         .trunkTopOffset(Rands.randIntRange(1, 2))
                         .foliageHeight(foliageHeight / 2)
                         .foliageHeightRandom(Rands.randIntRange(1, 4))
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -293,7 +293,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -305,7 +305,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -317,7 +317,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -329,7 +329,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -341,7 +341,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -353,7 +353,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -365,7 +365,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandA(height - 1) //trunk height
                         .foliageHeight(foliageHeight) //foliage amount
                         .foliageHeightRandom(Rands.randIntRange(1, 6)) //random foliage offset
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();

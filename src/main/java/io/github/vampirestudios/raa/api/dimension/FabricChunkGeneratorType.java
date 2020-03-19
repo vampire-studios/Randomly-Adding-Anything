@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.api.dimension;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
@@ -41,13 +41,13 @@ public final class FabricChunkGeneratorType<C extends ChunkGeneratorConfig, T ex
     /**
      * Called to get an instance of the ChunkGeneratorType's ChunkGenerator.
      *
-     * @param world       DimensionType's world instance
+     * @param iWorld       DimensionType's world instance
      * @param biomeSource BiomeSource to use while generating the world
-     * @param config      ChunkGenerator config instance
+     * @param chunkGeneratorConfig      ChunkGenerator config instance
      */
     @Override
-    public T create(World world, BiomeSource biomeSource, C config) {
-        return factory.create(world, biomeSource, config);
+    public T create(IWorld iWorld, BiomeSource biomeSource, C chunkGeneratorConfig) {
+        return factory.create(iWorld, biomeSource, chunkGeneratorConfig);
     }
 
     /**
@@ -59,6 +59,6 @@ public final class FabricChunkGeneratorType<C extends ChunkGeneratorConfig, T ex
      */
     @FunctionalInterface
     public interface FabricChunkGeneratorFactory<C extends ChunkGeneratorConfig, T extends ChunkGenerator<C>> {
-        T create(World world, BiomeSource source, C config);
+        T create(IWorld world, BiomeSource source, C config);
     }
 }

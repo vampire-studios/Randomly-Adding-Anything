@@ -1,3 +1,4 @@
+/*
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
 import net.minecraft.world.IWorld;
@@ -12,3 +13,4 @@ public class CustomOverworldChunkGenerator extends SimplexChunkGenerator {
     }
 
 }
+*/

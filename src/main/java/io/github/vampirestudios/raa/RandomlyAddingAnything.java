@@ -38,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.LongFunction;
 
 public class RandomlyAddingAnything implements ModInitializer {
 
@@ -80,9 +81,9 @@ public class RandomlyAddingAnything implements ModInitializer {
         //Reflection hacks
         Constructor<BiomeSourceType> constructor;
         try {
-            constructor = BiomeSourceType.class.getDeclaredConstructor(Function.class, Function.class);
+            constructor = BiomeSourceType.class.getDeclaredConstructor(Function.class, LongFunction.class);
             constructor.setAccessible(true);
-            DIMENSIONAL_BIOMES = constructor.newInstance((Function) DimensionalBiomeSource::new, (Function) DimensionalBiomeSourceConfig::new);
+            DIMENSIONAL_BIOMES = constructor.newInstance((Function) DimensionalBiomeSource::new, (LongFunction) DimensionalBiomeSourceConfig::new);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }

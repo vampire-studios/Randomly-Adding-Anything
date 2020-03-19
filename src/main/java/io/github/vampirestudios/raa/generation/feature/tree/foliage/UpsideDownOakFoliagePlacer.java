@@ -20,7 +20,7 @@ public class UpsideDownOakFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int j, int k, BlockPos blockPos, Set<BlockPos> set) {
+    public void generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BranchedTreeFeatureConfig branchedTreeFeatureConfig, int i, int trunkHeight, int k, BlockPos blockPos, Set<BlockPos> set) {
         //cylinder spruce
 //        int int_4 = random.nextInt(3);
 //        int int_5 = 2;
@@ -58,11 +58,11 @@ public class UpsideDownOakFoliagePlacer extends FoliagePlacer {
 //        }
 
         //upside down oak
-        int int_4 = 3; //replace with foliage size
-        for (int int_5 = i; int_5 >= j; --int_5) {
-            this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, int_5, int_4, set);
-            if (int_5 % 2 == 0) --int_4;
-            if (int_4 == 0) break;
+        int foliageHeight = 3; //replace with foliage size
+        for (int height = i; height >= trunkHeight; --height) {
+            this.generate(modifiableTestableWorld, random, branchedTreeFeatureConfig, i, blockPos, height, foliageHeight, set);
+            if (height % 2 == 0) --foliageHeight;
+            if (foliageHeight == 0) break;
         }
     }
 
@@ -72,12 +72,13 @@ public class UpsideDownOakFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    protected boolean method_23451(Random random, int i, int j, int k, int l, int m) {
+    protected boolean isInvalidForLeaves(Random random, int i, int j, int k, int l, int m) {
         return Math.abs(j) == m && Math.abs(l) == m && m > 0;
     }
 
     @Override
-    public int method_23447(int i, int j, int k, int l) {
+    public int getRadiusForPlacement(int i, int j, int k, int l) {
         return l <= 1 ? 0 : 2;
     }
+
 }

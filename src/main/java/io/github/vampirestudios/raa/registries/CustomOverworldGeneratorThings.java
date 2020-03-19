@@ -1,3 +1,4 @@
+/*
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.CustomOverworldChunkGenerator;
@@ -18,3 +19,4 @@ public class CustomOverworldGeneratorThings {
     }
 
 }
+*/

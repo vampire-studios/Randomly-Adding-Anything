@@ -318,8 +318,8 @@ public class Dimensions {
                 }
 
                 @Override
-                public float getMiningSpeed() {
-                    return ToolMaterials.STONE.getMiningSpeed();
+                public float getMiningSpeedMultiplier() {
+                    return ToolMaterials.STONE.getMiningSpeedMultiplier();
                 }
 
                 @Override

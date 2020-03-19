@@ -34,12 +34,12 @@ public class RandomSpruceFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    protected boolean method_23451(Random random, int i, int j, int k, int l, int m) {
+    protected boolean isInvalidForLeaves(Random random, int i, int j, int k, int l, int m) {
         return Math.abs(j) == m && Math.abs(l) == m && m > 0;
     }
 
     @Override
-    public int method_23447(int i, int j, int k, int l) {
+    public int getRadiusForPlacement(int i, int j, int k, int l) {
         return l <= 1 ? 0 : 2;
     }
 }

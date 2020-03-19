@@ -42,6 +42,7 @@ public class FrenchBiomes implements INameGenerator {
         String[] l5 = new String[]{"", Rands.values(list4)};
         String string = (lf(l1[aa], l2[ab]) + l3[b] + l4[c] + l5[d] + Rands.values(list6));
         if (string.startsWith("mp")) string = string.replace("mp", "p");
+        if (string.startsWith("mb")) string = string.replace("mb", "b");
         return string;
     }
 
