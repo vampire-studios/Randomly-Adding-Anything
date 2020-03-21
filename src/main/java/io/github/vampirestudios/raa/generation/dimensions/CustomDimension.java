@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.generation.dimensions;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,7 +12,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
@@ -91,13 +91,14 @@ public class CustomDimension extends Dimension {
 
     @Override
     public float getSkyAngle(long timeOfDay, float tickDelta) {
-        if (dimensionData.hasSky()) {
+        /*if (dimensionData.hasSky()) {
             double fractionalPart = MathHelper.fractionalPart((double) timeOfDay / 24000.0D - 0.25D);
             double v1 = 0.5D - Math.cos(fractionalPart * 3.141592653589793D) / 2.0D;
             return (float) (fractionalPart * 2.0D + v1) / 3.0F;
         } else {
             return 0.0F;
-        }
+        }*/
+        return 0.0F;
     }
 
     @Environment(EnvType.CLIENT)
@@ -107,7 +108,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     public boolean hasVisibleSky() {
-        return dimensionData.hasSky();
+        return false;
     }
 
     @Override
@@ -125,6 +126,9 @@ public class CustomDimension extends Dimension {
     @Override
     @Environment(EnvType.CLIENT)
     public Vec3d modifyFogColor(Vec3d fogColor, float tickDelta) {
+        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID)) {
+            return fogColor.multiply(0.15000000596046448D);
+        }
         int fogColor2 = dimensionData.getDimensionColorPalette().getFogColor();
         int[] rgbColor = Color.intToRgb(fogColor2);
         return new Vec3d(rgbColor[0] / 255.0, rgbColor[1] / 255.0, rgbColor[2] / 255.0);
@@ -154,4 +158,9 @@ public class CustomDimension extends Dimension {
     public Block getStoneBlock() {
         return stoneBlock;
     }
+
+    public DimensionData getDimensionData() {
+        return dimensionData;
+    }
+
 }

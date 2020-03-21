@@ -31,6 +31,7 @@ public class Utils {
     public static final int DRY = 64; //No oceans exist at all.
     public static final int TECTONIC = 128; //Creates lots of caves and ravines. Usually not visible on the surface.
     public static final int FROZEN = 256; //Makes the dimension frozen
+    public static final int LUCID = 512; //Makes the dimension be lucid, have faster time and more crazy skybox
 
     public static final int POST_APOCALYPTIC = CORRUPTED | DEAD | ABANDONED | DRY | TECTONIC; //A combination of corrupted, dead, abandoned, dry, and tectonic
 
@@ -118,7 +119,7 @@ public class Utils {
     }
 
     public static SurfaceBuilder<?> newRandomSurfaceBuilder() {
-        Map<String, SurfaceBuilder<?>> surfaceBuilders = new HashMap<>();
+        /*Map<String, SurfaceBuilder<?>> surfaceBuilders = new HashMap<>();
         surfaceBuilders.put("raa:hyper_flat", DimensionSurfaceBuilders.HYPER_FLAT.getSurfaceBuilder());
         surfaceBuilders.put("raa:patchy_desert", DimensionSurfaceBuilders.PATCHY_DESERT.getSurfaceBuilder());
         surfaceBuilders.put("raa:dark_patchy_badlands", DimensionSurfaceBuilders.DARK_PATCHY_BADLANDS.getSurfaceBuilder());
@@ -130,7 +131,8 @@ public class Utils {
         surfaceBuilders.put("raa:dunes", DimensionSurfaceBuilders.DUNES.getSurfaceBuilder());
         surfaceBuilders.put("raa:lazy_noise", DimensionSurfaceBuilders.LAZY_NOISE.getSurfaceBuilder());
         surfaceBuilders.put("minecraft:default", SurfaceBuilder.DEFAULT);
-        return Rands.map(surfaceBuilders).getValue();
+        return Rands.map(surfaceBuilders).getValue();*/
+        return DimensionSurfaceBuilders.CLASSIC_CLIFFS.getSurfaceBuilder();
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {

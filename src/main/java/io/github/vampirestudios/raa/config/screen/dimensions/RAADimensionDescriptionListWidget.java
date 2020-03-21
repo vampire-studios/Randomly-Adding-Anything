@@ -95,6 +95,8 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                 addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.molten").formatted(Formatting.YELLOW), "config.tooltip.raa.molten", og));
             if (Utils.checkBitFlag(flags, Utils.CORRUPTED))
                 addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.corrupted").formatted(Formatting.DARK_RED), "config.tooltip.raa.corrupted", og));
+            if (Utils.checkBitFlag(flags, Utils.LUCID))
+                addItem(new TextEntryWithTooltip(new TranslatableText("config.text.raa.flags.lucid").formatted(Formatting.DARK_RED), "config.tooltip.raa.lucid", og));
         }
 
         if (dimensionData.getCivilizationInfluences().size() > 0) {

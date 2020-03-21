@@ -42,7 +42,8 @@ public class CustomDimensionalBiome extends Biome {
 
     public CustomDimensionalBiome(DimensionData dimensionData, DimensionBiomeData biomeData) {
         super((new Settings()
-                .configureSurfaceBuilder((SurfaceBuilder< TernarySurfaceConfig>) Registry.SURFACE_BUILDER.get(biomeData.getSurfaceBuilder()), biomeData.getSurfaceConfig())
+                .configureSurfaceBuilder((SurfaceBuilder<TernarySurfaceConfig>) Registry.SURFACE_BUILDER.get(biomeData.getSurfaceBuilder()),
+                        biomeData.getSurfaceConfig())
                 .precipitation(Utils.checkBitFlag(dimensionData.getFlags(), Utils.FROZEN) ? Precipitation.SNOW : Rands.chance(10) ? Precipitation.RAIN : Precipitation.NONE)
                 .category(Category.PLAINS)
                 .depth(biomeData.getDepth())

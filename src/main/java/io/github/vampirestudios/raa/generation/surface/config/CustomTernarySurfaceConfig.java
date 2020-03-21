@@ -35,10 +35,10 @@ public class CustomTernarySurfaceConfig implements SurfaceConfig {
     }
 
     public static CustomTernarySurfaceConfig deserialize(Dynamic<?> dynamic) {
-        BlockState blockState = dynamic.get("top_material").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
-        BlockState blockState2 = dynamic.get("top_material").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
-        BlockState blockState3 = dynamic.get("under_material").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
-        BlockState blockState4 = dynamic.get("underwater_material").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
-        return new CustomTernarySurfaceConfig(blockState, blockState2, blockState4, blockState4);
+        BlockState topMaterial = dynamic.get("top_material").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
+        BlockState middleMaterial = dynamic.get("middle_material").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
+        BlockState underMaterial = dynamic.get("under_material").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
+        BlockState underwaterMaterial = dynamic.get("underwater_material").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
+        return new CustomTernarySurfaceConfig(topMaterial, middleMaterial, underMaterial, underwaterMaterial);
     }
 }

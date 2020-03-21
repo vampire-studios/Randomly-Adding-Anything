@@ -581,6 +581,8 @@ public class Dimensions {
 
     public static int generateDimensionFlags() {
         int flags = 0;
+        if (Rands.chance(65))
+            flags |= Utils.LUCID;
         if (Rands.chance(35)) {
             flags = Utils.POST_APOCALYPTIC;
             return flags;
