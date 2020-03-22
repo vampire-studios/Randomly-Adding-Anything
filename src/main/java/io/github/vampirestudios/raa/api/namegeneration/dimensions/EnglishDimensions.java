@@ -19,10 +19,6 @@ public class EnglishDimensions implements INameGenerator {
             "sic", "sit", "tan", "tor", "tri", "vi", "w", "x", "z"
     };
 
-    public static final String[] CONSONANT_FILL = { //Stuffed between consonants
-            "u", "o"
-    };
-
     public static void main(String[] args) {
         EnglishDimensions gen = new EnglishDimensions();
         Collection<String> generated = gen.generate(100);

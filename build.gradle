@@ -52,8 +52,8 @@ dependencies {
 
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "com.lettuce.fudge:artifice:0.6.0+20w06a"
-    include ("com.lettuce.fudge:artifice:0.6.0+20w06a")
+    modImplementation "com.github.oliviathevampire:artifice:06714b21ac"
+    include ("com.github.oliviathevampire:artifice:06714b21ac")
 
     modImplementation "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
     include "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
@@ -73,7 +73,7 @@ dependencies {
 //    modImplementation "curse.maven:immersive-portals-mod:2893204"
     modImplementation "curse.maven:dark-loading-screen:2894480"
 
-    modImplementation 'com.github.SuperCoder7979:simplexterrain:feature~terrain-rewrite-SNAPSHOT'
+//    modImplementation 'com.github.SuperCoder7979:simplexterrain:feature~terrain-rewrite-SNAPSHOT'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {

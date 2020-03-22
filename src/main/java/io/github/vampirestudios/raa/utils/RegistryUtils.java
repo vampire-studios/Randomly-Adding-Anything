@@ -94,8 +94,8 @@ public class RegistryUtils {
         return block;
     }
 
-    public static void registerBiome(Identifier name, Biome biome) {
-        Registry.register(Registry.BIOME, name, biome);
+    public static Biome registerBiome(Identifier name, Biome biome) {
+        return Registry.register(Registry.BIOME, name, biome);
     }
 
     public static void forEveryBiome(Consumer<Biome> biomes) {

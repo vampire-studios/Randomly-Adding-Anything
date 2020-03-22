@@ -146,7 +146,7 @@ public class CaveCarver extends Carver<ProbabilityConfig> {
             bitSet.set(i1);
             mutable.set(j, m, k);
             BlockState blockState = chunk.getBlockState(mutable);
-            BlockState upState = chunk.getBlockState(mutable2.set(mutable).setOffset(Direction.UP));
+            BlockState upState = chunk.getBlockState(mutable2.set(mutable).offset(Direction.UP));
             if (blockState.getBlock() == Blocks.GRASS_BLOCK || blockState.getBlock() == Blocks.MYCELIUM) {
                 atomicBoolean.set(true);
             }
@@ -162,7 +162,7 @@ public class CaveCarver extends Carver<ProbabilityConfig> {
                 } else {
                     chunk.setBlockState(mutable, CAVE_AIR, false);
                     if (atomicBoolean.get()) {
-                        mutable3.set(mutable).setOffset(Direction.DOWN);
+                        mutable3.set(mutable).offset(Direction.DOWN);
                         if (chunk.getBlockState(mutable3).getBlock() == Blocks.DIRT) {
                             chunk.setBlockState(mutable3, posBiomeFunction.apply(mutable).getSurfaceConfig().getTopMaterial(), false);
                         }

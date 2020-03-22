@@ -173,7 +173,7 @@ public class Materials {
             }
 
             Block baseBlock = material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId() ? idk != null ? idk : Blocks.STONE : Blocks.STONE;
-            net.minecraft.block.Material baseBlockMaterial = baseBlock.getMaterial(baseBlock.getDefaultState());
+            net.minecraft.block.Material baseBlockMaterial = baseBlock.getDefaultState().getMaterial();
             if (baseBlockMaterial == net.minecraft.block.Material.STONE) {
                 blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
             } else if (baseBlockMaterial == net.minecraft.block.Material.EARTH) {
@@ -386,7 +386,7 @@ public class Materials {
             FabricBlockSettings blockSettings = FabricBlockSettings.copy(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock());
 
             Block baseBlock = Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock();
-            net.minecraft.block.Material baseBlockMaterial = baseBlock.getMaterial(baseBlock.getDefaultState());
+            net.minecraft.block.Material baseBlockMaterial = baseBlock.getDefaultState().getMaterial();
             if (baseBlockMaterial == net.minecraft.block.Material.STONE) {
                 blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
             } else if (baseBlockMaterial == net.minecraft.block.Material.EARTH) {

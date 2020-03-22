@@ -29,7 +29,7 @@ public class PortalBlock extends Block {
     @Override
     public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos pos, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
         if (!world_1.isClient) {
-            BlockPos playerPos = playerEntity_1.getSenseCenterPos();
+            BlockPos playerPos = playerEntity_1.getBlockPos();
             if (playerPos.getX() == pos.getX() && playerPos.getZ() == pos.getZ() && playerPos.getY() == pos.getY() + 1) {
                 if (playerEntity_1.world.dimension.getType() == this.dimensionType) {
                     // coming from our custom dimension

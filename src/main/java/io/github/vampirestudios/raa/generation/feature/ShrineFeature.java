@@ -61,7 +61,7 @@ public class ShrineFeature extends Feature<DefaultFeatureConfig> {
         for (int i = 0; i < shrine.getBlockPositions().size(); i++) {
             String currBlockType = shrine.getBlockTypes().get(shrine.getBlockStates().get(i));
             Vec3i currBlockPos = shrine.getBlockPositions().get(i);
-//                Map<String, String> currBlockProp = shrine.getBlockProperties().get(shrine.getBlockStates().get(i));
+            Map<String, String> currBlockProp = shrine.getBlockProperties().get(shrine.getBlockStates().get(i));
 
             currBlockPos = WorldStructureManipulation.rotatePos(rotation, currBlockPos, shrine.getSize());
 
@@ -71,15 +71,15 @@ public class ShrineFeature extends Feature<DefaultFeatureConfig> {
                 if (currBlockType.equals("minecraft:stone_bricks")) {
                     WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", new HashMap<>(), rotation);
                 } else if (currBlockType.equals("minecraft:chiseled_stone_bricks")) {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:chiseled_" + (world.getDimension().getType().getSuffix()).substring(4), new HashMap<>(), rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:chiseled_" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", new HashMap<>(), rotation);
                 } else if (currBlockType.equals("minecraft:stone")) {
                     WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone", new HashMap<>(), rotation);
                 } else if (currBlockType.equals("minecraft:stone_brick_slab")) {
                     WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_brick_slab", new HashMap<>(), rotation);
                 } else if (currBlockType.equals("minecraft:stone_slab")) {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_slab", new HashMap<>(), rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_slab", currBlockProp, rotation);
                 } else if (currBlockType.equals("minecraft:stone_brick_stairs")) {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_brick_stairs", new HashMap<>(), rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_brick_stairs", currBlockProp, rotation);
                 } else if (currBlockType.equals("minecraft:ladder")) {
                     WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), 4 - rotation);
                 } else {

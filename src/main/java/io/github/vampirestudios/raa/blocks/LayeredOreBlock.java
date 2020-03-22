@@ -83,16 +83,6 @@ public class LayeredOreBlock extends OreBlock {
         return block.getSlipperiness();
     }
 
-    @Override
-    public net.minecraft.block.Material getMaterial(BlockState blockState_1) {
-        return block.getMaterial(blockState_1);
-    }
-
-    @Override
-    public float getHardness(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
-        return block.getHardness(blockState_1, blockView_1, blockPos_1);
-    }
-
     public void onStacksDropped(BlockState blockState_1, World world_1, BlockPos blockPos_1, ItemStack itemStack_1) {
         super.onStacksDropped(blockState_1, world_1, blockPos_1, itemStack_1);
         if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, itemStack_1) == 0) {
@@ -115,7 +105,7 @@ public class LayeredOreBlock extends OreBlock {
     @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
         //EARLY DETECTION OF BUSTED LOOT TABLES:
-        Identifier tableId = this.getDropTableId();
+        Identifier tableId = this.getDropTableID();
 
         if (tableId == LootTables.EMPTY) {
             return Collections.emptyList();

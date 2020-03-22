@@ -19,11 +19,13 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
 import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.client.render.model.ModelLoader;
@@ -49,16 +51,16 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     public static void initColoring() {
         ColorProviderRegistry.ITEM.register((stack, layer) -> {
             if (MinecraftClient.getInstance().world != null) {
-                return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getSenseCenterPos())
-                        .getGrassColorAt(MinecraftClient.getInstance().player.getSenseCenterPos().getX(), MinecraftClient.getInstance().player.getSenseCenterPos().getZ());
+                return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getBlockPos())
+                        .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos().getX(), MinecraftClient.getInstance().player.getBlockPos().getZ());
             } else {
                 BlockState blockState_1 = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
-                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getSenseCenterPos());
+                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos());
             }
         }, Items.GRASS_BLOCK);
 
         ColorProviderRegistry.ITEM.register((stack, var2) ->
-                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getSenseCenterPos()).getFoliageColor(),
+                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColor(),
                 Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
 
         ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
@@ -313,13 +315,30 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 clientResourcePackBuilder.addBlockState(portalId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(stoneId.getNamespace(), "block/" + portalId.getPath())))
                 );
-                clientResourcePackBuilder.addBlockModel(portalId, modelBuilder -> modelBuilder.parent(new Identifier("raa:block/portal")));
+                clientResourcePackBuilder.addBlockModel(portalId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("raa:block/portal"));
+                    modelBuilder.texture("0", dimensionData.getTexturesInformation().getStoneTexture());
+                    modelBuilder.texture("2", new Identifier("raa:block/metal_top"));
+                    modelBuilder.texture("3", new Identifier("raa:block/metal_side"));
+                    modelBuilder.texture("4", new Identifier("raa:block/portal_top"));
+                    modelBuilder.texture("particle", dimensionData.getTexturesInformation().getStoneTexture());
+                });
                 clientResourcePackBuilder.addItemModel(portalId,
                         modelBuilder -> modelBuilder.parent(new Identifier(portalId.getNamespace(), "block/" + portalId.getPath())));
 
-                ColorProviderRegistry.ITEM.register((stack, layer) -> dimensionData.getDimensionColorPalette().getFogColor(), Registry.ITEM.get(portalId));
-                ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
-                        dimensionData.getDimensionColorPalette().getFogColor(), Registry.BLOCK.get(portalId));
+                ColorProviderRegistry.ITEM.register((stack, layer) ->  {
+                    if (layer == 0) return dimensionData.hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
+                            dimensionData.getDimensionColorPalette().getFogColor();
+                    if (layer == 1) return dimensionData.getDimensionColorPalette().getStoneColor();
+                    else return -1;
+                }, Registry.ITEM.get(portalId));
+                ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->  {
+                    if (layer == 0) return dimensionData.hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
+                            dimensionData.getDimensionColorPalette().getFogColor();
+                    if (layer == 1) return dimensionData.getDimensionColorPalette().getStoneColor();
+                    else return -1;
+                }, Registry.BLOCK.get(portalId));
+                BlockRenderLayerMapImpl.INSTANCE.putBlock(Registry.BLOCK.get(portalId), RenderLayer.getCutout());
 
 
                 Identifier pickaxeId = Utils.addSuffixToPath(identifier, "_pickaxe");
@@ -538,11 +557,11 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 cobblestoneSlab, cobblestoneStairs, cobblestoneWall, chiseled, polished, polishedSlab, polishedStairs, polishedWall);
 
             ColorProviderRegistry.ITEM.register((stack, layer) -> {
-                if (layer == 0) return dimensionData.getBiomeData().get(0).getWaterColor();
+                if (layer == 0) return dimensionData.getDimensionColorPalette().getSkyColor();
                 else return -1;
             }, ice);
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
-                    dimensionData.getBiomeData().get(0).getWaterColor(), ice);
+                    dimensionData.getDimensionColorPalette().getSkyColor(), ice);
         });
         Materials.DIMENSION_MATERIALS.forEach(material -> {
             Identifier id = material.getId();

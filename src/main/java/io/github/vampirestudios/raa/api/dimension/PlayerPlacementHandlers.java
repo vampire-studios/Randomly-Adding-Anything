@@ -78,12 +78,12 @@ public enum PlayerPlacementHandlers {
         BlockPos portalPos = getPortalPos(serverWorld, entity, maxHeight);
         if (portalPos != null) return portalPos.up();
         for (int i = maxHeight; i > 0; i--) {
-            BlockPos pos = new BlockPos(entity.getSenseCenterPos().getX(), i, entity.getSenseCenterPos().getZ());
+            BlockPos pos = new BlockPos(entity.getBlockPos().getX(), i, entity.getBlockPos().getZ());
             if (!(serverWorld.getBlockState(pos.down(1)).getBlock() instanceof AirBlock) && (serverWorld.getBlockState(pos.up()).getBlock() instanceof AirBlock) && (serverWorld.getBlockState(pos).getBlock() instanceof AirBlock)) {
                 return pos.up();
             }
         }
-        portalPos = new BlockPos(entity.getSenseCenterPos().getX(), maxHeight + 1, entity.getSenseCenterPos().getZ());
+        portalPos = new BlockPos(entity.getBlockPos().getX(), maxHeight + 1, entity.getBlockPos().getZ());
         serverWorld.setBlockState(portalPos.up(), Blocks.AIR.getDefaultState());
         serverWorld.setBlockState(portalPos, Blocks.AIR.getDefaultState());
         return portalPos;

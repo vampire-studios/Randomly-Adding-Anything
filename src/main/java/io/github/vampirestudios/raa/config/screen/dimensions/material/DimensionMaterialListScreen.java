@@ -46,9 +46,9 @@ public class DimensionMaterialListScreen extends Screen {
         super.init();
         addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> client.openScreen(parent)));
         children.add(materialList = new RAADimensionMaterialListWidget(client, width / 2 - 10, height,
-                28 + 5, height - 5, BACKGROUND_LOCATION));
+                28 + 5, height - 5, BACKGROUND_TEXTURE));
         children.add(descriptionList = new RAADimensionMaterialDescriptionListWidget(client, width / 2 - 10, height,
-                28 + 5, height - 5, BACKGROUND_LOCATION));
+                28 + 5, height - 5, BACKGROUND_TEXTURE));
         materialList.setLeftPos(5);
         descriptionList.setLeftPos(width / 2 + 5);
         List<DimensionMaterial> dimensionMaterials = new ArrayList<>();

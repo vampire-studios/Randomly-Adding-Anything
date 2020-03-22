@@ -12,6 +12,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
@@ -91,14 +92,13 @@ public class CustomDimension extends Dimension {
 
     @Override
     public float getSkyAngle(long timeOfDay, float tickDelta) {
-        /*if (dimensionData.hasSky()) {
+        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.hasSky()) {
             double fractionalPart = MathHelper.fractionalPart((double) timeOfDay / 24000.0D - 0.25D);
             double v1 = 0.5D - Math.cos(fractionalPart * 3.141592653589793D) / 2.0D;
             return (float) (fractionalPart * 2.0D + v1) / 3.0F;
         } else {
             return 0.0F;
-        }*/
-        return 0.0F;
+        }
     }
 
     @Environment(EnvType.CLIENT)
@@ -108,7 +108,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     public boolean hasVisibleSky() {
-        return false;
+        return !Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.hasSky();
     }
 
     @Override

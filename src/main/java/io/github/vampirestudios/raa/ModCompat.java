@@ -12,7 +12,7 @@ public class ModCompat {
     private List<ModCompatProvider> modCompatProviders = new ArrayList<>();
 
     public ModCompat() {
-        if (!FabricLoader.getInstance().isModLoaded("techreborn")) {
+        if (FabricLoader.getInstance().isModLoaded("techreborn")) {
             modCompatProviders.add(new TechReborn());
         }
     }

@@ -44,7 +44,6 @@ public class RenderingUtils {
             bufferBuilder.vertex(matrix4f, -100.0F, -100.0F, 100.0F).color(255, 255, 255, 255).texture(0.0F, 1.0F).next();
             bufferBuilder.vertex(matrix4f, 100.0F, -100.0F, 100.0F).color(255, 255, 255, 255).texture(1.0F, 1.0F).next();
             bufferBuilder.vertex(matrix4f, 100.0F, -100.0F, -100.0F).color(255, 255, 255, 255).texture(1.0F, 0.0F).next();
-            RenderSystem.rotatef(180.0F * client.getTickDelta() / 12, 1, 1, 1);
             tessellator.draw();
             matrixStack.pop();
         }

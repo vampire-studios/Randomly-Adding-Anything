@@ -38,7 +38,7 @@ public class SandyDunesSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfi
 
         for (int i = 0; i < 8; i++) {
             chunk.setBlockState(pos, Blocks.CUT_SANDSTONE.getDefaultState(), false);
-            pos.setOffset(Direction.UP);
+            pos.offset(Direction.UP);
         }
 
         // Cap the height based on noise
@@ -47,12 +47,12 @@ public class SandyDunesSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfi
 
         for (int h = 0; h < height; h++) {
             chunk.setBlockState(pos, Blocks.SANDSTONE.getDefaultState(), false);
-            pos.setOffset(Direction.UP);
+            pos.offset(Direction.UP);
         }
 
         for (int i = 0; i < 3 + (noise / 2); i++) {
             chunk.setBlockState(pos, Blocks.SMOOTH_SANDSTONE.getDefaultState(), false);
-            pos.setOffset(Direction.UP);
+            pos.offset(Direction.UP);
         }
 
         for (int i = 0; i < 3 + (noise / 2); i++) {

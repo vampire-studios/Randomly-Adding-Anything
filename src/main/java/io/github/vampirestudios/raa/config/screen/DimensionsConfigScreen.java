@@ -26,7 +26,7 @@ public class DimensionsConfigScreen extends Screen {
     public static void overlayBackground(int x1, int y1, int x2, int y2, int red, int green, int blue, int startAlpha, int endAlpha) {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        MinecraftClient.getInstance().getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
+        MinecraftClient.getInstance().getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         buffer.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
         buffer.vertex(x1, y2, 0.0D).texture(x1 / 32.0F, y2 / 32.0F).color(red, green, blue, endAlpha).next();
@@ -50,12 +50,11 @@ public class DimensionsConfigScreen extends Screen {
     protected void init() {
         super.init();
         assert client != null;
-        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.dimensionConfiguration"), var1 -> client.openScreen(new DimensionListScreen(this))));
+        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.dimensionConfiguration"), var1 ->
+                client.openScreen(new DimensionListScreen(this))));
         addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, I18n.translate("config.button.raa.dimensionMaterialConfiguration"), var1 ->
                 client.openScreen(new DimensionMaterialListScreen(this))));
-        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> {
-            client.openScreen(parent);
-        }));
+        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> client.openScreen(parent)));
     }
 
     @Override

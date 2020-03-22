@@ -110,7 +110,7 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
             bitSet_1.set(int_9);
             blockPos$Mutable_1.set(int_4, int_7, int_5);
             BlockState blockState_1 = chunk_1.getBlockState(blockPos$Mutable_1);
-            BlockState blockState_2 = chunk_1.getBlockState(blockPos$Mutable_2.set(blockPos$Mutable_1).setOffset(Direction.UP));
+            BlockState blockState_2 = chunk_1.getBlockState(blockPos$Mutable_2.set(blockPos$Mutable_1).offset(Direction.UP));
             if (blockState_1.getBlock() == Blocks.GRASS_BLOCK || blockState_1.getBlock() == Blocks.MYCELIUM) {
                 atomicBoolean_1.set(true);
             }
@@ -126,7 +126,7 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
                 } else {
                     chunk_1.setBlockState(blockPos$Mutable_1, CAVE_AIR, false);
                     if (atomicBoolean_1.get()) {
-                        blockPos$Mutable_3.set(blockPos$Mutable_1).setOffset(Direction.DOWN);
+                        blockPos$Mutable_3.set(blockPos$Mutable_1).offset(Direction.DOWN);
                         if (chunk_1.getBlockState(blockPos$Mutable_3).getBlock() == Blocks.DIRT) {
                             chunk_1.setBlockState(blockPos$Mutable_3, function_1.apply(blockPos$Mutable_1).getSurfaceConfig().getTopMaterial(), false);
                         }

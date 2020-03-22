@@ -122,7 +122,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         addItem(new ColorEntry("config.text.raa.waterColor", dimensionData.getBiomeData().get(0).getWaterColor()));
 
         for (DimensionBiomeData biomeData : dimensionData.getBiomeData()) {
-
+            addItem(new TitleEntry(new LiteralText(biomeData.getName())));
         }
     }
 

@@ -5,7 +5,7 @@ import io.github.vampirestudios.vampirelib.blocks.StairsBaseBlock;
 import io.github.vampirestudios.vampirelib.blocks.WallBaseBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.Block.Settings;
+import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 

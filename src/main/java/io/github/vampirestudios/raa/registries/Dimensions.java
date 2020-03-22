@@ -197,7 +197,7 @@ public class Dimensions {
                     .mossyChiseledTexture(Rands.list(TextureTypes.MOSSY_CHISELED_STONE_TEXTURES))
                     .crackedChiseledTexture(Rands.list(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES))
                     .polishedTexture(Rands.list(TextureTypes.POLISHED_STONE_TEXTURES))
-                    .iceTexture(TextureTypes.ICE_TEXTURES.get(0))
+                    .iceTexture(Rands.list(TextureTypes.ICE_TEXTURES))
                     .build();
             builder.texturesInformation(texturesInformation);
 
@@ -289,8 +289,7 @@ public class Dimensions {
             Set<Biome> biomes = new LinkedHashSet<>();
             for (int i = 0; i < dimension.getBiomeData().size(); i++) {
                 CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension, dimension.getBiomeData().get(i));
-                RegistryUtils.registerBiome(dimension.getBiomeData().get(i).getId(), biome);
-                biomes.add(biome);
+                biomes.add(RegistryUtils.registerBiome(dimension.getBiomeData().get(i).getId(), biome));
             }
 
             FabricDimensionType.Builder builder = FabricDimensionType.builder()

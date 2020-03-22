@@ -39,11 +39,11 @@ public class FancyCliffsSurfaceBuilder extends SurfaceBuilder<CustomTernarySurfa
             }
             for (int i = 0; i < basaltLayers; i++) {
                 placeBlock(config, chunk, pos, stone, rand);
-                pos.setOffset(Direction.UP);
+                pos.offset(Direction.UP);
             }
             for (int i = 0; i < 3; i++) {
                 placeBlock(config, chunk, pos, stone, rand);
-                pos.setOffset(Direction.UP);
+                pos.offset(Direction.UP);
             }
             placeBlock(config, chunk, pos, stone, rand);
         } else {

@@ -23,11 +23,11 @@ public class FloatingIslandSurfaceBuilder extends SurfaceBuilder<TernarySurfaceC
             BlockPos.Mutable pos = new BlockPos.Mutable(x, 50 + height + (noise), z);
             for (int i = 0; i < 2 + (noise / 4); i++) {
                 chunk.setBlockState(pos, defaultBlock, false);
-                pos.setOffset(Direction.UP);
+                pos.offset(Direction.UP);
             }
             for (int i = 0; i < 3 + (noise / 2); i++) {
                 chunk.setBlockState(pos, DIRT, false);
-                pos.setOffset(Direction.UP);
+                pos.offset(Direction.UP);
             }
             chunk.setBlockState(pos, surfaceBlocks.getTopMaterial(), false);
         }

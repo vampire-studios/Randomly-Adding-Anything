@@ -20,7 +20,6 @@ public class DimensionColorPalette {
         return skyColor;
     }
 
-    @Deprecated
     public void setSkyColor(int skyColor) {
         this.skyColor = skyColor;
     }
@@ -29,16 +28,32 @@ public class DimensionColorPalette {
         return grassColor;
     }
 
+    public void setGrassColor(int grassColor) {
+        this.grassColor = grassColor;
+    }
+
     public int getFogColor() {
         return fogColor;
+    }
+
+    public void setFogColor(int fogColor) {
+        this.fogColor = fogColor;
     }
 
     public int getFoliageColor() {
         return foliageColor;
     }
 
+    public void setFoliageColor(int foliageColor) {
+        this.foliageColor = foliageColor;
+    }
+
     public int getStoneColor() {
         return stoneColor;
+    }
+
+    public void setStoneColor(int stoneColor) {
+        this.stoneColor = stoneColor;
     }
 
     public static class Builder {
