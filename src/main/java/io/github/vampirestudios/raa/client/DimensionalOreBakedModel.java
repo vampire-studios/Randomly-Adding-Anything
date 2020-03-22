@@ -28,12 +28,13 @@ import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.World;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Supplier;
 
 public class DimensionalOreBakedModel extends RAABakedModel {
 
-    private DimensionMaterial dimensionMaterial;
+    private final DimensionMaterial dimensionMaterial;
 
     public DimensionalOreBakedModel(DimensionMaterial material) {
         super(material);
@@ -54,7 +55,7 @@ public class DimensionalOreBakedModel extends RAABakedModel {
         DimensionData dimensionData = Dimensions.DIMENSIONS.get(diemnsionId);
 
         RenderMaterial mat = renderer.materialFinder().disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
-        int color = dimensionData.getDimensionColorPalette().getStoneColor();
+        int color = Objects.requireNonNull(dimensionData).getDimensionColorPalette().getStoneColor();
         Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .apply(dimensionData.getTexturesInformation().getStoneTexture());
 //        System.out.println(sprite.getId().toString());

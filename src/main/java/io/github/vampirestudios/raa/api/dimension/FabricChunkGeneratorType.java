@@ -19,7 +19,7 @@ import java.util.function.Supplier;
  * @param <T> ChunkGenerator
  */
 public final class FabricChunkGeneratorType<C extends ChunkGeneratorConfig, T extends ChunkGenerator<C>> extends ChunkGeneratorType<C, T> {
-    private FabricChunkGeneratorFactory<C, T> factory;
+    private final FabricChunkGeneratorFactory<C, T> factory;
 
     private FabricChunkGeneratorType(FabricChunkGeneratorFactory<C, T> factory, boolean buffetScreenOption, Supplier<C> settingsSupplier) {
         super(null, buffetScreenOption, settingsSupplier);

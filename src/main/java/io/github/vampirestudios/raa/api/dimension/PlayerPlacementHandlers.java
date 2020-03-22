@@ -19,22 +19,22 @@ import java.util.Objects;
 
 public enum PlayerPlacementHandlers {
     SURFACE_WORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
-        BlockPos blockPos = getSurfacePos(destination, teleported, 255);
+        BlockPos blockPos = getSurfacePos(destination, teleported);
         destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(destination.getDimension().getType())), "_portal")).getDefaultState());
         return new BlockPattern.TeleportTarget(new Vec3d(new Vector3f(blockPos.getX(), blockPos.getY(), blockPos.getZ())), Vec3d.ZERO, 0);
     }),
     CAVE_WORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
-        BlockPos blockPos = getSurfacePos(destination, teleported, 255);
+        BlockPos blockPos = getSurfacePos(destination, teleported);
         destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(destination.getDimension().getType())), "_portal")).getDefaultState());
         return new BlockPattern.TeleportTarget(new Vec3d(new Vector3f(blockPos.getX(), blockPos.getY(), blockPos.getZ())), Vec3d.ZERO, 0);
     }),
     OVERWORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
-        BlockPos blockPos = getSurfacePos(destination, teleported, 255);
+        BlockPos blockPos = getSurfacePos(destination, teleported);
         destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(teleported.getEntityWorld().dimension.getType())), "_portal")).getDefaultState());
         return new BlockPattern.TeleportTarget(new Vec3d(new Vector3f(blockPos.getX(), blockPos.getY(), blockPos.getZ())), Vec3d.ZERO, 0);
     }),
     FLOATING_WORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
-        BlockPos blockPos = getSurfacePos(destination, teleported, 255);
+        BlockPos blockPos = getSurfacePos(destination, teleported);
         if (blockPos.getY() == 255 || blockPos.getY() == 256) {
             blockPos = new BlockPos(blockPos.getX(), teleported.getY(), blockPos.getZ());
             destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(destination.getDimension().getType())), "_portal")).getDefaultState());
@@ -68,22 +68,22 @@ public enum PlayerPlacementHandlers {
         }
     });
 
-    private EntityPlacer entityPlacer;
+    private final EntityPlacer entityPlacer;
 
     PlayerPlacementHandlers(EntityPlacer entityPlacer) {
         this.entityPlacer = entityPlacer;
     }
 
-    private static BlockPos getSurfacePos(ServerWorld serverWorld, Entity entity, int maxHeight) {
-        BlockPos portalPos = getPortalPos(serverWorld, entity, maxHeight);
+    private static BlockPos getSurfacePos(ServerWorld serverWorld, Entity entity) {
+        BlockPos portalPos = getPortalPos(serverWorld, entity, 255);
         if (portalPos != null) return portalPos.up();
-        for (int i = maxHeight; i > 0; i--) {
+        for (int i = 255; i > 0; i--) {
             BlockPos pos = new BlockPos(entity.getBlockPos().getX(), i, entity.getBlockPos().getZ());
             if (!(serverWorld.getBlockState(pos.down(1)).getBlock() instanceof AirBlock) && (serverWorld.getBlockState(pos.up()).getBlock() instanceof AirBlock) && (serverWorld.getBlockState(pos).getBlock() instanceof AirBlock)) {
                 return pos.up();
             }
         }
-        portalPos = new BlockPos(entity.getBlockPos().getX(), maxHeight + 1, entity.getBlockPos().getZ());
+        portalPos = new BlockPos(entity.getBlockPos().getX(), 255 + 1, entity.getBlockPos().getZ());
         serverWorld.setBlockState(portalPos.up(), Blocks.AIR.getDefaultState());
         serverWorld.setBlockState(portalPos, Blocks.AIR.getDefaultState());
         return portalPos;

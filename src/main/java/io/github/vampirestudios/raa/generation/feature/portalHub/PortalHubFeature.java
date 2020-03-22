@@ -1,10 +1,9 @@
 package io.github.vampirestudios.raa.generation.feature.portalHub;
 
-import com.mojang.datafixers.Dynamic;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.Dynamic;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -31,7 +30,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
-    private JsonConverter converter = new JsonConverter();
+    private final JsonConverter converter = new JsonConverter();
     private Map<String, JsonConverter.StructureValues> structures;
 
     public PortalHubFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
@@ -85,7 +84,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject jsonObject = null;
         try {
-            Resource path = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));
+            Resource path = Objects.requireNonNull(world.getWorld().getServer()).getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));
             jsonObject = new Gson().fromJson(new InputStreamReader(path.getInputStream()), JsonObject.class);
             JsonObject finalJsonObject = jsonObject;
             structures = new HashMap<String, JsonConverter.StructureValues>() {{
@@ -123,7 +122,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                 path = "saves/" + ((ServerWorld) world2).getSaveHandler().getWorldDir().getName() + "/data/portal_hub_spawns.txt";
             else path = world.getLevelProperties().getLevelName() + "/data/portal_hub_spawns.txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
-            writer.append(pos.getX() + "," + pos.getY() + "," + pos.getZ() + "\n");
+            writer.append(String.valueOf(pos.getX())).append(",").append(String.valueOf(pos.getY())).append(",").append(String.valueOf(pos.getZ())).append("\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

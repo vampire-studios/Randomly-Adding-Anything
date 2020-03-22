@@ -34,12 +34,12 @@ public class CustomTargets {
             return block_1 == Blocks.SANDSTONE;
         }
     }, Blocks.SANDSTONE);
-    public static OreFeatureConfig.Target RED_SAND = RegistryUtils.registerOreTarget("red_sand", (blockState_1) -> {
-        if (blockState_1 == null) {
+    public static OreFeatureConfig.Target RED_SAND = RegistryUtils.registerOreTarget("red_sand", (blockState) -> {
+        if (blockState == null) {
             return false;
         } else {
-            Block block_1 = blockState_1.getBlock();
-            return block_1 == Blocks.RED_SAND;
+            Block block = blockState.getBlock();
+            return block == Blocks.RED_SAND;
         }
     }, Blocks.SAND);
     public static OreFeatureConfig.Target RED_SANDSTONE = RegistryUtils.registerOreTarget("red_sandstone", (blockState_1) -> {
