@@ -158,9 +158,6 @@ public class Materials {
     }
 
     public static void createMaterialResources() {
-        if (RandomlyAddingAnything.CONFIG.debug) {
-            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
-        }
         MATERIALS.forEach(material -> {
             Identifier identifier = material.getId();
             Item repairItem;
@@ -372,9 +369,6 @@ public class Materials {
     }
 
     public static void createDimensionMaterialResources() {
-        if (RandomlyAddingAnything.CONFIG.debug) {
-            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
-        }
         DIMENSION_MATERIALS.forEach(material -> {
             Identifier dimensionId = new Identifier(material.getId().getNamespace(), material.getId().getPath().split("_")[0]);
             Identifier stoneName = Utils.addSuffixToPath(dimensionId, "_stone");

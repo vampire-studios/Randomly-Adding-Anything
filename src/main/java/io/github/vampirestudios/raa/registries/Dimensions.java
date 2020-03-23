@@ -184,7 +184,8 @@ public class Dimensions {
                     .difficulty(difficultyAndMobs.getLeft())
                     .mobs(difficultyAndMobs.getRight())
                     .civilizationInfluences(dimension.getCivilizationInfluences())
-                    .cloudHeight(Rands.randFloatRange(80F, 256F));
+                    .cloudHeight(Rands.randFloatRange(80F, 256F))
+                    .stoneJumpHeight(Rands.randFloatRange(1.0F, 10.0F));
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
@@ -231,12 +232,11 @@ public class Dimensions {
                 TernarySurfaceConfig surfaceConfig = Utils.randomSurfaceBuilderConfig();
 
                 DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.addSuffixToPath(name.getRight(), "_biome" + "_" + i), name.getLeft())
-                        .surfaceBuilderVariantChance(Rands.randInt(100))
                         .depth(Rands.randFloatRange(-1F, 3F))
                         .scale(scale + Rands.randFloatRange(-0.75f, 0.75f))
                         .temperature(dimension.getTemperature() + Rands.randFloatRange(-0.5f, 0.5f))
                         .downfall(Rands.randFloat(1F))
-                        .waterColor(WATER_COLOR.getColor())
+                        .waterColor(SKY_COLOR.getColor())
                         .grassColor(new Color(Color.HSBtoRGB(grassColor, saturation, value)).getColor())
                         .foliageColor(new Color(Color.HSBtoRGB(grassColor + Rands.randFloatRange(-0.1f, 0.1f), saturation, value)).getColor())
                         .treeData(treeDataList)
@@ -277,7 +277,7 @@ public class Dimensions {
         DIMENSIONS.forEach(dimension -> {
             Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
 
-            Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension.getName()), Utils.addSuffixToPath(identifier, "_stone"),
+            Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension), Utils.addSuffixToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
             RegistryUtils.register(new StairsBaseBlock(stoneBlock.getDefaultState()), Utils.addSuffixToPath(identifier, "_stone_stairs"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneStairs");

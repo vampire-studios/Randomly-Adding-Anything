@@ -11,29 +11,27 @@ import java.util.List;
 public class DimensionData {
     private Identifier id;
     private String name;
-    private int dimensionId;
-    private List<DimensionBiomeData> biomeData;
-    private DimensionColorPalette dimensionColorPalette;
-    private DimensionTextureData texturesInformation;
+    private final List<DimensionBiomeData> biomeData;
+    private final DimensionColorPalette dimensionColorPalette;
+    private final DimensionTextureData texturesInformation;
     private boolean hasSkyLight;
     private boolean hasSky;
     private boolean canSleep;
     private boolean waterVaporize;
     private boolean renderFog;
-    private DimensionChunkGenerators dimensionChunkGenerator;
-    private int flags;
-    private HashMap<String, int[]> mobs;
-    private int difficulty;
-    private HashMap<String, Double> civilizationInfluences;
-    private int toolDurability;
-    private float cloudHeight;
+    private final DimensionChunkGenerators dimensionChunkGenerator;
+    private final int flags;
+    private final HashMap<String, int[]> mobs;
+    private final int difficulty;
+    private final HashMap<String, Double> civilizationInfluences;
+    private final float cloudHeight;
+    private float stoneJumpHeight;
 
-    public DimensionData(Identifier id, String name, int dimensionId, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
+    public DimensionData(Identifier id, String name, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
                          boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags,
-                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int toolDurability, float cloudHeight) {
+                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, float cloudHeight, float stoneJumpHeight) {
         this.id = id;
         this.name = name;
-        this.dimensionId = dimensionId;
         this.biomeData = biomeData;
         this.dimensionColorPalette = dimensionColorPalette;
         this.texturesInformation = texturesInformation;
@@ -47,8 +45,8 @@ public class DimensionData {
         this.mobs = mobs;
         this.difficulty = difficulty;
         this.civilizationInfluences = civilizationInfluences;
-        this.toolDurability = toolDurability;
         this.cloudHeight = cloudHeight;
+        this.stoneJumpHeight = stoneJumpHeight;
     }
 
     public Identifier getId() {
@@ -67,10 +65,6 @@ public class DimensionData {
         this.name = name;
     }
 
-    public int getDimensionId() {
-        return dimensionId;
-    }
-
     public List<DimensionBiomeData> getBiomeData() {
         return biomeData;
     }
@@ -87,7 +81,6 @@ public class DimensionData {
         return hasSkyLight;
     }
 
-    @Deprecated
     public void setHasSkyLight(boolean hasSkyLight) {
         this.hasSkyLight = hasSkyLight;
     }
@@ -96,7 +89,6 @@ public class DimensionData {
         return hasSky;
     }
 
-    @Deprecated
     public void setHasSky(boolean hasSky) {
         this.hasSky = hasSky;
     }
@@ -105,7 +97,6 @@ public class DimensionData {
         return canSleep;
     }
 
-    @Deprecated
     public void setCanSleep(boolean canSleep) {
         this.canSleep = canSleep;
     }
@@ -114,7 +105,6 @@ public class DimensionData {
         return waterVaporize;
     }
 
-    @Deprecated
     public void setWaterVaporize(boolean waterVaporize) {
         this.waterVaporize = waterVaporize;
     }
@@ -123,7 +113,6 @@ public class DimensionData {
         return renderFog;
     }
 
-    @Deprecated
     public void setRenderFog(boolean renderFog) {
         this.renderFog = renderFog;
     }
@@ -152,11 +141,18 @@ public class DimensionData {
         return cloudHeight;
     }
 
+    public float getStoneJumpHeight() {
+        return stoneJumpHeight;
+    }
+
+    public void setStoneJumpHeight(float stoneJumpHeight) {
+        this.stoneJumpHeight = stoneJumpHeight;
+    }
+
     public static class Builder {
         HashMap<String, int[]> mobs;
         private Identifier id;
         private String name;
-        private int dimensionId;
         private List<DimensionBiomeData> biomeData;
         private DimensionColorPalette dimensionColorPalette;
         private DimensionTextureData texturesInformation;
@@ -169,8 +165,8 @@ public class DimensionData {
         private int flags;
         private int difficulty;
         private HashMap<String, Double> civilizationInfluences;
-        private int toolDurability;
         private float cloudHeight;
+        private float stoneJumpHeight;
 
         private Builder() {
 
@@ -204,12 +200,6 @@ public class DimensionData {
 
         public Builder chunkGenerator(DimensionChunkGenerators dimensionChunkGenerator) {
             this.dimensionChunkGenerator = dimensionChunkGenerator;
-            return this;
-        }
-
-        @Deprecated
-        public Builder dimensionId(int dimensionId) {
-            this.dimensionId = dimensionId;
             return this;
         }
 
@@ -273,19 +263,19 @@ public class DimensionData {
             return this;
         }
 
-        public Builder toolDurability(int toolDurability) {
-            this.toolDurability = toolDurability;
-            return this;
-        }
-
         public Builder cloudHeight(float cloudHeight) {
             this.cloudHeight = cloudHeight;
             return this;
         }
 
+        public Builder stoneJumpHeight(float stoneJumpHeight) {
+            this.stoneJumpHeight = stoneJumpHeight;
+            return this;
+        }
+
         public DimensionData build() {
-            return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, texturesInformation, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog,
-                    dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, toolDurability, cloudHeight);
+            return new DimensionData(id, name, biomeData, dimensionColorPalette, texturesInformation, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog,
+                    dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, cloudHeight, stoneJumpHeight);
         }
     }
 }
