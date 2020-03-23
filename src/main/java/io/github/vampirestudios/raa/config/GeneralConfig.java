@@ -11,7 +11,7 @@ public class GeneralConfig implements ConfigData {
 
     @Comment("Amount of materials to generate")
     public int materialNumber = 100;
-    @Comment("Amount of dimension materials to generate per dimension")
+    @Comment("Amount of unique materials to generate per dimension")
     public int dimensionMaterials = 10;
     @Comment("Amount of dimensions to generate")
     public int dimensionNumber = 50;

@@ -124,8 +124,6 @@ public class RandomlyAddingAnything implements ModInitializer {
         DimensionRecipes.init();
         MaterialRecipes.init();
 
-        Criterions.init();
-
         List<Biome> biomes = new ArrayList<>();
         Registry.BIOME.forEach(biomes::add);
         RegistryEntryAddedCallback.event(Registry.BIOME).register((i, identifier, biome) -> biomes.add(biome));

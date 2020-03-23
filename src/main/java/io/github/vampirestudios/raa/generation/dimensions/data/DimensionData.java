@@ -63,6 +63,10 @@ public class DimensionData {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getDimensionId() {
         return dimensionId;
     }
@@ -128,10 +132,6 @@ public class DimensionData {
         return dimensionChunkGenerator;
     }
 
-    public void setDimensionChunkGenerator(DimensionChunkGenerators dimensionChunkGenerator) {
-        this.dimensionChunkGenerator = dimensionChunkGenerator;
-    }
-
     public int getFlags() {
         return flags;
     }
@@ -146,10 +146,6 @@ public class DimensionData {
 
     public HashMap<String, Double> getCivilizationInfluences() {
         return civilizationInfluences;
-    }
-
-    public int getToolDurability() {
-        return toolDurability;
     }
 
     public float getCloudHeight() {

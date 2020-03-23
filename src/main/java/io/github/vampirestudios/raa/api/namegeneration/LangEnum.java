@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.api.namegeneration;
 
-import io.github.vampirestudios.raa.api.namegeneration.biomes.*;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.EnglishDimensions;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.FrenchDimensions;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.NorwegianDimensions;
@@ -14,46 +13,31 @@ import org.apache.commons.lang3.text.WordUtils;
 public enum LangEnum {
     ENGLISH(
         new EnglishMaterials(),
-        new EnglishBiomes(),
         new EnglishDimensions()
     ),
     FRENCH(
         new FrenchMaterials(),
-        new FrenchBiomes(),
         new FrenchDimensions()
     ),
     NORWEGIAN(
         new NorwegianMaterials(),
-        new NorwegianBiomes(),
         new NorwegianDimensions()
     ),
     SPANISH(
         new SpanishMaterials(),
-        new SpanishBiomes(),
         new SpanishDimensions()
-    ),
-    CHINESE(
-        new ChineseBiomes(),
-        new ChineseBiomes(),
-        new ChineseBiomes()
     );
 
-    private INameGenerator materialNameGenerator;
-    private INameGenerator biomeNameGenerator;
-    private INameGenerator dimensionNameGenerator;
+    private final INameGenerator materialNameGenerator;
+    private final INameGenerator dimensionNameGenerator;
 
-    LangEnum(INameGenerator material, INameGenerator biomes, INameGenerator dimensions) {
+    LangEnum(INameGenerator material, INameGenerator dimensions) {
         this.materialNameGenerator = material;
-        this.biomeNameGenerator = biomes;
         this.dimensionNameGenerator = dimensions;
     }
 
     public INameGenerator getMaterialNameGenerator() {
         return materialNameGenerator;
-    }
-
-    public INameGenerator getBiomeNameGenerator() {
-        return biomeNameGenerator;
     }
 
     public INameGenerator getDimensionNameGenerator() {

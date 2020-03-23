@@ -10,6 +10,7 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
+import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -55,7 +56,6 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         clearItems();
         addItem(new TitleMaterialOverrideEntry(og, dimensionData, new LiteralText(WordUtils.capitalizeFully(dimensionData.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         DimensionColorPalette colorPalette = dimensionData.getDimensionColorPalette();
-//        addItem(new TitleEntry(new LiteralText(WordUtils.capitalizeFully(dimensionData.getName())).formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", dimensionData.getId().toString())));
 
         addItem(new TextEntry(new TranslatableText("config.text.raa.hasSky", new TranslatableText("config.text.raa.boolean.value." + dimensionData.hasSky()))));
@@ -74,7 +74,6 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
 
         addItem(new TitleEntry(new TranslatableText("config.title.raa.advancedInformation").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
         addItem(new TextEntry(new TranslatableText("config.text.raa.chunkGenerator", WordUtils.capitalizeFully(dimensionData.getDimensionChunkGenerator().toString().replace("_", " ").toLowerCase()))));
-//        addItem(new TextEntry(new TranslatableText("config.text.raa.surfaceBuilder", WordUtils.capitalizeFully(dimensionData.getNewSurfaceBuilder().getPath().replace("_", " ").toLowerCase()))));
 
         if (dimensionData.getFlags() != 0) {
             addItem(new TitleEntry(new TranslatableText("config.title.raa.flags").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
@@ -152,19 +151,17 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
     }
 
-    public static class TitleMaterialOverrideEntry extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
+    public static class TitleMaterialOverrideEntry extends RAADimensionDescriptionListWidget.Entry {
         protected String s;
-        private ButtonWidget overrideButton;
+        private final ButtonWidget overrideButton;
 
         public TitleMaterialOverrideEntry(DimensionListScreen og, DimensionData material, Text text) {
             this.s = text.asFormattedString();
             String btnText = I18n.translate("config.button.raa.edit");
-            overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText, widget -> {
-                openClothConfigForMaterial(og, material);
-            });
+            overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText,
+                    widget -> openClothConfigForMaterial(og, material));
         }
 
-        @SuppressWarnings("deprecation")
         private static void openClothConfigForMaterial(DimensionListScreen og, DimensionData material) {
             ConfigBuilder builder = ConfigBuilder.create()
                     .setParentScreen(og)
@@ -184,13 +181,13 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
             );
 
             //TODO: refactor this with array support
-            /*category.addEntry(
+            category.addEntry(
                     eb.startStrField("config.field.raa.name", material.getName())
                             .setDefaultValue(material.getName())
                             .setSaveConsumer(material::setName)
                             .build()
-            );*/
-//            SubCategoryBuilder biomeData = eb.startSubCategory("config.title.raa.biomeData").setExpended(false);
+            );
+            SubCategoryBuilder biomeData = eb.startSubCategory("config.title.raa.biomeData").setExpanded(false);
 //            biomeData.add(
 //                    eb.startStrField("config.field.raa.biomeData.id", material.getBiomeData().getId().getPath())
 //                            .setDefaultValue(material.getBiomeData().getId().getPath())
