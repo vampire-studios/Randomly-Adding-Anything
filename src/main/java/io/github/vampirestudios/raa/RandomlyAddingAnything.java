@@ -135,7 +135,7 @@ public class RandomlyAddingAnything implements ModInitializer {
             if (biome.getCategory() != Biome.Category.OCEAN && CONFIG.shouldSpawnPortalHub) {
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
-                                configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.001125F), 1))));
+                                configure(new CountExtraChanceDecoratorConfig(0, 0.001F, 1))));
             }
         });
     }

@@ -16,7 +16,7 @@ public enum DimensionChunkGenerators {
     OVERWORLD,
     QUADRUPLE_AMPLIFIED,
     PILLAR_WORLD,
-    CUSTOM_OVERWORLD,
+    LAYERED_OVERWORLD,
     SMOOTH_OVERWORLD,
 
     FLOATING,
@@ -35,7 +35,12 @@ public enum DimensionChunkGenerators {
         if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) config.setDefaultFluid(Blocks.AIR.getDefaultState());
         config.setDefaultBlock(stoneBlock.getDefaultState());
 
-        CavesChunkGeneratorConfig caveConfig = new CavesChunkGeneratorConfig();
+        CavesChunkGeneratorConfig caveConfig = new CavesChunkGeneratorConfig() { //set the bedrock ceiling y to 256
+            @Override
+            public int getBedrockCeilingY() {
+                return 255;
+            }
+        };
         caveConfig.setDefaultBlock(stoneBlock.getDefaultState());
         if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN))
             caveConfig.setDefaultFluid(Blocks.LAVA.getDefaultState());
@@ -58,6 +63,7 @@ public enum DimensionChunkGenerators {
 
         if (this == SMOOTH_OVERWORLD) return ChunkGenerators.SMOOTH.create(world, biomeSource, config);
         if (this == TOTALLY_CUSTOM) return ChunkGenerators.TOTALLY_CUSTOM.create(world, biomeSource, config);
+        if (this == LAYERED_OVERWORLD) return ChunkGenerators.LAYERED_OVERWORLD.create(world, biomeSource, config);
 
         /*if (this == CUSTOM_OVERWORLD && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
             return ChunkGenerators.CUSTOM_SURFACE.create(world, biomeSource, config);

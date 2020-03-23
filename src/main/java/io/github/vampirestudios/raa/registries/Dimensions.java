@@ -207,7 +207,7 @@ public class Dimensions {
                 float grassColor = hue + Rands.randFloatRange(-0.15f, 0.15f);
                 List<DimensionTreeData> treeDataList = new ArrayList<>();
 
-                int treeAmount = Rands.randIntRange(1, 8);
+                int treeAmount = Rands.randIntRange(1, 6);
                 if (Utils.checkBitFlag(flags, Utils.LUSH)) treeAmount = 11;
                 for (int j = 0; j < treeAmount; j++) {
                     DimensionTreeData treeData = DimensionTreeData.Builder.create()
@@ -233,7 +233,7 @@ public class Dimensions {
                 DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.addSuffixToPath(name.getRight(), "_biome" + "_" + i), name.getLeft())
                         .surfaceBuilderVariantChance(Rands.randInt(100))
                         .depth(Rands.randFloatRange(-1F, 3F))
-                        .scale(scale + Rands.randFloatRange(-0.75f, 0.75f))
+                        .scale(Math.max(scale + Rands.randFloatRange(-0.75f, 0.75f), 0)) //ensure the scale is never below 0
                         .temperature(dimension.getTemperature() + Rands.randFloatRange(-0.5f, 0.5f))
                         .downfall(Rands.randFloat(1F))
                         .waterColor(WATER_COLOR.getColor())

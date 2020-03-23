@@ -156,7 +156,7 @@ public class Utils {
             } else if (chance <= 50) {
                 return DimensionChunkGenerators.PILLAR_WORLD;
             } else if (chance <= 60 && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
-                return DimensionChunkGenerators.CUSTOM_OVERWORLD;
+                return DimensionChunkGenerators.LAYERED_OVERWORLD;
             } else if (chance <= 70) {
                 return DimensionChunkGenerators.TOTALLY_CUSTOM;
             }
