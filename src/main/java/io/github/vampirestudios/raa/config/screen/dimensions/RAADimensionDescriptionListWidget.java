@@ -121,7 +121,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         addItem(new ColorEntry("config.text.raa.waterColor", dimensionData.getBiomeData().get(0).getWaterColor()));
 
         for (DimensionBiomeData biomeData : dimensionData.getBiomeData()) {
-            addItem(new TitleEntry(new LiteralText(biomeData.getName())));
+            addItem(new TitleEntry(new LiteralText(WordUtils.capitalizeFully(biomeData.getId().getPath().replace("_", " ")))));
         }
     }
 
@@ -177,6 +177,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                                     return Optional.empty();
                                 return Optional.of(I18n.translate("config.error.raa.identifier.no.caps"));
                             })
+                            .requireRestart()
                             .build()
             );
 
@@ -187,51 +188,86 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                             .setSaveConsumer(material::setName)
                             .build()
             );
-            SubCategoryBuilder biomeData = eb.startSubCategory("config.title.raa.biomeData").setExpanded(false);
-//            biomeData.add(
-//                    eb.startStrField("config.field.raa.biomeData.id", material.getBiomeData().getId().getPath())
-//                            .setDefaultValue(material.getBiomeData().getId().getPath())
-//                            .setSaveConsumer(str -> material.getBiomeData().setId(new Identifier(RandomlyAddingAnything.MOD_ID, str)))
-//                            .build()
-//            );
-//            biomeData.add(
-//                    eb.startStrField("config.field.raa.biomeData.name", material.getBiomeData().getName())
-//                            .setDefaultValue(material.getBiomeData().getName())
-//                            .setSaveConsumer(material.getBiomeData()::setName)
-//                            .build()
-//            );
-//            biomeData.add(
-//                    eb.startIntField("config.field.raa.biomeData.surfaceBuilderVariantChance",
-//                            material.getBiomeData().getSurfaceBuilderVariantChance())
-//                            .setDefaultValue(material.getBiomeData().getSurfaceBuilderVariantChance())
-//                            .setSaveConsumer(material.getBiomeData()::setSurfaceBuilderVariantChance)
-//                            .build()
-//            );
-//            biomeData.add(
-//                    eb.startFloatField("config.field.raa.biomeData.depth", material.getBiomeData().getDepth())
-//                            .setDefaultValue(material.getBiomeData().getDepth())
-//                            .setSaveConsumer(material.getBiomeData()::setDepth)
-//                            .build()
-//            );
-//            biomeData.add(
-//                    eb.startFloatField("config.field.raa.biomeData.scale", material.getBiomeData().getScale())
-//                            .setDefaultValue(material.getBiomeData().getScale())
-//                            .setSaveConsumer(material.getBiomeData()::setScale)
-//                            .build()
-//            );
-//            biomeData.add(
-//                    eb.startFloatField("config.field.raa.biomeData.temperature", material.getBiomeData().getTemperature())
-//                            .setDefaultValue(material.getBiomeData().getTemperature())
-//                            .setSaveConsumer(material.getBiomeData()::setTemperature)
-//                            .build()
-//            );
-//            biomeData.add(
-//                    eb.startFloatField("config.field.raa.biomeData.downfall", material.getBiomeData().getDownfall())
-//                            .setDefaultValue(material.getBiomeData().getDownfall())
-//                            .setSaveConsumer(material.getBiomeData()::setDownfall)
-//                            .build()
-//            );
-//            category.addEntry(biomeData.build());
+
+            for (DimensionBiomeData biomeData : material.getBiomeData()) {
+                SubCategoryBuilder biomeDataSubCategory = eb.startSubCategory(I18n.translate("config.title.raa.biomeData", WordUtils.capitalizeFully(biomeData.getId()
+                        .getPath().replace("_", " ")))).setExpanded(false);
+                biomeDataSubCategory.add(
+                        eb.startStrField("config.field.raa.biomeData.name", WordUtils.capitalizeFully(biomeData.getId().getPath().replace("_", " ")))
+                                .setDefaultValue(WordUtils.capitalizeFully(biomeData.getId().getPath().replace("_", " ")))
+                                .setSaveConsumer(biomeData::setName)
+                                .build()
+                );
+                biomeDataSubCategory.add(
+                        eb.startStrField("config.field.raa.biomeData.surfaceBuilder",
+                                biomeData.getSurfaceBuilder().toString())
+                                .setDefaultValue(biomeData.getSurfaceBuilder().toString())
+                                .setSaveConsumer(biomeData::setSurfaceBuilder)
+                                .setErrorSupplier(str -> {
+                                    if (str.toLowerCase().equals(str))
+                                        return Optional.empty();
+                                    return Optional.of(I18n.translate("config.error.raa.identifier.no_caps"));
+                                })
+                                .build()
+                );
+                biomeDataSubCategory.add(
+                        eb.startStrField("config.field.raa.biomeData.surfaceBuilderConfig",
+                                Utils.fromConfigToIdentifier(biomeData.getSurfaceConfig()).toString())
+                                .setDefaultValue(Utils.fromConfigToIdentifier(biomeData.getSurfaceConfig()).toString())
+                                .setSaveConsumer(biomeData::setSurfaceConfig)
+                                .setErrorSupplier(str -> {
+                                    if (str.toLowerCase().equals(str))
+                                        return Optional.empty();
+                                    return Optional.of(I18n.translate("config.error.raa.identifier.no_caps"));
+                                })
+                                .build()
+                );
+                biomeDataSubCategory.add(
+                        eb.startFloatField("config.field.raa.biomeData.depth", biomeData.getDepth())
+                                .setDefaultValue(biomeData.getDepth())
+                                .setSaveConsumer(biomeData::setDepth)
+                                .setErrorSupplier(str -> {
+                                    if (str >= 0.0F)
+                                        return Optional.empty();
+                                    return Optional.of(I18n.translate("config.error.raa.depth_under_zero"));
+                                })
+                                .build()
+                );
+                biomeDataSubCategory.add(
+                        eb.startFloatField("config.field.raa.biomeData.scale", biomeData.getScale())
+                                .setDefaultValue(biomeData.getScale())
+                                .setSaveConsumer(biomeData::setScale)
+                                .setErrorSupplier(str -> {
+                                    if (str >= 0.0F)
+                                        return Optional.empty();
+                                    return Optional.of(I18n.translate("config.error.raa.depth_under_zero"));
+                                })
+                                .build()
+                );
+                biomeDataSubCategory.add(
+                        eb.startFloatField("config.field.raa.biomeData.temperature", biomeData.getTemperature())
+                                .setDefaultValue(biomeData.getTemperature())
+                                .setSaveConsumer(biomeData::setTemperature)
+                                .setErrorSupplier(str -> {
+                                    if (str >= 0.0F)
+                                        return Optional.empty();
+                                    return Optional.of(I18n.translate("config.error.raa.depth_under_zero"));
+                                })
+                                .build()
+                );
+                biomeDataSubCategory.add(
+                        eb.startFloatField("config.field.raa.biomeData.downfall", biomeData.getDownfall())
+                                .setDefaultValue(biomeData.getDownfall())
+                                .setSaveConsumer(biomeData::setDownfall)
+                                .setErrorSupplier(str -> {
+                                    if (str >= 0.0F)
+                                        return Optional.empty();
+                                    return Optional.of(I18n.translate("config.error.raa.depth_under_zero"));
+                                })
+                                .build()
+                );
+                category.addEntry(biomeDataSubCategory.build());
+            }
 
             category.addEntry(
                     eb.startBooleanToggle("config.field.raa.hasSky", material.hasSky())
@@ -245,23 +281,26 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                             .setSaveConsumer(material::setHasSkyLight)
                             .build()
             );
-            // TODO Fix this
             if (material.hasSky()) {
                 category.addEntry(
-                        eb.startStrField("config.field.raa.skyColor", Integer.toHexString(material.getDimensionColorPalette().getSkyColor()).replaceFirst("ff", ""))
-                                .setDefaultValue(Integer.toHexString(material.getDimensionColorPalette().getSkyColor()).replaceFirst("ff", ""))
-                                .setSaveConsumer(str -> material.getDimensionColorPalette().setSkyColor(Integer.decode("0x" + str)))
-                                .setErrorSupplier(str -> {
-                                    try {
-                                        Integer.decode("0x" + str);
-                                        return Optional.empty();
-                                    } catch (Exception e) {
-                                        return Optional.of(I18n.translate("config.error.raa.invalid.color"));
-                                    }
-                                })
+                        eb.startAlphaColorField("config.field.raa.skyColor", material.getDimensionColorPalette().getSkyColor())
+                                .setDefaultValue(material.getDimensionColorPalette().getSkyColor())
+                                .setSaveConsumer(integer -> material.getDimensionColorPalette().setSkyColor(integer))
                                 .build()
                 );
             }
+            category.addEntry(
+                    eb.startAlphaColorField("config.field.raa.grassColor", material.getDimensionColorPalette().getGrassColor())
+                            .setDefaultValue(material.getDimensionColorPalette().getGrassColor())
+                            .setSaveConsumer(integer -> material.getDimensionColorPalette().setGrassColor(integer))
+                            .build()
+            );
+            category.addEntry(
+                    eb.startAlphaColorField("config.field.raa.fogColor", material.getDimensionColorPalette().getFogColor())
+                            .setDefaultValue(material.getDimensionColorPalette().getFogColor())
+                            .setSaveConsumer(integer -> material.getDimensionColorPalette().setFogColor(integer))
+                            .build()
+            );
             category.addEntry(
                     eb.startBooleanToggle("config.field.raa.canSleep", material.canSleep())
                             .setDefaultValue(material.canSleep())
@@ -278,6 +317,12 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                     eb.startBooleanToggle("config.field.raa.shouldRenderFog", material.hasThickFog())
                             .setDefaultValue(material.hasThickFog())
                             .setSaveConsumer(material::setRenderFog)
+                            .build()
+            );
+            category.addEntry(
+                    eb.startFloatField("config.field.raa.stoneJumpHeight", material.getStoneJumpHeight())
+                            .setDefaultValue(material.getStoneJumpHeight())
+                            .setSaveConsumer(material::setStoneJumpHeight)
                             .build()
             );
             builder.setSavingRunnable(RandomlyAddingAnything.DIMENSIONS_CONFIG::overrideFile);

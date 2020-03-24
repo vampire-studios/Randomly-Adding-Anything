@@ -9,7 +9,6 @@ import java.util.List;
 public class DimensionBiomeData {
     private Identifier id;
     private String biomeName;
-    private int surfaceBuilderVariantChance;
     private float depth;
     private float scale;
     private float temperature;
@@ -30,13 +29,12 @@ public class DimensionBiomeData {
     private Identifier surfaceBuilder;
     private Identifier surfaceConfig;
 
-    DimensionBiomeData(Identifier id, String biomeName, int surfaceBuilderVariantChance, float depth, float scale, float temperature, float downfall, int waterColor,
+    DimensionBiomeData(Identifier id, String biomeName, float depth, float scale, float temperature, float downfall, int waterColor,
                        int grassColor, int foliageColor, List<DimensionTreeData> treeData, float corruptedCratersChance, float nonCorruptedCratersChance,
                        boolean spawnsCratersInNonCorrupted, float largeSkeletonTreeChance, float campfireChance, float outpostChance, float towerChance,
                        boolean hasMushrooms, boolean hasMossyRocks, Identifier surfaceBuilder, Identifier surfaceConfig) {
         this.id = id;
         this.biomeName = biomeName;
-        this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
         this.depth = depth;
         this.scale = scale;
         this.temperature = temperature;
@@ -72,14 +70,6 @@ public class DimensionBiomeData {
 
     public void setName(String biomeName) {
         this.biomeName = biomeName;
-    }
-
-    public int getSurfaceBuilderVariantChance() {
-        return surfaceBuilderVariantChance;
-    }
-
-    public void setSurfaceBuilderVariantChance(int surfaceBuilderVariantChance) {
-        this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
     }
 
     public float getDepth() {
@@ -178,14 +168,21 @@ public class DimensionBiomeData {
         return surfaceBuilder;
     }
 
+    public void setSurfaceBuilder(String surfaceBuilder) {
+        this.surfaceBuilder = new Identifier(surfaceBuilder);
+    }
+
     public TernarySurfaceConfig getSurfaceConfig() {
         return Utils.fromIdentifierToConfig(surfaceConfig);
+    }
+
+    public void setSurfaceConfig(String surfaceConfig) {
+        this.surfaceConfig = new Identifier(surfaceConfig);
     }
 
     public static class Builder {
         private Identifier id;
         private String name;
-        private int surfaceBuilderVariantChance;
         private float depth;
         private float scale;
         private float temperature;
@@ -229,11 +226,6 @@ public class DimensionBiomeData {
 
         public Builder name(String name) {
             this.name = name;
-            return this;
-        }
-
-        public Builder surfaceBuilderVariantChance(int surfaceBuilderVariantChance) {
-            this.surfaceBuilderVariantChance = surfaceBuilderVariantChance;
             return this;
         }
 
@@ -333,7 +325,7 @@ public class DimensionBiomeData {
         }
 
         public DimensionBiomeData build() {
-            return new DimensionBiomeData(id, name, surfaceBuilderVariantChance, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor, treeData,
+            return new DimensionBiomeData(id, name, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor, treeData,
                     corruptedCratersChance, nonCorruptedCratersChance, spawnsCratersInNonCorrupted, largeSkeletonTreeChance, campfireChance, outpostChance,
                     towerChance, hasMushrooms, hasMossyRocks, surfaceBuilder, surfaceConfig);
         }

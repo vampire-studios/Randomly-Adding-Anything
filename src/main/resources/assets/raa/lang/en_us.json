@@ -70,7 +70,7 @@
 
   "config.title.raa.tools": "Tools",
   "config.title.raa.weapons": "Weapons",
-  "config.title.raa.biomeData": "Biome Data",
+  "config.title.raa.biomeData": "%s Biome Data",
   "config.title.raa.advancedInformation": "Advanced Information",
   "config.title.raa.dimensionMaterial": "Dimension Materials",
 
