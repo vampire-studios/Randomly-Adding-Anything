@@ -7,6 +7,7 @@ import io.github.vampirestudios.raa.generation.carvers.*;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.FossilFeature;
 import io.github.vampirestudios.raa.generation.feature.*;
+import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.generation.feature.portalHub.PortalHubFeature;
 import io.github.vampirestudios.raa.generation.feature.tree.BentTreeFeature;
@@ -49,6 +50,10 @@ public class Features {
     public static CaveCampfireFeature CAVE_CAMPFIRE;
     public static MushRuinFeature MUSHROOM_RUIN;
     public static UndegroundBeeHiveFeature UNDERGROUND_BEE_HIVE;
+    public static Stonehenge STONE_HENGE;
+    public static ColumnRamp COLUMN_RAMP;
+    public static ColumnVertical COLUMN_VERTICAL;
+    public static HangingRuins HANGING_RUINS;
 
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
@@ -72,6 +77,11 @@ public class Features {
         CAVE_CAMPFIRE = register("cave_campfire", new CaveCampfireFeature(DefaultFeatureConfig::deserialize));
         MUSHROOM_RUIN = register("mushroom_ruin", new MushRuinFeature(DefaultFeatureConfig::deserialize));
         UNDERGROUND_BEE_HIVE = register("underground_bee_hive", new UndegroundBeeHiveFeature(DefaultFeatureConfig::deserialize));
+
+        STONE_HENGE = register("stone_henge", new Stonehenge(DefaultFeatureConfig::deserialize));
+        COLUMN_RAMP = register("columnn_ramp", new ColumnRamp(ColumnBlocksConfig::deserialize));
+        COLUMN_VERTICAL = register("columnn_vertical", new ColumnVertical(ColumnBlocksConfig::deserialize));
+        HANGING_RUINS = register("hanging_ruins", new HangingRuins(DefaultFeatureConfig::deserialize));
     }
 
     // we use this cursed code to make a new carver per dimension

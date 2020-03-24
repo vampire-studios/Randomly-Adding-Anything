@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
-import io.github.vampirestudios.raa.api.dimension.DimensionSurfaceBuilders;
 import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -170,7 +169,7 @@ public class Utils {
                 return DimensionChunkGenerators.QUADRUPLE_AMPLIFIED;
             } else if (chance <= 50) {
                 return DimensionChunkGenerators.PILLAR_WORLD;
-            } else if (chance <= 60 && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
+            } else if (chance <= 60) {
                 return DimensionChunkGenerators.LAYERED_OVERWORLD;
             } else if (chance <= 70) {
                 return DimensionChunkGenerators.TOTALLY_CUSTOM;
