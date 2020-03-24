@@ -14,8 +14,12 @@ import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 import java.util.Random;
 
 public class RandomSpiresSurfaceElement extends SurfaceElement {
+    private int spireChance;
+    private int spireHeight;
 
     public RandomSpiresSurfaceElement() {
+        spireChance = Rands.randIntRange(8, 40);
+        spireHeight = Rands.randIntRange(3, 16);
     }
 
     @Override
@@ -25,20 +29,28 @@ public class RandomSpiresSurfaceElement extends SurfaceElement {
         //don't place on water
         if (chunk.getBlockState(pos.toImmutable().down()) == defaultFluid) return;
 
-        if (random.nextInt(10) == 0) {
-            for (int i = 0; i < random.nextInt(10); i++) {
+        if (random.nextInt(spireChance) == 0) {
+            int spireHeightRandom = random.nextInt(spireHeight);
+            for (int i = 0; i < spireHeightRandom; i++) {
                 pos.setY(height + i);
                 chunk.setBlockState(pos, defaultBlock, false);
             }
+
+            //generate the top layer of the spire
+            SurfaceBuilder.DEFAULT.generate(random, chunk, biome, x, z, height + spireHeightRandom + 1, noise, defaultBlock, defaultFluid, seaLevel, seed, surfaceBlocks);
         }
     }
 
     @Override
     public void serialize(JsonObject obj) {
+        obj.addProperty("spireChance", spireChance);
+        obj.addProperty("spireHeight", spireHeight);
     }
 
     @Override
     public void deserialize(JsonObject obj) {
+        spireChance = obj.get("spireChance").getAsInt();
+        spireHeight = obj.get("spireHeight").getAsInt();
     }
 
     @Override

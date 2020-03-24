@@ -24,6 +24,7 @@ public class RedDesertSurfaceElement extends SurfaceElement {
     @Override
     public void generate(Random random, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig surfaceBlocks) {
         if (noise > chance) {
+            resetTop(chunk, x, z, height, defaultBlock, defaultFluid);
             SurfaceBuilder.DEFAULT.generate(random, chunk, biome, x, z, height, noise, defaultBlock, defaultFluid, seaLevel, seed, CONFIG);
         }
     }
