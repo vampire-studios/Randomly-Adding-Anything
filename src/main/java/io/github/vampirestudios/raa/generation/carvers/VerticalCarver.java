@@ -22,7 +22,7 @@ public class VerticalCarver extends RAACarver<ProbabilityConfig> {
     public boolean carve(Chunk chunk, Function<BlockPos, Biome> posToBiome, Random random, int seaLevel, int chunkX, int chunkZ, int mainChunkX, int mainChunkZ, BitSet carvingMask, ProbabilityConfig carverConfig) {
 
         double x = (chunkX * 16 + random.nextInt(16));
-        double y = random.nextInt(70);
+        double y = random.nextInt(256);
         double z = (chunkZ * 16 + random.nextInt(16));
 
         for(int p = 0; p < 3; ++p) {

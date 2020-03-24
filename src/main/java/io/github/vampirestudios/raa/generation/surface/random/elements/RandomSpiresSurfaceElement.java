@@ -18,7 +18,7 @@ public class RandomSpiresSurfaceElement extends SurfaceElement {
     private int spireHeight;
 
     public RandomSpiresSurfaceElement() {
-        spireChance = Rands.randIntRange(8, 40);
+        spireChance = Rands.randIntRange(32, 256);
         spireHeight = Rands.randIntRange(3, 16);
     }
 
