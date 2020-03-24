@@ -3,14 +3,12 @@ package io.github.vampirestudios.raa;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
 import io.github.vampirestudios.raa.compats.SimplexRAACompat;
-import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
-import io.github.vampirestudios.raa.config.DimensionsConfig;
-import io.github.vampirestudios.raa.config.GeneralConfig;
-import io.github.vampirestudios.raa.config.MaterialsConfig;
+import io.github.vampirestudios.raa.config.*;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
+import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
 import io.github.vampirestudios.raa.registries.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
@@ -55,6 +53,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 
     public static GeneralConfig CONFIG;
     public static MaterialsConfig MATERIALS_CONFIG;
+    public static SurfaceBuilderConfig SURFACE_BUILDER_CONFIG;
     public static DimensionsConfig DIMENSIONS_CONFIG;
     public static DimensionMaterialsConfig DIMENSION_MATERIALS_CONFIG;
 
@@ -98,6 +97,15 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         }
         Materials.createMaterialResources();
+
+        SurfaceBuilderGenerator.registerElements();
+        SURFACE_BUILDER_CONFIG = new SurfaceBuilderConfig("surface_builders/surface_builder_config");
+        if (CONFIG.regen || !SURFACE_BUILDER_CONFIG.fileExist()) {
+            SURFACE_BUILDER_CONFIG.generate();
+            SURFACE_BUILDER_CONFIG.save();
+        } else {
+            SURFACE_BUILDER_CONFIG.load();
+        }
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
         if (CONFIG.dimensionNumber > 0) {

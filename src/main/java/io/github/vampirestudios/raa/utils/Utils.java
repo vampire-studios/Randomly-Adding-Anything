@@ -3,12 +3,14 @@ package io.github.vampirestudios.raa.utils;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.api.dimension.DimensionSurfaceBuilders;
+import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
@@ -30,10 +32,26 @@ public class Utils {
     public static final int MOLTEN = 32; //Instead of water oceans, there are lava oceans.
     public static final int DRY = 64; //No oceans exist at all.
     public static final int TECTONIC = 128; //Creates lots of caves and ravines. Usually not visible on the surface.
-    public static final int FROZEN = 256; //Makes the dimension frozen
+    public static final int FROZEN = 256; //Makes the dimension frozen (snow instead of rain)
     public static final int LUCID = 512; //Makes the dimension be lucid, have faster time and more crazy skybox
 
     public static final int POST_APOCALYPTIC = CORRUPTED | DEAD | ABANDONED | DRY | TECTONIC; //A combination of corrupted, dead, abandoned, dry, and tectonic
+
+    //maps
+    private static List<String> surfaceBuilders = new ArrayList<>();
+
+    static {
+        surfaceBuilders.add("raa:patchy_desert");
+        surfaceBuilders.add("raa:dark_patchy_badlands");
+        surfaceBuilders.add("raa:patchy_badlands");
+        surfaceBuilders.add("raa:classic_cliffs");
+        surfaceBuilders.add("raa:stratified_cliffs");
+        surfaceBuilders.add("raa:floating_islands");
+        surfaceBuilders.add("raa:sandy_dunes");
+        surfaceBuilders.add("raa:dunes");
+        surfaceBuilders.add("raa:lazy_noise");
+        surfaceBuilders.add("minecraft:default");
+    }
 
     public static String toTitleCase(String lowerCase) {
         return "" + Character.toUpperCase(lowerCase.charAt(0)) + lowerCase.substring(1);
@@ -119,20 +137,20 @@ public class Utils {
     }
 
     public static SurfaceBuilder<?> newRandomSurfaceBuilder() {
-        /*Map<String, SurfaceBuilder<?>> surfaceBuilders = new HashMap<>();
-        surfaceBuilders.put("raa:hyper_flat", DimensionSurfaceBuilders.HYPER_FLAT.getSurfaceBuilder());
-        surfaceBuilders.put("raa:patchy_desert", DimensionSurfaceBuilders.PATCHY_DESERT.getSurfaceBuilder());
-        surfaceBuilders.put("raa:dark_patchy_badlands", DimensionSurfaceBuilders.DARK_PATCHY_BADLANDS.getSurfaceBuilder());
-        surfaceBuilders.put("raa:patchy_badlands", DimensionSurfaceBuilders.PATCHY_BADLANDS.getSurfaceBuilder());
-        surfaceBuilders.put("raa:classic_cliffs", DimensionSurfaceBuilders.CLASSIC_CLIFFS.getSurfaceBuilder());
-        surfaceBuilders.put("raa:stratified_cliffs", DimensionSurfaceBuilders.STRATIFIED_CLIFFS.getSurfaceBuilder());
-        surfaceBuilders.put("raa:floating_islands", DimensionSurfaceBuilders.FLOATING_ISLANDS.getSurfaceBuilder());
-        surfaceBuilders.put("raa:sandy_dunes", DimensionSurfaceBuilders.SANDY_DUNES.getSurfaceBuilder());
-        surfaceBuilders.put("raa:dunes", DimensionSurfaceBuilders.DUNES.getSurfaceBuilder());
-        surfaceBuilders.put("raa:lazy_noise", DimensionSurfaceBuilders.LAZY_NOISE.getSurfaceBuilder());
-        surfaceBuilders.put("minecraft:default", SurfaceBuilder.DEFAULT);
-        return Rands.map(surfaceBuilders).getValue();*/
-        return DimensionSurfaceBuilders.CLASSIC_CLIFFS.getSurfaceBuilder();
+        //random surface builder
+        if (Rands.chance(2)) {
+            SurfaceBuilder sb = SurfaceBuilderGenerator.RANDOM_SURFACE_BUILDER.getRandom(Rands.getRandom());
+            System.out.println("r: " + sb);
+            return sb;
+        }
+
+        //choose the default type of surface builder
+        SurfaceBuilder sb = Registry.SURFACE_BUILDER.get(new Identifier(Rands.list(surfaceBuilders)));
+        if (sb == null) { //dunno why it's null sometimes, but if it is, default to the default
+            sb = SurfaceBuilder.DEFAULT; //TODO: fix this instead of a hack
+        }
+        System.out.println("nr: " + sb);
+        return sb;
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {

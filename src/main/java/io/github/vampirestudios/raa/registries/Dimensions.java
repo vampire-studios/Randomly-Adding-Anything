@@ -4,7 +4,7 @@ import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.api.dimension.PlayerPlacementHandlers;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
-import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.DimensionalStone;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
@@ -59,7 +59,7 @@ public class Dimensions {
             float temperature = Rands.randFloat(2.0F);
             int flags = generateDimensionFlags();
 
-            INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
+            NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
             Pair<String, Identifier> name = nameGenerator.generateUnique(DIMENSION_NAMES, MOD_ID);
             DIMENSION_NAMES.add(name.getRight());
 
@@ -77,7 +77,7 @@ public class Dimensions {
         Set<Identifier> civNames = new HashSet<>();
         Set<ProtoDimension> usedDimensions = new HashSet<>();
         for (int i = 0; i < 10; i++) {
-            INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
+            NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
             Pair<String, Identifier> name = nameGenerator.generateUnique(civNames, MOD_ID);
             civNames.add(name.getRight());
             ProtoDimension generatedDimension = Rands.list(protoDimensions);
@@ -103,10 +103,13 @@ public class Dimensions {
 
             for (ProtoDimension dimension : protoDimensions) {
                 if (dimension != civ.getHomeDimension()) {
+                    //get distance to set the influence radius
                     double d = Utils.dist(dimension.getX(), dimension.getY(), civ.getHomeDimension().getX(), civ.getHomeDimension().getY());
-                    if (d <= civ.getInfluenceRadius()) {
+                    if (d <= civ.getInfluenceRadius()) { //if the dimension is within the influence radius, it has an influence
                         double percent = (civ.getInfluenceRadius() - d) / civ.getInfluenceRadius();
                         dimension.addInfluence(civ.getName(), percent);
+
+                        //modify the dimension based on the civ tech level and influence
                         if (percent > 0.40) {
                             if (civ.getTechLevel() >= 2) if (Rands.chance(5)) dimension.setAbandoned();
                         }
@@ -254,6 +257,7 @@ public class Dimensions {
                         .build();
                 builder.biome(biomeData);
             }
+
             DimensionColorPalette colorPalette = DimensionColorPalette.Builder.create()
                     .skyColor(SKY_COLOR.getColor())
                     .grassColor(GRASS_COLOR.getColor())
@@ -297,19 +301,24 @@ public class Dimensions {
                     .skyLight(dimension.hasSkyLight())
                     .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, Rands.chance(50) ? Blocks.STONE : stoneBlock));
 
-            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES)
+            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES) {
                 builder.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
-            else if (dimension.getDimensionChunkGenerator() == FLOATING || dimension.getDimensionChunkGenerator() == LAYERED_FLOATING || dimension.getDimensionChunkGenerator() == PRE_CLASSIC_FLOATING)
+            } else if (dimension.getDimensionChunkGenerator() == FLOATING || dimension.getDimensionChunkGenerator() == LAYERED_FLOATING || dimension.getDimensionChunkGenerator() == PRE_CLASSIC_FLOATING) {
                 builder.defaultPlacer(PlayerPlacementHandlers.FLOATING_WORLD.getEntityPlacer());
-            else builder.defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer());
+            } else {
+                builder.defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer());
+            }
 
             DimensionType type = builder.buildAndRegister(dimension.getId());
             DimensionType dimensionType;
-            if (Registry.DIMENSION_TYPE.get(dimension.getId()) == null)
+            if (Registry.DIMENSION_TYPE.get(dimension.getId()) == null) {
                 dimensionType = Registry.register(Registry.DIMENSION_TYPE, dimension.getId(), type);
-            else
+            }
+            else {
                 dimensionType = Registry.DIMENSION_TYPE.get(dimension.getId());
+            }
 
+            //TODO: custom tool durabilities
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
@@ -578,14 +587,27 @@ public class Dimensions {
         return new Pair<>(difficulty, list);
     }
 
+    //generate the flags for a dimension, ensures that dimensions can't have conflicting flags
     public static int generateDimensionFlags() {
         int flags = 0;
-        if (Rands.chance(65))
-            flags |= Utils.LUCID;
+
+        //post apocalyptic dimensions are a rare combination of the worst flags
         if (Rands.chance(35)) {
             flags = Utils.POST_APOCALYPTIC;
             return flags;
         }
+
+        //any dimension can be a lucid dimension
+        if (Rands.chance(65)) {
+            flags |= Utils.LUCID;
+        }
+
+        //any dimension can be a tectonic dimension
+        if (Rands.chance(10)) {
+            flags |= Utils.TECTONIC;
+        }
+
+        //corrupted dimensions
         if (Rands.chance(20)) {
             flags |= Utils.CORRUPTED;
             if (Rands.chance(8)) {
@@ -598,6 +620,7 @@ public class Dimensions {
                 flags |= Utils.DRY;
             }
         } else {
+            //dead dimensions
             if (Rands.chance(18)) {
                 flags |= Utils.DEAD;
                 if (Rands.chance(6)) {
@@ -606,23 +629,17 @@ public class Dimensions {
                 if (Rands.chance(5)) {
                     flags |= Utils.DRY;
                 }
-            } else {
+            } else { // lush dimensions
                 if (Rands.chance(4)) {
                     flags |= Utils.LUSH;
                 }
+
+                if (Rands.chance(10)) {
+                    flags |= Utils.FROZEN;
+                }
             }
         }
-        if (Rands.chance(10)) {
-            flags |= Utils.TECTONIC;
-        }
-        boolean chance = Rands.chance(10);
-        Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
-            chance = true;
-        }
-        if (chance) {
-            flags |= Utils.FROZEN;
-        }
+
         return flags;
     }
 }

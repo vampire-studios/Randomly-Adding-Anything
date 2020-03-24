@@ -1,11 +1,11 @@
 package io.github.vampirestudios.raa.api.namegeneration.material;
 
-import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import io.github.vampirestudios.raa.utils.Utils;
 
 import java.util.*;
 
-public class EnglishMaterials implements INameGenerator {
+public class EnglishMaterials implements NameGenerator {
     public static final String[] LATIN_PREFIXES = {
             "ab", "ad", "ambi", "ante", "circum", "co", "com", "contra", "de", "dis", "di", "ex", "extra",
             "in", "en", "infra", "inter", "intra", "juxta", "ne", "non", "ob", "per", "post", "prae", "preter",

@@ -69,4 +69,9 @@ public class Rands {
         Set<Map.Entry<K, V>> entry = map.entrySet();
         return new ArrayList<>(entry).get(randInt(entry.size()));
     }
+
+    public static <K, V extends Object> V mapValue(Map<K, V> map) {
+        V[] values = (V[]) map.values().toArray();
+        return values[rand.nextInt(values.length)];
+    }
 }

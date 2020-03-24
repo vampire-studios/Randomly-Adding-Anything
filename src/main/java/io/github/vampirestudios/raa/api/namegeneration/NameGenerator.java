@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-public interface INameGenerator {
+public interface NameGenerator {
     String generate();
 
     default Pair<String, Identifier> generateUnique(Collection<Identifier> presentIds, final String modId) {

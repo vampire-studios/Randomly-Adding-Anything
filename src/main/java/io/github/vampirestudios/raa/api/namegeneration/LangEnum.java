@@ -28,19 +28,19 @@ public enum LangEnum {
         new SpanishDimensions()
     );
 
-    private final INameGenerator materialNameGenerator;
-    private final INameGenerator dimensionNameGenerator;
+    private final NameGenerator materialNameGenerator;
+    private final NameGenerator dimensionNameGenerator;
 
-    LangEnum(INameGenerator material, INameGenerator dimensions) {
+    LangEnum(NameGenerator material, NameGenerator dimensions) {
         this.materialNameGenerator = material;
         this.dimensionNameGenerator = dimensions;
     }
 
-    public INameGenerator getMaterialNameGenerator() {
+    public NameGenerator getMaterialNameGenerator() {
         return materialNameGenerator;
     }
 
-    public INameGenerator getDimensionNameGenerator() {
+    public NameGenerator getDimensionNameGenerator() {
         return dimensionNameGenerator;
     }
 

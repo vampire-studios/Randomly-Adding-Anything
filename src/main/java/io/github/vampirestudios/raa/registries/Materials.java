@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.enums.OreType;
-import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
@@ -50,7 +50,7 @@ public class Materials {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
             Color RGB = Rands.randColor();
             Random random = Rands.getRandom();
-            INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
+            NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
 
             String name;
             Identifier id;
@@ -104,7 +104,7 @@ public class Materials {
             for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.dimensionMaterials); a++) {
                 Color RGB = Rands.randColor();
                 Random random = Rands.getRandom();
-                INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
+                NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
 
                 String name;
                 Identifier id;
@@ -158,9 +158,9 @@ public class Materials {
     }
 
     public static void createMaterialResources() {
-        if (RandomlyAddingAnything.CONFIG.debug) {
-            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
-        }
+//        if (RandomlyAddingAnything.CONFIG.debug) {
+//            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
+//        }
         MATERIALS.forEach(material -> {
             Identifier identifier = material.getId();
             Item repairItem;
@@ -372,9 +372,9 @@ public class Materials {
     }
 
     public static void createDimensionMaterialResources() {
-        if (RandomlyAddingAnything.CONFIG.debug) {
-            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
-        }
+//        if (RandomlyAddingAnything.CONFIG.debug) {
+//            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
+//        }
         DIMENSION_MATERIALS.forEach(material -> {
             Identifier dimensionId = new Identifier(material.getId().getNamespace(), material.getId().getPath().split("_")[0]);
             Identifier stoneName = Utils.addSuffixToPath(dimensionId, "_stone");
