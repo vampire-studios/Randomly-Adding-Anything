@@ -3,8 +3,8 @@ package io.github.vampirestudios.raa.registries;
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.commands.CommandLocateRAAStructure;
-import io.github.vampirestudios.raa.generation.carvers.CaveCarver;
-import io.github.vampirestudios.raa.generation.carvers.RavineCarver;
+import io.github.vampirestudios.raa.generation.carvers.CaveCavityCarver;
+import io.github.vampirestudios.raa.generation.carvers.StackedBubbleRoomsCarver;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.FossilFeature;
 import io.github.vampirestudios.raa.generation.feature.*;
@@ -77,17 +77,29 @@ public class Features {
 
     public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
-            CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
+            /*CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
             biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
 
             RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
-            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(1)));
-        } else {
-            CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
-            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
+            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(1)));*/
 
-            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
-            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
+            CaveCavityCarver caveCavityCarver = registerCarver("cave_cavity_carver", new CaveCavityCarver(dimensionData));
+            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCavityCarver, new ProbabilityConfig(1)));
+
+            StackedBubbleRoomsCarver bubbleRoomsCarver = registerCarver("stacked_bubble_rooms_carver", new StackedBubbleRoomsCarver(dimensionData));
+            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(bubbleRoomsCarver, new ProbabilityConfig(1)));
+        } else {
+//            CaveCarver caveCarver = registerCarver("cave_carver", new CaveCarver(dimensionData));
+//            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
+//
+//            RavineCarver ravineCarver = registerCarver("ravine_carver", new RavineCarver(dimensionData));
+//            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
+
+            CaveCavityCarver caveCavityCarver = registerCarver("cave_cavity_carver", new CaveCavityCarver(dimensionData));
+            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCavityCarver, new ProbabilityConfig(0.14285715F)));
+
+            StackedBubbleRoomsCarver bubbleRoomsCarver = registerCarver("stacked_bubble_rooms_carver", new StackedBubbleRoomsCarver(dimensionData));
+            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(bubbleRoomsCarver, new ProbabilityConfig(0.05F)));
         }
     }
 
