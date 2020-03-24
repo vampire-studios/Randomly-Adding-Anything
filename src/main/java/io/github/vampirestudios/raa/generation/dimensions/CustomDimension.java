@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
+import io.github.vampirestudios.raa.generation.carvers.CaveCavityCarver;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.vampirelib.utils.Color;
@@ -41,6 +42,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
+        CaveCavityCarver.setSeed(world.getSeed());
         return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, RandomlyAddingAnything.DIMENSIONAL_BIOMES.
                 applyConfig(new DimensionalBiomeSourceConfig(this.world.getLevelProperties()).setBiomes(biomeSet)), this.dimensionData, this.stoneBlock);
     }
