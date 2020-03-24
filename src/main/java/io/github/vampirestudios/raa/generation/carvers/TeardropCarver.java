@@ -24,7 +24,7 @@ public class TeardropCarver extends RAACarver<ProbabilityConfig> {
         //initialize variables
         int x = (chunkX* 16) + random.nextInt(16);
         int z = (chunkZ* 16) + random.nextInt(16);
-        int y = random.nextInt(60);
+        int y = random.nextInt(256);
         double yaw = 1;
         double pitch = 3;
         double xzs = 0.5;
@@ -58,28 +58,7 @@ public class TeardropCarver extends RAACarver<ProbabilityConfig> {
                 yaw + (5 * xzs),
                 pitch / (5 / xzs),
                 carvingMask);
-
-//        int n = (this.getBranchFactor() * 2 - 1) * 16;
-//        int o = random.nextInt(80) + 8;
-//
-//        for(int p = 0; p < 3; ++p) {
-//            double d = (double) (chunkX * 16 + random.nextInt(16));
-//            double e = (double) random.nextInt(70);
-//            double f = (double) (chunkZ * 16 + random.nextInt(16));
-//            int q = 1;
-//            float t;
-//            double g = 0.5D;
-//            t = 1.0F + random.nextFloat() * 6.0F;
-//            this.carveCave(chunk, posToBiome, random.nextLong(), seaLevel, mainChunkX, mainChunkZ, d, e, f, t, 0.35, carvingMask);
-//            q += random.nextInt(4);
-//        }
         return true;
-    }
-
-    protected void carveCave(Chunk chunk, Function<BlockPos, Biome> posToBiome, long seed, int seaLevel, int mainChunkX, int mainChunkZ, double x, double y, double z, float yaw, double yawPitchRatio, BitSet carvingMask) {
-        double d = 1.5D + (double)(MathHelper.sin(1.5707964F) * yaw);
-        double e = d * yawPitchRatio;
-        this.carveRegion(chunk, posToBiome, seed, seaLevel, mainChunkX, mainChunkZ, x + 1.0D, y, z, d, e, carvingMask);
     }
 
     @Override
