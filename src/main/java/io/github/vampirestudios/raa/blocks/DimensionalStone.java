@@ -17,8 +17,8 @@ public class DimensionalStone extends Block {
     private final DimensionData dimensionData;
 
     public DimensionalStone(DimensionData dimensionData) {
-        super(Settings.copy(Blocks.STONE).strength(Rands.randFloatRange(0.25f, 4), Rands.randFloatRange(4, 20))
-                .jumpVelocityMultiplier(dimensionData.getStoneJumpHeight()));
+        super(Settings.copy(Blocks.STONE).strength(Rands.randFloatRange(0.25f, 4), Rands.randFloatRange(4, 20)));
+//                .jumpVelocityMultiplier(dimensionData.getStoneJumpHeight())); //TODO: do something with this
         this.dimensionData = dimensionData;
     }
 

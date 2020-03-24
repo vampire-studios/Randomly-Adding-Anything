@@ -13,7 +13,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ProbabilityConfig;
-import net.minecraft.world.gen.carver.CaveCarver;
 
 import java.util.BitSet;
 import java.util.Random;
@@ -24,7 +23,7 @@ import java.util.function.Function;
 public class StackedBubbleRoomsCarver extends CaveCarver {
 
     public StackedBubbleRoomsCarver(DimensionData dimensionData) {
-        super(ProbabilityConfig::deserialize, 256); // The 256 is the maximum height that this carver can cave to
+        super(dimensionData); // The 256 is the maximum height that this carver can cave to
         this.alwaysCarvableBlocks = ImmutableSet.of(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone")),
                 Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL,
                 Blocks.GRASS_BLOCK, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA, Blocks.ORANGE_TERRACOTTA, Blocks.MAGENTA_TERRACOTTA,
@@ -60,7 +59,7 @@ public class StackedBubbleRoomsCarver extends CaveCarver {
             float caveRadius = 20.0F + random.nextFloat() * 10.0F; // How big the cave sphere is (radius)
 
             // The 0.5D is multiplied to the radius for the y direction. So this sphere will be squished vertically by half of the full radius.
-            this.carveCave(chunk, biomeFunction, random.nextLong(), seaLevel, xChunk2, zChunk2, x, y, z, caveRadius, 0.5D, caveMask);
+            this.carveCave(chunk, biomeFunction, random.nextLong(), seaLevel, xChunk2, zChunk2, x, y, z, caveRadius, caveMask);
         }
 
         return true;

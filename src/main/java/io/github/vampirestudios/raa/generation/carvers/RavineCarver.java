@@ -21,12 +21,12 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
-public class RavineCarver extends Carver<ProbabilityConfig> {
+public class RavineCarver extends RAACarver<ProbabilityConfig> {
     private final float[] heightToHorizontalStretchFactor = new float[1024];
     private DimensionData data;
 
     public RavineCarver(DimensionData dimensionData) {
-        super(ProbabilityConfig::deserialize, 256);
+        super(ProbabilityConfig::deserialize, dimensionData);
         this.alwaysCarvableBlocks = ImmutableSet.of(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone")),
                 Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL,
                 Blocks.GRASS_BLOCK, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA, Blocks.ORANGE_TERRACOTTA, Blocks.MAGENTA_TERRACOTTA,

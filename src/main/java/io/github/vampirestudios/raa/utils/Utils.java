@@ -139,9 +139,7 @@ public class Utils {
     public static SurfaceBuilder<?> newRandomSurfaceBuilder() {
         //random surface builder
         if (Rands.chance(2)) {
-            SurfaceBuilder sb = SurfaceBuilderGenerator.RANDOM_SURFACE_BUILDER.getRandom(Rands.getRandom());
-            System.out.println("r: " + sb);
-            return sb;
+            return SurfaceBuilderGenerator.RANDOM_SURFACE_BUILDER.getRandom(Rands.getRandom());
         }
 
         //choose the default type of surface builder
@@ -149,7 +147,6 @@ public class Utils {
         if (sb == null) { //dunno why it's null sometimes, but if it is, default to the default
             sb = SurfaceBuilder.DEFAULT; //TODO: fix this instead of a hack
         }
-        System.out.println("nr: " + sb);
         return sb;
     }
 

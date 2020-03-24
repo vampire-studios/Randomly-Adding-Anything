@@ -24,6 +24,9 @@ public class SurfaceBuilderGenerator {
     private static WeightedList<Class<? extends SurfaceElement>> WEIGHTED_ELEMENTS = new WeightedList<>();
 
     public static void registerElements() {
+        //grass has special spawning rules
+        ID_SURFACE_ELEMENT_MAP.put(new GrassSurfaceElement().getType().toString(), GrassSurfaceElement.class);
+
         registerElement(new DesertSurfaceElement(), 6);
         registerElement(new RedDesertSurfaceElement(), 5);
         registerElement(new GravelSurfaceElement(), 5);
@@ -64,7 +67,7 @@ public class SurfaceBuilderGenerator {
             }
 
             //add grass randomly
-            if (Rands.randInt(10) > 1) {
+            if (Rands.randInt(10) > 2) {
                 elements.add(new GrassSurfaceElement());
             }
             SURFACE_BUILDERS.add(name.getRight(), new SurfaceBuilderHolder("basic", elements));
