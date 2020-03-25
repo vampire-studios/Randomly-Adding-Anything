@@ -25,9 +25,9 @@ import java.util.Set;
 import java.util.function.Function;
 
 // Thanks to TelepathicGrunt and the UltraAmplified mod for this class
-public class Stonehenge extends Feature<DefaultFeatureConfig> {
+public class StonehengeFeature extends Feature<DefaultFeatureConfig> {
 
-	public Stonehenge(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configFactory) {
+	public StonehengeFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configFactory) {
 		super(configFactory);
 	}
 

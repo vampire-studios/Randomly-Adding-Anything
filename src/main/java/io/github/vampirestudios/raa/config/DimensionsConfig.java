@@ -54,7 +54,6 @@ public class DimensionsConfig extends RAADataConfig {
 
     @Override
     protected void load(JsonObject jsonObject) {
-        System.out.println(jsonObject);
         DimensionData[] dimensionsData = GsonUtils.getGson().fromJson(JsonHelper.getArray(jsonObject, "dimensions"), DimensionData[].class);
         Arrays.stream(dimensionsData).forEach(dimensionData -> Registry.register(Dimensions.DIMENSIONS, dimensionData.getId(), dimensionData));
     }

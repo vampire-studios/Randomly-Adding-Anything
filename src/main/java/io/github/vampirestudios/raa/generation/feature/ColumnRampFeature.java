@@ -20,12 +20,12 @@ import java.util.Set;
 import java.util.function.Function;
 
 // Thanks to TelepathicGrunt and the UltraAmplified mod for this class
-public class ColumnRamp extends Feature<ColumnBlocksConfig> {
+public class ColumnRampFeature extends Feature<ColumnBlocksConfig> {
 	protected long seed;
 	private final BlockState AIR = Blocks.AIR.getDefaultState();
 	public final Set<Block> irreplacableBlocks;
 
-	public ColumnRamp(Function<Dynamic<?>, ? extends ColumnBlocksConfig> configFactory) {
+	public ColumnRampFeature(Function<Dynamic<?>, ? extends ColumnBlocksConfig> configFactory) {
 		super(configFactory);
 
 		irreplacableBlocks = ImmutableSet.of(Blocks.BEE_NEST, Blocks.AIR, Blocks.CAVE_AIR, Blocks.BROWN_MUSHROOM_BLOCK, Blocks.RED_MUSHROOM_BLOCK, Blocks.MUSHROOM_STEM, Blocks.CACTUS);

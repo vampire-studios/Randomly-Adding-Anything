@@ -90,7 +90,6 @@ public class MaterialsConfig extends RAADataConfig {
 
     @Override
     protected void load(JsonObject jsonObject) {
-        System.out.println(jsonObject);
         Material[] materials = GsonUtils.getGson().fromJson(JsonHelper.getArray(jsonObject, "materials"), Material[].class);
         Arrays.stream(materials).forEach(material -> {
             if (material.getArmorMaterial() != null) {

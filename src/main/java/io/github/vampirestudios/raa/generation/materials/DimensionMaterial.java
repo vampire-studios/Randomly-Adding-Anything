@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class DimensionMaterial extends Material {
 
-    private transient DimensionData dimensionData;
+    private final DimensionData dimensionData;
 
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
                       CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
@@ -43,19 +43,14 @@ public class DimensionMaterial extends Material {
         private boolean glowing = false;
         private boolean oreFlower = false;
         private boolean food = false;
-        private int minXPAmount = 0;
-        private int maxXPAmount = 10;
-        private int oreClusterSize = 9;
+        private int minXPAmount;
+        private int maxXPAmount;
+        private int oreClusterSize;
         private int miningLevel;
         private DimensionData dimensionData;
         private float compostbleAmount;
         private boolean compostable;
         private boolean beaconBase;
-
-        protected Builder() {
-            oreCount = Rands.randInt(19) + 1;
-            miningLevel = Rands.randInt(4);
-        }
 
         @Deprecated
         public static Builder create() {

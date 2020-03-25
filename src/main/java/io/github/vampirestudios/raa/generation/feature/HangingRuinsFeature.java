@@ -10,7 +10,6 @@ import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -22,9 +21,9 @@ import java.util.Random;
 import java.util.function.Function;
 
 // Thanks to TelepathicGrunt and the UltraAmplified mod for this class
-public class HangingRuins extends Feature<DefaultFeatureConfig> {
+public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 
-	public HangingRuins(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configFactory)
+	public HangingRuinsFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configFactory)
 	{
 		super(configFactory);
 	}
@@ -75,7 +74,7 @@ public class HangingRuins extends Feature<DefaultFeatureConfig> {
 		}
 
 		StructurePlacementData placementsettings = (new StructurePlacementData()).setMirror(BlockMirror.NONE).setRotation(rot)
-				.setIgnoreEntities(false).setChunkPosition((ChunkPos) null);
+				.setIgnoreEntities(false).setChunkPosition(null);
 
 		template.place(world, blockpos$Mutable.move(4, -8, 4), placementsettings, 2);
 

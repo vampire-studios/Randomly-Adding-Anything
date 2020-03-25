@@ -10,12 +10,10 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
 import io.github.vampirestudios.raa.registries.*;
-import io.github.vampirestudios.raa.utils.Rands;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
@@ -33,8 +31,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
 import java.util.function.LongFunction;
 
@@ -72,10 +68,10 @@ public class RandomlyAddingAnything implements ModInitializer {
         Decorators.init();
         SurfaceBuilders.init();
         ChunkGenerators.init();
+        CustomTargets.init();
         if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
             SimplexRAACompat.init();
         }
-        new CustomTargets();
 
         //Reflection hacks
         Constructor<BiomeSourceType> constructor;
@@ -89,7 +85,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
         if (CONFIG.materialNumber > 0) {
-            if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
+            if (CONFIG.regenMaterials || !MATERIALS_CONFIG.fileExist()) {
                 MATERIALS_CONFIG.generate();
                 MATERIALS_CONFIG.save();
             } else {
@@ -100,7 +96,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 
         SurfaceBuilderGenerator.registerElements();
         SURFACE_BUILDER_CONFIG = new SurfaceBuilderConfig("surface_builders/surface_builder_config");
-        if (CONFIG.regen || !SURFACE_BUILDER_CONFIG.fileExist()) {
+        if (CONFIG.regenMaterials || !SURFACE_BUILDER_CONFIG.fileExist()) {
             SURFACE_BUILDER_CONFIG.generate();
             SURFACE_BUILDER_CONFIG.save();
         } else {
@@ -109,7 +105,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
         if (CONFIG.dimensionNumber > 0) {
-            if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
+            if (CONFIG.regenMaterials || !DIMENSIONS_CONFIG.fileExist()) {
                 DIMENSIONS_CONFIG.generate();
                 DIMENSIONS_CONFIG.save();
             } else {
@@ -120,7 +116,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("dimensions/dimensional_material_config");
         if (CONFIG.dimensionMaterials > 0) {
-            if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
+            if (CONFIG.regenMaterials || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
                 DIMENSION_MATERIALS_CONFIG.generate();
                 DIMENSION_MATERIALS_CONFIG.save();
             } else {
@@ -132,11 +128,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         DimensionRecipes.init();
         MaterialRecipes.init();
 
-        List<Biome> biomes = new ArrayList<>();
-        Registry.BIOME.forEach(biomes::add);
-        RegistryEntryAddedCallback.event(Registry.BIOME).register((i, identifier, biome) -> biomes.add(biome));
-
-        biomes.forEach(biome -> {
+        Registry.BIOME.forEach(biome -> {
             RAARegisteries.TARGET_REGISTRY.forEach(target -> RAAWorldAPI.generateOresForTarget(biome, target));
             if (biome.getCategory() != Biome.Category.OCEAN && CONFIG.shouldSpawnPortalHub) {
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).

@@ -15,7 +15,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 // Thanks to TelepathicGrunt and the UltraAmplified mod for this class
-public class ColumnVertical extends Feature<ColumnBlocksConfig> {
+public class ColumnVerticalFeature extends Feature<ColumnBlocksConfig> {
 	protected OpenSimplexNoise noiseGen;
 	protected long seed;
 
@@ -30,7 +30,7 @@ public class ColumnVertical extends Feature<ColumnBlocksConfig> {
 	}
 
 
-	public ColumnVertical(Function<Dynamic<?>, ? extends ColumnBlocksConfig> configFactory)
+	public ColumnVerticalFeature(Function<Dynamic<?>, ? extends ColumnBlocksConfig> configFactory)
 	{
 		super(configFactory);
 	}

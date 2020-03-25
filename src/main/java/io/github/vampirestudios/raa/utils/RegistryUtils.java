@@ -133,17 +133,12 @@ public class RegistryUtils {
         }
     }
 
-    public static OreFeatureConfig.Target registerOreTarget(Identifier name, Predicate<BlockState> blockStatePredicate, Block block) {
-        OreFeatureConfig.Target target = new OreFeatureConfig.Target(name, blockStatePredicate, block);
-        if (RAARegisteries.TARGET_REGISTRY.get(target.getId()) == null) {
-            return Registry.register(RAARegisteries.TARGET_REGISTRY, target.getId(), target);
-        } else {
-            return target;
-        }
+    public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate, Block block) {
+        return registerOreTarget(new Identifier(RandomlyAddingAnything.MOD_ID, name), blockStatePredicate, block);
     }
 
-    public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate, Block block) {
-        OreFeatureConfig.Target target = new OreFeatureConfig.Target(new Identifier(name), blockStatePredicate, block);
+    public static OreFeatureConfig.Target registerOreTarget(Identifier name, Predicate<BlockState> blockStatePredicate, Block block) {
+        OreFeatureConfig.Target target = new OreFeatureConfig.Target(name, blockStatePredicate, block);
         if (RAARegisteries.TARGET_REGISTRY.get(target.getId()) == null) {
             return Registry.register(RAARegisteries.TARGET_REGISTRY, target.getId(), target);
         } else {
