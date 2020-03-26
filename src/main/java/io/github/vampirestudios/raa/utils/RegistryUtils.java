@@ -134,7 +134,7 @@ public class RegistryUtils {
     }
 
     public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate, Block block) {
-        return registerOreTarget(new Identifier(RandomlyAddingAnything.MOD_ID, name), blockStatePredicate, block);
+        return registerOreTarget(new Identifier(name), blockStatePredicate, block);
     }
 
     public static OreFeatureConfig.Target registerOreTarget(Identifier name, Predicate<BlockState> blockStatePredicate, Block block) {

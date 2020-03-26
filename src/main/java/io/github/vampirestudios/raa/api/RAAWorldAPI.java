@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.api;
 
-import io.github.vampirestudios.raa.registries.CustomTargets;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeature;
@@ -21,30 +20,18 @@ public class RAAWorldAPI {
      */
     public static void generateOresForTarget(Biome biome, OreFeatureConfig.Target target) {
         Materials.MATERIALS.forEach(material -> {
-            if (material.getOreInformation().getTargetId() == target.getId()) {
+            if (Registry.BLOCK.get(material.getOreInformation().getTargetId()) == target.getBlock()) {
                 biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
                         new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(target,
-                                Registry.BLOCK.get(Utils.addSuffixToPath(material.getId(), "_ore")).getDefaultState(), material.getOreInformation().getOreClusterSize()))
-                                .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(),
-                                        0, 256))));
-            } else {
-                biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
-                        new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(CustomTargets.STONE,
                                 Registry.BLOCK.get(Utils.addSuffixToPath(material.getId(), "_ore")).getDefaultState(), material.getOreInformation().getOreClusterSize()))
                                 .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(),
                                         0, 256))));
             }
         });
         Materials.DIMENSION_MATERIALS.forEach(material -> {
-            if (material.getOreInformation().getTargetId() == target.getId()) {
+            if (Registry.BLOCK.get(material.getOreInformation().getTargetId()) == target.getBlock()) {
                 biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
                         new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(target,
-                                Registry.BLOCK.get(Utils.addSuffixToPath(material.getId(), "_ore")).getDefaultState(), material.getOreInformation().getOreClusterSize()))
-                                .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(),
-                                        0, 256))));
-            } else {
-                biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
-                        new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(CustomTargets.STONE,
                                 Registry.BLOCK.get(Utils.addSuffixToPath(material.getId(), "_ore")).getDefaultState(), material.getOreInformation().getOreClusterSize()))
                                 .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(),
                                         0, 256))));

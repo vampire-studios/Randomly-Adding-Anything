@@ -37,6 +37,8 @@ public class OreFeature extends Feature<OreFeatureConfig> {
         int size = 2 * (MathHelper.ceil(g) + i);
         int iIdk = 2 * (2 + i);
 
+//        System.out.println(String.format("X: %d, Y: %d, Z: %d", xPos, yPos, zPos));
+
         for (int x = xPos; x <= xPos + size; ++x) {
             for (int z = zPos; z <= zPos + size; ++z) {
                 if (yPos <= iWorld.getTopY(Type.OCEAN_FLOOR_WG, x, z)) {
@@ -60,12 +62,12 @@ public class OreFeature extends Feature<OreFeatureConfig> {
         double q;
         double r;
         for (m = 0; m < config.size; ++m) {
-            float float_1 = (float) m / (float) config.size;
-            o = MathHelper.lerp(float_1, startX, endX);
-            p = MathHelper.lerp(float_1, startY, endY);
-            q = MathHelper.lerp(float_1, startZ, endZ);
+            float f = (float) m / (float) config.size;
+            o = MathHelper.lerp(f, startX, endX);
+            p = MathHelper.lerp(f, startY, endY);
+            q = MathHelper.lerp(f, startZ, endZ);
             r = random_1.nextDouble() * (double) config.size / 16.0D;
-            double iIdk = ((double) (MathHelper.sin(3.1415927F * float_1) + 1.0F) * r + 1.0D) / 2.0D;
+            double iIdk = ((double) (MathHelper.sin(3.1415927F * f) + 1.0F) * r + 1.0D) / 2.0D;
             ds[m * 4] = o;
             ds[m * 4 + 1] = p;
             ds[m * 4 + 2] = q;
@@ -74,15 +76,15 @@ public class OreFeature extends Feature<OreFeatureConfig> {
 
         for (m = 0; m < config.size - 1; ++m) {
             if (ds[m * 4 + 3] > 0.0D) {
-                for (int int_9 = m + 1; int_9 < config.size; ++int_9) {
-                    if (ds[int_9 * 4 + 3] > 0.0D) {
-                        o = ds[m * 4] - ds[int_9 * 4];
-                        p = ds[m * 4 + 1] - ds[int_9 * 4 + 1];
-                        q = ds[m * 4 + 2] - ds[int_9 * 4 + 2];
-                        r = ds[m * 4 + 3] - ds[int_9 * 4 + 3];
+                for (int n = m + 1; n < config.size; ++n) {
+                    if (ds[n * 4 + 3] > 0.0D) {
+                        o = ds[m * 4] - ds[n * 4];
+                        p = ds[m * 4 + 1] - ds[n * 4 + 1];
+                        q = ds[m * 4 + 2] - ds[n * 4 + 2];
+                        r = ds[m * 4 + 3] - ds[n * 4 + 3];
                         if (r * r > o * o + p * p + q * q) {
                             if (r > 0.0D) {
-                                ds[int_9 * 4 + 3] = -1.0D;
+                                ds[n * 4 + 3] = -1.0D;
                             } else {
                                 ds[m * 4 + 3] = -1.0D;
                             }
@@ -103,7 +105,7 @@ public class OreFeature extends Feature<OreFeatureConfig> {
                 int ac = Math.max(MathHelper.floor(w - t), z);
                 int ad = Math.max(MathHelper.floor(u + t), aa);
                 int ae = Math.max(MathHelper.floor(v + t), ab);
-                int f = Math.max(MathHelper.floor(w + t), ac);
+                int af = Math.max(MathHelper.floor(w + t), ac);
 
                 for (int ag = aa; ag <= ad; ++ag) {
                     double ah = ((double) ag + 0.5D - u) / t;
@@ -111,18 +113,16 @@ public class OreFeature extends Feature<OreFeatureConfig> {
                         for (int ai = ab; ai <= ae; ++ai) {
                             double aj = ((double) ai + 0.5D - v) / t;
                             if (ah * ah + aj * aj < 1.0D) {
-                                for (int ak = ac; ak <= f; ++ak) {
+                                for (int ak = ac; ak <= af; ++ak) {
                                     double al = ((double) ak + 0.5D - w) / t;
                                     if (ah * ah + aj * aj + al * al < 1.0D) {
                                         int am = ag - x + (ai - y) * size + (ak - z) * size * i;
                                         if (!bitSet.get(am)) {
                                             bitSet.set(am);
                                             mutable.set(ag, ai, ak);
-                                            if (config.target != null) {
-                                                if (config.target.getCondition().test(world.getBlockState(mutable))) {
-                                                    world.setBlockState(mutable, config.state, 2);
-                                                    j++;
-                                                }
+                                            if (config.target.getCondition().test(world.getBlockState(mutable))) {
+                                                world.setBlockState(mutable, config.state, 2);
+                                                ++j;
                                             }
                                         }
                                     }
@@ -136,4 +136,5 @@ public class OreFeature extends Feature<OreFeatureConfig> {
 
         return j > 0;
     }
+
 }

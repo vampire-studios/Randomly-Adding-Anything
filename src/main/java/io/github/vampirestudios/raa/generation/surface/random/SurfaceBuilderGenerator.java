@@ -18,10 +18,10 @@ import java.util.*;
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
 public class SurfaceBuilderGenerator {
-    private static SimpleRegistry<SurfaceBuilderHolder> SURFACE_BUILDERS = new SimpleRegistry<>();
+    private static final SimpleRegistry<SurfaceBuilderHolder> SURFACE_BUILDERS = new SimpleRegistry<>();
     public static SimpleRegistry<SurfaceBuilder> RANDOM_SURFACE_BUILDER = new SimpleRegistry<>();
-    private static Map<String, Class<? extends SurfaceElement>> ID_SURFACE_ELEMENT_MAP = new HashMap<>();
-    private static WeightedList<Class<? extends SurfaceElement>> WEIGHTED_ELEMENTS = new WeightedList<>();
+    private static final Map<String, Class<? extends SurfaceElement>> ID_SURFACE_ELEMENT_MAP = new HashMap<>();
+    private static final WeightedList<Class<? extends SurfaceElement>> WEIGHTED_ELEMENTS = new WeightedList<>();
 
     public static void registerElements() {
         //grass has special spawning rules
