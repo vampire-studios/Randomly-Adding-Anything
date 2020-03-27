@@ -9,6 +9,7 @@ import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
+import io.github.vampirestudios.raa.generation.targets.OreTargetGenerator;
 import io.github.vampirestudios.raa.registries.*;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
@@ -48,6 +49,7 @@ public class RandomlyAddingAnything implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public static GeneralConfig CONFIG;
+    public static OreTargetConfig ORE_TARGET_CONFIG;
     public static MaterialsConfig MATERIALS_CONFIG;
     public static SurfaceBuilderConfig SURFACE_BUILDER_CONFIG;
     public static DimensionsConfig DIMENSIONS_CONFIG;
@@ -81,6 +83,15 @@ public class RandomlyAddingAnything implements ModInitializer {
             DIMENSIONAL_BIOMES = constructor.newInstance((Function) DimensionalBiomeSource::new, (LongFunction) DimensionalBiomeSourceConfig::new);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
+        }
+
+        OreTargetGenerator.registerElements();
+        ORE_TARGET_CONFIG = new OreTargetConfig("targets/ore_target_config");
+        if (!ORE_TARGET_CONFIG.fileExist()) {
+            ORE_TARGET_CONFIG.generate();
+            ORE_TARGET_CONFIG.save();
+        } else {
+            ORE_TARGET_CONFIG.load();
         }
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");

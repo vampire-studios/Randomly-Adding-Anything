@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.generation.targets;
 
+import com.google.gson.JsonObject;
 import net.minecraft.util.Identifier;
 
 public class OreTargetData {
@@ -18,6 +19,16 @@ public class OreTargetData {
 
     public boolean hasTopOnly() {
         return topOnly;
+    }
+
+    public void serialize(JsonObject obj) {
+        obj.addProperty("name", this.name.toString());
+        obj.addProperty("topOnly", this.topOnly);
+    }
+
+    public void deserialize(JsonObject obj) {
+        this.name = Identifier.tryParse(obj.get("name").getAsString());
+        this.topOnly = obj.get("topOnly").getAsBoolean();
     }
 
     public static class Builder {
