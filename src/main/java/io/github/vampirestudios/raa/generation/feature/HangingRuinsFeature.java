@@ -36,7 +36,7 @@ public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 		}
 
 		BlockRotation rot = BlockRotation.values()[rand.nextInt(BlockRotation.values().length)];
-		BlockPos.Mutable blockpos$Mutable = new BlockPos.Mutable(position.getX(), position.getY(), position.getZ());
+		BlockPos.Mutable mutable = new BlockPos.Mutable(position.getX(), position.getY(), position.getZ());
 		BlockPos.Mutable offset = new BlockPos.Mutable();
 
 		//makes sure there is enough solid blocks on ledge to hold this feature.
@@ -50,7 +50,7 @@ public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 					//The -4 is to make the check rotate the same way as structure and 
 					//then we do +4 to get the actual position again.
 					offset.set(x - 4, 0, z - 4).set(offset.rotate(rot));
-					if (!world.getBlockState(blockpos$Mutable.add(-offset.getX() + 4, 1, -offset.getZ() + 4)).isAir()) {
+					if (!world.getBlockState(mutable.add(-offset.getX() + 4, 1, -offset.getZ() + 4)).isAir()) {
 						return false;
 					}
 				}
@@ -58,9 +58,9 @@ public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 		}
 
 		//makes sure top won't be exposed to air
-		if (shouldMoveDownOne(world, blockpos$Mutable, offset, rot))
+		if (shouldMoveDownOne(world, mutable, offset, rot))
 		{
-			blockpos$Mutable.move(Direction.DOWN);
+			mutable.move(Direction.DOWN);
 		}
 
 		//UltraAmplified.LOGGER.debug("Hanging Ruins | " + position.getX() + " " + position.getY() + " "+position.getZ());
@@ -76,7 +76,8 @@ public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 		StructurePlacementData placementsettings = (new StructurePlacementData()).setMirror(BlockMirror.NONE).setRotation(rot)
 				.setIgnoreEntities(false).setChunkPosition(null);
 
-		template.place(world, blockpos$Mutable.move(4, -8, 4), placementsettings, 2);
+		BlockPos pos = mutable.move(4, -8, 4).toImmutable();
+		template.place(world, pos, pos, placementsettings, 2);
 
 		return true;
 

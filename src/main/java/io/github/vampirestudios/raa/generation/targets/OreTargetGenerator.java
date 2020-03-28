@@ -36,9 +36,9 @@ public class OreTargetGenerator {
         obj.entrySet().forEach(e -> {
             List<OreTargetData> targets = new ArrayList<>();
 
-            e.getValue().getAsJsonObject().get("targets").getAsJsonArray().forEach(se -> {
+            /*e.getValue().getAsJsonObject().get("targets").getAsJsonArray().forEach(se -> {
 //               String name = se.getAsJsonObject().get("name").getAsString();
-                /*try {
+                *//*try {
                     //add the element to the array
                     OreTargetData element = ID_ORE_TARGET_MAP.get(name).newInstance();
                     //deserialize the element
@@ -47,9 +47,9 @@ public class OreTargetGenerator {
                     targets.add(element);
                 } catch (InstantiationException | IllegalAccessException ex) {
                     ex.printStackTrace();
-                }*/
+                }*//*
                 System.out.println(se.getAsJsonObject().getAsString());
-            });
+            });*/
         });
     }
 

@@ -14,7 +14,7 @@ repositories {
     maven { url = 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
     maven {
         name = "Cotton"
-        url = "http://server.bbkr.space:8081/artifactory/libs-release"
+        url = "https://server.bbkr.space/artifactory/libs-release"
     }
 	maven { url "https://dl.bintray.com/shedaniel/autoconfig1u/" }
     maven {
@@ -60,22 +60,11 @@ dependencies {
 
     modImplementation "com.github.kvverti:structure-helpers:dc0602a6b9"
 
-//    modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
-//    modRuntime 'curse.maven:trees-do-not-float:2833870'
-//    modRuntime 'curse.maven:carpet:2834141'
-//    modRuntime 'curse.maven:fabric-vertigo:2834529'
-//    modRuntime 'curse.maven:expanded-storage:2832473'
-//    modRuntime 'curse.maven:carpet-extra:2830934'
-//    modRuntime 'curse.maven:shulkerboxtooltip:2829477'
-//    modRuntime 'curse.maven:leaf-decay:2827905'
     modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
         transitive = false
     }
 
-//    modImplementation "curse.maven:immersive-portals-mod:2893204"
     modImplementation "curse.maven:dark-loading-screen:2894480"
-
-//    modImplementation 'com.github.SuperCoder7979:simplexterrain:feature~terrain-rewrite-SNAPSHOT'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
@@ -87,7 +76,9 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    modImplementation ("com.github.CottonMC:Jankson-Fabric:-SNAPSHOT")
+    modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.1+j1.2.0") {
+        force = true
+    }
 
     include ("me.zeroeightsix:fiber:0.6.0-7") {
         exclude group :"net.fabricmc.fabric-api"
