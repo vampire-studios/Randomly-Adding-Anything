@@ -28,12 +28,12 @@ public class TotallyCustomChunkGenerator extends SurfaceChunkGenerator<Overworld
     });
     private final OctavePerlinNoiseSampler noiseSampler;
 
-    private float b1 = Rands.randFloatRange(256, 4096);
-    private float b2 = Rands.randFloatRange(256, 4096);
-    private float c1 = Rands.randFloatRange(2, 24);
-    private float c2 = Rands.randFloatRange(2, 24);
-    private int div = Rands.randIntRange(3, 64);
-    private int mod = Rands.randIntRange(-4096, 4096);
+    private final float b1 = Rands.randFloatRange(256, 4096);
+    private final float b2 = Rands.randFloatRange(256, 4096);
+    private final float c1 = Rands.randFloatRange(2, 24);
+    private final float c2 = Rands.randFloatRange(2, 24);
+    private final int div = Rands.randIntRange(3, 64);
+    private final int mod = Rands.randIntRange(-4096, 4096);
 
     public TotallyCustomChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
         super(iWorld_1, biomeSource_1, (int) Math.pow(2, Rands.randIntRange(3, 3)), (int) Math.pow(2, Rands.randIntRange(3, 3)), 256, overworldChunkGeneratorConfig_1, true);
