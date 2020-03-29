@@ -43,7 +43,7 @@ public class StratifiedCliffsSurfaceElement extends SurfaceElement {
     public void serialize(JsonObject obj) { }
 
     @Override
-    public void deserialize(JsonObject obj) {}
+    public void deserialize(JsonObject obj) { }
 
     @Override
     public Identifier getType() {
