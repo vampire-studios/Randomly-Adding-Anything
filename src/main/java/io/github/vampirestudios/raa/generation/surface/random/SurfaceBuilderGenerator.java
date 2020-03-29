@@ -27,16 +27,14 @@ public class SurfaceBuilderGenerator {
         //grass has special spawning rules
         ID_SURFACE_ELEMENT_MAP.put(new GrassSurfaceElement().getType().toString(), GrassSurfaceElement.class);
 
-        registerElement(new DesertSurfaceElement(), 6);
-        registerElement(new RedDesertSurfaceElement(), 5);
-        registerElement(new GravelSurfaceElement(), 5);
-        registerElement(new PatchyBadlandsSurfaceElement(), 5);
-        registerElement(new PatchyDarkBadlandsSurfaceElement(), 5);
-        registerElement(new DunesSurfaceElement(), 5);
-        registerElement(new SandyDunesSurfaceElement(), 5);
-        registerElement(new FloatingIslandSurfaceElement(), 5);
-        registerElement(new HyperflatSurfaceElement(), 5);
-        registerElement(new LazyNoiseSurfaceElement(), 5);
+        registerElement(new DesertSurfaceElement(), 3);
+        registerElement(new RedDesertSurfaceElement(), 3);
+        registerElement(new GravelSurfaceElement(), 3);
+        registerElement(new PatchyBadlandsSurfaceElement(), 3);
+        registerElement(new PatchyDarkBadlandsSurfaceElement(), 3);
+        registerElement(new DunesSurfaceElement(), 2);
+        registerElement(new SandyDunesSurfaceElement(), 2);
+        registerElement(new FloatingIslandSurfaceElement(), 2);
         registerElement(new ClassicCliffsSurfaceElement(), 2);
         registerElement(new StratifiedCliffsSurfaceElement(), 2);
         registerElement(new RandomSpiresSurfaceElement(), 1);
