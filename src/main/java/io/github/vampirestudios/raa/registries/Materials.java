@@ -49,7 +49,6 @@ public class Materials {
     public static void generate() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
             Color RGB = Rands.randColor();
-            Random random = Rands.getRandom();
             NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
 
             String name;
@@ -75,14 +74,14 @@ public class Materials {
                     .color(RGB.getColor())
                     .foodData(materialFoodData)
                     .target(((OreFeatureConfig.Target) Objects.requireNonNull(((SimpleRegistry)RAARegisteries.TARGET_REGISTRY).getRandom(Rands.getRandom()))).getId())
-                    .armor(random.nextBoolean())
-                    .tools(Rands.chance(3))
+                    .armor(Rands.chance(2))
+                    .tools(!Rands.chance(3))
                     .oreFlower(Rands.chance(4))
-                    .weapons(Rands.chance(7))
+                    .weapons(!Rands.chance(3))
                     .glowing(Rands.chance(4))
                     .minXPAmount(0)
                     .maxXPAmount(Rands.randIntRange(0, 4))
-                    .oreClusterSize(Rands.randIntRange(2, 6))
+                    .oreClusterSize(Rands.randIntRange(2, 9))
                     .food(Rands.chance(4))
                     .compostbleAmount(Rands.randFloatRange(0.3F, 3.0F))
                     .compostable(Rands.chance(10))
@@ -132,9 +131,9 @@ public class Materials {
                         .target(stoneName)
                         .foodData(materialFoodData)
                         .armor(random.nextBoolean())
-                        .tools(Rands.chance(3))
+                        .tools(!Rands.chance(3))
                         .oreFlower(Rands.chance(4))
-                        .weapons(Rands.chance(7))
+                        .weapons(!Rands.chance(3))
                         .glowing(Rands.chance(4))
                         .minXPAmount(0)
                         .maxXPAmount(Rands.randIntRange(0, 4))

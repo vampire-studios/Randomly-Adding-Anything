@@ -188,6 +188,7 @@ public class Dimensions {
                     .mobs(difficultyAndMobs.getRight())
                     .civilizationInfluences(dimension.getCivilizationInfluences())
                     .cloudHeight(Rands.randFloatRange(80F, 256F))
+                    .stoneHardness(Rands.randFloatRange(0.2f, 5f), Rands.randFloatRange(3, 18))
                     .stoneJumpHeight(Rands.randFloatRange(1.0F, 10.0F));
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
@@ -208,7 +209,7 @@ public class Dimensions {
             //TODO: make proper number generation
 
             for (int i = 0; i < Rands.randIntRange(1, 20); i++) {
-                float grassColor = hue + Rands.randFloatRange(-0.15f, 0.15f);
+                float grassColor = hue + Rands.randFloatRange(-0.25f, 0.25f);
                 List<DimensionTreeData> treeDataList = new ArrayList<>();
 
                 int treeAmount = Rands.randIntRange(1, 6);
@@ -322,17 +323,17 @@ public class Dimensions {
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
-                    return ToolMaterials.STONE.getDurability();
+                    return (int) (ToolMaterials.STONE.getDurability() * dimension.getStoneHardness() / 2);
                 }
 
                 @Override
                 public float getMiningSpeedMultiplier() {
-                    return ToolMaterials.STONE.getMiningSpeedMultiplier();
+                    return ToolMaterials.STONE.getMiningSpeedMultiplier() * dimension.getStoneHardness() / 2;
                 }
 
                 @Override
                 public float getAttackDamage() {
-                    return ToolMaterials.STONE.getAttackDamage();
+                    return ToolMaterials.STONE.getAttackDamage() * dimension.getStoneHardness() / 4;
                 }
 
                 @Override
@@ -342,7 +343,7 @@ public class Dimensions {
 
                 @Override
                 public int getEnchantability() {
-                    return ToolMaterials.STONE.getEnchantability();
+                    return (int) (ToolMaterials.STONE.getEnchantability() * dimension.getStoneHardness() / 4);
                 }
 
                 @Override

@@ -26,10 +26,12 @@ public class DimensionData {
     private final HashMap<String, Double> civilizationInfluences;
     private final float cloudHeight;
     private float stoneJumpHeight;
+    private float stoneHardness;
+    private float stoneResistance; //blast resistance
 
     public DimensionData(Identifier id, String name, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
                          boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags,
-                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, float cloudHeight, float stoneJumpHeight) {
+                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, float cloudHeight, float stoneJumpHeight, float stoneHardness, float stoneResistance) {
         this.id = id;
         this.name = name;
         this.biomeData = biomeData;
@@ -47,6 +49,8 @@ public class DimensionData {
         this.civilizationInfluences = civilizationInfluences;
         this.cloudHeight = cloudHeight;
         this.stoneJumpHeight = stoneJumpHeight;
+        this.stoneHardness = stoneHardness;
+        this.stoneResistance = stoneResistance;
     }
 
     public Identifier getId() {
@@ -149,6 +153,14 @@ public class DimensionData {
         this.stoneJumpHeight = stoneJumpHeight;
     }
 
+    public float getStoneHardness() {
+        return stoneHardness;
+    }
+
+    public float getStoneResistance() {
+        return stoneResistance;
+    }
+
     public static class Builder {
         HashMap<String, int[]> mobs;
         private Identifier id;
@@ -167,6 +179,8 @@ public class DimensionData {
         private HashMap<String, Double> civilizationInfluences;
         private float cloudHeight;
         private float stoneJumpHeight;
+        private float stoneHardness;
+        private float stoneResistance; //blast resistance
 
         private Builder() {
 
@@ -273,9 +287,16 @@ public class DimensionData {
             return this;
         }
 
+        public Builder stoneHardness(float stoneHardness, float stoneResistance) {
+            this.stoneHardness = stoneHardness;
+            this.stoneResistance = stoneResistance;
+
+            return this;
+        }
+
         public DimensionData build() {
             return new DimensionData(id, name, biomeData, dimensionColorPalette, texturesInformation, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog,
-                    dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, cloudHeight, stoneJumpHeight);
+                    dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, cloudHeight, stoneJumpHeight, stoneHardness, stoneResistance);
         }
     }
 }
