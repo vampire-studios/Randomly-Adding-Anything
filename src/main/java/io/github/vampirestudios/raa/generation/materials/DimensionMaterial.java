@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa.generation.materials;
 
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.data.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
@@ -12,18 +11,11 @@ import java.util.Map;
 
 public class DimensionMaterial extends Material {
 
-    private final DimensionData dimensionData;
-
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
                       CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
-                      DimensionData dimensionData, MaterialFoodData foodData, float compostbleAmount, boolean compostable, boolean beaconBase) {
+                      MaterialFoodData foodData, float compostbleAmount, boolean compostable, boolean beaconBase) {
         super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, foodData,
                 compostbleAmount, compostable, beaconBase);
-        this.dimensionData = dimensionData;
-    }
-
-    public DimensionData getDimensionData() {
-        return dimensionData;
     }
 
     public static class Builder {
@@ -47,7 +39,6 @@ public class DimensionMaterial extends Material {
         private int maxXPAmount;
         private int oreClusterSize;
         private int miningLevel;
-        private DimensionData dimensionData;
         private float compostbleAmount;
         private boolean compostable;
         private boolean beaconBase;
@@ -177,11 +168,6 @@ public class DimensionMaterial extends Material {
             return this;
         }
 
-        public Builder dimensionData(DimensionData dimensionData) {
-            this.dimensionData = dimensionData;
-            return this;
-        }
-
         public Builder beaconBase(boolean beaconBase) {
             this.beaconBase = beaconBase;
             return this;
@@ -264,7 +250,7 @@ public class DimensionMaterial extends Material {
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
             return new DimensionMaterial(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing,
-                    oreFlower, food, dimensionData, foodData, compostbleAmount, compostable, beaconBase);
+                    oreFlower, food, foodData, compostbleAmount, compostable, beaconBase);
         }
     }
 

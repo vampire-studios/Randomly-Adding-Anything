@@ -141,7 +141,6 @@ public class Materials {
                         .oreClusterSize(Rands.randIntRange(2, 6))
                         .miningLevel(Rands.randInt(4))
                         .food(Rands.chance(4))
-                        .dimensionData(dimensionData)
                         .compostbleAmount(Rands.randFloatRange(0.3F, 3.0F))
                         .compostable(Rands.chance(10))
                         .beaconBase(Rands.chance(10))

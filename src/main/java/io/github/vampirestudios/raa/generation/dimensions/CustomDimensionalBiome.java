@@ -8,11 +8,13 @@ import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeData
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeTypes;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
 import io.github.vampirestudios.raa.generation.feature.TombFeature;
+import io.github.vampirestudios.raa.generation.feature.config.ChanceAndTypeConfig;
 import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.generation.feature.tree.foliage.*;
 import io.github.vampirestudios.raa.registries.Decorators;
 import io.github.vampirestudios.raa.registries.Features;
+import io.github.vampirestudios.raa.registries.RAAPlacements;
 import io.github.vampirestudios.raa.registries.SurfaceBuilders;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -190,9 +192,9 @@ public class CustomDimensionalBiome extends Biome {
                 )
         );
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
-                Features.HANGING_RUINS.configure(new DefaultFeatureConfig()).createDecoratedFeature(
-                        Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
-                                new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
+                Features.HANGING_RUINS.configure(FeatureConfig.DEFAULT).createDecoratedFeature(
+                        RAAPlacements.LEDGE_UNDERSIDE_MINI_FEATURE.configure(
+                                new ChanceAndTypeConfig(1.0F, ChanceAndTypeConfig.Type.HANGING_RUINS)
                         )
                 )
         );
