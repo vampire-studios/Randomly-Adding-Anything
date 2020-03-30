@@ -27,6 +27,7 @@ public class SurfaceBuilderGenerator {
         //grass has special spawning rules
         ID_SURFACE_ELEMENT_MAP.put(new GrassSurfaceElement().getType().toString(), GrassSurfaceElement.class);
 
+        //TODO: randomize more parts of the elements
         registerElement(new DesertSurfaceElement(), 3);
         registerElement(new RedDesertSurfaceElement(), 3);
         registerElement(new GravelSurfaceElement(), 3);
@@ -47,7 +48,7 @@ public class SurfaceBuilderGenerator {
 
     public static void generate() {
         Set<Identifier> names = new HashSet<>();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 30; i++) {
             //generate names
             NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
             Pair<String, Identifier> name = nameGenerator.generateUnique(names, MOD_ID);

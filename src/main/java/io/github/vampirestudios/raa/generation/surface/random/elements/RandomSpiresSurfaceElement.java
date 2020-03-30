@@ -29,6 +29,9 @@ public class RandomSpiresSurfaceElement extends SurfaceElement {
         //don't place on water
         if (chunk.getBlockState(pos.toImmutable().down()) == defaultFluid) return;
 
+        //don't place on air/void
+        if (chunk.getBlockState(pos.toImmutable().down()).isAir()) return;
+
         if (random.nextInt(spireChance) == 0) {
             int spireHeightRandom = random.nextInt(spireHeight);
             for (int i = 0; i < spireHeightRandom; i++) {

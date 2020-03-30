@@ -155,7 +155,7 @@ public class Material {
         private boolean beaconBase;
 
         protected Builder() {
-            oreCount = Rands.randInt(19) + 1;
+            oreCount = Rands.randInt(30) + 1;
             miningLevel = Rands.randInt(4);
         }
 
