@@ -76,6 +76,8 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
+    modCompile "com.github.oliviathevampire:Patchouli:3bd6208706"
+
     modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.1+j1.2.0") {
         force = true
     }

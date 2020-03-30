@@ -37,6 +37,9 @@
 
   "text.raa.block.portal": "%s Portal",
 
+  "text.raa.item.lexicon.name": "RAA Lexicon",
+  "text.raa.item.lexicon.landing": "This lexicon will give information about materials, dimensions and dimension materials whenever you discover/mine them",
+
   "text.raa.item.gem": "%s Gem",
   "text.raa.item.ingot": "%s Ingot",
   "text.raa.item.crystal": "%s Crystal",

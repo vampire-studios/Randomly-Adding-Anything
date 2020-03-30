@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.materials;
 
 import com.swordglowsblue.artifice.api.Artifice;
+import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.registries.CustomTargets;
@@ -10,6 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+
+import java.io.InputStream;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
@@ -65,6 +68,18 @@ public class MaterialRecipes {
                         );
                         shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
                         shapedRecipeBuilder.result(Utils.addSuffixToPath(material.getId(), "_boots"), 1);
+                    });
+                    serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(material.getId(), "_horse_armor"), shapedRecipeBuilder -> {
+                        shapedRecipeBuilder.group(new Identifier("raa:horse_armor"));
+                        shapedRecipeBuilder.pattern(
+                                "  H",
+                                "III",
+                                "L L"
+                        );
+                        shapedRecipeBuilder.ingredientItem('I', Registry.ITEM.getId(repairItem));
+                        shapedRecipeBuilder.ingredientItem('L', Utils.addSuffixToPath(material.getId(), "_leggings"));
+                        shapedRecipeBuilder.ingredientItem('H', Utils.addSuffixToPath(material.getId(), "_helmet"));
+                        shapedRecipeBuilder.result(Utils.addSuffixToPath(material.getId(), "_horse_armor"), 1);
                     });
                 }
                 if (material.hasTools()) {
@@ -207,15 +222,6 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.result(Utils.addSuffixToPath(material.getId(), "_block"), 1);
                     });
                 }
-
-                if (material.isBeaconBase()) {
-                    serverResourcePackBuilder.addBlockTag(new Identifier("raa:beacon_base_blocks"), tagBuilder -> {
-                        tagBuilder.replace(false);
-                        tagBuilder.values(
-                                Utils.addSuffixToPath(material.getId(), "_block")
-                        );
-                    });
-                }
             });
             Materials.DIMENSION_MATERIALS.forEach(dimensionMaterial -> {
                 Item repairItem;
@@ -264,6 +270,18 @@ public class MaterialRecipes {
                         );
                         shapedRecipeBuilder.ingredientItem('#', Registry.ITEM.getId(repairItem));
                         shapedRecipeBuilder.result(Utils.addSuffixToPath(dimensionMaterial.getId(), "_boots"), 1);
+                    });
+                    serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(dimensionMaterial.getId(), "_horse_armor"), shapedRecipeBuilder -> {
+                        shapedRecipeBuilder.group(new Identifier("raa:horse_armor"));
+                        shapedRecipeBuilder.pattern(
+                                "  H",
+                                "III",
+                                "L L"
+                        );
+                        shapedRecipeBuilder.ingredientItem('I', Registry.ITEM.getId(repairItem));
+                        shapedRecipeBuilder.ingredientItem('L', Utils.addSuffixToPath(dimensionMaterial.getId(), "_leggings"));
+                        shapedRecipeBuilder.ingredientItem('H', Utils.addSuffixToPath(dimensionMaterial.getId(), "_helmet"));
+                        shapedRecipeBuilder.result(Utils.addSuffixToPath(dimensionMaterial.getId(), "_horse_armor"), 1);
                     });
                 }
                 if (dimensionMaterial.hasTools()) {

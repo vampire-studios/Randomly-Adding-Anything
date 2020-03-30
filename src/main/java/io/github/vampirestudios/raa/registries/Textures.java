@@ -121,7 +121,7 @@ public class Textures {
         for (int i = 1; i < 10; i++) {
             addTextureToList(TextureTypes.STONE_BRICKS_TEXTURES, "block/stone/bricks_" + i);
         }
-        for (int i = 1; i < 9; i++) {
+        for (int i = 1; i < 10; i++) {
             addTextureToList(TextureTypes.CHISELED_STONE_TEXTURES, "block/stone/chiseled_" + i);
         }
         for (int i = 1; i < 13; i++) {

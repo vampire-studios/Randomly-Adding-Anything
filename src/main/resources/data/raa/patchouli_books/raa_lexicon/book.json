@@ -1,0 +1,10 @@
+{
+	"name": "text.raa.item.lexicon.name",
+	"landing_text": "text.raa.item.lexicon.landing",
+	"advancement_namespaces": [
+		"raa"
+	],
+	"creative_tab": "misc",
+	"advancements_tab": "raa",
+	"version": 1
+}
