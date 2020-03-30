@@ -130,7 +130,6 @@ public class SurfaceBuilderGenerator {
             JsonArray elements = new JsonArray();
             //iterate through the elements and serialize them all
             sb.elements.forEach(se -> {
-                System.out.println(se.getType());
                 JsonObject element = new JsonObject();
                 element.addProperty("type", se.getType().toString());
                 JsonObject data = new JsonObject();

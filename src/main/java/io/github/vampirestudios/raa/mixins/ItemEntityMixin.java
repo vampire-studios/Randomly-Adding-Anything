@@ -80,7 +80,7 @@ public class ItemEntityMixin {
                                         materialDiscoveryStates.set(i, materialDiscoveryStates.get(i).discover());
                                     } else {
                                         for (int z = 0; z < itemStack.getCount(); z++)
-                                            System.out.println("You already discovered this dimensional material " + materialDiscoveryStates.get(i).getDiscoverTimes() + " time before");
+//                                            System.out.println("You already discovered this dimensional material " + materialDiscoveryStates.get(i).getDiscoverTimes() + " time before");
                                         materialDiscoveryStates.set(i, materialDiscoveryStates.get(i).alreadyDiscovered());
                                     }
                                 }

@@ -121,18 +121,13 @@ public class LayeredOreBlock extends OreBlock {
                 if (lootSupplier instanceof FabricLootSupplier) {
                     List<LootPool> pools = ((FabricLootSupplier) lootSupplier).getPools();
                     if (pools.isEmpty()) {
-                        //Yup. Somehow we got a loot pool that just never drops anything.
-                        if (!complainedAboutLoot) {
-                            System.out.println("Loot pool '" + tableId + "' doesn't seem to be able to drop anything. Supplying the ore block instead. Please report this to the RAA team!");
-                            complainedAboutLoot = true;
-                        }
                         if (material.getOreInformation().getOreType() == OreType.METAL) {
                             result.add(new ItemStack(this.asItem()));
                         } else {
                             if (material.getOreInformation().getOreType() == OreType.GEM) {
-                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"))));
+                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase().replace(" ", "_")  + "_gem"))));
                             } else {
-                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"))));
+                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase().replace(" ", "_") + "_crystal"))));
                             }
                         }
                     }
