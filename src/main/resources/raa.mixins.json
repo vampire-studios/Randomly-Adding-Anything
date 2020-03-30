@@ -7,8 +7,7 @@
     "ItemEntityMixin",
     "ServerPlayerEntityMixin",
     "MixinLeavesBlock",
-    "CustomPayloadS2CPacketMixin",
-    "AccessorRegistryCreate"
+    "CustomPayloadS2CPacketMixin"
   ],
   "client": [
     "WorldRendererMixin"

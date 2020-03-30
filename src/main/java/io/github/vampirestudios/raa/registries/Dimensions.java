@@ -598,9 +598,10 @@ public class Dimensions {
         }
 
         //any dimension can be a lucid dimension
-        if (Rands.chance(65)) {
-            flags |= Utils.LUCID;
-        }
+        //TODO: fix skybox
+//        if (Rands.chance(65)) {
+//            flags |= Utils.LUCID;
+//        }
 
         //any dimension can be a tectonic dimension
         if (Rands.chance(10)) {

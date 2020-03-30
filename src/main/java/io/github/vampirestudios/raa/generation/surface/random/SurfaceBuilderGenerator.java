@@ -47,7 +47,7 @@ public class SurfaceBuilderGenerator {
 
     public static void generate() {
         Set<Identifier> names = new HashSet<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
             //generate names
             NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
             Pair<String, Identifier> name = nameGenerator.generateUnique(names, MOD_ID);
@@ -56,7 +56,7 @@ public class SurfaceBuilderGenerator {
 
             //add the surface builder to the registry
             List<SurfaceElement> elements = new ArrayList<>();
-            for (int j = 0; j < 2; j++) { //add 2 elements
+            for (int j = 0; j < Rands.randIntRange(2, 4); j++) { //add 2 elements
                 try { //catch exceptions because yay reflection
                     SurfaceElement e = WEIGHTED_ELEMENTS.pickRandom(Rands.getRandom()).newInstance();
 
