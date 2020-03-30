@@ -14,7 +14,7 @@ repositories {
     maven { url = 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
     maven {
         name = "Cotton"
-        url = "http://server.bbkr.space:8081/artifactory/libs-release"
+        url = "https://server.bbkr.space/artifactory/libs-release"
     }
 	maven { url "https://dl.bintray.com/shedaniel/autoconfig1u/" }
     maven {
@@ -52,23 +52,19 @@ dependencies {
 
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "com.lettuce.fudge:artifice:0.6.0+20w06a"
-    include ("com.lettuce.fudge:artifice:0.6.0+20w06a")
+    modImplementation "com.github.oliviathevampire:artifice:06714b21ac"
+    include ("com.github.oliviathevampire:artifice:06714b21ac")
 
     modImplementation "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
     include "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
 
-//    modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
-//    modRuntime 'curse.maven:trees-do-not-float:2833870'
-//    modRuntime 'curse.maven:fabric-vertigo:2834529'
-//    modRuntime 'curse.maven:expanded-storage:2832473'
-    modRuntime 'curse.maven:shulkerboxtooltip:2829477'
-    modRuntime 'curse.maven:leaf-decay:2827905'
+    modImplementation "com.github.kvverti:structure-helpers:dc0602a6b9"
+
     modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
         transitive = false
     }
 
-//    modImplementation 'curse.maven:simplex-terrain-generation:2850537'
+    modImplementation "curse.maven:dark-loading-screen:2894480"
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
     include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
@@ -80,11 +76,17 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    modImplementation ("com.github.CottonMC:Jankson-Fabric:-SNAPSHOT")
+    modCompile "com.github.oliviathevampire:Patchouli:3bd6208706"
+
+    modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.1+j1.2.0") {
+        force = true
+    }
 
     include ("me.zeroeightsix:fiber:0.6.0-7") {
         exclude group :"net.fabricmc.fabric-api"
     }
+
+    modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
 
     modImplementation("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") {
         exclude group: "io.github.prospector.modmenu"
@@ -168,9 +170,8 @@ curseforge {
         releaseType = "release"
         changelog = project.changelog
         gameVersionStrings.clear()
-        gameVersionStrings.add("1.15-Snapshot")
-        gameVersionStrings.add("1.15")
-        gameVersionStrings.add("1.15.1")
+        gameVersionStrings.add("1.16")
+        gameVersionStrings.add("1.16-Snapshot")
         gameVersionStrings.add("Fabric")
         mainArtifact(file("build/libs/${archivesBaseName}-${version}.jar")) {
             displayName = "[" + minecraft_version + "] " + version

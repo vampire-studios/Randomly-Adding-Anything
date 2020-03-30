@@ -24,8 +24,8 @@
 
 package io.github.vampirestudios.raa.utils;
 
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegisteries;
+import io.github.vampirestudios.raa.generation.targets.OreTargetData;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
@@ -78,13 +78,24 @@ public class RegistryUtils {
         }
     }
 
+
+
+    public static Block register(Block block, Identifier name) {
+        if (Registry.BLOCK.get(name) == Blocks.AIR) {
+            Registry.register(Registry.ITEM, name, new BlockItem(block, (new Settings()).group(ItemGroup.BUILDING_BLOCKS)));
+            return Registry.register(Registry.BLOCK, name, block);
+        } else {
+            return block;
+        }
+    }
+
     public static Block registerBlockWithoutItem(Block block, Identifier identifier) {
         Registry.register(Registry.BLOCK, identifier, block);
         return block;
     }
 
-    public static void registerBiome(Identifier name, Biome biome) {
-        Registry.register(Registry.BIOME, name, biome);
+    public static Biome registerBiome(Identifier name, Biome biome) {
+        return Registry.register(Registry.BIOME, name, biome);
     }
 
     public static void forEveryBiome(Consumer<Biome> biomes) {
@@ -105,21 +116,16 @@ public class RegistryUtils {
         }
     }
 
-    public static OreFeatureConfig.Target registerOreTarget(String name, OreFeatureConfig.Target target) {
-        Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, name);
-        if (RAARegisteries.TARGET_REGISTRY.get(identifier) == null) {
-            return Registry.register(RAARegisteries.TARGET_REGISTRY, identifier, target);
-        } else {
-            return target;
-        }
-    }
-
     public static OreFeatureConfig.Target registerOreTarget(Identifier name, OreFeatureConfig.Target target) {
         if (RAARegisteries.TARGET_REGISTRY.get(name) == null) {
             return Registry.register(RAARegisteries.TARGET_REGISTRY, name, target);
         } else {
             return target;
         }
+    }
+
+    public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate, Block block) {
+        return registerOreTarget(new Identifier(name), blockStatePredicate, block);
     }
 
     public static OreFeatureConfig.Target registerOreTarget(Identifier name, Predicate<BlockState> blockStatePredicate, Block block) {
@@ -131,14 +137,14 @@ public class RegistryUtils {
         }
     }
 
-    public static OreFeatureConfig.Target registerOreTarget(String name, Predicate<BlockState> blockStatePredicate, Block block) {
-        OreFeatureConfig.Target target = new OreFeatureConfig.Target(new Identifier(name), blockStatePredicate, block);
-        if (RAARegisteries.TARGET_REGISTRY.get(target.getId()) == null) {
-            return Registry.register(RAARegisteries.TARGET_REGISTRY, target.getId(), target);
+
+    /*public static OreTargetData registerOreTargetData(Identifier name, OreTargetData target) {
+        if (RAARegisteries.TARGET_DATA_REGISTRY.get(name) == null) {
+            return Registry.register(RAARegisteries.TARGET_DATA_REGISTRY, name, target);
         } else {
             return target;
         }
-    }
+    }*/
 
     public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(Builder<T> builder, Identifier name) {
         BlockEntityType<T> blockEntityType = builder.build(null);

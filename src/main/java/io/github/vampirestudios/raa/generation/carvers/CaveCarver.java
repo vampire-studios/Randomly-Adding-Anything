@@ -21,19 +21,11 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
-public class CaveCarver extends Carver<ProbabilityConfig> {
-    private DimensionData data;
+public class CaveCarver extends RAACarver<ProbabilityConfig> {
 
     public CaveCarver(DimensionData dimensionData) {
-        super(ProbabilityConfig::deserialize, 256);
-        this.alwaysCarvableBlocks = ImmutableSet.of(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone")),
-                Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL,
-                Blocks.GRASS_BLOCK, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA, Blocks.ORANGE_TERRACOTTA, Blocks.MAGENTA_TERRACOTTA,
-                Blocks.LIGHT_BLUE_TERRACOTTA, Blocks.YELLOW_TERRACOTTA, Blocks.LIME_TERRACOTTA, Blocks.PINK_TERRACOTTA, Blocks.GRAY_TERRACOTTA,
-                Blocks.LIGHT_GRAY_TERRACOTTA, Blocks.CYAN_TERRACOTTA, Blocks.PURPLE_TERRACOTTA, Blocks.BLUE_TERRACOTTA, Blocks.BROWN_TERRACOTTA,
-                Blocks.GREEN_TERRACOTTA, Blocks.RED_TERRACOTTA, Blocks.BLACK_TERRACOTTA, Blocks.SANDSTONE, Blocks.RED_SANDSTONE, Blocks.MYCELIUM,
-                Blocks.SNOW, Blocks.PACKED_ICE);
-        this.data = dimensionData;
+        super(ProbabilityConfig::deserialize, dimensionData);
+
     }
 
     public boolean shouldCarve(Random random, int chunkX, int chunkZ, ProbabilityConfig config) {
@@ -135,42 +127,5 @@ public class CaveCarver extends Carver<ProbabilityConfig> {
 
     protected boolean isPositionExcluded(double scaledRelativeX, double scaledRelativeY, double scaledRelativeZ, int y) {
         return scaledRelativeY <= -0.7D || scaledRelativeX * scaledRelativeX + scaledRelativeY * scaledRelativeY + scaledRelativeZ * scaledRelativeZ >= 1.0D;
-    }
-
-    @Override
-    protected boolean carveAtPoint(Chunk chunk, Function<BlockPos, Biome> posBiomeFunction, BitSet bitSet, Random random, BlockPos.Mutable mutable, BlockPos.Mutable mutable2, BlockPos.Mutable mutable3, int mainChunkX, int mainChunkZ, int i, int j, int k, int l, int m, int n, AtomicBoolean atomicBoolean) {
-        int i1 = l | n << 4 | m << 8;
-        if (bitSet.get(i1)) {
-            return false;
-        } else {
-            bitSet.set(i1);
-            mutable.set(j, m, k);
-            BlockState blockState = chunk.getBlockState(mutable);
-            BlockState upState = chunk.getBlockState(mutable2.set(mutable).setOffset(Direction.UP));
-            if (blockState.getBlock() == Blocks.GRASS_BLOCK || blockState.getBlock() == Blocks.MYCELIUM) {
-                atomicBoolean.set(true);
-            }
-
-            if (!this.canCarveBlock(blockState, upState)) {
-                return false;
-            } else {
-                if (m < 11) {
-                    DimensionChunkGenerators generator = data.getDimensionChunkGenerator();
-                    if (generator == DimensionChunkGenerators.FLOATING || generator == DimensionChunkGenerators.PRE_CLASSIC_FLOATING || generator == DimensionChunkGenerators.LAYERED_FLOATING)
-                        return true;
-                    chunk.setBlockState(mutable, LAVA.getBlockState(), false);
-                } else {
-                    chunk.setBlockState(mutable, CAVE_AIR, false);
-                    if (atomicBoolean.get()) {
-                        mutable3.set(mutable).setOffset(Direction.DOWN);
-                        if (chunk.getBlockState(mutable3).getBlock() == Blocks.DIRT) {
-                            chunk.setBlockState(mutable3, posBiomeFunction.apply(mutable).getSurfaceConfig().getTopMaterial(), false);
-                        }
-                    }
-                }
-
-                return true;
-            }
-        }
     }
 }

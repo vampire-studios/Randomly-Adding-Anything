@@ -21,12 +21,12 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
-public class RavineCarver extends Carver<ProbabilityConfig> {
+public class RavineCarver extends RAACarver<ProbabilityConfig> {
     private final float[] heightToHorizontalStretchFactor = new float[1024];
     private DimensionData data;
 
     public RavineCarver(DimensionData dimensionData) {
-        super(ProbabilityConfig::deserialize, 256);
+        super(ProbabilityConfig::deserialize, dimensionData);
         this.alwaysCarvableBlocks = ImmutableSet.of(Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone")),
                 Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL,
                 Blocks.GRASS_BLOCK, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA, Blocks.ORANGE_TERRACOTTA, Blocks.MAGENTA_TERRACOTTA,
@@ -110,7 +110,7 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
             bitSet_1.set(int_9);
             blockPos$Mutable_1.set(int_4, int_7, int_5);
             BlockState blockState_1 = chunk_1.getBlockState(blockPos$Mutable_1);
-            BlockState blockState_2 = chunk_1.getBlockState(blockPos$Mutable_2.set(blockPos$Mutable_1).setOffset(Direction.UP));
+            BlockState blockState_2 = chunk_1.getBlockState(blockPos$Mutable_2.set(blockPos$Mutable_1).offset(Direction.UP));
             if (blockState_1.getBlock() == Blocks.GRASS_BLOCK || blockState_1.getBlock() == Blocks.MYCELIUM) {
                 atomicBoolean_1.set(true);
             }
@@ -126,7 +126,7 @@ public class RavineCarver extends Carver<ProbabilityConfig> {
                 } else {
                     chunk_1.setBlockState(blockPos$Mutable_1, CAVE_AIR, false);
                     if (atomicBoolean_1.get()) {
-                        blockPos$Mutable_3.set(blockPos$Mutable_1).setOffset(Direction.DOWN);
+                        blockPos$Mutable_3.set(blockPos$Mutable_1).offset(Direction.DOWN);
                         if (chunk_1.getBlockState(blockPos$Mutable_3).getBlock() == Blocks.DIRT) {
                             chunk_1.setBlockState(blockPos$Mutable_3, function_1.apply(blockPos$Mutable_1).getSurfaceConfig().getTopMaterial(), false);
                         }

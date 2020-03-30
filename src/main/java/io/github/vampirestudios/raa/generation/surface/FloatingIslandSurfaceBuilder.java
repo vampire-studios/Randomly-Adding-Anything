@@ -18,19 +18,19 @@ public class FloatingIslandSurfaceBuilder extends SurfaceBuilder<TernarySurfaceC
     }
 
     @Override
-    public void generate(Random rand, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState stone, BlockState water, int var11, long seed, TernarySurfaceConfig config) {
+    public void generate(Random rand, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig surfaceBlocks) {
         if (noise > 1) {
             BlockPos.Mutable pos = new BlockPos.Mutable(x, 50 + height + (noise), z);
             for (int i = 0; i < 2 + (noise / 4); i++) {
-                chunk.setBlockState(pos, stone, false);
-                pos.setOffset(Direction.UP);
+                chunk.setBlockState(pos, defaultBlock, false);
+                pos.offset(Direction.UP);
             }
             for (int i = 0; i < 3 + (noise / 2); i++) {
                 chunk.setBlockState(pos, DIRT, false);
-                pos.setOffset(Direction.UP);
+                pos.offset(Direction.UP);
             }
-            chunk.setBlockState(pos, config.getTopMaterial(), false);
+            chunk.setBlockState(pos, surfaceBlocks.getTopMaterial(), false);
         }
-        SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, z, height, noise, stone, water, var11, seed, config);
+        SurfaceBuilder.DEFAULT.generate(rand, chunk, biome, x, z, height, noise, defaultBlock, defaultFluid, seaLevel, seed, surfaceBlocks);
     }
 }

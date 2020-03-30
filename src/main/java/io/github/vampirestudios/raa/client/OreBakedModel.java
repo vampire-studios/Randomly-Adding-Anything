@@ -51,12 +51,12 @@ public class OreBakedModel extends RAABakedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        RenderMaterial mat = renderer.materialFinder().disableAo(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
+        RenderMaterial mat = renderer.materialFinder().blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, true).disableAo(0, false).find();
         int color = 0xFFFFFFFF;
         Sprite sprite;
         if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
-            sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier(Registry.BLOCK.getId(Objects.
-                    requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).getNamespace(), "block/" +
+            sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier(Registry.BLOCK.getId(Objects.requireNonNull(
+                    RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).getNamespace(), "block/" +
                     Registry.BLOCK.getId(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).getPath()));
         } else {
             sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/oak_planks"));
@@ -65,9 +65,9 @@ public class OreBakedModel extends RAABakedModel {
         this.renderBase(emitter, mat, sprite, renderer, blockView, pos, color);
 
         if (material.isGlowing()) {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).emissive(0, true).find();
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).emissive(0, true).find();
         } else {
-            mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
+            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
         }
         color = material.getColor();
         sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());

@@ -6,9 +6,13 @@ public interface ModCompatProvider {
 
     void generateRecipes(ArtificeResourcePack.ServerResourcePackBuilder dataPackBuilder);
 
-    boolean asCustomRecipes();
+    void generateModels(ArtificeResourcePack.ClientResourcePackBuilder resourcePackBuilder);
 
-    boolean asItems();
+    boolean hasCustomRecipes();
+
+    boolean hasCustomModels();
+
+    boolean hasItems();
 
     void generateItems();
 }

@@ -1,10 +1,10 @@
 package io.github.vampirestudios.raa.api.namegeneration.material;
 
-import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 
 import java.util.Map;
 
-public class NorwegianMaterials implements INameGenerator {
+public class NorwegianMaterials implements NameGenerator {
 
     @Override
     public String generate() {

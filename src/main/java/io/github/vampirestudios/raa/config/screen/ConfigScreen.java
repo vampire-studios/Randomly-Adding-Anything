@@ -27,7 +27,7 @@ public class ConfigScreen extends Screen {
     public static void overlayBackground(int x1, int y1, int x2, int y2, int red, int green, int blue, int startAlpha, int endAlpha) {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        MinecraftClient.getInstance().getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
+        MinecraftClient.getInstance().getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         buffer.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
         buffer.vertex(x1, y2, 0.0D).texture(x1 / 32.0F, y2 / 32.0F).color(red, green, blue, endAlpha).next();
@@ -40,7 +40,7 @@ public class ConfigScreen extends Screen {
     @Override
     public boolean keyPressed(int int_1, int int_2, int int_3) {
         if (int_1 == 256) {
-            minecraft.openScreen(parent);
+            client.openScreen(parent);
             return true;
         }
         return super.keyPressed(int_1, int_2, int_3);
@@ -50,12 +50,12 @@ public class ConfigScreen extends Screen {
     protected void init() {
         super.init();
         addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.generalConfig"), var1 ->
-                minecraft.openScreen(AutoConfig.getConfigScreen(GeneralConfig.class, this).get())));
+                client.openScreen(AutoConfig.getConfigScreen(GeneralConfig.class, this).get())));
         addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, I18n.translate("config.button.raa.materialConfiguration"), var1 ->
-                minecraft.openScreen(new MaterialListScreen(this))));
+                client.openScreen(new MaterialListScreen(this))));
         addButton(new ButtonWidget(width / 2 - 75, 130, 150, 20, I18n.translate("config.button.raa.dimensionConfigurations"), var1 ->
-                minecraft.openScreen(new DimensionsConfigScreen(this))));
-        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> minecraft.openScreen(parent)));
+                client.openScreen(new DimensionsConfigScreen(this))));
+        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> client.openScreen(parent)));
     }
 
     @Override
@@ -63,8 +63,8 @@ public class ConfigScreen extends Screen {
         overlayBackground(0, 0, width, height, 32, 32, 32, 255, 255);
         overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA.value, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA.value,
-                GlStateManager.SrcFactor.ZERO.value, GlStateManager.DstFactor.ONE.value
+        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA.field_22545, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA.field_22528,
+                GlStateManager.SrcFactor.ZERO.field_22545, GlStateManager.DstFactor.ONE.field_22528
         );
         RenderSystem.disableAlphaTest();
         RenderSystem.shadeModel(7425);
@@ -81,7 +81,8 @@ public class ConfigScreen extends Screen {
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
-        drawCenteredString(font, title.asFormattedString(), width / 2, 10, 16777215);
+
+        drawCenteredString(textRenderer, title.asFormattedString(), width / 2, 10, 16777215);
         super.render(mouseX, mouseY, delta);
     }
 

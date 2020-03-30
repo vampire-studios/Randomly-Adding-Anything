@@ -39,11 +39,11 @@ public class CustomToolMaterial implements ToolMaterial {
 
     public static CustomToolMaterial generate(Identifier materialId, OreType oreType, int miningLevel) {
         return new CustomToolMaterial(materialId, oreType,
-                Rands.randIntRange(15, 2000), Rands.randFloat(4.0F) + 1.5F,
-                Rands.randFloat(3.0F), miningLevel,
-                Rands.randIntRange(2, 10), Rands.randFloat(4.0F),
+                Rands.randIntRange(15, 2000), Rands.randFloat(6.0F) + 1.5F,
+                Rands.randFloat(4.0F) + 0.5f, miningLevel,
+                Rands.randIntRange(5, 30) + 5, Rands.randFloat(4.0F),
                 Rands.randFloat(3.0F), Rands.randFloat(0.8F),
-                Rands.randFloat(5.0F));
+                Rands.randFloat(6.0F) + 0.75f);
     }
 
     public void setMaterialId(Identifier materialId) {
@@ -65,7 +65,7 @@ public class CustomToolMaterial implements ToolMaterial {
     }
 
     @Override
-    public float getMiningSpeed() {
+    public float getMiningSpeedMultiplier() {
         return miningSpeed;
     }
 
@@ -106,7 +106,7 @@ public class CustomToolMaterial implements ToolMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(Registry.ITEM.get(Utils.appendToPath(materialId, oreType.getSuffix())));
+        return Ingredient.ofItems(Registry.ITEM.get(Utils.addSuffixToPath(materialId, oreType.getSuffix())));
     }
 
     public float getHoeAttackSpeed() {

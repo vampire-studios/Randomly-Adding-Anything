@@ -27,10 +27,11 @@ public class Material {
     private boolean food;
     private float compostableAmount;
     private boolean compostable;
+    private boolean beaconBase;
 
     Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
              CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
-             MaterialFoodData materialFoodData, float compostableAmount, boolean compostable) {
+             MaterialFoodData materialFoodData, float compostableAmount, boolean compostable, boolean beaconBase) {
         this.oreInformation = oreInformation;
         this.id = id;
         this.name = name;
@@ -48,6 +49,7 @@ public class Material {
         this.foodData = materialFoodData;
         this.compostableAmount = compostableAmount;
         this.compostable = compostable;
+        this.beaconBase = beaconBase;
     }
 
     public OreInformation getOreInformation() {
@@ -123,6 +125,10 @@ public class Material {
         return compostable;
     }
 
+    public boolean isBeaconBase() {
+        return beaconBase;
+    }
+
     public static class Builder {
 
         private OreType oreType;
@@ -146,9 +152,10 @@ public class Material {
         private int miningLevel;
         private float compostableAmount;
         private boolean compostable;
+        private boolean beaconBase;
 
         protected Builder() {
-            oreCount = Rands.randInt(19) + 1;
+            oreCount = Rands.randInt(30) + 1;
             miningLevel = Rands.randInt(4);
         }
 
@@ -277,6 +284,11 @@ public class Material {
             return this;
         }
 
+        public Builder beaconBase(boolean beaconBase) {
+            this.beaconBase = beaconBase;
+            return this;
+        }
+
         public Material build() {
             if (id == null || name == null) {
                 throw new IllegalStateException("A Material must not have a null name or identifier");
@@ -308,6 +320,22 @@ public class Material {
             if (oreType == OreType.METAL) nuggetTexture = Rands.list(TextureTypes.METAL_NUGGET_TEXTURES);
             else nuggetTexture = null;
 
+            Identifier plateTexture;
+            if (oreType == OreType.METAL) plateTexture = Rands.list(TextureTypes.METAL_PLATE_TEXTURES);
+            else plateTexture = null;
+
+            Identifier gearTexture;
+            if (oreType == OreType.METAL) gearTexture = Rands.list(TextureTypes.METAL_GEAR_TEXTURES);
+            else gearTexture = null;
+
+            Identifier dustTexture;
+            if (oreType == OreType.METAL) dustTexture = Rands.list(TextureTypes.DUST_TEXTURES);
+            else dustTexture = null;
+
+            Identifier smallDustTexture;
+            if (oreType == OreType.METAL) smallDustTexture = Rands.list(TextureTypes.SMALL_DUST_TEXTURES);
+            else smallDustTexture = null;
+
             Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);
             Map.Entry<Identifier, Identifier> axe = Rands.map(TextureTypes.AXES);
             Map.Entry<Identifier, Identifier> hoe = Rands.map(TextureTypes.HOES);
@@ -327,6 +355,10 @@ public class Material {
                     .overlayTexture(overlayTexture)
                     .storageBlockTexture(storageBlockTexture)
                     .resourceItemTexture(resourceItemTexture)
+                    .dustTexture(dustTexture)
+                    .smallDustTexture(smallDustTexture)
+                    .gearTexture(gearTexture)
+                    .plateTexture(plateTexture)
                     .nuggetTexture(nuggetTexture)
                     .fruitTexture(Rands.list(TextureTypes.FRUIT_TEXTURES))
                     .build();
@@ -334,7 +366,7 @@ public class Material {
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
             return new Material(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower,
-                    food, foodData, compostableAmount, compostable);
+                    food, foodData, compostableAmount, compostable, beaconBase);
         }
     }
 

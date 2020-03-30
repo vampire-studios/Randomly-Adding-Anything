@@ -6,6 +6,11 @@ import net.minecraft.util.Pair;
 
 import java.util.HashMap;
 
+/**
+ * A holder for dimension data for use in civilization simulation, converted to a proper dimension later
+ *
+ * @author SuperCoder79
+ */
 public class ProtoDimension {
     private Pair<String, Identifier> name;
     private int flags;

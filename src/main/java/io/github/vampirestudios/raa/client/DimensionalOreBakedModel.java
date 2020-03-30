@@ -3,7 +3,6 @@ package io.github.vampirestudios.raa.client;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.registries.Dimensions;
-import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
@@ -13,6 +12,7 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
@@ -28,12 +28,13 @@ import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.World;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Supplier;
 
 public class DimensionalOreBakedModel extends RAABakedModel {
 
-    private DimensionMaterial dimensionMaterial;
+    private final DimensionMaterial dimensionMaterial;
 
     public DimensionalOreBakedModel(DimensionMaterial material) {
         super(material);
@@ -53,8 +54,8 @@ public class DimensionalOreBakedModel extends RAABakedModel {
         Identifier diemnsionId = new Identifier(dimensionMaterial.getId().getNamespace(), dimensionMaterial.getId().getPath().split("_")[0]);
         DimensionData dimensionData = Dimensions.DIMENSIONS.get(diemnsionId);
 
-        RenderMaterial mat = renderer.materialFinder().disableAo(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
-        int color = dimensionData.getDimensionColorPalette().getStoneColor();
+        RenderMaterial mat = renderer.materialFinder().disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
+        int color = Objects.requireNonNull(dimensionData).getDimensionColorPalette().getStoneColor();
         Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .apply(dimensionData.getTexturesInformation().getStoneTexture());
 //        System.out.println(sprite.getId().toString());
@@ -132,7 +133,11 @@ public class DimensionalOreBakedModel extends RAABakedModel {
 
     @Override
     public ModelItemPropertyOverrideList getItemPropertyOverrides() {
-        return new ItemProxy();
+        if (FabricLoader.getInstance().isModLoaded("optifabric")) {
+            return ItemProxy.EMPTY;
+        } else {
+            return new ItemProxy();
+        }
     }
 
     protected class ItemProxy extends ModelItemPropertyOverrideList {

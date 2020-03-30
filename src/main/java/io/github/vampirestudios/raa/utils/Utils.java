@@ -2,14 +2,14 @@ package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
-import io.github.vampirestudios.raa.registries.SurfaceBuilders;
+import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
@@ -31,9 +31,26 @@ public class Utils {
     public static final int MOLTEN = 32; //Instead of water oceans, there are lava oceans.
     public static final int DRY = 64; //No oceans exist at all.
     public static final int TECTONIC = 128; //Creates lots of caves and ravines. Usually not visible on the surface.
-    public static final int FROZEN = 256; //Makes the dimension frozen
+    public static final int FROZEN = 256; //Makes the dimension frozen (snow instead of rain)
+    public static final int LUCID = 512; //Makes the dimension be lucid, have faster time and more crazy skybox
 
     public static final int POST_APOCALYPTIC = CORRUPTED | DEAD | ABANDONED | DRY | TECTONIC; //A combination of corrupted, dead, abandoned, dry, and tectonic
+
+    //maps
+    private static List<String> surfaceBuilders = new ArrayList<>();
+
+    static {
+        surfaceBuilders.add("raa:patchy_desert");
+        surfaceBuilders.add("raa:dark_patchy_badlands");
+        surfaceBuilders.add("raa:patchy_badlands");
+        surfaceBuilders.add("raa:classic_cliffs");
+        surfaceBuilders.add("raa:stratified_cliffs");
+        surfaceBuilders.add("raa:floating_islands");
+        surfaceBuilders.add("raa:sandy_dunes");
+        surfaceBuilders.add("raa:dunes");
+        surfaceBuilders.add("raa:lazy_noise");
+        surfaceBuilders.add("minecraft:default");
+    }
 
     public static String toTitleCase(String lowerCase) {
         return "" + Character.toUpperCase(lowerCase.charAt(0)) + lowerCase.substring(1);
@@ -47,41 +64,89 @@ public class Utils {
         return name.toLowerCase(Locale.ENGLISH);
     }
 
-    public static Identifier appendToPath(Identifier identifier, String suffix) {
+    public static Identifier addSuffixToPath(Identifier identifier, String suffix) {
         return new Identifier(identifier.getNamespace(), identifier.getPath() + suffix);
     }
 
-    public static Identifier prependToPath(Identifier identifier, String prefix) {
+    public static Identifier addPrefixToPath(Identifier identifier, String prefix) {
         return new Identifier(identifier.getNamespace(), prefix + identifier.getPath());
     }
 
-    public static Identifier appendAndPrependToPath(Identifier identifier, String prefix, String suffix) {
+    public static Identifier addPrefixAndSuffixToPath(Identifier identifier, String prefix, String suffix) {
         return new Identifier(identifier.getNamespace(), prefix + identifier.getPath() + suffix);
     }
 
-    public static SurfaceBuilder<TernarySurfaceConfig> randomSurfaceBuilder(int chance, DimensionData data) {
-        //30% default
-        //10% all others
+    public static TernarySurfaceConfig randomSurfaceBuilderConfig() {
+        Map<String, TernarySurfaceConfig> surfaceBuilders = new HashMap<>();
+        surfaceBuilders.put("minecraft:gravel_config", SurfaceBuilder.GRAVEL_CONFIG);
+        surfaceBuilders.put("minecraft:grass_config", SurfaceBuilder.GRASS_CONFIG);
+        surfaceBuilders.put("minecraft:dirt_config", SurfaceBuilder.DIRT_CONFIG);
+        surfaceBuilders.put("minecraft:stone_config", SurfaceBuilder.STONE_CONFIG);
+        surfaceBuilders.put("minecraft:coarse_dirt_config", SurfaceBuilder.COARSE_DIRT_CONFIG);
+        surfaceBuilders.put("minecraft:sand_config", SurfaceBuilder.SAND_CONFIG);
+        surfaceBuilders.put("minecraft:grass_sand_underwater_config", SurfaceBuilder.GRASS_SAND_UNDERWATER_CONFIG);
+        surfaceBuilders.put("minecraft:sand_sand_underwater_config", SurfaceBuilder.SAND_SAND_UNDERWATER_CONFIG);
+        surfaceBuilders.put("minecraft:badlands_config", SurfaceBuilder.BADLANDS_CONFIG);
+        surfaceBuilders.put("minecraft:mycelium_config", SurfaceBuilder.MYCELIUM_CONFIG);
+        surfaceBuilders.put("minecraft:nether_config", SurfaceBuilder.NETHER_CONFIG);
+        surfaceBuilders.put("minecraft:soul_sand_config", SurfaceBuilder.SOUL_SAND_CONFIG);
+        surfaceBuilders.put("minecraft:end_config", SurfaceBuilder.END_CONFIG);
+        surfaceBuilders.put("minecraft:crimson_nylium_config", SurfaceBuilder.CRIMSON_NYLIUM_CONFIG);
+        surfaceBuilders.put("minecraft:warped_nylium_config", SurfaceBuilder.WARPED_NYLIUM_CONFIG);
+        return Rands.map(surfaceBuilders).getValue();
+    }
 
-        if (data.getDimensionChunkGenerator() == DimensionChunkGenerators.OVERWORLD || data.getDimensionChunkGenerator() == DimensionChunkGenerators.CUSTOM_OVERWORLD) {
-            if (chance < 20) return SurfaceBuilder.DEFAULT;
-            if (chance > 20 && chance <= 30) return SurfaceBuilders.HYPER_FLAT;
-            if (chance > 30 && chance <= 40) return SurfaceBuilders.PATCHY_DESERT;
-            if (chance > 40 && chance <= 50) {
-                if(Rands.chance(4)) return SurfaceBuilders.DARK_PATCHY_BADLANDS;
-                else return SurfaceBuilders.PATCHY_BADLANDS;
-            }
-            if (chance > 50 && chance <= 60) return SurfaceBuilders.CLASSIC_CLIFFS;
-            if (chance > 60 && chance <= 70) return SurfaceBuilders.STRATIFIED_CLIFFS;
-            if (chance > 70 && chance <= 80) return SurfaceBuilders.FLOATING_ISLANDS;
-            if (chance > 80 && chance <= 90 && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
-                if(Rands.chance(10)) return SurfaceBuilders.SANDY_DUNES;
-                else return SurfaceBuilders.DUNES;
-            }
-            if (chance > 90 && chance <= 100) return SurfaceBuilders.LAZY_NOISE;
+    public static TernarySurfaceConfig fromIdentifierToConfig(Identifier name) {
+        if (name.equals(new Identifier("gravel_config"))) return SurfaceBuilder.GRAVEL_CONFIG;
+        if (name.equals(new Identifier("grass_config"))) return SurfaceBuilder.GRASS_CONFIG;
+        if (name.equals(new Identifier("dirt_config"))) return SurfaceBuilder.DIRT_CONFIG;
+        if (name.equals(new Identifier("stone_config"))) return SurfaceBuilder.STONE_CONFIG;
+        if (name.equals(new Identifier("coarse_dirt_config"))) return SurfaceBuilder.COARSE_DIRT_CONFIG;
+        if (name.equals(new Identifier("sand_config"))) return SurfaceBuilder.SAND_CONFIG;
+        if (name.equals(new Identifier("grass_sand_underwater_config"))) return SurfaceBuilder.GRASS_SAND_UNDERWATER_CONFIG;
+        if (name.equals(new Identifier("sand_sand_underwater_config"))) return SurfaceBuilder.SAND_SAND_UNDERWATER_CONFIG;
+        if (name.equals(new Identifier("badlands_config"))) return SurfaceBuilder.BADLANDS_CONFIG;
+        if (name.equals(new Identifier("mycelium_config"))) return SurfaceBuilder.MYCELIUM_CONFIG;
+        if (name.equals(new Identifier("nether_config"))) return SurfaceBuilder.NETHER_CONFIG;
+        if (name.equals(new Identifier("soul_sand_config"))) return SurfaceBuilder.SOUL_SAND_CONFIG;
+        if (name.equals(new Identifier("end_config"))) return SurfaceBuilder.END_CONFIG;
+
+        return SurfaceBuilder.GRASS_CONFIG;
+    }
+
+    public static Identifier fromConfigToIdentifier(TernarySurfaceConfig config) {
+        if (config.equals(SurfaceBuilder.GRAVEL_CONFIG)) return new Identifier("gravel_config");
+
+        if (config.equals(SurfaceBuilder.GRASS_CONFIG)) return new Identifier("grass_config");
+        if (config.equals(SurfaceBuilder.DIRT_CONFIG)) return new Identifier("dirt_config");
+        if (config.equals(SurfaceBuilder.STONE_CONFIG)) return new Identifier("stone_config");
+        if (config.equals(SurfaceBuilder.COARSE_DIRT_CONFIG)) return new Identifier("coarse_dirt_config");
+        if (config.equals(SurfaceBuilder.SAND_CONFIG)) return new Identifier("sand_config");
+        if (config.equals(SurfaceBuilder.GRASS_SAND_UNDERWATER_CONFIG)) return new Identifier("grass_sand_underwater_config");
+        if (config.equals(SurfaceBuilder.SAND_SAND_UNDERWATER_CONFIG)) return new Identifier("sand_sand_underwater_config");
+        if (config.equals(SurfaceBuilder.BADLANDS_CONFIG)) return new Identifier("badlands_config");
+        if (config.equals(SurfaceBuilder.MYCELIUM_CONFIG)) return new Identifier("mycelium_config");
+        if (config.equals(SurfaceBuilder.NETHER_CONFIG)) return new Identifier("nether_config");
+        if (config.equals(SurfaceBuilder.SOUL_SAND_CONFIG)) return new Identifier("soul_sand_config");
+        if (config.equals(SurfaceBuilder.END_CONFIG)) return new Identifier("end_config");
+        if (config.equals(SurfaceBuilder.CRIMSON_NYLIUM_CONFIG)) return new Identifier("crimson_nylium_config");
+        if (config.equals(SurfaceBuilder.WARPED_NYLIUM_CONFIG)) return new Identifier("warped_nylium_config");
+
+        return new Identifier("grass_config");
+    }
+
+    public static SurfaceBuilder<?> newRandomSurfaceBuilder() {
+        //random surface builder
+        if (Rands.chance(2)) {
+            return SurfaceBuilderGenerator.RANDOM_SURFACE_BUILDER.getRandom(Rands.getRandom());
         }
 
-        return SurfaceBuilder.DEFAULT;
+        //choose the default type of surface builder
+        SurfaceBuilder sb = Registry.SURFACE_BUILDER.get(new Identifier(Rands.list(surfaceBuilders)));
+        if (sb == null) { //dunno why it's null sometimes, but if it is, default to the default
+            sb = SurfaceBuilder.DEFAULT; //TODO: fix this instead of a hack
+        }
+        return sb;
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {
@@ -104,8 +169,10 @@ public class Utils {
                 return DimensionChunkGenerators.QUADRUPLE_AMPLIFIED;
             } else if (chance <= 50) {
                 return DimensionChunkGenerators.PILLAR_WORLD;
-            } else if (chance <= 60 && FabricLoader.getInstance().isModLoaded("simplexterrain")) {
-                return DimensionChunkGenerators.CUSTOM_OVERWORLD;
+            } else if (chance <= 60) {
+                return DimensionChunkGenerators.LAYERED_OVERWORLD;
+            } else if (chance <= 70) {
+                return DimensionChunkGenerators.TOTALLY_CUSTOM;
             }
             return DimensionChunkGenerators.OVERWORLD;
         }

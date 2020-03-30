@@ -83,16 +83,6 @@ public class LayeredOreBlock extends OreBlock {
         return block.getSlipperiness();
     }
 
-    @Override
-    public net.minecraft.block.Material getMaterial(BlockState blockState_1) {
-        return block.getMaterial(blockState_1);
-    }
-
-    @Override
-    public float getHardness(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1) {
-        return block.getHardness(blockState_1, blockView_1, blockPos_1);
-    }
-
     public void onStacksDropped(BlockState blockState_1, World world_1, BlockPos blockPos_1, ItemStack itemStack_1) {
         super.onStacksDropped(blockState_1, world_1, blockPos_1, itemStack_1);
         if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, itemStack_1) == 0) {
@@ -115,14 +105,14 @@ public class LayeredOreBlock extends OreBlock {
     @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
         //EARLY DETECTION OF BUSTED LOOT TABLES:
-        Identifier tableId = this.getDropTableId();
+        Identifier tableId = this.getDropTableID();
 
         if (tableId == LootTables.EMPTY) {
             return Collections.emptyList();
         } else {
             LootContext context = builder.put(LootContextParameters.BLOCK_STATE, state).build(LootContextTypes.BLOCK);
             ServerWorld world = context.getWorld();
-            LootTable lootSupplier = world.getServer().getLootManager().getSupplier(tableId);
+            LootTable lootSupplier = world.getServer().getLootManager().getTable(tableId);
 
             List<ItemStack> result = lootSupplier.getDrops(context);
             if (result.isEmpty()) {
@@ -131,18 +121,13 @@ public class LayeredOreBlock extends OreBlock {
                 if (lootSupplier instanceof FabricLootSupplier) {
                     List<LootPool> pools = ((FabricLootSupplier) lootSupplier).getPools();
                     if (pools.isEmpty()) {
-                        //Yup. Somehow we got a loot pool that just never drops anything.
-                        if (!complainedAboutLoot) {
-                            System.out.println("Loot pool '" + tableId + "' doesn't seem to be able to drop anything. Supplying the ore block instead. Please report this to the RAA team!");
-                            complainedAboutLoot = true;
-                        }
                         if (material.getOreInformation().getOreType() == OreType.METAL) {
                             result.add(new ItemStack(this.asItem()));
                         } else {
                             if (material.getOreInformation().getOreType() == OreType.GEM) {
-                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"))));
+                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase().replace(" ", "_")  + "_gem"))));
                             } else {
-                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"))));
+                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase().replace(" ", "_") + "_crystal"))));
                             }
                         }
                     }

@@ -30,8 +30,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class CommandLocateRAAStructure {
 
     private static List<String> STRUCTURES = Arrays.asList(
-            "Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "StoneCircle",
-            "BeeNest", "UndergroundBeeNest", "CaveCampfire", "MushroomRuin"
+            "Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "StoneCircle"
     );
 
     // First make method to register

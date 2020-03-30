@@ -5,6 +5,11 @@
   "injectors": { "defaultRequire": 1 },
   "mixins": [
     "ItemEntityMixin",
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "MixinLeavesBlock",
+    "CustomPayloadS2CPacketMixin"
+  ],
+  "client": [
+    "WorldRendererMixin"
   ]
 }

@@ -8,6 +8,7 @@ import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeData
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeTypes;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
 import io.github.vampirestudios.raa.generation.feature.TombFeature;
+import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.generation.feature.tree.foliage.*;
 import io.github.vampirestudios.raa.registries.Decorators;
@@ -22,6 +23,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
@@ -31,6 +33,7 @@ import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.foliage.*;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 import java.util.ArrayList;
 
@@ -40,7 +43,8 @@ public class CustomDimensionalBiome extends Biome {
 
     public CustomDimensionalBiome(DimensionData dimensionData, DimensionBiomeData biomeData) {
         super((new Settings()
-                .configureSurfaceBuilder(Utils.randomSurfaceBuilder(dimensionData.getSurfaceBuilder(), dimensionData), SurfaceBuilder.GRASS_CONFIG)
+                .configureSurfaceBuilder((SurfaceBuilder<TernarySurfaceConfig>) Registry.SURFACE_BUILDER.get(biomeData.getSurfaceBuilder()),
+                        biomeData.getSurfaceConfig())
                 .precipitation(Utils.checkBitFlag(dimensionData.getFlags(), Utils.FROZEN) ? Precipitation.SNOW : Rands.chance(10) ? Precipitation.RAIN : Precipitation.NONE)
                 .category(Category.PLAINS)
                 .depth(biomeData.getDepth())
@@ -68,7 +72,7 @@ public class CustomDimensionalBiome extends Biome {
 
         DefaultBiomeFeatures.addDefaultLakes(this);
         DefaultBiomeFeatures.addDungeons(this);
-        if (Utils.randomSurfaceBuilder(dimensionData.getSurfaceBuilder(), dimensionData) == SurfaceBuilders.HYPER_FLAT) {
+        if (Registry.SURFACE_BUILDER.get(biomeData.getSurfaceBuilder()) == SurfaceBuilders.HYPER_FLAT) {
             DefaultBiomeFeatures.addMoreSeagrass(this);
             DefaultBiomeFeatures.addKelp(this);
         }
@@ -91,19 +95,11 @@ public class CustomDimensionalBiome extends Biome {
                                             config
                                     ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, treeData.getChance(), 1))));
                 } else {
-                    BranchedTreeFeatureConfig config = (new BranchedTreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState()),
-                            getFoliagePlacer(treeData))
-                            .baseHeight(Rands.randIntRange(1, 6)) //
-                            .heightRandA(treeData.getBaseHeight()) //trunk height
-                            .foliageHeight(treeData.getFoliageHeight()) //foliage amount
-                            .foliageHeightRandom(treeData.getFoliageHeightRandom()) //random foliage offset
-                            .trunkHeight(0)
-                            .noVines()
-                            .build());
+                    BranchedTreeFeatureConfig config1 = getTreeConfig(treeData);
                     this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
                             getNormalTree(treeData.getTreeType())
                                     .configure(
-                                            config
+                                            config1
                                     ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, treeData.getChance(), 1))));
                 }
             }
@@ -158,6 +154,11 @@ public class CustomDimensionalBiome extends Biome {
             towerChance = Rands.randFloatRange(0.002F, 0.003F);
         }
 
+        if (dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.CAVE)) {
+            this.addFeature(net.minecraft.world.gen.GenerationStep.Feature.UNDERGROUND_DECORATION, Feature.BASALT_PILLAR.configure(FeatureConfig.DEFAULT)
+                    .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new RangeDecoratorConfig(10, 0, 0, 256))));
+        }
+
         // TODO fix this
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.OUTPOST.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, outpostChance, 1))));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, campfireChance, 1))));
@@ -165,10 +166,41 @@ public class CustomDimensionalBiome extends Biome {
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.FOSSIL.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, fossilChance, 1))));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SHRINE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, shrineChance, 1))));
 
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.BEE_NEST.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
-        this.addFeature(GenerationStep.Feature.UNDERGROUND_STRUCTURES, Features.CAVE_CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.MUSHROOM_RUIN.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
-        this.addFeature(GenerationStep.Feature.UNDERGROUND_STRUCTURES, Features.UNDERGROUND_BEE_HIVE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
+                Features.STONE_HENGE.configure(new DefaultFeatureConfig()).createDecoratedFeature(
+                        Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
+                                new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
+                        )
+                )
+        );
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
+                Features.COLUMN_RAMP.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
+                        Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
+                        Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
+                                new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
+                        )
+                )
+        );
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
+                Features.COLUMN_VERTICAL.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
+                        Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
+                        Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
+                                new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
+                        )
+                )
+        );
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
+                Features.HANGING_RUINS.configure(new DefaultFeatureConfig()).createDecoratedFeature(
+                        Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
+                                new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
+                        )
+                )
+        );
+
+//        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.BEE_NEST.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
+//        this.addFeature(GenerationStep.Feature.UNDERGROUND_STRUCTURES, Features.CAVE_CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
+//        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.MUSHROOM_RUIN.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
+//        this.addFeature(GenerationStep.Feature.UNDERGROUND_STRUCTURES, Features.UNDERGROUND_BEE_HIVE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
 
         if (biomeData.hasMushrooms()) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(
@@ -232,6 +264,15 @@ public class CustomDimensionalBiome extends Biome {
             this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.ENDERMAN, dimensionData.getMobs().get("enderman")[0], dimensionData.getMobs().get("enderman")[1], dimensionData.getMobs().get("enderman")[2]));
         if (dimensionData.getMobs().containsKey("witch"))
             this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("witch")[0], dimensionData.getMobs().get("witch")[1], dimensionData.getMobs().get("witch")[2]));
+
+        if (dimensionData.getMobs().containsKey("blaze"))
+            this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("blaze")[0], dimensionData.getMobs().get("blaze")[1], dimensionData.getMobs().get("blaze")[2]));
+        if (dimensionData.getMobs().containsKey("piglin"))
+            this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("piglin")[0], dimensionData.getMobs().get("piglin")[1], dimensionData.getMobs().get("piglin")[2]));
+        if (dimensionData.getMobs().containsKey("zombified_piglin"))
+            this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("zombified_piglin")[0], dimensionData.getMobs().get("zombified_piglin")[1], dimensionData.getMobs().get("zombified_piglin")[2]));
+        if (dimensionData.getMobs().containsKey("ghast"))
+            this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("ghast")[0], dimensionData.getMobs().get("ghast")[1], dimensionData.getMobs().get("ghast")[2]));
     }
 
     public static BranchedTreeFeatureConfig getTreeConfig(DimensionTreeData treeData) {
@@ -258,7 +299,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandA(height - 1) //trunk height rand 2
                         .foliageHeight(foliageHeight) //foliage amount
                         .foliageHeightRandom(Rands.randIntRange(1, 6)) //random foliage offset
-                        .maxWaterDepth(treeData.getMaxWaterDepth()) //water depth
+                        .maxFluidDepth(treeData.getMaxWaterDepth()) //water depth
                         .trunkHeight(Rands.randIntRange(1, 8)) //trunk height
                         .trunkHeightRandom(Rands.randIntRange(1, 4)) //trunk height offset
                         .trunkTopOffsetRandom(Rands.randIntRange(1, 2)) //foliage height
@@ -273,7 +314,7 @@ public class CustomDimensionalBiome extends Biome {
                         .trunkTopOffset(Rands.randIntRange(1, 2))
                         .foliageHeight(foliageHeight / 2)
                         .foliageHeightRandom(Rands.randIntRange(1, 4))
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -285,7 +326,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -297,7 +338,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -309,7 +350,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -321,7 +362,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -333,7 +374,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -345,7 +386,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandB(height + Rands.randIntRange(1, 4))
                         .trunkHeight(Rands.randIntRange(1, 8))
                         .foliageHeight(foliageHeight) //foliage amount
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -357,7 +398,7 @@ public class CustomDimensionalBiome extends Biome {
                         .heightRandA(height - 1) //trunk height
                         .foliageHeight(foliageHeight) //foliage amount
                         .foliageHeightRandom(Rands.randIntRange(1, 6)) //random foliage offset
-                        .maxWaterDepth(Rands.randIntRange(0, 8)) //water depth
+                        .maxFluidDepth(Rands.randIntRange(0, 8)) //water depth
                         .noVines()
                         .treeDecorators(decorators)
                         .build();
@@ -424,8 +465,13 @@ public class CustomDimensionalBiome extends Biome {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public int getGrassColorAt(double double_1, double double_2) {
+    public int getGrassColorAt(double x, double z) {
         return dimensionData.getDimensionColorPalette().getGrassColor();
+    }
+
+    @Override
+    public int getFoliageColor() {
+        return dimensionData.getDimensionColorPalette().getFoliageColor();
     }
 
 }

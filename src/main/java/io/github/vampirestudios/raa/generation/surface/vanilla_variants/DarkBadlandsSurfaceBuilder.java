@@ -49,71 +49,71 @@ public class DarkBadlandsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceCon
         super(function);
     }
 
-    public void generate(Random random, Chunk chunk, Biome biome, int i, int j, int k, double d, BlockState blockState, BlockState blockState2, int l, long m, TernarySurfaceConfig ternarySurfaceConfig) {
-        int n = i & 15;
-        int o = j & 15;
-        BlockState blockState3 = WHITE_TERRACOTTA;
-        BlockState blockState4 = biome.getSurfaceConfig().getUnderMaterial();
-        int p = (int) (d / 3.0D + 3.0D + random.nextDouble() * 0.25D);
-        boolean bl = Math.cos(d / 3.0D * 3.141592653589793D) > 0.0D;
-        int q = -1;
-        boolean bl2 = false;
+    public void generate(Random random, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig surfaceBlocks) {
+        int n = x & 15;
+        int o = z & 15;
+        BlockState whiteTerracotta = WHITE_TERRACOTTA;
+        BlockState underMaterial = biome.getSurfaceConfig().getUnderMaterial();
+        int i = (int) (noise / 3.0D + 3.0D + random.nextDouble() * 0.25D);
+        boolean b = Math.cos(noise / 3.0D * 3.141592653589793D) > 0.0D;
+        int i1 = -1;
+        boolean notSureWhatThisIs = false;
         int r = 0;
         Mutable mutable = new Mutable();
 
-        for (int s = k; s >= 0; --s) {
+        for (int y = height; y >= 0; --y) {
             if (r < 15) {
-                mutable.set(n, s, o);
+                mutable.set(n, y, o);
                 BlockState blockState5 = chunk.getBlockState(mutable);
                 if (blockState5.isAir()) {
-                    q = -1;
-                } else if (blockState5.getBlock() == blockState.getBlock()) {
-                    if (q == -1) {
-                        bl2 = false;
-                        if (p <= 0) {
-                            blockState3 = Blocks.AIR.getDefaultState();
-                            blockState4 = blockState;
-                        } else if (s >= l - 4 && s <= l + 1) {
-                            blockState3 = WHITE_TERRACOTTA;
-                            blockState4 = biome.getSurfaceConfig().getUnderMaterial();
+                    i1 = -1;
+                } else if (blockState5.getBlock() == defaultBlock.getBlock()) {
+                    if (i1 == -1) {
+                        notSureWhatThisIs = false;
+                        if (i <= 0) {
+                            whiteTerracotta = Blocks.AIR.getDefaultState();
+                            underMaterial = defaultBlock;
+                        } else if (y >= seaLevel - 4 && y <= seaLevel + 1) {
+                            whiteTerracotta = WHITE_TERRACOTTA;
+                            underMaterial = biome.getSurfaceConfig().getUnderMaterial();
                         }
 
-                        if (s < l && (blockState3 == null || blockState3.isAir())) {
-                            blockState3 = blockState2;
+                        if (y < seaLevel && (whiteTerracotta == null || whiteTerracotta.isAir())) {
+                            whiteTerracotta = defaultFluid;
                         }
 
-                        q = p + Math.max(0, s - l);
-                        if (s >= l - 1) {
-                            if (s > l + 3 + p) {
-                                BlockState blockState8;
-                                if (s >= 64 && s <= 127) {
-                                    if (bl) {
-                                        blockState8 = WHITE_TERRACOTTA;
+                        i1 = i + Math.max(0, y - seaLevel);
+                        if (y >= seaLevel - 1) {
+                            if (y > seaLevel + 3 + i) {
+                                BlockState state;
+                                if (y >= 64 && y <= 127) {
+                                    if (b) {
+                                        state = WHITE_TERRACOTTA;
                                     } else {
-                                        blockState8 = this.calculateLayerBlockState(i, s, j);
+                                        state = this.calculateLayerBlockState(x, y, z);
                                     }
                                 } else {
-                                    blockState8 = GRAY_TERRACOTTA;
+                                    state = GRAY_TERRACOTTA;
                                 }
 
-                                chunk.setBlockState(mutable, blockState8, false);
+                                chunk.setBlockState(mutable, state, false);
                             } else {
                                 chunk.setBlockState(mutable, biome.getSurfaceConfig().getTopMaterial(), false);
-                                bl2 = true;
+                                notSureWhatThisIs = true;
                             }
                         } else {
-                            chunk.setBlockState(mutable, blockState4, false);
-                            Block block = blockState4.getBlock();
+                            chunk.setBlockState(mutable, underMaterial, false);
+                            Block block = underMaterial.getBlock();
                             if (block == Blocks.WHITE_TERRACOTTA || block == Blocks.ORANGE_TERRACOTTA || block == Blocks.MAGENTA_TERRACOTTA || block == Blocks.LIGHT_BLUE_TERRACOTTA || block == Blocks.YELLOW_TERRACOTTA || block == Blocks.LIME_TERRACOTTA || block == Blocks.PINK_TERRACOTTA || block == Blocks.GRAY_TERRACOTTA || block == Blocks.LIGHT_GRAY_TERRACOTTA || block == Blocks.CYAN_TERRACOTTA || block == Blocks.PURPLE_TERRACOTTA || block == Blocks.BLUE_TERRACOTTA || block == Blocks.BROWN_TERRACOTTA || block == Blocks.GREEN_TERRACOTTA || block == Blocks.RED_TERRACOTTA || block == Blocks.BLACK_TERRACOTTA) {
                                 chunk.setBlockState(mutable, GRAY_TERRACOTTA, false);
                             }
                         }
-                    } else if (q > 0) {
-                        --q;
-                        if (bl2) {
+                    } else if (i1 > 0) {
+                        --i1;
+                        if (notSureWhatThisIs) {
                             chunk.setBlockState(mutable, GRAY_TERRACOTTA, false);
                         } else {
-                            chunk.setBlockState(mutable, this.calculateLayerBlockState(i, s, j), false);
+                            chunk.setBlockState(mutable, this.calculateLayerBlockState(x, y, z), false);
                         }
                     }
 
@@ -144,21 +144,21 @@ public class DarkBadlandsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceCon
         ChunkRandom chunkRandom = new ChunkRandom(seed);
         this.layerNoise = new OctaveSimplexNoiseSampler(chunkRandom, IntStream.of(0, 0));
 
-        int j;
-        for (j = 0; j < 64; ++j) {
-            j += chunkRandom.nextInt(5) + 1;
-            if (j < 64) {
-                this.layerBlocks[j] = GRAY_TERRACOTTA;
+        int i;
+        for (i = 0; i < 64; ++i) {
+            i += chunkRandom.nextInt(5) + 1;
+            if (i < 64) {
+                this.layerBlocks[i] = GRAY_TERRACOTTA;
             }
         }
 
-        j = chunkRandom.nextInt(4) + 2;
+        i = chunkRandom.nextInt(4) + 2;
 
         int o;
         int t;
         int y;
         int z;
-        for (o = 0; o < j; ++o) {
+        for (o = 0; o < i; ++o) {
             t = chunkRandom.nextInt(3) + 1;
             y = chunkRandom.nextInt(64);
 

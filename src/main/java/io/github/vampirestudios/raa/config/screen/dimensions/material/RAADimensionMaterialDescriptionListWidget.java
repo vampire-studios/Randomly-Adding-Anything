@@ -67,7 +67,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
             addItem(new TextEntry(new TranslatableText("config.text.raa.enchantability", material.getToolMaterial().getEnchantability())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.durability", material.getToolMaterial().getDurability())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.mining_level", material.getToolMaterial().getMiningLevel())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.tool_speed", df.format(material.getToolMaterial().getMiningSpeed()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.tool_speed", df.format(material.getToolMaterial().getMiningSpeedMultiplier()))));
             addItem(new TextEntry(new TranslatableText("config.text.raa.attack_damage", df.format(material.getToolMaterial().getAttackDamage()))));
         }
         if (material.hasWeapons()) {
@@ -85,7 +85,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
             addItem(new TextEntry(new TranslatableText("config.text.raa.bootsDurability", material.getArmorMaterial().getDurability(EquipmentSlot.FEET))));
             addItem(new TextEntry(new TranslatableText("config.text.raa.horseArmorBonus", material.getArmorMaterial().getHorseArmorBonus())));
             addItem(new TextEntry(new TranslatableText("config.text.raa.equipmentSound", material.getArmorMaterial().getEquipSound().getId())));
-            addItem(new TextEntry(new TranslatableText("config.text.raa.repairItem", Utils.appendToPath(material.getId(), material.getArmorMaterial().getOreType().getSuffix()))));
+            addItem(new TextEntry(new TranslatableText("config.text.raa.repairItem", Utils.addSuffixToPath(material.getId(), material.getArmorMaterial().getOreType().getSuffix()))));
             addItem(new TextEntry(new TranslatableText("config.text.raa.toughness", material.getArmorMaterial().getToughness())));
         }
         if (material.hasFood()) {
@@ -178,8 +178,8 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
                                 .build()
                 );
                 tools.add(
-                        eb.startFloatField("config.field.raa.tool_speed", material.getToolMaterial().getMiningSpeed())
-                                .setDefaultValue(material.getToolMaterial().getMiningSpeed())
+                        eb.startFloatField("config.field.raa.tool_speed", material.getToolMaterial().getMiningSpeedMultiplier())
+                                .setDefaultValue(material.getToolMaterial().getMiningSpeedMultiplier())
                                 .setSaveConsumer(material.getToolMaterial()::setMiningSpeed)
                                 .setMin(0)
                                 .build()

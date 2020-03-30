@@ -10,30 +10,60 @@
 
   "text.raa.block.ore": "%s Ore",
   "text.raa.block.block": "%s Block",
+
   "text.raa.block.stone": "%s Stone",
+  "text.raa.block.stoneStairs": "%s Stone Stairs",
+  "text.raa.block.stoneSlab": "%s Stone Slab",
+  "text.raa.block.stoneWall": "%s Stone Wall",
+
   "text.raa.block.stoneBricks": "%s Stone Bricks",
-  "text.raa.block.chiseled": "Chiseled %s",
+  "text.raa.block.stoneBrickStairs": "%s Stone Brick Stairs",
+  "text.raa.block.stoneBrickSlab": "%s Stone Brick Slab",
+  "text.raa.block.stoneBrickWall": "%s Stone Brick Wall",
+
+  "text.raa.block.chiseled_stone_bricks": "Chiseled %s Stone Bricks",
+
   "text.raa.block.cobblestone": "%s Cobblestone",
+  "text.raa.block.cobblestoneStairs": "%s Cobblestone Stairs",
+  "text.raa.block.cobblestoneSlab": "%s Cobblestone Slab",
+  "text.raa.block.cobblestoneWall": "%s Cobblestone Wall",
+
   "text.raa.block.polished": "Polished %s",
+  "text.raa.block.polishedStairs": "Polished %s Stairs",
+  "text.raa.block.polishedSlab": "Polished %s Slab",
+  "text.raa.block.polishedWall": "Polished %s Wall",
+
   "text.raa.block.ice": "%s Ice",
+
+  "text.raa.block.portal": "%s Portal",
+
+  "text.raa.item.lexicon.name": "RAA Lexicon",
+  "text.raa.item.lexicon.landing": "This lexicon will give information about materials, dimensions and dimension materials whenever you discover/mine them",
+
   "text.raa.item.gem": "%s Gem",
   "text.raa.item.ingot": "%s Ingot",
   "text.raa.item.crystal": "%s Crystal",
   "text.raa.item.nugget": "%s Nugget",
+
+  "text.raa.compat.techreborn.dust": "%s Dust",
+  "text.raa.compat.techreborn.small_dust": "Small %s Dust",
+  "text.raa.compat.techreborn.gear": "%s Gear",
+  "text.raa.compat.techreborn.plate": "%s Plate",
+
   "text.raa.item.axe": "%s Axe",
   "text.raa.item.sword": "%s Sword",
-  "text.raa.item.horse_armor": "%s Horse Armor",
-  "text.raa.item.food": "%s Fruit",
   "text.raa.item.pickaxe": "%s Pickaxe",
   "text.raa.item.hoe": "%s Hoe",
   "text.raa.item.shovel": "%s Shovel",
+  "text.raa.item.shears": "%s Shears",
+
+  "text.raa.item.food": "%s Fruit",
+
+  "text.raa.item.horse_armor": "%s Horse Armor",
   "text.raa.item.armor_head": "%s Helmet",
   "text.raa.item.armor_chest": "%s Chestplate",
   "text.raa.item.armor_legs": "%s Leggings",
   "text.raa.item.armor_feet": "%s Boots",
-  "text.raa.item.shears": "%s Shears",
-  "text.raa.compat.techreborn.dust": "%s Powder",
-  "text.raa.block.portal": "%s Portal",
 
   "config.title.raa": "RAA Config",
   "config.title.raa.dimension": "RAA Config: Dimensions",
@@ -43,7 +73,7 @@
 
   "config.title.raa.tools": "Tools",
   "config.title.raa.weapons": "Weapons",
-  "config.title.raa.biomeData": "Biome Data",
+  "config.title.raa.biomeData": "%s Biome Data",
   "config.title.raa.advancedInformation": "Advanced Information",
   "config.title.raa.dimensionMaterial": "Dimension Materials",
 
@@ -55,6 +85,7 @@
   "config.text.raa.tool_speed": "§7Tool Speed: §f%s",
   "config.text.raa.attack_damage": "§7Attack Damage: §f%s",
   "config.text.raa.chunkGenerator": "§7Chunk Generator: §f%s",
+  "config.text.raa.surfaceBuilder": "§7Surface Builder: §f%s",
 
   "config.title.raa.armor": "Armor",
   "config.text.raa.helmetDurability": "§7Helmet Durability: §f%s",
@@ -67,7 +98,7 @@
   "config.text.raa.toughness": "§7Toughness: §f%s",
 
   "config.title.raa.food": "Food",
-  "config.text.raa.hunger": "§7Hunuger: §f%s",
+  "config.text.raa.hunger": "§7Hunger: §f%s",
   "config.text.raa.saturationModifier": "§7Saturation Modifier: §f%s",
   "config.text.raa.alwaysEdible": "§7Is always edible?: §f%s",
   "config.text.raa.meat": "§7Is meat?: §f%s",
@@ -147,10 +178,11 @@
   "config.tooltip.raa.tectonic": "Tectonic dimensions have an abundance of\ncaves and ravines. Don't fall in!",
   "config.tooltip.raa.corrupted": "Corrupted dimensions have netherrack and fire,\nrandomly jutting into the landscape. Have fun!",
 
-
   "text.autoconfig.raa.option.materialNumber": "Number of Materials: ",
+  "text.autoconfig.raa.option.dimensionMaterials": "Number of Dimension Materials: ",
   "text.autoconfig.raa.option.dimensionNumber": "Number of Dimensions: ",
   "text.autoconfig.raa.option.debug": "Debug: ",
   "text.autoconfig.raa.option.regen": "Regenerate: ",
-  "text.autoconfig.raa.option.namingLanguage": "Naming Language: "
+  "text.autoconfig.raa.option.namingLanguage": "Naming Language: ",
+  "text.autoconfig.raa.option.shouldSpawnPortalHub": "Should Portal Hubs spawn?: "
 }

@@ -3,10 +3,25 @@ package io.github.vampirestudios.raa.utils;
 import io.github.vampirestudios.vampirelib.utils.Color;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Rands {
 
-    private static final Random rand = new Random();
+    private static long generateSeed(long min, long max) {
+        long s1 = randomLong(min, max);
+        long s2 = randomLong(min, max);
+
+        while (s2 <= s1)
+            s2 = randomLong(min, max);
+
+        return randomLong(s1, s2);
+    }
+
+    private static long randomLong(long min, long max) {
+        return ThreadLocalRandom.current().nextLong(max - min + 1) + min;
+    }
+
+    private static final Random rand = new Random(generateSeed(-1000000000L, 1000000000L));
 
     public static Random getRandom() {
         return rand;
@@ -53,5 +68,10 @@ public class Rands {
     public static <K, V extends Object> Map.Entry<K, V> map(Map<K, V> map) {
         Set<Map.Entry<K, V>> entry = map.entrySet();
         return new ArrayList<>(entry).get(randInt(entry.size()));
+    }
+
+    public static <K, V extends Object> V mapValue(Map<K, V> map) {
+        V[] values = (V[]) map.values().toArray();
+        return values[rand.nextInt(values.length)];
     }
 }

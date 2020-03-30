@@ -14,7 +14,7 @@ public class DimensionalBiomeSource extends BiomeSource {
 
     public DimensionalBiomeSource(Object o) {
         super(((DimensionalBiomeSourceConfig) o).getBiomes());
-        this.noiseLayer = DimensionalBiomeLayers.build(((DimensionalBiomeSourceConfig) o).getSeed(), ((DimensionalBiomeSourceConfig) o).getGeneratorType(), ((DimensionalBiomeSourceConfig) o).getGeneratorSettings(), ((DimensionalBiomeSourceConfig) o).getBiomes());
+        this.noiseLayer = DimensionalBiomeLayers.build(((DimensionalBiomeSourceConfig) o).getSeed(), ((DimensionalBiomeSourceConfig) o).getBiomes());
         BIOMES = ((DimensionalBiomeSourceConfig) o).getBiomes();
     }
 

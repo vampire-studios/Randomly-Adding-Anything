@@ -1,11 +1,11 @@
 package io.github.vampirestudios.raa.api.namegeneration.material;
 
-import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import io.github.vampirestudios.raa.utils.Utils;
 
 import java.util.*;
 
-public class EnglishMaterials implements INameGenerator {
+public class EnglishMaterials implements NameGenerator {
     public static final String[] LATIN_PREFIXES = {
             "ab", "ad", "ambi", "ante", "circum", "co", "com", "contra", "de", "dis", "di", "ex", "extra",
             "in", "en", "infra", "inter", "intra", "juxta", "ne", "non", "ob", "per", "post", "prae", "preter",
@@ -20,7 +20,7 @@ public class EnglishMaterials implements INameGenerator {
     };
 
     public static final String[] ORE_SUFFIXES = { //Except "ium" and "ite" which will carry about 86% of the generated items
-            "um", "ule", "ion", "ment", "icle", "ile", "ole", "ule", "ate", "and", "ant", "yn", "ice", "ixe"
+            "um", "ule", "ion", "ment", "icle", "ile", "ole", "ule", "ate", "and", "ant", "yn", "ice", "ixe", "stone"
     };
 
     public static final String[] CONSONANT_FILL = { //Stuffed between consonants
@@ -29,7 +29,7 @@ public class EnglishMaterials implements INameGenerator {
 
     public static void main(String[] args) {
         EnglishMaterials gen = new EnglishMaterials();
-        Collection<String> generated = gen.generate(100);
+        Collection<String> generated = gen.generate(200);
 
         System.out.println("Lowercase:" + generated);
 

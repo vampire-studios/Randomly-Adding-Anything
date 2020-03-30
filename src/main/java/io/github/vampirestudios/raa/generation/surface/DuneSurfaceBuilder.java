@@ -26,7 +26,7 @@ public class DuneSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
     }
 
     @Override
-    public void generate(Random rand, Chunk chunk, Biome biome, int x, int z, int vHeight, double noise, BlockState stone, BlockState water, int seaLevel, long seed, TernarySurfaceConfig config) {
+    public void generate(Random rand, Chunk chunk, Biome biome, int x, int z, int vHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig surfaceBlocks) {
         vHeight = chunk.getHeightmap(Heightmap.Type.OCEAN_FLOOR_WG).get(x & 15, z & 15);
         BlockPos.Mutable pos = new BlockPos.Mutable(x, vHeight - 8, z);
 
@@ -37,23 +37,23 @@ public class DuneSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
         height = Math.abs(height);
 
         for (int i = 0; i < 8; i++) {
-            chunk.setBlockState(pos, stone, false);
-            pos.setOffset(Direction.UP);
+            chunk.setBlockState(pos, defaultBlock, false);
+            pos.offset(Direction.UP);
         }
 
         // Cap the height based on noise
 
-        height = Math.min(height, (NOISE.sample(x * 0.03 + 5, z * 0.05 + 5) * 30 + 6));
+        height = Math.min(height, (NOISE.sample(x * 0.03 + 5, z * 0.05 + 5, 0) * 30 + 6));
 
         for (int h = 0; h < height; h++) {
-            chunk.setBlockState(pos, stone, false);
-            pos.setOffset(Direction.UP);
+            chunk.setBlockState(pos, defaultBlock, false);
+            pos.offset(Direction.UP);
         }
 
         for (int i = 0; i < 3 + (noise / 2); i++) {
             chunk.setBlockState(pos, Blocks.SANDSTONE.getDefaultState(), false);
-            pos.setOffset(Direction.UP);
+            pos.offset(Direction.UP);
         }
-        chunk.setBlockState(pos, config.getTopMaterial(), false);
+        chunk.setBlockState(pos, surfaceBlocks.getTopMaterial(), false);
     }
 }

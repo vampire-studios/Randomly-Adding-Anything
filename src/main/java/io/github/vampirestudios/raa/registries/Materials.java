@@ -3,7 +3,7 @@ package io.github.vampirestudios.raa.registries;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.enums.OreType;
-import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
@@ -12,10 +12,10 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.MaterialFoodData;
 import io.github.vampirestudios.raa.items.*;
 import io.github.vampirestudios.raa.items.material.*;
-import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import io.github.vampirestudios.raa.utils.Utils;
+import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
@@ -30,6 +30,7 @@ import net.minecraft.predicate.block.BlockPredicate;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.SimpleRegistry;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -48,14 +49,15 @@ public class Materials {
     public static void generate() {
         for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
             Color RGB = Rands.randColor();
-            Random random = Rands.getRandom();
-            INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
+            NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
 
             String name;
             Identifier id;
+
             do {
-                name = nameGenerator.generate();
-                id = new Identifier(RandomlyAddingAnything.MOD_ID, nameGenerator.asId(name));
+                String generatedName = nameGenerator.generate();
+                name = generatedName;
+                id = new Identifier(RandomlyAddingAnything.MOD_ID, nameGenerator.asId(generatedName));
             } while (MATERIAL_IDS.contains(id));
             MATERIAL_IDS.add(id);
 
@@ -71,18 +73,19 @@ public class Materials {
                     .oreType(Rands.values(OreType.values()))
                     .color(RGB.getColor())
                     .foodData(materialFoodData)
-                    .target(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.getRandom(Rands.getRandom())).getId())
-                    .armor(random.nextBoolean())
-                    .tools(Rands.chance(3))
+                    .target(((OreFeatureConfig.Target) Objects.requireNonNull(((SimpleRegistry)RAARegisteries.TARGET_REGISTRY).getRandom(Rands.getRandom()))).getId())
+                    .armor(Rands.chance(2))
+                    .tools(!Rands.chance(3))
                     .oreFlower(Rands.chance(4))
-                    .weapons(Rands.chance(7))
+                    .weapons(!Rands.chance(3))
                     .glowing(Rands.chance(4))
                     .minXPAmount(0)
                     .maxXPAmount(Rands.randIntRange(0, 4))
-                    .oreClusterSize(Rands.randIntRange(2, 6))
+                    .oreClusterSize(Rands.randIntRange(2, 9))
                     .food(Rands.chance(4))
                     .compostbleAmount(Rands.randFloatRange(0.3F, 3.0F))
                     .compostable(Rands.chance(10))
+                    .beaconBase(Rands.chance(10))
                     .build();
 
             Registry.register(MATERIALS, id, material);
@@ -97,17 +100,17 @@ public class Materials {
 
     public static void generateDimensionMaterials() {
         for (DimensionData dimensionData : Dimensions.DIMENSIONS) {
-            int i = Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.materialNumber);
-            for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.materialNumber); a++) {
+            for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.dimensionMaterials); a++) {
                 Color RGB = Rands.randColor();
                 Random random = Rands.getRandom();
-                INameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
+                NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
 
                 String name;
                 Identifier id;
                 do {
-                    name = dimensionData.getName() + " " + nameGenerator.generate();
-                    id = new Identifier(RandomlyAddingAnything.MOD_ID, nameGenerator.asId(dimensionData.getName() + "_" + nameGenerator.generate()));
+                    String generatedName = nameGenerator.generate();
+                    name = dimensionData.getName() + " " + generatedName;
+                    id = new Identifier(RandomlyAddingAnything.MOD_ID, nameGenerator.asId(dimensionData.getName() + "_" + generatedName));
                 } while (DIMENSION_MATERIAL_IDS.contains(id));
                 DIMENSION_MATERIAL_IDS.add(id);
 
@@ -119,7 +122,7 @@ public class Materials {
                         .snack(Rands.chance(10))
                         .build();
 
-                Identifier stoneName = Utils.appendToPath(dimensionData.getId(), "_stone");
+                Identifier stoneName = Utils.addSuffixToPath(dimensionData.getId(), "_stone");
                 Block block = Registry.BLOCK.get(stoneName);
                 RegistryUtils.registerOreTarget(stoneName, new OreFeatureConfig.Target(stoneName, new BlockPredicate(block), block));
                 DimensionMaterial material = DimensionMaterial.Builder.create(id, name)
@@ -128,17 +131,20 @@ public class Materials {
                         .target(stoneName)
                         .foodData(materialFoodData)
                         .armor(random.nextBoolean())
-                        .tools(Rands.chance(3))
+                        .tools(!Rands.chance(3))
                         .oreFlower(Rands.chance(4))
-                        .weapons(Rands.chance(7))
+                        .weapons(!Rands.chance(3))
                         .glowing(Rands.chance(4))
                         .minXPAmount(0)
                         .maxXPAmount(Rands.randIntRange(0, 4))
+                        .oreCount(Rands.randInt(19) + 1)
                         .oreClusterSize(Rands.randIntRange(2, 6))
+                        .miningLevel(Rands.randInt(4))
                         .food(Rands.chance(4))
                         .dimensionData(dimensionData)
                         .compostbleAmount(Rands.randFloatRange(0.3F, 3.0F))
                         .compostable(Rands.chance(10))
+                        .beaconBase(Rands.chance(10))
                         .build();
 
                 Registry.register(DIMENSION_MATERIALS, id, material);
@@ -153,9 +159,6 @@ public class Materials {
     }
 
     public static void createMaterialResources() {
-        if (RandomlyAddingAnything.CONFIG.debug) {
-            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
-        }
         MATERIALS.forEach(material -> {
             Identifier identifier = material.getId();
             Item repairItem;
@@ -168,7 +171,7 @@ public class Materials {
             }
 
             Block baseBlock = material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId() ? idk != null ? idk : Blocks.STONE : Blocks.STONE;
-            net.minecraft.block.Material baseBlockMaterial = baseBlock.getMaterial(baseBlock.getDefaultState());
+            net.minecraft.block.Material baseBlockMaterial = baseBlock.getDefaultState().getMaterial();
             if (baseBlockMaterial == net.minecraft.block.Material.STONE) {
                 blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
             } else if (baseBlockMaterial == net.minecraft.block.Material.EARTH) {
@@ -179,7 +182,7 @@ public class Materials {
 
              Block block = RegistryUtils.register(
                     new RAABlock(),
-                    Utils.appendToPath(identifier, "_block"),
+                    Utils.addSuffixToPath(identifier, "_block"),
                     RandomlyAddingAnything.RAA_RESOURCES,
                     material.getName(),
                     RAABlockItem.BlockType.BLOCK
@@ -188,7 +191,7 @@ public class Materials {
             if (!material.getOreInformation().getTargetId().toString().equals(CustomTargets.DOES_NOT_APPEAR.getId().toString())) {
                 RegistryUtils.register(
                         new LayeredOreBlock(material, blockSettings.build()),
-                        Utils.appendToPath(identifier, "_ore"),
+                        Utils.addSuffixToPath(identifier, "_ore"),
                         RandomlyAddingAnything.RAA_ORES,
                         material.getName(),
                         RAABlockItem.BlockType.ORE);
@@ -202,7 +205,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.INGOT
                         ),
-                        Utils.appendToPath(identifier, "_ingot")
+                        Utils.addSuffixToPath(identifier, "_ingot")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount() - 1.0F);
                 item = RegistryUtils.registerItem(
@@ -211,7 +214,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.NUGGET
                         ),
-                        Utils.appendToPath(identifier, "_nugget")
+                        Utils.addSuffixToPath(identifier, "_nugget")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount() - 0.5F);
             } else if (material.getOreInformation().getOreType() == OreType.GEM) {
@@ -221,7 +224,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.GEM
                         ),
-                        Utils.appendToPath(identifier, "_gem")
+                        Utils.addSuffixToPath(identifier, "_gem")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount() + 0.5F);
             } else {
@@ -231,7 +234,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.CRYSTAL
                         ),
-                        Utils.appendToPath(identifier, "_crystal")
+                        Utils.addSuffixToPath(identifier, "_crystal")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount() + 0.5F);
             }
@@ -243,7 +246,7 @@ public class Materials {
                                 EquipmentSlot.HEAD,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_helmet")
+                        Utils.addSuffixToPath(identifier, "_helmet")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -252,7 +255,7 @@ public class Materials {
                                 EquipmentSlot.CHEST,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_chestplate")
+                        Utils.addSuffixToPath(identifier, "_chestplate")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -261,7 +264,7 @@ public class Materials {
                                 EquipmentSlot.LEGS,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_leggings")
+                        Utils.addSuffixToPath(identifier, "_leggings")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -270,12 +273,12 @@ public class Materials {
                                 EquipmentSlot.FEET,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_boots")
+                        Utils.addSuffixToPath(identifier, "_boots")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
                         new RAAHorseArmorItem(material),
-                        Utils.appendToPath(identifier, "_horse_armor")
+                        Utils.addSuffixToPath(identifier, "_horse_armor")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
             }
@@ -289,7 +292,7 @@ public class Materials {
                                 -2.8F,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_pickaxe")
+                        Utils.addSuffixToPath(identifier, "_pickaxe")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -300,7 +303,7 @@ public class Materials {
                                 -3.2F + material.getToolMaterial().getAxeAttackSpeed(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_axe")
+                        Utils.addSuffixToPath(identifier, "_axe")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -311,17 +314,18 @@ public class Materials {
                                 -3.0F,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_shovel")
+                        Utils.addSuffixToPath(identifier, "_shovel")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
                         new RAAHoeItem(
                                 material,
                                 material.getToolMaterial(),
+                                1.5F,
                                 -3.0F + material.getToolMaterial().getHoeAttackSpeed(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_hoe")
+                        Utils.addSuffixToPath(identifier, "_hoe")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -329,7 +333,7 @@ public class Materials {
                                 material,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_shears")
+                        Utils.addSuffixToPath(identifier, "_shears")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
             }
@@ -339,7 +343,7 @@ public class Materials {
                                 material,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_sword")
+                        Utils.addSuffixToPath(identifier, "_sword")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
             }
@@ -356,7 +360,7 @@ public class Materials {
                                 material.getName(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(foodComponent.build())
                         ),
-                        Utils.appendToPath(identifier, "_fruit")
+                        Utils.addSuffixToPath(identifier, "_fruit")
                 );
 
                 CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
@@ -366,12 +370,9 @@ public class Materials {
     }
 
     public static void createDimensionMaterialResources() {
-        if (RandomlyAddingAnything.CONFIG.debug) {
-            RegistryUtils.registerItem(new RAADebugItem(), new Identifier(RandomlyAddingAnything.MOD_ID, "debug_stick"));
-        }
         DIMENSION_MATERIALS.forEach(material -> {
             Identifier dimensionId = new Identifier(material.getId().getNamespace(), material.getId().getPath().split("_")[0]);
-            Identifier stoneName = Utils.appendToPath(dimensionId, "_stone");
+            Identifier stoneName = Utils.addSuffixToPath(dimensionId, "_stone");
             Block blockIn = Registry.BLOCK.get(stoneName);
             RegistryUtils.registerOreTarget(stoneName, new OreFeatureConfig.Target(stoneName, new BlockPredicate(blockIn), blockIn));
 
@@ -380,7 +381,7 @@ public class Materials {
             FabricBlockSettings blockSettings = FabricBlockSettings.copy(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock());
 
             Block baseBlock = Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock();
-            net.minecraft.block.Material baseBlockMaterial = baseBlock.getMaterial(baseBlock.getDefaultState());
+            net.minecraft.block.Material baseBlockMaterial = baseBlock.getDefaultState().getMaterial();
             if (baseBlockMaterial == net.minecraft.block.Material.STONE) {
                 blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
             } else if (baseBlockMaterial == net.minecraft.block.Material.EARTH) {
@@ -391,7 +392,7 @@ public class Materials {
 
             Block block = RegistryUtils.register(
                     new RAABlock(),
-                    Utils.appendToPath(identifier, "_block"),
+                    Utils.addSuffixToPath(identifier, "_block"),
                     RandomlyAddingAnything.RAA_RESOURCES,
                     material.getName(),
                     RAABlockItem.BlockType.BLOCK
@@ -401,7 +402,7 @@ public class Materials {
             if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
                 Block block2 = RegistryUtils.register(
                         new LayeredOreBlock(material, blockSettings.build()),
-                        Utils.appendToPath(identifier, "_ore"),
+                        Utils.addSuffixToPath(identifier, "_ore"),
                         RandomlyAddingAnything.RAA_ORES,
                         material.getName(),
                         RAABlockItem.BlockType.ORE);
@@ -415,7 +416,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.INGOT
                         ),
-                        Utils.appendToPath(identifier, "_ingot")
+                        Utils.addSuffixToPath(identifier, "_ingot")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount() - 1.0F);
                 item = RegistryUtils.registerItem(
@@ -424,7 +425,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.NUGGET
                         ),
-                        Utils.appendToPath(identifier, "_nugget")
+                        Utils.addSuffixToPath(identifier, "_nugget")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount() - 0.5F);
             } else if (material.getOreInformation().getOreType() == OreType.GEM) {
@@ -434,7 +435,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.GEM
                         ),
-                        Utils.appendToPath(identifier, "_gem")
+                        Utils.addSuffixToPath(identifier, "_gem")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount() + 0.5F);
             } else {
@@ -444,7 +445,7 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_RESOURCES),
                                 RAASimpleItem.SimpleItemType.CRYSTAL
                         ),
-                        Utils.appendToPath(identifier, "_crystal")
+                        Utils.addSuffixToPath(identifier, "_crystal")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount() + 0.5F);
             }
@@ -456,7 +457,7 @@ public class Materials {
                                 EquipmentSlot.HEAD,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_helmet")
+                        Utils.addSuffixToPath(identifier, "_helmet")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -465,7 +466,7 @@ public class Materials {
                                 EquipmentSlot.CHEST,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_chestplate")
+                        Utils.addSuffixToPath(identifier, "_chestplate")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -474,7 +475,7 @@ public class Materials {
                                 EquipmentSlot.LEGS,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_leggings")
+                        Utils.addSuffixToPath(identifier, "_leggings")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -483,12 +484,12 @@ public class Materials {
                                 EquipmentSlot.FEET,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_ARMOR).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_boots")
+                        Utils.addSuffixToPath(identifier, "_boots")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
                         new RAAHorseArmorItem(material),
-                        Utils.appendToPath(identifier, "_horse_armor")
+                        Utils.addSuffixToPath(identifier, "_horse_armor")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
             }
@@ -502,7 +503,7 @@ public class Materials {
                                 -2.8F,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_pickaxe")
+                        Utils.addSuffixToPath(identifier, "_pickaxe")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -513,7 +514,7 @@ public class Materials {
                                 -3.2F + material.getToolMaterial().getAxeAttackSpeed(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_axe")
+                        Utils.addSuffixToPath(identifier, "_axe")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -524,17 +525,18 @@ public class Materials {
                                 -3.0F,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_shovel")
+                        Utils.addSuffixToPath(identifier, "_shovel")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
                         new RAAHoeItem(
                                 material,
                                 material.getToolMaterial(),
+                                1.5F + material.getToolMaterial().getAttackDamage(),
                                 -3.0F + material.getToolMaterial().getHoeAttackSpeed(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_hoe")
+                        Utils.addSuffixToPath(identifier, "_hoe")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
                 item = RegistryUtils.registerItem(
@@ -542,7 +544,7 @@ public class Materials {
                                 material,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_shears")
+                        Utils.addSuffixToPath(identifier, "_shears")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
             }
@@ -552,7 +554,7 @@ public class Materials {
                                 material,
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(repairItem)
                         ),
-                        Utils.appendToPath(identifier, "_sword")
+                        Utils.addSuffixToPath(identifier, "_sword")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
             }
@@ -569,7 +571,7 @@ public class Materials {
                                 material.getName(),
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_FOOD).food(foodComponent.build())
                         ),
-                        Utils.appendToPath(identifier, "_fruit")
+                        Utils.addSuffixToPath(identifier, "_fruit")
                 );
 
                 CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());

@@ -24,6 +24,7 @@ public class DimensionDebugData {
         stringBuilder.append("\n\n Advanced Information").append("\n##########################");
         stringBuilder.append("\n Dimension Identifier: ").append(dimensionData.getId().toString());
         stringBuilder.append("\n Chunk Generator: ").append(dimensionData.getDimensionChunkGenerator().toString());
+//        stringBuilder.append("\n Surface Builder: ").append(dimensionData.getNewSurfaceBuilder().toString());
 
         stringBuilder.append("\n\n Color Pallet Information").append("\n##########################");
         stringBuilder.append("\n Sky Color: ").append(Integer.toHexString(dimensionData.getDimensionColorPalette().getSkyColor()).replace("ff",

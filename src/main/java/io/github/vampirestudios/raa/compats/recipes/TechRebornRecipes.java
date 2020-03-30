@@ -10,7 +10,9 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.CustomTargets;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.Utils;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class TechRebornRecipes extends RecipeCompat {
     public TechRebornRecipes() {
@@ -21,6 +23,10 @@ public class TechRebornRecipes extends RecipeCompat {
     public void registerRecipes(ArtificeResourcePack.ServerResourcePackBuilder dataPackBuilder) {
         this.setDataPackBuilder(dataPackBuilder);
         for (Material material : Materials.MATERIALS) {
+            if (Registry.ITEM.get(Utils.addSuffixToPath(material.getId(), "_ore")) == null || Registry.ITEM.get(Utils.addSuffixToPath(material.getId(), "_ore")) == Items.AIR) {
+                System.out.println("[RAA] couldn't find ore: " + material.getId().toString());
+                continue;
+            }
             if (material.hasArmor()) {
                 addBlastingFurnaceRecipe(new Identifier(RandomlyAddingAnything.MOD_ID, "boots_to_" + material.getName()),
                         trBlastFurnaceRecipeBuilder -> trBlastFurnaceRecipeBuilder.heat(1000)
@@ -103,9 +109,9 @@ public class TechRebornRecipes extends RecipeCompat {
                 );
 
                 if (material.getOreInformation().getOreType() == OreType.METAL && material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
-                    addGrinderRecipe(Utils.appendToPath(material.getId(), "_to_dust"), trGrinderRecipeBuilder -> trGrinderRecipeBuilder
-                            .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder.item(Utils.appendToPath(material.getId(), "_ore")))
-                            .multiResult(raaMultiResultBuilder -> raaMultiResultBuilder.item(Utils.appendToPath(material.getId(), "_dust"), 2))
+                    addGrinderRecipe(Utils.addSuffixToPath(material.getId(), "_to_dust"), trGrinderRecipeBuilder -> trGrinderRecipeBuilder
+                            .multiIngredient(raaMultiIngredientBuilder -> raaMultiIngredientBuilder.item(Utils.addSuffixToPath(material.getId(), "_ore")))
+                            .multiResult(raaMultiResultBuilder -> raaMultiResultBuilder.item(Utils.addSuffixToPath(material.getId(), "_dust"), 2))
                             .power(material.getMiningLevel() + 2).time(270));
                 }
             }

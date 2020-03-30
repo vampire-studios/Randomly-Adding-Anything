@@ -8,13 +8,10 @@ import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.loot.LootTables;
 import net.minecraft.resource.Resource;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -23,13 +20,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -56,12 +50,19 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
             if (currBlockType.equals("minecraft:air") || (decay > 0 && Rands.chance(14 - decay))) {
                 WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "minecraft:air", new HashMap<>(), rotation);
             } else {
-                if (currBlockType.equals("minecraft:stone_bricks")) {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", new HashMap<>(), rotation);
-                } else if (currBlockType.equals("minecraft:ladder")) {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), 4 - rotation);
-                } else {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), rotation);
+                switch (currBlockType) {
+                    case "minecraft:stone_bricks":
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", new HashMap<>(), rotation);
+                        break;
+                    case "minecraft:chiseled_stone_bricks":
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + "chiseled_" + (world.getDimension().getType().getSuffix()).substring(4), new HashMap<>(), rotation);
+                        break;
+                    case "minecraft:ladder":
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), 4 - rotation);
+                        break;
+                    default:
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), rotation);
+                        break;
                 }
             }
         }

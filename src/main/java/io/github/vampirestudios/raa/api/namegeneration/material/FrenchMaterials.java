@@ -1,12 +1,12 @@
 package io.github.vampirestudios.raa.api.namegeneration.material;
 
-import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
+import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import io.github.vampirestudios.raa.utils.Rands;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class FrenchMaterials implements INameGenerator {
+public class FrenchMaterials implements NameGenerator {
 
     private static String[] vowels = new String[]{
             "a", "e", "i", "o", "u", "y", "ou", "oi", "au", "ai", "ei", "eu", "eau", "é", "è"
@@ -42,6 +42,7 @@ public class FrenchMaterials implements INameGenerator {
         String[] l5 = new String[]{"", Rands.values(list4)};
         String string = (lf(l1[aa], l2[ab]) + l3[b] + l4[c] + l5[d] + Rands.values(list6));
         if (string.startsWith("mp")) string = string.replace("mp", "p");
+        if (string.startsWith("mb")) string = string.replace("mb", "b");
         return string;
     }
 

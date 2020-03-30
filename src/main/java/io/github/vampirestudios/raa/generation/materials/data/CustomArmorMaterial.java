@@ -86,7 +86,7 @@ public class CustomArmorMaterial implements ArmorMaterial {
     }
 
     @Override
-    public float method_24355() {
+    public float getKnockbackResistance() {
         return this.knockbackResistance;
     }
 
@@ -96,7 +96,7 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(Registry.ITEM.get(Utils.appendToPath(materialId, oreType.getSuffix())));
+        return Ingredient.ofItems(Registry.ITEM.get(Utils.addSuffixToPath(materialId, oreType.getSuffix())));
     }
 
 }

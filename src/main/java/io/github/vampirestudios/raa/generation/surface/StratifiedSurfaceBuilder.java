@@ -24,16 +24,16 @@ public class StratifiedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfi
             BlockPos.Mutable posTilHeight = new BlockPos.Mutable(x, 0, z);
             for (int i = 0; i <= height; i++) {
                 chunk.setBlockState(posTilHeight, stone, false);
-                posTilHeight.setOffset(Direction.UP);
+                posTilHeight.offset(Direction.UP);
             }
             for (int i = 0; i < (noise > 2.5 ? 20 : 12); i++) {
                 chunk.setBlockState(pos, stone, false);
-                pos.setOffset(Direction.UP);
+                pos.offset(Direction.UP);
             }
             int dirtHeight = (int) noise * 2;
             for (int i = 0; i < dirtHeight; i++) {
                 chunk.setBlockState(pos, DIRT, false);
-                pos.setOffset(Direction.UP);
+                pos.offset(Direction.UP);
             }
             chunk.setBlockState(pos, config.getTopMaterial(), false);
         } else {
