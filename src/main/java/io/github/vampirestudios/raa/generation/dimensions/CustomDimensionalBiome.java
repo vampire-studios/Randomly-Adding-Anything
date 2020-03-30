@@ -177,7 +177,7 @@ public class CustomDimensionalBiome extends Biome {
                 Features.COLUMN_RAMP.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
                         Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
                         Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
-                                new CountExtraChanceDecoratorConfig(0, 0.1F, 1)
+                                new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
                         )
                 )
         );
@@ -185,17 +185,17 @@ public class CustomDimensionalBiome extends Biome {
                 Features.COLUMN_VERTICAL.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
                         Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
                         Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
-                                new CountExtraChanceDecoratorConfig(0, 0.1F, 1)
+                                new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
                         )
                 )
         );
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
+        /*this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
                 Features.HANGING_RUINS.configure(new DefaultFeatureConfig()).createDecoratedFeature(
                         Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
                                 new CountExtraChanceDecoratorConfig(0, 0.1F, 1)
                         )
                 )
-        );
+        );*/
 
 //        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.BEE_NEST.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
 //        this.addFeature(GenerationStep.Feature.UNDERGROUND_STRUCTURES, Features.CAVE_CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
