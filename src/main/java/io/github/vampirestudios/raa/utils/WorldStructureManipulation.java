@@ -175,21 +175,21 @@ public class WorldStructureManipulation {
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.CHEST_TYPE, ChestType.valueOf(properties.get("type"))), 2);
                 } else {
                     //TODO: [Slabs]
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.SLAB_TYPE, SlabType.valueOf(properties.get("type"))), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.SLAB_TYPE, SlabType.valueOf(properties.get("type").toUpperCase())), 2);
                 }
             } if (properties.get("half") != null) {
                 //TODO: [Stairs]
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.BLOCK_HALF, BlockHalf.valueOf(properties.get("half"))), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.BLOCK_HALF, BlockHalf.valueOf(properties.get("half").toUpperCase())), 2);
             } if (properties.get("shape") != null) {
                 //TODO: [Stairs]
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.STAIR_SHAPE, StairShape.valueOf(properties.get("shape"))), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.STAIR_SHAPE, StairShape.valueOf(properties.get("shape").toUpperCase())), 2);
             } if (properties.get("facing") != null) {
                 if (block.equals("minecraft:barrel")) {
                     //TODO: Barrel
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.FACING, Direction.valueOf(facing)), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.FACING, Direction.valueOf(facing.toUpperCase())), 2);
                 } else {
                     //TODO: [Anvils], [Chests], [Stairs], Bell, Blast_Furnace, Furnace, Grindstone, Smoker, Stonecutter,
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.HORIZONTAL_FACING, Direction.valueOf(facing)), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.HORIZONTAL_FACING, Direction.valueOf(facing.toUpperCase())), 2);
                 }
             } if (properties.get("north") != null || properties.get("west") != null || properties.get("south") != null || properties.get("east") != null) {
                 //TODO: [Fences], [Walls], Iron bar
