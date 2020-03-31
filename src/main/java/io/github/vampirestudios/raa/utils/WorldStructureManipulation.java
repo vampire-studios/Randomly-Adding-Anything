@@ -213,10 +213,10 @@ public class WorldStructureManipulation {
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST, directions.getOrDefault("east", "FALSE").equals("TRUE")), 2);
                 } else {
                     //Walls use an Enum (none, tall, low) to describe their connections to other neighbouring blocks
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("north","none").toUpperCase())), 2);
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.WEST_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("west","none").toUpperCase())), 2);
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.SOUTH_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("south","none").toUpperCase())), 2);
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("east","none").toUpperCase())), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("north","none").replace("false","none").replace("true","low").toUpperCase())), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.WEST_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("west","none").replace("false","none").replace("true","low").toUpperCase())), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.SOUTH_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("south","none").replace("false","none").replace("true","low").toUpperCase())), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("east","none").replace("false","none").replace("true","low").toUpperCase())), 2);
                 }
             } if (properties.get("up") != null) {
                 //TODO: [Walls]
