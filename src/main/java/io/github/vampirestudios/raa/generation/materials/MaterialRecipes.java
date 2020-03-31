@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.generation.materials;
 
 import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.registries.CustomTargets;
@@ -11,8 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
-import java.io.InputStream;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
@@ -150,7 +147,7 @@ public class MaterialRecipes {
                     });
                 }
                 if (material.getOreInformation().getOreType() == OreType.METAL) {
-                    if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId() && Registry.BLOCK.containsId(Utils.addSuffixToPath(material.getId(), "_ore"))) {
+                    if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId() && Registry.BLOCK.getOrEmpty(Utils.addSuffixToPath(material.getId(), "_ore")).isPresent()) {
                         serverResourcePackBuilder.addSmeltingRecipe(Utils.addSuffixToPath(material.getId(), "_ingot"), cookingRecipeBuilder -> {
                             cookingRecipeBuilder.cookingTime(200);
                             cookingRecipeBuilder.ingredientItem(Utils.addSuffixToPath(material.getId(), "_ore"));

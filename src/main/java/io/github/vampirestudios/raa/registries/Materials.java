@@ -30,7 +30,6 @@ import net.minecraft.predicate.block.BlockPredicate;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.SimpleRegistry;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -73,7 +72,7 @@ public class Materials {
                     .oreType(Rands.values(OreType.values()))
                     .color(RGB.getColor())
                     .foodData(materialFoodData)
-                    .target(((OreFeatureConfig.Target) Objects.requireNonNull(((SimpleRegistry)RAARegisteries.TARGET_REGISTRY).getRandom(Rands.getRandom()))).getId())
+                    .target(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.getRandom(Rands.getRandom())).getId())
                     .armor(Rands.chance(2))
                     .tools(!Rands.chance(3))
                     .oreFlower(Rands.chance(4))
