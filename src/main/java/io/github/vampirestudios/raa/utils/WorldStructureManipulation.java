@@ -220,7 +220,7 @@ public class WorldStructureManipulation {
                 }
             } if (properties.get("up") != null) {
                 //TODO: [Walls]
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UP, properties.get("up").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UP, properties.get("up").toUpperCase().equals("TRUE")), 2);
             } if (properties.get("open") != null) {
                 //TODO: Barrel
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.OPEN, properties.get("open").toUpperCase().equals("TRUE")), 2);
