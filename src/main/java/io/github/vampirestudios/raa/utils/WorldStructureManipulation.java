@@ -223,13 +223,13 @@ public class WorldStructureManipulation {
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.UNSTABLE, properties.get("unstable").equals("TRUE")), 2);
             } if (properties.get("face") != null) {
                 //TODO: Grindstone
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.WALL_MOUNT_LOCATION, WallMountLocation.valueOf(properties.get("face"))), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.WALL_MOUNT_LOCATION, WallMountLocation.valueOf(properties.get("face").toUpperCase())), 2);
             } if (properties.get("distance") != null) {
                 //TODO: Scaffolding
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.DISTANCE_0_7, Integer.parseInt(properties.get("distance"))), 2);
             } if (properties.get("attachment") != null) {
                 //TODO: Bell
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.ATTACHMENT, Attachment.valueOf(properties.get("attachment"))), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.ATTACHMENT, Attachment.valueOf(properties.get("attachment").toUpperCase())), 2);
             } if (properties.get("axis") != null) {
                 //TODO: Bone_Block
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.AXIS, Direction.Axis.fromName(axis)), 2);
