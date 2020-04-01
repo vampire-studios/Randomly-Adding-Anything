@@ -54,6 +54,7 @@ public class RandomlyAddingAnything implements ModInitializer {
     public static SurfaceBuilderConfig SURFACE_BUILDER_CONFIG;
     public static DimensionsConfig DIMENSIONS_CONFIG;
     public static DimensionMaterialsConfig DIMENSION_MATERIALS_CONFIG;
+    public static EntitiesConfig ENTITIES_CONFIG;
 
     public static BiomeSourceType<DimensionalBiomeSourceConfig, DimensionalBiomeSource> DIMENSIONAL_BIOMES;
 
@@ -105,6 +106,16 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
         Materials.createMaterialResources();
 
+        ENTITIES_CONFIG = new EntitiesConfig("entities/entities_config");
+        if (CONFIG.materialNumber > 0) {
+            if (CONFIG.regenMaterials || !ENTITIES_CONFIG.fileExist()) {
+                ENTITIES_CONFIG.generate();
+                ENTITIES_CONFIG.save();
+            } else {
+                ENTITIES_CONFIG.load();
+            }
+        }
+
         SurfaceBuilderGenerator.registerElements();
         SURFACE_BUILDER_CONFIG = new SurfaceBuilderConfig("surface_builders/surface_builder_config");
         if (CONFIG.regenMaterials || !SURFACE_BUILDER_CONFIG.fileExist()) {
@@ -138,6 +149,9 @@ public class RandomlyAddingAnything implements ModInitializer {
 
         DimensionRecipes.init();
         MaterialRecipes.init();
+
+        //entity stuff
+        Entities.init();
 
         Registry.BIOME.forEach(biome -> {
             RAARegisteries.TARGET_REGISTRY.forEach(target -> RAAWorldAPI.generateOresForTarget(biome, target));

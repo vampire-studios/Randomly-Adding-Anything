@@ -5,10 +5,12 @@ import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.client.DimensionalOreBakedModel;
 import io.github.vampirestudios.raa.client.OreBakedModel;
+import io.github.vampirestudios.raa.client.entity.RandomEntityRenderer;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.registries.Dimensions;
+import io.github.vampirestudios.raa.registries.Entities;
 import io.github.vampirestudios.raa.registries.Materials;
 import io.github.vampirestudios.raa.utils.ModelUtils;
 import io.github.vampirestudios.raa.utils.Rands;
@@ -18,6 +20,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
 import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
@@ -33,6 +36,8 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -83,7 +88,9 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         registry.register(material.getTexturesInformation().getStorageBlockTexture());
                     }
                 });
+
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
+
             Materials.MATERIALS.forEach(material -> {
                 Identifier bid = material.getId();
                 for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
@@ -641,6 +648,10 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 }
             };
         });
+
+        for (EntityType<?> entity : Entities.RANDOM_ZOMBIES) {
+            EntityRendererRegistry.INSTANCE.register(entity, (dispatcher, context) -> new RandomEntityRenderer(dispatcher));
+        }
     }
 
 }

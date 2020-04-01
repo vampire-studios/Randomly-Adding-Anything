@@ -40,7 +40,7 @@ public class Rands {
     }
 
     public static float randFloat(float bound) {
-        return ((float) rand.nextInt((int) (bound * 10) + 1)) / 10;
+        return rand.nextFloat() * bound;
     }
 
     public static Color randColor() {
