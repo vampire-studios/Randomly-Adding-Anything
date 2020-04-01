@@ -176,26 +176,33 @@ public class CustomDimensionalBiome extends Biome {
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
                 Features.COLUMN_RAMP.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
                         Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
-                        Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
-                                new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
+                        Decorator.COUNT_RANGE.configure(
+                                new RangeDecoratorConfig(2, 70, 0, 220)
                         )
                 )
         );
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
                 Features.COLUMN_VERTICAL.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
                         Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
-                        Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
-                                new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
+                        Decorator.COUNT_RANGE.configure(
+                                new RangeDecoratorConfig(2, 70, 0, 220)
                         )
                 )
         );
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
+        /*this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
+                Features.HANGING_RUINS.configure(FeatureConfig.DEFAULT).createDecoratedFeature(
+                        RAAPlacements.LEDGE_UNDERSIDE_MINI_FEATURE.configure(
+                                new ChanceAndTypeConfig(0.1F, ChanceAndTypeConfig.Type.HANGING_RUINS)
+                        )
+                )
+        );*/
+        /*this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
                 Features.HANGING_RUINS.configure(new DefaultFeatureConfig()).createDecoratedFeature(
                         Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
                                 new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
                         )
                 )
-        );
+        );*/
 
 //        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.BEE_NEST.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
 //        this.addFeature(GenerationStep.Feature.UNDERGROUND_STRUCTURES, Features.CAVE_CAMPFIRE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 1.0f, 1))));
