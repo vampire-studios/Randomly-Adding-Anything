@@ -16,8 +16,8 @@ import java.util.stream.IntStream;
 public class PatchyDesertSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
     public static final OctaveSimplexNoiseSampler DESERT_NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), IntStream.of(6, 0));
 
-    public PatchyDesertSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function_1) {
-        super(function_1);
+    public PatchyDesertSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> configDeserializer, Function<Random, ? extends TernarySurfaceConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

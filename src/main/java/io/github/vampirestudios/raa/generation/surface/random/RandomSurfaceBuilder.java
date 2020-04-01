@@ -1,6 +1,5 @@
 package io.github.vampirestudios.raa.generation.surface.random;
 
-import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -9,13 +8,12 @@ import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
 
 public class RandomSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
-    private List<SurfaceElement> elements;
+    private final List<SurfaceElement> elements;
 
     public RandomSurfaceBuilder(List<SurfaceElement> elements) {
-        super(TernarySurfaceConfig::deserialize);
+        super(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680);
         this.elements = elements;
     }
 

@@ -17,8 +17,9 @@ import java.util.stream.Stream;
 public class BiasedNoiseBasedDecorator extends Decorator<BiasedNoiseBasedDecoratorConfig> {
     public static final OctaveSimplexNoiseSampler NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), IntStream.of(2, 0));
 
-    public BiasedNoiseBasedDecorator(Function<Dynamic<?>, ? extends BiasedNoiseBasedDecoratorConfig> function_1) {
-        super(function_1);
+    public BiasedNoiseBasedDecorator(Function<Dynamic<?>, ? extends BiasedNoiseBasedDecoratorConfig> configDeserializer,
+                                     Function<Random, ? extends BiasedNoiseBasedDecoratorConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

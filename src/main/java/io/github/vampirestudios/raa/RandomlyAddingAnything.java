@@ -20,9 +20,12 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.sound.BiomeAdditionsSound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeEffects;
+import net.minecraft.world.biome.BiomeParticleConfig;
 import net.minecraft.world.biome.source.BiomeSourceType;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
@@ -32,6 +35,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
 import java.util.function.Function;
 import java.util.function.LongFunction;
 
@@ -58,6 +62,23 @@ public class RandomlyAddingAnything implements ModInitializer {
     public static BiomeSourceType<DimensionalBiomeSourceConfig, DimensionalBiomeSource> DIMENSIONAL_BIOMES;
 
     public static ModCompat MODCOMPAT;
+
+    public static BiomeEffects method_26469(Random random) {
+        BiomeEffects.Builder builder = (new BiomeEffects.Builder()).fogColor(random.nextInt()).waterColor(random.nextInt()).waterFogColor(random.nextInt());
+        if (random.nextInt(5) == 0) {
+            builder.particleConfig(BiomeParticleConfig.method_26445(random));
+        }
+
+        if (random.nextInt(10) == 0) {
+            builder.additionsSound(new BiomeAdditionsSound(Registry.SOUND_EVENT.getRandom(random), random.nextFloat() / 3.0F));
+        }
+
+        if (random.nextInt(10) == 0) {
+            builder.additionsSound(new BiomeAdditionsSound(Registry.SOUND_EVENT.getRandom(random), random.nextFloat() / 2.0F));
+        }
+
+        return builder.build();
+    }
 
     @Override
     public void onInitialize() {

@@ -5,6 +5,7 @@
 
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
+import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
@@ -23,6 +24,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnEntry;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.*;
+import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
@@ -199,6 +201,11 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
 
     public int getSeaLevel() {
         return 63;
+    }
+
+    @Override
+    public ChunkGeneratorType<?, ?> method_26490() {
+        return ChunkGenerators.SURFACE;
     }
 
 }

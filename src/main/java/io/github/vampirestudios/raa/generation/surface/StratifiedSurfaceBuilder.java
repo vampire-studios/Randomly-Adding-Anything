@@ -13,8 +13,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class StratifiedSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
-    public StratifiedSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function_1) {
-        super(function_1);
+    public StratifiedSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> configDeserializer, Function<Random, ? extends TernarySurfaceConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

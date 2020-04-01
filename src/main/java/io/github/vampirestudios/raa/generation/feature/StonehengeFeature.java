@@ -27,8 +27,8 @@ import java.util.function.Function;
 // Thanks to TelepathicGrunt and the UltraAmplified mod for this class
 public class StonehengeFeature extends Feature<DefaultFeatureConfig> {
 
-	public StonehengeFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configFactory) {
-		super(configFactory);
+	public StonehengeFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configDeserializer, Function<Random, ? extends DefaultFeatureConfig> function) {
+		super(configDeserializer, function);
 	}
 
 	private static int perfectStoneCount = 0;

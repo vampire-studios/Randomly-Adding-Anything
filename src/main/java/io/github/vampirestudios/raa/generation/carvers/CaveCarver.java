@@ -129,4 +129,10 @@ public class CaveCarver extends RAACarver<ProbabilityConfig> {
     protected boolean isPositionExcluded(double scaledRelativeX, double scaledRelativeY, double scaledRelativeZ, int y) {
         return scaledRelativeY <= -0.7D || scaledRelativeX * scaledRelativeX + scaledRelativeY * scaledRelativeY + scaledRelativeZ * scaledRelativeZ >= 1.0D;
     }
+
+    @Override
+    public ProbabilityConfig method_26583(Random random) {
+        return new ProbabilityConfig(random.nextFloat() / 2.0F);
+    }
+
 }

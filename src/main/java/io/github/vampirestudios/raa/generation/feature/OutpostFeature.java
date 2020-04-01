@@ -20,8 +20,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class OutpostFeature extends Feature<DefaultFeatureConfig> {
-    public OutpostFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
-        super(function);
+    public OutpostFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configDeserializer, Function<Random, ? extends DefaultFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     //Generates tiered outposts

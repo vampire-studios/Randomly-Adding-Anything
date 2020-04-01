@@ -17,8 +17,8 @@ import java.util.stream.Stream;
 public class RandomExtraHeightmapDecorator extends Decorator<CountExtraChanceDecoratorConfig> {
     private Random random = null;
 
-    public RandomExtraHeightmapDecorator(Function<Dynamic<?>, ? extends CountExtraChanceDecoratorConfig> function_1) {
-        super(function_1);
+    public RandomExtraHeightmapDecorator(Function<Dynamic<?>, ? extends CountExtraChanceDecoratorConfig> dynamicFunction, Function<Random, ? extends CountExtraChanceDecoratorConfig> function_1) {
+        super(dynamicFunction, function_1);
     }
 
     @Override

@@ -17,8 +17,8 @@ import java.util.function.Function;
 public class CraterFeature extends Feature<CorruptedFeatureConfig> {
     public static final ArrayList<BlockState> ALLOWED_STATES = new ArrayList<BlockState>();
 
-    public CraterFeature(Function<Dynamic<?>, ? extends CorruptedFeatureConfig> function) {
-        super(function);
+    public CraterFeature(Function<Dynamic<?>, ? extends CorruptedFeatureConfig> configDeserializer, Function<Random, ? extends CorruptedFeatureConfig> function) {
+        super(configDeserializer, function);
         ALLOWED_STATES.add(Blocks.GRASS_BLOCK.getDefaultState());
         ALLOWED_STATES.add(Blocks.STONE.getDefaultState());
         ALLOWED_STATES.add(Blocks.GRAVEL.getDefaultState());

@@ -23,8 +23,8 @@ import java.util.function.Function;
 public class SmallSkeletalTreeFeature extends AbstractTreeFeature<TreeFeatureConfig> {
     private static final BlockState LOG = Blocks.BONE_BLOCK.getDefaultState();
 
-    public SmallSkeletalTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> function) {
-        super(function);
+    public SmallSkeletalTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> configDeserializer, Function<Random, ? extends TreeFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

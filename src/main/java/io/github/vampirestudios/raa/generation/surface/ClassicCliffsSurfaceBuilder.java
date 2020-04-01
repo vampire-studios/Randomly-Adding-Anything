@@ -15,8 +15,8 @@ import java.util.function.Function;
 //Code kindly taken from Terraform. Thank you, coderbot, Prospector, and Valoeghese!
 public class ClassicCliffsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
 
-    public ClassicCliffsSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> dynamicFunction) {
-        super(dynamicFunction);
+    public ClassicCliffsSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> configDeserializer, Function<Random, ? extends TernarySurfaceConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

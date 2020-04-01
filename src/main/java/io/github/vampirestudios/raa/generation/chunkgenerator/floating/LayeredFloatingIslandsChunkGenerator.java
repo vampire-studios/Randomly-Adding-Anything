@@ -1,7 +1,9 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.floating;
 
+import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.source.BiomeSource;
+import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 
@@ -37,6 +39,11 @@ public class LayeredFloatingIslandsChunkGenerator extends SurfaceChunkGenerator<
 
     public int getSeaLevel() {
         return 0;
+    }
+
+    @Override
+    public ChunkGeneratorType<?, ?> method_26490() {
+        return ChunkGenerators.LAYERED_FLOATING;
     }
 
 }

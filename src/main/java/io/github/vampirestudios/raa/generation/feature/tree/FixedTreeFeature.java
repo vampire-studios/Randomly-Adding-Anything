@@ -13,8 +13,8 @@ import java.util.Set;
 import java.util.function.Function;
 
 public class FixedTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureConfig> {
-    public FixedTreeFeature(Function<Dynamic<?>, ? extends BranchedTreeFeatureConfig> function) {
-        super(function);
+    public FixedTreeFeature(Function<Dynamic<?>, ? extends BranchedTreeFeatureConfig> configDeserializer, Function<Random, ? extends BranchedTreeFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

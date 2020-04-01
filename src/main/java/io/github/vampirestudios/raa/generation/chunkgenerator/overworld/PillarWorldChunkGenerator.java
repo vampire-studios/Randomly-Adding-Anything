@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
+import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import io.github.vampirestudios.raa.utils.noise.old.OctaveOpenSimplexNoise;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
@@ -15,6 +16,7 @@ import net.minecraft.world.gen.CatSpawner;
 import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.PhantomSpawner;
 import net.minecraft.world.gen.PillagerSpawner;
+import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
@@ -99,5 +101,10 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
 
     public int getSeaLevel() {
         return 63;
+    }
+
+    @Override
+    public ChunkGeneratorType<?, ?> method_26490() {
+        return ChunkGenerators.PILLAR_WORLD;
     }
 }

@@ -154,7 +154,7 @@ public class CustomDimensionalBiome extends Biome {
             towerChance = Rands.randFloatRange(0.002F, 0.003F);
         }
 
-        if (dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.CAVE)) {
+        if (dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.CAVES)) {
             this.addFeature(net.minecraft.world.gen.GenerationStep.Feature.UNDERGROUND_DECORATION, Feature.BASALT_PILLAR.configure(FeatureConfig.DEFAULT)
                     .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new RangeDecoratorConfig(10, 0, 0, 256))));
         }

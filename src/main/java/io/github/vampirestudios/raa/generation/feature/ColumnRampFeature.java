@@ -25,8 +25,8 @@ public class ColumnRampFeature extends Feature<ColumnBlocksConfig> {
 	private final BlockState AIR = Blocks.AIR.getDefaultState();
 	public final Set<Block> irreplacableBlocks;
 
-	public ColumnRampFeature(Function<Dynamic<?>, ? extends ColumnBlocksConfig> configFactory) {
-		super(configFactory);
+	public ColumnRampFeature(Function<Dynamic<?>, ? extends ColumnBlocksConfig> configDeserializer, Function<Random, ? extends ColumnBlocksConfig> function) {
+		super(configDeserializer, function);
 
 		irreplacableBlocks = ImmutableSet.of(Blocks.BEE_NEST, Blocks.AIR, Blocks.CAVE_AIR, Blocks.BROWN_MUSHROOM_BLOCK, Blocks.RED_MUSHROOM_BLOCK, Blocks.MUSHROOM_STEM, Blocks.CACTUS);
 	}

@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.caves;
 
+import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.util.math.BlockPos;
@@ -7,6 +8,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 
@@ -74,5 +76,10 @@ public class CavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGenerat
 
     public int getSeaLevel() {
         return 32;
+    }
+
+    @Override
+    public ChunkGeneratorType<?, ?> method_26490() {
+        return ChunkGenerators.CAVES;
     }
 }

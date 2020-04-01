@@ -23,7 +23,7 @@ public class GlacierSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> 
     private DoubleFunction<TernarySurfaceConfig> configProvider;
 
     public GlacierSurfaceBuilder(DoubleFunction<TernarySurfaceConfig> config) {
-        super(TernarySurfaceConfig::deserialize);
+        super(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680);
         configProvider = config;
     }
 

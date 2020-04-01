@@ -19,8 +19,8 @@ public class HyperflatSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig
     public static OctaveSimplexNoiseSampler HEIGHT = new OctaveSimplexNoiseSampler(new ChunkRandom(79), IntStream.of(4, 0));
     public static OctaveSimplexNoiseSampler WATER_NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(7979), IntStream.of(4, 0));
 
-    public HyperflatSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function_1) {
-        super(function_1);
+    public HyperflatSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> configDeserializer, Function<Random, ? extends TernarySurfaceConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

@@ -45,8 +45,8 @@ public class DarkBadlandsSurfaceBuilder extends SurfaceBuilder<TernarySurfaceCon
     protected OctaveSimplexNoiseSampler heightNoise;
     protected OctaveSimplexNoiseSampler layerNoise;
 
-    public DarkBadlandsSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function) {
-        super(function);
+    public DarkBadlandsSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> configDeserializer, Function<Random, ? extends TernarySurfaceConfig> function) {
+        super(configDeserializer, function);
     }
 
     public void generate(Random random, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig surfaceBlocks) {

@@ -21,8 +21,8 @@ public class SandyDunesSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfi
 
     private static final WorleyNoise NOISE = new WorleyNoise(3445);
 
-    public SandyDunesSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function) {
-        super(function);
+    public SandyDunesSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> configDeserializer, Function<Random, ? extends TernarySurfaceConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

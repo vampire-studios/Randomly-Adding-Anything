@@ -13,7 +13,7 @@ public class RAAPlacements {
     public static void init() {
         LEDGE_UNDERSIDE_MINI_FEATURE = Registry.register(Registry.DECORATOR,
                 new Identifier(RandomlyAddingAnything.MOD_ID, "ledge_underside_mini_feature"),
-                new LedgeUndersideMiniFeature(ChanceAndTypeConfig::deserialize));
+                new LedgeUndersideMiniFeature(ChanceAndTypeConfig::deserialize, null));
     }
 
 }

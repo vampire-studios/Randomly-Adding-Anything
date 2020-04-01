@@ -30,9 +30,8 @@ public class ColumnVerticalFeature extends Feature<ColumnBlocksConfig> {
 	}
 
 
-	public ColumnVerticalFeature(Function<Dynamic<?>, ? extends ColumnBlocksConfig> configFactory)
-	{
-		super(configFactory);
+	public ColumnVerticalFeature(Function<Dynamic<?>, ? extends ColumnBlocksConfig> configDeserializer, Function<Random, ? extends ColumnBlocksConfig> function) {
+		super(configDeserializer, function);
 	}
 
 

@@ -33,8 +33,8 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     private final JsonConverter converter = new JsonConverter();
     private Map<String, JsonConverter.StructureValues> structures;
 
-    public PortalHubFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
-        super(function);
+    public PortalHubFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configDeserializer, Function<Random, ? extends DefaultFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     public static void placePiece(IWorld world, BlockPos pos, JsonConverter.StructureValues piece, int decay) {

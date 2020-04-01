@@ -14,7 +14,7 @@ public class Decorators {
     public static RandomExtraHeightmapDecorator RANDOM_EXTRA_HEIGHTMAP_DECORATOR;
 
     public static void init() {
-        BIASED_NOISE_DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "biased_noise"), new BiasedNoiseBasedDecorator(BiasedNoiseBasedDecoratorConfig::deserialize));
-        RANDOM_EXTRA_HEIGHTMAP_DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "random_extra_heightmap"), new RandomExtraHeightmapDecorator(CountExtraChanceDecoratorConfig::deserialize));
+        BIASED_NOISE_DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "biased_noise"), new BiasedNoiseBasedDecorator(BiasedNoiseBasedDecoratorConfig::deserialize, BiasedNoiseBasedDecoratorConfig::method_26675));
+        RANDOM_EXTRA_HEIGHTMAP_DECORATOR = Registry.register(Registry.DECORATOR, new Identifier(MOD_ID, "random_extra_heightmap"), new RandomExtraHeightmapDecorator(CountExtraChanceDecoratorConfig::deserialize, CountExtraChanceDecoratorConfig::method_26675));
     }
 }

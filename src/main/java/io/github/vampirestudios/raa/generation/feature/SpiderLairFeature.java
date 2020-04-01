@@ -22,8 +22,8 @@ import java.util.function.Function;
 //Code kindly taken from The Hallow, thanks to everyone who is working on it!
 public class SpiderLairFeature extends Feature<DefaultFeatureConfig> {
 
-    public SpiderLairFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
-        super(function);
+    public SpiderLairFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configDeserializer, Function<Random, ? extends DefaultFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

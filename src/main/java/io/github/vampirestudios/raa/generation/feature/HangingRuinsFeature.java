@@ -23,9 +23,8 @@ import java.util.function.Function;
 // Thanks to TelepathicGrunt and the UltraAmplified mod for this class
 public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 
-	public HangingRuinsFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configFactory)
-	{
-		super(configFactory);
+	public HangingRuinsFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configDeserializer, Function<Random, ? extends DefaultFeatureConfig> function) {
+		super(configDeserializer, function);
 	}
 
 	@Override

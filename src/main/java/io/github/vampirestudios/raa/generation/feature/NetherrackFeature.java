@@ -13,8 +13,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class NetherrackFeature extends Feature<DefaultFeatureConfig> {
-    public NetherrackFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
-        super(function);
+    public NetherrackFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configDeserializer, Function<Random, ? extends DefaultFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

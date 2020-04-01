@@ -14,8 +14,8 @@ import java.util.Set;
 import java.util.function.Function;
 
 public class DoubleTreeFeature extends BranchedTreeFeature<BranchedTreeFeatureConfig> {
-    public DoubleTreeFeature(Function<Dynamic<?>, ? extends BranchedTreeFeatureConfig> function) {
-        super(function);
+    public DoubleTreeFeature(Function<Dynamic<?>, ? extends BranchedTreeFeatureConfig> configDeserializer, Function<Random, ? extends BranchedTreeFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

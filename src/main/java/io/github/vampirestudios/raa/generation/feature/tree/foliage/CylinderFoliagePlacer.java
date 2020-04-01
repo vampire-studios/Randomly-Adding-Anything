@@ -42,4 +42,8 @@ public class CylinderFoliagePlacer extends FoliagePlacer {
         return currentTreeHeight <= 1 ? 0 : 2;
     }
 
+    public static CylinderFoliagePlacer method_26653(Random random) {
+        return new CylinderFoliagePlacer(random.nextInt(10) + 1, random.nextInt(5));
+    }
+
 }

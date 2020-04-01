@@ -14,7 +14,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ProbabilityConfig;
-import net.minecraft.world.gen.carver.Carver;
 
 import java.util.BitSet;
 import java.util.Random;
@@ -443,6 +442,11 @@ public class CaveCavityCarver extends RAACarver<ProbabilityConfig> {
 	@Override
 	protected boolean isPositionExcluded(double scaledRelativeX, double scaledRelativeY, double scaledRelativeZ, int y) {
 		return true;
+	}
+
+	@Override
+	public ProbabilityConfig method_26583(Random random) {
+		return new ProbabilityConfig(random.nextFloat() / 2.0F);
 	}
 
 }

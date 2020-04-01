@@ -13,8 +13,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class FloatingIslandSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
-    public FloatingIslandSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function_1) {
-        super(function_1);
+    public FloatingIslandSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> configDeserializer, Function<Random, ? extends TernarySurfaceConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

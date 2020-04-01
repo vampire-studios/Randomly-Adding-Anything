@@ -22,7 +22,7 @@ public class RAAWorldAPI {
         Materials.MATERIALS.forEach(material -> {
             if (Registry.BLOCK.get(material.getOreInformation().getTargetId()) == target.getBlock()) {
                 biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
-                        new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(target,
+                        new OreFeature(OreFeatureConfig::deserialize, null).configure(new OreFeatureConfig(target,
                                 Registry.BLOCK.get(Utils.addSuffixToPath(material.getId(), "_ore")).getDefaultState(), material.getOreInformation().getOreClusterSize()))
                                 .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(),
                                         0, 256))));
@@ -31,7 +31,7 @@ public class RAAWorldAPI {
         Materials.DIMENSION_MATERIALS.forEach(material -> {
             if (Registry.BLOCK.get(material.getOreInformation().getTargetId()) == target.getBlock()) {
                 biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
-                        new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(target,
+                        new OreFeature(OreFeatureConfig::deserialize,null).configure(new OreFeatureConfig(target,
                                 Registry.BLOCK.get(Utils.addSuffixToPath(material.getId(), "_ore")).getDefaultState(), material.getOreInformation().getOreClusterSize()))
                                 .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new SimpleRangeDecoratorConfig(material.getOreInformation().getOreCount(),
                                         0, 256))));

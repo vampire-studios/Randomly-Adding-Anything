@@ -1,13 +1,11 @@
 package io.github.vampirestudios.raa.generation.carvers;
 
-import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ProbabilityConfig;
-import net.minecraft.world.gen.carver.Carver;
 
 import java.util.BitSet;
 import java.util.Random;
@@ -48,5 +46,10 @@ public class VerticalCarver extends RAACarver<ProbabilityConfig> {
     @Override
     protected boolean isPositionExcluded(double scaledRelativeX, double scaledRelativeY, double scaledRelativeZ, int y) {
         return false;
+    }
+
+    @Override
+    public ProbabilityConfig method_26583(Random random) {
+        return new ProbabilityConfig(random.nextFloat() / 2.0F);
     }
 }

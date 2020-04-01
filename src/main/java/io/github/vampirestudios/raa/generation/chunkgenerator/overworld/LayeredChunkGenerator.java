@@ -5,9 +5,7 @@
 
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
-import java.util.List;
-import java.util.stream.IntStream;
-
+import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
@@ -25,15 +23,15 @@ import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnEntry;
 import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.gen.CatSpawner;
-import net.minecraft.world.gen.ChunkRandom;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.PhantomSpawner;
-import net.minecraft.world.gen.PillagerSpawner;
+import net.minecraft.world.gen.*;
+import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.level.LevelGeneratorType;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class LayeredChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
     private static final float[] BIOME_WEIGHT_TABLE = Util.make(new float[25], (fs) -> {
@@ -205,6 +203,11 @@ public class LayeredChunkGenerator extends SurfaceChunkGenerator<OverworldChunkG
 
     public int getSeaLevel() {
         return 63;
+    }
+
+    @Override
+    public ChunkGeneratorType<?, ?> method_26490() {
+        return ChunkGenerators.LAYERED_OVERWORLD;
     }
 
 }

@@ -59,30 +59,30 @@ public class Features {
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
 
-        CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
-        CRATER_FEATURE = register("crater_feature", new CraterFeature(CorruptedFeatureConfig::deserialize));
-        OUTPOST = register("outpost", new OutpostFeature(DefaultFeatureConfig::deserialize));
-        CAMPFIRE = register("campfire", new CampfireFeature(DefaultFeatureConfig::deserialize));
-        TOWER = register("tower", new TowerFeature(DefaultFeatureConfig::deserialize));
-        FOSSIL = register("fossil", new FossilFeature(DefaultFeatureConfig::deserialize));
-        SHRINE = register("shrine", new ShrineFeature(DefaultFeatureConfig::deserialize));
-        SMALL_SKELETON_TREE = register("skeleton_tree_small", new SmallSkeletalTreeFeature(TreeFeatureConfig::deserialize));
-        LARGE_SKELETON_TREE = register("skeleton_tree_large", new LargeSkeletalTreeFeature(TreeFeatureConfig::deserialize));
-        SPIDER_LAIR = register("spider_lair", new SpiderLairFeature(DefaultFeatureConfig::deserialize));
-        FIXED_TREE = register("fixed_tree", new FixedTreeFeature(BranchedTreeFeatureConfig::deserialize));
-        BENT_TREE = register("bent_tree", new BentTreeFeature(BranchedTreeFeatureConfig::deserialize));
-        DOUBLE_TREE = register("double_tree", new DoubleTreeFeature(BranchedTreeFeatureConfig::deserialize));
-        PORTAL_HUB = register("portal_hub", new PortalHubFeature(DefaultFeatureConfig::deserialize));
+        CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        CRATER_FEATURE = register("crater_feature", new CraterFeature(CorruptedFeatureConfig::deserialize, null));
+        OUTPOST = register("outpost", new OutpostFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        CAMPFIRE = register("campfire", new CampfireFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        TOWER = register("tower", new TowerFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        FOSSIL = register("fossil", new FossilFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        SHRINE = register("shrine", new ShrineFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        SMALL_SKELETON_TREE = register("skeleton_tree_small", new SmallSkeletalTreeFeature(TreeFeatureConfig::deserialize, TreeFeatureConfig::method_26650));
+        LARGE_SKELETON_TREE = register("skeleton_tree_large", new LargeSkeletalTreeFeature(TreeFeatureConfig::deserialize, TreeFeatureConfig::method_26650));
+        SPIDER_LAIR = register("spider_lair", new SpiderLairFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        FIXED_TREE = register("fixed_tree", new FixedTreeFeature(BranchedTreeFeatureConfig::deserialize, BranchedTreeFeatureConfig::method_26646));
+        BENT_TREE = register("bent_tree", new BentTreeFeature(BranchedTreeFeatureConfig::deserialize, BranchedTreeFeatureConfig::method_26646));
+        DOUBLE_TREE = register("double_tree", new DoubleTreeFeature(BranchedTreeFeatureConfig::deserialize, BranchedTreeFeatureConfig::method_26646));
+        PORTAL_HUB = register("portal_hub", new PortalHubFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
 
-        BEE_NEST = register("bee_nest", new BeeNestFeature(DefaultFeatureConfig::deserialize));
-        CAVE_CAMPFIRE = register("cave_campfire", new CaveCampfireFeature(DefaultFeatureConfig::deserialize));
-        MUSHROOM_RUIN = register("mushroom_ruin", new MushRuinFeature(DefaultFeatureConfig::deserialize));
-        UNDERGROUND_BEE_HIVE = register("underground_bee_hive", new UndegroundBeeHiveFeature(DefaultFeatureConfig::deserialize));
+        BEE_NEST = register("bee_nest", new BeeNestFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        CAVE_CAMPFIRE = register("cave_campfire", new CaveCampfireFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        MUSHROOM_RUIN = register("mushroom_ruin", new MushRuinFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        UNDERGROUND_BEE_HIVE = register("underground_bee_hive", new UndegroundBeeHiveFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
 
-        STONE_HENGE = register("stone_henge", new StonehengeFeature(DefaultFeatureConfig::deserialize));
-        COLUMN_RAMP = register("columnn_ramp", new ColumnRampFeature(ColumnBlocksConfig::deserialize));
-        COLUMN_VERTICAL = register("columnn_vertical", new ColumnVerticalFeature(ColumnBlocksConfig::deserialize));
-        HANGING_RUINS = register("hanging_ruins", new HangingRuinsFeature(DefaultFeatureConfig::deserialize));
+        STONE_HENGE = register("stone_henge", new StonehengeFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
+        COLUMN_RAMP = register("columnn_ramp", new ColumnRampFeature(ColumnBlocksConfig::deserialize, null));
+        COLUMN_VERTICAL = register("columnn_vertical", new ColumnVerticalFeature(ColumnBlocksConfig::deserialize, null));
+        HANGING_RUINS = register("hanging_ruins", new HangingRuinsFeature(DefaultFeatureConfig::deserialize, DefaultFeatureConfig::method_26619));
     }
 
     // we use this cursed code to make a new carver per dimension

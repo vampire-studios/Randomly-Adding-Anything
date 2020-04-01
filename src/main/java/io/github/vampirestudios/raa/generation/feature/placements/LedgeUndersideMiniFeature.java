@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 
 public class LedgeUndersideMiniFeature extends Decorator<ChanceAndTypeConfig> {
 
-	public LedgeUndersideMiniFeature(Function<Dynamic<?>, ? extends ChanceAndTypeConfig> configFactory) {
-		super(configFactory);
+	public LedgeUndersideMiniFeature(Function<Dynamic<?>, ? extends ChanceAndTypeConfig> configDeserializer, Function<Random, ? extends ChanceAndTypeConfig> function) {
+		super(configDeserializer, function);
 	}
 
 	@Override

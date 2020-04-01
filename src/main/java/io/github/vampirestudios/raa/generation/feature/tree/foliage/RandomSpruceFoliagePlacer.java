@@ -42,4 +42,8 @@ public class RandomSpruceFoliagePlacer extends FoliagePlacer {
     public int getRadiusForPlacement(int i, int j, int k, int l) {
         return l <= 1 ? 0 : 2;
     }
+
+    public static RandomSpruceFoliagePlacer method_26653(Random random) {
+        return new RandomSpruceFoliagePlacer(random.nextInt(10) + 1, random.nextInt(5));
+    }
 }

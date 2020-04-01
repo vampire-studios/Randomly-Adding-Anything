@@ -23,8 +23,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class CampfireFeature extends Feature<DefaultFeatureConfig> {
-    public CampfireFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
-        super(function);
+    public CampfireFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configDeserializer, Function<Random, ? extends DefaultFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

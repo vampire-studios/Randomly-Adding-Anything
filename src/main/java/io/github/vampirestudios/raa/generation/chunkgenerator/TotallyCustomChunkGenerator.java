@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator;
 
+import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.ChunkPos;
@@ -11,6 +12,7 @@ import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.ChunkRandom;
+import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 
@@ -39,7 +41,6 @@ public class TotallyCustomChunkGenerator extends SurfaceChunkGenerator<Overworld
         super(iWorld_1, biomeSource_1, (int) Math.pow(2, Rands.randIntRange(3, 3)), (int) Math.pow(2, Rands.randIntRange(3, 3)), 256, overworldChunkGeneratorConfig_1, true);
         this.random.consume(Rands.randInt(100000));
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
-
     }
 
     public void populateEntities(ChunkRegion chunkRegion) {
@@ -54,6 +55,11 @@ public class TotallyCustomChunkGenerator extends SurfaceChunkGenerator<Overworld
     @Override
     public int getSpawnHeight() {
         return 64;
+    }
+
+    @Override
+    public ChunkGeneratorType<?, ?> method_26490() {
+        return ChunkGenerators.TOTALLY_CUSTOM;
     }
 
     @Override

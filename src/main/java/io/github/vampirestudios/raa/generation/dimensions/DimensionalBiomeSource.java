@@ -1,8 +1,13 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
+import com.google.common.collect.ImmutableMap;
+import com.mojang.datafixers.Dynamic;
+import com.mojang.datafixers.types.DynamicOps;
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeLayerSampler;
 import net.minecraft.world.biome.source.BiomeSource;
+import net.minecraft.world.biome.source.BiomeSourceType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +31,16 @@ public class DimensionalBiomeSource extends BiomeSource {
     @Override
     public List<Biome> getSpawnBiomes() {
         return new ArrayList<>(BIOMES);
+    }
+
+    @Override
+    public BiomeSourceType<?, ?> method_26467() {
+        return RandomlyAddingAnything.DIMENSIONAL_BIOMES;
+    }
+
+    @Override
+    public <T> Dynamic<T> method_26466(DynamicOps<T> dynamicOps) {
+        return new Dynamic<>(dynamicOps, dynamicOps.createMap(ImmutableMap.of()));
     }
 
 }

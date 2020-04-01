@@ -13,8 +13,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class LazyNoiseSurfaceBuilder extends SurfaceBuilder<TernarySurfaceConfig> {
-    public LazyNoiseSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> function_1) {
-        super(function_1);
+    public LazyNoiseSurfaceBuilder(Function<Dynamic<?>, ? extends TernarySurfaceConfig> configDeserializer, Function<Random, ? extends TernarySurfaceConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

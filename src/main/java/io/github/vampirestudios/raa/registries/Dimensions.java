@@ -170,7 +170,7 @@ public class Dimensions {
 
             DimensionChunkGenerators gen = Utils.randomCG(Rands.randIntRange(0, 100));
             if (gen == DimensionChunkGenerators.FLOATING) difficulty++;
-            if (gen == CAVE) difficulty += 2;
+            if (gen == CAVES) difficulty += 2;
             float scale = dimension.getScale();
             if (scale > 0.8) difficulty++;
             if (scale > 1.6) difficulty++;
@@ -302,7 +302,7 @@ public class Dimensions {
                     .skyLight(dimension.hasSkyLight())
                     .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, Rands.chance(50) ? Blocks.STONE : stoneBlock));
 
-            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES) {
+            if (dimension.getDimensionChunkGenerator() == CAVES || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES) {
                 builder.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
             } else if (dimension.getDimensionChunkGenerator() == FLOATING || dimension.getDimensionChunkGenerator() == LAYERED_FLOATING || dimension.getDimensionChunkGenerator() == PRE_CLASSIC_FLOATING) {
                 builder.defaultPlacer(PlayerPlacementHandlers.FLOATING_WORLD.getEntityPlacer());

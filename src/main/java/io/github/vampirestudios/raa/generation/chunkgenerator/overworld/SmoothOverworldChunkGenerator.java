@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
+import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.ChunkPos;
@@ -11,6 +12,7 @@ import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.ChunkRandom;
+import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.level.LevelGeneratorType;
@@ -123,5 +125,10 @@ public class SmoothOverworldChunkGenerator extends SurfaceChunkGenerator<Overwor
         }
 
         return d;
+    }
+
+    @Override
+    public ChunkGeneratorType<?, ?> method_26490() {
+        return ChunkGenerators.SMOOTH;
     }
 }

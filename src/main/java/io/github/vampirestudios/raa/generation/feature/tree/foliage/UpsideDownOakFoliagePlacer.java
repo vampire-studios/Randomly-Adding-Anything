@@ -81,4 +81,8 @@ public class UpsideDownOakFoliagePlacer extends FoliagePlacer {
         return l <= 1 ? 0 : 2;
     }
 
+    public static UpsideDownOakFoliagePlacer method_26653(Random random) {
+        return new UpsideDownOakFoliagePlacer(random.nextInt(10) + 1, random.nextInt(5));
+    }
+
 }

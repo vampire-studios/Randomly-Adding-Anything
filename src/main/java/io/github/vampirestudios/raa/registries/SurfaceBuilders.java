@@ -24,27 +24,27 @@ public class SurfaceBuilders {
 
     public static void init() {
         DARK_BADLANDS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "dark_badlands"),
-                new DarkBadlandsSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new DarkBadlandsSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
 
         PATCHY_DESERT = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "patchy_desert"),
-                new PatchyDesertSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new PatchyDesertSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
         PATCHY_BADLANDS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "patchy_badlands"),
-                new PatchyBadlandsSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new PatchyBadlandsSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
         DARK_PATCHY_BADLANDS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "dark_patchy_badlands"),
-                new PatchyDarkBadlandsSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new PatchyDarkBadlandsSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
         CLASSIC_CLIFFS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "classic_cliffs"),
-                new ClassicCliffsSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new ClassicCliffsSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
         STRATIFIED_CLIFFS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "stratified_cliffs"),
-                new StratifiedSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new StratifiedSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
         FLOATING_ISLANDS = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "floating_islands"),
-                new FloatingIslandSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new FloatingIslandSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
         DUNES = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "dunes"),
-                new DuneSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new DuneSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
         SANDY_DUNES = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "sandy_dunes"),
-                new SandyDunesSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new SandyDunesSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
         LAZY_NOISE = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "lazy_noise"),
-                new LazyNoiseSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new LazyNoiseSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
         HYPER_FLAT = Registry.register(Registry.SURFACE_BUILDER, new Identifier(MOD_ID, "hyper_flat"),
-                new HyperflatSurfaceBuilder(TernarySurfaceConfig::deserialize));
+                new HyperflatSurfaceBuilder(TernarySurfaceConfig::deserialize, TernarySurfaceConfig::method_26680));
     }
 }

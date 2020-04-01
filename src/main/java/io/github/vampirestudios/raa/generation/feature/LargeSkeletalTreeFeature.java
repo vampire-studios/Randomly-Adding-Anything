@@ -24,8 +24,8 @@ import java.util.function.Function;
 public class LargeSkeletalTreeFeature extends AbstractTreeFeature<TreeFeatureConfig> {
     private static final BlockState LOG = Blocks.BONE_BLOCK.getDefaultState();
 
-    public LargeSkeletalTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> function) {
-        super(function);
+    public LargeSkeletalTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> configDeserializer, Function<Random, ? extends TreeFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     private static boolean isSurroundedByAir(TestableWorld testableWorld, BlockPos blockPos, Direction ignore) {

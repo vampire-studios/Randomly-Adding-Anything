@@ -16,8 +16,8 @@ import java.util.function.Function;
 
 public class OreFeature extends Feature<OreFeatureConfig> {
 
-    public OreFeature(Function<Dynamic<?>, ? extends OreFeatureConfig> function_1) {
-        super(function_1);
+    public OreFeature(Function<Dynamic<?>, ? extends OreFeatureConfig> configDeserializer, Function<Random, ? extends OreFeatureConfig> function) {
+        super(configDeserializer, function);
     }
 
     @Override

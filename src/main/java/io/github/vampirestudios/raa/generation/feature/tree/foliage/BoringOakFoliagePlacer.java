@@ -44,4 +44,8 @@ public class BoringOakFoliagePlacer extends FoliagePlacer {
     public int getRadiusForPlacement(int trunkHeight, int baseHeight, int radius, int currentTreeHeight) {
         return currentTreeHeight <= 1 ? 0 : 2;
     }
+
+    public static BoringOakFoliagePlacer method_26653(Random random) {
+        return new BoringOakFoliagePlacer(random.nextInt(10) + 1, random.nextInt(5));
+    }
 }

@@ -19,8 +19,8 @@ public class IceSpikeFeature extends Feature<DefaultFeatureConfig> {
 
    private Block blockToUse;
 
-   public IceSpikeFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
-      super(function);
+   public IceSpikeFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> configDeserializer, Function<Random, ? extends DefaultFeatureConfig> function) {
+      super(configDeserializer, function);
    }
 
    public boolean generate(IWorld iWorld, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, DefaultFeatureConfig defaultFeatureConfig) {
