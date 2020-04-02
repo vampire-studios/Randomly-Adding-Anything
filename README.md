@@ -33,9 +33,9 @@ example quartz, red sandstone, sandstone and more
 
 #### Q: How do I re-randomize ores?
 
-A: In the configs folder there is a `raa.json5` document. If you set the `"regen"` property to `true`, new ores will generate each time you boot up minecraft until that setting is turned back to `false`.
+A: In the configs folder there is a `raa.json` document. If you set the `"regen"` property to `true`, new ores will generate each time you boot up minecraft until that setting is turned back to `false`, or you can alternatively just delete the RAA folder
 
-**TL;DR** Set `.minecraft/config/raa.json5`'s `"regen"` to `true` until you get whatever ores you like.
+**TL;DR** Set `.minecraft/config/raa.json`'s `"regen"` to `true` until you get whatever ores you like, or alternatively just delete the RAA folder
 
 #### Q: Is there any way I can suggest my ideas or anythying of the sort? Is there a chat?
 
@@ -51,10 +51,12 @@ However, if the bug causes a crash or heavily impacts gameplay, you should post 
 - Minecraft Console Log
 
 The contents of these files:
-- config/raa.json5
+- config/raa.json
 - config/raa/materials/material_config.json
 - config/raa/materials/dimension_material_config.json
 - config/raa/dimensions/dimension_config.json
+- config/raa/entities/entities_config.json
+- config/raa/surface_builders/surface_builder_config.json
 
 #### More to come!
 
@@ -62,6 +64,4 @@ The contents of these files:
 
 - Randomized effects for tools, weapons and armor.
 - Randomly generated trees and plants with their own characteristics and woods.
-- Random material information through Roughly Enough Items (REI)
-- Automatic synchronization of materials files when connecting to a server.
 - A guidebook system which will unlock information about dimensions and materisls whenever you discover them
