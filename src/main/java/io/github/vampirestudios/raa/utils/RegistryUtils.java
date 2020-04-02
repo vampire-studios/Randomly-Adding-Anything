@@ -31,6 +31,7 @@ import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.BlockEntityType.Builder;
@@ -38,6 +39,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Settings;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
@@ -49,7 +51,7 @@ import java.util.function.Predicate;
 public class RegistryUtils {
 
     public static Block register(Block block, Identifier name, ItemGroup itemGroup, String upperCaseName, RAABlockItem.BlockType blockType) {
-        if (Registry.BLOCK.getOrEmpty(name).isPresent()) {
+        if (Registry.BLOCK.get(name) == Blocks.AIR) {
             Registry.register(Registry.ITEM, name, new RAABlockItem(upperCaseName, block, (new Settings()).group(itemGroup), blockType));
             return Registry.register(Registry.BLOCK, name, block);
         } else {
@@ -58,7 +60,7 @@ public class RegistryUtils {
     }
 
     public static Block register(Block block, Identifier name, ItemGroup itemGroup, String upperCaseName, String type) {
-        if (Registry.BLOCK.getOrEmpty(name).isPresent()) {
+        if (Registry.BLOCK.get(name) == Blocks.AIR) {
             Registry.register(Registry.ITEM, name, new RAABlockItemAlt(upperCaseName, type, block, (new Settings()).group(itemGroup)));
             return Registry.register(Registry.BLOCK, name, block);
         } else {
@@ -67,7 +69,7 @@ public class RegistryUtils {
     }
 
     public static Block register(Block block, Identifier name, ItemGroup itemGroup) {
-        if (Registry.BLOCK.getOrEmpty(name).isPresent()) {
+        if (Registry.BLOCK.get(name) == Blocks.AIR) {
             Registry.register(Registry.ITEM, name, new BlockItem(block, (new Settings()).group(itemGroup)));
             return Registry.register(Registry.BLOCK, name, block);
         } else {
@@ -78,7 +80,7 @@ public class RegistryUtils {
 
 
     public static Block register(Block block, Identifier name) {
-        if (Registry.BLOCK.getOrEmpty(name).isPresent()) {
+        if (Registry.BLOCK.get(name) == Blocks.AIR) {
             Registry.register(Registry.ITEM, name, new BlockItem(block, (new Settings()).group(ItemGroup.BUILDING_BLOCKS)));
             return Registry.register(Registry.BLOCK, name, block);
         } else {
@@ -106,7 +108,7 @@ public class RegistryUtils {
     }
 
     public static Item registerItem(Item item, Identifier name) {
-        if (Registry.ITEM.getOrEmpty(name).isPresent()) {
+        if (Registry.ITEM.get(name) == Items.AIR) {
             return Registry.register(Registry.ITEM, name, item);
         } else {
             return item;

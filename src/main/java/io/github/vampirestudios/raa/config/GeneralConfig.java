@@ -10,15 +10,17 @@ import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.Comment;
 public class GeneralConfig implements ConfigData {
 
     @Comment("Amount of materials to generate")
-    public int materialNumber = 40;
+    public int materialGenAmount = 40;
     @Comment("Amount of unique materials to generate per dimension")
-    public int dimensionMaterials = 10;
+    public int dimensionMaterialGenAmount = 10;
     @Comment("Amount of dimensions to generate")
-    public int dimensionNumber = 50;
+    public int dimensionGenAmount = 50;
+    @Comment("Amount of entities to generate")
+    public int entityGenAmount = 20;
     @Comment("Mostly for us developers")
     public boolean debug = false;
     @Comment("If this is set to true materials will regenerate each time you restart your game, you can also just delete the raa folder in the configs folder")
-    public boolean regenMaterials = false;
+    public boolean regenConfigs = false;
     @Comment("The name the materials should generate in")
     public LangEnum namingLanguage = LangEnum.ENGLISH;
     @Comment("If portal hubs should spawn naturally, if set to false you need to make your own ones in creative")

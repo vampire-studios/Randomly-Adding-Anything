@@ -55,7 +55,7 @@ public class Dimensions {
         //pre generation of dimensions: basic data, flags, and name
         //This is only the data needed for civilization simulation
         ArrayList<ProtoDimension> protoDimensions = new ArrayList<>();
-        for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
+        for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionGenAmount; a++) {
             float temperature = Rands.randFloat(2.0F);
             int flags = generateDimensionFlags();
 
@@ -189,7 +189,9 @@ public class Dimensions {
                     .civilizationInfluences(dimension.getCivilizationInfluences())
                     .cloudHeight(Rands.randFloatRange(80F, 256F))
                     .stoneHardness(Rands.randFloatRange(0.2f, 5f), Rands.randFloatRange(3, 18))
-                    .stoneJumpHeight(Rands.randFloatRange(1.0F, 10.0F));
+                    .stoneJumpHeight(Rands.randFloatRange(1.0F, 10.0F))
+                    .hasCustomGravity(Rands.chance(5))
+                    .gravity(Rands.randFloatRange(0.0F, 2.0F));
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
