@@ -12,10 +12,8 @@ fs.writeFile("./buildscript.bash", texttowrite(), (err) => {
 function texttowrite() {
     if (consts.travis_pull_request !== "false") {
         return "./gradlew build"
-    } else if (consts.travis_branch === "release/1.15") {
+    } else if (consts.travis_branch === "release/1.16") {
         return "./gradlew build githubRelease curseforge"
-    } else if (consts.travis_branch === "dev/1.15") {
-        return "./gradlew build githubRelease"
     } else {
         return "./gradlew build"
     }
