@@ -207,10 +207,10 @@ public class WorldStructureManipulation {
             } if (properties.get("north") != null || properties.get("west") != null || properties.get("south") != null || properties.get("east") != null) {
                 if(!block.endsWith("_wall")) {
                     //Fences and Iron Bars, both use booleans to represent their connection
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH, directions.getOrDefault("north", "FALSE").equals("TRUE")), 2);
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.WEST, directions.getOrDefault("west", "FALSE").equals("TRUE")), 2);
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.SOUTH, directions.getOrDefault("south", "FALSE").equals("TRUE")), 2);
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST, directions.getOrDefault("east", "FALSE").equals("TRUE")), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH, directions.getOrDefault("north", "FALSE").toUpperCase().equals("TRUE")), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.WEST, directions.getOrDefault("west", "FALSE").toUpperCase().equals("TRUE")), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.SOUTH, directions.getOrDefault("south", "FALSE").toUpperCase().equals("TRUE")), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST, directions.getOrDefault("east", "FALSE").toUpperCase().equals("TRUE")), 2);
                 } else {
                     //Walls use an Enum (none, tall, low) to describe their connections to other neighbouring blocks
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("north","none").replace("false","none").replace("true","low").toUpperCase())), 2);
