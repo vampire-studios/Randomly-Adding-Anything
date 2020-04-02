@@ -20,7 +20,7 @@ public class RAAWorldAPI {
      */
     public static void generateOresForTarget(Biome biome, OreFeatureConfig.Target target) {
         Materials.MATERIALS.forEach(material -> {
-            if (material.getOreInformation().getTargetId() == target.getId()) {
+            if (Registry.BLOCK.get(material.getOreInformation().getTargetId()) == target.getBlock()) {
                 biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
                         new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(target,
                                 Registry.BLOCK.get(Utils.appendToPath(material.getId(), "_ore")).getDefaultState(), material.getOreInformation().getOreClusterSize()))
@@ -28,7 +28,7 @@ public class RAAWorldAPI {
             }
         });
         Materials.DIMENSION_MATERIALS.forEach(material -> {
-            if (material.getOreInformation().getTargetId() == target.getId()) {
+            if (Registry.BLOCK.get(material.getOreInformation().getTargetId()) == target.getBlock()) {
                 biome.addFeature(GenerationStep.Feature.UNDERGROUND_ORES,
                         new OreFeature(OreFeatureConfig::deserialize).configure(new OreFeatureConfig(target,
                                 Registry.BLOCK.get(Utils.appendToPath(material.getId(), "_ore")).getDefaultState(), material.getOreInformation().getOreClusterSize()))
