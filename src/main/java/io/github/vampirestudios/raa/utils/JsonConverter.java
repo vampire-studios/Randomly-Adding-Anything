@@ -72,11 +72,11 @@ public class JsonConverter {
                 if (name.equals("palette")) {
                     JsonArray list = JsonHelper.getArray(valueArray, "list");
                     list.forEach(jsonElement1 -> {
+                        Map<String, String> blockPropertyMap = new HashMap<>();
                         JsonArray paletteProperties = jsonElement1.getAsJsonArray();
                         paletteProperties.forEach(jsonElement2 -> {
                             JsonObject paletteProperty = jsonElement2.getAsJsonObject();
                             String propertyName = JsonHelper.getString(paletteProperty, "name");
-                            Map<String, String> blockPropertyMap = new HashMap<>();
                             if (propertyName.equals("Name")) {
                                 structure.setBlockProperties(blockPropertyMap);
                                 String blockId = JsonHelper.getString(paletteProperty, "value");
