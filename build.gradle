@@ -60,22 +60,22 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
-    modRuntime 'curse.maven:trees-do-not-float:2833870'
-    modRuntime 'curse.maven:fabric-vertigo:2834529'
-    modRuntime 'curse.maven:expanded-storage:2832473'
-    modRuntime 'curse.maven:shulkerboxtooltip:2829477'
-    modRuntime 'curse.maven:leaf-decay:2827905'
+//    modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
+//    modRuntime 'curse.maven:trees-do-not-float:2833870'
+//    modRuntime 'curse.maven:fabric-vertigo:2834529'
+//    modRuntime 'curse.maven:expanded-storage:2832473'
+//    modRuntime 'curse.maven:shulkerboxtooltip:2829477'
+//    modRuntime 'curse.maven:leaf-decay:2827905'
 
-    modImplementation 'curse.maven:bee-productive:2851222'
-    modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:2.1.0"
-    modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:2.1.0"
-    modImplementation "io.github.cottonmc:BeeCompatible:2.0.0+1.15.1"
+    modImplementation 'com.github.AllOfFabric:BeeProductive:431a5d5c0c'
+    modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:2.3.0"
+    modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:2.3.0"
+//    modImplementation "io.github.cottonmc:BeeCompatible:2.1.0+1.15.1"
 
 
-    modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
-        transitive = false
-    }
+//    modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
+//        transitive = false
+//    }
 
     modImplementation 'curse.maven:simplex-terrain-generation:2850537'
 
