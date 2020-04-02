@@ -19,6 +19,8 @@ import net.minecraft.world.Heightmap;
 import net.minecraft.world.IWorld;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WorldStructureManipulation {
 
@@ -148,17 +150,28 @@ public class WorldStructureManipulation {
 
         //Rotate stuff
         String facing = "NORTH";
-        List<String> directions = Arrays.asList("FALSE", "FALSE", "FALSE", "FALSE");
-        String axis = "x";
+
         if (properties.get("facing") != null) {
             facing = properties.get("facing");
             if (!facing.equals("UP") && !facing.equals("DOWN")) {
                 facing = rotateDir(rotation, facing);
             }
         }
+
+        //Rotate Wall directions before applying them as properties
+
+        //Selecting only the direction attributes from the properties in order to manipulate them
+        Map<String, String> directions = new HashMap<>();
+        directions.put("north", properties.getOrDefault("north", "none"));
+        directions.put("west", properties.getOrDefault("west", "none"));
+        directions.put("south", properties.getOrDefault("south", "none"));
+        directions.put("east", properties.getOrDefault("east", "none"));
         if (properties.get("north") != null || properties.get("west") != null || properties.get("south") != null || properties.get("east") != null) {
-            directions = rotateWall(rotation, Arrays.asList(properties.get("north"), properties.get("west"), properties.get("south"), properties.get("east")));
+            directions = rotateWall(rotation, directions);
         }
+
+        //Rotate axis property
+        String axis = "x";
         if (properties.get("axis") != null) {
             axis = properties.get("axis");
             axis = (rotation % 2 == 0) ? axis : (axis.equals("x")) ? "z" : (axis.equals("z")) ? "x" : axis;
@@ -192,35 +205,43 @@ public class WorldStructureManipulation {
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.HORIZONTAL_FACING, Direction.valueOf(facing.toUpperCase())), 2);
                 }
             } if (properties.get("north") != null || properties.get("west") != null || properties.get("south") != null || properties.get("east") != null) {
-                //TODO: [Fences], [Walls], Iron bar
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH, (directions.get(0) != null && directions.get(0).equals("TRUE"))), 2);
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.WEST, (directions.get(1) != null && directions.get(1).equals("TRUE"))), 2);
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.SOUTH, (directions.get(2) != null && directions.get(2).equals("TRUE"))), 2);
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST, (directions.get(3) != null && directions.get(3).equals("TRUE"))), 2);
+                if(!block.endsWith("_wall")) {
+                    //Fences and Iron Bars, both use booleans to represent their connection
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH, directions.getOrDefault("north", "FALSE").equals("TRUE")), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.WEST, directions.getOrDefault("west", "FALSE").equals("TRUE")), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.SOUTH, directions.getOrDefault("south", "FALSE").equals("TRUE")), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST, directions.getOrDefault("east", "FALSE").equals("TRUE")), 2);
+                } else {
+                    //Walls use an Enum (none, tall, low) to describe their connections to other neighbouring blocks
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("north","none").replace("false","none").replace("true","low").toUpperCase())), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.WEST_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("west","none").replace("false","none").replace("true","low").toUpperCase())), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.SOUTH_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("south","none").replace("false","none").replace("true","low").toUpperCase())), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("east","none").replace("false","none").replace("true","low").toUpperCase())), 2);
+                }
             } if (properties.get("up") != null) {
                 //TODO: [Walls]
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UP, properties.get("up").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UP, properties.get("up").toUpperCase().equals("TRUE")), 2);
             } if (properties.get("open") != null) {
                 //TODO: Barrel
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.OPEN, properties.get("open").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.OPEN, properties.get("open").toUpperCase().equals("TRUE")), 2);
             } if (properties.get("snowy") != null) {
                 //TODO: Grass_Block
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.SNOWY, properties.get("snowy").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.SNOWY, properties.get("snowy").toUpperCase().equals("TRUE")), 2);
             } if (properties.get("lit") != null) {
                 //TODO: Blast_Furnace, Furnace, Smoker
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.LIT, properties.get("lit").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.LIT, properties.get("lit").toUpperCase().equals("TRUE")), 2);
             } if (properties.get("bottom") != null) {
                 //TODO: ~~
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.BOTTOM, properties.get("bottom").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.BOTTOM, properties.get("bottom").toUpperCase().equals("TRUE")), 2);
             } if (properties.get("hanging") != null) {
                 //TODO: Lantern
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.HANGING, properties.get("hanging").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.HANGING, properties.get("hanging").toUpperCase().equals("TRUE")), 2);
             } if (properties.get("powered") != null) {
                 //TODO: [Pressure_Plates], Bell
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.POWERED, properties.get("powered").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.POWERED, properties.get("powered").toUpperCase().equals("TRUE")), 2);
             } if (properties.get("unstable") != null) {
                 //TODO: TNT
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UNSTABLE, properties.get("unstable").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UNSTABLE, properties.get("unstable").toUpperCase().equals("TRUE")), 2);
             } if (properties.get("face") != null) {
                 //TODO: Grindstone
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.WALL_MOUNT_LOCATION, WallMountLocation.valueOf(properties.get("face").toUpperCase())), 2);
@@ -307,10 +328,15 @@ public class WorldStructureManipulation {
         }
     }
 
-    private static List<String> rotateWall(int rotation, List<String> directions) {
+    private static Map<String, String> rotateWall(int rotation, Map<String, String> directions) {
         if (rotation > 0) {
-            List<String> dirs = rotateWall(rotation - 1, directions);
-            return (Arrays.asList(dirs.get(3), dirs.get(0), dirs.get(1), dirs.get(2)));
+            Map<String, String> dirs = rotateWall(rotation - 1, directions);
+            Map<String, String> dirs1 = new HashMap<>();
+            dirs1.put("north",dirs.get("east"));
+            dirs1.put("west",dirs.get("north"));
+            dirs1.put("south",dirs.get("west"));
+            dirs1.put("east",dirs.get("south"));
+            return dirs1;
         } else {
             return directions;
         }
