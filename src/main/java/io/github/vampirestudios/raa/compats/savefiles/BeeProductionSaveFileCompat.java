@@ -33,14 +33,14 @@ public class BeeProductionSaveFileCompat extends SaveFileCompat {
             jsonArray.add(nectarObject);
         }
         jsonObject.add("materials", jsonArray);
-//        jsonArray = new JsonArray();
-//        for (DimensionMaterial material : Materials.DIMENSION_MATERIALS) {
-//            JsonObject nectarObject = new JsonObject();
-//            nectarObject.addProperty("materialName", material.getId().toString());
-//            nectarObject.addProperty("nectarDrop", Rands.randIntRange(1, 9));
-//            jsonArray.add(nectarObject);
-//        }
-//        jsonObject.add("dimensionMaterials", jsonArray);
+        JsonArray jsonArray2 = new JsonArray();
+        for (DimensionMaterial material : Materials.DIMENSION_MATERIALS) {
+            JsonObject nectarObject = new JsonObject();
+            nectarObject.addProperty("materialName", material.getId().toString());
+            nectarObject.addProperty("nectarDrop", Rands.randIntRange(1, 9));
+            jsonArray2.add(nectarObject);
+        }
+        jsonObject.add("dimensionMaterials", jsonArray2);
 
         try {
             new File(getFile().getParent()).mkdirs();
@@ -62,20 +62,18 @@ public class BeeProductionSaveFileCompat extends SaveFileCompat {
             for (JsonElement jsonElement : materials) {
                 JsonObject jsonObject = (JsonObject) jsonElement;
                 Material material = Materials.MATERIALS.get(new Identifier(JsonHelper.getString(jsonObject, "materialName")));
-                System.out.println(material);
                 int nectar = JsonHelper.getInt(jsonObject, "nectarDrop");
                 materialIntegerMap.put(material, nectar);
             }
 
 //            Crashing because material is null
-//            JsonArray dimensionMaterials = JsonHelper.getArray(json, "materials");
-//            for (JsonElement jsonElement : dimensionMaterials) {
-//                JsonObject jsonObject = (JsonObject) jsonElement;
-//                Material material = Materials.DIMENSION_MATERIALS.get(new Identifier(JsonHelper.getString(jsonObject, "materialName")));
-//                System.out.println(material);
-//                int nectar = JsonHelper.getInt(jsonObject, "nectarDrop");
-//                materialIntegerMap.put(material, nectar);
-//            }
+            JsonArray dimensionMaterials = JsonHelper.getArray(json, "dimensionMaterials");
+            for (JsonElement jsonElement : dimensionMaterials) {
+                JsonObject jsonObject = (JsonObject) jsonElement;
+                Material material = Materials.DIMENSION_MATERIALS.get(new Identifier(JsonHelper.getString(jsonObject, "materialName")));
+                int nectar = JsonHelper.getInt(jsonObject, "nectarDrop");
+                materialIntegerMap.put(material, nectar);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
