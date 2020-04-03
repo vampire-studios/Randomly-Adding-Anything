@@ -20,6 +20,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particle.ParticleType;
 import net.minecraft.sound.BiomeAdditionsSound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -35,6 +36,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.function.LongFunction;
@@ -63,10 +65,10 @@ public class RandomlyAddingAnything implements ModInitializer {
 
     public static ModCompat MODCOMPAT;
 
-    public static BiomeEffects method_26469(Random random) {
+    public static BiomeEffects randomBiomeEffects(Random random) {
         BiomeEffects.Builder builder = (new BiomeEffects.Builder()).fogColor(random.nextInt()).waterColor(random.nextInt()).waterFogColor(random.nextInt());
         if (random.nextInt(5) == 0) {
-            builder.particleConfig(BiomeParticleConfig.method_26445(random));
+            builder.particleConfig(randomBiomeParticleConfig(random));
         }
 
         if (random.nextInt(10) == 0) {
@@ -78,6 +80,11 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
 
         return builder.build();
+    }
+
+    public static BiomeParticleConfig randomBiomeParticleConfig(Random random) {
+        return new BiomeParticleConfig(((ParticleType) Objects.requireNonNull(Registry.PARTICLE_TYPE.getRandom(random))).method_26703(random),
+                random.nextFloat() * 0.2F, random.nextDouble(), random.nextDouble(), random.nextDouble());
     }
 
     @Override
@@ -126,16 +133,6 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         }
         Materials.createMaterialResources();
-
-        ENTITIES_CONFIG = new EntitiesConfig("entities/entities_config");
-        if (CONFIG.entityGenAmount > 0) {
-            if (CONFIG.regenConfigs || !ENTITIES_CONFIG.fileExist()) {
-                ENTITIES_CONFIG.generate();
-                ENTITIES_CONFIG.save();
-            } else {
-                ENTITIES_CONFIG.load();
-            }
-        }
 
         SurfaceBuilderGenerator.registerElements();
         SURFACE_BUILDER_CONFIG = new SurfaceBuilderConfig("surface_builders/surface_builder_config");

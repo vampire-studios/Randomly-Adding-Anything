@@ -14,8 +14,7 @@ public class DimensionData {
     private final List<DimensionBiomeData> biomeData;
     private final DimensionColorPalette dimensionColorPalette;
     private final DimensionTextureData texturesInformation;
-    private boolean hasSkyLight;
-    private boolean hasSky;
+    private final DimensionCustomSkyInformation customSkyInformation;
     private boolean canSleep;
     private boolean waterVaporize;
     private boolean renderFog;
@@ -32,16 +31,15 @@ public class DimensionData {
     private float gravity;
 
     public DimensionData(Identifier id, String name, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
-                         boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags,
-                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, float cloudHeight, float stoneJumpHeight, float stoneHardness,
+                         DimensionCustomSkyInformation customSkyInformation, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator,
+                         int flags, HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, float cloudHeight, float stoneJumpHeight, float stoneHardness,
                          float stoneResistance, boolean hasCustomGravity, float gravity) {
         this.id = id;
         this.name = name;
         this.biomeData = biomeData;
         this.dimensionColorPalette = dimensionColorPalette;
         this.texturesInformation = texturesInformation;
-        this.hasSkyLight = hasSkyLight;
-        this.hasSky = hasSky;
+        this.customSkyInformation = customSkyInformation;
         this.canSleep = canSleep;
         this.waterVaporize = waterVaporize;
         this.renderFog = renderFog;
@@ -86,20 +84,8 @@ public class DimensionData {
         return texturesInformation;
     }
 
-    public boolean hasSkyLight() {
-        return hasSkyLight;
-    }
-
-    public void setHasSkyLight(boolean hasSkyLight) {
-        this.hasSkyLight = hasSkyLight;
-    }
-
-    public boolean hasSky() {
-        return hasSky;
-    }
-
-    public void setHasSky(boolean hasSky) {
-        this.hasSky = hasSky;
+    public DimensionCustomSkyInformation getCustomSkyInformation() {
+        return customSkyInformation;
     }
 
     public boolean canSleep() {
@@ -181,8 +167,7 @@ public class DimensionData {
         private List<DimensionBiomeData> biomeData;
         private DimensionColorPalette dimensionColorPalette;
         private DimensionTextureData texturesInformation;
-        private boolean hasSkyLight;
-        private boolean hasSky;
+        private DimensionCustomSkyInformation customSkyInformation;
         private boolean canSleep;
         private boolean waterVaporize;
         private boolean renderFog;
@@ -247,13 +232,8 @@ public class DimensionData {
             return this;
         }
 
-        public Builder hasSkyLight(boolean hasSkyLight) {
-            this.hasSkyLight = hasSkyLight;
-            return this;
-        }
-
-        public Builder hasSky(boolean hasSky) {
-            this.hasSky = hasSky;
+        public Builder customSkyInformation(DimensionCustomSkyInformation customSkyInformation) {
+            this.customSkyInformation = customSkyInformation;
             return this;
         }
 
@@ -320,7 +300,7 @@ public class DimensionData {
         }
 
         public DimensionData build() {
-            return new DimensionData(id, name, biomeData, dimensionColorPalette, texturesInformation, hasSkyLight, hasSky, canSleep, waterVaporize,
+            return new DimensionData(id, name, biomeData, dimensionColorPalette, texturesInformation, customSkyInformation, canSleep, waterVaporize,
                     renderFog, dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, cloudHeight, stoneJumpHeight, stoneHardness,
                     stoneResistance, hasCustomGravity, gravity);
         }

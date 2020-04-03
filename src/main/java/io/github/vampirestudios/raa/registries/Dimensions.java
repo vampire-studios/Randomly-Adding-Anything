@@ -177,8 +177,6 @@ public class Dimensions {
             Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
 
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
-                    .hasSkyLight(Rands.chance(1))
-                    .hasSky(!Rands.chance(2))
                     .canSleep(Rands.chance(10))
                     .waterVaporize(Rands.chance(100))
                     .shouldRenderFog(Rands.chance(40))
@@ -269,6 +267,17 @@ public class Dimensions {
                     .stoneColor(STONE_COLOR.getColor()).build();
             builder.colorPalette(colorPalette);
 
+            DimensionCustomSkyInformation customSkyInformation = DimensionCustomSkyInformation.Builder.create()
+                    .hasSkyLight(Rands.chance(1))
+                    .hasSky(!Rands.chance(2))
+                    .customSun(Rands.chance(20))
+                    .sunSize(Rands.randFloatRange(30F, 60F))
+                    .sunTint(WATER_COLOR.getColor())
+                    .customMoon(Rands.chance(20))
+                    .moonSize(Rands.randFloatRange(20F, 40F))
+                    .moonTint(WATER_COLOR.getColor()).build();
+            builder.customSkyInformation(customSkyInformation);
+
             DimensionData dimensionData = builder.build();
 
             Registry.register(DIMENSIONS, dimensionData.getId(), dimensionData);
@@ -301,7 +310,7 @@ public class Dimensions {
 
             FabricDimensionType.Builder builder = FabricDimensionType.builder()
                     .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
-                    .skyLight(dimension.hasSkyLight())
+                    .skyLight(dimension.getCustomSkyInformation().hasSkyLight())
                     .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, Rands.chance(50) ? Blocks.STONE : stoneBlock));
 
             if (dimension.getDimensionChunkGenerator() == CAVES || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES) {

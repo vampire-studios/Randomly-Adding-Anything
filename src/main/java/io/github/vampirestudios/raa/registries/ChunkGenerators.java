@@ -1,18 +1,17 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.api.dimension.FabricChunkGeneratorType;
+import io.github.vampirestudios.raa.generation.chunkgenerator.NoneGeneratorSettings;
+import io.github.vampirestudios.raa.generation.chunkgenerator.RetroChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.TotallyCustomChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.caves.CavesChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.caves.FlatCavesChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.caves.HighCavesChunkGenerator;
+import io.github.vampirestudios.raa.generation.chunkgenerator.CheckerboardChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.floating.FloatingIslandsChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.floating.LayeredFloatingIslandsChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.floating.PreClassicFloatingIslandsChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.LayeredChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.OverworldChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.PillarWorldChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.QuadrupleAmplifiedChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.SmoothOverworldChunkGenerator;
+import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.ChunkGeneratorType;
@@ -37,6 +36,9 @@ public class ChunkGenerators {
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, TotallyCustomChunkGenerator> TOTALLY_CUSTOM;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, LayeredChunkGenerator> LAYERED_OVERWORLD;
 
+    public static ChunkGeneratorType<NoneGeneratorSettings, RetroChunkGenerator> RETRO;
+    public static ChunkGeneratorType<NoneGeneratorSettings, CheckerboardChunkGenerator> CHECKERBOARD;
+
     public static void init() {
         //End-like chunk generators
         FLOATING_ISLANDS = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "floating_islands"), FloatingIslandsChunkGenerator::new, FloatingIslandsChunkGeneratorConfig::new, false);
@@ -55,5 +57,9 @@ public class ChunkGenerators {
         SMOOTH = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "smooth_overworld"), SmoothOverworldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         TOTALLY_CUSTOM = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "totally_custom"), TotallyCustomChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         LAYERED_OVERWORLD = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "layered_overworld"), LayeredChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
+
+        RETRO = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "retro"), RetroChunkGenerator::new, NoneGeneratorSettings::new, false);
+        CHECKERBOARD = FabricChunkGeneratorType.register(new Identifier(MOD_ID, "checkerboard"), CheckerboardChunkGenerator::new, NoneGeneratorSettings::new, false);
     }
+
 }

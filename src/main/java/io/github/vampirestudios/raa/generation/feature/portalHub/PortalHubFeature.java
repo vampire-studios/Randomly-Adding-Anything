@@ -59,12 +59,12 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                         break;
                     case "minecraft:stone_brick_wall":
                         if (themeNum < 14) {
-                            WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), currBlockProp, 0);
+                            WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), new HashMap<>(), 0);
                         } else if (themeNum < 16) {
                             WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), new HashMap<>(), 0);
                         } else {
                             currBlockProp.remove("up");
-                            WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), currBlockProp, 0);
+                            WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), new HashMap<>(), 0);
                         }
                         break;
                     case "minecraft:orange_wool":

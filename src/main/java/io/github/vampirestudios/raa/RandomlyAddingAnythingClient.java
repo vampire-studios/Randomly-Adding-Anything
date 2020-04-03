@@ -327,13 +327,13 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder -> modelBuilder.parent(new Identifier(portalId.getNamespace(), "block/" + portalId.getPath())));
 
                 ColorProviderRegistry.ITEM.register((stack, layer) ->  {
-                    if (layer == 0) return dimensionData.hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
+                    if (layer == 0) return dimensionData.getCustomSkyInformation().hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
                             dimensionData.getDimensionColorPalette().getFogColor();
                     if (layer == 1) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;
                 }, Registry.ITEM.get(portalId));
                 ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->  {
-                    if (layer == 0) return dimensionData.hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
+                    if (layer == 0) return dimensionData.getCustomSkyInformation().hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
                             dimensionData.getDimensionColorPalette().getFogColor();
                     if (layer == 1) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;

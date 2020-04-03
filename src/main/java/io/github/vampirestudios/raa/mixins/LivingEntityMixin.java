@@ -20,7 +20,7 @@ public abstract class LivingEntityMixin extends Entity {
     private double modifyGravity(double d) {
         if (this.world.dimension instanceof CustomDimension) {
             if (((CustomDimension)this.world.dimension).getDimensionData().hasCustomGravity()) {
-                return ((CustomDimension)this.world.dimension).getDimensionData().getGravity() * 0.08d;
+                return ((CustomDimension)this.world.dimension).getDimensionData().getGravity() * 0.04d;
             }
         }
         return 0.08d;
