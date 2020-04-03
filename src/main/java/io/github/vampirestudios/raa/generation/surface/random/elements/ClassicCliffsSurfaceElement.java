@@ -26,9 +26,9 @@ public class ClassicCliffsSurfaceElement extends SurfaceElement {
         maxSeaLevel = Rands.randIntRange(8, 16);
         minBasaltLayers = Rands.randIntRange(2, 5);
         maxSeaLevelAddition = Rands.randIntRange(2, 8);
-        minNoiseThreshold = Rands.randFloatRange(0.25f, 1f);
-        add1NoiseThreshold = Rands.randFloatRange(0.75f, 1.45f);
-        add2NoiseThreshold = Rands.randFloatRange(1f, 2f);
+        minNoiseThreshold = Rands.randDoubleRange(0.25f, 1f);
+        add1NoiseThreshold = Rands.randDoubleRange(0.75f, 1.45f);
+        add2NoiseThreshold = Rands.randDoubleRange(1f, 2f);
     }
 
     @Override

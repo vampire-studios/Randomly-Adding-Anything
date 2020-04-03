@@ -39,6 +39,10 @@ public class Rands {
         return min + rand.nextFloat() * (max - min);
     }
 
+    public static double randDoubleRange(double min, double max) {
+        return min + rand.nextDouble() * (max - min);
+    }
+
     public static float randFloat(float bound) {
         return rand.nextFloat() * bound;
     }

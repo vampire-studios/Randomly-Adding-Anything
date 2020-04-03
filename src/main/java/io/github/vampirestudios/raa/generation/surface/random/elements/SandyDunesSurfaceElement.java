@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.surface.random.elements;
 
 import com.google.gson.JsonObject;
 import io.github.vampirestudios.raa.generation.surface.random.SurfaceElement;
+import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorleyNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -18,6 +19,12 @@ import java.util.Random;
 
 public class SandyDunesSurfaceElement extends SurfaceElement {
     private static final WorleyNoise NOISE = new WorleyNoise(3445);
+
+    private int duneHeight;
+
+    public SandyDunesSurfaceElement() {
+        duneHeight = Rands.randIntRange(4, 12);
+    }
 
     @Override
     public void generate(Random random, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig surfaceBlocks) {
@@ -55,10 +62,14 @@ public class SandyDunesSurfaceElement extends SurfaceElement {
     }
 
     @Override
-    public void serialize(JsonObject obj) {}
+    public void serialize(JsonObject obj) {
+        obj.addProperty("duneHeight", duneHeight);
+    }
 
     @Override
-    public void deserialize(JsonObject obj) {}
+    public void deserialize(JsonObject obj) {
+        duneHeight = obj.get("duneHeight").getAsInt();
+    }
 
     @Override
     public Identifier getType() {
