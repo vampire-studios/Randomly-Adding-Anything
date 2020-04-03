@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.utils;
 
 import com.google.common.collect.ImmutableList;
-import io.github.vampirestudios.raa.registries.RAATags;
+import io.github.vampirestudios.raa.blocks.PortalBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.*;
 import net.minecraft.entity.Entity;
@@ -19,16 +19,10 @@ import net.minecraft.world.Heightmap;
 import net.minecraft.world.IWorld;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class WorldStructureManipulation {
 
     public static Vec3i circularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float tolerance) {
-        return circularSpawnCheck(world, pos, size, tolerance, false);
-    }
-
-    public static Vec3i circularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float tolerance, boolean isUnderground) {
         //Make sure the structure can spawn here
         int xOrigin = pos.getX();
         int zOrigin = pos.getZ();
@@ -72,7 +66,7 @@ public class WorldStructureManipulation {
             int xChosen = flatnessList.get(chosen).get(0).intValue();
             int yChosen = flatnessList.get(chosen).get(1).intValue();
             int zChosen = flatnessList.get(chosen).get(2).intValue();
-            newPos = trySpawning(world, new BlockPos(xChosen, yChosen, zChosen), size, tolerance, isUnderground);
+            newPos = trySpawning(world, new BlockPos(xChosen, yChosen, zChosen), size, tolerance);
         }
 
         if (newPos.compareTo(Vec3i.ZERO) == 0 || newPos.getY() > 255 - size.getY()) {
@@ -82,16 +76,9 @@ public class WorldStructureManipulation {
         return newPos;
     }
 
-    private static Vec3i trySpawning(IWorld world, BlockPos pos, Vec3i size, float tolerance, boolean isUnderground) {
-        if (!isUnderground) {
-            if (world.getBlockState(pos.add(0, -1, 0)).isAir() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
-                return Vec3i.ZERO;
-            }
-        } else {
-            if (!world.getBlockState(pos.add(0, -1, 0)).getBlock().isIn(RAATags.UNDERGROUND_BLOCKS) ||
-                    world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
-                return Vec3i.ZERO;
-            }
+    private static Vec3i trySpawning(IWorld world, BlockPos pos, Vec3i size, float tolerance) {
+        if (world.getBlockState(pos.add(0, -1, 0)).isAir() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
+            return Vec3i.ZERO;
         }
         Map<Integer, Float> heights = new HashMap<>();
         for (int i = 0; i < 256; i++) {
@@ -254,6 +241,8 @@ public class WorldStructureManipulation {
             } if (properties.get("axis") != null) {
                 //TODO: Bone_Block
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.AXIS, Direction.Axis.fromName(axis)), 2);
+            } if (block.endsWith("_portal")) {
+                world.setBlockState(pos, world.getBlockState(pos).with(PortalBlock.ACTIVATED, Rands.chance(4)), 2);
             }
         }
 

@@ -37,7 +37,7 @@ public class SurfaceBuilderGenerator {
         registerElement(new SandyDunesSurfaceElement(), 2);
         registerElement(new FloatingIslandSurfaceElement(), 1);
         registerElement(new ClassicCliffsSurfaceElement(), 2);
-        registerElement(new StratifiedCliffsSurfaceElement(threshold, bigThreshold, normalHeight, bigHeight, dirtCoefficient), 2);
+        registerElement(new StratifiedCliffsSurfaceElement(), 2);
         registerElement(new RandomSpiresSurfaceElement(), 1);
     }
 

@@ -116,6 +116,10 @@ public class DimensionBiomeData {
         return grassColor;
     }
 
+    public void setGrassColor(int grassColor) {
+        this.grassColor = grassColor;
+    }
+
     public int getFoliageColor() {
         return foliageColor;
     }
