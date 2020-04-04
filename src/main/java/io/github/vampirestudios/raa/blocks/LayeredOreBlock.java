@@ -1,11 +1,11 @@
 package io.github.vampirestudios.raa.blocks;
 
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.CustomTargets;
 import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
@@ -103,15 +103,6 @@ public class LayeredOreBlock extends OreBlock {
         }
     }
 
-	/*@Environment(EnvType.CLIENT)
-	public int getBlockBrightness(BlockState blockState_1, ExtendedBlockView extendedBlockView_1, BlockPos blockPos_1) {
-		if (material.isGlowing()) {
-			return 15728880;
-		} else {
-			return 0;
-		}
-	}*/
-
     @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
         //EARLY DETECTION OF BUSTED LOOT TABLES:
@@ -131,18 +122,13 @@ public class LayeredOreBlock extends OreBlock {
                 if (lootSupplier instanceof FabricLootSupplier) {
                     List<LootPool> pools = ((FabricLootSupplier) lootSupplier).getPools();
                     if (pools.isEmpty()) {
-                        //Yup. Somehow we got a loot pool that just never drops anything.
-                        if (!complainedAboutLoot) {
-                            System.out.println("Loot pool '" + tableId + "' doesn't seem to be able to drop anything. Supplying the ore block instead. Please report this to the RAA team!");
-                            complainedAboutLoot = true;
-                        }
                         if (material.getOreInformation().getOreType() == OreType.METAL) {
                             result.add(new ItemStack(this.asItem()));
                         } else {
                             if (material.getOreInformation().getOreType() == OreType.GEM) {
-                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_gem"))));
+                                result.add(new ItemStack(Registry.ITEM.get(Utils.appendToPath(material.getId(), "_gem"))));
                             } else {
-                                result.add(new ItemStack(Registry.ITEM.get(new Identifier(RandomlyAddingAnything.MOD_ID, material.getName().toLowerCase() + "_crystal"))));
+                                result.add(new ItemStack(Registry.ITEM.get(Utils.appendToPath(material.getId(), "_crystal"))));
                             }
                         }
                     }

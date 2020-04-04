@@ -34,7 +34,7 @@ public class PlayerDiscoveryState {
             CompoundTag compoundTag1 = discoverList.getCompound(string_1);
             Material material = Materials.MATERIALS.get(Identifier.tryParse(compoundTag1.getString("id")));
             if (material == null) {
-                System.out.println("Could not find this material : " + compoundTag1.getString("id"));
+//                System.out.println("Could not find this material : " + compoundTag1.getString("id"));
                 continue;
             }
             int discoveredTimes = compoundTag1.getInt("discoverTimes");
@@ -50,7 +50,7 @@ public class PlayerDiscoveryState {
             CompoundTag compoundTag1 = dimensionDiscoverList.getCompound(string_1);
             DimensionMaterial material = Materials.DIMENSION_MATERIALS.get(Identifier.tryParse(compoundTag1.getString("id")));
             if (material == null) {
-                System.out.println("Could not find this dimension material : " + compoundTag1.getString("id"));
+//                System.out.println("Could not find this dimension material : " + compoundTag1.getString("id"));
                 continue;
             }
             int discoveredTimes = compoundTag1.getInt("discoverTimes");

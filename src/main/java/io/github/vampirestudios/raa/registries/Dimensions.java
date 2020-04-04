@@ -50,7 +50,7 @@ public class Dimensions {
         //pre generation of dimensions: basic data, flags, and name
         //This is only the data needed for civilization simulation
         ArrayList<ProtoDimension> protoDimensions = new ArrayList<>();
-        for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
+        for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionsGenAmount; a++) {
             float temperature = Rands.randFloat(2.0F);
             int flags = generateDimensionFlags();
 
@@ -180,6 +180,7 @@ public class Dimensions {
                     .difficulty(difficultyAndMobs.getLeft())
                     .mobs(difficultyAndMobs.getRight())
                     .civilizationInfluences(dimension.getCivilizationInfluences())
+                    .stoneHardness(Rands.randFloatRange(0.2f, 5f), Rands.randFloatRange(3, 18))
                     .surfaceBuilder(Rands.randInt(100));
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
@@ -200,7 +201,7 @@ public class Dimensions {
             //TODO: make proper number generation
 
             for (int i = 0; i < Rands.randIntRange(1, 12); i++) {
-                float grassColor = hue + Rands.randFloatRange(-0.15f, 0.15f);
+                float grassColor = hue + Rands.randFloatRange(-0.25f, 0.25f);
                 List<DimensionTreeData> treeDataList = new ArrayList<>();
 
                 int treeAmount = Rands.randIntRange(1, 5);
@@ -264,7 +265,7 @@ public class Dimensions {
         DIMENSIONS.forEach(dimension -> {
             Identifier identifier = dimension.getId();
 
-            Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension.getName()), Utils.appendToPath(identifier, "_stone"),
+            Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension), Utils.appendToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
 
             Set<Biome> biomes = new LinkedHashSet<>();
@@ -295,17 +296,17 @@ public class Dimensions {
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
-                    return ToolMaterials.STONE.getDurability();
+                    return (int) (ToolMaterials.STONE.getDurability() * dimension.getStoneHardness() / 2);
                 }
 
                 @Override
                 public float getMiningSpeed() {
-                    return ToolMaterials.STONE.getMiningSpeed();
+                    return ToolMaterials.STONE.getMiningSpeed() * dimension.getStoneHardness() / 2;
                 }
 
                 @Override
                 public float getAttackDamage() {
-                    return ToolMaterials.STONE.getAttackDamage();
+                    return ToolMaterials.STONE.getAttackDamage() * dimension.getStoneHardness() / 4;
                 }
 
                 @Override
@@ -315,7 +316,7 @@ public class Dimensions {
 
                 @Override
                 public int getEnchantability() {
-                    return ToolMaterials.STONE.getEnchantability();
+                    return (int) (ToolMaterials.STONE.getEnchantability() * dimension.getStoneHardness() / 4);
                 }
 
                 @Override
