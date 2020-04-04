@@ -65,6 +65,17 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                             WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), new HashMap<>(), 0);
                         } else {
                             currBlockProp.remove("up");
+                            currBlockProp.replaceAll((name, value) -> {
+                                if(name.equals("north") || name.equals("west") || name.equals("south") || name.equals("east")) {
+                                    if (value.toUpperCase().equals("NONE") || value.toUpperCase().equals("FALSE")) {
+                                        return "false";
+                                    } else {
+                                        return "true";
+                                    }
+                                } else {
+                                    return value;
+                                }
+                            });
                             WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), currBlockProp, 0);
                         }
                         break;
