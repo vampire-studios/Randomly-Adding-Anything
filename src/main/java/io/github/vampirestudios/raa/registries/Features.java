@@ -55,6 +55,7 @@ public class Features {
     public static ColumnRampFeature COLUMN_RAMP;
     public static ColumnVerticalFeature COLUMN_VERTICAL;
     public static HangingRuinsFeature HANGING_RUINS;
+    public static AbovegroundStorageFeature ABOVE_GROUND_STORAGE;
 
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
@@ -73,6 +74,7 @@ public class Features {
         BENT_TREE = register("bent_tree", new BentTreeFeature(BranchedTreeFeatureConfig::deserialize));
         DOUBLE_TREE = register("double_tree", new DoubleTreeFeature(BranchedTreeFeatureConfig::deserialize));
         PORTAL_HUB = register("portal_hub", new PortalHubFeature(DefaultFeatureConfig::deserialize));
+        ABOVE_GROUND_STORAGE = register("aboveground_storage", new AbovegroundStorageFeature(DefaultFeatureConfig::deserialize));
 
         BEE_NEST = register("bee_nest", new BeeNestFeature(DefaultFeatureConfig::deserialize));
         CAVE_CAMPFIRE = register("cave_campfire", new CaveCampfireFeature(DefaultFeatureConfig::deserialize));
