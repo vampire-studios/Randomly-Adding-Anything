@@ -88,5 +88,9 @@ public class EnglishBiomes implements INameGenerator {
     public Map<String, String> getSpecialCharactersMap() {
         return new HashMap<>();
     }
-
+    
+    @Override
+    public SortedMap<String, String> getSpecialCharactersMapSorted() {
+        return new TreeMap<>();
+    }
 }

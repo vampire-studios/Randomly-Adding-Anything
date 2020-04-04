@@ -3,6 +3,8 @@ package io.github.vampirestudios.raa.api.namegeneration.biomes;
 import io.github.vampirestudios.raa.api.namegeneration.INameGenerator;
 
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class NorwegianBiomes implements INameGenerator {
 
@@ -16,4 +18,8 @@ public class NorwegianBiomes implements INameGenerator {
         return null;
     }
 
+    @Override
+    public SortedMap<String, String> getSpecialCharactersMapSorted() {
+        return new TreeMap<>();
+    }
 }

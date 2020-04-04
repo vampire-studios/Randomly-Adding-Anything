@@ -204,7 +204,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         this.phantomSpawner.spawn(serverWorld, spawnMonsters, spawnAnimals);
         this.pillagerSpawner.spawn(serverWorld, spawnMonsters, spawnAnimals);
         this.catSpawner.spawn(serverWorld, spawnMonsters, spawnAnimals);
-        this.zombieSiegeManager.tick(serverWorld, spawnMonsters, spawnAnimals);
+        this.zombieSiegeManager.spawn(serverWorld, spawnMonsters, spawnAnimals);
     }
 
     public int getSpawnHeight() {

@@ -6,6 +6,7 @@ import net.minecraft.util.Pair;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
+import java.util.SortedMap;
 
 public interface INameGenerator {
     String generate();
@@ -25,15 +26,24 @@ public interface INameGenerator {
     }
 
     Map<String, String> getSpecialCharactersMap();
+    SortedMap<String, String> getSpecialCharactersMapSorted();
 
     default String asId(String name) {
         String id = name;
         Map<String, String> specialCharacters = getSpecialCharactersMap();
+        SortedMap<String, String> specialCharactersSorted = getSpecialCharactersMapSorted();
         if (specialCharacters != null) {
             for (Map.Entry<String, String> specialCharacter : specialCharacters.entrySet()) {
                 id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                id = id.replace(specialCharacter.getKey().toUpperCase(), specialCharacter.getValue().toUpperCase());
             }
         }
+        if (specialCharactersSorted != null) {
+            for (Map.Entry<String, String> specialCharacter : specialCharactersSorted.entrySet()) {
+                id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                id = id.replace(specialCharacter.getKey().toUpperCase(), specialCharacter.getValue().toUpperCase());
+            }
+       }
         id = id.toLowerCase(Locale.ENGLISH);
         return id;
     }

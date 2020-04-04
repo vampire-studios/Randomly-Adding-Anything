@@ -60,23 +60,9 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-//    modRuntime 'curse.maven:slightly-altered-terrain-generation:2834529'
-//    modRuntime 'curse.maven:trees-do-not-float:2833870'
-//    modRuntime 'curse.maven:fabric-vertigo:2834529'
-//    modRuntime 'curse.maven:expanded-storage:2832473'
-//    modRuntime 'curse.maven:shulkerboxtooltip:2829477'
-//    modRuntime 'curse.maven:leaf-decay:2827905'
-
     modImplementation 'com.github.AllOfFabric:BeeProductive:431a5d5c0c'
     modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:2.3.0"
     modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:2.3.0"
-//    modImplementation "io.github.cottonmc:BeeCompatible:2.1.0+1.15.1"
-
-
-//    modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
-//        transitive = false
-//    }
-
     modImplementation 'curse.maven:simplex-terrain-generation:2850537'
 
     modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
@@ -91,7 +77,7 @@ dependencies {
 
     modImplementation ("com.github.CottonMC:Jankson-Fabric:-SNAPSHOT")
 
-    include ("me.zeroeightsix:fiber:0.6.0-7") {
+    include ("me.zeroeightsix:fiber:0.9.0-SNAPSHOT") {
         exclude group :"net.fabricmc.fabric-api"
     }
 

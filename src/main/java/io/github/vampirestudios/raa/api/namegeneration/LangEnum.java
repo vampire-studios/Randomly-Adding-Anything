@@ -1,14 +1,20 @@
 package io.github.vampirestudios.raa.api.namegeneration;
 
+import org.apache.commons.lang3.text.WordUtils;
+
+import io.github.vampirestudios.raa.api.namegeneration.biomes.ChineseBiomes;
 import io.github.vampirestudios.raa.api.namegeneration.biomes.EnglishBiomes;
 import io.github.vampirestudios.raa.api.namegeneration.biomes.FrenchBiomes;
 import io.github.vampirestudios.raa.api.namegeneration.biomes.SpanishBiomes;
+import io.github.vampirestudios.raa.api.namegeneration.dimensions.ChineseDimensions;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.EnglishDimensions;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.FrenchDimensions;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.SpanishDimensions;
+import io.github.vampirestudios.raa.api.namegeneration.entities.ChineseEntities;
 import io.github.vampirestudios.raa.api.namegeneration.entities.EnglishEntities;
 import io.github.vampirestudios.raa.api.namegeneration.entities.FrenchEntities;
 import io.github.vampirestudios.raa.api.namegeneration.entities.SpanishEntities;
+import io.github.vampirestudios.raa.api.namegeneration.material.ChineseMaterials;
 import io.github.vampirestudios.raa.api.namegeneration.material.EnglishMaterials;
 import io.github.vampirestudios.raa.api.namegeneration.material.FrenchMaterials;
 import io.github.vampirestudios.raa.api.namegeneration.material.SpanishMaterials;
@@ -38,6 +44,12 @@ public enum LangEnum {
             new SpanishBiomes(),
             new SpanishDimensions(),
             new SpanishEntities()
+    ),
+    CHINESE(
+            new ChineseMaterials(),
+            new ChineseBiomes(),
+            new ChineseDimensions(),
+            new ChineseEntities()
     );
 
     private INameGenerator materialNameGenerator;

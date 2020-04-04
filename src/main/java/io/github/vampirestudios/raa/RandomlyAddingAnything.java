@@ -1,7 +1,5 @@
 package io.github.vampirestudios.raa;
 
-import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.api.util.Processor;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
 import io.github.vampirestudios.raa.config.DimensionMaterialsConfig;
@@ -11,12 +9,10 @@ import io.github.vampirestudios.raa.config.MaterialsConfig;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.registries.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
-import io.github.vampirestudios.raa.utils.Utils;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -85,8 +81,8 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
-        if (CONFIG.materialNumber > 0) {
-            if (CONFIG.regen || !MATERIALS_CONFIG.fileExist()) {
+        if (CONFIG.materialGenAmount > 0) {
+            if (CONFIG.regenConfigs || !MATERIALS_CONFIG.fileExist()) {
                 MATERIALS_CONFIG.generate();
                 MATERIALS_CONFIG.save();
             } else {
@@ -96,8 +92,8 @@ public class RandomlyAddingAnything implements ModInitializer {
         Materials.createMaterialResources();
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-        if (CONFIG.dimensionNumber > 0) {
-            if (CONFIG.regen || !DIMENSIONS_CONFIG.fileExist()) {
+        if (CONFIG.dimensionsGenAmount > 0) {
+            if (CONFIG.regenConfigs || !DIMENSIONS_CONFIG.fileExist()) {
                 DIMENSIONS_CONFIG.generate();
                 DIMENSIONS_CONFIG.save();
             } else {
@@ -107,8 +103,8 @@ public class RandomlyAddingAnything implements ModInitializer {
         Dimensions.createDimensions();
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("dimensions/dimensional_material_config");
-        if (CONFIG.materialNumber > 0) {
-            if (CONFIG.regen || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
+        if (CONFIG.dimensionalMaterialGenAmount > 0) {
+            if (CONFIG.regenConfigs || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
                 DIMENSION_MATERIALS_CONFIG.generate();
                 DIMENSION_MATERIALS_CONFIG.save();
             } else {
@@ -124,7 +120,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         Artifice.registerData(new Identifier(MOD_ID, "compat_pack"), serverResourcePackBuilder -> MODCOMPAT.generateCompatRecipes(serverResourcePackBuilder));
 
         RegistryUtils.forEveryBiome(biome -> {
-            if (biome.getCategory() != Biome.Category.OCEAN) {
+            if (biome.getCategory() != Biome.Category.OCEAN && CONFIG.shouldSpawnPortalHub) {
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
                                 configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.001F, 0.001125F), 1))));
@@ -132,20 +128,5 @@ public class RandomlyAddingAnything implements ModInitializer {
         });
         Criterions.init();
         Registry.BIOME.forEach(biome -> RAARegisteries.TARGET_REGISTRY.forEach(target -> RAAWorldAPI.generateOresForTarget(biome, target)));
-
-        Artifice.registerData(new Identifier(MOD_ID, "raa_tags"), serverResourcePackBuilder ->
-            serverResourcePackBuilder.addBlockTag(new Identifier(MOD_ID, "underground_blocks"), tagBuilder -> {
-                tagBuilder.replace(false);
-                tagBuilder.values(
-                    new Identifier("andesite"),
-                    new Identifier("diorite"),
-                    new Identifier("granite"),
-                    new Identifier("diorite"),
-                    new Identifier("stone")
-                );
-                Dimensions.DIMENSIONS.forEach((Processor<DimensionData>) dimensionData ->
-                        tagBuilder.values(Utils.appendToPath(dimensionData.getId(), "_stone")));
-            })
-        );
     }
 }

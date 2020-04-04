@@ -10,27 +10,29 @@ import java.util.List;
 
 public class DimensionData {
     private Identifier id;
-    private String name;
-    private int dimensionId;
-    private List<DimensionBiomeData> biomeData;
-    private DimensionColorPalette dimensionColorPalette;
-    private DimensionTextureData texturesInformation;
+    private final String name;
+    private final int dimensionId;
+    private final List<DimensionBiomeData> biomeData;
+    private final DimensionColorPalette dimensionColorPalette;
+    private final DimensionTextureData texturesInformation;
     private boolean hasSkyLight;
     private boolean hasSky;
     private boolean canSleep;
     private boolean waterVaporize;
     private boolean renderFog;
     private DimensionChunkGenerators dimensionChunkGenerator;
-    private int flags;
-    private HashMap<String, int[]> mobs;
-    private int difficulty;
-    private HashMap<String, Double> civilizationInfluences;
-    private int surfaceBuilder;
+    private final int flags;
+    private final HashMap<String, int[]> mobs;
+    private final int difficulty;
+    private final HashMap<String, Double> civilizationInfluences;
+    private final int surfaceBuilder;
     private int toolDurability;
+    private float stoneHardness;
+    private float stoneResistance; //blast resistance
 
     public DimensionData(Identifier id, String name, int dimensionId, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
                          boolean hasSkyLight, boolean hasSky, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator, int flags,
-                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int surfaceBuilder, int toolDurability) {
+                         HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, int surfaceBuilder, int toolDurability, float stoneHardness, float stoneResistance) {
         this.id = id;
         this.name = name;
         this.dimensionId = dimensionId;
@@ -49,6 +51,8 @@ public class DimensionData {
         this.civilizationInfluences = civilizationInfluences;
         this.surfaceBuilder = surfaceBuilder;
         this.toolDurability = toolDurability;
+        this.stoneHardness = stoneHardness;
+        this.stoneResistance = stoneResistance;
     }
 
     public Identifier getId() {
@@ -160,6 +164,14 @@ public class DimensionData {
         this.toolDurability = toolDurability;
     }
 
+    public float getStoneHardness() {
+        return stoneHardness;
+    }
+
+    public float getStoneResistance() {
+        return stoneResistance;
+    }
+
     public static class Builder {
         HashMap<String, int[]> mobs;
         private Identifier id;
@@ -179,6 +191,8 @@ public class DimensionData {
         private HashMap<String, Double> civilizationInfluences;
         private int surfaceBuilder;
         private int toolDurability;
+        private float stoneHardness;
+        private float stoneResistance; //blast resistance
 
         private Builder() {
 
@@ -292,9 +306,16 @@ public class DimensionData {
             return this;
         }
 
+        public Builder stoneHardness(float stoneHardness, float stoneResistance) {
+            this.stoneHardness = stoneHardness;
+            this.stoneResistance = stoneResistance;
+
+            return this;
+        }
+
         public DimensionData build() {
-            return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, texturesInformation, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog, dimensionChunkGenerator, flags,
-                    mobs, difficulty, civilizationInfluences, surfaceBuilder, toolDurability);
+            return new DimensionData(id, name, dimensionId, biomeData, dimensionColorPalette, texturesInformation, hasSkyLight, hasSky, canSleep, waterVaporize, renderFog,
+                    dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, surfaceBuilder, toolDurability, stoneHardness, stoneResistance);
         }
     }
 }

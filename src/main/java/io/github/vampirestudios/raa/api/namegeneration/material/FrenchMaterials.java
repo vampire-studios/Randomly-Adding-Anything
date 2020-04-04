@@ -5,6 +5,8 @@ import io.github.vampirestudios.raa.utils.Rands;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class FrenchMaterials implements INameGenerator {
 
@@ -52,5 +54,10 @@ public class FrenchMaterials implements INameGenerator {
         map.put("è", "e");
         map.put("ç", "c");
         return map;
+    }
+    
+    @Override
+    public SortedMap<String, String> getSpecialCharactersMapSorted() {
+        return new TreeMap<>();
     }
 }

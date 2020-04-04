@@ -120,4 +120,8 @@ public class SpanishEntities implements INameGenerator {
         return new HashMap<>();
     }
 
+    @Override
+    public SortedMap<String, String> getSpecialCharactersMapSorted() {
+        return new TreeMap<>();
+    }
 }
