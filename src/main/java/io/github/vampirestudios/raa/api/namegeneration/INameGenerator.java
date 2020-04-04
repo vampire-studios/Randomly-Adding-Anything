@@ -35,11 +35,13 @@ public interface INameGenerator {
         if (specialCharacters != null) {
             for (Map.Entry<String, String> specialCharacter : specialCharacters.entrySet()) {
                 id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                id = id.replace(specialCharacter.getKey().toUpperCase(), specialCharacter.getValue().toUpperCase());
             }
         }
         if (specialCharactersSorted != null) {
             for (Map.Entry<String, String> specialCharacter : specialCharactersSorted.entrySet()) {
                 id = id.replace(specialCharacter.getKey(), specialCharacter.getValue());
+                id = id.replace(specialCharacter.getKey().toUpperCase(), specialCharacter.getValue().toUpperCase());
             }
        }
         id = id.toLowerCase(Locale.ENGLISH);

@@ -262,7 +262,7 @@ public class Dimensions {
 
     public static void createDimensions() {
         DIMENSIONS.forEach(dimension -> {
-            Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
+            Identifier identifier = dimension.getId();
 
             Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension.getName()), Utils.appendToPath(identifier, "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
@@ -372,8 +372,7 @@ public class Dimensions {
                     Utils.appendToPath(identifier, "_sword")
             );
 
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimension.getName().toLowerCase() + "_stone_bricks"),
+            RegistryUtils.register(new DimensionalBlock(), Utils.appendToPath(dimension.getId(), "_stone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBricks");
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "mossy_" + dimension.getName().toLowerCase() + "_stone_bricks"),
@@ -381,14 +380,12 @@ public class Dimensions {
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "cracked_" + dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedStoneBricks");*/
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimension.getName().toLowerCase() + "_cobblestone"),
+            RegistryUtils.register(new DimensionalBlock(), Utils.appendToPath(dimension.getId(), "_cobblestone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestone");
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_mossy_cobblestone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyCobblestone");*/
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "chiseled_" + dimension.getName().toLowerCase()),
+            RegistryUtils.register(new DimensionalBlock(), Utils.prependToPath(dimension.getId(), "chiseled_"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "chiseled");
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "cracked_chiseled_" + dimension.getName().toLowerCase()),
@@ -396,18 +393,16 @@ public class Dimensions {
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "mossy_chiseled_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyChiseled");*/
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "polished_" + dimension.getName().toLowerCase()),
+            RegistryUtils.register(new DimensionalBlock(), Utils.prependToPath(dimension.getId(), "polished_"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polished");
 
-            RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimension.getName().toLowerCase() + "_ice"),
+            RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), Utils.appendToPath(dimension.getId(), "_ice"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "ice");
 
             Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimensionType),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
+                    Utils.appendToPath(dimension.getId(), "_portal"));
             RegistryUtils.registerItem(new RAABlockItemAlt(dimension.getName(), "portal", portalBlock, new Item.Settings().group(ItemGroup.TRANSPORTATION)),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
+                    Utils.appendToPath(dimension.getId(), "_portal"));
         });
     }
 

@@ -14,7 +14,7 @@ public class DimensionRecipes {
     public static void init() {
         Artifice.registerData(new Identifier(MOD_ID, "dimension_recipe_pack"), serverResourcePackBuilder ->
                 Dimensions.DIMENSIONS.forEach(dimension -> {
-                            Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
+                            Identifier identifier = dimension.getId();
 
                             serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_hoe"), shapedRecipeBuilder -> {
                                 shapedRecipeBuilder.group(new Identifier("raa:hoes"));
@@ -88,11 +88,11 @@ public class DimensionRecipes {
                                 shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_portal"), 1);
                             });
 
-                            serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_stone_bricks"), shapedRecipeBuilder -> {
-                                shapedRecipeBuilder.ingredientItem('S', Utils.appendToPath(identifier, "_stone"));
-                                shapedRecipeBuilder.pattern("SS", "SS");
-                                shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_stone_bricks"), 1);
-                            });
+//                            serverResourcePackBuilder.addShapedRecipe(Utils.appendToPath(identifier, "_stone_bricks"), shapedRecipeBuilder -> {
+//                                shapedRecipeBuilder.ingredientItem('S', Utils.appendToPath(identifier, "_stone"));
+//                                shapedRecipeBuilder.pattern("SS", "SS");
+//                                shapedRecipeBuilder.result(Utils.appendToPath(identifier, "_stone_bricks"), 1);
+//                            });
 
                             serverResourcePackBuilder.addShapedRecipe(new Identifier("raa:" + identifier.getPath() + "_furnace"), shapedRecipeBuilder -> {
                                 shapedRecipeBuilder.ingredientItem('S', Utils.appendToPath(identifier, "_cobblestone"));
