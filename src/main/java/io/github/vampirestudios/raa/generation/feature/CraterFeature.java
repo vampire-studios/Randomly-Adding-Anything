@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class CraterFeature extends Feature<CorruptedFeatureConfig> {
-    public static final ArrayList<BlockState> ALLOWED_STATES = new ArrayList<BlockState>();
+    public static final ArrayList<BlockState> ALLOWED_STATES = new ArrayList<>();
 
     public CraterFeature(Function<Dynamic<?>, ? extends CorruptedFeatureConfig> function) {
         super(function);

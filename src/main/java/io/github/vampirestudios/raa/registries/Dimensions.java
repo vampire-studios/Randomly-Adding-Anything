@@ -83,14 +83,7 @@ public class Dimensions {
             ProtoDimension generatedDimension = Rands.list(protoDimensions);
             if (usedDimensions.contains(generatedDimension)) continue;
             else usedDimensions.add(generatedDimension);
-            /*String civilizationName;
-            try {
-                civilizationName = Utils.generateCivsName();
-            } catch (IOException e) {
-                e.printStackTrace();
-                civilizationName = name.getLeft();
-            }*/
-            civs.add(new Civilization(/*civilizationName*/name.getLeft(), generatedDimension));
+            civs.add(new Civilization(name.getLeft(), generatedDimension));
         }
 
         //tick the civs and get their influence
@@ -269,6 +262,7 @@ public class Dimensions {
                         .treeData(treeDataList)
                         .largeSkeletonTreeChance(Rands.randFloatRange(0, 0.5F))
                         .spawnsCratersInNonCorrupted(Rands.chance(4))
+                        //TODO: make these based on civ tech level
                         .campfireChance(Rands.randFloatRange(0.003F, 0.005F))
                         .outpostChance(Rands.randFloatRange(0.001F, 0.003F))
                         .towerChance(Rands.randFloatRange(0.001F, 0.0015F))

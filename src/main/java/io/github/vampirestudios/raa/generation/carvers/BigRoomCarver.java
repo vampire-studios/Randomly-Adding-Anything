@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.carvers;
 
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -35,9 +36,9 @@ public class BigRoomCarver extends RAACarver<ProbabilityConfig> {
         double pitch = yaw / 2;
         double cmod = 1;
 
-        int bigIndex = random.nextInt(128) + 64; // some caves won't become massive
+        int bigIndex = random.nextInt(128);
 
-        for (int i = 0; i < 128; i++) {
+        for (int i = 0; i < Rands.randIntRange(80, 320); i++) {
             //calculate per-section modifiers
             double xDirectionMod = (random.nextDouble() - 0.5);
             double zDirectionMod = (random.nextDouble() - 0.5);
