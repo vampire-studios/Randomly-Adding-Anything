@@ -170,27 +170,12 @@ public class CustomDimensionalBiome extends Biome {
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.FOSSIL.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, fossilChance, 1))));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SHRINE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, shrineChance, 1))));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.ABOVE_GROUND_STORAGE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, storageChance, 1))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.QUARRY.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 0.01f, 1))));
 
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
                 Features.STONE_HENGE.configure(new DefaultFeatureConfig()).createDecoratedFeature(
                         Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
                                 new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
-                        )
-                )
-        );
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
-                Features.COLUMN_RAMP.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
-                        Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
-                        Decorator.COUNT_RANGE.configure(
-                                new RangeDecoratorConfig(2, 70, 0, 220)
-                        )
-                )
-        );
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
-                Features.COLUMN_VERTICAL.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
-                        Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
-                        Decorator.COUNT_RANGE.configure(
-                                new RangeDecoratorConfig(2, 70, 0, 220)
                         )
                 )
         );
@@ -299,7 +284,6 @@ public class CustomDimensionalBiome extends Biome {
         if (treeData.hasLeafVines()) decoratorsRaw.add(new LeaveVineTreeDecorator());
         if (treeData.hasTrunkVines()) decoratorsRaw.add(new TrunkVineTreeDecorator());
         if (treeData.hasCocoaBeans()) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
-        //if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
         if (treeData.hasPodzolUnderneath())
             decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState())));
         ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
@@ -460,7 +444,7 @@ public class CustomDimensionalBiome extends Biome {
             case NORMAL:
                 return Feature.NORMAL_TREE;
             case ACACIA:
-                return Feature.ACACIA_TREE;
+                return Feature.NORMAL_TREE;
             case DOUBLE:
                 return Features.DOUBLE_TREE;
             case BENT:
