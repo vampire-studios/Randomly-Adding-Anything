@@ -10,6 +10,7 @@ import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.class_5138;
 import net.minecraft.loot.LootTables;
 import net.minecraft.resource.Resource;
 import net.minecraft.state.property.Properties;
@@ -353,7 +354,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(IWorld world, class_5138 class_5138, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject towerBase = null;
         JsonObject towerWalls = null;
         JsonObject towerStairs = null;

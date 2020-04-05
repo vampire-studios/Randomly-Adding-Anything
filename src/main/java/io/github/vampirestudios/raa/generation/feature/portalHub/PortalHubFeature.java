@@ -10,6 +10,7 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.class_5138;
 import net.minecraft.resource.Resource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -64,6 +65,17 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                             WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), new HashMap<>(), 0);
                         } else {
                             currBlockProp.remove("up");
+                            currBlockProp.replaceAll((name, value) -> {
+                                if(name.equals("north") || name.equals("west") || name.equals("south") || name.equals("east")) {
+                                    if (value.toUpperCase().equals("NONE") || value.toUpperCase().equals("FALSE")) {
+                                        return "false";
+                                    } else {
+                                        return "true";
+                                    }
+                                } else {
+                                    return value;
+                                }
+                            });
                             WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), Registry.BLOCK.getId(theme.getWall()).toString(), currBlockProp, 0);
                         }
                         break;
@@ -81,7 +93,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(IWorld world, class_5138 class_5138, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject jsonObject = null;
         try {
             Resource path = Objects.requireNonNull(world.getWorld().getServer()).getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));

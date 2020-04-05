@@ -36,7 +36,6 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -75,7 +74,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     @Override
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
-        initColoring();
+//        initColoring();
 
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
@@ -319,28 +318,39 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
 
                 Identifier portalId = Utils.addSuffixToPath(identifier, "_portal");
-                clientResourcePackBuilder.addBlockState(portalId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
-                        variant.model(new Identifier(stoneId.getNamespace(), "block/" + portalId.getPath())))
-                );
+                clientResourcePackBuilder.addBlockState(portalId, blockStateBuilder -> {
+                    blockStateBuilder.variant("activated=true", variant ->
+                            variant.model(new Identifier(stoneId.getNamespace(), "block/" + portalId.getPath() + "_activated")));
+                    blockStateBuilder.variant("activated=false", variant ->
+                            variant.model(new Identifier(stoneId.getNamespace(), "block/" + portalId.getPath())));
+                } );
                 clientResourcePackBuilder.addBlockModel(portalId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("raa:block/portal"));
                     modelBuilder.texture("0", dimensionData.getTexturesInformation().getStoneTexture());
                     modelBuilder.texture("2", new Identifier("raa:block/metal_top"));
                     modelBuilder.texture("3", new Identifier("raa:block/metal_side"));
+                    modelBuilder.texture("particle", dimensionData.getTexturesInformation().getStoneTexture());
+                });
+                clientResourcePackBuilder.addBlockModel(Utils.addSuffixToPath(portalId, "_activated"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("raa:block/portal_activated"));
+                    modelBuilder.texture("0", dimensionData.getTexturesInformation().getStoneTexture());
+                    modelBuilder.texture("2", new Identifier("raa:block/metal_top_activated"));
+                    modelBuilder.texture("3", new Identifier("raa:block/metal_side"));
                     modelBuilder.texture("4", new Identifier("raa:block/portal_top"));
+                    modelBuilder.texture("5", new Identifier("raa:block/metal_side_activated_overlay"));
                     modelBuilder.texture("particle", dimensionData.getTexturesInformation().getStoneTexture());
                 });
                 clientResourcePackBuilder.addItemModel(portalId,
                         modelBuilder -> modelBuilder.parent(new Identifier(portalId.getNamespace(), "block/" + portalId.getPath())));
 
                 ColorProviderRegistry.ITEM.register((stack, layer) ->  {
-                    if (layer == 0) return dimensionData.hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
+                    if (layer == 0) return dimensionData.getCustomSkyInformation().hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
                             dimensionData.getDimensionColorPalette().getFogColor();
                     if (layer == 1) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;
                 }, Registry.ITEM.get(portalId));
                 ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->  {
-                    if (layer == 0) return dimensionData.hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
+                    if (layer == 0) return dimensionData.getCustomSkyInformation().hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
                             dimensionData.getDimensionColorPalette().getFogColor();
                     if (layer == 1) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;
@@ -389,6 +399,18 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;
                 }, pickaxe, axe, shovel, hoe, sword);
+
+
+                Identifier portalKeyId = Utils.addSuffixToPath(identifier, "_portal_key");
+                Item portalKey = Registry.ITEM.get(portalKeyId);
+                clientResourcePackBuilder.addItemModel(portalKeyId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("item/generated"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/portal_key"));
+                });
+                ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                    if (layer == 0) return dimensionData.getDimensionColorPalette().getSkyColor();
+                    else return -1;
+                }, portalKey);
             });
             Materials.DIMENSION_MATERIALS.forEach(material -> {
                 Identifier bid = material.getId();

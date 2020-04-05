@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(LeavesBlock.class)
-public class MixinLeavesBlock {
+public class LeavesBlockMixin {
 
     @Shadow @Final
     public static final IntProperty DISTANCE = IntProperty.of("distance", 1, 100);

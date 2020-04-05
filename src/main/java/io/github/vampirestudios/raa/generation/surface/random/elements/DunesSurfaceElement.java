@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.surface.random.elements;
 
 import com.google.gson.JsonObject;
 import io.github.vampirestudios.raa.generation.surface.random.SurfaceElement;
+import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorleyNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Identifier;
@@ -18,10 +19,16 @@ import java.util.Random;
 public class DunesSurfaceElement extends SurfaceElement {
     private static final WorleyNoise NOISE = new WorleyNoise(3445);
 
+    private int duneHeight;
+
+    public DunesSurfaceElement() {
+        duneHeight = Rands.randIntRange(4, 12);
+    }
+
     @Override
     public void generate(Random random, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig surfaceBlocks) {
         height = chunk.getHeightmap(Heightmap.Type.OCEAN_FLOOR_WG).get(x & 15, z & 15);
-        BlockPos.Mutable pos = new BlockPos.Mutable(x, height - 8, z);
+        BlockPos.Mutable pos = new BlockPos.Mutable(x, height - duneHeight, z);
 
         double blend = MathHelper.clamp((height - seaLevel) * 0.125, 0, 1);
 
@@ -29,7 +36,7 @@ public class DunesSurfaceElement extends SurfaceElement {
 
         vHeight = Math.abs(vHeight);
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < duneHeight; i++) {
             chunk.setBlockState(pos, defaultBlock, false);
             pos.offset(Direction.UP);
         }
@@ -51,10 +58,14 @@ public class DunesSurfaceElement extends SurfaceElement {
     }
 
     @Override
-    public void serialize(JsonObject obj) {}
+    public void serialize(JsonObject obj) {
+        obj.addProperty("duneHeight", duneHeight);
+    }
 
     @Override
-    public void deserialize(JsonObject obj) {}
+    public void deserialize(JsonObject obj) {
+        duneHeight = obj.get("duneHeight").getAsInt();
+    }
 
     @Override
     public Identifier getType() {

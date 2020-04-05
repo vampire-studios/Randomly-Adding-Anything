@@ -15,8 +15,8 @@ public class DimensionDebugData {
 
         stringBuilder.append("\n\n Dimension Information").append("\n##########################");
         stringBuilder.append("\n Dimension Name: ").append(dimensionData.getName());
-        stringBuilder.append("\n Has sky: ").append(dimensionData.hasSky());
-        stringBuilder.append("\n Has skylight: ").append(dimensionData.hasSkyLight());
+        stringBuilder.append("\n Has sky: ").append(dimensionData.getCustomSkyInformation().hasSky());
+        stringBuilder.append("\n Has skylight: ").append(dimensionData.getCustomSkyInformation().hasSkyLight());
         stringBuilder.append("\n Can sleep: ").append(dimensionData.canSleep());
         stringBuilder.append("\n Water vaporizes: ").append(dimensionData.doesWaterVaporize());
         stringBuilder.append("\n Has thick fog: ").append(dimensionData.hasThickFog());

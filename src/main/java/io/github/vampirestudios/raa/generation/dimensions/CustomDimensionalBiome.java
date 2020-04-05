@@ -4,22 +4,18 @@ import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
-import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeData;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeTypes;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
 import io.github.vampirestudios.raa.generation.feature.TombFeature;
 import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
-import io.github.vampirestudios.raa.generation.feature.tree.foliage.*;
 import io.github.vampirestudios.raa.registries.Decorators;
 import io.github.vampirestudios.raa.registries.Features;
 import io.github.vampirestudios.raa.registries.SurfaceBuilders;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
-import io.github.vampirestudios.vampirelib.utils.registry.WoodType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
@@ -30,12 +26,8 @@ import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.*;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.foliage.*;
-import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
-
-import java.util.ArrayList;
 
 public class CustomDimensionalBiome extends Biome {
 
@@ -84,7 +76,7 @@ public class CustomDimensionalBiome extends Biome {
         DefaultBiomeFeatures.addDefaultOres(this);
         DefaultBiomeFeatures.addDefaultDisks(this);
 
-        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
+        /*if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) && !Utils.checkBitFlag(dimensionData.getFlags(), Utils.CORRUPTED)) {
             for (DimensionTreeData treeData : biomeData.getTreeData()) {
                 if (treeData.getTreeType() == DimensionTreeTypes.MEGA_JUNGLE || treeData.getTreeType() == DimensionTreeTypes.MEGA_SPRUCE || treeData.getTreeType() == DimensionTreeTypes.DARK_OAK) {
                     MegaTreeFeatureConfig config = (new MegaTreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState())))
@@ -103,7 +95,7 @@ public class CustomDimensionalBiome extends Biome {
                                     ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, treeData.getChance(), 1))));
                 }
             }
-        }
+        }*/
 
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD) || Utils.checkBitFlag(dimensionData.getFlags(), Utils.DRY)) {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Features.LARGE_SKELETON_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, biomeData.getLargeSkeletonTreeChance(), 1))));
@@ -134,27 +126,31 @@ public class CustomDimensionalBiome extends Biome {
             }
         }
 
-        float campfireChance = biomeData.getCampfireChance();
-        float outpostChance = biomeData.getOutpostChance();
-        float towerChance = biomeData.getTowerChance();
+        float campfireChance = 0;
+        float outpostChance = 0;
+        float towerChance = 0;
         float fossilChance = 0;
+        float storageChance = 0;
         float shrineChance = 0.002F;
 
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) {
             outpostChance = Rands.randFloatRange(0.002F, 0.003F);
             towerChance = Rands.randFloatRange(0.002F, 0.00225F);
+            storageChance = Rands.randFloatRange(0.0025F, 0.005F);
         }
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
             campfireChance = 0;
             fossilChance = Rands.randFloatRange(0.007F, 0.0075F);
+            storageChance = Rands.randFloatRange(0.001F, 0.002F);
         }
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) {
             campfireChance = Rands.randFloatRange(0.005F, 0.007F);
             outpostChance = Rands.randFloatRange(0.002F, 0.008F);
             towerChance = Rands.randFloatRange(0.002F, 0.003F);
+            storageChance = Rands.randFloatRange(0.0025F, 0.004F);
         }
 
-        if (dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.CAVE)) {
+        if (dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.CAVES)) {
             this.addFeature(net.minecraft.world.gen.GenerationStep.Feature.UNDERGROUND_DECORATION, Feature.BASALT_PILLAR.configure(FeatureConfig.DEFAULT)
                     .createDecoratedFeature(Decorator.COUNT_RANGE.configure(new RangeDecoratorConfig(10, 0, 0, 256))));
         }
@@ -165,27 +161,13 @@ public class CustomDimensionalBiome extends Biome {
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.TOWER.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, towerChance, 1))));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.FOSSIL.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, fossilChance, 1))));
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.SHRINE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, shrineChance, 1))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.ABOVE_GROUND_STORAGE.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, storageChance, 1))));
+        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.QUARRY.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(new CountExtraChanceDecoratorConfig(0, 0.01f, 1))));
 
         this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
                 Features.STONE_HENGE.configure(new DefaultFeatureConfig()).createDecoratedFeature(
                         Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.configure(
                                 new CountExtraChanceDecoratorConfig(0, 0.001F, 1)
-                        )
-                )
-        );
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
-                Features.COLUMN_RAMP.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
-                        Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
-                        Decorator.COUNT_RANGE.configure(
-                                new RangeDecoratorConfig(2, 70, 0, 220)
-                        )
-                )
-        );
-        this.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES,
-                Features.COLUMN_VERTICAL.configure(new ColumnBlocksConfig(Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState(),
-                        Blocks.NETHERRACK.getDefaultState())).createDecoratedFeature(
-                        Decorator.COUNT_RANGE.configure(
-                                new RangeDecoratorConfig(2, 70, 0, 220)
                         )
                 )
         );
@@ -282,7 +264,7 @@ public class CustomDimensionalBiome extends Biome {
             this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("ghast")[0], dimensionData.getMobs().get("ghast")[1], dimensionData.getMobs().get("ghast")[2]));
     }
 
-    public static BranchedTreeFeatureConfig getTreeConfig(DimensionTreeData treeData) {
+    /*public static BranchedTreeFeatureConfig getTreeConfig(DimensionTreeData treeData) {
         BranchedTreeFeatureConfig config;
         int height = treeData.getBaseHeight();
         int foliageHeight = treeData.getFoliageHeight();
@@ -294,7 +276,6 @@ public class CustomDimensionalBiome extends Biome {
         if (treeData.hasLeafVines()) decoratorsRaw.add(new LeaveVineTreeDecorator());
         if (treeData.hasTrunkVines()) decoratorsRaw.add(new TrunkVineTreeDecorator());
         if (treeData.hasCocoaBeans()) decoratorsRaw.add(new CocoaBeansTreeDecorator(Rands.randFloatRange(0.1F, 1F)));
-        //if (Rands.chance(3)) decoratorsRaw.add(new BeehiveTreeDecorator(Rands.randFloatRange(0.01F, 1F)));
         if (treeData.hasPodzolUnderneath())
             decoratorsRaw.add(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState())));
         ImmutableList<TreeDecorator> decorators = ImmutableList.copyOf(decoratorsRaw);
@@ -412,9 +393,9 @@ public class CustomDimensionalBiome extends Biome {
 
         }
         return config;
-    }
+    }*/
 
-    private static FoliagePlacer getFoliagePlacer(DimensionTreeData treeData) {
+    /*private static FoliagePlacer getFoliagePlacer(DimensionTreeData treeData) {
         switch (treeData.getFoliagePlacerType()) {
             case ACACIA:
                 return new AcaciaFoliagePlacer(treeData.getFoliageRange(), 0);
@@ -436,7 +417,7 @@ public class CustomDimensionalBiome extends Biome {
             default:
                 return new BlobFoliagePlacer(treeData.getFoliageRange(), 0);
         }
-    }
+    }*/
 
     private static Feature<MegaTreeFeatureConfig> getMegaTree(DimensionTreeTypes treeTypes) {
         switch (treeTypes) {
@@ -450,19 +431,18 @@ public class CustomDimensionalBiome extends Biome {
         return null;
     }
 
-    private static Feature<BranchedTreeFeatureConfig> getNormalTree(DimensionTreeTypes treeTypes) {
+    /*private static Feature<BranchedTreeFeatureConfig> getNormalTree(DimensionTreeTypes treeTypes) {
         switch (treeTypes) {
             case NORMAL:
-                return Feature.NORMAL_TREE;
             case ACACIA:
-                return Feature.ACACIA_TREE;
+                return Feature.NORMAL_TREE;
             case DOUBLE:
                 return Features.DOUBLE_TREE;
             case BENT:
                 return Features.BENT_TREE;
         }
         return null;
-    }
+    }*/
 
     @Override
     @Environment(EnvType.CLIENT)

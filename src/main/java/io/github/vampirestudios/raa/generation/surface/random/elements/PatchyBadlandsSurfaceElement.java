@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.surface.random.elements;
 
 import com.google.gson.JsonObject;
 import io.github.vampirestudios.raa.generation.surface.random.SurfaceElement;
+import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.noise.OctaveSimplexNoiseSampler;
@@ -15,12 +16,15 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class PatchyBadlandsSurfaceElement extends SurfaceElement {
-    public static final OctaveSimplexNoiseSampler MESA_NOISE = new OctaveSimplexNoiseSampler(new ChunkRandom(79L), IntStream.of(6, 0));
+    private double chance;
+
+    public PatchyBadlandsSurfaceElement() {
+        chance = Rands.randFloatRange(-0.25f, 2);
+    }
 
     @Override
     public void generate(Random random, Chunk chunk, Biome biome, int x, int z, int height, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, TernarySurfaceConfig surfaceBlocks) {
-        double mesaNoise = MESA_NOISE.sample(x * 0.049765625D, z * 0.049765625D, false);
-        if (mesaNoise > 0.0D) {
+        if (noise > chance) {
             SurfaceBuilder.BADLANDS.initSeed(seed);
             SurfaceBuilder.BADLANDS.generate(random, chunk, biome, x, z, height, noise, defaultBlock, defaultFluid, seaLevel, seed, SurfaceBuilder.BADLANDS_CONFIG);
         } else {
@@ -29,10 +33,14 @@ public class PatchyBadlandsSurfaceElement extends SurfaceElement {
     }
 
     @Override
-    public void serialize(JsonObject obj) {}
+    public void serialize(JsonObject obj) {
+        obj.addProperty("chance", chance);
+    }
 
     @Override
-    public void deserialize(JsonObject obj) {}
+    public void deserialize(JsonObject obj) {
+        chance = obj.get("chance").getAsDouble();
+    }
 
     @Override
     public Identifier getType() {

@@ -5,6 +5,7 @@ import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureCo
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.class_5138;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -15,7 +16,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class CraterFeature extends Feature<CorruptedFeatureConfig> {
-    public static final ArrayList<BlockState> ALLOWED_STATES = new ArrayList<BlockState>();
+    public static final ArrayList<BlockState> ALLOWED_STATES = new ArrayList<>();
 
     public CraterFeature(Function<Dynamic<?>, ? extends CorruptedFeatureConfig> function) {
         super(function);
@@ -33,7 +34,7 @@ public class CraterFeature extends Feature<CorruptedFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, CorruptedFeatureConfig config) {
+    public boolean generate(IWorld world, class_5138 class_5138, ChunkGenerator chunkGenerator, Random random, BlockPos pos, CorruptedFeatureConfig config) {
         if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
             return true;
         if (canSpawn(world, pos.add(0, -1, 0))) {

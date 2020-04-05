@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.caves;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.class_5138;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -50,18 +51,18 @@ public class CavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGenerat
         return ds;
     }
 
-    public List<Biome.SpawnEntry> getEntitySpawnList(EntityCategory category, BlockPos pos) {
+    public List<Biome.SpawnEntry> getEntitySpawnList(class_5138 class_5138, EntityCategory category, BlockPos pos) {
         if (category == EntityCategory.MONSTER) {
-            if (Feature.NETHER_BRIDGE.isInsideStructure(this.world, pos)) {
+            if (Feature.NETHER_BRIDGE.isInsideStructure(this.world, class_5138, pos)) {
                 return Feature.NETHER_BRIDGE.getMonsterSpawns();
             }
 
-            if (Feature.NETHER_BRIDGE.isApproximatelyInsideStructure(this.world, pos) && this.world.getBlockState(pos.down()).getBlock() == Blocks.NETHER_BRICKS) {
+            if (Feature.NETHER_BRIDGE.isApproximatelyInsideStructure(this.world, class_5138, pos) && this.world.getBlockState(pos.down()).getBlock() == Blocks.NETHER_BRICKS) {
                 return Feature.NETHER_BRIDGE.getMonsterSpawns();
             }
         }
 
-        return super.getEntitySpawnList(category, pos);
+        return super.getEntitySpawnList(class_5138, category, pos);
     }
 
     public int getSpawnHeight() {

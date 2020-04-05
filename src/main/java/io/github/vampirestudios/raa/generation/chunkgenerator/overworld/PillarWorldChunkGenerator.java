@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
 import io.github.vampirestudios.raa.utils.noise.old.OctaveOpenSimplexNoise;
+import net.minecraft.class_5138;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -64,8 +65,8 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
         return doubles;
     }
 
-    public List<Biome.SpawnEntry> getEntitySpawnList(EntityCategory entityCategory_1, BlockPos blockPos_1) {
-        if (Feature.SWAMP_HUT.method_14029(this.world, blockPos_1)) {
+    public List<Biome.SpawnEntry> getEntitySpawnList(class_5138 class_5138, EntityCategory entityCategory_1, BlockPos blockPos_1) {
+        if (Feature.SWAMP_HUT.method_14029(this.world, class_5138, blockPos_1)) {
             if (entityCategory_1 == EntityCategory.MONSTER) {
                 return Feature.SWAMP_HUT.getMonsterSpawns();
             }
@@ -74,16 +75,16 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
                 return Feature.SWAMP_HUT.getCreatureSpawns();
             }
         } else if (entityCategory_1 == EntityCategory.MONSTER) {
-            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, blockPos_1)) {
+            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, class_5138, blockPos_1)) {
                 return Feature.PILLAGER_OUTPOST.getMonsterSpawns();
             }
 
-            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(this.world, blockPos_1)) {
+            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(this.world, class_5138, blockPos_1)) {
                 return Feature.OCEAN_MONUMENT.getMonsterSpawns();
             }
         }
 
-        return super.getEntitySpawnList(entityCategory_1, blockPos_1);
+        return super.getEntitySpawnList(class_5138, entityCategory_1, blockPos_1);
     }
 
     public void spawnEntities(ServerWorld serverWorld_1, boolean boolean_1, boolean boolean_2) {

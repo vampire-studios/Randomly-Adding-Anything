@@ -156,7 +156,7 @@ public class Utils {
             } else if (chance <= 10) {
                 return DimensionChunkGenerators.HIGH_CAVES;
             }
-            return DimensionChunkGenerators.CAVE;
+            return DimensionChunkGenerators.CAVES;
         } else if (chance > 15 && chance < 30) {
             if (chance <= 20) {
                 return DimensionChunkGenerators.LAYERED_FLOATING;

@@ -30,7 +30,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class CommandLocateRAAStructure {
 
-    private static List<String> STRUCTURES = Arrays.asList(
+    private static final List<String> STRUCTURES = Arrays.asList(
             "Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "StoneCircle"
     );
 

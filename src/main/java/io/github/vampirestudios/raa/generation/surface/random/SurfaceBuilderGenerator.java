@@ -28,14 +28,14 @@ public class SurfaceBuilderGenerator {
         ID_SURFACE_ELEMENT_MAP.put(new GrassSurfaceElement().getType().toString(), GrassSurfaceElement.class);
 
         //TODO: randomize more parts of the elements
-        registerElement(new DesertSurfaceElement(), 3);
-        registerElement(new RedDesertSurfaceElement(), 3);
-        registerElement(new GravelSurfaceElement(), 3);
-        registerElement(new PatchyBadlandsSurfaceElement(), 3);
-        registerElement(new PatchyDarkBadlandsSurfaceElement(), 3);
+        registerElement(new DesertSurfaceElement(), 4);
+        registerElement(new RedDesertSurfaceElement(), 4);
+        registerElement(new GravelSurfaceElement(), 4);
+        registerElement(new PatchyBadlandsSurfaceElement(), 4);
+        registerElement(new PatchyDarkBadlandsSurfaceElement(), 4);
         registerElement(new DunesSurfaceElement(), 2);
         registerElement(new SandyDunesSurfaceElement(), 2);
-        registerElement(new FloatingIslandSurfaceElement(), 2);
+        registerElement(new FloatingIslandSurfaceElement(), 1);
         registerElement(new ClassicCliffsSurfaceElement(), 2);
         registerElement(new StratifiedCliffsSurfaceElement(), 2);
         registerElement(new RandomSpiresSurfaceElement(), 1);
