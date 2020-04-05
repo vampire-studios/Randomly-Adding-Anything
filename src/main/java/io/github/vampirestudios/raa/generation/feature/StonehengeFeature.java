@@ -5,7 +5,7 @@ import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.class_5138;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.Structure;
 import net.minecraft.structure.StructureManager;
@@ -47,7 +47,7 @@ public class StonehengeFeature extends Feature<DefaultFeatureConfig> {
 
 
 	@Override
-	public boolean generate(IWorld world, class_5138 class_5138, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, DefaultFeatureConfig p_212245_5_) {
+	public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, DefaultFeatureConfig p_212245_5_) {
 		//makes sure this stonehenge does not spawn too close to world height border or it will get cut off.
 		if (position.getY() > 248) {
 			return false;

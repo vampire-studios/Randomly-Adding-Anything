@@ -12,6 +12,7 @@ import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
 import io.github.vampirestudios.raa.generation.dimensions.CustomDimensionalBiome;
 import io.github.vampirestudios.raa.generation.dimensions.data.*;
+import io.github.vampirestudios.raa.generation.feature.tree.TreeType;
 import io.github.vampirestudios.raa.history.Civilization;
 import io.github.vampirestudios.raa.history.ProtoDimension;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
@@ -176,13 +177,11 @@ public class Dimensions {
             if (scale > 1.6) difficulty++;
             Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
 
-            float gravity = 0.1F;
-            if (Rands.chance(4)) {
+            float gravity = 1F;
+            if (Rands.chance(6)) {
                 gravity = Rands.randFloatRange(0.75F, 1.25F);
-            } else if(Rands.chance(10)) {
+            } else if(Rands.chance(12)) {
                 gravity = Rands.randFloatRange(0.25F, 1.75F);
-            } else if (Rands.chance(30)) {
-                gravity = Rands.randFloatRange(-1F, 3F);
             }
 
             if (Rands.chance(10)) {
@@ -205,7 +204,6 @@ public class Dimensions {
                     .cloudHeight(Rands.randFloatRange(80F, 256F))
                     .stoneHardness(Rands.randFloatRange(0.2f, 5f), Rands.randFloatRange(3, 18))
                     .stoneJumpHeight(Rands.randFloatRange(1.0F, 10.0F))
-                    .hasCustomGravity(Rands.chance(3))
                     .gravity(gravity);
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
@@ -229,24 +227,37 @@ public class Dimensions {
                 float grassColor = hue + Rands.randFloatRange(-0.25f, 0.25f);
                 List<DimensionTreeData> treeDataList = new ArrayList<>();
 
-                int treeAmount = Rands.randIntRange(1, 6);
-                if (Utils.checkBitFlag(flags, Utils.LUSH)) treeAmount = 11;
-                for (int j = 0; j < treeAmount; j++) {
-                    DimensionTreeData treeData = DimensionTreeData.Builder.create()
-                            .woodType(Rands.list(Arrays.asList(DimensionWoodType.values())))
-                            .foliagePlacerType(Rands.list(Arrays.asList(DimensionFoliagePlacers.values())))
-                            .treeType(Rands.list(Arrays.asList(DimensionTreeTypes.values())))
-                            .baseHeight(Rands.randIntRange(2, 24))
-                            .maxWaterDepth(Rands.randIntRange(0, 8))
-                            .foliageHeight(Rands.randIntRange(1, 2))
-                            .foliageRange(Rands.randIntRange(1, 3))
-                            .chance(Rands.randFloatRange(0.05f, 0.9f))
-                            .hasCocoaBeans(Rands.chance(3))
-                            .hasLeafVines(Rands.chance(3))
-                            .hasPodzolUnderneath(Rands.chance(3))
-                            .hasTrunkVines(Rands.chance(3))
-                            .build();
-                    treeDataList.add(treeData);
+                TreeType treeType = TreeType.MULTIPLE_TREE_FOREST;
+                if (Rands.chance(7)) treeType = TreeType.PLAINS_TREES;
+                else if (Rands.chance(3)) treeType = TreeType.SINGLE_TREE_FOREST;
+                if (Utils.checkBitFlag(flags, Utils.LUSH)) treeType = TreeType.MULTIPLE_TREE_FOREST;
+
+                if (treeType != TreeType.PLAINS_TREES) {
+                    int treeAmount = Rands.randIntRange(1, 3);
+                    if (Utils.checkBitFlag(flags, Utils.LUSH)) treeAmount = 11;
+
+                    if (treeType == TreeType.SINGLE_TREE_FOREST) {
+                        treeAmount = 1;
+                    }
+
+                    for (int j = 0; j < treeAmount; j++) {
+                        DimensionTreeData treeData = DimensionTreeData.Builder.create()
+                                .plainsTrees(Rands.chance(10))
+                                .woodType(Rands.list(Arrays.asList(DimensionWoodType.values())))
+                                .foliagePlacerType(Rands.list(Arrays.asList(DimensionFoliagePlacers.values())))
+                                .treeType(Rands.list(Arrays.asList(DimensionTreeTypes.values())))
+                                .baseHeight(Rands.randIntRange(2, 24))
+                                .maxWaterDepth(Rands.randIntRange(0, 8))
+                                .foliageHeight(Rands.randIntRange(1, 2))
+                                .foliageRange(Rands.randIntRange(1, 3))
+                                .chance(Rands.randFloatRange(0.05f, 3.5f))
+                                .hasCocoaBeans(Rands.chance(3))
+                                .hasLeafVines(Rands.chance(3))
+                                .hasPodzolUnderneath(Rands.chance(3))
+                                .hasTrunkVines(Rands.chance(3))
+                                .build();
+                        treeDataList.add(treeData);
+                    }
                 }
 
                 SurfaceBuilder<?> surfaceBuilder = Utils.newRandomSurfaceBuilder();
@@ -260,6 +271,7 @@ public class Dimensions {
                         .waterColor(WATER_COLOR.getColor())
                         .grassColor(new Color(Color.HSBtoRGB(grassColor, saturation, value)).getColor())
                         .foliageColor(new Color(Color.HSBtoRGB(grassColor + Rands.randFloatRange(-0.1f, 0.1f), saturation, value)).getColor())
+                        .treeType(treeType)
                         .treeData(treeDataList)
                         .largeSkeletonTreeChance(Rands.randFloatRange(0, 0.5F))
                         .spawnsCratersInNonCorrupted(Rands.chance(4))

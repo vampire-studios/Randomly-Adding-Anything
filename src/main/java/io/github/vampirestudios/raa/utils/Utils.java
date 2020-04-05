@@ -77,6 +77,8 @@ public class Utils {
     }
 
     public static TernarySurfaceConfig randomSurfaceBuilderConfig() {
+        if (Rands.chance(6)) return SurfaceBuilder.GRASS_CONFIG;
+
         Map<String, TernarySurfaceConfig> surfaceBuilders = new HashMap<>();
         surfaceBuilders.put("minecraft:gravel_config", SurfaceBuilder.GRAVEL_CONFIG);
         surfaceBuilders.put("minecraft:grass_config", SurfaceBuilder.GRASS_CONFIG);

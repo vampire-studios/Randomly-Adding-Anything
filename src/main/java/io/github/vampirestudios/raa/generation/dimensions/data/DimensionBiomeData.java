@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions.data;
 
+import io.github.vampirestudios.raa.generation.feature.tree.TreeType;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
@@ -16,6 +17,7 @@ public class DimensionBiomeData {
     private int waterColor;
     private int grassColor;
     private int foliageColor;
+    private TreeType treeType;
     private List<DimensionTreeData> treeData;
     private float corruptedCratersChance;
     private float nonCorruptedCratersChance;
@@ -30,7 +32,7 @@ public class DimensionBiomeData {
     private Identifier surfaceConfig;
 
     DimensionBiomeData(Identifier id, String biomeName, float depth, float scale, float temperature, float downfall, int waterColor,
-                       int grassColor, int foliageColor, List<DimensionTreeData> treeData, float corruptedCratersChance, float nonCorruptedCratersChance,
+                       int grassColor, int foliageColor, TreeType treeType, List<DimensionTreeData> treeData, float corruptedCratersChance, float nonCorruptedCratersChance,
                        boolean spawnsCratersInNonCorrupted, float largeSkeletonTreeChance, float campfireChance, float outpostChance, float towerChance,
                        boolean hasMushrooms, boolean hasMossyRocks, Identifier surfaceBuilder, Identifier surfaceConfig) {
         this.id = id;
@@ -42,6 +44,7 @@ public class DimensionBiomeData {
         this.waterColor = waterColor;
         this.grassColor = grassColor;
         this.foliageColor = foliageColor;
+        this.treeType = treeType;
         this.treeData = treeData;
         this.corruptedCratersChance = corruptedCratersChance;
         this.nonCorruptedCratersChance = nonCorruptedCratersChance;
@@ -184,6 +187,10 @@ public class DimensionBiomeData {
         this.surfaceConfig = new Identifier(surfaceConfig);
     }
 
+    public TreeType getTreeType() {
+        return treeType;
+    }
+
     public static class Builder {
         private Identifier id;
         private String name;
@@ -194,6 +201,7 @@ public class DimensionBiomeData {
         private int waterColor;
         private int grassColor;
         private int foliageColor;
+        private TreeType treeType;
         private List<DimensionTreeData> treeData;
         private float corruptedCratersChance;
         private float nonCorruptedCratersChance;
@@ -328,8 +336,13 @@ public class DimensionBiomeData {
             return this;
         }
 
+        public Builder treeType(TreeType treeType) {
+            this.treeType = treeType;
+            return this;
+        }
+
         public DimensionBiomeData build() {
-            return new DimensionBiomeData(id, name, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor, treeData,
+            return new DimensionBiomeData(id, name, depth, scale, temperature, downfall, waterColor, grassColor, foliageColor, treeType, treeData,
                     corruptedCratersChance, nonCorruptedCratersChance, spawnsCratersInNonCorrupted, largeSkeletonTreeChance, campfireChance, outpostChance,
                     towerChance, hasMushrooms, hasMossyRocks, surfaceBuilder, surfaceConfig);
         }

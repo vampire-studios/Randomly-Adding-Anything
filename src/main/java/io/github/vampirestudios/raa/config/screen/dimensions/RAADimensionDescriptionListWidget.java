@@ -300,19 +300,11 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
 
             SubCategoryBuilder gravity = eb.startSubCategory(I18n.translate("config.title.raa.gravity")).setExpanded(false);
             gravity.add(
-                    eb.startBooleanToggle("config.field.raa.hasCustomGravity", dimensionData.hasCustomGravity())
-                            .setDefaultValue(dimensionData.hasCustomGravity())
-                            .setSaveConsumer(dimensionData::shouldHaveCustomGravity)
+                    eb.startFloatField("config.field.raa.gravity", dimensionData.getGravity())
+                            .setDefaultValue(dimensionData.getGravity())
+                            .setSaveConsumer(dimensionData::setGravity)
                             .build()
             );
-            if (dimensionData.hasCustomGravity()) {
-                gravity.add(
-                        eb.startFloatField("config.field.raa.gravity", dimensionData.getGravity())
-                                .setDefaultValue(dimensionData.getGravity())
-                                .setSaveConsumer(dimensionData::setGravity)
-                                .build()
-                );
-            }
             category.addEntry(gravity.build());
 
             SubCategoryBuilder biomes = eb.startSubCategory(I18n.translate("config.title.raa.biomes")).setExpanded(false);

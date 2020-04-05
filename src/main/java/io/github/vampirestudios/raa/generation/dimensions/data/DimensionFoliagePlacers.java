@@ -5,12 +5,8 @@ public enum DimensionFoliagePlacers {
     OAK,
     SPRUCE,
     PINE, //the little needlestick pine trees
-    ACACIA,
 
     //RAA
-    CYLINDER,
-    LONG,
-    UPSIDE_DOWN,
-    BORING,
-    RANDOM
+    SMALL_PINE,
+    HAZEL
 }

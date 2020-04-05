@@ -52,8 +52,10 @@ public enum DimensionChunkGenerators {
         if (this == FLAT_CAVES) return ChunkGenerators.FLAT_CAVES.create(world, biomeSource, caveConfig);
         if (this == HIGH_CAVES) return ChunkGenerators.HIGH_CAVES.create(world, biomeSource, caveConfig);
 
-        if (this == FLOATING) return ChunkGenerators.FLOATING_ISLANDS.create(world, biomeSource, floatingConfig);
+//        if (this == FLOATING) return ChunkGenerators.FLOATING_ISLANDS.create(world, biomeSource, floatingConfig);
         if (this == LAYERED_FLOATING)
+            return ChunkGenerators.LAYERED_FLOATING.create(world, biomeSource, floatingConfig);
+        if (this == FLOATING)
             return ChunkGenerators.LAYERED_FLOATING.create(world, biomeSource, floatingConfig);
         if (this == PRE_CLASSIC_FLOATING)
             return ChunkGenerators.PRE_CLASSIC_FLOATING.create(world, biomeSource, floatingConfig);

@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa.generation.chunkgenerator;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.class_5138;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.noise.OctaveSimplexNoiseSampler;
@@ -36,7 +36,7 @@ public class RetroChunkGenerator extends ChunkGenerator<NoneGeneratorSettings> {
          return 100;
       }
 
-      public void populateNoise(IWorld world, class_5138 class_5138, Chunk chunk) {
+      public void populateNoise(IWorld world, StructureAccessor StructureAccessor, Chunk chunk) {
          BlockState blockState = Blocks.BLACK_CONCRETE.getDefaultState();
          BlockState blockState2 = Blocks.LIME_CONCRETE.getDefaultState();
          ChunkPos chunkPos = chunk.getPos();

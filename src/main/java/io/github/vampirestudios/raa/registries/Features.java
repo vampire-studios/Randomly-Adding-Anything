@@ -140,11 +140,6 @@ public class Features {
                 biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCavityCarver, new ProbabilityConfig(0.03F)));
             }
 
-            if (Rands.chance(6)) { //16.6% chance of bubble rooms
-                StackedBubbleRoomsCarver bubbleRoomsCarver = registerCarver("stacked_bubble_rooms_carver_" + dimensionData.getName(), new StackedBubbleRoomsCarver(dimensionData));
-                biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(bubbleRoomsCarver, new ProbabilityConfig(0.035F)));
-            }
-
             if (Rands.chance(3)) { //33% chance of teardrops
                 TeardropCarver teardropCarver = registerCarver("teardrop_carver_" + dimensionData.getName(), new TeardropCarver(dimensionData));
                 biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(teardropCarver, new ProbabilityConfig(0.06F)));

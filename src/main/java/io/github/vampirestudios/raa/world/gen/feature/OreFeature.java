@@ -1,7 +1,7 @@
 package io.github.vampirestudios.raa.world.gen.feature;
 
 import com.mojang.datafixers.Dynamic;
-import net.minecraft.class_5138;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.MathHelper;
@@ -22,7 +22,7 @@ public class OreFeature extends Feature<OreFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld iWorld, class_5138 class_5138, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, OreFeatureConfig oreFeatureConfig) {
+    public boolean generate(IWorld iWorld, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, OreFeatureConfig oreFeatureConfig) {
         float f = random.nextFloat() * 3.1415927F;
         float g = (float) oreFeatureConfig.size / 8.0F;
         int i = MathHelper.ceil(((float) oreFeatureConfig.size / 16.0F * 2.0F + 1.0F) / 2.0F);

@@ -8,8 +8,7 @@
     "ServerPlayerEntityMixin",
     "LeavesBlockMixin",
     "LivingEntityMixin",
-    "LocateCommandMixin"/*,
-    "MixinPortalForcer"*/
+    "LocateCommandMixin"
   ],
   "client": [
     "WorldRendererMixin"

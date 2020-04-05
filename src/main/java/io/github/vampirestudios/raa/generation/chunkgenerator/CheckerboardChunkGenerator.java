@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa.generation.chunkgenerator;
 
 import io.github.vampirestudios.raa.utils.ColoredBlockArrays;
 import net.minecraft.block.Block;
-import net.minecraft.class_5138;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.*;
@@ -35,7 +35,7 @@ public class CheckerboardChunkGenerator extends ChunkGenerator<NoneGeneratorSett
         return 100;
     }
 
-    public void populateNoise(IWorld world, class_5138 class_5138, Chunk chunk) {
+    public void populateNoise(IWorld world, StructureAccessor StructureAccessor, Chunk chunk) {
         ChunkPos chunkPos = chunk.getPos();
 
         for (int i = 0; i < 8; ++i) {

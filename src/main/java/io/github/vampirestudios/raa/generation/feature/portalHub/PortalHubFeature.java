@@ -10,7 +10,7 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.class_5138;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.resource.Resource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -93,7 +93,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, class_5138 class_5138, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject jsonObject = null;
         try {
             Resource path = Objects.requireNonNull(world.getWorld().getServer()).getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));

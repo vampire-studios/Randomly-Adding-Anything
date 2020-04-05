@@ -27,13 +27,12 @@ public class DimensionData {
     private float stoneJumpHeight;
     private float stoneHardness;
     private float stoneResistance; //blast resistance
-    private boolean hasCustomGravity;
     private float gravity;
 
     public DimensionData(Identifier id, String name, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
                          DimensionCustomSkyInformation customSkyInformation, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator,
                          int flags, HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, float cloudHeight, float stoneJumpHeight, float stoneHardness,
-                         float stoneResistance, boolean hasCustomGravity, float gravity) {
+                         float stoneResistance, float gravity) {
         this.id = id;
         this.name = name;
         this.biomeData = biomeData;
@@ -52,7 +51,6 @@ public class DimensionData {
         this.stoneJumpHeight = stoneJumpHeight;
         this.stoneHardness = stoneHardness;
         this.stoneResistance = stoneResistance;
-        this.hasCustomGravity = hasCustomGravity;
         this.gravity = gravity;
     }
 
@@ -162,14 +160,6 @@ public class DimensionData {
 
     public void setStoneResistance(float stoneResistance) {
         this.stoneResistance = stoneResistance;
-    }
-
-    public boolean hasCustomGravity() {
-        return hasCustomGravity;
-    }
-
-    public void shouldHaveCustomGravity(boolean hasCustomGravity) {
-        this.hasCustomGravity = hasCustomGravity;
     }
 
     public float getGravity() {
@@ -309,11 +299,6 @@ public class DimensionData {
             return this;
         }
 
-        public Builder hasCustomGravity(boolean hasCustomGravity) {
-            this.hasCustomGravity = hasCustomGravity;
-            return this;
-        }
-
         public Builder gravity(float gravity) {
             this.gravity = gravity;
             return this;
@@ -322,7 +307,7 @@ public class DimensionData {
         public DimensionData build() {
             return new DimensionData(id, name, biomeData, dimensionColorPalette, texturesInformation, customSkyInformation, canSleep, waterVaporize,
                     renderFog, dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, cloudHeight, stoneJumpHeight, stoneHardness,
-                    stoneResistance, hasCustomGravity, gravity);
+                    stoneResistance, gravity);
         }
     }
 }

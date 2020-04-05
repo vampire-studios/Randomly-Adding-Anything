@@ -166,11 +166,11 @@ public class RandomlyAddingAnything implements ModInitializer {
                                 configure(new CountExtraChanceDecoratorConfig(0, 0.001F, 1))));
             }
 
-            if (biome.getCategory() != Biome.Category.OCEAN) {
-                biome.addFeature(GenerationStep.Feature.RAW_GENERATION, Features.DUNGEON_FEATURE.configure(new DefaultFeatureConfig())
-                        .createDecoratedFeature(Decorator.NOPE.configure(DecoratorConfig.DEFAULT)));
-                biome.addStructureFeature(Features.DUNGEON_FEATURE.configure(FeatureConfig.DEFAULT));
-            }
+//            if (biome.getCategory() != Biome.Category.OCEAN) {
+//                biome.addFeature(GenerationStep.Feature.RAW_GENERATION, Features.DUNGEON_FEATURE.configure(new DefaultFeatureConfig())
+//                        .createDecoratedFeature(Decorator.NOPE.configure(DecoratorConfig.DEFAULT)));
+//                biome.addStructureFeature(Features.DUNGEON_FEATURE.configure(FeatureConfig.DEFAULT));
+//            }
         });
     }
 }

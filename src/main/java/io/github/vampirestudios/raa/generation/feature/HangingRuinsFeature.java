@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa.generation.feature;
 
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import net.minecraft.class_5138;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.Structure;
 import net.minecraft.structure.StructureManager;
@@ -13,6 +12,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
@@ -30,7 +30,7 @@ public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 	}
 
 	@Override
-	public boolean generate(IWorld world, class_5138 class_5138, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, DefaultFeatureConfig config) {
+	public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, DefaultFeatureConfig config) {
 		//makes sure this ruins does not spawn too close to world height border.
 		if (position.getY() < world.getSeaLevel() + 5) {
 			return false;

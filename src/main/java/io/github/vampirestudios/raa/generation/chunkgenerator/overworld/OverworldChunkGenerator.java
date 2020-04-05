@@ -5,7 +5,7 @@
 
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
-import net.minecraft.class_5138;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
@@ -137,8 +137,8 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         return d;
     }
 
-    public List<SpawnEntry> getEntitySpawnList(EntityCategory category, class_5138 class_5138, BlockPos pos) {
-        if (Feature.SWAMP_HUT.method_14029(this.world, class_5138, pos)) {
+    public List<SpawnEntry> getEntitySpawnList(EntityCategory category, StructureAccessor StructureAccessor, BlockPos pos) {
+        if (Feature.SWAMP_HUT.method_14029(this.world, StructureAccessor, pos)) {
             if (category == EntityCategory.MONSTER) {
                 return Feature.SWAMP_HUT.getMonsterSpawns();
             }
@@ -147,20 +147,20 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
                 return Feature.SWAMP_HUT.getCreatureSpawns();
             }
         } else if (category == EntityCategory.MONSTER) {
-            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, class_5138, pos)) {
+            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, StructureAccessor, pos)) {
                 return Feature.PILLAGER_OUTPOST.getMonsterSpawns();
             }
 
-            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(this.world, class_5138, pos)) {
+            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(this.world, StructureAccessor, pos)) {
                 return Feature.OCEAN_MONUMENT.getMonsterSpawns();
             }
         }
 
-        return super.getEntitySpawnList(class_5138, category, pos);
+        return super.getEntitySpawnList(StructureAccessor, category, pos);
     }
 
     @Override
-    public void generateFeatures(ChunkRegion region, class_5138 class_5138) {
+    public void generateFeatures(ChunkRegion region, StructureAccessor StructureAccessor) {
         int chunkX = region.getCenterChunkX();
         int chunkZ = region.getCenterChunkZ();
         ChunkRandom rand = new ChunkRandom();
@@ -178,7 +178,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
 
         for (GenerationStep.Feature feature : features) {
             try {
-                biome.generateFeatureStep(feature, class_5138, this, region, seed, chunkRandom, blockPos);
+                biome.generateFeatureStep(feature, StructureAccessor, this, region, seed, chunkRandom, blockPos);
             } catch (Exception exception) {
                 CrashReport crashReport = CrashReport.create(exception, "Biome decoration");
                 crashReport.addElement("Generation").add("CenterX", i).add("CenterZ", j).add("Step", feature).add("Seed", seed).add("Biome", Registry.BIOME.getId(biome));
