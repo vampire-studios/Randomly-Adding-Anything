@@ -195,4 +195,9 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
         return new Vector3f(rgbColor[0], rgbColor[1], rgbColor[2]);
     }
 
+    @Override
+    public boolean hasCustomAstralBody() {
+        return true;
+    }
+
 }

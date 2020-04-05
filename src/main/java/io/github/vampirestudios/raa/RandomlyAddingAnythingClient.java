@@ -76,6 +76,10 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     public void onInitializeClient() {
 //        initColoring();
 
+        ColorProviderRegistry.ITEM.register((stack, var2) ->
+                        MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColor(),
+                Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
+
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
                     for (Material material : Materials.MATERIALS) {
@@ -319,19 +323,21 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
                 Identifier portalId = Utils.addSuffixToPath(identifier, "_portal");
                 clientResourcePackBuilder.addBlockState(portalId, blockStateBuilder -> {
-                    blockStateBuilder.variant("activated=true", variant ->
+                    /*blockStateBuilder.variant("activated=true", variant ->
                             variant.model(new Identifier(stoneId.getNamespace(), "block/" + portalId.getPath() + "_activated")));
                     blockStateBuilder.variant("activated=false", variant ->
-                            variant.model(new Identifier(stoneId.getNamespace(), "block/" + portalId.getPath())));
-                } );
+                            variant.model(new Identifier(stoneId.getNamespace(), "block/" + portalId.getPath())));*/
+                    blockStateBuilder.variant("", variant -> variant.model(Utils.addPrefixToPath(portalId, "block/")));
+                });
                 clientResourcePackBuilder.addBlockModel(portalId, modelBuilder -> {
                     modelBuilder.parent(new Identifier("raa:block/portal"));
                     modelBuilder.texture("0", dimensionData.getTexturesInformation().getStoneTexture());
-                    modelBuilder.texture("2", new Identifier("raa:block/metal_top"));
+                    modelBuilder.texture("2", new Identifier("raa:block/metal_top_activated"));
                     modelBuilder.texture("3", new Identifier("raa:block/metal_side"));
+                    modelBuilder.texture("4", new Identifier("raa:block/portal_top"));
                     modelBuilder.texture("particle", dimensionData.getTexturesInformation().getStoneTexture());
                 });
-                clientResourcePackBuilder.addBlockModel(Utils.addSuffixToPath(portalId, "_activated"), modelBuilder -> {
+                /*clientResourcePackBuilder.addBlockModel(Utils.addSuffixToPath(portalId, "_activated"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("raa:block/portal_activated"));
                     modelBuilder.texture("0", dimensionData.getTexturesInformation().getStoneTexture());
                     modelBuilder.texture("2", new Identifier("raa:block/metal_top_activated"));
@@ -339,7 +345,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.texture("4", new Identifier("raa:block/portal_top"));
                     modelBuilder.texture("5", new Identifier("raa:block/metal_side_activated_overlay"));
                     modelBuilder.texture("particle", dimensionData.getTexturesInformation().getStoneTexture());
-                });
+                });*/
                 clientResourcePackBuilder.addItemModel(portalId,
                         modelBuilder -> modelBuilder.parent(new Identifier(portalId.getNamespace(), "block/" + portalId.getPath())));
 

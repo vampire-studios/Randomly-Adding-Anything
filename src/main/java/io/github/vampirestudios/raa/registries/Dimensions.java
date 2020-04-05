@@ -299,10 +299,10 @@ public class Dimensions {
             DimensionCustomSkyInformation customSkyInformation = DimensionCustomSkyInformation.Builder.create()
                     .hasSkyLight(Rands.chance(1))
                     .hasSky(!Rands.chance(2))
-                    .customSun(Rands.chance(3))
+                    .customSun(Rands.chance(2))
                     .sunSize(Rands.randFloatRange(30F, 120F))
                     .sunTint(SUN_COLOR.getColor())
-                    .customMoon(Rands.chance(3))
+                    .customMoon(Rands.chance(2))
                     .moonSize(Rands.randFloatRange(20F, 80F))
                     .moonTint(MOON_COLOR.getColor()).build();
             builder.customSkyInformation(customSkyInformation);
