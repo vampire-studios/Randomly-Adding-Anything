@@ -46,7 +46,7 @@ public class Materials {
     public static boolean dimensionReady = false;
 
     public static void generate() {
-        for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialNumber; a++) {
+        for (int a = 0; a < RandomlyAddingAnything.CONFIG.materialGenAmount; a++) {
             Color RGB = Rands.randColor();
             NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
 
@@ -99,7 +99,7 @@ public class Materials {
 
     public static void generateDimensionMaterials() {
         for (DimensionData dimensionData : Dimensions.DIMENSIONS) {
-            for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.dimensionMaterials); a++) {
+            for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.dimensionMaterialGenAmount); a++) {
                 Color RGB = Rands.randColor();
                 Random random = Rands.getRandom();
                 NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();

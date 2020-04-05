@@ -9,6 +9,8 @@ import io.github.vampirestudios.raa.generation.feature.FossilFeature;
 import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
+import io.github.vampirestudios.raa.generation.feature.dungeon.RandomDungeonFeature;
+import io.github.vampirestudios.raa.generation.feature.dungeon.RandomDungeonPiece;
 import io.github.vampirestudios.raa.generation.feature.portalHub.PortalHubFeature;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -53,6 +55,10 @@ public class Features {
     public static ColumnVerticalFeature COLUMN_VERTICAL;
     public static HangingRuinsFeature HANGING_RUINS;
 
+    public static StructureFeature<DefaultFeatureConfig> DUNGEON_FEATURE;
+    public static StructureFeature<DefaultFeatureConfig> DUNGEON_STRUCTURE_FEATURE;
+    public static StructurePieceType DUNGEON_PIECE;
+
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
 
@@ -80,6 +86,23 @@ public class Features {
         COLUMN_RAMP = register("columnn_ramp", new ColumnRampFeature(ColumnBlocksConfig::deserialize));
         COLUMN_VERTICAL = register("columnn_vertical", new ColumnVerticalFeature(ColumnBlocksConfig::deserialize));
         HANGING_RUINS = register("hanging_ruins", new HangingRuinsFeature(DefaultFeatureConfig::deserialize));
+
+        DUNGEON_FEATURE = Registry.register(
+                Registry.FEATURE,
+                new Identifier(RandomlyAddingAnything.MOD_ID, "dungeon_feature"),
+                new RandomDungeonFeature(DefaultFeatureConfig::deserialize)
+        );
+        DUNGEON_STRUCTURE_FEATURE = Registry.register(
+                Registry.STRUCTURE_FEATURE,
+                new Identifier(RandomlyAddingAnything.MOD_ID, "dungeon_structure_feature"),
+                new RandomDungeonFeature(DefaultFeatureConfig::deserialize)
+        );
+        DUNGEON_PIECE = Registry.register(
+                Registry.STRUCTURE_PIECE,
+                new Identifier(RandomlyAddingAnything.MOD_ID, "dungeon_piece"),
+                RandomDungeonPiece::new
+        );
+        Feature.STRUCTURES.put("dungeon", DUNGEON_FEATURE);
     }
 
     // we use this cursed code to make a new carver per dimension

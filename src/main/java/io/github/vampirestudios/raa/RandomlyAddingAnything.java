@@ -26,7 +26,10 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSourceType;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
+import net.minecraft.world.gen.decorator.Decorator;
+import net.minecraft.world.gen.decorator.DecoratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.FeatureConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -97,8 +100,8 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
-        if (CONFIG.materialNumber > 0) {
-            if (CONFIG.regenMaterials || !MATERIALS_CONFIG.fileExist()) {
+        if (CONFIG.materialGenAmount > 0) {
+            if (CONFIG.regenConfigs || !MATERIALS_CONFIG.fileExist()) {
                 MATERIALS_CONFIG.generate();
                 MATERIALS_CONFIG.save();
             } else {
@@ -108,8 +111,8 @@ public class RandomlyAddingAnything implements ModInitializer {
         Materials.createMaterialResources();
 
         ENTITIES_CONFIG = new EntitiesConfig("entities/entities_config");
-        if (CONFIG.materialNumber > 0) {
-            if (CONFIG.regenMaterials || !ENTITIES_CONFIG.fileExist()) {
+        if (CONFIG.entityGenAmount > 0) {
+            if (CONFIG.regenConfigs || !ENTITIES_CONFIG.fileExist()) {
                 ENTITIES_CONFIG.generate();
                 ENTITIES_CONFIG.save();
             } else {
@@ -119,7 +122,7 @@ public class RandomlyAddingAnything implements ModInitializer {
 
         SurfaceBuilderGenerator.registerElements();
         SURFACE_BUILDER_CONFIG = new SurfaceBuilderConfig("surface_builders/surface_builder_config");
-        if (CONFIG.regenMaterials || !SURFACE_BUILDER_CONFIG.fileExist()) {
+        if (CONFIG.regenConfigs || !SURFACE_BUILDER_CONFIG.fileExist()) {
             SURFACE_BUILDER_CONFIG.generate();
             SURFACE_BUILDER_CONFIG.save();
         } else {
@@ -127,8 +130,8 @@ public class RandomlyAddingAnything implements ModInitializer {
         }
 
         DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-        if (CONFIG.dimensionNumber > 0) {
-            if (CONFIG.regenMaterials || !DIMENSIONS_CONFIG.fileExist()) {
+        if (CONFIG.dimensionGenAmount > 0) {
+            if (CONFIG.regenConfigs || !DIMENSIONS_CONFIG.fileExist()) {
                 DIMENSIONS_CONFIG.generate();
                 DIMENSIONS_CONFIG.save();
             } else {
@@ -138,8 +141,8 @@ public class RandomlyAddingAnything implements ModInitializer {
         Dimensions.createDimensions();
 
         DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("dimensions/dimensional_material_config");
-        if (CONFIG.dimensionMaterials > 0) {
-            if (CONFIG.regenMaterials || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
+        if (CONFIG.dimensionMaterialGenAmount > 0) {
+            if (CONFIG.regenConfigs || !DIMENSION_MATERIALS_CONFIG.fileExist()) {
                 DIMENSION_MATERIALS_CONFIG.generate();
                 DIMENSION_MATERIALS_CONFIG.save();
             } else {
@@ -161,6 +164,12 @@ public class RandomlyAddingAnything implements ModInitializer {
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
                                 configure(new CountExtraChanceDecoratorConfig(0, 0.001F, 1))));
+            }
+
+            if (biome.getCategory() != Biome.Category.OCEAN) {
+                biome.addFeature(GenerationStep.Feature.RAW_GENERATION, Features.DUNGEON_FEATURE.configure(new DefaultFeatureConfig())
+                        .createDecoratedFeature(Decorator.NOPE.configure(DecoratorConfig.DEFAULT)));
+                biome.addStructureFeature(Features.DUNGEON_FEATURE.configure(FeatureConfig.DEFAULT));
             }
         });
     }

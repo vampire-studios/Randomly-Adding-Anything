@@ -1,15 +1,17 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
+import io.github.vampirestudios.cab.api.AstralBodyModifier;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.carvers.CaveCavityCarver;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
+import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Utils;
-import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -25,12 +27,12 @@ import net.minecraft.world.gen.chunk.ChunkGenerator;
 
 import java.util.Set;
 
-public class CustomDimension extends Dimension {
+public class CustomDimension extends Dimension implements AstralBodyModifier {
 
-    private DimensionType dimensionType;
-    private DimensionData dimensionData;
-    private Set<Biome> biomeSet;
-    private Block stoneBlock;
+    private final DimensionType dimensionType;
+    private final DimensionData dimensionData;
+    private final Set<Biome> biomeSet;
+    private final Block stoneBlock;
 
     public CustomDimension(World world, DimensionType dimensionType, DimensionData data, Set<Biome> biomeSet, Block stoneBlock) {
         super(world, dimensionType, 0.0F);
@@ -94,7 +96,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     public float getSkyAngle(long timeOfDay, float tickDelta) {
-        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.hasSky()) {
+        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.getCustomSkyInformation().hasSky()) {
             double fractionalPart = MathHelper.fractionalPart((double) timeOfDay / 24000.0D - 0.25D);
             double v1 = 0.5D - Math.cos(fractionalPart * 3.141592653589793D) / 2.0D;
             return (float) (fractionalPart * 2.0D + v1) / 3.0F;
@@ -110,7 +112,7 @@ public class CustomDimension extends Dimension {
 
     @Override
     public boolean hasVisibleSky() {
-        return !Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.hasSky();
+        return !Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.getCustomSkyInformation().hasSky();
     }
 
     @Override
@@ -163,6 +165,34 @@ public class CustomDimension extends Dimension {
 
     public DimensionData getDimensionData() {
         return dimensionData;
+    }
+
+    @Override
+    @Environment(EnvType.CLIENT)
+    public float getSunSize() {
+        return dimensionData.getCustomSkyInformation().getSunSize();
+    }
+
+    @Override
+    @Environment(EnvType.CLIENT)
+    public float getMoonSize() {
+        return dimensionData.getCustomSkyInformation().getMoonSize();
+    }
+
+    @Override
+    @Environment(EnvType.CLIENT)
+    public Vector3f getSunTint() {
+        float fogColor2 = dimensionData.getCustomSkyInformation().getSunTint();
+        float[] rgbColor = Color.floatToRgb(fogColor2);
+        return new Vector3f(rgbColor[0], rgbColor[1], rgbColor[2]);
+    }
+
+    @Override
+    @Environment(EnvType.CLIENT)
+    public Vector3f getMoonTint() {
+        float fogColor2 = dimensionData.getCustomSkyInformation().getMoonTint();
+        float[] rgbColor = Color.floatToRgb(fogColor2);
+        return new Vector3f(rgbColor[0], rgbColor[1], rgbColor[2]);
     }
 
 }

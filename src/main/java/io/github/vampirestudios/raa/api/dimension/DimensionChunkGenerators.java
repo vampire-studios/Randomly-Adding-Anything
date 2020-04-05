@@ -23,7 +23,7 @@ public enum DimensionChunkGenerators {
     LAYERED_FLOATING,
     PRE_CLASSIC_FLOATING,
 
-    CAVE,
+    CAVES,
     FLAT_CAVES,
     HIGH_CAVES,
 
@@ -48,7 +48,7 @@ public enum DimensionChunkGenerators {
         FloatingIslandsChunkGeneratorConfig floatingConfig = new FloatingIslandsChunkGeneratorConfig();
         floatingConfig.setDefaultBlock(stoneBlock.getDefaultState());
 
-        if (this == CAVE) return ChunkGenerators.CAVES.create(world, biomeSource, caveConfig);
+        if (this == CAVES) return ChunkGenerators.CAVES.create(world, biomeSource, caveConfig);
         if (this == FLAT_CAVES) return ChunkGenerators.FLAT_CAVES.create(world, biomeSource, caveConfig);
         if (this == HIGH_CAVES) return ChunkGenerators.HIGH_CAVES.create(world, biomeSource, caveConfig);
 
@@ -56,7 +56,7 @@ public enum DimensionChunkGenerators {
         if (this == LAYERED_FLOATING)
             return ChunkGenerators.LAYERED_FLOATING.create(world, biomeSource, floatingConfig);
         if (this == PRE_CLASSIC_FLOATING)
-            return ChunkGenerators.PRECLASSIC_FLOATING.create(world, biomeSource, floatingConfig);
+            return ChunkGenerators.PRE_CLASSIC_FLOATING.create(world, biomeSource, floatingConfig);
 
         if (this == QUADRUPLE_AMPLIFIED) return ChunkGenerators.QUADRUPLE_AMPLIFIED.create(world, biomeSource, config);
         if (this == PILLAR_WORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config);
