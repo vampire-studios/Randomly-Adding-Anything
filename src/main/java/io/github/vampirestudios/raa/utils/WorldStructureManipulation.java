@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.utils;
 
 import com.google.common.collect.ImmutableList;
-import io.github.vampirestudios.raa.blocks.PortalBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.*;
 import net.minecraft.entity.Entity;
@@ -241,9 +240,9 @@ public class WorldStructureManipulation {
             } if (properties.get("axis") != null) {
                 //TODO: Bone_Block
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.AXIS, Direction.Axis.fromName(axis)), 2);
-            } if (block.endsWith("_portal")) {
+            }/* if (block.endsWith("_portal")) {
                 world.setBlockState(pos, world.getBlockState(pos).with(PortalBlock.ACTIVATED, Rands.chance(4)), 2);
-            }
+            }*/
         }
 
         //world.setBlockState(pos, StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.valueOf(dir)).with(Properties.WATERLOGGED, properties.get("waterlogged").equals("TRUE"))), 2);

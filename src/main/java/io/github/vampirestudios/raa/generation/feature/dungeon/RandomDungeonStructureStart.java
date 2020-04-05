@@ -56,7 +56,7 @@ public class RandomDungeonStructureStart extends StructureStart {
                                 Pair.of(new SinglePoolElement("raa:dungeons/corridors/corridor_5"), 1),
                                 Pair.of(new SinglePoolElement("raa:dungeons/corridors/left_corner"), 1)
                         ),
-                        StructurePool.Projection.RIGID
+                        StructurePool.Projection.TERRAIN_MATCHING
                 )
         );
 

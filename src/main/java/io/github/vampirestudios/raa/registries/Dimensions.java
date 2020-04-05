@@ -7,7 +7,6 @@ import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.DimensionalStone;
-import io.github.vampirestudios.raa.blocks.MinerPortalBlock;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
 import io.github.vampirestudios.raa.generation.dimensions.CustomDimensionalBiome;
@@ -354,7 +353,7 @@ public class Dimensions {
                 dimensionType = Registry.DIMENSION_TYPE.get(dimensionData.getId());
             }
 
-            RegistryUtils.registerBlockWithoutItem(new MinerPortalBlock(dimensionData, dimensionType), Utils.addSuffixToPath(dimensionData.getId(), "_custom_portal"));
+//            RegistryUtils.registerBlockWithoutItem(new CustomPortalBlock(dimensionData, dimensionType), Utils.addSuffixToPath(dimensionData.getId(), "_custom_portal"));
 
             //TODO: custom tool durabilities
             ToolMaterial toolMaterial = new ToolMaterial() {
@@ -437,7 +436,7 @@ public class Dimensions {
                     ),
                     Utils.addSuffixToPath(identifier, "_sword")
             );
-            RegistryUtils.registerItem(new DimensionalPortalKeyItem(dimensionData), Utils.addSuffixToPath(identifier, "_portal_key"));
+//            RegistryUtils.registerItem(new DimensionalPortalKeyItem(dimensionData), Utils.addSuffixToPath(identifier, "_portal_key"));
 
             Block stoneBrick = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimensionData.getName().toLowerCase() + "_stone_bricks"),

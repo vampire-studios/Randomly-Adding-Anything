@@ -30,7 +30,7 @@ import net.minecraft.world.dimension.DimensionType;
 import java.util.Objects;
 import java.util.Random;
 
-public class MinerPortalBlock extends Block {
+public class CustomPortalBlock extends Block {
 
     private final DimensionData dimensionData;
     private final DimensionType dimensionType;
@@ -38,7 +38,7 @@ public class MinerPortalBlock extends Block {
     protected static final VoxelShape X_SHAPE;
     protected static final VoxelShape Z_SHAPE;
 
-    public MinerPortalBlock(DimensionData dimensionData, DimensionType dimensionType) {
+    public CustomPortalBlock(DimensionData dimensionData, DimensionType dimensionType) {
         super(AbstractBlock.Settings.copy(Blocks.NETHER_PORTAL));
         this.dimensionData = dimensionData;
         this.dimensionType = dimensionType;
@@ -72,7 +72,7 @@ public class MinerPortalBlock extends Block {
     }*/
 
     public static boolean createPortalAt(DimensionData dimensionData, IWorld iWorld, BlockPos blockPos) {
-        MinerPortalBlock.AreaHelper areaHelper = createAreaHelper(dimensionData, iWorld, blockPos);
+        CustomPortalBlock.AreaHelper areaHelper = createAreaHelper(dimensionData, iWorld, blockPos);
         if (areaHelper != null) {
             areaHelper.createPortal();
             return true;
@@ -81,12 +81,12 @@ public class MinerPortalBlock extends Block {
         }
     }
 
-    public static MinerPortalBlock.AreaHelper createAreaHelper(DimensionData dimensionData, IWorld iWorld, BlockPos blockPos) {
-        MinerPortalBlock.AreaHelper areaHelper = new MinerPortalBlock.AreaHelper(dimensionData, iWorld, blockPos, Direction.Axis.X);
+    public static CustomPortalBlock.AreaHelper createAreaHelper(DimensionData dimensionData, IWorld iWorld, BlockPos blockPos) {
+        CustomPortalBlock.AreaHelper areaHelper = new CustomPortalBlock.AreaHelper(dimensionData, iWorld, blockPos, Direction.Axis.X);
         if (areaHelper.isValid() && areaHelper.foundPortalBlocks == 0) {
             return areaHelper;
         } else {
-            MinerPortalBlock.AreaHelper areaHelper2 = new MinerPortalBlock.AreaHelper(dimensionData, iWorld, blockPos, Direction.Axis.Z);
+            CustomPortalBlock.AreaHelper areaHelper2 = new CustomPortalBlock.AreaHelper(dimensionData, iWorld, blockPos, Direction.Axis.Z);
             return areaHelper2.isValid() && areaHelper2.foundPortalBlocks == 0 ? areaHelper2 : null;
         }
     }
@@ -160,11 +160,11 @@ public class MinerPortalBlock extends Block {
 
     public static BlockPattern.Result findPortal(DimensionData dimensionData, IWorld iWorld, BlockPos world) {
         Direction.Axis axis = Direction.Axis.Z;
-        MinerPortalBlock.AreaHelper areaHelper = new MinerPortalBlock.AreaHelper(dimensionData, iWorld, world, Direction.Axis.X);
+        CustomPortalBlock.AreaHelper areaHelper = new CustomPortalBlock.AreaHelper(dimensionData, iWorld, world, Direction.Axis.X);
         LoadingCache<BlockPos, CachedBlockPosition> loadingCache = BlockPattern.makeCache(iWorld, true);
         if (!areaHelper.isValid()) {
             axis = Direction.Axis.X;
-            areaHelper = new MinerPortalBlock.AreaHelper(dimensionData, iWorld, world, Direction.Axis.Z);
+            areaHelper = new CustomPortalBlock.AreaHelper(dimensionData, iWorld, world, Direction.Axis.Z);
         }
 
         if (!areaHelper.isValid()) {
