@@ -17,6 +17,7 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.IWorld;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -201,17 +202,19 @@ public class WorldStructureManipulation {
                     //TODO: Barrel
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.FACING, Direction.valueOf(facing.toUpperCase())), 2);
                 } else {
-                    //TODO: [Anvils], [Chests], [Stairs], Bell, Blast_Furnace, Furnace, Grindstone, Smoker, Stonecutter,
+                    //TODO: [Anvils], [Chests], [Stairs], Bell, Blast_Furnace, Furnace, Grindstone, Smoker, Stonecutter, Ladders,
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.HORIZONTAL_FACING, Direction.valueOf(facing.toUpperCase())), 2);
                 }
             } if (properties.get("north") != null || properties.get("west") != null || properties.get("south") != null || properties.get("east") != null) {
                 if(!block.endsWith("_wall")) {
+                    //TODO: [Fences], Iron Bars
                     //Fences and Iron Bars, both use booleans to represent their connection
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH, directions.getOrDefault("north", "FALSE").equals("TRUE")), 2);
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.WEST, directions.getOrDefault("west", "FALSE").equals("TRUE")), 2);
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.SOUTH, directions.getOrDefault("south", "FALSE").equals("TRUE")), 2);
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST, directions.getOrDefault("east", "FALSE").equals("TRUE")), 2);
                 } else {
+                    //TODO: [Walls]
                     //Walls use an Enum (none, tall, low) to describe their connections to other neighbouring blocks
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.NORTH_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("north","none").replace("false","none").replace("true","low").toUpperCase())), 2);
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.WEST_WALL_SHAPE, WallShape.valueOf(directions.getOrDefault("west","none").replace("false","none").replace("true","low").toUpperCase())), 2);
@@ -260,7 +263,7 @@ public class WorldStructureManipulation {
         //world.setBlockState(pos, StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.valueOf(dir)).with(Properties.WATERLOGGED, properties.get("waterlogged").equals("TRUE"))), 2);
     }
 
-    public static void spawnEntity(IWorld world, BlockPos pos, String entity, float rotation) {
+    public static void spawnEntity(IWorld world, BlockPos pos, String entity, Map<String, String> properties, float rotation) {
         if (entity.equals("minecraft:armor_stand")) {
             Entity armorStand = EntityType.ARMOR_STAND.create(world.getWorld());
 
@@ -269,35 +272,59 @@ public class WorldStructureManipulation {
                     new ItemStack(Items.CHAINMAIL_HELMET),
                     new ItemStack(Items.GOLDEN_HELMET),
                     new ItemStack(Items.IRON_HELMET),
-                    new ItemStack(Items.DIAMOND_HELMET)
+                    new ItemStack(Items.DIAMOND_HELMET),
+                    new ItemStack(Items.NETHERITE_HELMET)
             );
             List<ItemStack> chestplates = ImmutableList.of(
                     new ItemStack(Items.LEATHER_CHESTPLATE),
                     new ItemStack(Items.CHAINMAIL_CHESTPLATE),
                     new ItemStack(Items.GOLDEN_CHESTPLATE),
                     new ItemStack(Items.IRON_CHESTPLATE),
-                    new ItemStack(Items.DIAMOND_CHESTPLATE)
+                    new ItemStack(Items.DIAMOND_CHESTPLATE),
+                    new ItemStack(Items.NETHERITE_CHESTPLATE)
             );
             List<ItemStack> leggings = ImmutableList.of(
                     new ItemStack(Items.LEATHER_LEGGINGS),
                     new ItemStack(Items.CHAINMAIL_LEGGINGS),
                     new ItemStack(Items.GOLDEN_LEGGINGS),
                     new ItemStack(Items.IRON_LEGGINGS),
-                    new ItemStack(Items.DIAMOND_LEGGINGS)
+                    new ItemStack(Items.DIAMOND_LEGGINGS),
+                    new ItemStack(Items.NETHERITE_LEGGINGS)
             );
             List<ItemStack> boots = ImmutableList.of(
                     new ItemStack(Items.LEATHER_BOOTS),
                     new ItemStack(Items.CHAINMAIL_BOOTS),
                     new ItemStack(Items.GOLDEN_BOOTS),
                     new ItemStack(Items.IRON_BOOTS),
-                    new ItemStack(Items.DIAMOND_BOOTS)
+                    new ItemStack(Items.DIAMOND_BOOTS),
+                    new ItemStack(Items.NETHERITE_BOOTS)
+            );
+            List<ItemStack> weapons = ImmutableList.of(
+                    new ItemStack(Items.STONE_SWORD),
+                    new ItemStack(Items.GOLDEN_SWORD),
+                    new ItemStack(Items.IRON_SWORD),
+                    new ItemStack(Items.DIAMOND_SWORD),
+                    new ItemStack(Items.NETHERITE_SWORD)
             );
             Objects.requireNonNull(armorStand).refreshPositionAndAngles(pos, rotation, 0f);
+
+            if (properties.get("head") != null && !Rands.chance(4)) {
+                armorStand.equipStack(EquipmentSlot.HEAD, helmets.get(Rands.randInt(Integer.parseInt(properties.get("head")))));
+            }
+            if (properties.get("chest") != null && !Rands.chance(4)) {
+                armorStand.equipStack(EquipmentSlot.CHEST, chestplates.get(Rands.randInt(Integer.parseInt(properties.get("chest")))));
+            }
+            if (properties.get("legs") != null && !Rands.chance(4)) {
+                armorStand.equipStack(EquipmentSlot.LEGS, leggings.get(Rands.randInt(Integer.parseInt(properties.get("legs")))));
+            }
+            if (properties.get("feet") != null && !Rands.chance(4)) {
+                armorStand.equipStack(EquipmentSlot.FEET, boots.get(Rands.randInt(Integer.parseInt(properties.get("feet")))));
+            }
+            if (properties.get("weapon") != null && !Rands.chance(3)) {
+                armorStand.equipStack(EquipmentSlot.MAINHAND, weapons.get(Rands.randInt(Integer.parseInt(properties.get("weapon")))));
+            }
+
             world.spawnEntity(armorStand);
-            armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
-            armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));
-            armorStand.equipStack(EquipmentSlot.LEGS, Rands.list(leggings));
-            armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
         }
     }
 

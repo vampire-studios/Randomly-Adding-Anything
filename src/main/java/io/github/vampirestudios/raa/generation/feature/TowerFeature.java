@@ -37,17 +37,17 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         super(function);
     }
 
-    private static void placePiece(IWorld world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, int decay) {
+    private static void placePiece(IWorld world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, float decay) {
         for (int i = 0; i < piece.getBlockPositions().size(); i++) {
             Vec3i currBlockPos = piece.getBlockPositions().get(i);
             String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
-//            Map<String, String> currBlockProp = piece.getBlockProperties().get(piece.getBlockStates().get(i));
+            Map<String, String> currBlockProp = piece.getBlockProperties().get(piece.getBlockStates().get(i));
 
             //Rotate
             currBlockPos = WorldStructureManipulation.rotatePos(rotation, currBlockPos, piece.getSize());
 
             //Spawn blocks
-            if (currBlockType.equals("minecraft:air") || (decay > 0 && Rands.chance(14 - decay))) {
+            if (currBlockType.equals("minecraft:air") || (decay > 0 && Rands.randFloat(1.0F) < decay)) {
                 WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "minecraft:air", new HashMap<>(), rotation);
             } else {
                 switch (currBlockType) {
@@ -58,10 +58,10 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                         WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + "chiseled_" + (world.getDimension().getType().getSuffix()).substring(4), new HashMap<>(), rotation);
                         break;
                     case "minecraft:ladder":
-                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), 4 - rotation);
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, (6 - rotation) % 4);
                         break;
                     default:
-                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), rotation);
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, rotation);
                         break;
                 }
             }
@@ -106,25 +106,25 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
 
                 //Spawn entity
                 if (currBlock.equals("armor_stand")) {
-                    float standRotation;
-                    if (rotation % 2 == 0) {
-                        standRotation = -45f;
-                    } else {
-                        standRotation = 45f;
-                    }
-                    WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, standRotation);
 
-                    //Spawn block
+                    float standRotation = 180 - 90 * rotation;
+                    if (currProps.get("head") == null) {
+                        standRotation -= 45;
+                    }
+
+                    WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:armor_stand", currProps, standRotation % 360 - 180);
+
+                //Spawn block
                 } else {
                     if (currBlock.equals("barrel") && blocks.size() != 1) {
-                        int rotate = new Random().nextInt(3);
+                        int rotate = Rands.randInt(3);
                         currProps.put("facing", (rotate == 0) ? "SOUTH" : (rotate == 1) ? "EAST" : "UP");
                     } else if (currBlock.equals("potted_")) {
                         String[] plants = {"white_tulip", "spruce_sapling", "red_tulip", "red_mushroom", "poppy", "pink_tulip", "oxeye_daisy", "orange_tulip",
                                 "oak_sapling", "lily_of_the_valley", "jungle_sapling", "fern", "dead_bush", "dark_oak_sapling", "dandelion", "cactus",
                                 "brown_mushroom", "blue_orchid", "birch_sapling", "bamboo", "azure_bluet", "allium", "acacia_sapling", "cornflower"};
-                        currBlock += plants[new Random().nextInt(plants.length)];
-                    } else if (currBlock.equals("iron_bars")) {
+                        currBlock += plants[Rands.randInt(plants.length)];
+                    } else if (currBlock.equals("iron_bars") && currProps.get("west") == null) {
                         if (x == z && y == 0) {
                             currProps.put("north", "TRUE");
                             currProps.put("west", "TRUE");
@@ -166,14 +166,16 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    private static void placeRoom(IWorld world, BlockPos pos, Map<String, JsonConverter.StructureValues> pieces, String type, int decay) {
+    private static void placeRoom(IWorld world, BlockPos pos, Map<String, JsonConverter.StructureValues> pieces, String type, float decay) {
+        Random rand = new Random();
+
         //walls
-        placePiece(world, pos.add(1, 0, 1), 0, pieces.get("tower_walls"), decay + 2);
+        placePiece(world, pos.add(1, 0, 1), 0, pieces.get("tower_walls"), decay * 1.2F);
         //stairs/ladders
         if (Rands.chance(2)) {
-            placePiece(world, pos, new Random().nextInt(4), pieces.get("tower_stairs"), decay - 1);
+            placePiece(world, pos, rand.nextInt(4), pieces.get("tower_stairs"), decay * 0.9F);
         } else {
-            placePiece(world, pos, new Random().nextInt(4), pieces.get("tower_ladders"), decay - 1);
+            placePiece(world, pos, rand.nextInt(4), pieces.get("tower_ladders"), decay * 0.9F);
         }
 
         //Populate corner items
@@ -195,7 +197,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 "0 0 0, 0 0 1; 0 0 0; 0 0 0; 0 0 0; 0 0 0; " +
                 "0 0 0, 0 0 1; 0 1 0; 0 0 0, 0 1 0; 0 0 0, 0 1 0";
         String centerPropsString = "facing:SOUTH type:SINGLE, NULL; facing:UP; facing:SOUTH; NULL; NULL, NULL; " +
-                "facing:SOUTH type:SINGLE, NULL; west:TRUE east:TRUE; facing:WEST; face:FLOOR facing:WEST; armor:ALL; " +
+                "facing:SOUTH type:SINGLE, NULL; west:TRUE east:TRUE; facing:WEST; face:FLOOR facing:WEST; head:5 chest:5 legs:5 feet:5 weapon:4; " +
                 "facing:SOUTH type:SINGLE, NULL; attachment:SINGLE_WALL facing:NORTH; distance:0, NULL; distance:0, NULL";
 
         List<List<String>> cornerBlocks = new ArrayList<>();
@@ -208,7 +210,6 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         List<List<Map<String, String>>> centerProps = new ArrayList<>();
         decorateRooms(centerBlocksString, centerPosString, centerPropsString, centerBlocks, centerPos, centerProps);
 
-        Random rand = new Random();
         int randIndex;
 
         //Populate room based on type
@@ -413,61 +414,85 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         //Generate basement
         if (pos.getY() > 10 && Rands.chance(3)) {
             placePiece(world, pos.add(0, -7, 0), 0, structures.get("tower_base"), 0);
-            placeRoom(world, pos.add(0, -6, 0), structures, "Storage", -2);
+            placeRoom(world, pos.add(0, -6, 0), structures, "Storage", 0);
         }
         placePiece(world, pos, 0, structures.get("tower_base"), 0);
 
-        int level;
-        int lastFloor = -1;
-        int levelChance = new Random().nextInt(20);
-        for (level = 0; levelChance < 24 - 7 * level; level++) {
-            if (pos.getY() + 7 * level < 248) {
-                String roomName;
-                int roomNum = new Random().nextInt(3);
-                while (roomNum == lastFloor) {
-                    roomNum = new Random().nextInt(3);
-                }
-                lastFloor = roomNum;
-                if (roomNum == 0) {
-                    roomName = "Armory";
-                } else if (roomNum == 1) {
-                    roomName = "Barracks";
-                } else if (roomNum == 2 && Rands.chance(2)) {
-                    roomName = "Empty2";
-                } else {
-                    roomName = "Empty";
-                }
-                placeRoom(world, pos.add(0, 1 + level * 7, 0), structures, roomName, 2 * level + 2);
-            } else {
-                break;
-            }
+        int[] levelDistribution = {1, 2, 5, 10, 16, 23, 28, 30, 28, 23, 16, 10, 5, 2, 1}; //TODO: If changed, make sure it all adds up to 200, the bound of randomDistribution
+        int randomDistribution = Rands.randInt(200) + 1;
+        int currDistribution = levelDistribution[0];
+        int maxLevels = MathHelper.ceil((248 - pos.getY()) / 7.0f);
+        int totalLevels = 1;
+
+        //Figures out both A.(how many levels the distribution gives) and B.(maximum levels tower can have given build limit) and takes the minimum of the two
+        while (currDistribution < randomDistribution && totalLevels < maxLevels) {
+            currDistribution += levelDistribution[totalLevels];
+            totalLevels++;
         }
 
-        placePiece(world, pos.add(0, 1 + level * 7, 0), 0, structures.get("tower_roof"), 2 * level + 4);
+        int lastFloor = -1;
+        float decayFactor = Rands.randFloatRange(0.3F, 0.6F); //Determines how decayed the tower will be
+
+        //Generate levels (aka: rooms)
+        for (int level = 0; level < totalLevels; level++) {
+            String roomName;
+
+            //Makes sure the room generated is different than the one below
+            int roomNum = Rands.randInt(3);
+            while (roomNum == lastFloor) {
+                roomNum = Rands.randInt(3);
+            }
+
+            lastFloor = roomNum;
+            if (roomNum == 0) {
+                roomName = "Armory";
+            } else if (roomNum == 1) {
+                roomName = "Barracks";
+            } else if (roomNum == 2 && Rands.chance(2)) {
+                roomName = "Empty2";
+            } else {
+                roomName = "Empty";
+            }
+            placeRoom(world, pos.add(0, 1 + level * 7, 0), structures, roomName, ((float) level) / totalLevels * decayFactor);
+        }
+
+        //Generate roof
+        placePiece(world, pos.add(0, 1 + totalLevels * 7, 0), 0, structures.get("tower_roof"), decayFactor * 1.3F /*This number is 'very' mathematical. Multiply it by 0.8 if you don't believe me. ;) */);
 
         //Place in the door
-        List<Integer> windowsOpen = Arrays.asList(0, 0, 0, 0);
+        int[] windowsOpen = {0, 0, 0, 0};
         int max = 0;
         int index = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 1; j < 4; j++) {
                 if (world.isAir(pos.add(MathHelper.floor(6.5f + 6.5f * MathHelper.cos((float) Math.PI / 2 * i)), j, MathHelper.floor(6.5f + 6.5f * MathHelper.sin((float) Math.PI / 2 * i))))) {
-                    windowsOpen.set(i, windowsOpen.get(i) + 1);
+                    windowsOpen[i]++;
                 }
                 if (world.isAir(pos.add(MathHelper.ceil(6.5f + 6.5f * MathHelper.cos((float) Math.PI / 2 * i)), j, MathHelper.ceil(6.5f + 6.5f * MathHelper.sin((float) Math.PI / 2 * i))))) {
-                    windowsOpen.set(i, windowsOpen.get(i) + 1);
+                    windowsOpen[i]++;
                 }
             }
-            if (windowsOpen.get(i) > max) {
-                max = windowsOpen.get(i);
+            //Finds the side of the tower with the most blocks open to the outside to generate the door at
+            if (windowsOpen[i] > max) {
+                max = windowsOpen[i];
                 index = i;
             }
+            //If a fully un-obstructed door is found, don't check any further
+            if (max == 6)
+                break;
         }
         for (int i = 0; i < 4; i++) {
+            //Marks a 2x4 area for the door to be set into, shown below, with X's as blocks and #'s as air:
+            //  X X
+            //  # #
+            //  # #
+            //  # #
             if (i == 0) {
+                //Set the top two blocks
                 world.setBlockState(pos.add(MathHelper.floor(6.5f + 5.5f * MathHelper.cos((float) Math.PI / 2 * index)), 4 - i, MathHelper.floor(6.5f + 5.5f * MathHelper.sin((float) Math.PI / 2 * index))), Registry.BLOCK.get(Identifier.tryParse("raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks")).getDefaultState(), 2);
                 world.setBlockState(pos.add(MathHelper.ceil(6.5f + 5.5f * MathHelper.cos((float) Math.PI / 2 * index)), 4 - i, MathHelper.ceil(6.5f + 5.5f * MathHelper.sin((float) Math.PI / 2 * index))), Registry.BLOCK.get(Identifier.tryParse("raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks")).getDefaultState(), 2);
             } else {
+                //Set the other six blocks to air
                 world.setBlockState(pos.add(MathHelper.floor(6.5f + 5.5f * MathHelper.cos((float) Math.PI / 2 * index)), 4 - i, MathHelper.floor(6.5f + 5.5f * MathHelper.sin((float) Math.PI / 2 * index))), Blocks.AIR.getDefaultState(), 2);
                 world.setBlockState(pos.add(MathHelper.ceil(6.5f + 5.5f * MathHelper.cos((float) Math.PI / 2 * index)), 4 - i, MathHelper.ceil(6.5f + 5.5f * MathHelper.sin((float) Math.PI / 2 * index))), Blocks.AIR.getDefaultState(), 2);
             }
