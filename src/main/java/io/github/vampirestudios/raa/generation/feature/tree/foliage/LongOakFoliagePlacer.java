@@ -1,3 +1,4 @@
+/*
 package io.github.vampirestudios.raa.generation.feature.tree.foliage;
 
 import com.mojang.datafixers.Dynamic;
@@ -42,3 +43,4 @@ public class LongOakFoliagePlacer extends FoliagePlacer {
         return currentTreeHeight <= 1 ? 0 : 2;
     }
 }
+*/

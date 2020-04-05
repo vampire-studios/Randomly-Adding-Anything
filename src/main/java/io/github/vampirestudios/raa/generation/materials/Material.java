@@ -156,7 +156,7 @@ public class Material {
 
         protected Builder() {
             oreCount = Rands.randInt(30) + 1;
-            miningLevel = Rands.randInt(4);
+            miningLevel = Rands.randInt(5);
         }
 
         @Deprecated

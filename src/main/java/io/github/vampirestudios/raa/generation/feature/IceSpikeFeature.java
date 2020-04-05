@@ -4,6 +4,7 @@ import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.class_5138;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
@@ -23,7 +24,7 @@ public class IceSpikeFeature extends Feature<DefaultFeatureConfig> {
       super(function);
    }
 
-   public boolean generate(IWorld iWorld, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, DefaultFeatureConfig defaultFeatureConfig) {
+   public boolean generate(IWorld iWorld, class_5138 class_5138, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, DefaultFeatureConfig defaultFeatureConfig) {
       while(iWorld.isAir(blockPos) && blockPos.getY() > 2) {
          blockPos = blockPos.down();
       }

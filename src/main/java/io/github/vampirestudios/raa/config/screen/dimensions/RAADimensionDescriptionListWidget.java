@@ -58,8 +58,8 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         DimensionColorPalette colorPalette = dimensionData.getDimensionColorPalette();
         addItem(new TextEntry(new TranslatableText("config.text.raa.identifier", dimensionData.getId().toString())));
 
-        addItem(new TextEntry(new TranslatableText("config.text.raa.hasSky", new TranslatableText("config.text.raa.boolean.value." + dimensionData.hasSky()))));
-        addItem(new TextEntry(new TranslatableText("config.text.raa.hasSkyLight", new TranslatableText("config.text.raa.boolean.value." + dimensionData.hasSkyLight()))));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.hasSky", new TranslatableText("config.text.raa.boolean.value." + dimensionData.getCustomSkyInformation().hasSky()))));
+        addItem(new TextEntry(new TranslatableText("config.text.raa.hasSkyLight", new TranslatableText("config.text.raa.boolean.value." + dimensionData.getCustomSkyInformation().hasSkyLight()))));
         addItem(new TextEntry(new TranslatableText("config.text.raa.canSleep", new TranslatableText("config.text.raa.boolean.value." + dimensionData.canSleep()))));
         addItem(new TextEntry(new TranslatableText("config.text.raa.waterVaporize", new TranslatableText("config.text.raa.boolean.value." + dimensionData.doesWaterVaporize()))));
         addItem(new TextEntry(new TranslatableText("config.text.raa.renderFog", new TranslatableText("config.text.raa.boolean.value." + dimensionData.hasThickFog()))));
@@ -111,7 +111,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
 
         addItem(new TitleEntry(new TranslatableText("config.title.raa.colors").formatted(Formatting.UNDERLINE, Formatting.BOLD)));
 
-        if (dimensionData.hasSky()) {
+        if (dimensionData.getCustomSkyInformation().hasSky()) {
             addItem(new ColorEntry("config.text.raa.skyColor", colorPalette.getSkyColor()));
         }
         addItem(new ColorEntry("config.text.raa.grassColor", colorPalette.getGrassColor()));
@@ -126,8 +126,8 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
     }
 
     public static class ColorEntry extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
-        private String s;
-        private int color;
+        private final String s;
+        private final int color;
 
         public ColorEntry(String s, int color) {
             this.s = s;
@@ -162,16 +162,16 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                     widget -> openClothConfigForMaterial(og, material));
         }
 
-        private static void openClothConfigForMaterial(DimensionListScreen og, DimensionData material) {
+        private static void openClothConfigForMaterial(DimensionListScreen og, DimensionData dimensionData) {
             ConfigBuilder builder = ConfigBuilder.create()
                     .setParentScreen(og)
-                    .setTitle(I18n.translate("config.title.raa.config_specific", WordUtils.capitalizeFully(material.getName())));
+                    .setTitle(I18n.translate("config.title.raa.config_specific", WordUtils.capitalizeFully(dimensionData.getName())));
             ConfigCategory category = builder.getOrCreateCategory("null"); // The name is not required if we only have 1 category in Cloth Config 1.8+
             ConfigEntryBuilder eb = builder.entryBuilder();
             category.addEntry(
-                    eb.startStrField("config.field.raa.identifier", material.getId().getPath())
-                            .setDefaultValue(material.getId().getPath())
-                            .setSaveConsumer(material::setId)
+                    eb.startStrField("config.field.raa.identifier", dimensionData.getId().getPath())
+                            .setDefaultValue(dimensionData.getId().getPath())
+                            .setSaveConsumer(dimensionData::setId)
                             .setErrorSupplier(str -> {
                                 if (str.toLowerCase().equals(str))
                                     return Optional.empty();
@@ -180,16 +180,143 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                             .requireRestart()
                             .build()
             );
-
-            //TODO: refactor this with array support
             category.addEntry(
-                    eb.startStrField("config.field.raa.name", material.getName())
-                            .setDefaultValue(material.getName())
-                            .setSaveConsumer(material::setName)
+                    eb.startStrField("config.field.raa.name", dimensionData.getName())
+                            .setDefaultValue(dimensionData.getName())
+                            .setSaveConsumer(dimensionData::setName)
                             .build()
             );
 
-            for (DimensionBiomeData biomeData : material.getBiomeData()) {
+            SubCategoryBuilder misc = eb.startSubCategory(I18n.translate("config.title.raa.misc")).setExpanded(false);
+            misc.add(
+                    eb.startBooleanToggle("config.field.raa.canSleep", dimensionData.canSleep())
+                            .setDefaultValue(dimensionData.canSleep())
+                            .setSaveConsumer(dimensionData::setCanSleep)
+                            .build()
+            );
+            misc.add(
+                    eb.startBooleanToggle("config.field.raa.doesWaterVaporize", dimensionData.doesWaterVaporize())
+                            .setDefaultValue(dimensionData.doesWaterVaporize())
+                            .setSaveConsumer(dimensionData::setWaterVaporize)
+                            .build()
+            );
+            misc.add(
+                    eb.startBooleanToggle("config.field.raa.shouldRenderFog", dimensionData.hasThickFog())
+                            .setDefaultValue(dimensionData.hasThickFog())
+                            .setSaveConsumer(dimensionData::setRenderFog)
+                            .build()
+            );
+            misc.add(
+                    eb.startFloatField("config.field.raa.stoneHardness", dimensionData.getStoneHardness())
+                            .setDefaultValue(dimensionData.getStoneHardness())
+                            .setSaveConsumer(dimensionData::setStoneHardness)
+                            .build()
+            );
+            misc.add(
+                    eb.startFloatField("config.field.raa.stoneResistance", dimensionData.getStoneResistance())
+                            .setDefaultValue(dimensionData.getStoneResistance())
+                            .setSaveConsumer(dimensionData::setStoneResistance)
+                            .build()
+            );
+            category.addEntry(misc.build());
+
+            SubCategoryBuilder colors = eb.startSubCategory(I18n.translate("config.title.raa.colors")).setExpanded(false);
+            if (dimensionData.getCustomSkyInformation().hasSky()) {
+                colors.add(
+                        eb.startAlphaColorField("config.field.raa.skyColor", dimensionData.getDimensionColorPalette().getSkyColor())
+                                .setDefaultValue(dimensionData.getDimensionColorPalette().getSkyColor())
+                                .setSaveConsumer(integer -> dimensionData.getDimensionColorPalette().setSkyColor(integer))
+                                .build()
+                );
+            }
+            colors.add(
+                    eb.startAlphaColorField("config.field.raa.fogColor", dimensionData.getDimensionColorPalette().getFogColor())
+                            .setDefaultValue(dimensionData.getDimensionColorPalette().getFogColor())
+                            .setSaveConsumer(integer -> dimensionData.getDimensionColorPalette().setFogColor(integer))
+                            .build()
+            );
+            colors.add(
+                    eb.startAlphaColorField("config.field.raa.stoneColor", dimensionData.getDimensionColorPalette().getStoneColor())
+                            .setDefaultValue(dimensionData.getDimensionColorPalette().getStoneColor())
+                            .setSaveConsumer(integer -> dimensionData.getDimensionColorPalette().setStoneColor(integer))
+                            .build()
+            );
+            category.addEntry(colors.build());
+
+            SubCategoryBuilder astralBody = eb.startSubCategory(I18n.translate("config.title.raa.astralBody")).setExpanded(false);
+            astralBody.add(
+                    eb.startBooleanToggle("config.field.raa.hasSky", dimensionData.getCustomSkyInformation().hasSky())
+                            .setDefaultValue(dimensionData.getCustomSkyInformation().hasSky())
+                            .setSaveConsumer(dimensionData.getCustomSkyInformation()::setHasSky)
+                            .build()
+            );
+            astralBody.add(
+                    eb.startBooleanToggle("config.field.raa.hasSkyLight", dimensionData.getCustomSkyInformation().hasSkyLight())
+                            .setDefaultValue(dimensionData.getCustomSkyInformation().hasSkyLight())
+                            .setSaveConsumer(dimensionData.getCustomSkyInformation()::setHasSkyLight)
+                            .build()
+            );
+            astralBody.add(
+                    eb.startBooleanToggle("config.field.raa.hasCustomSun", dimensionData.getCustomSkyInformation().hasCustomSun())
+                            .setDefaultValue(dimensionData.getCustomSkyInformation().hasCustomSun())
+                            .setSaveConsumer(dimensionData.getCustomSkyInformation()::shouldHaveCustomSun)
+                            .build()
+            );
+            astralBody.add(
+                    eb.startBooleanToggle("config.field.raa.hasCustomMoon", dimensionData.getCustomSkyInformation().hasCustomMoon())
+                            .setDefaultValue(dimensionData.getCustomSkyInformation().hasCustomMoon())
+                            .setSaveConsumer(dimensionData.getCustomSkyInformation()::shouldHaveCustomMoon)
+                            .build()
+            );
+            if (dimensionData.getCustomSkyInformation().hasCustomSun()) {
+                astralBody.add(
+                        eb.startAlphaColorField("config.field.raa.sunColor", dimensionData.getCustomSkyInformation().getSunTint())
+                                .setDefaultValue(dimensionData.getCustomSkyInformation().getSunTint())
+                                .setSaveConsumer(integer -> dimensionData.getCustomSkyInformation().setSunTint(integer))
+                                .build()
+                );
+                astralBody.add(
+                        eb.startFloatField("config.field.raa.sunSize", dimensionData.getCustomSkyInformation().getSunSize())
+                                .setDefaultValue(dimensionData.getCustomSkyInformation().getSunSize())
+                                .setSaveConsumer(size -> dimensionData.getCustomSkyInformation().setSunSize(size))
+                                .build()
+                );
+            }
+            if (dimensionData.getCustomSkyInformation().hasCustomMoon()) {
+                astralBody.add(
+                        eb.startAlphaColorField("config.field.raa.moonColor", dimensionData.getCustomSkyInformation().getMoonTint())
+                                .setDefaultValue(dimensionData.getCustomSkyInformation().getMoonTint())
+                                .setSaveConsumer(integer -> dimensionData.getCustomSkyInformation().setMoonTint(integer))
+                                .build()
+                );
+                astralBody.add(
+                        eb.startFloatField("config.field.raa.moonSize", dimensionData.getCustomSkyInformation().getMoonSize())
+                                .setDefaultValue(dimensionData.getCustomSkyInformation().getMoonSize())
+                                .setSaveConsumer(size -> dimensionData.getCustomSkyInformation().setMoonSize(size))
+                                .build()
+                );
+            }
+            category.addEntry(astralBody.build());
+
+            SubCategoryBuilder gravity = eb.startSubCategory(I18n.translate("config.title.raa.gravity")).setExpanded(false);
+            gravity.add(
+                    eb.startBooleanToggle("config.field.raa.hasCustomGravity", dimensionData.hasCustomGravity())
+                            .setDefaultValue(dimensionData.hasCustomGravity())
+                            .setSaveConsumer(dimensionData::shouldHaveCustomGravity)
+                            .build()
+            );
+            if (dimensionData.hasCustomGravity()) {
+                gravity.add(
+                        eb.startFloatField("config.field.raa.gravity", dimensionData.getGravity())
+                                .setDefaultValue(dimensionData.getGravity())
+                                .setSaveConsumer(dimensionData::setGravity)
+                                .build()
+                );
+            }
+            category.addEntry(gravity.build());
+
+            SubCategoryBuilder biomes = eb.startSubCategory(I18n.translate("config.title.raa.biomes")).setExpanded(false);
+            for (DimensionBiomeData biomeData : dimensionData.getBiomeData()) {
                 SubCategoryBuilder biomeDataSubCategory = eb.startSubCategory(I18n.translate("config.title.raa.biomeData", WordUtils.capitalizeFully(biomeData.getId()
                         .getPath().replace("_", " ")))).setExpanded(false);
                 biomeDataSubCategory.add(
@@ -266,65 +393,28 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
                                 })
                                 .build()
                 );
-                category.addEntry(biomeDataSubCategory.build());
-            }
-
-            category.addEntry(
-                    eb.startBooleanToggle("config.field.raa.hasSky", material.hasSky())
-                            .setDefaultValue(material.hasSky())
-                            .setSaveConsumer(material::setHasSky)
-                            .build()
-            );
-            category.addEntry(
-                    eb.startBooleanToggle("config.field.raa.hasSkyLight", material.hasSkyLight())
-                            .setDefaultValue(material.hasSkyLight())
-                            .setSaveConsumer(material::setHasSkyLight)
-                            .build()
-            );
-            if (material.hasSky()) {
-                category.addEntry(
-                        eb.startAlphaColorField("config.field.raa.skyColor", material.getDimensionColorPalette().getSkyColor())
-                                .setDefaultValue(material.getDimensionColorPalette().getSkyColor())
-                                .setSaveConsumer(integer -> material.getDimensionColorPalette().setSkyColor(integer))
+                biomeDataSubCategory.add(
+                        eb.startAlphaColorField("config.field.raa.waterColor", biomeData.getWaterColor())
+                        .setDefaultValue(biomeData.getWaterColor())
+                        .setSaveConsumer(biomeData::setWaterColor)
+                        .build()
+                );
+                biomeDataSubCategory.add(
+                        eb.startAlphaColorField("config.field.raa.foliageColor", biomeData.getFoliageColor())
+                                .setDefaultValue(biomeData.getFoliageColor())
+                                .setSaveConsumer(biomeData::setFoliageColor)
                                 .build()
                 );
+                biomeDataSubCategory.add(
+                        eb.startAlphaColorField("config.field.raa.waterColor", biomeData.getGrassColor())
+                                .setDefaultValue(biomeData.getGrassColor())
+                                .setSaveConsumer(biomeData::setGrassColor)
+                                .build()
+                );
+                biomes.add(biomeDataSubCategory.build());
             }
-            category.addEntry(
-                    eb.startAlphaColorField("config.field.raa.grassColor", material.getDimensionColorPalette().getGrassColor())
-                            .setDefaultValue(material.getDimensionColorPalette().getGrassColor())
-                            .setSaveConsumer(integer -> material.getDimensionColorPalette().setGrassColor(integer))
-                            .build()
-            );
-            category.addEntry(
-                    eb.startAlphaColorField("config.field.raa.fogColor", material.getDimensionColorPalette().getFogColor())
-                            .setDefaultValue(material.getDimensionColorPalette().getFogColor())
-                            .setSaveConsumer(integer -> material.getDimensionColorPalette().setFogColor(integer))
-                            .build()
-            );
-            category.addEntry(
-                    eb.startBooleanToggle("config.field.raa.canSleep", material.canSleep())
-                            .setDefaultValue(material.canSleep())
-                            .setSaveConsumer(material::setCanSleep)
-                            .build()
-            );
-            category.addEntry(
-                    eb.startBooleanToggle("config.field.raa.doesWaterVaporize", material.doesWaterVaporize())
-                            .setDefaultValue(material.doesWaterVaporize())
-                            .setSaveConsumer(material::setWaterVaporize)
-                            .build()
-            );
-            category.addEntry(
-                    eb.startBooleanToggle("config.field.raa.shouldRenderFog", material.hasThickFog())
-                            .setDefaultValue(material.hasThickFog())
-                            .setSaveConsumer(material::setRenderFog)
-                            .build()
-            );
-            category.addEntry(
-                    eb.startFloatField("config.field.raa.stoneJumpHeight", material.getStoneJumpHeight())
-                            .setDefaultValue(material.getStoneJumpHeight())
-                            .setSaveConsumer(material::setStoneJumpHeight)
-                            .build()
-            );
+            category.addEntry(biomes.build());
+
             builder.setSavingRunnable(RandomlyAddingAnything.DIMENSIONS_CONFIG::overrideFile);
             MinecraftClient.getInstance().openScreen(builder.build());
         }
@@ -431,7 +521,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
     }
 
     public static class EmptyEntry extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
-        private int height;
+        private final int height;
 
         public EmptyEntry(int height) {
             this.height = height;

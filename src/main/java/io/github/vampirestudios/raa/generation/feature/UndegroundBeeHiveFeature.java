@@ -6,6 +6,7 @@ import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
+import net.minecraft.class_5138;
 import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +25,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class UndegroundBeeHiveFeature extends Feature<DefaultFeatureConfig> {
-    private JsonConverter converter = new JsonConverter();
+    private final JsonConverter converter = new JsonConverter();
     private Map<String, JsonConverter.StructureValues> structures;
 
     public UndegroundBeeHiveFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
@@ -32,7 +33,7 @@ public class UndegroundBeeHiveFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(IWorld world, class_5138 class_5138, ChunkGenerator<? extends ChunkGeneratorConfig> generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject jsonObject = null;
         try {
             Resource path = world.getWorld().getServer().getDataManager().getResource(new Identifier("raa:structures/underground_bee_nest.json"));
@@ -50,7 +51,7 @@ public class UndegroundBeeHiveFeature extends Feature<DefaultFeatureConfig> {
             return true;
         }
 
-        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, structures.get("underground_bee_nest").getSize(), 0.125f, true);
+        Vec3i tempPos = WorldStructureManipulation.circularSpawnCheck(world, pos, structures.get("underground_bee_nest").getSize(), 0.125f);
         if (tempPos.compareTo(Vec3i.ZERO) == 0) {
             return true;
         }

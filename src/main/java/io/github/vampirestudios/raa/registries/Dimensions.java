@@ -7,6 +7,7 @@ import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import io.github.vampirestudios.raa.blocks.DimensionalBlock;
 import io.github.vampirestudios.raa.blocks.DimensionalStone;
+import io.github.vampirestudios.raa.blocks.MinerPortalBlock;
 import io.github.vampirestudios.raa.blocks.PortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
 import io.github.vampirestudios.raa.generation.dimensions.CustomDimensionalBiome;
@@ -55,7 +56,7 @@ public class Dimensions {
         //pre generation of dimensions: basic data, flags, and name
         //This is only the data needed for civilization simulation
         ArrayList<ProtoDimension> protoDimensions = new ArrayList<>();
-        for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionNumber; a++) {
+        for (int a = 0; a < RandomlyAddingAnything.CONFIG.dimensionGenAmount; a++) {
             float temperature = Rands.randFloat(2.0F);
             int flags = generateDimensionFlags();
 
@@ -158,21 +159,42 @@ public class Dimensions {
             Color FOLIAGE_COLOR = new Color(Color.HSBtoRGB(foliageColor, saturation, value));
             Color FOG_COLOR = new Color(Color.HSBtoRGB(fogHue, saturation, value));
             Color SKY_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation, value));
-            Color WATER_COLOR = new Color(Color.HSBtoRGB(Rands.randFloatRange(0.0F, 1.0F), saturation, Rands.randFloatRange(0.5F, 1.0F)));
+            Color WATER_COLOR = new Color(Color.HSBtoRGB(skyHue, saturation + Rands.randFloatRange(0.3F, 1.0F), value + Rands.randFloatRange(0.3F, 1.0F)));
             Color STONE_COLOR = new Color(Color.HSBtoRGB(stoneColor, stoneSaturation, value));
+            Color MOON_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
+            Color SUN_COLOR = new Color(Color.HSBtoRGB(hue, saturation, value));
+
+            Color BLOOD_MOON = new Color(Color.HSBtoRGB(0F, 100F, 71F));
+            Color BLUE_MOON = new Color(Color.HSBtoRGB(196F, 69F, 65F));
+            Color VENUS = new Color(Color.HSBtoRGB(345F, 2.7F, 58.04F));
 
             DimensionChunkGenerators gen = Utils.randomCG(Rands.randIntRange(0, 100));
             if (gen == DimensionChunkGenerators.FLOATING) difficulty++;
-            if (gen == CAVE) difficulty += 2;
+            if (gen == CAVES) difficulty += 2;
             float scale = dimension.getScale();
             if (scale > 0.8) difficulty++;
             if (scale > 1.6) difficulty++;
             Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
 
+            float gravity = 0.1F;
+            if (Rands.chance(4)) {
+                gravity = Rands.randFloatRange(0.75F, 1.25F);
+            } else if(Rands.chance(10)) {
+                gravity = Rands.randFloatRange(0.25F, 1.75F);
+            } else if (Rands.chance(30)) {
+                gravity = Rands.randFloatRange(-1F, 3F);
+            }
+
+            if (Rands.chance(10)) {
+                MOON_COLOR = BLOOD_MOON;
+            } else if (Rands.chance(60)) {
+                MOON_COLOR = BLUE_MOON;
+            } else if (Rands.chance(100)) {
+                MOON_COLOR = VENUS;
+            }
+
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
-                    .hasSkyLight(Rands.chance(1))
-                    .hasSky(!Rands.chance(2))
-                    .canSleep(Rands.chance(10))
+                    .canSleep(Rands.chance(4))
                     .waterVaporize(Rands.chance(100))
                     .shouldRenderFog(Rands.chance(40))
                     .chunkGenerator(gen)
@@ -182,7 +204,9 @@ public class Dimensions {
                     .civilizationInfluences(dimension.getCivilizationInfluences())
                     .cloudHeight(Rands.randFloatRange(80F, 256F))
                     .stoneHardness(Rands.randFloatRange(0.2f, 5f), Rands.randFloatRange(3, 18))
-                    .stoneJumpHeight(Rands.randFloatRange(1.0F, 10.0F));
+                    .stoneJumpHeight(Rands.randFloatRange(1.0F, 10.0F))
+                    .hasCustomGravity(Rands.chance(3))
+                    .gravity(gravity);
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
@@ -233,7 +257,7 @@ public class Dimensions {
                         .scale(Math.max(scale + Rands.randFloatRange(-0.75f, 0.75f), 0)) //ensure the scale is never below 0
                         .temperature(dimension.getTemperature() + Rands.randFloatRange(-0.5f, 0.5f))
                         .downfall(Rands.randFloat(1F))
-                        .waterColor(SKY_COLOR.getColor())
+                        .waterColor(WATER_COLOR.getColor())
                         .grassColor(new Color(Color.HSBtoRGB(grassColor, saturation, value)).getColor())
                         .foliageColor(new Color(Color.HSBtoRGB(grassColor + Rands.randFloatRange(-0.1f, 0.1f), saturation, value)).getColor())
                         .treeData(treeDataList)
@@ -261,6 +285,17 @@ public class Dimensions {
                     .stoneColor(STONE_COLOR.getColor()).build();
             builder.colorPalette(colorPalette);
 
+            DimensionCustomSkyInformation customSkyInformation = DimensionCustomSkyInformation.Builder.create()
+                    .hasSkyLight(Rands.chance(1))
+                    .hasSky(!Rands.chance(2))
+                    .customSun(Rands.chance(3))
+                    .sunSize(Rands.randFloatRange(30F, 120F))
+                    .sunTint(SUN_COLOR.getColor())
+                    .customMoon(Rands.chance(3))
+                    .moonSize(Rands.randFloatRange(20F, 80F))
+                    .moonTint(MOON_COLOR.getColor()).build();
+            builder.customSkyInformation(customSkyInformation);
+
             DimensionData dimensionData = builder.build();
 
             Registry.register(DIMENSIONS, dimensionData.getId(), dimensionData);
@@ -273,61 +308,63 @@ public class Dimensions {
     }
 
     public static void createDimensions() {
-        DIMENSIONS.forEach(dimension -> {
-            Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
+        DIMENSIONS.forEach(dimensionData -> {
+            Identifier identifier = new Identifier(MOD_ID, dimensionData.getName().toLowerCase());
 
-            Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimension), Utils.addSuffixToPath(identifier, "_stone"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stone");
+            Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimensionData), Utils.addSuffixToPath(identifier, "_stone"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stone");
             RegistryUtils.register(new StairsBaseBlock(stoneBlock.getDefaultState()), Utils.addSuffixToPath(identifier, "_stone_stairs"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneStairs");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneStairs");
             RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier, "_stone_slab"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneSlab");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneSlab");
             RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier, "_stone_wall"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneWall");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneWall");
 
             Set<Biome> biomes = new LinkedHashSet<>();
-            for (int i = 0; i < dimension.getBiomeData().size(); i++) {
-                CustomDimensionalBiome biome = new CustomDimensionalBiome(dimension, dimension.getBiomeData().get(i));
-                biomes.add(RegistryUtils.registerBiome(dimension.getBiomeData().get(i).getId(), biome));
+            for (int i = 0; i < dimensionData.getBiomeData().size(); i++) {
+                CustomDimensionalBiome biome = new CustomDimensionalBiome(dimensionData, dimensionData.getBiomeData().get(i));
+                biomes.add(RegistryUtils.registerBiome(dimensionData.getBiomeData().get(i).getId(), biome));
             }
 
             FabricDimensionType.Builder builder = FabricDimensionType.builder()
                     .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
-                    .skyLight(dimension.hasSkyLight())
-                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimension, biomes, Rands.chance(50) ? Blocks.STONE : stoneBlock));
+                    .skyLight(dimensionData.getCustomSkyInformation().hasSkyLight())
+                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimensionData, biomes, Rands.chance(50) ? Blocks.STONE : stoneBlock));
 
-            if (dimension.getDimensionChunkGenerator() == CAVE || dimension.getDimensionChunkGenerator() == FLAT_CAVES || dimension.getDimensionChunkGenerator() == HIGH_CAVES) {
+            if (dimensionData.getDimensionChunkGenerator() == CAVES || dimensionData.getDimensionChunkGenerator() == FLAT_CAVES || dimensionData.getDimensionChunkGenerator() == HIGH_CAVES) {
                 builder.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
-            } else if (dimension.getDimensionChunkGenerator() == FLOATING || dimension.getDimensionChunkGenerator() == LAYERED_FLOATING || dimension.getDimensionChunkGenerator() == PRE_CLASSIC_FLOATING) {
+            } else if (dimensionData.getDimensionChunkGenerator() == FLOATING || dimensionData.getDimensionChunkGenerator() == LAYERED_FLOATING || dimensionData.getDimensionChunkGenerator() == PRE_CLASSIC_FLOATING) {
                 builder.defaultPlacer(PlayerPlacementHandlers.FLOATING_WORLD.getEntityPlacer());
             } else {
                 builder.defaultPlacer(PlayerPlacementHandlers.SURFACE_WORLD.getEntityPlacer());
             }
 
-            DimensionType type = builder.buildAndRegister(dimension.getId());
+            DimensionType type = builder.buildAndRegister(dimensionData.getId());
             DimensionType dimensionType;
-            if (Registry.DIMENSION_TYPE.get(dimension.getId()) == null) {
-                dimensionType = Registry.register(Registry.DIMENSION_TYPE, dimension.getId(), type);
+            if (Registry.DIMENSION_TYPE.get(dimensionData.getId()) == null) {
+                dimensionType = Registry.register(Registry.DIMENSION_TYPE, dimensionData.getId(), type);
             }
             else {
-                dimensionType = Registry.DIMENSION_TYPE.get(dimension.getId());
+                dimensionType = Registry.DIMENSION_TYPE.get(dimensionData.getId());
             }
+
+            RegistryUtils.registerBlockWithoutItem(new MinerPortalBlock(dimensionData, dimensionType), Utils.addSuffixToPath(dimensionData.getId(), "_custom_portal"));
 
             //TODO: custom tool durabilities
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
-                    return (int) (ToolMaterials.STONE.getDurability() * dimension.getStoneHardness() / 2);
+                    return (int) (ToolMaterials.STONE.getDurability() * dimensionData.getStoneHardness() / 2);
                 }
 
                 @Override
                 public float getMiningSpeedMultiplier() {
-                    return ToolMaterials.STONE.getMiningSpeedMultiplier() * dimension.getStoneHardness() / 2;
+                    return ToolMaterials.STONE.getMiningSpeedMultiplier() * dimensionData.getStoneHardness() / 2;
                 }
 
                 @Override
                 public float getAttackDamage() {
-                    return ToolMaterials.STONE.getAttackDamage() * dimension.getStoneHardness() / 4;
+                    return ToolMaterials.STONE.getAttackDamage() * dimensionData.getStoneHardness() / 4;
                 }
 
                 @Override
@@ -337,7 +374,7 @@ public class Dimensions {
 
                 @Override
                 public int getEnchantability() {
-                    return (int) (ToolMaterials.STONE.getEnchantability() * dimension.getStoneHardness() / 4);
+                    return (int) (ToolMaterials.STONE.getEnchantability() * dimensionData.getStoneHardness() / 4);
                 }
 
                 @Override
@@ -348,7 +385,7 @@ public class Dimensions {
 
             RegistryUtils.registerItem(
                     new DimensionalPickaxeItem(
-                            dimension,
+                            dimensionData,
                             toolMaterial,
                             1,
                             -2.8F,
@@ -358,7 +395,7 @@ public class Dimensions {
             );
             RegistryUtils.registerItem(
                     new DimensionalAxeItem(
-                            dimension,
+                            dimensionData,
                             toolMaterial,
                             7.0F,
                             -3.2F,
@@ -368,7 +405,7 @@ public class Dimensions {
             );
             RegistryUtils.registerItem(
                     new DimensionalShovelItem(
-                            dimension,
+                            dimensionData,
                             toolMaterial,
                             1.5F,
                             -3.0F,
@@ -378,7 +415,7 @@ public class Dimensions {
             );
             RegistryUtils.registerItem(
                     new DimensionalHoeItem(
-                            dimension,
+                            dimensionData,
                             toolMaterial,
                             1.5F,
                             -2.0F,
@@ -389,21 +426,22 @@ public class Dimensions {
             RegistryUtils.registerItem(
                     new DimensionalSwordItem(
                             toolMaterial,
-                            dimension,
+                            dimensionData,
                             new Item.Settings().group(RandomlyAddingAnything.RAA_WEAPONS).recipeRemainder(Registry.ITEM.get(Utils.addSuffixToPath(identifier, "_cobblestone")))
                     ),
                     Utils.addSuffixToPath(identifier, "_sword")
             );
+            RegistryUtils.registerItem(new DimensionalPortalKeyItem(dimensionData), Utils.addSuffixToPath(identifier, "_portal_key"));
 
             Block stoneBrick = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimension.getName().toLowerCase() + "_stone_bricks"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBricks");
+                            dimensionData.getName().toLowerCase() + "_stone_bricks"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneBricks");
             RegistryUtils.register(new StairsBaseBlock(stoneBrick.getDefaultState()), Utils.addSuffixToPath(identifier, "_stone_brick_stairs"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBrickStairs");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneBrickStairs");
             RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier, "_stone_brick_slab"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBrickSlab");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneBrickSlab");
             RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier, "_stone_brick_wall"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "stoneBrickWall");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneBrickWall");
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "mossy_" + dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyStoneBricks");
@@ -411,20 +449,20 @@ public class Dimensions {
                             "cracked_" + dimension.getName().toLowerCase() + "_stone_bricks"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedStoneBricks");*/
             Block cobblestone = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimension.getName().toLowerCase() + "_cobblestone"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestone");
+                            dimensionData.getName().toLowerCase() + "_cobblestone"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "cobblestone");
             RegistryUtils.register(new StairsBaseBlock(cobblestone.getDefaultState()), Utils.addSuffixToPath(identifier, "_cobblestone_stairs"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestoneStairs");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "cobblestoneStairs");
             RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier, "_cobblestone_slab"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestoneSlab");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "cobblestoneSlab");
             RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier, "_cobblestone_wall"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "cobblestoneWall");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "cobblestoneWall");
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             dimension.getName().toLowerCase() + "_mossy_cobblestone"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyCobblestone");*/
             RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "chiseled_" + dimension.getName().toLowerCase() + "_stone_bricks"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "chiseled_stone_bricks");
+                            "chiseled_" + dimensionData.getName().toLowerCase() + "_stone_bricks"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "chiseled_stone_bricks");
             /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
                             "cracked_chiseled_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedChiseled");
@@ -432,23 +470,23 @@ public class Dimensions {
                             "mossy_chiseled_" + dimension.getName().toLowerCase()),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyChiseled");*/
             Block polished = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "polished_" + dimension.getName().toLowerCase()),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polished");
+                            "polished_" + dimensionData.getName().toLowerCase()),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "polished");
             RegistryUtils.register(new StairsBaseBlock(polished.getDefaultState()), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stairs"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polishedStairs");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "polishedStairs");
             RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_slab"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polishedSlab");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "polishedSlab");
             RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_wall"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "polishedWall");
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "polishedWall");
 
             RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimension.getName().toLowerCase() + "_ice"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "ice");
+                            dimensionData.getName().toLowerCase() + "_ice"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "ice");
 
-            Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimensionType),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
-            RegistryUtils.registerItem(new RAABlockItemAlt(dimension.getName(), "portal", portalBlock, new Item.Settings().group(ItemGroup.TRANSPORTATION)),
-                    new Identifier(RandomlyAddingAnything.MOD_ID, dimension.getName().toLowerCase() + "_portal"));
+            Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimensionType, dimensionData),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_portal"));
+            RegistryUtils.registerItem(new RAABlockItemAlt(dimensionData.getName(), "portal", portalBlock, new Item.Settings().group(ItemGroup.TRANSPORTATION)),
+                    new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_portal"));
         });
     }
 

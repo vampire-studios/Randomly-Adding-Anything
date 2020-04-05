@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa.generation.feature;
 
 import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import net.minecraft.class_5138;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.Structure;
 import net.minecraft.structure.StructureManager;
@@ -29,7 +30,7 @@ public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 	}
 
 	@Override
-	public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, DefaultFeatureConfig config) {
+	public boolean generate(IWorld world, class_5138 class_5138, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, DefaultFeatureConfig config) {
 		//makes sure this ruins does not spawn too close to world height border.
 		if (position.getY() < world.getSeaLevel() + 5) {
 			return false;

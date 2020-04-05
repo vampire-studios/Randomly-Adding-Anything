@@ -9,10 +9,9 @@ import io.github.vampirestudios.raa.generation.feature.FossilFeature;
 import io.github.vampirestudios.raa.generation.feature.*;
 import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
+import io.github.vampirestudios.raa.generation.feature.dungeon.RandomDungeonFeature;
+import io.github.vampirestudios.raa.generation.feature.dungeon.RandomDungeonPiece;
 import io.github.vampirestudios.raa.generation.feature.portalHub.PortalHubFeature;
-import io.github.vampirestudios.raa.generation.feature.tree.BentTreeFeature;
-import io.github.vampirestudios.raa.generation.feature.tree.DoubleTreeFeature;
-import io.github.vampirestudios.raa.generation.feature.tree.FixedTreeFeature;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
@@ -39,9 +38,9 @@ public class Features {
     public static SmallSkeletalTreeFeature SMALL_SKELETON_TREE;
     public static LargeSkeletalTreeFeature LARGE_SKELETON_TREE;
     public static SpiderLairFeature SPIDER_LAIR;
-    public static FixedTreeFeature FIXED_TREE;
-    public static BentTreeFeature BENT_TREE;
-    public static DoubleTreeFeature DOUBLE_TREE;
+//    public static FixedTreeFeature FIXED_TREE;
+//    public static BentTreeFeature BENT_TREE;
+//    public static DoubleTreeFeature DOUBLE_TREE;
     public static TowerFeature TOWER;
     public static FossilFeature FOSSIL;
     public static PortalHubFeature PORTAL_HUB;
@@ -58,6 +57,10 @@ public class Features {
     public static AbovegroundStorageFeature ABOVE_GROUND_STORAGE;
     public static QuarryFeature QUARRY;
 
+    public static StructureFeature<DefaultFeatureConfig> DUNGEON_FEATURE;
+    public static StructureFeature<DefaultFeatureConfig> DUNGEON_STRUCTURE_FEATURE;
+    public static StructurePieceType DUNGEON_PIECE;
+
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
 
@@ -71,9 +74,9 @@ public class Features {
         SMALL_SKELETON_TREE = register("skeleton_tree_small", new SmallSkeletalTreeFeature(TreeFeatureConfig::deserialize));
         LARGE_SKELETON_TREE = register("skeleton_tree_large", new LargeSkeletalTreeFeature(TreeFeatureConfig::deserialize));
         SPIDER_LAIR = register("spider_lair", new SpiderLairFeature(DefaultFeatureConfig::deserialize));
-        FIXED_TREE = register("fixed_tree", new FixedTreeFeature(BranchedTreeFeatureConfig::deserialize));
-        BENT_TREE = register("bent_tree", new BentTreeFeature(BranchedTreeFeatureConfig::deserialize));
-        DOUBLE_TREE = register("double_tree", new DoubleTreeFeature(BranchedTreeFeatureConfig::deserialize));
+//        FIXED_TREE = register("fixed_tree", new FixedTreeFeature(BranchedTreeFeatureConfig::deserialize));
+//        BENT_TREE = register("bent_tree", new BentTreeFeature(BranchedTreeFeatureConfig::deserialize));
+//        DOUBLE_TREE = register("double_tree", new DoubleTreeFeature(BranchedTreeFeatureConfig::deserialize));
         PORTAL_HUB = register("portal_hub", new PortalHubFeature(DefaultFeatureConfig::deserialize));
         ABOVE_GROUND_STORAGE = register("aboveground_storage", new AbovegroundStorageFeature(DefaultFeatureConfig::deserialize));
         QUARRY = register("quarry", new QuarryFeature(DefaultFeatureConfig::deserialize));
@@ -87,6 +90,23 @@ public class Features {
         COLUMN_RAMP = register("columnn_ramp", new ColumnRampFeature(ColumnBlocksConfig::deserialize));
         COLUMN_VERTICAL = register("columnn_vertical", new ColumnVerticalFeature(ColumnBlocksConfig::deserialize));
         HANGING_RUINS = register("hanging_ruins", new HangingRuinsFeature(DefaultFeatureConfig::deserialize));
+
+        DUNGEON_FEATURE = Registry.register(
+                Registry.FEATURE,
+                new Identifier(RandomlyAddingAnything.MOD_ID, "dungeon_feature"),
+                new RandomDungeonFeature(DefaultFeatureConfig::deserialize)
+        );
+        DUNGEON_STRUCTURE_FEATURE = Registry.register(
+                Registry.STRUCTURE_FEATURE,
+                new Identifier(RandomlyAddingAnything.MOD_ID, "dungeon_structure_feature"),
+                new RandomDungeonFeature(DefaultFeatureConfig::deserialize)
+        );
+        DUNGEON_PIECE = Registry.register(
+                Registry.STRUCTURE_PIECE,
+                new Identifier(RandomlyAddingAnything.MOD_ID, "dungeon_piece"),
+                RandomDungeonPiece::new
+        );
+        Feature.STRUCTURES.put("dungeon", DUNGEON_FEATURE);
     }
 
     // we use this cursed code to make a new carver per dimension

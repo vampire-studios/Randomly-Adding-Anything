@@ -6,7 +6,10 @@
   "mixins": [
     "ItemEntityMixin",
     "ServerPlayerEntityMixin",
-    "MixinLeavesBlock"
+    "LeavesBlockMixin",
+    "LivingEntityMixin",
+    "LocateCommandMixin"/*,
+    "MixinPortalForcer"*/
   ],
   "client": [
     "WorldRendererMixin"
