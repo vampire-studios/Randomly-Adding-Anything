@@ -177,9 +177,9 @@ public class Dimensions {
             Pair<Integer, HashMap<String, int[]>> difficultyAndMobs = generateDimensionMobs(flags, difficulty);
 
             float gravity = 1F;
-            if (Rands.chance(6)) {
+            if (Rands.chance(4)) {
                 gravity = Rands.randFloatRange(0.75F, 1.25F);
-            } else if(Rands.chance(12)) {
+            } else if(Rands.chance(8)) {
                 gravity = Rands.randFloatRange(0.25F, 1.75F);
             }
 

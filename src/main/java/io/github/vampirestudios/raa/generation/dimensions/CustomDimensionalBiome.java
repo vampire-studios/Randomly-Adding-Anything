@@ -183,7 +183,7 @@ public class CustomDimensionalBiome extends Biome {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.ABANDONED)) {
             outpostChance = Rands.randFloatRange(0.002F, 0.003F);
             towerChance = Rands.randFloatRange(0.002F, 0.00225F);
-            storageChance = Rands.randFloatRange(0.0025F, 0.005F);
+            storageChance = Rands.randFloatRange(0.0025F, 0.003F);
         }
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.DEAD)) {
             campfireChance = 0;
@@ -194,7 +194,7 @@ public class CustomDimensionalBiome extends Biome {
             campfireChance = Rands.randFloatRange(0.005F, 0.007F);
             outpostChance = Rands.randFloatRange(0.002F, 0.008F);
             towerChance = Rands.randFloatRange(0.002F, 0.003F);
-            storageChance = Rands.randFloatRange(0.0025F, 0.004F);
+            storageChance = Rands.randFloatRange(0.0025F, 0.003F);
         }
 
         if (dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.CAVES)) {
