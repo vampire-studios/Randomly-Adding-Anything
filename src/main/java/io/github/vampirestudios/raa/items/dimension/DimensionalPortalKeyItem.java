@@ -1,6 +1,6 @@
 package io.github.vampirestudios.raa.items.dimension;
 
-import io.github.vampirestudios.raa.blocks.MinerPortalBlock;
+import io.github.vampirestudios.raa.blocks.CustomPortalBlock;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -26,7 +26,7 @@ public class DimensionalPortalKeyItem extends Item {
         if(context.getWorld().getBlockState(context.getBlockPos()).getBlock() == block) {
 //            MinerPortalBlock.createPortalAtTesting(dimensionData, context.getWorld(), context.getBlockPos().up());
         }*/
-        MinerPortalBlock.createPortalAt(dimensionData, context.getWorld(), context.getBlockPos().up());
+        CustomPortalBlock.createPortalAt(dimensionData, context.getWorld(), context.getBlockPos().up());
         return super.useOnBlock(context);
     }
 

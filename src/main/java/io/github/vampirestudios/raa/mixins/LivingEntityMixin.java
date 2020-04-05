@@ -25,14 +25,14 @@ public abstract class LivingEntityMixin extends Entity {
 
     @ModifyVariable(method = "travel", at = @At(value = "FIELD"), ordinal = 0, name = "d")
     private double modifyGravity(double d) {
-        return Testing.getCustomGravity(this.world);
+        return Testing.changeGravity(this.world);
     }
 
     @Shadow public abstract StatusEffectInstance getStatusEffect(StatusEffect effect);
 
     @Inject(method = "computeFallDamage", at = @At("RETURN"), cancellable = true)
     private void modifyFallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> info) {
-        Testing.affectPlayerGravity(this.getStatusEffect(StatusEffects.JUMP_BOOST), this.world, fallDistance, damageMultiplier, info);
+        Testing.changeGravityDamage(this.getStatusEffect(StatusEffects.JUMP_BOOST), this.world, fallDistance, damageMultiplier, info);
     }
 
 }

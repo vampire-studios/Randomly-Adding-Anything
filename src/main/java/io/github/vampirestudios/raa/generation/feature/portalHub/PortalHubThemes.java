@@ -35,6 +35,9 @@ public class PortalHubThemes {
     public static final PortalHubTheme OAK = registerTheme(new Identifier(RandomlyAddingAnything.MOD_ID, "oak"), new PortalHubTheme(Blocks.OAK_PLANKS, Blocks.OAK_FENCE, Blocks.OAK_SLAB, Blocks.OAK_STAIRS));
     public static final PortalHubTheme SPRUCE = registerTheme(new Identifier(RandomlyAddingAnything.MOD_ID, "spruce"), new PortalHubTheme(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_FENCE, Blocks.SPRUCE_SLAB, Blocks.SPRUCE_STAIRS));
 
+    public static final PortalHubTheme WARPED = registerTheme(new Identifier(RandomlyAddingAnything.MOD_ID, "warped"), new PortalHubTheme(Blocks.WARPED_PLANKS, Blocks.WARPED_FENCE, Blocks.WARPED_SLAB, Blocks.WARPED_STAIRS));
+    public static final PortalHubTheme CRIMSON = registerTheme(new Identifier(RandomlyAddingAnything.MOD_ID, "crimson"), new PortalHubTheme(Blocks.CRIMSON_PLANKS, Blocks.CRIMSON_FENCE, Blocks.CRIMSON_SLAB, Blocks.CRIMSON_STAIRS));
+
     private static PortalHubTheme registerTheme(Identifier name, PortalHubTheme theme) {
         return Registry.register(PORTAL_HUB_THEMES, name, theme);
     }
