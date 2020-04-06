@@ -262,6 +262,33 @@ public class Dimensions {
                 SurfaceBuilder<?> surfaceBuilder = Utils.newRandomSurfaceBuilder();
                 TernarySurfaceConfig surfaceConfig = Utils.randomSurfaceBuilderConfig();
 
+                List<CarverType> carvers = new ArrayList<>();
+
+                //cave generation
+                if (!Rands.chance(5)) { //80% chance of normal caves
+                    carvers.add(CarverType.CAVES);
+                }
+
+                if (!Rands.chance(4)) { //75% chance of normal ravines
+                    carvers.add(CarverType.RAVINES);
+                }
+
+                if (Rands.chance(10)) { //10% chance of cave cavity
+                    carvers.add(CarverType.CAVE_CAVITY);
+                }
+
+                if (Rands.chance(3)) { //33% chance of teardrops
+                    carvers.add(CarverType.TEARDROPS);
+                }
+
+                if (Rands.chance(4)) { //25% chance of vertical caves
+                    carvers.add(CarverType.VERTICAL);
+                }
+
+                if (Rands.chance(10)) { //10% chance of big rooms
+                    carvers.add(CarverType.BIG_ROOM);
+                }
+
                 DimensionBiomeData biomeData = DimensionBiomeData.Builder.create(Utils.addSuffixToPath(name.getRight(), "_biome" + "_" + i), name.getLeft())
                         .depth(Rands.randFloatRange(-1F, 3F))
                         .scale(Math.max(scale + Rands.randFloatRange(-0.75f, 0.75f), 0)) //ensure the scale is never below 0
@@ -284,6 +311,7 @@ public class Dimensions {
                         .corruptedCratersChance(Rands.randFloatRange(0, 0.05F))
                         .surfaceBuilder(Registry.SURFACE_BUILDER.getId(surfaceBuilder))
                         .surfaceConfig(Utils.fromConfigToIdentifier(surfaceConfig))
+                        .carvers(carvers)
                         .build();
                 builder.biome(biomeData);
             }

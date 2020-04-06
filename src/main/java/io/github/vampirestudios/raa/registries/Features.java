@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.commands.CommandLocateRAAStructure;
 import io.github.vampirestudios.raa.generation.carvers.*;
+import io.github.vampirestudios.raa.generation.dimensions.data.CarverType;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.feature.FossilFeature;
 import io.github.vampirestudios.raa.generation.feature.*;
@@ -110,7 +112,7 @@ public class Features {
     }
 
     // we use this cursed code to make a new carver per dimension
-    public static void addDefaultCarvers(Biome biome, DimensionData dimensionData) {
+    public static void addDefaultCarvers(Biome biome, DimensionData dimensionData, DimensionBiomeData biomeData) {
         if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.TECTONIC)) {
             CaveCarver caveCarver = registerCarver("cave_carver_" + dimensionData.getName(), new CaveCarver(dimensionData));
             biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(1)));
@@ -125,32 +127,32 @@ public class Features {
 //            biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(bubbleRoomsCarver, new ProbabilityConfig(1)));
         } else {
             //TODO: bring this to a dedicated class
-            if (!Rands.chance(5)) { //80% chance of normal caves
+            if (biomeData.getCarvers().contains(CarverType.CAVES)) { //80% chance of normal caves
                 CaveCarver caveCarver = registerCarver("cave_carver_" + dimensionData.getName(), new CaveCarver(dimensionData));
                 biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCarver, new ProbabilityConfig(0.14285715F)));
             }
 
-            if (!Rands.chance(4)) { //75% chance of normal ravines
+            if (biomeData.getCarvers().contains(CarverType.RAVINES)) { //75% chance of normal ravines
                 RavineCarver ravineCarver = registerCarver("ravine_carver_" + dimensionData.getName(), new RavineCarver(dimensionData));
                 biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(ravineCarver, new ProbabilityConfig(0.02F)));
             }
 
-            if (Rands.chance(10)) { //10% chance of cave cavity
+            if (biomeData.getCarvers().contains(CarverType.CAVE_CAVITY)) { //10% chance of cave cavity
                 CaveCavityCarver caveCavityCarver = registerCarver("cave_cavity_carver_" + dimensionData.getName(), new CaveCavityCarver(dimensionData));
                 biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(caveCavityCarver, new ProbabilityConfig(0.03F)));
             }
 
-            if (Rands.chance(3)) { //33% chance of teardrops
+            if (biomeData.getCarvers().contains(CarverType.TEARDROPS)) { //33% chance of teardrops
                 TeardropCarver teardropCarver = registerCarver("teardrop_carver_" + dimensionData.getName(), new TeardropCarver(dimensionData));
                 biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(teardropCarver, new ProbabilityConfig(0.06F)));
             }
 
-            if (Rands.chance(4)) { //25% chance of vertical caves
+            if (biomeData.getCarvers().contains(CarverType.VERTICAL)) { //25% chance of vertical caves
                 VerticalCarver verticalCarver = registerCarver("vertical_carver_" + dimensionData.getName(), new VerticalCarver(dimensionData));
                 biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(verticalCarver, new ProbabilityConfig(0.04F)));
             }
 
-           if (Rands.chance(10)) { //10% chance of big rooms
+           if (biomeData.getCarvers().contains(CarverType.BIG_ROOM)) { //10% chance of big rooms
                 BigRoomCarver bigRoomCarver = registerCarver("big_room_carver_" + dimensionData.getName(), new BigRoomCarver(dimensionData));
                 biome.addCarver(GenerationStep.Carver.AIR, Biome.configureCarver(bigRoomCarver, new ProbabilityConfig(0.04F)));
            }

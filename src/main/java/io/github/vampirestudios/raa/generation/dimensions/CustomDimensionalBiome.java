@@ -74,7 +74,7 @@ public class CustomDimensionalBiome extends Biome {
                 this.addStructureFeature(Feature.MINESHAFT.configure(new MineshaftFeatureConfig((Utils.checkBitFlag(dimensionData.getFlags(), Utils.CIVILIZED)) ? 0.016D : 0.004D,
                         MineshaftFeature.Type.NORMAL)));
 
-        Features.addDefaultCarvers(this, dimensionData);
+        Features.addDefaultCarvers(this, dimensionData, biomeData);
         Features.addDefaultSprings(this, dimensionData);
 
         DefaultBiomeFeatures.addDefaultLakes(this);
