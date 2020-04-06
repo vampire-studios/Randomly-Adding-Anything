@@ -30,8 +30,8 @@ public class StoneCircleFeature extends Feature<DefaultFeatureConfig> {
 
     public StoneCircleFeature(DimensionData dimensionData) {
         super(DefaultFeatureConfig::deserialize);
-        STONE = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone")).getDefaultState();
-        COBBLESTONE = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_cobblestone")).getDefaultState();
+        STONE = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_stone")).getDefaultState();
+        COBBLESTONE = Registry.BLOCK.get(Utils.appendToPath(dimensionData.getId(), "_cobblestone")).getDefaultState();
     }
 
     @Override

@@ -67,7 +67,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     @Override
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
-        if (RandomlyAddingAnything.CONFIG.enableVanillaItemColoring) initColoring();
+        initColoring();
 
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
@@ -195,7 +195,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 }
             });
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
-                Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase());
+                Identifier identifier = dimensionData.getId();
                 Identifier stoneId = Utils.appendToPath(identifier, "_stone");
                 clientResourcePackBuilder.addBlockState(stoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())))

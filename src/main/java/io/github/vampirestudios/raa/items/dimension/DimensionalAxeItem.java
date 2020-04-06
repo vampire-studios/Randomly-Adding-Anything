@@ -11,10 +11,10 @@ import org.apache.commons.lang3.text.WordUtils;
 
 public class DimensionalAxeItem extends AxeItem {
 
-    private DimensionData dimensionData;
+    private final DimensionData dimensionData;
 
-    public DimensionalAxeItem(DimensionData dimensionData, ToolMaterial toolMaterial_1, float int_1, float float_1, Settings item$Settings_1) {
-        super(toolMaterial_1, int_1, float_1, item$Settings_1);
+    public DimensionalAxeItem(DimensionData dimensionData, ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Settings settings) {
+        super(toolMaterial, attackDamage, attackSpeed, settings);
         this.dimensionData = dimensionData;
     }
 
