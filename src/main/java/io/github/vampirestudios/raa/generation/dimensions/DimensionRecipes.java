@@ -14,7 +14,7 @@ public class DimensionRecipes {
     public static void init() {
         Artifice.registerData(new Identifier(MOD_ID, "dimension_recipe_pack"), serverResourcePackBuilder ->
             Dimensions.DIMENSIONS.forEach(dimension -> {
-                Identifier identifier = new Identifier(MOD_ID, dimension.getName().toLowerCase());
+                Identifier identifier = dimension.getId();
 
                 serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(identifier, "_hoe"), shapedRecipeBuilder -> {
                     shapedRecipeBuilder.group(new Identifier("raa:hoes"));
