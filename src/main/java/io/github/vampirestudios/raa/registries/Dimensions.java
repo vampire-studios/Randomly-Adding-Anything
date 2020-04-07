@@ -247,13 +247,18 @@ public class Dimensions {
                                 .treeType(Rands.list(Arrays.asList(DimensionTreeTypes.values())))
                                 .baseHeight(Rands.randIntRange(2, 24))
                                 .maxWaterDepth(Rands.randIntRange(0, 8))
+                                .foliageHeightRandom(Rands.randIntRange(10, 25))
+                                .crownHeight(Rands.randIntRange(3, 15))
                                 .foliageHeight(Rands.randIntRange(1, 2))
                                 .foliageRange(Rands.randIntRange(1, 3))
                                 .chance(Rands.randFloatRange(0.05f, 3.5f))
                                 .hasCocoaBeans(Rands.chance(3))
                                 .hasLeafVines(Rands.chance(3))
                                 .hasPodzolUnderneath(Rands.chance(3))
+                                .hasBeehives(Rands.chance(6))
                                 .hasTrunkVines(Rands.chance(3))
+                                .cocoaChance(Rands.randFloatRange(0.01f, 1f))
+                                .beehiveChance(Rands.randFloatRange(0.01f, 1f))
                                 .build();
                         treeDataList.add(treeData);
                     }
