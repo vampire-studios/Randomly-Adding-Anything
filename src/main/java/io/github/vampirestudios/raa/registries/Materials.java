@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.registries;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.enums.OreType;
@@ -11,6 +13,7 @@ import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.MaterialFoodData;
 import io.github.vampirestudios.raa.items.*;
+import io.github.vampirestudios.raa.effects.MaterialEffects;
 import io.github.vampirestudios.raa.items.material.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
@@ -31,10 +34,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Materials {
     public static final Set<Identifier> MATERIAL_IDS = new HashSet<>();
@@ -85,6 +85,7 @@ public class Materials {
                     .compostbleAmount(Rands.randFloatRange(0.3F, 3.0F))
                     .compostable(Rands.chance(10))
                     .beaconBase(Rands.chance(10))
+                    .specialEffects(generateSpecialEffects())
                     .build();
 
             Registry.register(MATERIALS, id, material);
@@ -95,6 +96,26 @@ public class Materials {
             }
         }
         ready = true;
+    }
+
+    private static Map<MaterialEffects, JsonElement> generateSpecialEffects() {
+        Map<MaterialEffects, JsonElement> effects = new HashMap<>();
+
+        //50% of materials have an effect
+        if (Rands.chance(2)) {
+
+            //generate a few effects
+            for (int i = 0; i < Rands.randIntRange(1, 3); i++) {
+                JsonElement e = new JsonObject();
+
+                //get an effect from a weighted list
+                MaterialEffects effect = Utils.EFFECT_LIST.pickRandom(Rands.getRandom());
+                effect.jsonConsumer.accept(e);
+                effects.put(effect, e);
+            }
+        }
+
+        return effects;
     }
 
     public static void generateDimensionMaterials() {

@@ -8,6 +8,7 @@ public class DimensionTreeData {
 	private int baseHeight;
 	private int foliageHeight;
 	private int foliageHeightRandom;
+	private int crownHeight;
 	private int maxWaterDepth;
 	private float chance;
 
@@ -15,20 +16,25 @@ public class DimensionTreeData {
 	private boolean hasTrunkVines;
 	private boolean hasCocoaBeans;
 	private boolean hasPodzolUnderneath;
+	private boolean hasBeehives;
+
+	private float cocoaChance;
+	private float beehiveChance;
 
 	private int foliageRange;
 
 	private DimensionWoodType woodType;
 
 	public DimensionTreeData(DimensionFoliagePlacers foliagePlacerType, DimensionTreeTypes treeType, boolean plainsTrees, int baseHeight, int foliageHeight,
-							 int foliageHeightRandom, int maxWaterDepth, DimensionWoodType woodType, int foliageRange, float chance, boolean hasLeafVines,
-							 boolean hasTrunkVines, boolean hasCocoaBeans, boolean hasPodzolUnderneath) {
+							 int foliageHeightRandom, int crownHeight, int maxWaterDepth, DimensionWoodType woodType, int foliageRange, float chance, boolean hasLeafVines,
+							 boolean hasTrunkVines, boolean hasCocoaBeans, boolean hasPodzolUnderneath, boolean hasBeehives, float cocoaChance, float beehiveChance) {
 		this.foliagePlacerType = foliagePlacerType;
 		this.treeType = treeType;
 		this.plainsTrees = plainsTrees;
 		this.baseHeight = baseHeight;
 		this.foliageHeight = foliageHeight;
 		this.foliageHeightRandom = foliageHeightRandom;
+		this.crownHeight = crownHeight;
 		this.maxWaterDepth = maxWaterDepth;
 		this.foliageRange = foliageRange;
 		this.woodType = woodType;
@@ -37,6 +43,9 @@ public class DimensionTreeData {
 		this.hasTrunkVines = hasTrunkVines;
 		this.hasCocoaBeans = hasCocoaBeans;
 		this.hasPodzolUnderneath = hasPodzolUnderneath;
+		this.hasBeehives = hasBeehives;
+		this.cocoaChance = cocoaChance;
+		this.beehiveChance = beehiveChance;
 	}
 
 	public DimensionFoliagePlacers getFoliagePlacerType() {
@@ -95,6 +104,22 @@ public class DimensionTreeData {
 		return hasPodzolUnderneath;
 	}
 
+	public boolean hasBeehives() {
+		return hasBeehives;
+	}
+
+	public float getCocoaChance() {
+		return cocoaChance;
+	}
+
+	public float getBeehiveChance() {
+		return beehiveChance;
+	}
+
+	public int getCrownHeight() {
+		return crownHeight;
+	}
+
 	public static class Builder {
 		private DimensionFoliagePlacers foliagePlacerType;
 		private DimensionTreeTypes treeType;
@@ -102,6 +127,7 @@ public class DimensionTreeData {
 		private int baseHeight;
 		private int foliageHeight;
 		private int foliageHeightRandom;
+		private int crownHeight;
 		private int maxWaterDepth;
 		private float chance;
 
@@ -109,6 +135,10 @@ public class DimensionTreeData {
 		private boolean hasTrunkVines;
 		private boolean hasCocoaBeans;
 		private boolean hasPodzolUnderneath;
+		private boolean hasBeehives;
+
+		private float cocoaChance;
+		private float beehiveChance;
 
 		private int foliageRange;
 
@@ -145,6 +175,11 @@ public class DimensionTreeData {
 
 		public Builder foliageHeightRandom(int foliageHeightRandom) {
 			this.foliageHeightRandom = foliageHeightRandom;
+			return this;
+		}
+
+		public Builder crownHeight(int crownHeight) {
+			this.crownHeight = crownHeight;
 			return this;
 		}
 
@@ -188,9 +223,24 @@ public class DimensionTreeData {
 			return this;
 		}
 
+		public Builder hasBeehives(boolean hasBeehives) {
+			this.hasBeehives = hasBeehives;
+			return this;
+		}
+
+		public Builder cocoaChance(float cocoaChance) {
+			this.cocoaChance = cocoaChance;
+			return this;
+		}
+
+		public Builder beehiveChance(float beehiveChance) {
+			this.beehiveChance = beehiveChance;
+			return this;
+		}
+
 		public DimensionTreeData build() {
-			return new DimensionTreeData(foliagePlacerType, treeType, plainsTrees, baseHeight, foliageHeight, foliageHeightRandom, maxWaterDepth, woodType,
-					foliageRange, chance, hasLeafVines, hasTrunkVines, hasCocoaBeans, hasPodzolUnderneath);
+			return new DimensionTreeData(foliagePlacerType, treeType, plainsTrees, baseHeight, foliageHeight, foliageHeightRandom, crownHeight, maxWaterDepth, woodType,
+					foliageRange, chance, hasLeafVines, hasTrunkVines, hasCocoaBeans, hasPodzolUnderneath, hasBeehives, cocoaChance, beehiveChance);
 		}
 	}
 }

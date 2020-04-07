@@ -123,8 +123,7 @@ public class CustomDimensionalBiome extends Biome {
                     DimensionTreeData treeData = biomeData.getTreeData().get(0); //single tree forests only have 1 entry
 
                     if (treeData.getTreeType() == DimensionTreeTypes.MEGA_JUNGLE || treeData.getTreeType() == DimensionTreeTypes.MEGA_SPRUCE || treeData.getTreeType() == DimensionTreeTypes.DARK_OAK) {
-                        MegaTreeFeatureConfig config = (new MegaTreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState())))
-                                .baseHeight(treeData.getBaseHeight()).heightInterval(treeData.getFoliageHeightRandom()).build();
+                        MegaTreeFeatureConfig config = getMegaTreeConfig(treeData);
 
                         this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
                                 getMegaTree(treeData.getTreeType())
@@ -315,7 +314,8 @@ public class CustomDimensionalBiome extends Biome {
         List<TreeDecorator> decorators = new ArrayList<>();
         if (data.hasLeafVines()) decorators.add(new LeaveVineTreeDecorator());
         if (data.hasTrunkVines()) decorators.add(new TrunkVineTreeDecorator());
-        if (data.hasCocoaBeans()) decorators.add(new CocoaBeansTreeDecorator(0.5f));
+        if (data.hasCocoaBeans()) decorators.add(new CocoaBeansTreeDecorator(data.getCocoaChance()));
+        if (data.hasBeehives()) decorators.add(new BeehiveTreeDecorator(data.getBeehiveChance()));
         if (data.hasPodzolUnderneath()) decorators.add(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState())));
 
         return new BranchedTreeFeatureConfig.Builder(
@@ -323,6 +323,24 @@ public class CustomDimensionalBiome extends Biome {
                 new SimpleBlockStateProvider(data.getWoodType().woodType.getLeaves().getDefaultState()),
                 getFoliagePlacer(data),
                 new StraightTrunkPlacer(data.getBaseHeight(), 0, 0)).treeDecorators(decorators).build();
+    }
+
+    public static MegaTreeFeatureConfig getMegaTreeConfig(DimensionTreeData data) {
+        List<TreeDecorator> decorators = new ArrayList<>();
+        if (data.hasLeafVines()) decorators.add(new LeaveVineTreeDecorator());
+        if (data.hasTrunkVines()) decorators.add(new TrunkVineTreeDecorator());
+        if (data.hasCocoaBeans()) decorators.add(new CocoaBeansTreeDecorator(data.getCocoaChance()));
+        if (data.hasBeehives()) decorators.add(new BeehiveTreeDecorator(data.getBeehiveChance()));
+        if (data.hasPodzolUnderneath()) decorators.add(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState())));
+
+        return new MegaTreeFeatureConfig.Builder(
+                new SimpleBlockStateProvider(data.getWoodType().woodType.getLog().getDefaultState()),
+                new SimpleBlockStateProvider(data.getWoodType().woodType.getLeaves().getDefaultState()))
+                .baseHeight(data.getBaseHeight())
+                .heightInterval(data.getFoliageHeightRandom())
+                .crownHeight(data.getCrownHeight())
+                .treeDecorators(decorators)
+                .build();
     }
 
     private static FoliagePlacer getFoliagePlacer(DimensionTreeData data) {

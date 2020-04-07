@@ -5,14 +5,19 @@ import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.generation.materials.data.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DimensionMaterial extends Material {
 
     DimensionMaterial(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
                       CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
                       MaterialFoodData foodData, float compostbleAmount, boolean compostable, boolean beaconBase) {
+        //TODO: special effects for dimensional materials
         super(oreInformation, id, name, texturesInformation, color, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower, food, foodData,
-                compostbleAmount, compostable, beaconBase);
+                compostbleAmount, compostable, beaconBase, new HashMap<>());
     }
 
     public static class Builder {
