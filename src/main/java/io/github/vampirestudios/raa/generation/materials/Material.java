@@ -3,10 +3,12 @@ package io.github.vampirestudios.raa.generation.materials;
 import com.google.gson.JsonElement;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
-import io.github.vampirestudios.raa.generation.materials.data.*;
 import io.github.vampirestudios.raa.effects.MaterialEffects;
+import io.github.vampirestudios.raa.generation.materials.data.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
+
+import java.util.Map;
 
 public class Material {
     private OreInformation oreInformation;
