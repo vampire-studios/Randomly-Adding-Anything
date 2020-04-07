@@ -124,7 +124,7 @@ public class AbovegroundStorageFeature extends Feature<DefaultFeatureConfig> {
 
             //you can never be too sure
             if (dimension instanceof CustomDimension) {
-                String dimName = ((CustomDimension)(dimension)).getDimensionData().getName().toLowerCase();
+                String dimName = ((CustomDimension)(dimension)).getDimensionData().getId().getPath();
                 customMaterialBlockIds = Registry.BLOCK.getIds().stream().filter(id -> id.getPath().startsWith(dimName + "_") && id.getPath().endsWith("_block")).collect(Collectors.toList());
             }
 

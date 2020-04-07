@@ -209,7 +209,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 RandomlyAddingAnything.MODCOMPAT.generateCompatModels(clientResourcePackBuilder);
             });
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
-                Identifier identifier = new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase());
+                Identifier identifier = dimensionData.getId();
                 Identifier stoneId = Utils.addSuffixToPath(identifier, "_stone");
                 clientResourcePackBuilder.addBlockState(stoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                         variant.model(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())))

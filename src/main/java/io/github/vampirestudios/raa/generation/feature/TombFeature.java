@@ -37,7 +37,7 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
 
     public TombFeature(DimensionData dimensionData) {
         super(DefaultFeatureConfig::deserialize);
-        STONE = Registry.BLOCK.get(new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getName().toLowerCase() + "_stone")).getDefaultState();
+        STONE = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(),"_stone")).getDefaultState();
     }
 
     @Override
