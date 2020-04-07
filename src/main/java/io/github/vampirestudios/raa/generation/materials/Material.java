@@ -1,8 +1,10 @@
 package io.github.vampirestudios.raa.generation.materials;
 
+import com.google.gson.JsonElement;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.generation.materials.data.*;
+import io.github.vampirestudios.raa.effects.MaterialEffects;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -14,6 +16,7 @@ public class Material {
     private Identifier id;
     private String name;
     private MaterialTexturesInformation texturesInformation;
+    private Map<MaterialEffects, JsonElement> specialEffects;
     private int color;
     private int miningLevel;
     private boolean armor;
@@ -31,7 +34,7 @@ public class Material {
 
     Material(OreInformation oreInformation, Identifier id, String name, MaterialTexturesInformation texturesInformation, int color, int miningLevel, boolean armor,
              CustomArmorMaterial armorMaterial, boolean tools, boolean weapons, CustomToolMaterial toolMaterial, boolean glowing, boolean oreFlower, boolean food,
-             MaterialFoodData materialFoodData, float compostableAmount, boolean compostable, boolean beaconBase) {
+             MaterialFoodData materialFoodData, float compostableAmount, boolean compostable, boolean beaconBase, Map<MaterialEffects, JsonElement> specialEffects) {
         this.oreInformation = oreInformation;
         this.id = id;
         this.name = name;
@@ -50,6 +53,7 @@ public class Material {
         this.compostableAmount = compostableAmount;
         this.compostable = compostable;
         this.beaconBase = beaconBase;
+        this.specialEffects = specialEffects;
     }
 
     public OreInformation getOreInformation() {
@@ -129,6 +133,10 @@ public class Material {
         return beaconBase;
     }
 
+    public Map<MaterialEffects, JsonElement> getSpecialEffects() {
+        return specialEffects;
+    }
+
     public static class Builder {
 
         private OreType oreType;
@@ -140,6 +148,7 @@ public class Material {
         private CustomArmorMaterial armorMaterial;
         private CustomToolMaterial toolMaterial;
         private MaterialFoodData foodData;
+        private Map<MaterialEffects, JsonElement> specialEffects;
         private boolean armor = false;
         private boolean tools = false;
         private boolean weapons = false;
@@ -289,6 +298,11 @@ public class Material {
             return this;
         }
 
+        public Builder specialEffects(Map<MaterialEffects, JsonElement> specialEffects) {
+            this.specialEffects = specialEffects;
+            return this;
+        }
+
         public Material build() {
             if (id == null || name == null) {
                 throw new IllegalStateException("A Material must not have a null name or identifier");
@@ -366,7 +380,7 @@ public class Material {
             OreInformation oreInformation = new OreInformation(oreType, generatesIn, oreCount, minXPAmount, maxXPAmount, oreClusterSize);
 
             return new Material(oreInformation, id, name, texturesInformation, RGB, miningLevel, armor, armorMaterial, tools, weapons, toolMaterial, glowing, oreFlower,
-                    food, foodData, compostableAmount, compostable, beaconBase);
+                    food, foodData, compostableAmount, compostable, beaconBase, specialEffects);
         }
     }
 

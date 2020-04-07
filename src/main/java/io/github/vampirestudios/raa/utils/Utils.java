@@ -3,11 +3,13 @@ package io.github.vampirestudios.raa.utils;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
+import io.github.vampirestudios.raa.effects.MaterialEffects;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.WeightedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
@@ -39,6 +41,8 @@ public class Utils {
     //maps
     private static List<String> surfaceBuilders = new ArrayList<>();
 
+    public static final WeightedList<MaterialEffects> EFFECT_LIST = new WeightedList<>();
+
     static {
         surfaceBuilders.add("raa:patchy_desert");
         surfaceBuilders.add("raa:dark_patchy_badlands");
@@ -48,8 +52,12 @@ public class Utils {
         surfaceBuilders.add("raa:floating_islands");
         surfaceBuilders.add("raa:sandy_dunes");
         surfaceBuilders.add("raa:dunes");
-        surfaceBuilders.add("raa:lazy_noise");
         surfaceBuilders.add("minecraft:default");
+
+        EFFECT_LIST.add(MaterialEffects.LIGHTNING, 2);
+        EFFECT_LIST.add(MaterialEffects.EFFECT, 4);
+        EFFECT_LIST.add(MaterialEffects.FIREBALL, 2);
+        EFFECT_LIST.add(MaterialEffects.FREEZE, 1);
     }
 
     public static String toTitleCase(String lowerCase) {
