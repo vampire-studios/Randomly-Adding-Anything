@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.api.namegeneration;
 
+import io.github.vampirestudios.raa.api.namegeneration.civs.EnglishCivs;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.EnglishDimensions;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.FrenchDimensions;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.NorwegianDimensions;
@@ -15,28 +16,38 @@ public enum LangEnum {
     ENGLISH(
         new EnglishMaterials(),
         new EnglishDimensions(),
-        new EnglishTrees()),
+        new EnglishTrees(),
+        new EnglishCivs()
+    ),
     FRENCH(
         new FrenchMaterials(),
         new FrenchDimensions(),
-        new EnglishTrees()),
+        new EnglishTrees(),
+        new EnglishCivs()
+    ),
     NORWEGIAN(
         new NorwegianMaterials(),
         new NorwegianDimensions(),
-        new EnglishTrees()),
+        new EnglishTrees(),
+        new EnglishCivs()
+    ),
     SPANISH(
         new SpanishMaterials(),
         new SpanishDimensions(),
-        new EnglishTrees());
+        new EnglishTrees(),
+        new EnglishCivs()
+    );
 
     private final NameGenerator materialNameGenerator;
     private final NameGenerator dimensionNameGenerator;
     private final NameGenerator treeNameGenerator;
+    private final NameGenerator civilizationNameGenerator;
 
-    LangEnum(NameGenerator material, NameGenerator dimensions, NameGenerator treeNameGenerator) {
+    LangEnum(NameGenerator material, NameGenerator dimensions, NameGenerator treeNameGenerator, NameGenerator civilizationNameGenerator) {
         this.materialNameGenerator = material;
         this.dimensionNameGenerator = dimensions;
         this.treeNameGenerator = treeNameGenerator;
+        this.civilizationNameGenerator = civilizationNameGenerator;
     }
 
     public NameGenerator getMaterialNameGenerator() {
@@ -49,6 +60,10 @@ public enum LangEnum {
 
     public NameGenerator getTreeNameGenerator() {
         return treeNameGenerator;
+    }
+
+    public NameGenerator getCivilizationNameGenerator() {
+        return civilizationNameGenerator;
     }
 
     @Override

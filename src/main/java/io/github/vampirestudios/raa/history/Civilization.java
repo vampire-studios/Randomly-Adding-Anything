@@ -5,7 +5,7 @@ import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.util.Identifier;
 
 public class Civilization {
-    private String name; //TODO: this just uses the dimension name generator now, change it so it uses a custom one
+    private String name;
     private Identifier homeDimensionId; //The id of the dimension that this civilization originated in
     private ProtoDimension homeDimension; //The dimension that this civilization originated in
     private double influenceRadius; //The amount of influence that this civ has on the multiverse

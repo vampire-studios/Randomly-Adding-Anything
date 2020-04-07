@@ -24,7 +24,7 @@ public class Textures {
         for (int i = 1; i < 8; i++) {
             addTextureToList(TextureTypes.CRYSTAL_ITEM_TEXTURES, "item/crystals/crystal_" + i);
         }
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 8; i++) {
             addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/nuggets/nugget_" + i);
         }
 
@@ -56,31 +56,49 @@ public class Textures {
         addTexturesToMap(TextureTypes.HORSE_ARMOR, "item/armor/horse_armor_saddle_2",
                 "textures/models/armor/horse/horse_armor_2.png");
 
-        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head_1", "item/tools/axe/axe_stick_1");
-        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head_2", "item/tools/axe/axe_stick_2");
-        addTexturesToMap(TextureTypes.AXES, "item/tools/axe/axe_head_3", "item/tools/axe/axe_stick_3");
-
-        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_1", "item/tools/pickaxe/pickaxe_1_handle");
-        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_2", "item/tools/pickaxe/pickaxe_2_handle");
-        addTexturesToMap(TextureTypes.PICKAXES, "item/tools/pickaxe/pickaxe_3", "item/tools/pickaxe/pickaxe_3_handle");
-
         addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_1", "item/tools/hoe/hoe_stick_1");
         addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_2", "item/tools/hoe/hoe_stick_2");
         addTexturesToMap(TextureTypes.HOES, "item/tools/hoe/hoe_head_3", "item/tools/hoe/hoe_stick_3");
 
-        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_1", "item/tools/shovel/shovel_1_handle");
-        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_2", "item/tools/shovel/shovel_2_handle");
-        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_3", "item/tools/shovel/shovel_3_handle");
-        addTexturesToMap(TextureTypes.SHOVELS, "item/tools/shovel/shovel_4", "item/tools/shovel/shovel_4_handle");
+        //Sword Stuff
+        for (int i = 1; i < 14; i++) {
+            addTextureToList(TextureTypes.SWORD_BLADES, "item/tools/sword/blade_" + i);
+        }
+        for (int i = 1; i < 12; i++) {
+            addTextureToList(TextureTypes.SWORD_HANDLES, "item/tools/sword/handle_" + i);
+        }
 
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_1", "item/tools/sword/sword_1_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_2", "item/tools/sword/sword_2_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_3", "item/tools/sword/sword_3_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_4", "item/tools/sword/sword_4_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_5", "item/tools/sword/sword_5_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_6", "item/tools/sword/sword_6_handle");
-        addTexturesToMap(TextureTypes.SWORDS, "item/tools/sword/sword_7", "item/tools/sword/sword_7_handle");
+        //Pickaxe Stuff
+        for (int i = 1; i < 10; i++) {
+            addTextureToList(TextureTypes.PICKAXE_HEAD, "item/tools/pickaxe/pickaxe_" + i);
+        }
+        for (int i = 1; i < 10; i++) {
+            addTextureToList(TextureTypes.PICKAXE_STICKS, "item/tools/pickaxe/stick_" + i);
+        }
 
+        //Axe Stuff
+        for (int i = 1; i < 12; i++) {
+            addTextureToList(TextureTypes.AXE_HEAD, "item/tools/axe/axe_head_" + i);
+        }
+        for (int i = 1; i < 9; i++) {
+            addTextureToList(TextureTypes.AXE_STICKS, "item/tools/axe/axe_stick_" + i);
+        }
+
+        //Hoe Stuff
+        for (int i = 1; i < 11; i++) {
+            addTextureToList(TextureTypes.HOE_HEAD, "item/tools/hoe/hoe_head_" + i);
+        }
+        for (int i = 1; i < 11; i++) {
+            addTextureToList(TextureTypes.HOE_STICKS, "item/tools/hoe/hoe_stick_" + i);
+        }
+
+        //Shovel Stuff
+        for (int i = 1; i < 12; i++) {
+            addTextureToList(TextureTypes.SHOVEL_HEAD, "item/tools/shovel/shovel_head_" + i);
+        }
+        for (int i = 1; i < 12; i++) {
+            addTextureToList(TextureTypes.SHOVEL_STICKS, "item/tools/shovel/shovel_stick_" + i);
+        }
 
         addTextureToList(TextureTypes.METAL_GEAR_TEXTURES, "item/gears/gear_1");
 
@@ -97,7 +115,7 @@ public class Textures {
         for (int i = 1; i < 10; i++) {
             addTextureToList(TextureTypes.METAL_ORE_TEXTURES, "block/ores/metals/ore_" + i);
         }
-        for (int i = 1; i < 8; i++) {
+        for (int i = 1; i < 9; i++) {
             addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/gems/ore_" + i);
         }
         for (int i = 1; i < 10; i++) {
@@ -113,10 +131,12 @@ public class Textures {
         for (int i = 1; i < 7; i++) {
             addTextureToList(TextureTypes.METAL_BLOCK_TEXTURES, "block/storage_blocks/metals/metal_" + i);
         }
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 6; i++) {
             addTextureToList(TextureTypes.GEM_BLOCK_TEXTURES, "block/storage_blocks/gems/gem_" + i);
         }
-        addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/crystals/crystal_1");
+        for (int i = 1; i < 5; i++) {
+            addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/crystals/crystal_" + i);
+        }
 
         for (int i = 1; i < 10; i++) {
             addTextureToList(TextureTypes.STONE_BRICKS_TEXTURES, "block/stone/bricks_" + i);

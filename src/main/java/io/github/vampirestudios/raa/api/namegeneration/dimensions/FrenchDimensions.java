@@ -8,14 +8,14 @@ import java.util.Map;
 
 public class FrenchDimensions implements NameGenerator {
 
-    private static String[] vowels = new String[]{
+    private static final String[] vowels = new String[]{
             "a", "e", "i", "o", "u", "y", "ou", "oi", "au", "ai", "ei", "eu", "eau", "é", "è"
     };
-    private static String[] list1 = new String[]{"r", "l", "s", "f", "m", "ch", "n", "v", "z", "p", "c", "b", "j", "g"};
-    private static String[] list2 = new String[]{"d", "t", "h", "k", "qu", "br", "cr", "dr", "gr", "fr", "vr", "pr", "tr", "bl"};
-    private static String[] list3 = new String[]{"cl", "gl", "fl", "pl", "n", "g", "ph", "ç", "gn", "y", "mp", "mb", "w", "gr"};
-    private static String[] list6 = new String[]{"ite", "ium"};
-    private static String[] list4 = new String[list1.length];
+    private static final String[] list1 = new String[]{"r", "l", "s", "f", "m", "ch", "n", "v", "z", "p", "c", "b", "j", "g"};
+    private static final String[] list2 = new String[]{"d", "t", "h", "k", "qu", "br", "cr", "dr", "gr", "fr", "vr", "pr", "tr", "bl"};
+    private static final String[] list3 = new String[]{"cl", "gl", "fl", "pl", "n", "g", "ph", "ç", "gn", "y", "mp", "mb", "w", "gr"};
+    private static final String[] list6 = new String[]{"ite", "ium"};
+    private static final String[] list4 = new String[list1.length];
 
     private static String lf(String string, String string1) {
         String string2 = string + string1;

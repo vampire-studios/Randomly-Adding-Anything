@@ -78,17 +78,8 @@ public  class XorShift {
 		 */
 		public void setSeed(long x, long z) {
 			this.x = seeds[(int) (Noise.fastAbs(x) % SEED_TABLE_SPACE)];
-//			this.y = seeds[(int) (Noise.fastAbs(y) % SEED_TABLE_SPACE)
-//					+ SEED_TABLE_SPACE];
 			this.z = seeds[(int) (Noise.fastAbs(z) % SEED_TABLE_SPACE)
 					+ SEED_TABLE_SPACE + SEED_TABLE_SPACE];
-
-//			if (!SimplexTerrain.CONFIG.sacrificeAccuracyForSpeed) {
-//				// decreases spherical artifacts, but obviously is slow
-//				// TODO replace by fixing underlying issue
-//				for (int i = 0; i < 5; i++)
-//					nextLong();
-//			}
 		}
 	}
 

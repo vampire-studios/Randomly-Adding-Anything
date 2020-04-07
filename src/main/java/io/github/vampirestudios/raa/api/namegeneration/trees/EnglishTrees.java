@@ -48,18 +48,18 @@ public class EnglishTrees implements NameGenerator {
         Random rnd = new Random();
         String ending = "";
         int endingRoll = rnd.nextInt(100);
-        if (endingRoll < 30) {
+        if (endingRoll < 20) {
+            ending = " betula";
+        } else if (endingRoll < 29) {
+            ending = " clavatus";
+        } else if (endingRoll < 30) {
             ending = " dendron";
+        } else if (endingRoll < 32) {
+            ending = " abies";
         } else if (endingRoll < 34) {
             ending = " dendrum";
         } else if (endingRoll < 43) {
             ending = " lepis";
-        } else if (endingRoll < 29) {
-            ending = " clavatus";
-        } else if (endingRoll < 20) {
-            ending = " betula";
-        } else if (endingRoll < 30) {
-                ending = " abies";
         } else if (endingRoll < 45) {
                 ending = " fragilis";
         } else if (endingRoll < 50) {

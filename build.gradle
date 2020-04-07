@@ -42,6 +42,7 @@ version = project.mod_version + "+build." + buildnumber
 group = project.maven_group
 
 minecraft {
+    accessWidener = file("src/main/resources/raa.accesswidener")
 }
 
 dependencies {

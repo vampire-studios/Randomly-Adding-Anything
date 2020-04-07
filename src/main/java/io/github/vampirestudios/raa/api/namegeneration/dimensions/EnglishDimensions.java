@@ -1,22 +1,50 @@
 package io.github.vampirestudios.raa.api.namegeneration.dimensions;
 
 import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
-import io.github.vampirestudios.raa.utils.Utils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.*;
 
 public class EnglishDimensions implements NameGenerator {
-    public static final String[] LATIN_PREFIXES = {
+
+    public static final String[] LATIN_PREFIXES_OLD = {
             "ab", "ad", "ambi", "ante", "circum", "co", "com", "con", "contra", "de", "den", "dis", "di", "ex", "extra",
             "in", "en", "infra", "inter", "intra", "juxta", "me", "ne", "non", "ob", "ox", "per", "post", "prae", "preter",
             "pro", "quasi", "ques", "re", "red", "retro", "se", "sed", "sen", "sin", "sod", "sub", "subter", "super", "supra",
             "tran", "trans", "ult", "ultra", "out", "outr"
     };
 
+    public static final String[] PREFIXES = {
+            "vec", "cam", "shar", "sle", "varm", "met", "they", "canda", "vorm", "asg", "arg", "ray", "ans", "jun", "tre",
+            "imp", "thresh", "maj", "sal", "prot", "pro", "aster", "phaist", "pha", "xal", "syt", "lun", "fer", "zar", "zat",
+            "log", "sharr", "par", "vin", "ven", "vorc", "tio", "tin", "nep", "vey", "veyr", "ver", "non", "mai", "pendr",
+            "pend", "pen", "heb", "lin", "et", "at", "nem", "mag", "mang", "magn", "tung", "ont", "cor", "ses", "farm",
+            "farn", "far", "sup", "nod", "alk", "ak", "akl", "cit", "ag", "ren", "surt", "sak", "nam", "mask", "karum", "kar",
+            "kob", "unt", "zesmen", "zes", "ac", "ak", "rel", "tal", "ter", "volk", "kom", "t", "cet", "derelic", "ur", "aig",
+            "hit", "sol", "mar", "nerc", "aequit", "bann", "takk", "alch", "kor", "lor", "lok", "bal", "pheir"
+    };
+
     public static final String[] MIDDLES = {
             "al", "am", "an", "be", "bor", "cal", "co", "de", "duo", "eth", "en", "for", "gal", "in", "kary",
             "li", "lo", "la", "mi", "ma", "mun", "nat", "net", "nor", "nit", "or", "om", "per", "rhen", "rho", "ri",
             "sic", "sit", "tan", "tor", "tri", "vi", "w", "x", "z"
+    };
+    
+    public static final String[] SUFFIXES = {
+            "adel", "ae", "nus", "ury", "mis", "one", "aeton", "uto", "er", "per", "asi", "ius", "ros", "eria", "tra",
+            "aron", "kon", "ton", "nok", "ashi", "alus", "gos", "rum", "unthor", "ingri", "elrus", "rux", "erux",
+            "anban", "ban", "crum", "gir", "bin", "baar", "malrus", "salra", "geuse", "arlon", "inor", "iror",
+            "iron", "iroc", "aroc", "oroc", "eus", "ros", "ages", "alca", "olus", "oluis", "anre", "orron", "ania",
+            "ana", "gan", "an", "ur", "u","iter", "aser", "azer", "acer", "aver", "au", "landia", "umbria", "land",
+            "bury", "bex", "bal","carden", "caster", "combe", "cul", "dale", "din", "dol", "field", "gard", "fell",
+            "ham", "em", "howe","lyng", "edra", "nor", "stead", "strath", "rigg", "tun", "ton", "weald", "wold",
+            "wick", "worth","warth", "werth", "egar", "ster", "pol", "erro", "ruan", "ance", "em", "which", "bourne",
+            "bern","barne", "ardine", "keth", "eld", "ae", "nus", "ury", "mis", "one", "aeton", "uto", "er", "per",
+            "asi","ius", "ros", "eria", "tra", "aron", "kon", "ton", "nok", "ashi", "alus", "gos", "rum", "unthor",
+            "ingri","elrus", "rux", "erux", "anban", "ban", "crum", "gir", "bin", "baar", "malrus", "salra", "geuse",
+            "arlon","inor", "eus", "ros", "ages", "alca", "olus", "oluis", "anre", "orron", "ania", "ana", "gan", "an",
+            "adu","oba", "idor", "udor", "edor", "armus", "arma", "arden", "emar", "agon", "ito", "ali", "ao", "sah",
+            "alis","eles", "win", "ungel", "atol", "aka", "vir", "i", "rim", "a", "urn"
     };
 
     public static void main(String[] args) {
@@ -27,7 +55,7 @@ public class EnglishDimensions implements NameGenerator {
 
         List<String> titleCased = new ArrayList<>();
         for (String s : generated) {
-            titleCased.add(Utils.toTitleCase(s));
+            titleCased.add(WordUtils.capitalizeFully(s));
         }
 
         System.out.println("TitleCase:" + titleCased);
@@ -36,10 +64,10 @@ public class EnglishDimensions implements NameGenerator {
     public String generate() {
         Random rnd = new Random();
 
-        String prefix = LATIN_PREFIXES[rnd.nextInt(LATIN_PREFIXES.length)];
-        String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
+        String prefix = PREFIXES[rnd.nextInt(PREFIXES.length)].toLowerCase();
+        String endings = SUFFIXES[rnd.nextInt(SUFFIXES.length)];
 
-        return combine(prefix, middle);
+        return combine(prefix, endings);
     }
 
     public Collection<String> generate(int count) {
@@ -59,10 +87,10 @@ public class EnglishDimensions implements NameGenerator {
         char aEnd = a.charAt(a.length() - 1);
         if (bStart == aEnd) b = b.substring(1);
         if (isConsonant(aEnd) && isConsonant(bStart)) {
-            return Utils.toTitleCase(a + fillConsonant(aEnd) + b);
+            return a + fillConsonant(aEnd) + b;
         }
 
-        return Utils.toTitleCase(a + b);
+        return a + b;
     }
 
     public boolean isConsonant(char ch) {

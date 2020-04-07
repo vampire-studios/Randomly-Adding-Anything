@@ -55,6 +55,18 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     case "minecraft:stone_bricks":
                         WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", new HashMap<>(), rotation);
                         break;
+                    case "minecraft:stone_brick_stairs":
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_brick_stairs", currBlockProp, rotation);
+                        break;
+                    case "minecraft:stone_brick_slab":
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_brick_slab", currBlockProp, rotation);
+                        break;
+                    case "minecraft:cobblestone_wall":
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_cobblestone_wall", currBlockProp, rotation);
+                        break;
+                    case "minecraft:smooth_stone_slab":
+                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:polished_" + (world.getDimension().getType().getSuffix()).substring(4) + "_slab", currBlockProp, rotation);
+                        break;
                     case "minecraft:chiseled_stone_bricks":
                         WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + "chiseled_" + (world.getDimension().getType().getSuffix()).substring(4), new HashMap<>(), rotation);
                         break;
@@ -419,7 +431,8 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
         placePiece(world, pos, 0, structures.get("tower_base"), 0);
 
-        int[] levelDistribution = {1, 2, 5, 10, 16, 23, 28, 30, 28, 23, 16, 10, 5, 2, 1}; //TODO: If changed, make sure it all adds up to 200, the bound of randomDistribution
+        //TODO: If changed, make sure it all adds up to 200, the bound of randomDistribution
+        int[] levelDistribution = {1, 2, 5, 10, 16, 23, 28, 30, 28, 23, 16, 10, 5, 2, 1};
         int randomDistribution = Rands.randInt(200) + 1;
         int currDistribution = levelDistribution[0];
         int maxLevels = MathHelper.ceil((248 - pos.getY()) / 7.0f);

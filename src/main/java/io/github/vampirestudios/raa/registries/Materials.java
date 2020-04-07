@@ -38,9 +38,9 @@ import java.util.Set;
 
 public class Materials {
     public static final Set<Identifier> MATERIAL_IDS = new HashSet<>();
-    public static final Registry<Material> MATERIALS = new DefaultedRegistry<>("materials");
+    public static final DefaultedRegistry<Material> MATERIALS = Registry.create("materials", "null", () -> null);
     public static final Set<Identifier> DIMENSION_MATERIAL_IDS = new HashSet<>();
-    public static final Registry<DimensionMaterial> DIMENSION_MATERIALS = new DefaultedRegistry<>("dimension_materials");
+    public static final DefaultedRegistry<DimensionMaterial> DIMENSION_MATERIALS = Registry.create("dimension_materials", "null", () -> null);
     public static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
     public static boolean ready = false;
     public static boolean dimensionReady = false;

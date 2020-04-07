@@ -14,16 +14,7 @@ public class JsonConverter {
 //        System.out.println("Idk: " + JsonHelper.getString(structureJson, "structureName", "test"));
         StructureValues structure = new StructureValues();
         structure.setName(JsonHelper.getString(structureJson, "structureName", "test"));
-        /*if (JsonHelper.hasArray(structureJson, "size")) {
-            List<Integer> size = new ArrayList<>();
-            JsonArray array = JsonHelper.getArray(structureJson, "size");
-            size.add(array.get(0).getAsJsonPrimitive().getAsInt());
-            size.add(array.get(1).getAsJsonPrimitive().getAsInt());
-            size.add(array.get(2).getAsJsonPrimitive().getAsInt());
-            structure.setSize(size);
-        }*/
 
-        // TODO: Remove this when all structure files are converted.
         if (JsonHelper.hasArray(structureJson, "nbt")) {
 //            System.out.println("Old structure file! Will still load it.");
             JsonArray nbtArray = JsonHelper.getArray(structureJson, "nbt");
@@ -118,91 +109,6 @@ public class JsonConverter {
                 structure.setBlockTypes(Objects.requireNonNull(identifier).toString());
             });
         }
-
-//        System.out.println(String.format("Loaded %s", structureJson.get("structureName")));
-
-        /*try {
-//            Scanner scanner = new Scanner(new File("../src/main/resources/assets/raa/structures/" + FileIn));
-            System.out.println(structureFileContent);
-            Scanner scanner = new Scanner(new File(structureFileContent));
-            int indentClass = 0;
-            int indentList = 0;
-            String section = "";
-            String property = "";
-            List<Integer> tempList = new ArrayList<>();
-            Map<String, String> tempMap = new HashMap<>();
-
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-
-                if (line.contains("}")) { indentClass--; }
-                if (line.contains("]")) { indentList--; }
-
-                if (indentClass == 1 && line.contains("name")) {
-                    structure.setName(line.substring(line.indexOf("name") + 8, line.length() - 2)); //Get the name of the structure
-                }
-                else if (indentClass == 3 && line.contains("name")) {
-                    section = line.substring(line.indexOf("name") + 8, line.length() - 2);
-                }
-                else if (section.equals("size") && indentList == 3) {
-                    tempList.add(Integer.parseInt(line.replaceAll("[^\\d-]", "")));
-                    if (tempList.size() == 3) {
-                        structure.setSize(tempList); //Get the size of the structure
-                        tempList.clear();
-                    }
-                }
-                else if (section.equals("entities") && indentClass == 4 && line.contains("list")) {
-                    structure.setEntities(); //Get the entities
-                }
-                else if (section.contains("blocks") && line.contains(": \"nbt\"")) {
-                    section = "blocks0"; //Structure block!
-                }
-                else if (section.contains("blocks") && line.contains(": \"pos\"")) {
-                    section = "blocks1";
-                }
-                else if (section.contains("blocks") && line.contains(": \"state\"")) {
-                    section = "blocks2";
-                }
-                else if (section.equals("blocks1") && indentList == 5) {
-                    tempList.add(Integer.parseInt(line.replaceAll("[^\\d-]", "")));
-                    if (tempList.size() == 3) {
-                        structure.setBlockPositions(tempList); //Get the positions of the blocks in the structure
-                        tempList.clear();
-                    }
-                }
-                else if (section.equals("blocks2") && indentClass == 5 && line.contains("value")) {
-                    structure.setBlockStates(Integer.parseInt(line.replaceAll("[^\\d-]", ""))); //Get the states of the blocks in the structure
-                }
-                else if (section.equals("palette") && line.contains("Properties")) {
-                    section = "Properties";
-                }
-                else if ((section.equals("palette") || section.equals("Properties")) && line.contains("Name")) {
-                    section = "Name";
-                }
-                else if (section.equals("Properties") && line.contains("name")) {
-                    property = line.substring(line.indexOf("name") + 8, line.length() - 2);
-                }
-                else if (section.equals("Properties") && line.contains("value") && !line.contains("[")) {
-                    tempMap.put(property, line.substring(line.indexOf("value") + 9, line.length() - 1).toUpperCase());
-                }
-                else if (section.equals("Name") && line.contains("value")) {
-                    structure.setBlockProperties(tempMap); //Get the properties of the blocks used in the structure
-                    tempMap = new HashMap<>();
-                    structure.setBlockTypes(line.substring(line.indexOf("value") + 9, line.length() - 1)); //Get the type of blocks used in the structure
-                    section = "palette";
-                }
-
-                if (line.contains("{")) { indentClass++; }
-                if (line.contains("[")) { indentList++; }
-            }
-
-            return structure; //Success!
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return null; //Something went wrong
-        }*/
-
         return structure;
     }
 

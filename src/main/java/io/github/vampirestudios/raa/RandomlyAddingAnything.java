@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa;
 
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
-import io.github.vampirestudios.raa.compats.SimplexRAACompat;
 import io.github.vampirestudios.raa.config.*;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
@@ -15,7 +14,6 @@ import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -26,10 +24,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSourceType;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
-import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.decorator.DecoratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.FeatureConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,9 +71,6 @@ public class RandomlyAddingAnything implements ModInitializer {
         ChunkGenerators.init();
         CustomTargets.init();
         RAAPlacements.init();
-        if (FabricLoader.getInstance().isModLoaded("simplexterrain")) {
-            SimplexRAACompat.init();
-        }
 
         //Reflection hacks
         Constructor<BiomeSourceType> constructor;

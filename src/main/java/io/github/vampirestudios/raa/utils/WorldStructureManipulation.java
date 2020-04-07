@@ -16,7 +16,6 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.IWorld;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.*;
 
@@ -247,8 +246,6 @@ public class WorldStructureManipulation {
                 world.setBlockState(pos, world.getBlockState(pos).with(PortalBlock.ACTIVATED, Rands.chance(4)), 2);
             }*/
         }
-
-        //world.setBlockState(pos, StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.valueOf(dir)).with(Properties.WATERLOGGED, properties.get("waterlogged").equals("TRUE"))), 2);
     }
 
     public static void spawnEntity(IWorld world, BlockPos pos, String entity, Map<String, String> properties, float rotation) {
