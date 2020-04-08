@@ -20,7 +20,6 @@ import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
@@ -30,7 +29,6 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
@@ -46,16 +44,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     private static final Map<Identifier, Map.Entry<DimensionMaterial, RAABlockItem.BlockType>> DIMENSION_MATERIAL_ORE_IDENTIFIERS = new HashMap<>();
 
     public static void initColoring() {
-        ColorProviderRegistry.ITEM.register((stack, layer) -> {
-            if (MinecraftClient.getInstance().world != null) {
-                return MinecraftClient.getInstance().world.getBiomeAccess().getBiome(MinecraftClient.getInstance().player.getBlockPos())
-                        .getGrassColorAt(MinecraftClient.getInstance().player.getBlockPos().getX(), MinecraftClient.getInstance().player.getBlockPos().getZ());
-            } else {
-                BlockState blockState_1 = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
-                return MinecraftClient.getInstance().getBlockColorMap().getColor(blockState_1, MinecraftClient.getInstance().world, MinecraftClient.getInstance().player.getBlockPos());
-            }
-        }, Items.GRASS_BLOCK);
-
         ColorProviderRegistry.ITEM.register((stack, var2) ->
                         MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColor(),
                 Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
@@ -511,8 +499,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.BLOCK.get(Utils.appendToPath(id, "_block")),
                     Registry.ITEM.get(Utils.appendToPath(id, "_shears"))
             );
-            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
-                            layer == 0 ? material.getDimensionData().getDimensionColorPalette().getStoneColor() : material.getColor(),
+            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
                     Registry.BLOCK.get(Utils.appendToPath(id, "_block")));
         });
 

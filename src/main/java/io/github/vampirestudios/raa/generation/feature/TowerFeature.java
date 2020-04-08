@@ -8,13 +8,10 @@ import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.loot.LootTables;
 import net.minecraft.resource.Resource;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -23,20 +20,17 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.function.Function;
 
 public class TowerFeature extends Feature<DefaultFeatureConfig> {
-    private JsonConverter converter = new JsonConverter();
+    private final JsonConverter converter = new JsonConverter();
     private Map<String, JsonConverter.StructureValues> structures;
 
     public TowerFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
@@ -47,7 +41,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         for (int i = 0; i < piece.getBlockPositions().size(); i++) {
             Vec3i currBlockPos = piece.getBlockPositions().get(i);
             String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
-//            Map<String, String> currBlockProp = piece.getBlockProperties().get(piece.getBlockStates().get(i));
+            Map<String, String> currBlockProp = piece.getBlockProperties().get(piece.getBlockStates().get(i));
 
             //Rotate
             currBlockPos = WorldStructureManipulation.rotatePos(rotation, currBlockPos, piece.getSize());
@@ -59,9 +53,9 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 if (currBlockType.equals("minecraft:stone_bricks")) {
                     WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + (world.getDimension().getType().getSuffix()).substring(4) + "_stone_bricks", new HashMap<>(), rotation);
                 } else if (currBlockType.equals("minecraft:ladder")) {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), 4 - rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, (6 - rotation) % 4);
                 } else {
-                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, new HashMap<>(), rotation);
+                    WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, rotation);
                 }
             }
         }
@@ -111,7 +105,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                     } else {
                         standRotation = 45f;
                     }
-                    WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:" + currBlock, standRotation);
+                    WorldStructureManipulation.spawnEntity(world, pos.add(currPos), "minecraft:armor_stand", currProps, standRotation % 360 - 180);
 
                     //Spawn block
                 } else {
@@ -123,7 +117,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                                 "oak_sapling", "lily_of_the_valley", "jungle_sapling", "fern", "dead_bush", "dark_oak_sapling", "dandelion", "cactus",
                                 "brown_mushroom", "blue_orchid", "birch_sapling", "bamboo", "azure_bluet", "allium", "acacia_sapling", "cornflower"};
                         currBlock += plants[new Random().nextInt(plants.length)];
-                    } else if (currBlock.equals("iron_bars")) {
+                    } else if (currBlock.equals("iron_bars") && currProps.get("west") == null) {
                         if (x == z && y == 0) {
                             currProps.put("north", "TRUE");
                             currProps.put("west", "TRUE");
@@ -194,7 +188,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
                 "0 0 0, 0 0 1; 0 0 0; 0 0 0; 0 0 0; 0 0 0; " +
                 "0 0 0, 0 0 1; 0 1 0; 0 0 0, 0 1 0; 0 0 0, 0 1 0";
         String centerPropsString = "facing:SOUTH type:SINGLE, NULL; facing:UP; facing:SOUTH; NULL; NULL, NULL; " +
-                "facing:SOUTH type:SINGLE, NULL; west:TRUE east:TRUE; facing:WEST; face:FLOOR facing:WEST; armor:ALL; " +
+                "facing:SOUTH type:SINGLE, NULL; west:TRUE east:TRUE; facing:WEST; face:FLOOR facing:WEST; head:5 chest:5 legs:5 feet:5 weapon:4; " +
                 "facing:SOUTH type:SINGLE, NULL; attachment:SINGLE_WALL facing:NORTH; distance:0, NULL; distance:0, NULL";
 
         List<List<String>> cornerBlocks = new ArrayList<>();

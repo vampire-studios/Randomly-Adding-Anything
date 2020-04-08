@@ -148,17 +148,21 @@ public class WorldStructureManipulation {
 
         //Rotate stuff
         String facing = "NORTH";
-        List<String> directions = Arrays.asList("FALSE", "FALSE", "FALSE", "FALSE");
-        String axis = "x";
+
         if (properties.get("facing") != null) {
             facing = properties.get("facing");
             if (!facing.equals("UP") && !facing.equals("DOWN")) {
                 facing = rotateDir(rotation, facing);
             }
         }
+
+        List<String> directions = Arrays.asList("FALSE", "FALSE", "FALSE", "FALSE");
         if (properties.get("north") != null || properties.get("west") != null || properties.get("south") != null || properties.get("east") != null) {
             directions = rotateWall(rotation, Arrays.asList(properties.get("north"), properties.get("west"), properties.get("south"), properties.get("east")));
         }
+
+        //Rotate axis property
+        String axis = "x";
         if (properties.get("axis") != null) {
             axis = properties.get("axis");
             axis = (rotation % 2 == 0) ? axis : (axis.equals("x")) ? "z" : (axis.equals("z")) ? "x" : axis;
@@ -172,7 +176,7 @@ public class WorldStructureManipulation {
             } if (properties.get("type") != null) {
                 if (block.equals("minecraft:chest")) {
                     //TODO: [Chests]
-                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.CHEST_TYPE, ChestType.valueOf(properties.get("type"))), 2);
+                    world.setBlockState(pos, world.getBlockState(pos).with(Properties.CHEST_TYPE, ChestType.valueOf(properties.get("type").toUpperCase(Locale.ENGLISH))), 2);
                 } else {
                     //TODO: [Slabs]
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.SLAB_TYPE, SlabType.valueOf(properties.get("type").toUpperCase(Locale.ENGLISH))), 2);
@@ -188,7 +192,7 @@ public class WorldStructureManipulation {
                     //TODO: Barrel
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.FACING, Direction.valueOf(facing.toUpperCase(Locale.ENGLISH))), 2);
                 } else {
-                    //TODO: [Anvils], [Chests], [Stairs], Bell, Blast_Furnace, Furnace, Grindstone, Smoker, Stonecutter,
+                    //TODO: [Anvils], [Chests], [Stairs], Bell, Blast_Furnace, Furnace, Grindstone, Smoker, Stonecutter, Ladders,
                     world.setBlockState(pos, world.getBlockState(pos).with(Properties.HORIZONTAL_FACING, Direction.valueOf(facing.toUpperCase(Locale.ENGLISH))), 2);
                 }
             } if (properties.get("north") != null || properties.get("west") != null || properties.get("south") != null || properties.get("east") != null) {
@@ -199,28 +203,28 @@ public class WorldStructureManipulation {
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.EAST, (directions.get(3) != null && directions.get(3).equals("TRUE"))), 2);
             } if (properties.get("up") != null) {
                 //TODO: [Walls]
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UP, properties.get("up").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UP, properties.get("up").toUpperCase(Locale.ENGLISH).equals("TRUE")), 2);
             } if (properties.get("open") != null) {
                 //TODO: Barrel
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.OPEN, properties.get("open").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.OPEN, properties.get("open").toUpperCase(Locale.ENGLISH).equals("TRUE")), 2);
             } if (properties.get("snowy") != null) {
                 //TODO: Grass_Block
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.SNOWY, properties.get("snowy").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.SNOWY, properties.get("snowy").toUpperCase(Locale.ENGLISH).equals("TRUE")), 2);
             } if (properties.get("lit") != null) {
                 //TODO: Blast_Furnace, Furnace, Smoker
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.LIT, properties.get("lit").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.LIT, properties.get("lit").toUpperCase(Locale.ENGLISH).equals("TRUE")), 2);
             } if (properties.get("bottom") != null) {
                 //TODO: ~~
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.BOTTOM, properties.get("bottom").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.BOTTOM, properties.get("bottom").toUpperCase(Locale.ENGLISH).equals("TRUE")), 2);
             } if (properties.get("hanging") != null) {
                 //TODO: Lantern
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.HANGING, properties.get("hanging").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.HANGING, properties.get("hanging").toUpperCase(Locale.ENGLISH).equals("TRUE")), 2);
             } if (properties.get("powered") != null) {
                 //TODO: [Pressure_Plates], Bell
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.POWERED, properties.get("powered").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.POWERED, properties.get("powered").toUpperCase(Locale.ENGLISH).equals("TRUE")), 2);
             } if (properties.get("unstable") != null) {
                 //TODO: TNT
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UNSTABLE, properties.get("unstable").equals("TRUE")), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.UNSTABLE, properties.get("unstable").toUpperCase(Locale.ENGLISH).equals("TRUE")), 2);
             } if (properties.get("face") != null) {
                 //TODO: Grindstone
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.WALL_MOUNT_LOCATION, WallMountLocation.valueOf(properties.get("face").toUpperCase(Locale.ENGLISH))), 2);
@@ -232,14 +236,12 @@ public class WorldStructureManipulation {
                 world.setBlockState(pos, world.getBlockState(pos).with(Properties.ATTACHMENT, Attachment.valueOf(properties.get("attachment").toUpperCase(Locale.ENGLISH))), 2);
             } if (properties.get("axis") != null) {
                 //TODO: Bone_Block
-                world.setBlockState(pos, world.getBlockState(pos).with(Properties.AXIS, Direction.Axis.fromName(axis)), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(Properties.AXIS, Direction.Axis.valueOf(axis.toUpperCase(Locale.ENGLISH))), 2);
             }
         }
-
-        //world.setBlockState(pos, StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.valueOf(dir)).with(Properties.WATERLOGGED, properties.get("waterlogged").equals("TRUE"))), 2);
     }
 
-    public static void spawnEntity(IWorld world, BlockPos pos, String entity, float rotation) {
+    public static void spawnEntity(IWorld world, BlockPos pos, String entity, Map<String, String> properties, float rotation) {
         if (entity.equals("minecraft:armor_stand")) {
             Entity armorStand = EntityType.ARMOR_STAND.create(world.getWorld());
 
@@ -271,12 +273,31 @@ public class WorldStructureManipulation {
                     new ItemStack(Items.IRON_BOOTS),
                     new ItemStack(Items.DIAMOND_BOOTS)
             );
+            List<ItemStack> weapons = ImmutableList.of(
+                    new ItemStack(Items.STONE_SWORD),
+                    new ItemStack(Items.GOLDEN_SWORD),
+                    new ItemStack(Items.IRON_SWORD),
+                    new ItemStack(Items.DIAMOND_SWORD)
+            );
             Objects.requireNonNull(armorStand).refreshPositionAndAngles(pos, rotation, 0f);
+
+            if (properties.get("head") != null && !Rands.chance(4)) {
+                armorStand.equipStack(EquipmentSlot.HEAD, helmets.get(Rands.randInt(Integer.parseInt(properties.get("head")))));
+            }
+            if (properties.get("chest") != null && !Rands.chance(4)) {
+                armorStand.equipStack(EquipmentSlot.CHEST, chestplates.get(Rands.randInt(Integer.parseInt(properties.get("chest")))));
+            }
+            if (properties.get("legs") != null && !Rands.chance(4)) {
+                armorStand.equipStack(EquipmentSlot.LEGS, leggings.get(Rands.randInt(Integer.parseInt(properties.get("legs")))));
+            }
+            if (properties.get("feet") != null && !Rands.chance(4)) {
+                armorStand.equipStack(EquipmentSlot.FEET, boots.get(Rands.randInt(Integer.parseInt(properties.get("feet")))));
+            }
+            if (properties.get("weapon") != null && !Rands.chance(3)) {
+                armorStand.equipStack(EquipmentSlot.MAINHAND, weapons.get(Rands.randInt(Integer.parseInt(properties.get("weapon")))));
+            }
+
             world.spawnEntity(armorStand);
-            armorStand.equipStack(EquipmentSlot.HEAD, Rands.list(helmets));
-            armorStand.equipStack(EquipmentSlot.CHEST, Rands.list(chestplates));
-            armorStand.equipStack(EquipmentSlot.LEGS, Rands.list(leggings));
-            armorStand.equipStack(EquipmentSlot.FEET, Rands.list(boots));
         }
     }
 
