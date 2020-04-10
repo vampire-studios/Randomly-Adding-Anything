@@ -49,7 +49,6 @@ public class Utils {
         surfaceBuilders.add("raa:patchy_badlands");
         surfaceBuilders.add("raa:classic_cliffs");
         surfaceBuilders.add("raa:stratified_cliffs");
-        surfaceBuilders.add("raa:floating_islands");
         surfaceBuilders.add("raa:sandy_dunes");
         surfaceBuilders.add("raa:dunes");
         surfaceBuilders.add("minecraft:default");

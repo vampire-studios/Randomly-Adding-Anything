@@ -2,12 +2,20 @@ package io.github.vampirestudios.raa.generation.feature;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.Dynamic;
+import io.github.vampirestudios.raa.generation.dimensions.CustomDimension;
+import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.RAALootTables;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.state.property.Properties;
 import net.minecraft.structure.StructurePiece;
@@ -17,11 +25,13 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class CampfireFeature extends Feature<DefaultFeatureConfig> {
     public CampfireFeature(Function<Dynamic<?>, ? extends DefaultFeatureConfig> function) {
@@ -124,7 +134,14 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
                 world.setBlockState(pos.add(3, 1, -1), Blocks.LANTERN.getDefaultState().with(Properties.HANGING, true), 2);
 
             world.setBlockState(pos.add(3, 0, 2), StructurePiece.method_14916(world, pos, Blocks.CHEST.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST)), 2);
-            LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(3, 0, 2), RAALootTables.CAMPFIRE_TENT_LOOT);
+
+
+//            LootableContainerBlockEntity.setLootTable(world, Rands.getRandom(), pos.add(3, 0, 2), RAALootTables.CAMPFIRE_TENT_LOOT);
+
+            //try to add custom dimensional loot to the chest
+            if (world.getDimension() instanceof CustomDimension) {
+                fillChestWithLoot(((CustomDimension)world.getDimension()).getDimensionData(), (ChestBlockEntity) world.getBlockEntity(pos.add(3, 0, 2)));
+            }
         } else {
             if (Rands.chance(2))
                 world.setBlockState(pos.add(2, 0, 0), stair.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST), 2);
@@ -132,5 +149,53 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
 
         Utils.createSpawnsFile("campfire", world, pos);
         return true;
+    }
+
+    private static void fillChestWithLoot(DimensionData data, ChestBlockEntity entity) {
+
+        //TODO: remove the > 1 when we can be sure that dimension and material names are totally unique
+        String name = data.getName().toLowerCase();
+        List<Identifier> swords = Registry.ITEM.getIds().stream().filter(id -> id.getPath().startsWith(name + "_") && id.getPath().endsWith("_sword") && StringUtils.countMatches(id.getPath(), "_") > 1).collect(Collectors.toList());
+        if (swords.isEmpty()) {
+            swords.add(new Identifier("minecraft", "stone_sword"));
+        }
+
+        List<Identifier> pickaxes = Registry.ITEM.getIds().stream().filter(id -> id.getPath().startsWith(name + "_") && id.getPath().endsWith("_pickaxe") && StringUtils.countMatches(id.getPath(), "_") > 1).collect(Collectors.toList());
+        if (pickaxes.isEmpty()) {
+            pickaxes.add(new Identifier("minecraft", "stone_pickaxe"));
+        }
+
+        List<Identifier> axes = Registry.ITEM.getIds().stream().filter(id -> id.getPath().startsWith(name + "_") && id.getPath().endsWith("_axe") && StringUtils.countMatches(id.getPath(), "_") > 1).collect(Collectors.toList());
+        if (pickaxes.isEmpty()) {
+            pickaxes.add(new Identifier("minecraft", "stone_axe"));
+        }
+
+        for (int i = 0; i < entity.size(); i++) {
+
+            ItemStack stack = ItemStack.EMPTY;
+
+            switch (Rands.randInt(30)) {
+                case 0:
+                    stack = new ItemStack(Registry.ITEM.get(Rands.list(swords)));
+                    break;
+                case 1:
+                    stack = new ItemStack(Registry.ITEM.get(Rands.list(pickaxes)));
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    stack = new ItemStack(Items.TORCH, Rands.randIntRange(6, 8));
+                    break;
+                case 5:
+                    stack = new ItemStack(Items.FLINT_AND_STEEL);
+                    break;
+                case 6:
+                case 7:
+                    stack = new ItemStack(Items.STRING, Rands.randIntRange(3, 6));
+                    break;
+            }
+
+            entity.setStack(i, stack);
+        }
     }
 }

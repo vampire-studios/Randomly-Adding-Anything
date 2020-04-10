@@ -9,7 +9,7 @@
         {
           "type":"item",
           "name":"minecraft:arrow",
-          "weight":10,
+          "weight":8,
           "functions":[
             {
               "function":"set_count",
@@ -23,7 +23,7 @@
         {
           "type":"item",
           "name":"minecraft:rotten_flesh",
-          "weight":8,
+          "weight":6,
           "functions":[
             {
               "function":"set_count",
@@ -37,7 +37,7 @@
         {
           "type":"item",
           "name":"minecraft:paper",
-          "weight":6,
+          "weight":4,
           "functions":[
             {
               "function":"set_count",
@@ -56,7 +56,7 @@
         {
           "type":"item",
           "name":"minecraft:tipped_arrow",
-          "weight":1,
+          "weight":3,
           "functions": [
             {
               "function": "minecraft:set_nbt",
@@ -74,7 +74,7 @@
         {
           "type":"item",
           "name":"minecraft:tipped_arrow",
-          "weight":1,
+          "weight":3,
           "functions": [
             {
               "function": "minecraft:set_nbt",
@@ -92,7 +92,7 @@
         {
           "type":"item",
           "name":"minecraft:tipped_arrow",
-          "weight":1,
+          "weight":3,
           "functions": [
             {
               "function": "minecraft:set_nbt",
