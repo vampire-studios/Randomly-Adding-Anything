@@ -105,7 +105,7 @@ public class LayeredOreBlock extends OreBlock {
     @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
         //EARLY DETECTION OF BUSTED LOOT TABLES:
-        Identifier tableId = this.getDropTableID();
+        Identifier tableId = this.getLootTableId();
 
         if (tableId == LootTables.EMPTY) {
             return Collections.emptyList();

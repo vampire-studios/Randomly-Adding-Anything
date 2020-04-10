@@ -8,13 +8,13 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.minecraft.block.Blocks;
-import net.minecraft.world.gen.StructureAccessor;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.resource.Resource;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
@@ -45,31 +45,31 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
         JsonObject fossil6 = null;
         JsonObject fossil7 = null;
         try {
-            Resource towerBasePath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil01.json"));
+            Resource towerBasePath = ((ServerWorld)world.getWorld()).getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil01.json"));
             fossil1 = new Gson().fromJson(new InputStreamReader(towerBasePath.getInputStream()), JsonObject.class);
             JsonObject finalTowerBase = fossil1;
 
-            Resource towerWallsPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil02.json"));
+            Resource towerWallsPath = ((ServerWorld)world.getWorld()).getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil02.json"));
             fossil2 = new Gson().fromJson(new InputStreamReader(towerWallsPath.getInputStream()), JsonObject.class);
             JsonObject finalTowerWalls = fossil2;
 
-            Resource towerStairsPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil03.json"));
+            Resource towerStairsPath = ((ServerWorld)world.getWorld()).getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil03.json"));
             fossil3 = new Gson().fromJson(new InputStreamReader(towerStairsPath.getInputStream()), JsonObject.class);
             JsonObject finalTowerStairs = fossil3;
 
-            Resource towerLaddersPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil04.json"));
+            Resource towerLaddersPath = ((ServerWorld)world.getWorld()).getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil04.json"));
             fossil4 = new Gson().fromJson(new InputStreamReader(towerLaddersPath.getInputStream()), JsonObject.class);
             JsonObject finalTowerLadders = fossil4;
 
-            Resource towerPillarPath = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil05.json"));
+            Resource towerPillarPath = ((ServerWorld)world.getWorld()).getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil05.json"));
             fossil5 = new Gson().fromJson(new InputStreamReader(towerPillarPath.getInputStream()), JsonObject.class);
             JsonObject finalTowerPillar = fossil5;
 
-            Resource fossil6Path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil06.json"));
+            Resource fossil6Path = ((ServerWorld)world.getWorld()).getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil06.json"));
             fossil6 = new Gson().fromJson(new InputStreamReader(fossil6Path.getInputStream()), JsonObject.class);
             JsonObject finalFossil6 = fossil6;
 
-            Resource fossil7Path = MinecraftClient.getInstance().getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil07.json"));
+            Resource fossil7Path = ((ServerWorld)world.getWorld()).getServer().getDataManager().getResource(new Identifier("raa:structures/fossils/fossil07.json"));
             fossil7 = new Gson().fromJson(new InputStreamReader(fossil7Path.getInputStream()), JsonObject.class);
             JsonObject finalFossil7 = fossil7;
 
@@ -86,7 +86,7 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
             e.printStackTrace();
         }
 
-        if (fossil1 == null || fossil2 == null || fossil3 == null || fossil4 == null || fossil5 == null || fossil6 == null) {
+        if (fossil1 == null || fossil2 == null || fossil3 == null || fossil4 == null || fossil5 == null || fossil6 == null || fossil7 == null) {
             System.out.println("Can't get the file");
             return true;
         }

@@ -121,7 +121,9 @@ public class Materials {
     public static void generateDimensionMaterials() {
         for (DimensionData dimensionData : Dimensions.DIMENSIONS) {
             for (int a = 0; a < Rands.randIntRange(0, RandomlyAddingAnything.CONFIG.dimensionMaterialGenAmount); a++) {
+                int[] dimensionColors = Color.intToRgb(dimensionData.getDimensionColorPalette().getSkyColor());
                 Color RGB = Rands.randColor();
+                Color color = new Color(RGB.getRed() + dimensionColors[0], RGB.getBlue() + dimensionColors[1], RGB.getGreen() + dimensionColors[2]);
                 Random random = Rands.getRandom();
                 NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getMaterialNameGenerator();
 
@@ -147,7 +149,7 @@ public class Materials {
                 RegistryUtils.registerOreTarget(stoneName, new OreFeatureConfig.Target(stoneName, new BlockPredicate(block), block));
                 DimensionMaterial material = DimensionMaterial.Builder.create(id, name)
                         .oreType(Rands.values(OreType.values()))
-                        .color(RGB.getColor())
+                        .color(color.getColor())
                         .target(stoneName)
                         .foodData(materialFoodData)
                         .armor(random.nextBoolean())

@@ -48,22 +48,22 @@ public class Rands {
     }
 
     public static Color randColor() {
-        return new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+        return new Color(Color.HSBtoRGB(Rands.randFloatRange(0, 1.0F), Rands.randFloatRange(0.75F, 1.0F), Rands.randFloatRange(0.25F, 1.0F)));
     }
 
     public static boolean chance(int bound) {
         return randInt(bound) == 0;
     }
 
-    public static <O extends Object> O values(O[] values) {
+    public static <O> O values(O[] values) {
         return values[randInt(values.length)];
     }
 
-    public static <O extends Object> O list(List<O> list) {
+    public static <O> O list(List<O> list) {
         return list.get(randInt(list.size()));
     }
 
-    public static <O extends Object> List<O> lists(List<O> list, List<O> list2) {
+    public static <O> List<O> lists(List<O> list, List<O> list2) {
         int int1 = randInt(list.size());
         int int2 = randInt(list2.size());
         return Arrays.asList(list.get(int1), list2.get(int2));

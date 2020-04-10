@@ -15,7 +15,7 @@ public class ItemEffectHandler {
     public static void spawnLightning(World world, LivingEntity target, LivingEntity attacker, JsonElement config) {
         if (world.getRandom().nextInt(config.getAsJsonObject().get("chance").getAsInt()) == 0) {
             if (!world.isClient()) {
-                world.spawnEntity(new LightningEntity(world, target.getBlockPos().getX(), target.getBlockPos().getZ(), target.getBlockPos().getZ(), false));
+                world.spawnEntity(new LightningEntity(world, target.getBlockPos().getX(), target.getBlockPos().getZ(), target.getBlockPos().getZ(), true));
             }
         }
     }
@@ -49,4 +49,17 @@ public class ItemEffectHandler {
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, config.getAsJsonObject().get("duration").getAsInt(), 127, false, false, false));
         }
     }
+
+    public static void burnEntity(World world, LivingEntity target, LivingEntity attacker, JsonElement config) {
+        if (!world.isClient()) {
+            target.setOnFireFor(config.getAsJsonObject().get("seconds").getAsInt());
+        }
+    }
+
+    public static void knockbackEntity(World world, LivingEntity target, LivingEntity attacker, JsonElement config) {
+        if (!world.isClient()) {
+            target.takeKnockback(config.getAsJsonObject().get("speed").getAsFloat(), config.getAsJsonObject().get("xMovement").getAsDouble(), config.getAsJsonObject().get("zMovement").getAsDouble());
+        }
+    }
+
 }

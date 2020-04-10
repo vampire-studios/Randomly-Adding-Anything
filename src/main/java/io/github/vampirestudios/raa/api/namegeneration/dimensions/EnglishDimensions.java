@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.api.namegeneration.dimensions;
 
+import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -7,7 +8,7 @@ import java.util.*;
 
 public class EnglishDimensions implements NameGenerator {
 
-    public static final String[] LATIN_PREFIXES_OLD = {
+    public static final String[] PREFIXES_OLD = {
             "ab", "ad", "ambi", "ante", "circum", "co", "com", "con", "contra", "de", "den", "dis", "di", "ex", "extra",
             "in", "en", "infra", "inter", "intra", "juxta", "me", "ne", "non", "ob", "ox", "per", "post", "prae", "preter",
             "pro", "quasi", "ques", "re", "red", "retro", "se", "sed", "sen", "sin", "sod", "sub", "subter", "super", "supra",
@@ -64,10 +65,17 @@ public class EnglishDimensions implements NameGenerator {
     public String generate() {
         Random rnd = new Random();
 
-        String prefix = PREFIXES[rnd.nextInt(PREFIXES.length)].toLowerCase();
-        String endings = SUFFIXES[rnd.nextInt(SUFFIXES.length)];
+        if (!RandomlyAddingAnything.CONFIG.oldDimensionNames) {
+            String prefix = PREFIXES[rnd.nextInt(PREFIXES.length)].toLowerCase();
+            String endings = SUFFIXES[rnd.nextInt(SUFFIXES.length)];
 
-        return combine(prefix, endings);
+            return combine(prefix, endings);
+        } else {
+            String prefix = PREFIXES_OLD[rnd.nextInt(PREFIXES_OLD.length)];
+            String middle = MIDDLES[rnd.nextInt(MIDDLES.length)];
+
+            return combine(prefix, middle);
+        }
     }
 
     public Collection<String> generate(int count) {

@@ -24,7 +24,7 @@ public class Textures {
         for (int i = 1; i < 8; i++) {
             addTextureToList(TextureTypes.CRYSTAL_ITEM_TEXTURES, "item/crystals/crystal_" + i);
         }
-        for (int i = 1; i < 8; i++) {
+        for (int i = 1; i < 9; i++) {
             addTextureToList(TextureTypes.METAL_NUGGET_TEXTURES, "item/nuggets/nugget_" + i);
         }
 
@@ -118,7 +118,7 @@ public class Textures {
         for (int i = 1; i < 9; i++) {
             addTextureToList(TextureTypes.GEM_ORE_TEXTURES, "block/ores/gems/ore_" + i);
         }
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 11; i++) {
             addTextureToList(TextureTypes.CRYSTAL_ORE_TEXTURES, "block/ores/crystals/ore_" + i);
         }
         for (int i = 1; i < 4; i++) {

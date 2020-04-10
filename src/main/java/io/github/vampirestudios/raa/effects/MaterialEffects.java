@@ -23,6 +23,14 @@ public enum MaterialEffects {
     })),
     FREEZE(ItemEffectHandler::stopEntity, (element -> {
         element.getAsJsonObject().addProperty("duration", Rands.randIntRange(5, 20));
+    })),
+    BURN(ItemEffectHandler::burnEntity, (element -> {
+        element.getAsJsonObject().addProperty("seconds", Rands.randIntRange(5, 20));
+    })),
+    KNOCKBACK(ItemEffectHandler::knockbackEntity, (element -> {
+        element.getAsJsonObject().addProperty("speed", Rands.randFloatRange(0.1F, 0.7F));
+        element.getAsJsonObject().addProperty("xMovement", Rands.randDoubleRange(1.0D, 1.6D));
+        element.getAsJsonObject().addProperty("zMovement", Rands.randDoubleRange(1.0D, 1.6D));
     }));
 
     public ItemEffectFunction function;

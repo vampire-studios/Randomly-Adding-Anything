@@ -19,11 +19,11 @@ public class GeneralConfig implements ConfigData {
     public int entityGenAmount = 20;
     @Comment("Mostly for us developers")
     public boolean debug = false;
-    @Comment("If this is set to true configs will regenerate each time you restart your game, you can also just delete the raa folder in the configs folder")
-    public boolean regenConfigs = false;
     @Comment("The name the materials should generate in")
     public LangEnum namingLanguage = LangEnum.ENGLISH;
     @Comment("If portal hubs should spawn naturally, if set to false you need to make your own ones in creative")
     public boolean shouldSpawnPortalHub = true;
+    @Comment("Should the mod use the old dimension name system?")
+    public boolean oldDimensionNames = false;
 
 }
