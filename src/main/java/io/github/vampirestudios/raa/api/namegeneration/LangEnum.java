@@ -1,14 +1,8 @@
 package io.github.vampirestudios.raa.api.namegeneration;
 
 import io.github.vampirestudios.raa.api.namegeneration.civs.EnglishCivs;
-import io.github.vampirestudios.raa.api.namegeneration.dimensions.EnglishDimensions;
-import io.github.vampirestudios.raa.api.namegeneration.dimensions.FrenchDimensions;
-import io.github.vampirestudios.raa.api.namegeneration.dimensions.NorwegianDimensions;
-import io.github.vampirestudios.raa.api.namegeneration.dimensions.SpanishDimensions;
-import io.github.vampirestudios.raa.api.namegeneration.material.EnglishMaterials;
-import io.github.vampirestudios.raa.api.namegeneration.material.FrenchMaterials;
-import io.github.vampirestudios.raa.api.namegeneration.material.NorwegianMaterials;
-import io.github.vampirestudios.raa.api.namegeneration.material.SpanishMaterials;
+import io.github.vampirestudios.raa.api.namegeneration.dimensions.*;
+import io.github.vampirestudios.raa.api.namegeneration.material.*;
 import io.github.vampirestudios.raa.api.namegeneration.trees.EnglishTrees;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -34,6 +28,12 @@ public enum LangEnum {
     SPANISH(
         new SpanishMaterials(),
         new SpanishDimensions(),
+        new EnglishTrees(),
+        new EnglishCivs()
+    ),
+    CHINESE(
+        new ChineseMaterials(),
+        new ChineseDimensions(),
         new EnglishTrees(),
         new EnglishCivs()
     );
