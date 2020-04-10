@@ -8,5 +8,7 @@ public enum DimensionFoliagePlacers {
 
     //RAA
     SMALL_PINE,
-    HAZEL
+    HAZEL,
+    STRIATED,
+    UPSIDE_DOWN
 }
