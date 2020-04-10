@@ -11,9 +11,7 @@ import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
 import io.github.vampirestudios.raa.generation.feature.TombFeature;
 import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
-import io.github.vampirestudios.raa.generation.feature.tree.foliage.EcotonesHazelFoliagePlacer;
-import io.github.vampirestudios.raa.generation.feature.tree.foliage.SmallPineFoliagePlacer;
-import io.github.vampirestudios.raa.generation.feature.tree.foliage.VanillaPineFoliagePlacer;
+import io.github.vampirestudios.raa.generation.feature.tree.foliage.*;
 import io.github.vampirestudios.raa.registries.Decorators;
 import io.github.vampirestudios.raa.registries.Features;
 import io.github.vampirestudios.raa.registries.SurfaceBuilders;
@@ -353,6 +351,10 @@ public class CustomDimensionalBiome extends Biome {
                 return new SmallPineFoliagePlacer(data.getFoliageRange(), 0, 0, data.getFoliageHeight(), 3, 1);
             case PINE:
                 return new VanillaPineFoliagePlacer(data.getFoliageRange(), 0, 0, data.getFoliageHeight(), 3, 1);
+            case STRIATED:
+                return new StriatedFoliagePlacer(Math.max(data.getFoliageRange(), 1), 0, 0, 0, 3 + data.getFoliageHeight());
+            case UPSIDE_DOWN:
+                return new UpsideDownFoliagePlacer(Math.max(data.getFoliageRange(), 1), 0, 0, 0, 3 + data.getFoliageHeight());
             default:
                 return new BlobFoliagePlacer(Math.max(data.getFoliageRange(), 1), 0, 0, 0, 3 + data.getFoliageHeight());
         }
