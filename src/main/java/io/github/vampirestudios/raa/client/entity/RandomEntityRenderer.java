@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.client.entity;
 
 import io.github.vampirestudios.raa.entity.RandomEntity;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -29,8 +28,8 @@ public class RandomEntityRenderer extends MobEntityRenderer<RandomEntity, Random
 
     @Override
     public void render(RandomEntity entity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(this.getTexture(entity)))
-                .color(entity.data.r, entity.data.g, entity.data.b, 1.0F);
+        this.model.setRGB(entity.data.r, entity.data.g, entity.data.b);
         super.render(entity, f, g, matrixStack, vertexConsumerProvider, i);
     }
+
 }

@@ -44,7 +44,6 @@ import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 import static io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators.*;
@@ -218,6 +217,8 @@ public class Dimensions {
                     .crackedChiseledTexture(Rands.list(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES))
                     .polishedTexture(Rands.list(TextureTypes.POLISHED_STONE_TEXTURES))
                     .iceTexture(Rands.list(TextureTypes.ICE_TEXTURES))
+                    .sunTexture(Rands.list(TextureTypes.SUNS))
+                    .moonTexture(Rands.list(TextureTypes.MOONS))
                     .build();
             builder.texturesInformation(texturesInformation);
 
