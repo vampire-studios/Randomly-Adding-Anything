@@ -152,6 +152,7 @@ public class CampfireFeature extends Feature<DefaultFeatureConfig> {
     }
 
     private static void fillChestWithLoot(DimensionData data, ChestBlockEntity entity) {
+        if (entity == null) return; //i don't know how this is null, but sometimes it is
 
         //TODO: remove the > 1 when we can be sure that dimension and material names are totally unique
         String name = data.getName().toLowerCase();
