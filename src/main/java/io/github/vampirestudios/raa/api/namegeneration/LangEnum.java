@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.api.namegeneration;
 
 import io.github.vampirestudios.raa.api.namegeneration.civs.EnglishCivs;
+import io.github.vampirestudios.raa.api.namegeneration.civs.FrenchCivs;
 import io.github.vampirestudios.raa.api.namegeneration.dimensions.*;
 import io.github.vampirestudios.raa.api.namegeneration.material.*;
 import io.github.vampirestudios.raa.api.namegeneration.trees.EnglishTrees;
@@ -17,7 +18,7 @@ public enum LangEnum {
         new FrenchMaterials(),
         new FrenchDimensions(),
         new EnglishTrees(),
-        new EnglishCivs()
+        new FrenchCivs()
     ),
     NORWEGIAN(
         new NorwegianMaterials(),
