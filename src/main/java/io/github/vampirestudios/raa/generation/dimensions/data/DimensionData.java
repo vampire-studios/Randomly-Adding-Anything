@@ -29,6 +29,12 @@ public class DimensionData {
     private float stoneResistance; //blast resistance
     private float gravity;
 
+    public DimensionData() {
+        this(null, null, null, null, null, null, false,
+                false, false, null, 0, null, 0, null,
+                0, 0, 0, 0, 0);
+    }
+
     public DimensionData(Identifier id, String name, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
                          DimensionCustomSkyInformation customSkyInformation, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator,
                          int flags, HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, float cloudHeight, float stoneJumpHeight, float stoneHardness,

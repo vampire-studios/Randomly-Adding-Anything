@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa.blocks;
 
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
-import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -18,7 +17,6 @@ public class DimensionalStone extends Block {
 
     public DimensionalStone(DimensionData dimensionData) {
         super(Settings.copy(Blocks.STONE).strength(dimensionData.getStoneHardness(), dimensionData.getStoneResistance()));
-//                .jumpVelocityMultiplier(dimensionData.getStoneJumpHeight())); //TODO: do something with this
         this.dimensionData = dimensionData;
     }
 

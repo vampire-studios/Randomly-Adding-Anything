@@ -8,7 +8,8 @@ import net.minecraft.util.registry.Registry;
 
 public class PortalHubThemes {
 
-    public static final Registry<PortalHubTheme> PORTAL_HUB_THEMES = new DefaultedRegistry<>("raa:portal_hub_themes");
+    public static final DefaultedRegistry<PortalHubTheme> PORTAL_HUB_THEMES = Registry.create("raa:portal_hub_themes", "stone_bricks",
+            () -> PortalHubThemes.STONE_BRICKS);
 
     public static final PortalHubTheme STONE_BRICKS = registerTheme(new Identifier(RandomlyAddingAnything.MOD_ID, "stone_bricks"), new PortalHubTheme(Blocks.STONE_BRICKS, Blocks.STONE_BRICK_WALL, Blocks.STONE_BRICK_SLAB, Blocks.STONE_BRICK_STAIRS));
     public static final PortalHubTheme BRICKS = registerTheme(new Identifier(RandomlyAddingAnything.MOD_ID, "bricks"), new PortalHubTheme(Blocks.BRICKS, Blocks.BRICK_WALL, Blocks.BRICK_SLAB, Blocks.BRICK_STAIRS));

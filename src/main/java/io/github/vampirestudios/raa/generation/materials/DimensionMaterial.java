@@ -222,18 +222,27 @@ public class DimensionMaterial extends Material {
             if (oreType == OreType.METAL) smallDustTexture = Rands.list(TextureTypes.SMALL_DUST_TEXTURES);
             else smallDustTexture = null;
 
-            Map.Entry<Identifier, Identifier> pickaxe = Rands.map(TextureTypes.PICKAXES);
-            Map.Entry<Identifier, Identifier> axe = Rands.map(TextureTypes.AXES);
-            Map.Entry<Identifier, Identifier> hoe = Rands.map(TextureTypes.HOES);
-            Map.Entry<Identifier, Identifier> sword = Rands.map(TextureTypes.SWORDS);
-            Map.Entry<Identifier, Identifier> shovel = Rands.map(TextureTypes.SHOVELS);
+            SwordTextureData swordTextureData =
+                    new SwordTextureData(Rands.list(TextureTypes.SWORD_BLADES), Rands.list(TextureTypes.SWORD_HANDLES));
+
+            TextureData axeTexture =
+                    new TextureData(Rands.list(TextureTypes.AXE_HEAD), Rands.list(TextureTypes.AXE_STICKS));
+
+            TextureData pickaxeTexture =
+                    new TextureData(Rands.list(TextureTypes.PICKAXE_HEAD), Rands.list(TextureTypes.PICKAXE_STICKS));
+
+            TextureData hoeTexture =
+                    new TextureData(Rands.list(TextureTypes.HOE_HEAD), Rands.list(TextureTypes.HOE_STICKS));
+
+            TextureData shovelTexture =
+                    new TextureData(Rands.list(TextureTypes.SHOVEL_HEAD), Rands.list(TextureTypes.SHOVEL_STICKS));
 
             MaterialTexturesInformation texturesInformation = MaterialTexturesInformation.Builder.create()
-                    .pickaxeTexture(new Pair<>(pickaxe.getKey(), pickaxe.getValue()))
-                    .axeTexture(new Pair<>(axe.getKey(), axe.getValue()))
-                    .hoeTexture(new Pair<>(hoe.getKey(), hoe.getValue()))
-                    .swordTexture(new Pair<>(sword.getKey(), sword.getValue()))
-                    .shovelTexture(new Pair<>(shovel.getKey(), shovel.getValue()))
+                    .pickaxeTexture(pickaxeTexture)
+                    .axeTexture(axeTexture)
+                    .hoeTexture(hoeTexture)
+                    .swordTexture(swordTextureData)
+                    .shovelTexture(shovelTexture)
                     .helmetTexture(Rands.list(TextureTypes.HELMET_TEXTURES))
                     .chestplateTexture(Rands.list(TextureTypes.CHESTPLATE_TEXTURES))
                     .leggingsTexture(Rands.list(TextureTypes.LEGGINGS_TEXTURES))

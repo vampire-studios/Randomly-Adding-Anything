@@ -7,7 +7,7 @@
     "ItemEntityMixin",
     "ServerPlayerEntityMixin",
     "LeavesBlockMixin",
-    "LivingEntityMixin",
+//    "LivingEntityMixin",
     "LocateCommandMixin",
     "DefaultAttributeRegistryMixin"
   ],

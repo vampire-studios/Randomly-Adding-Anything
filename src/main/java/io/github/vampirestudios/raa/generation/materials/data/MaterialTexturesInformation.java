@@ -1,15 +1,14 @@
 package io.github.vampirestudios.raa.generation.materials.data;
 
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 
 public class MaterialTexturesInformation {
 
-    private Pair<Identifier, Identifier> pickaxeTexture;
-    private Pair<Identifier, Identifier> axeTexture;
-    private Pair<Identifier, Identifier> hoeTexture;
-    private Pair<Identifier, Identifier> swordTexture;
-    private Pair<Identifier, Identifier> shovelTexture;
+    private TextureData pickaxeTexture;
+    private TextureData axeTexture;
+    private TextureData hoeTexture;
+    private SwordTextureData swordTexture;
+    private TextureData shovelTexture;
 
     private Identifier helmetTexture;
     private Identifier chestplateTexture;
@@ -26,11 +25,10 @@ public class MaterialTexturesInformation {
     private Identifier nuggetTexture;
     private Identifier fruitTexture;
 
-    public MaterialTexturesInformation(Pair<Identifier, Identifier> pickaxeTexture, Pair<Identifier, Identifier> axeTexture, Pair<Identifier, Identifier> hoeTexture,
-                                       Pair<Identifier, Identifier> swordTexture, Pair<Identifier, Identifier> shovelTexture, Identifier helmetTexture, Identifier chestplateTexture,
-                                       Identifier leggingsTexture, Identifier bootsTexture, Identifier overlayTexture, Identifier resourceItemTexture, Identifier dustTexture,
-                                       Identifier smallDustTexture, Identifier gearTexture, Identifier plateTexture, Identifier storageBlockTexture, Identifier nuggetTexture,
-                                       Identifier fruitTexture) {
+    public MaterialTexturesInformation(TextureData pickaxeTexture, TextureData axeTexture, TextureData hoeTexture, SwordTextureData swordTexture,
+                                       TextureData shovelTexture, Identifier helmetTexture, Identifier chestplateTexture, Identifier leggingsTexture, Identifier bootsTexture,
+                                       Identifier overlayTexture, Identifier resourceItemTexture, Identifier dustTexture, Identifier smallDustTexture, Identifier gearTexture,
+                                       Identifier plateTexture, Identifier storageBlockTexture, Identifier nuggetTexture, Identifier fruitTexture) {
         this.pickaxeTexture = pickaxeTexture;
         this.axeTexture = axeTexture;
         this.hoeTexture = hoeTexture;
@@ -51,23 +49,23 @@ public class MaterialTexturesInformation {
         this.fruitTexture = fruitTexture;
     }
 
-    public Pair<Identifier, Identifier> getPickaxeTexture() {
+    public TextureData getPickaxeTexture() {
         return pickaxeTexture;
     }
 
-    public Pair<Identifier, Identifier> getAxeTexture() {
+    public TextureData getAxeTexture() {
         return axeTexture;
     }
 
-    public Pair<Identifier, Identifier> getHoeTexture() {
+    public TextureData getHoeTexture() {
         return hoeTexture;
     }
 
-    public Pair<Identifier, Identifier> getSwordTexture() {
+    public SwordTextureData getSwordTexture() {
         return swordTexture;
     }
 
-    public Pair<Identifier, Identifier> getShovelTexture() {
+    public TextureData getShovelTexture() {
         return shovelTexture;
     }
 
@@ -125,11 +123,11 @@ public class MaterialTexturesInformation {
 
     public static class Builder {
 
-        private Pair<Identifier, Identifier> pickaxeTexture;
-        private Pair<Identifier, Identifier> axeTexture;
-        private Pair<Identifier, Identifier> hoeTexture;
-        private Pair<Identifier, Identifier> swordTexture;
-        private Pair<Identifier, Identifier> shovelTexture;
+        private TextureData pickaxeTexture;
+        private TextureData axeTexture;
+        private TextureData hoeTexture;
+        private SwordTextureData swordTexture;
+        private TextureData shovelTexture;
 
         private Identifier helmetTexture;
         private Identifier chestplateTexture;
@@ -150,27 +148,27 @@ public class MaterialTexturesInformation {
             return new Builder();
         }
 
-        public Builder pickaxeTexture(Pair<Identifier, Identifier> pickaxeTexture) {
+        public Builder pickaxeTexture(TextureData pickaxeTexture) {
             this.pickaxeTexture = pickaxeTexture;
             return this;
         }
 
-        public Builder axeTexture(Pair<Identifier, Identifier> axeTexture) {
+        public Builder axeTexture(TextureData axeTexture) {
             this.axeTexture = axeTexture;
             return this;
         }
 
-        public Builder hoeTexture(Pair<Identifier, Identifier> hoeTexture) {
+        public Builder hoeTexture(TextureData hoeTexture) {
             this.hoeTexture = hoeTexture;
             return this;
         }
 
-        public Builder swordTexture(Pair<Identifier, Identifier> swordTexture) {
+        public Builder swordTexture(SwordTextureData swordTexture) {
             this.swordTexture = swordTexture;
             return this;
         }
 
-        public Builder shovelTexture(Pair<Identifier, Identifier> shovelTexture) {
+        public Builder shovelTexture(TextureData shovelTexture) {
             this.shovelTexture = shovelTexture;
             return this;
         }

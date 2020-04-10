@@ -27,7 +27,6 @@ import io.github.vampirestudios.vampirelib.utils.Color;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensionType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.IceBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ToolMaterial;
@@ -42,15 +41,17 @@ import net.minecraft.world.biome.source.HorizontalVoronoiBiomeAccessType;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 import static io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators.*;
 
 public class Dimensions {
     public static final Set<Identifier> DIMENSION_NAMES = new HashSet<>();
-    public static final Registry<DimensionData> DIMENSIONS = new DefaultedRegistry<>("raa:dimensions");
+    public static final DefaultedRegistry<DimensionData> DIMENSIONS = Registry.create("raa:dimensions", "null", () -> null);
 
     public static void generate() {
         //pre generation of dimensions: basic data, flags, and name
@@ -77,14 +78,14 @@ public class Dimensions {
         ArrayList<Civilization> civs = new ArrayList<>();
         Set<Identifier> civNames = new HashSet<>();
         Set<ProtoDimension> usedDimensions = new HashSet<>();
-        for (int i = 0; i < 10; i++) {
-            NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getDimensionNameGenerator();
+        for (int i = 0; i < 15; i++) {
+            NameGenerator nameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getCivilizationNameGenerator();
             Pair<String, Identifier> name = nameGenerator.generateUnique(civNames, MOD_ID);
             civNames.add(name.getRight());
             ProtoDimension generatedDimension = Rands.list(protoDimensions);
             if (usedDimensions.contains(generatedDimension)) continue;
             else usedDimensions.add(generatedDimension);
-            civs.add(new Civilization(name.getLeft(), generatedDimension));
+            civs.add(new Civilization(WordUtils.capitalizeFully(name.getLeft()), generatedDimension));
         }
 
         //tick the civs and get their influence
@@ -191,7 +192,7 @@ public class Dimensions {
                 MOON_COLOR = VENUS;
             }
 
-            DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), name.getLeft())
+            DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), WordUtils.capitalizeFully(name.getLeft()))
                     .canSleep(Rands.chance(4))
                     .waterVaporize(Rands.chance(100))
                     .shouldRenderFog(Rands.chance(40))
@@ -394,7 +395,6 @@ public class Dimensions {
 
 //            RegistryUtils.registerBlockWithoutItem(new CustomPortalBlock(dimensionData, dimensionType), Utils.addSuffixToPath(dimensionData.getId(), "_custom_portal"));
 
-            //TODO: custom tool durabilities
             ToolMaterial toolMaterial = new ToolMaterial() {
                 @Override
                 public int getDurability() {
@@ -523,9 +523,8 @@ public class Dimensions {
             RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_wall"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getId().getPath(), "polishedWall");
 
-            RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimensionData.getId().getPath().toLowerCase() + "_ice"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getId().getPath(), "ice");
+            /*RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), Utils.addSuffixToPath(dimensionData.getId(), "_ice"),
+                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "ice");*/
 
             Block portalBlock = RegistryUtils.registerBlockWithoutItem(new PortalBlock(dimensionType, dimensionData),
                     new Identifier(RandomlyAddingAnything.MOD_ID, dimensionData.getId().getPath().toLowerCase() + "_portal"));

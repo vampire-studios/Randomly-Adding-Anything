@@ -58,7 +58,6 @@ public class DimensionalOreBakedModel extends RAABakedModel {
         int color = Objects.requireNonNull(dimensionData).getDimensionColorPalette().getStoneColor();
         Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .apply(dimensionData.getTexturesInformation().getStoneTexture());
-//        System.out.println(sprite.getId().toString());
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)

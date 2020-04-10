@@ -7,7 +7,6 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.CommandManager;
@@ -31,14 +30,17 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class CommandLocateRAAStructure {
 
     private static final List<String> STRUCTURES = Arrays.asList(
-            "Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "StoneCircle"
+            "Tower", "Outpost", "Campfire", "SpiderLair", "Tomb", "Fossil", "PortalHub", "Shrine", "StoneCircle", "AbovegroundStorage"
     );
 
     // First make method to register
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        LiteralCommandNode<ServerCommandSource> basenode = dispatcher.register(literal("locateRAA")
-                .then(CommandManager.argument("RAAstructure", greedyString()).suggests(suggestedStrings()).executes(ctx -> locateStructure(ctx.getSource(),
-                        getString(ctx, "RAAstructure"))))
+        dispatcher.register(literal("locateRAA")
+                .then(
+                        CommandManager.argument("RAAstructure", greedyString())
+                                .suggests(suggestedStrings())
+                                .executes(ctx -> locateStructure(ctx.getSource(), getString(ctx, "RAAstructure")))
+                )
         );
     }
 
@@ -61,32 +63,45 @@ public class CommandLocateRAAStructure {
             String spawnPath;
             if (isRaaDimension(source)) {
                 spawnPath = worldPath + "/DIM_raa_" + source.getWorld().getDimension().getType().getSuffix().substring(4) + "/data/";
-                if (structureName.equals("Tower")) {
-                    spawnPath += "tower_spawns.txt";
-                } else if (structureName.equals("Outpost")) {
-                    spawnPath += "outpost_spawns.txt";
-                } else if (structureName.equals("Campfire")) {
-                    spawnPath += "campfire_spawns.txt";
-                } else if (structureName.equals("SpiderLair")) {
-                    spawnPath += "spider_lair_spawns.txt";
-                } else if (structureName.equals("Tomb")) {
-                    spawnPath += "tomb_spawns.txt";
-                } else if (structureName.equals("Fossil")) {
-                    spawnPath += "fossil_spawns.txt";
-                } else if (structureName.equals("Shrine")) {
-                    spawnPath += "shrine_spawns.txt";
-                } else if (structureName.equals("StoneCircle")) {
-                    spawnPath += "stone_circle_spawns.txt";
-                } else if (structureName.equals("BeeNest")) {
-                    spawnPath += "bee_nest_spawns.txt";
-                } else if (structureName.equals("UndergroundBeeNest")) {
-                    spawnPath += "underground_bee_hive_spawns.txt";
-                } else if (structureName.equals("CaveCampfire")) {
-                    spawnPath += "cave_campfire_spawns.txt";
-                } else if (structureName.equals("MushroomRuin")) {
-                    spawnPath += "mushruin_spawns.txt";
-                } else {
-                    throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
+                switch (structureName) {
+                    case "Tower":
+                        spawnPath += "tower_spawns.txt";
+                        break;
+                    case "Outpost":
+                        spawnPath += "outpost_spawns.txt";
+                        break;
+                    case "Campfire":
+                        spawnPath += "campfire_spawns.txt";
+                        break;
+                    case "SpiderLair":
+                        spawnPath += "spider_lair_spawns.txt";
+                        break;
+                    case "Tomb":
+                        spawnPath += "tomb_spawns.txt";
+                        break;
+                    case "Fossil":
+                        spawnPath += "fossil_spawns.txt";
+                        break;
+                    case "Shrine":
+                        spawnPath += "shrine_spawns.txt";
+                        break;
+                    case "StoneCircle":
+                        spawnPath += "stone_circle_spawns.txt";
+                        break;
+                    case "BeeNest":
+                        spawnPath += "bee_nest_spawns.txt";
+                        break;
+                    case "UndergroundBeeNest":
+                        spawnPath += "underground_bee_hive_spawns.txt";
+                        break;
+                    case "CaveCampfire":
+                        spawnPath += "cave_campfire_spawns.txt";
+                        break;
+                    case "MushroomRuin":
+                        spawnPath += "mushruin_spawns.txt";
+                        break;
+                    default:
+                        throw new SimpleCommandExceptionType(new TranslatableText("structure.notfound", structureName)).create();
                 }
             }
             else if (structureName.equals("PortalHub") && source.getWorld().getDimension().getType().getSuffix().equals("")) {

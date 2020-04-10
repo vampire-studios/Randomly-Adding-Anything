@@ -151,7 +151,7 @@ public class Utils {
         }
 
         //choose the default type of surface builder
-        SurfaceBuilder sb = Registry.SURFACE_BUILDER.get(new Identifier(Rands.list(surfaceBuilders)));
+        SurfaceBuilder<?> sb = Registry.SURFACE_BUILDER.get(new Identifier(Rands.list(surfaceBuilders)));
         if (sb == null) { //dunno why it's null sometimes, but if it is, default to the default
             sb = SurfaceBuilder.DEFAULT; //TODO: fix this instead of a hack
         }

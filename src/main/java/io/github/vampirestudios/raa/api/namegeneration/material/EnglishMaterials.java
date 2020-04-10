@@ -20,7 +20,7 @@ public class EnglishMaterials implements NameGenerator {
     };
 
     public static final String[] ORE_SUFFIXES = { //Except "ium" and "ite" which will carry about 86% of the generated items
-            "um", "ule", "ion", "ment", "icle", "ile", "ole", "ule", "ate", "and", "ant", "yn", "ice", "ixe", "stone"
+            "um", "ule", "ion", "ment", "icle", "ile", "ole", "ule", "ate", "and", "ant", "yn", "ice", "ixe", "stone", "ia", "ium"
     };
 
     public static final String[] CONSONANT_FILL = { //Stuffed between consonants
@@ -86,10 +86,10 @@ public class EnglishMaterials implements NameGenerator {
         char aEnd = a.charAt(a.length() - 1);
         if (bStart == aEnd) b = b.substring(1);
         if (isConsonant(aEnd) && isConsonant(bStart)) {
-            return Utils.toTitleCase(a + fillConsonant(aEnd) + b);
+            return a + fillConsonant(aEnd) + b;
         }
 
-        return Utils.toTitleCase(a + b);
+        return a + b;
     }
 
     public boolean isConsonant(char ch) {

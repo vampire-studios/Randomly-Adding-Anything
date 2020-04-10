@@ -39,5 +39,6 @@ public class FoliagePlacers {
             e.printStackTrace();
         }
         throw new RuntimeException("Couldn't register foliage placer type!");
+//        return Registry.register(Registry.FOLIAGE_PLACER_TYPE, new Identifier(MOD_ID, string), new FoliagePlacerType<>(function));
     }
 }

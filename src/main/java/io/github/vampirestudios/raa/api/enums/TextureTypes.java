@@ -43,7 +43,6 @@ public class TextureTypes {
     public static Map<Identifier, Identifier> AXES = new HashMap<>();
     public static Map<Identifier, Identifier> HOES = new HashMap<>();
     public static Map<Identifier, Identifier> SHOVELS = new HashMap<>();
-    public static Map<Identifier, Identifier> SWORDS = new HashMap<>();
 
     public static List<Identifier> HORSE_ARMOR_SADDLE_TEXTURES = new ArrayList<>();
     public static List<Identifier> HORSE_ARMOR_MODEL_TEXTURES = new ArrayList<>();
@@ -52,5 +51,26 @@ public class TextureTypes {
     public static List<Identifier> CHESTPLATE_TEXTURES = new ArrayList<>();
     public static List<Identifier> LEGGINGS_TEXTURES = new ArrayList<>();
     public static List<Identifier> BOOTS_TEXTURES = new ArrayList<>();
+
+    //Sword textures
+    public static List<Identifier> SWORD_STICKS = new ArrayList<>();
+    public static List<Identifier> SWORD_HANDLES = new ArrayList<>();
+    public static List<Identifier> SWORD_BLADES = new ArrayList<>();
+
+    //Pickaxe textures
+    public static List<Identifier> PICKAXE_STICKS = new ArrayList<>();
+    public static List<Identifier> PICKAXE_HEAD = new ArrayList<>();
+
+    //Axe textures
+    public static List<Identifier> AXE_STICKS = new ArrayList<>();
+    public static List<Identifier> AXE_HEAD = new ArrayList<>();
+
+    //Shovel textures
+    public static List<Identifier> SHOVEL_STICKS = new ArrayList<>();
+    public static List<Identifier> SHOVEL_HEAD = new ArrayList<>();
+
+    //Hoe textures
+    public static List<Identifier> HOE_STICKS = new ArrayList<>();
+    public static List<Identifier> HOE_HEAD = new ArrayList<>();
 
 }

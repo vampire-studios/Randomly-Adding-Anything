@@ -8,6 +8,8 @@ import io.github.vampirestudios.raa.client.OreBakedModel;
 import io.github.vampirestudios.raa.client.entity.RandomEntityRenderer;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
+import io.github.vampirestudios.raa.generation.materials.data.SwordTextureData;
+import io.github.vampirestudios.raa.generation.materials.data.TextureData;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Entities;
@@ -41,7 +43,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 
 import java.util.*;
@@ -79,6 +80,9 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register((stack, var2) ->
                         MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColor(),
                 Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
+
+        ColorProviderRegistryImpl.BLOCK.register((blockState, blockRenderView, blockPos, i) ->
+                MinecraftClient.getInstance().world.getBiomeAccess().getBiome(blockPos).getFoliageColor(), Blocks.VINE, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES);
 
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
                 .register((spriteAtlasTexture, registry) -> {
@@ -155,38 +159,34 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    TextureData entry = material.getTexturesInformation().getAxeTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getHead());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getShovelTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    TextureData entry = material.getTexturesInformation().getShovelTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getHead());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getPickaxeTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    TextureData entry = material.getTexturesInformation().getPickaxeTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getHead());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_sword"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getSwordTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    SwordTextureData entry = material.getTexturesInformation().getSwordTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getBlade());
+                    modelBuilder.texture("layer2", entry.getHandle());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_hoe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getHoeTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    TextureData entry = material.getTexturesInformation().getHoeTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getHead());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_shears"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
@@ -377,35 +377,34 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/axe/stone_axe_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/axe/axe_stick_1"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_axe_head"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_axe_handle"));
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/shovel/stone_shovel_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/shovel/shovel_4_handle"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_shovel_head"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_shovel_handle"));
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/pickaxe/stone_pickaxe_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/pickaxe/pickaxe_1_handle"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_pickaxe_head"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_pickaxe_handle"));
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_sword"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/sword/stone_sword_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/sword/sword_1_handle"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_sword_handle_blade"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_sword_stick"));
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_hoe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/hoe/stone_hoe_head"));
-                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/hoe/hoe_stick_1"));
+                    modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_hoe_head"));
+                    modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_hoe_handle"));
                 });
 
                 ColorProviderRegistry.ITEM.register((stack, layer) -> {
                     if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;
                 }, pickaxe, axe, shovel, hoe, sword);
-
 
                 Identifier portalKeyId = Utils.addSuffixToPath(identifier, "_portal_key");
                 Item portalKey = Registry.ITEM.get(portalKeyId);
@@ -479,38 +478,34 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_axe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getAxeTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    TextureData entry = material.getTexturesInformation().getAxeTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getHead());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_shovel"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getShovelTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    TextureData entry = material.getTexturesInformation().getShovelTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getHead());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_pickaxe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getPickaxeTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    TextureData entry = material.getTexturesInformation().getPickaxeTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getHead());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_sword"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getSwordTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    SwordTextureData entry = material.getTexturesInformation().getSwordTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getBlade());
+                    modelBuilder.texture("layer2", entry.getHandle());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_hoe"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/handheld"));
-                    Pair<Identifier, Identifier> entry = material.getTexturesInformation().getHoeTexture();
-                    if (entry.getLeft() == null || entry.getRight() == null) return;
-                    modelBuilder.texture("layer0", entry.getLeft());
-                    modelBuilder.texture("layer1", entry.getRight());
+                    TextureData entry = material.getTexturesInformation().getHoeTexture();
+                    modelBuilder.texture("layer0", entry.getStick());
+                    modelBuilder.texture("layer1", entry.getHead());
                 });
                 clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(bid, "_shears"), modelBuilder -> {
                     modelBuilder.parent(new Identifier("item/generated"));
@@ -557,8 +552,41 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_shears"))
             );
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                        if (layer == 0) return material.getColor();
+                        else return -1;
+                    },
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_helmet")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_chestplate")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_leggings")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_boots")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_horse_armor")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_fruit")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_nugget")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_gem")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_crystal")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_ingot")),
+                    Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_shears"))
+            );
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                        if (layer == 1 || layer == 2) return material.getColor();
+                        else return -1;
+                    },
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_sword"))
+            );
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                        if (layer == 1) return material.getColor();
+                        else return -1;
+                    },
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_axe")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_pickaxe")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_shovel")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_hoe"))
+            );
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
-                    Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")));
+                    Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block"))
+            );
         });
         Dimensions.DIMENSIONS.forEach(dimensionData -> {
             Block stone = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone"));
@@ -608,11 +636,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_chestplate")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_leggings")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_boots")),
-                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_axe")),
-                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_shovel")),
-                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_pickaxe")),
-                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_hoe")),
-                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_sword")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_horse_armor")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_fruit")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_nugget")),
@@ -621,6 +644,21 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_ingot")),
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_shears"))
+            );
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                        if (layer == 1 || layer == 2) return material.getColor();
+                        else return -1;
+                    },
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_sword"))
+                    );
+            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                        if (layer == 1) return material.getColor();
+                        else return -1;
+                    },
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_axe")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_pickaxe")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_shovel")),
+                    Registry.ITEM.get(Utils.addSuffixToPath(id, "_hoe"))
             );
             ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")));
