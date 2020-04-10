@@ -28,7 +28,6 @@ import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.items.RAABlockItem;
 import io.github.vampirestudios.raa.items.RAABlockItemAlt;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
-import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -43,10 +42,13 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.ChunkGeneratorFactory;
+import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 
-import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class RegistryUtils {
 
@@ -97,16 +99,6 @@ public class RegistryUtils {
         return Registry.register(Registry.BIOME, name, biome);
     }
 
-    public static void forEveryBiome(Consumer<Biome> biomes) {
-        Registry.BIOME.forEach(biomes);
-        RegistryEntryAddedCallback.event(Registry.BIOME).register((rawId, id, biome) -> biomes.accept(biome));
-    }
-
-    public static void forEveryFeature(Consumer<Feature<?>> features) {
-        Registry.FEATURE.forEach(features);
-        RegistryEntryAddedCallback.event(Registry.FEATURE).register((rawId, id, feature) -> features.accept(feature));
-    }
-
     public static Item registerItem(Item item, Identifier name) {
         if (Registry.ITEM.get(name) == Items.AIR) {
             return Registry.register(Registry.ITEM, name, item);
@@ -144,6 +136,18 @@ public class RegistryUtils {
             return target;
         }
     }*/
+
+    /**
+     * Called to register and create new instance of the ChunkGeneratorType.
+     *
+     * @param id                 registry ID of the ChunkGeneratorType
+     * @param factory            factory instance to provide a ChunkGenerator
+     * @param settingsSupplier   config supplier
+     * @param buffetScreenOption whether or not the ChunkGeneratorType should appear in the buffet screen options page
+     */
+    public static <C extends ChunkGeneratorConfig, T extends ChunkGenerator<C>> ChunkGeneratorType<C, T> registerChunkGenerator(Identifier id, ChunkGeneratorFactory<C, T> factory, Supplier<C> settingsSupplier, boolean buffetScreenOption) {
+        return Registry.register(Registry.CHUNK_GENERATOR_TYPE, id, new ChunkGeneratorType<>(factory, buffetScreenOption, settingsSupplier));
+    }
 
     public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(Builder<T> builder, Identifier name) {
         BlockEntityType<T> blockEntityType = builder.build(null);

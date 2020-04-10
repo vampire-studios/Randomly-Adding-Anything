@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class RAASwordItem extends SwordItem {
 
@@ -30,7 +31,7 @@ public class RAASwordItem extends SwordItem {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        World world = target.world;
+        World world = Objects.requireNonNull(target).world;
         if (!world.isClient()) {
             for (Map.Entry<MaterialEffects, JsonElement> effect : material.getSpecialEffects().entrySet()) {
                 effect.getKey().apply(world, target, attacker, effect.getValue());

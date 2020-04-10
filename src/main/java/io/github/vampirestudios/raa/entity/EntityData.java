@@ -11,6 +11,7 @@ public class EntityData {
     public float size;
     public boolean runFromSun;
     public float attackSpeed;
+//    public EntityRenderingData renderingData;
 
     public EntityData(Identifier id) {
         this.id = id;
@@ -21,5 +22,6 @@ public class EntityData {
         size = Rands.randFloatRange(0.5f, 2);
         runFromSun = Rands.chance(3);
         attackSpeed = Rands.randFloatRange(0.5f, 2f);
+//        renderingData = EntityRenderingDatas.randomRenderData();
     }
 }
