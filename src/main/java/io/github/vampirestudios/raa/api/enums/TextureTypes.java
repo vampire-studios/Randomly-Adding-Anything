@@ -73,4 +73,9 @@ public class TextureTypes {
     public static List<Identifier> HOE_STICKS = new ArrayList<>();
     public static List<Identifier> HOE_HEAD = new ArrayList<>();
 
+
+
+    public static List<Identifier> MOONS = new ArrayList<>();
+    public static List<Identifier> SUNS = new ArrayList<>();
+
 }

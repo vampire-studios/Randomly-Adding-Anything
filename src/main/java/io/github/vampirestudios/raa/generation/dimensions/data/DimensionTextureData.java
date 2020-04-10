@@ -15,9 +15,12 @@ public class DimensionTextureData {
     private Identifier mossyChiseledTexture;
     private Identifier polishedTexture;
     private Identifier iceTexture;
+    private Identifier moonTexture;
+    private Identifier sunTexture;
 
-    public DimensionTextureData(Identifier stoneTexture, Identifier stoneBricksTexture, Identifier mossyStoneBricksTexture, Identifier crackedStoneBricksTexture, Identifier cobblestoneTexture, Identifier mossyCobblestoneTexture,
-                                        Identifier chiseledTexture, Identifier crackedChiseledTexture, Identifier mossyChiseledTexture, Identifier polishedTexture, Identifier iceTexture) {
+    public DimensionTextureData(Identifier stoneTexture, Identifier stoneBricksTexture, Identifier mossyStoneBricksTexture, Identifier crackedStoneBricksTexture,
+                                Identifier cobblestoneTexture, Identifier mossyCobblestoneTexture, Identifier chiseledTexture, Identifier crackedChiseledTexture,
+                                Identifier mossyChiseledTexture, Identifier polishedTexture, Identifier iceTexture, Identifier moonTexture, Identifier sunTexture) {
         this.stoneTexture = stoneTexture;
         this.stoneBricksTexture = stoneBricksTexture;
         this.mossyStoneBricksTexture = mossyStoneBricksTexture;
@@ -29,6 +32,8 @@ public class DimensionTextureData {
         this.mossyChiseledTexture = mossyChiseledTexture;
         this.polishedTexture = polishedTexture;
         this.iceTexture = iceTexture;
+        this.moonTexture = moonTexture;
+        this.sunTexture = sunTexture;
     }
 
     public Identifier getStoneTexture() {
@@ -75,6 +80,14 @@ public class DimensionTextureData {
         return iceTexture;
     }
 
+    public Identifier getMoonTexture() {
+        return moonTexture;
+    }
+
+    public Identifier getSunTexture() {
+        return sunTexture;
+    }
+
     public static class Builder {
 
         private Identifier stoneTexture;
@@ -88,6 +101,8 @@ public class DimensionTextureData {
         private Identifier mossyChiseledTexture;
         private Identifier polishedTexture;
         private Identifier iceTexture;
+        private Identifier moonTexture;
+        private Identifier sunTexture;
 
         public static Builder create() {
             return new Builder();
@@ -148,9 +163,19 @@ public class DimensionTextureData {
             return this;
         }
 
+        public Builder moonTexture(Identifier moonTexture) {
+            this.moonTexture = moonTexture;
+            return this;
+        }
+
+        public Builder sunTexture(Identifier sunTexture) {
+            this.sunTexture = sunTexture;
+            return this;
+        }
+
         public DimensionTextureData build() {
             return new DimensionTextureData(stoneTexture, stoneBricksTexture, mossyStoneBricksTexture, crackedStoneBricksTexture, cobblestoneTexture, mossyCobblestoneTexture,
-                    chiseledTexture, crackedChiseledTexture, mossyChiseledTexture, polishedTexture, iceTexture);
+                    chiseledTexture, crackedChiseledTexture, mossyChiseledTexture, polishedTexture, iceTexture, moonTexture, sunTexture);
         }
 
     }
