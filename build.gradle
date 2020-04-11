@@ -59,8 +59,8 @@ dependencies {
     modImplementation "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
     include "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
 
-    modImplementation "com.github.vampire-studios:Customized-Astral-Body:ee6d3b3e36"
-    include "com.github.vampire-studios:Customized-Astral-Body:ee6d3b3e36"
+    modImplementation "com.github.vampire-studios:Customized-Astral-Body:718c632b46"
+    include "com.github.vampire-studios:Customized-Astral-Body:718c632b46"
 
     modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
         transitive = false
