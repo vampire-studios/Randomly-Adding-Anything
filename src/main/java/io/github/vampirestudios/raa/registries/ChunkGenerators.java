@@ -1,9 +1,6 @@
 package io.github.vampirestudios.raa.registries;
 
-import io.github.vampirestudios.raa.generation.chunkgenerator.CheckerboardChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.NoneGeneratorSettings;
-import io.github.vampirestudios.raa.generation.chunkgenerator.RetroChunkGenerator;
-import io.github.vampirestudios.raa.generation.chunkgenerator.TotallyCustomChunkGenerator;
+import io.github.vampirestudios.raa.generation.chunkgenerator.*;
 import io.github.vampirestudios.raa.generation.chunkgenerator.caves.CavesChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.caves.FlatCavesChunkGenerator;
 import io.github.vampirestudios.raa.generation.chunkgenerator.caves.HighCavesChunkGenerator;
@@ -35,9 +32,14 @@ public class ChunkGenerators {
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, SmoothOverworldChunkGenerator> SMOOTH;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, TotallyCustomChunkGenerator> TOTALLY_CUSTOM;
     public static ChunkGeneratorType<OverworldChunkGeneratorConfig, LayeredChunkGenerator> LAYERED_OVERWORLD;
+    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, ChaosChunkGenerator> CHAOS;
+    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, RollingHillsChunkGenerator> ROLLING_HILLS;
 
     public static ChunkGeneratorType<NoneGeneratorSettings, RetroChunkGenerator> RETRO;
     public static ChunkGeneratorType<NoneGeneratorSettings, CheckerboardChunkGenerator> CHECKERBOARD;
+
+    //this is only for testing use!
+    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, TestChunkGenerator> TEST;
 
     public static void init() {
         //End-like chunk generators
@@ -57,9 +59,13 @@ public class ChunkGenerators {
         SMOOTH = RegistryUtils.registerChunkGenerator(new Identifier(MOD_ID, "smooth_overworld"), SmoothOverworldChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         TOTALLY_CUSTOM = RegistryUtils.registerChunkGenerator(new Identifier(MOD_ID, "totally_custom"), TotallyCustomChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
         LAYERED_OVERWORLD = RegistryUtils.registerChunkGenerator(new Identifier(MOD_ID, "layered_overworld"), LayeredChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
+        CHAOS = RegistryUtils.registerChunkGenerator(new Identifier(MOD_ID, "chaos"), ChaosChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
+        ROLLING_HILLS = RegistryUtils.registerChunkGenerator(new Identifier(MOD_ID, "rolling_hills"), RollingHillsChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
 
         RETRO = RegistryUtils.registerChunkGenerator(new Identifier(MOD_ID, "retro"), RetroChunkGenerator::new, NoneGeneratorSettings::new, false);
         CHECKERBOARD = RegistryUtils.registerChunkGenerator(new Identifier(MOD_ID, "checkerboard"), CheckerboardChunkGenerator::new, NoneGeneratorSettings::new, false);
+
+        TEST = RegistryUtils.registerChunkGenerator(new Identifier(MOD_ID, "test"), TestChunkGenerator::new, OverworldChunkGeneratorConfig::new, false);
     }
 
 }

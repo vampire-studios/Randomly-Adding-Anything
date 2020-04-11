@@ -159,6 +159,11 @@ public class Utils {
     }
 
     public static DimensionChunkGenerators randomCG(int chance) {
+        //enable for testing
+        if (false) {
+            return DimensionChunkGenerators.TEST;
+        }
+
         if (chance < 15) {
             if (chance <= 5) {
                 return DimensionChunkGenerators.FLAT_CAVES;
@@ -174,14 +179,20 @@ public class Utils {
             }
             return DimensionChunkGenerators.FLOATING;
         } else {
-            if (chance <= 40) {
+            if (chance <= 35) {
                 return DimensionChunkGenerators.QUADRUPLE_AMPLIFIED;
-            } else if (chance <= 50) {
+            } else if (chance <= 40) {
                 return DimensionChunkGenerators.PILLAR_WORLD;
-            } else if (chance <= 60) {
+            } else if (chance <= 50) {
                 return DimensionChunkGenerators.LAYERED_OVERWORLD;
-            } else if (chance <= 70) {
+            } else if (chance <= 60) {
                 return DimensionChunkGenerators.TOTALLY_CUSTOM;
+            } else if (chance <= 70) {
+                return DimensionChunkGenerators.SMOOTH_OVERWORLD;
+            } else if (chance <= 80) {
+                return DimensionChunkGenerators.CHAOS;
+            } else if (chance <= 90) {
+                return DimensionChunkGenerators.ROLLING_HILLS;
             }
             return DimensionChunkGenerators.OVERWORLD;
         }

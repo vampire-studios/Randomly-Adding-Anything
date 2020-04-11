@@ -35,4 +35,17 @@ public final class OctaveOpenSimplexNoise {
         return result > 0 ? result * amplitudeHigh : result * amplitudeLow;
     }
 
+    public double sample(double x, double y, double z) {
+        double amplFreq = 0.5D;
+        double result = 0;
+        for (OpenSimplexNoise sampler : samplers) {
+            result += (amplFreq * sampler.sample(x / (amplFreq * frequency), y / (amplFreq * frequency), z / (amplFreq * frequency)));
+
+            amplFreq *= 0.5D;
+        }
+
+        result = result * clamp;
+        return result > 0 ? result * amplitudeHigh : result * amplitudeLow;
+    }
+
 }
