@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -193,6 +194,16 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
         float fogColor2 = dimensionData.getCustomSkyInformation().getMoonTint();
         float[] rgbColor = Color.floatToRgb(fogColor2);
         return new Vector3f(rgbColor[0], rgbColor[1], rgbColor[2]);
+    }
+
+    @Override
+    public Identifier getSunTexture() {
+        return dimensionData.getTexturesInformation().getSunTexture();
+    }
+
+    @Override
+    public Identifier getMoonTexture() {
+        return dimensionData.getTexturesInformation().getMoonTexture();
     }
 
     @Override

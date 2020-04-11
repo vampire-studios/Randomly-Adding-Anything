@@ -12,6 +12,13 @@ public class Textures {
     public static void init() {
         itemTextures();
         blockTextures();
+
+        addTextureToList(TextureTypes.SUNS, new Identifier(RandomlyAddingAnything.MOD_ID, "textures/environment/sun.png"));
+        addTextureToList(TextureTypes.SUNS, new Identifier(RandomlyAddingAnything.MOD_ID, "textures/environment/sun_2.png"));
+        addTextureToList(TextureTypes.SUNS, new Identifier(RandomlyAddingAnything.MOD_ID, "textures/environment/sun_3.png"));
+
+        addTextureToList(TextureTypes.MOONS, new Identifier(RandomlyAddingAnything.MOD_ID, "textures/environment/moon_phases.png"));
+        addTextureToList(TextureTypes.MOONS, new Identifier(RandomlyAddingAnything.MOD_ID, "textures/environment/moon_phases_2.png"));
     }
 
     private static void itemTextures() {
