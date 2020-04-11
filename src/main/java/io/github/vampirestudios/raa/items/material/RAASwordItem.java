@@ -40,5 +40,4 @@ public class RAASwordItem extends SwordItem {
         return super.postHit(stack, target, attacker);
     }
 
-
 }

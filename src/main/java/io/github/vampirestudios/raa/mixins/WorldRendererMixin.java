@@ -18,7 +18,7 @@ public class WorldRendererMixin {
     @Shadow @Final private MinecraftClient client;
     @Shadow private ClientWorld world;
 
-    @Inject(method = "renderSky", at=@At("HEAD"))
+    @Inject(method = "renderSky", at = @At("HEAD"))
     public void onRenderSkyPre(MatrixStack matrixStack, float f, CallbackInfo info) {
         Testing.renderCustomSky(matrixStack, client, this.world.dimension);
     }
