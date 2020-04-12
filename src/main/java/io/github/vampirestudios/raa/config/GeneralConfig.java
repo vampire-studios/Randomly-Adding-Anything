@@ -25,5 +25,7 @@ public class GeneralConfig implements ConfigData {
     public boolean shouldSpawnPortalHub = true;
     @Comment("Should the mod use the old dimension name system?")
     public boolean oldDimensionNames = false;
+    @Comment("Should metal materials have their own buckets?")
+    public boolean materialBuckets = true;
 
 }
