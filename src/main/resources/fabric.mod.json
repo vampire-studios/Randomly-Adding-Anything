@@ -36,7 +36,7 @@
       "io.github.vampirestudios.raa.utils.ModMenuCompat"
     ]
   },
-  "accessWidener" : "raa.accesswidener",
+  "accessWidener": "raa.accesswidener",
 
   "mixins": [
     "raa.mixins.json"

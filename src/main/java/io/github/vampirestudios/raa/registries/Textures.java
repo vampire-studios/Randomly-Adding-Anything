@@ -22,13 +22,13 @@ public class Textures {
     }
 
     private static void itemTextures() {
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i < 19; i++) {
             addTextureToList(TextureTypes.INGOT_TEXTURES, "item/ingots/ingot_" + i);
         }
         for (int i = 1; i < 24; i++) {
             addTextureToList(TextureTypes.GEM_ITEM_TEXTURES, "item/gems/gem_" + i);
         }
-        for (int i = 1; i < 8; i++) {
+        for (int i = 1; i < 11; i++) {
             addTextureToList(TextureTypes.CRYSTAL_ITEM_TEXTURES, "item/crystals/crystal_" + i);
         }
         for (int i = 1; i < 9; i++) {
@@ -145,28 +145,31 @@ public class Textures {
             addTextureToList(TextureTypes.CRYSTAL_BLOCK_TEXTURES, "block/storage_blocks/crystals/crystal_" + i);
         }
 
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 11; i++) {
             addTextureToList(TextureTypes.STONE_BRICKS_TEXTURES, "block/stone/bricks_" + i);
         }
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 18; i++) {
             addTextureToList(TextureTypes.CHISELED_STONE_TEXTURES, "block/stone/chiseled_" + i);
         }
         for (int i = 1; i < 13; i++) {
             addTextureToList(TextureTypes.COBBLESTONE_TEXTURES, "block/stone/cobblestone_" + i);
         }
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 7; i++) {
             addTextureToList(TextureTypes.POLISHED_STONE_TEXTURES, "block/stone/polished_" + i);
         }
-        for (int i = 1; i < 13; i++) {
+        for (int i = 1; i < 15; i++) {
             addTextureToList(TextureTypes.STONE_TEXTURES, "block/stone/stone_" + i);
         }
 
         addTextureToList(TextureTypes.MOSSY_STONE_BRICKS_TEXTURES, new Identifier("block/mossy_stone_bricks"));
         addTextureToList(TextureTypes.MOSSY_COBBLESTONE_TEXTURES, new Identifier("block/mossy_cobblestone"));
         addTextureToList(TextureTypes.MOSSY_CHISELED_STONE_TEXTURES, new Identifier("block/chiseled_stone_bricks"));
+        addTextureToList(TextureTypes.MOSSY_CHISELED_STONE_TEXTURES, new Identifier("block/chiseled_polished_blackstone_bricks"));
 
         addTextureToList(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES, new Identifier("block/chiseled_stone_bricks"));
+        addTextureToList(TextureTypes.CRACKED_CHISELED_STONE_TEXTURES, new Identifier("block/chiseled_polished_blackstone_bricks"));
         addTextureToList(TextureTypes.CRACKED_STONE_BRICKS_TEXTURES, new Identifier("block/cracked_stone_bricks"));
+        addTextureToList(TextureTypes.CRACKED_STONE_BRICKS_TEXTURES, new Identifier("block/cracked_polished_blackstone_bricks"));
 
         addTextureToList(TextureTypes.ICE_TEXTURES, "block/ice");
     }
