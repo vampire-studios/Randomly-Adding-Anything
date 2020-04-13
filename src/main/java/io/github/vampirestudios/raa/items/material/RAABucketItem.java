@@ -14,14 +14,18 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.RayTraceContext;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class RAABucketItem extends BucketItem {
     private Material material;
@@ -104,6 +108,16 @@ public class RAABucketItem extends BucketItem {
 
                 return stack;
             }
+        }
+    }
+
+    @Override
+    public Text getName(ItemStack stack) {
+        if (this.fluidLazy == Fluids.EMPTY) {
+            return new TranslatableText("text.raa.item.bucket.empty", WordUtils.capitalize(this.material.getName()));
+        } else {
+            return new TranslatableText("text.raa.item.bucket.liquid", WordUtils.capitalize(this.material.getName()),
+                    new TranslatableText("block." + Registry.FLUID.getId(this.fluidLazy).toString().replace(":",".")));
         }
     }
 }
