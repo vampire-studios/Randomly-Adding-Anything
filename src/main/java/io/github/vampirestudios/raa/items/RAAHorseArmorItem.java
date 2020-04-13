@@ -19,7 +19,8 @@ public class RAAHorseArmorItem extends DyeableHorseArmorItem {
     private Material material;
 
     public RAAHorseArmorItem(Material material) {
-        super(material.getArmorMaterial().getHorseArmorBonus(), material.getName().toLowerCase(), (new Item.Settings()).maxCount(1).group(RandomlyAddingAnything.RAA_ARMOR));
+        super(material.getArmorMaterial().getHorseArmorBonus(), material.getName().toLowerCase(), (new Item.Settings()).maxCount(1)
+                .group(RandomlyAddingAnything.RAA));
         this.material = material;
         this.entityTexture = Rands.list(TextureTypes.HORSE_ARMOR_MODEL_TEXTURES);
     }

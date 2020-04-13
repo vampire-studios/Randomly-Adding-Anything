@@ -219,6 +219,10 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.result(Utils.addSuffixToPath(material.getId(), "_block"), 1);
                     });
                 }
+                serverResourcePackBuilder.addItemTag(new Identifier("raa", "ores"), tagBuilder -> {
+                    tagBuilder.replace(false);
+                    tagBuilder.values(Utils.addSuffixToPath(material.getId(), "_ore"));
+                });
             });
             Materials.DIMENSION_MATERIALS.forEach(dimensionMaterial -> {
                 Item repairItem;

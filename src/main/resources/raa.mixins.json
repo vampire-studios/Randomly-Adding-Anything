@@ -12,6 +12,7 @@
     "DefaultAttributeRegistryMixin"
   ],
   "client": [
-    "WorldRendererMixin"
+    "WorldRendererMixin",
+    "CreativeInventoryScreenMixin"
   ]
 }

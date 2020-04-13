@@ -13,8 +13,9 @@ import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.generation.feature.dungeon.RandomDungeonFeature;
 import io.github.vampirestudios.raa.generation.feature.dungeon.RandomDungeonPiece;
+import io.github.vampirestudios.raa.generation.feature.labyrint.LabyrintFeature;
+import io.github.vampirestudios.raa.generation.feature.labyrint.LabyrintPiece;
 import io.github.vampirestudios.raa.generation.feature.portalHub.PortalHubFeature;
-import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
 import net.minecraft.fluid.Fluids;
@@ -63,6 +64,10 @@ public class Features {
     public static StructureFeature<DefaultFeatureConfig> DUNGEON_STRUCTURE_FEATURE;
     public static StructurePieceType DUNGEON_PIECE;
 
+    public static StructureFeature<DefaultFeatureConfig> LABYRINT_FEATURE;
+    public static StructureFeature<DefaultFeatureConfig> LABYRINT_STRUCTURE_FEATURE;
+    public static StructurePieceType LABYRINT_PIECE;
+
     public static void init() {
         CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
 
@@ -109,6 +114,23 @@ public class Features {
                 RandomDungeonPiece::new
         );
         Feature.STRUCTURES.put("dungeon", DUNGEON_FEATURE);
+
+        LABYRINT_FEATURE = Registry.register(
+                Registry.FEATURE,
+                new Identifier(RandomlyAddingAnything.MOD_ID, "labyrint_feature"),
+                new LabyrintFeature(DefaultFeatureConfig::deserialize)
+        );
+        LABYRINT_STRUCTURE_FEATURE = Registry.register(
+                Registry.STRUCTURE_FEATURE,
+                new Identifier(RandomlyAddingAnything.MOD_ID, "labyrint_structure_feature"),
+                new LabyrintFeature(DefaultFeatureConfig::deserialize)
+        );
+        LABYRINT_PIECE = Registry.register(
+                Registry.STRUCTURE_PIECE,
+                new Identifier(RandomlyAddingAnything.MOD_ID, "labyrint_piece"),
+                LabyrintPiece::new
+        );
+        Feature.STRUCTURES.put("labyrint", LABYRINT_FEATURE);
     }
 
     // we use this cursed code to make a new carver per dimension

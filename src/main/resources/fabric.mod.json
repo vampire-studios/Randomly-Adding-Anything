@@ -27,13 +27,17 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.vampirestudios.raa.RandomlyAddingAnything"
+      "io.github.vampirestudios.raa.RandomlyAddingAnything",
+      "io.github.vampirestudios.raa.filters.Filters"
     ],
     "client": [
       "io.github.vampirestudios.raa.RandomlyAddingAnythingClient"
     ],
     "modmenu": [
       "io.github.vampirestudios.raa.utils.ModMenuCompat"
+    ],
+    "rei_plugins": [
+      "io.github.vampirestudios.raa.filters.FiltersJeiPlugin"
     ]
   },
   "accessWidener": "raa.accesswidener",
