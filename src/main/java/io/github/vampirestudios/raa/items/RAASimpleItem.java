@@ -7,6 +7,8 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.util.Locale;
+
 public class RAASimpleItem extends Item {
     private String name;
     private SimpleItemType itemType;
@@ -19,7 +21,7 @@ public class RAASimpleItem extends Item {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item." + getItemType().name().toLowerCase(), new LiteralText(WordUtils.capitalize(name)));
+        return new TranslatableText("text.raa.item." + getItemType().name().toLowerCase(Locale.ENGLISH), new LiteralText(WordUtils.capitalize(name)));
     }
 
     public SimpleItemType getItemType() {
