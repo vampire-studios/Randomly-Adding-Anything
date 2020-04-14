@@ -181,11 +181,11 @@ public class RandomlyAddingAnything implements ModInitializer {
                 biome.addStructureFeature(Features.DUNGEON_FEATURE.configure(FeatureConfig.DEFAULT));
             }*/
 
-            if (biome.getCategory() != Biome.Category.OCEAN) {
+            /*if (biome.getCategory() != Biome.Category.OCEAN) {
                 biome.addFeature(GenerationStep.Feature.RAW_GENERATION, Features.LABYRINT_FEATURE.configure(new DefaultFeatureConfig())
                         .createDecoratedFeature(Decorator.NOPE.configure(DecoratorConfig.DEFAULT)));
                 biome.addStructureFeature(Features.LABYRINT_FEATURE.configure(FeatureConfig.DEFAULT));
-            }
+            }*/
         });
 
         if (CONFIG.materialBuckets) BucketItemRegistry.init();
