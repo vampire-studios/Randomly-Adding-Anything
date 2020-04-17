@@ -6,8 +6,10 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BucketItem;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class BucketItems {
     private Map<Fluid, BucketItem> fluidBucketItemsMap = new HashMap<Fluid, BucketItem>();
@@ -34,5 +36,9 @@ public class BucketItems {
 
     public Material getMaterial() {
         return material;
+    }
+
+    public Map<Fluid, BucketItem> getFluidBucketItemsMap() {
+        return fluidBucketItemsMap;
     }
 }

@@ -191,6 +191,17 @@ public class MaterialRecipes {
                         shapedRecipeBuilder.ingredientItem('#', Utils.addSuffixToPath(material.getId(), "_ingot"));
                         shapedRecipeBuilder.result(Utils.addSuffixToPath(material.getId(), "_block"), 1);
                     });
+                    if (RandomlyAddingAnything.CONFIG.materialBuckets) {
+                        serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(material.getId(), "_bucket"), shapedRecipeBuilder -> {
+                            shapedRecipeBuilder.group(new Identifier("raa:buckets"));
+                            shapedRecipeBuilder.pattern(
+                                    "# #",
+                                    " # "
+                            );
+                            shapedRecipeBuilder.ingredientItem('#', Utils.addSuffixToPath(material.getId(), "_ingot"));
+                            shapedRecipeBuilder.result(Utils.addSuffixToPath(material.getId(), "_empty_bucket"), 1);
+                        });
+                    }
                     serverResourcePackBuilder.addShapelessRecipe(Utils.addSuffixToPath(material.getId(), "_ingot_from_" + material.getId().getPath() + "_block"), shapelessRecipeBuilder -> {
                         shapelessRecipeBuilder.group(new Identifier("raa:ingots"));
                         shapelessRecipeBuilder.ingredientItem(Utils.addSuffixToPath(material.getId(), "_block"));
@@ -389,6 +400,17 @@ public class MaterialRecipes {
                         shapelessRecipeBuilder.ingredientItem(Utils.addSuffixToPath(dimensionMaterial.getId(), "_block"));
                         shapelessRecipeBuilder.result(Utils.addSuffixToPath(dimensionMaterial.getId(), "_ingot"), 9);
                     });
+                    if (RandomlyAddingAnything.CONFIG.materialBuckets) {
+                        serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(dimensionMaterial.getId(), "_bucket"), shapedRecipeBuilder -> {
+                            shapedRecipeBuilder.group(new Identifier("raa:buckets"));
+                            shapedRecipeBuilder.pattern(
+                                    "# #",
+                                    " # "
+                            );
+                            shapedRecipeBuilder.ingredientItem('#', Utils.addSuffixToPath(dimensionMaterial.getId(), "_ingot"));
+                            shapedRecipeBuilder.result(Utils.addSuffixToPath(dimensionMaterial.getId(), "_empty_bucket"), 1);
+                        });
+                    }
                 } else if (dimensionMaterial.getOreInformation().getOreType() == OreType.GEM) {
                     serverResourcePackBuilder.addShapedRecipe(Utils.addSuffixToPath(dimensionMaterial.getId(), "_block"), shapedRecipeBuilder -> {
                         shapedRecipeBuilder.group(new Identifier("raa:storage_blocks"));

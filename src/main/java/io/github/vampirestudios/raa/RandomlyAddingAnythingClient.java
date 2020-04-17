@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa;
 
 import com.swordglowsblue.artifice.api.Artifice;
+import io.github.vampirestudios.raa.api.buckets.BucketItemRegistry;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.client.DimensionalOreBakedModel;
@@ -11,6 +12,7 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.SwordTextureData;
 import io.github.vampirestudios.raa.generation.materials.data.TextureData;
 import io.github.vampirestudios.raa.items.RAABlockItem;
+import io.github.vampirestudios.raa.items.material.RAABucketItem;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Entities;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -39,7 +41,10 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
@@ -77,7 +82,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
     public void onInitializeClient() {
 //        initColoring();
 
-        ColorProviderRegistry.ITEM.register((stack, var2) ->
+        ColorProviderRegistryImpl.ITEM.register((stack, var2) ->
                         MinecraftClient.getInstance().world.getBiomeAccess().getBiome(Objects.requireNonNull(MinecraftClient.getInstance().player).getBlockPos()).getFoliageColor(),
                 Items.OAK_LEAVES, Items.SPRUCE_LEAVES, Items.BIRCH_LEAVES, Items.JUNGLE_LEAVES, Items.ACACIA_LEAVES, Items.DARK_OAK_LEAVES, Items.FERN, Items.LARGE_FERN, Items.GRASS, Items.TALL_GRASS, Items.VINE);
 
@@ -205,6 +210,19 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder.parent(new Identifier("item/generated"));
                         modelBuilder.texture("layer0", material.getTexturesInformation().getFruitTexture());
                     });
+                }
+                if (RandomlyAddingAnything.CONFIG.materialBuckets && material.getOreInformation().getOreType() == OreType.METAL) {
+                    for (Map.Entry<Fluid, BucketItem> entry : BucketItemRegistry.BUCKET_ITEMS.get(material.getId()).getFluidBucketItemsMap().entrySet()) {
+                        clientResourcePackBuilder.addItemModel(Registry.ITEM.getId(entry.getValue()), modelBuilder -> {
+                            modelBuilder.parent(new Identifier("item/generated"));
+                            modelBuilder.texture("layer0", new Identifier("item/bucket"));
+                            if (entry.getKey() == Fluids.EMPTY) {
+                                modelBuilder.texture("layer1", new Identifier("item/bucket"));
+                            } else {
+                                modelBuilder.texture("layer1", new Identifier(Registry.FLUID.getId(entry.getKey()).getNamespace(), "item/" + Registry.FLUID.getId(entry.getKey()).getPath()));
+                            }
+                        });
+                    }
                 }
                 RandomlyAddingAnything.MODCOMPAT.generateCompatModels(clientResourcePackBuilder);
             });
@@ -349,13 +367,13 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 clientResourcePackBuilder.addItemModel(portalId,
                         modelBuilder -> modelBuilder.parent(new Identifier(portalId.getNamespace(), "block/" + portalId.getPath())));
 
-                ColorProviderRegistry.ITEM.register((stack, layer) ->  {
+                ColorProviderRegistryImpl.ITEM.register((stack, layer) ->  {
                     if (layer == 0) return dimensionData.getCustomSkyInformation().hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
                             dimensionData.getDimensionColorPalette().getFogColor();
                     if (layer == 1) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;
                 }, Registry.ITEM.get(portalId));
-                ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->  {
+                ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->  {
                     if (layer == 0) return dimensionData.getCustomSkyInformation().hasSky() ? dimensionData.getDimensionColorPalette().getSkyColor() :
                             dimensionData.getDimensionColorPalette().getFogColor();
                     if (layer == 1) return dimensionData.getDimensionColorPalette().getStoneColor();
@@ -401,7 +419,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_hoe_handle"));
                 });
 
-                ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                     if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
                     else return -1;
                 }, pickaxe, axe, shovel, hoe, sword);
@@ -412,7 +430,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.parent(new Identifier("item/generated"));
                     modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/portal_key"));
                 });
-                ColorProviderRegistry.ITEM.register((stack, layer) -> {
+                ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                     if (layer == 0) return dimensionData.getDimensionColorPalette().getSkyColor();
                     else return -1;
                 }, portalKey);
@@ -525,12 +543,27 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder.texture("layer0", material.getTexturesInformation().getFruitTexture());
                     });
                 }
+
+
+                if (RandomlyAddingAnything.CONFIG.materialBuckets && material.getOreInformation().getOreType() == OreType.METAL) {
+                    for (Map.Entry<Fluid, BucketItem> entry : BucketItemRegistry.BUCKET_ITEMS.get(material.getId()).getFluidBucketItemsMap().entrySet()) {
+                        clientResourcePackBuilder.addItemModel(Registry.ITEM.getId(entry.getValue()), modelBuilder -> {
+                            modelBuilder.parent(new Identifier("item/generated"));
+                            modelBuilder.texture("layer0", new Identifier("item/bucket"));
+                            if (entry.getKey() == Fluids.EMPTY) {
+                                modelBuilder.texture("layer1", new Identifier("item/bucket"));
+                            } else {
+                                modelBuilder.texture("layer1", new Identifier(Registry.FLUID.getId(entry.getKey()).getNamespace(), "item/" + Registry.FLUID.getId(entry.getKey()).getPath()));
+                            }
+                        });
+                    }
+                }
             });
         });
 
         Materials.MATERIALS.forEach(material -> {
             Identifier id = material.getId();
-            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                         if (layer == 0) return material.getColor();
                         else return -1;
                     },
@@ -552,7 +585,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_shears"))
             );
-            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                         if (layer == 0) return material.getColor();
                         else return -1;
                     },
@@ -569,13 +602,13 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_shears"))
             );
-            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                         if (layer == 1 || layer == 2) return material.getColor();
                         else return -1;
                     },
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_sword"))
             );
-            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                         if (layer == 1) return material.getColor();
                         else return -1;
                     },
@@ -584,9 +617,17 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_shovel")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_hoe"))
             );
-            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block"))
             );
+            if (RandomlyAddingAnything.CONFIG.materialBuckets && material.getOreInformation().getOreType() == OreType.METAL) {
+                for (Map.Entry<Fluid, BucketItem> entry : BucketItemRegistry.BUCKET_ITEMS.get(material.getId()).getFluidBucketItemsMap().entrySet()) {
+                    ColorProviderRegistryImpl.ITEM.register((stack, tintIndex) -> {
+                        if (tintIndex == 0 || entry.getKey() == Fluids.EMPTY) return material.getColor();
+                        else return -1;
+                    }, entry.getValue());
+                }
+            }
         });
         Dimensions.DIMENSIONS.forEach(dimensionData -> {
             Block stone = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone"));
@@ -609,26 +650,26 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
             Block ice = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_ice"));
 
-            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                 if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
                 else return -1;
             }, stone, stoneSlab, stoneStairs, stoneWall, stoneBricks, stoneBrickSlab, stoneBrickStairs, stoneBrickWall, cobblestone,
                     cobblestoneSlab, cobblestoneStairs, cobblestoneWall, chiseled, polished, polishedSlab, polishedStairs, polishedWall);
-            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->
                     dimensionData.getDimensionColorPalette().getStoneColor(),
                     stone, stoneSlab, stoneStairs, stoneWall, stoneBricks, stoneBrickSlab, stoneBrickStairs, stoneBrickWall, cobblestone,
                 cobblestoneSlab, cobblestoneStairs, cobblestoneWall, chiseled, polished, polishedSlab, polishedStairs, polishedWall);
 
-            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                 if (layer == 0) return dimensionData.getDimensionColorPalette().getSkyColor();
                 else return -1;
             }, ice);
-            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->
                     dimensionData.getDimensionColorPalette().getSkyColor(), ice);
         });
         Materials.DIMENSION_MATERIALS.forEach(material -> {
             Identifier id = material.getId();
-            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                         if (layer == 0) return material.getColor();
                         else return -1;
                     },
@@ -645,13 +686,13 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_shears"))
             );
-            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                         if (layer == 1 || layer == 2) return material.getColor();
                         else return -1;
                     },
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_sword"))
                     );
-            ColorProviderRegistry.ITEM.register((stack, layer) -> {
+            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                         if (layer == 1) return material.getColor();
                         else return -1;
                     },
@@ -660,8 +701,17 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_shovel")),
                     Registry.ITEM.get(Utils.addSuffixToPath(id, "_hoe"))
             );
-            ColorProviderRegistry.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
+            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")));
+
+            if (RandomlyAddingAnything.CONFIG.materialBuckets && material.getOreInformation().getOreType() == OreType.METAL) {
+                for (Map.Entry<Fluid, BucketItem> entry : BucketItemRegistry.BUCKET_ITEMS.get(material.getId()).getFluidBucketItemsMap().entrySet()) {
+                    ColorProviderRegistryImpl.ITEM.register((stack, tintIndex) -> {
+                        if (tintIndex == 0 || entry.getKey() == Fluids.EMPTY) return material.getColor();
+                        else return -1;
+                    }, entry.getValue());
+                }
+            }
         });
 
         ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {
