@@ -78,6 +78,10 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
+    modCompile ("com.github.vampire-studios:Spontaneous-Bucketing:1.0.1-20w06a") {
+        exclude group :"com.lettuce.fudge"
+    }
+
     modCompile "com.github.oliviathevampire:Patchouli:3bd6208706"
 
     modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.1+j1.2.0") {

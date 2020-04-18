@@ -45,9 +45,6 @@
   "text.raa.item.crystal": "%s Crystal",
   "text.raa.item.nugget": "%s Nugget",
 
-  "text.raa.item.bucket.empty": "%s Bucket",
-  "text.raa.item.bucket.liquid": "%1$s %2$s Bucket",
-
   "text.raa.compat.techreborn.dust": "%s Dust",
   "text.raa.compat.techreborn.small_dust": "Small %s Dust",
   "text.raa.compat.techreborn.gear": "%s Gear",

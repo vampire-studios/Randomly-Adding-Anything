@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa;
 
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
-import io.github.vampirestudios.raa.api.buckets.BucketItemRegistry;
 import io.github.vampirestudios.raa.config.*;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
@@ -143,6 +142,7 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         }
         Materials.createDimensionMaterialResources();
+        MODCOMPAT.generateCompatItems();
 
         DimensionRecipes.init();
         MaterialRecipes.init();
@@ -165,7 +165,5 @@ public class RandomlyAddingAnything implements ModInitializer {
 //                biome.addStructureFeature(Features.DUNGEON_FEATURE.configure(FeatureConfig.DEFAULT));
 //            }
         });
-
-        if (CONFIG.materialBuckets) BucketItemRegistry.init();
     }
 }

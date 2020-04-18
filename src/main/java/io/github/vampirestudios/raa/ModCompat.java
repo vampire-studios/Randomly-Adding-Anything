@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa;
 
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import io.github.vampirestudios.raa.compats.ModCompatProvider;
+import io.github.vampirestudios.raa.compats.SpontaneousBucketing;
 import io.github.vampirestudios.raa.compats.TechReborn;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -14,6 +15,9 @@ public class ModCompat {
     public ModCompat() {
         if (FabricLoader.getInstance().isModLoaded("techreborn")) {
             modCompatProviders.add(new TechReborn());
+        }
+        if (FabricLoader.getInstance().isModLoaded("spontaneousbucketing") && RandomlyAddingAnything.CONFIG.materialBuckets) {
+            modCompatProviders.add(new SpontaneousBucketing());
         }
     }
 
