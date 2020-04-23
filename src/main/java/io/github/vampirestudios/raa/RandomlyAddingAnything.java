@@ -60,9 +60,9 @@ public class RandomlyAddingAnything implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        MODCOMPAT = new ModCompat();
         AutoConfig.register(GeneralConfig.class, GsonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
+        MODCOMPAT = new ModCompat();
         Textures.init();
         FoliagePlacers.init();
         Features.init();
