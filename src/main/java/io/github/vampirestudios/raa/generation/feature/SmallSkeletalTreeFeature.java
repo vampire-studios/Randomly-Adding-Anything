@@ -9,7 +9,6 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.ModifiableTestableWorld;
-import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 
 import java.util.Random;
@@ -20,7 +19,7 @@ import java.util.function.Function;
  * @author Indigo Amann
  */
 //Code kindly taken from The Hallow, thanks to everyone who is working on it!
-public class SmallSkeletalTreeFeature extends AbstractTreeFeature<TreeFeatureConfig> {
+public class SmallSkeletalTreeFeature extends AbstractTreeFeature {
     private static final BlockState LOG = Blocks.BONE_BLOCK.getDefaultState();
 
     public SmallSkeletalTreeFeature(Function<Dynamic<?>, ? extends TreeFeatureConfig> function) {
@@ -29,27 +28,27 @@ public class SmallSkeletalTreeFeature extends AbstractTreeFeature<TreeFeatureCon
 
     @Override
     public boolean generate(ModifiableTestableWorld modifiableTestableWorld, Random random, BlockPos blockPos, Set<BlockPos> set, Set<BlockPos> set1, BlockBox blockBox, TreeFeatureConfig defaultFeatureConfi) {
-        if (!isNaturalDirtOrGrass(modifiableTestableWorld, blockPos.down(1))) {
+        if (!isDirtOrGrass(modifiableTestableWorld, blockPos.down(1))) {
             return false;
         }
         int y;
         blockPos.offset(Direction.DOWN);
         for (y = 0; y < Rands.randInt(6) + 4; y++) {
-            addLog(modifiableTestableWorld, blockPos.offset(Direction.UP), Direction.Axis.Y, blockBox);
+            addLog(modifiableTestableWorld, blockPos.offset(Direction.UP), Direction.Axis.Y);
         }
         if (random.nextBoolean()) {
             Direction direction = Direction.Type.HORIZONTAL.random(random);
             BlockPos top = blockPos.offset(Direction.UP);
             for (int i = 1; i < Rands.randInt(4) + 3; i++) {
-                addLog(modifiableTestableWorld, top.offset(direction), direction.getAxis(), blockBox);
+                addLog(modifiableTestableWorld, top.offset(direction), direction.getAxis());
             }
         }
         return true;
     }
 
-    private void addLog(ModifiableTestableWorld modifiableTestableWorld, BlockPos blockPos, Direction.Axis axis, BlockBox mutableIntBoundingBox) {
+    private void addLog(ModifiableTestableWorld modifiableTestableWorld, BlockPos blockPos, Direction.Axis axis) {
         if (canTreeReplace(modifiableTestableWorld, blockPos)) {
-            this.setBlockState(modifiableTestableWorld, blockPos, LOG.with(PillarBlock.AXIS, axis), mutableIntBoundingBox);
+            this.setBlockState(modifiableTestableWorld, blockPos, LOG.with(PillarBlock.AXIS, axis));
         }
     }
 }

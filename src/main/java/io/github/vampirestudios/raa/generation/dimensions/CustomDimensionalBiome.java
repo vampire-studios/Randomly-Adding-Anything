@@ -20,6 +20,8 @@ import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Blocks;
+import net.minecraft.class_5204;
+import net.minecraft.class_5209;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.registry.Registry;
@@ -94,7 +96,7 @@ public class CustomDimensionalBiome extends Biome {
                 case MULTIPLE_TREE_FOREST:
                     for (DimensionTreeData treeData : biomeData.getTreeData()) {
                         if (treeData.getTreeType() == DimensionTreeTypes.MEGA_JUNGLE || treeData.getTreeType() == DimensionTreeTypes.MEGA_SPRUCE || treeData.getTreeType() == DimensionTreeTypes.DARK_OAK) {
-                            MegaTreeFeatureConfig config = (new MegaTreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState())))
+                            TreeFeatureConfig config = (new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState())))
                                     .baseHeight(treeData.getBaseHeight()).heightInterval(treeData.getFoliageHeightRandom()).build();
 
                             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
@@ -103,9 +105,9 @@ public class CustomDimensionalBiome extends Biome {
                                                     config
                                             ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig((int) Math.floor(treeData.getChance()), treeData.getChance(), 1))));
                         } else {
-                            BranchedTreeFeatureConfig config1 = getTreeConfig(treeData);
+                            TreeFeatureConfig config1 = getTreeConfig(treeData);
                             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
-                                    Feature.NORMAL_TREE
+                                    Feature.TREE
                                             .configure(
                                                     config1
                                             ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig((int) Math.floor(treeData.getChance()), treeData.getChance(), 1))));
@@ -121,7 +123,7 @@ public class CustomDimensionalBiome extends Biome {
                     DimensionTreeData treeData = biomeData.getTreeData().get(0); //single tree forests only have 1 entry
 
                     if (treeData.getTreeType() == DimensionTreeTypes.MEGA_JUNGLE || treeData.getTreeType() == DimensionTreeTypes.MEGA_SPRUCE || treeData.getTreeType() == DimensionTreeTypes.DARK_OAK) {
-                        MegaTreeFeatureConfig config = getMegaTreeConfig(treeData);
+                        TreeFeatureConfig config = getMegaTreeConfig(treeData);
 
                         this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
                                 getMegaTree(treeData.getTreeType())
@@ -129,9 +131,9 @@ public class CustomDimensionalBiome extends Biome {
                                                 config
                                         ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig((int) (treeData.getChance()*25), 0.5f, 1))));
                     } else {
-                        BranchedTreeFeatureConfig config1 = getTreeConfig(treeData);
+                        TreeFeatureConfig config1 = getTreeConfig(treeData);
                         this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
-                                Feature.NORMAL_TREE
+                                Feature.TREE
                                         .configure(
                                                 config1
                                         ).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig((int) (treeData.getChance()*25), 0.5f, 1))));
@@ -239,12 +241,12 @@ public class CustomDimensionalBiome extends Biome {
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(
                     ImmutableList.of(
                             Feature.HUGE_BROWN_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_BROWN_MUSHROOM_CONFIG).withChance(1)),
-                    Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG)
+                    Feature.TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG)
             )).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.01F, 1F), 1))));
             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(
                     ImmutableList.of(
                             Feature.HUGE_RED_MUSHROOM.configure(DefaultBiomeFeatures.HUGE_RED_MUSHROOM_CONFIG).withChance(1)),
-                    Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG)
+                    Feature.TREE.configure(DefaultBiomeFeatures.OAK_TREE_CONFIG)
             )).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, Rands.randFloatRange(0.01F, 1F), 1))));
         }
         if (biomeData.hasMossyRocks())
@@ -308,7 +310,7 @@ public class CustomDimensionalBiome extends Biome {
             this.addSpawn(EntityCategory.MONSTER, new SpawnEntry(EntityType.WITCH, dimensionData.getMobs().get("ghast")[0], dimensionData.getMobs().get("ghast")[1], dimensionData.getMobs().get("ghast")[2]));
     }
 
-    public static BranchedTreeFeatureConfig getTreeConfig(DimensionTreeData data) {
+    public static TreeFeatureConfig getTreeConfig(DimensionTreeData data) {
         List<TreeDecorator> decorators = new ArrayList<>();
         if (data.hasLeafVines()) decorators.add(new LeaveVineTreeDecorator());
         if (data.hasTrunkVines()) decorators.add(new TrunkVineTreeDecorator());
@@ -316,14 +318,15 @@ public class CustomDimensionalBiome extends Biome {
         if (data.hasBeehives()) decorators.add(new BeehiveTreeDecorator(data.getBeehiveChance()));
         if (data.hasPodzolUnderneath()) decorators.add(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState())));
 
-        return new BranchedTreeFeatureConfig.Builder(
+        return new TreeFeatureConfig.Builder(
                 new SimpleBlockStateProvider(data.getWoodType().woodType.getLog().getDefaultState()),
                 new SimpleBlockStateProvider(data.getWoodType().woodType.getLeaves().getDefaultState()),
                 getFoliagePlacer(data),
-                new StraightTrunkPlacer(data.getBaseHeight(), 0, 0)).treeDecorators(decorators).build();
+                new StraightTrunkPlacer(data.getBaseHeight(), 0, 0),
+                new class_5204(1, 0, 1)).method_27376(decorators).build();
     }
 
-    public static MegaTreeFeatureConfig getMegaTreeConfig(DimensionTreeData data) {
+    public static TreeFeatureConfig getMegaTreeConfig(DimensionTreeData data) {
         List<TreeDecorator> decorators = new ArrayList<>();
         if (data.hasLeafVines()) decorators.add(new LeaveVineTreeDecorator());
         if (data.hasTrunkVines()) decorators.add(new TrunkVineTreeDecorator());
@@ -331,13 +334,16 @@ public class CustomDimensionalBiome extends Biome {
         if (data.hasBeehives()) decorators.add(new BeehiveTreeDecorator(data.getBeehiveChance()));
         if (data.hasPodzolUnderneath()) decorators.add(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState())));
 
-        return new MegaTreeFeatureConfig.Builder(
+        return new TreeFeatureConfig.Builder(
                 new SimpleBlockStateProvider(data.getWoodType().woodType.getLog().getDefaultState()),
-                new SimpleBlockStateProvider(data.getWoodType().woodType.getLeaves().getDefaultState()))
+                new SimpleBlockStateProvider(data.getWoodType().woodType.getLeaves().getDefaultState()),
+                getFoliagePlacer(data),
+                new StraightTrunkPlacer(data.getBaseHeight(), 0, 0),
+                new class_5204(1, 1, 2))
                 .baseHeight(data.getBaseHeight())
-                .heightInterval(data.getFoliageHeightRandom())
-                .crownHeight(data.getCrownHeight())
-                .treeDecorators(decorators)
+//                .heightInterval(data.getFoliageHeightRandom())
+//                .crownHeight(data.getCrownHeight())
+                .method_27376(decorators)
                 .build();
     }
 
@@ -360,14 +366,14 @@ public class CustomDimensionalBiome extends Biome {
         }
     }
 
-    private static Feature<MegaTreeFeatureConfig> getMegaTree(DimensionTreeTypes treeTypes) {
+    private static Feature<TreeFeatureConfig> getMegaTree(DimensionTreeTypes treeTypes) {
         switch (treeTypes) {
             case MEGA_JUNGLE:
-                return Feature.MEGA_JUNGLE_TREE;
+                return Feature.TREE.configure(DefaultBiomeFeatures.MEGA_JUNGLE_TREE_CONFIG).feature;
             case MEGA_SPRUCE:
-                return Feature.MEGA_SPRUCE_TREE;
+                return Feature.TREE.configure(DefaultBiomeFeatures.MEGA_SPRUCE_TREE_CONFIG).feature;
             case DARK_OAK:
-                return Feature.DARK_OAK_TREE;
+                return Feature.TREE.configure(DefaultBiomeFeatures.MEGA_PINE_TREE_CONFIG).feature;
         }
         return null;
     }

@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.generation.feature.tree.foliage;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ModifiableTestableWorld;
 import net.minecraft.world.gen.feature.BranchedTreeFeatureConfig;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
 import net.minecraft.world.gen.foliage.FoliagePlacerType;
 
@@ -18,7 +19,7 @@ public class StriatedFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public void generate(ModifiableTestableWorld world, Random random, BranchedTreeFeatureConfig config, int trunkHeight, BlockPos pos, int foliageHeight, int radius, Set<BlockPos> leaves) {
+    public void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig config, int trunkHeight, BlockPos pos, int foliageHeight, int radius, Set<BlockPos> leaves) {
         int j = this.radius;
         int i = 0;
 
@@ -36,7 +37,7 @@ public class StriatedFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public int getRadius(Random random, int baseHeight, BranchedTreeFeatureConfig config) {
+    public int getRadius(Random random, int baseHeight, TreeFeatureConfig config) {
         return this.radius + random.nextInt(this.randomRadius + 1);
     }
 

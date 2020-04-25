@@ -5,7 +5,6 @@
 
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
-import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;

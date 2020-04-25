@@ -53,8 +53,8 @@ dependencies {
 
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "com.github.oliviathevampire:artifice:06714b21ac"
-    include ("com.github.oliviathevampire:artifice:06714b21ac")
+    modImplementation "com.github.oliviathevampire:artifice:de0027817f"
+    include ("com.github.oliviathevampire:artifice:de0027817f")
 
     modImplementation "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
     include "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
@@ -62,15 +62,13 @@ dependencies {
     modImplementation "com.github.vampire-studios:Customized-Astral-Body:7b8ce81062"
     include "com.github.vampire-studios:Customized-Astral-Body:7b8ce81062"
 
-    modImplementation("com.github.Draylar:world-traveler:${world_traveler_version}") {
-        transitive = false
-    }
-
     modImplementation "curse.maven:dark-loading-screen:2894480"
 
-    modCompile "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
-    include ("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
-        exclude group :"net.fabricmc.fabric-api"
+    modCompile("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
+        exclude module: "fabric-api"
+    }
+    include("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
+        exclude module: "fabric-api"
     }
 
     modCompile "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
@@ -84,6 +82,8 @@ dependencies {
         force = true
     }
 
+    modRuntime "curse.maven:immersive-portals-mod:2931681"
+
     include ("me.zeroeightsix:fiber:0.6.0-7") {
         exclude group :"net.fabricmc.fabric-api"
     }
@@ -94,6 +94,14 @@ dependencies {
         exclude group: "io.github.prospector.modmenu"
         exclude group :"net.fabricmc.fabric-api"
     }
+
+    modRuntime ("com.github.SuperCoder7979:databreaker:1ad39e9bf4fa8435010c9587c1b6960b57501c81") {
+        exclude module : "fabric-loader"
+    }
+
+    modRuntime ("com.github.mrmangohands:sodium-fabric:4ba93ad1aa3b18b8284e4c455004da722bdd883e")
+    modRuntime ("com.github.SuperCoder7979:phosphor-fabric:11d964bf07d44bdf6cbdbb7cce25ed9da81d9f78")
+    modRuntime ("com.github.SuperCoder7979:lithium-fabric:084e95f5db18404cae388eb35d7ef87f181b650a")
 }
 
 github {
