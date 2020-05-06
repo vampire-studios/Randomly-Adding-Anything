@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa.registries;
 
 import com.google.common.collect.ImmutableSet;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.commands.CommandLocateRAAStructure;
 import io.github.vampirestudios.raa.generation.carvers.*;
 import io.github.vampirestudios.raa.generation.dimensions.data.CarverType;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
@@ -17,7 +16,6 @@ import io.github.vampirestudios.raa.generation.feature.labyrint.LabyrintFeature;
 import io.github.vampirestudios.raa.generation.feature.labyrint.LabyrintPiece;
 import io.github.vampirestudios.raa.generation.feature.portalHub.PortalHubFeature;
 import io.github.vampirestudios.raa.utils.Utils;
-import net.fabricmc.fabric.api.registry.CommandRegistry;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
@@ -69,7 +67,7 @@ public class Features {
     public static StructurePieceType LABYRINT_PIECE;
 
     public static void init() {
-        CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
+//        CommandRegistry.INSTANCE.register(false, CommandLocateRAAStructure::register);
 
         CORRUPTED_NETHRRACK = register("corrupted_netherrack", new NetherrackFeature(DefaultFeatureConfig::deserialize));
         CRATER_FEATURE = register("crater_feature", new CraterFeature(CorruptedFeatureConfig::deserialize));

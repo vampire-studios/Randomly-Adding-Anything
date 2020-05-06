@@ -16,16 +16,16 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
+import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockRenderView;
-import net.minecraft.world.World;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -131,7 +131,7 @@ public class DimensionalOreBakedModel extends RAABakedModel {
     }
 
     @Override
-    public ModelItemPropertyOverrideList getItemPropertyOverrides() {
+    public ModelOverrideList getOverrides() {
         if (FabricLoader.getInstance().isModLoaded("optifabric")) {
             return ItemProxy.EMPTY;
         } else {
@@ -139,14 +139,15 @@ public class DimensionalOreBakedModel extends RAABakedModel {
         }
     }
 
-    protected class ItemProxy extends ModelItemPropertyOverrideList {
+    protected class ItemProxy extends ModelOverrideList {
         public ItemProxy() {
             super(null, null, null, Collections.emptyList());
         }
 
         @Override
-        public BakedModel apply(BakedModel bakedModel_1, ItemStack itemStack_1, World world_1, LivingEntity livingEntity_1) {
+        public BakedModel apply(BakedModel model, ItemStack stack, ClientWorld world, LivingEntity entity) {
             return DimensionalOreBakedModel.this;
         }
+
     }
 }

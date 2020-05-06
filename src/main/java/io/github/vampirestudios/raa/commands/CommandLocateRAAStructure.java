@@ -1,3 +1,4 @@
+/*
 package io.github.vampirestudios.raa.commands;
 
 import com.mojang.brigadier.Command;
@@ -9,6 +10,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.*;
@@ -173,4 +175,4 @@ public class CommandLocateRAAStructure {
         return !dim.equals("") && !dim.equals("_end") && !dim.equals("_nether");
     }
 
-}
+}*/

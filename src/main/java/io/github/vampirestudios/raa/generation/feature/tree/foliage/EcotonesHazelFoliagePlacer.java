@@ -18,7 +18,7 @@ public class EcotonesHazelFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    protected void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig treeFeatureConfig, int trunkHeight, class_5208 arg, int foliageHeight, int radius, Set<BlockPos> leaves, int i) {
+    protected void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig treeFeatureConfig, int trunkHeight, TreeNode arg, int foliageHeight, int radius, Set<BlockPos> leaves, int i) {
         int h = 0;
         int m = 1;
         int t = 3;

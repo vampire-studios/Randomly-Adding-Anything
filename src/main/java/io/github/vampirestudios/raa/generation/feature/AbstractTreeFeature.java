@@ -27,7 +27,7 @@ import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraft.world.gen.foliage.FoliagePlacer.class_5208;
+import net.minecraft.world.gen.foliage.FoliagePlacer;
 
 import java.util.*;
 import java.util.function.Function;
@@ -79,10 +79,10 @@ public class AbstractTreeFeature extends Feature<TreeFeatureConfig> {
     }
 
     public boolean generate(ModifiableTestableWorld world, Random random, BlockPos pos, Set<BlockPos> logPositions, Set<BlockPos> leavesPositions, BlockBox box, TreeFeatureConfig config) {
-        int i = config.field_24136.getHeight(random);
-        int j = config.field_24135.getHeight(random, i, config);
+        int i = config.trunkPlacer.getHeight(random);
+        int j = config.foliagePlacer.getHeight(random, i, config);
         int k = i - j;
-        int l = config.field_24135.getRadius(random, k);
+        int l = config.foliagePlacer.getRadius(random, k);
         BlockPos blockPos2;
         int r;
         if (!config.skipFluidCheck) {
@@ -92,12 +92,12 @@ public class AbstractTreeFeature extends Feature<TreeFeatureConfig> {
                 return false;
             }
 
-            if (config.field_24139 == Type.OCEAN_FLOOR) {
+            if (config.heightmap == Type.OCEAN_FLOOR) {
                 r = m;
-            } else if (config.field_24139 == Type.WORLD_SURFACE) {
+            } else if (config.heightmap == Type.WORLD_SURFACE) {
                 r = n;
             } else {
-                r = world.getTopPosition(config.field_24139, pos).getY();
+                r = world.getTopPosition(config.heightmap, pos).getY();
             }
 
             blockPos2 = new BlockPos(pos.getX(), r, pos.getZ());
@@ -110,16 +110,16 @@ public class AbstractTreeFeature extends Feature<TreeFeatureConfig> {
                 return false;
             } else {
                 Mutable mutable = new Mutable();
-                OptionalInt optionalInt = config.field_24137.method_27377();
+                OptionalInt optionalInt = config.featureSize.getMinClippedHeight();
                 r = i;
 
                 for(int s = 0; s <= i + 1; ++s) {
-                    int t = config.field_24137.method_27378(i, s);
+                    int t = config.featureSize.method_27378(i, s);
 
                     for(int u = -t; u <= t; ++u) {
                         for(int v = -t; v <= t; ++v) {
                             mutable.set(blockPos2, u, s, v);
-                            if (canTreeReplace(world, mutable) || !config.field_24138 && isVine(world, mutable)) {
+                            if (canTreeReplace(world, mutable) || !config.ignoreVines && isVine(world, mutable)) {
                                 if (!optionalInt.isPresent() || s - 1 < optionalInt.getAsInt() + 1) {
                                     return false;
                                 }
@@ -131,9 +131,9 @@ public class AbstractTreeFeature extends Feature<TreeFeatureConfig> {
                     }
                 }
 
-                List<class_5208> list = config.field_24136.generate(world, random, r, blockPos2, logPositions, box, config);
+                List<FoliagePlacer.TreeNode> list = config.trunkPlacer.generate(world, random, r, blockPos2, logPositions, box, config);
                 int finalR = r;
-                list.forEach((arg) -> config.field_24135.method_27385(world, random, config, finalR, arg, j, l, leavesPositions));
+                list.forEach((arg) -> config.foliagePlacer.generate(world, random, config, finalR, arg, j, l, leavesPositions));
                 return true;
             }
         } else {

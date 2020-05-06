@@ -15,6 +15,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -135,9 +136,9 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
 
         @Override
-        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(Formatting.GRAY.toString() + I18n.translate(s) + Formatting.WHITE.toString() + I18n.translate("#" + Integer.toHexString(color).replace("ff", "")), x, y, 16777215);
-            fillGradient(i + 1, y + 1, i + 1 + entryHeight, y + 1 + entryHeight, color, color);
+        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+            int i = MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, Formatting.GRAY.toString() + I18n.translate(s) + Formatting.WHITE.toString() + I18n.translate("#" + Integer.toHexString(color).replace("ff", "")), x, y, 16777215);
+            fillGradient(matrices, i + 1, y + 1, i + 1 + entryHeight, y + 1 + entryHeight, color, color);
         }
 
         @Override
@@ -156,8 +157,8 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         private final ButtonWidget overrideButton;
 
         public TitleMaterialOverrideEntry(DimensionListScreen og, DimensionData material, Text text) {
-            this.s = text.asFormattedString();
-            String btnText = I18n.translate("config.button.raa.edit");
+            this.s = text.asString();
+            Text btnText = new TranslatableText("config.button.raa.edit");
             overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText,
                     widget -> openClothConfigForMaterial(og, material));
         }
@@ -165,118 +166,118 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         private static void openClothConfigForMaterial(DimensionListScreen og, DimensionData dimensionData) {
             ConfigBuilder builder = ConfigBuilder.create()
                     .setParentScreen(og)
-                    .setTitle(I18n.translate("config.title.raa.config_specific", WordUtils.capitalizeFully(dimensionData.getName())));
-            ConfigCategory category = builder.getOrCreateCategory("null"); // The name is not required if we only have 1 category in Cloth Config 1.8+
+                    .setTitle(new TranslatableText("config.title.raa.config_specific", WordUtils.capitalizeFully(dimensionData.getName())));
+            ConfigCategory category = builder.getOrCreateCategory(new TranslatableText("null")); // The name is not required if we only have 1 category in Cloth Config 1.8+
             ConfigEntryBuilder eb = builder.entryBuilder();
             category.addEntry(
-                    eb.startStrField("config.field.raa.identifier", dimensionData.getId().getPath())
+                    eb.startStrField(new TranslatableText("config.field.raa.identifier"), dimensionData.getId().getPath())
                             .setDefaultValue(dimensionData.getId().getPath())
                             .setSaveConsumer(dimensionData::setId)
                             .setErrorSupplier(str -> {
                                 if (str.toLowerCase().equals(str))
                                     return Optional.empty();
-                                return Optional.of(I18n.translate("config.error.raa.identifier.no.caps"));
+                                return Optional.of(new TranslatableText("config.error.raa.identifier.no.caps"));
                             })
                             .requireRestart()
                             .build()
             );
             category.addEntry(
-                    eb.startStrField("config.field.raa.name", dimensionData.getName())
+                    eb.startStrField(new TranslatableText("config.field.raa.name"), dimensionData.getName())
                             .setDefaultValue(dimensionData.getName())
                             .setSaveConsumer(dimensionData::setName)
                             .build()
             );
 
-            SubCategoryBuilder misc = eb.startSubCategory(I18n.translate("config.title.raa.misc")).setExpanded(false);
+            SubCategoryBuilder misc = eb.startSubCategory(new TranslatableText("config.title.raa.misc")).setExpanded(false);
             misc.add(
-                    eb.startBooleanToggle("config.field.raa.canSleep", dimensionData.canSleep())
+                    eb.startBooleanToggle(new TranslatableText("config.field.raa.canSleep"), dimensionData.canSleep())
                             .setDefaultValue(dimensionData.canSleep())
                             .setSaveConsumer(dimensionData::setCanSleep)
                             .build()
             );
             misc.add(
-                    eb.startBooleanToggle("config.field.raa.doesWaterVaporize", dimensionData.doesWaterVaporize())
+                    eb.startBooleanToggle(new TranslatableText("config.field.raa.doesWaterVaporize"), dimensionData.doesWaterVaporize())
                             .setDefaultValue(dimensionData.doesWaterVaporize())
                             .setSaveConsumer(dimensionData::setWaterVaporize)
                             .build()
             );
             misc.add(
-                    eb.startBooleanToggle("config.field.raa.shouldRenderFog", dimensionData.hasThickFog())
+                    eb.startBooleanToggle(new TranslatableText("config.field.raa.shouldRenderFog"), dimensionData.hasThickFog())
                             .setDefaultValue(dimensionData.hasThickFog())
                             .setSaveConsumer(dimensionData::setRenderFog)
                             .build()
             );
             misc.add(
-                    eb.startFloatField("config.field.raa.stoneHardness", dimensionData.getStoneHardness())
+                    eb.startFloatField(new TranslatableText("config.field.raa.stoneHardness"), dimensionData.getStoneHardness())
                             .setDefaultValue(dimensionData.getStoneHardness())
                             .setSaveConsumer(dimensionData::setStoneHardness)
                             .build()
             );
             misc.add(
-                    eb.startFloatField("config.field.raa.stoneResistance", dimensionData.getStoneResistance())
+                    eb.startFloatField(new TranslatableText("config.field.raa.stoneResistance"), dimensionData.getStoneResistance())
                             .setDefaultValue(dimensionData.getStoneResistance())
                             .setSaveConsumer(dimensionData::setStoneResistance)
                             .build()
             );
             category.addEntry(misc.build());
 
-            SubCategoryBuilder colors = eb.startSubCategory(I18n.translate("config.title.raa.colors")).setExpanded(false);
+            SubCategoryBuilder colors = eb.startSubCategory(new TranslatableText("config.title.raa.colors")).setExpanded(false);
             if (dimensionData.getCustomSkyInformation().hasSky()) {
                 colors.add(
-                        eb.startAlphaColorField("config.field.raa.skyColor", dimensionData.getDimensionColorPalette().getSkyColor())
+                        eb.startAlphaColorField(new TranslatableText("config.field.raa.skyColor"), dimensionData.getDimensionColorPalette().getSkyColor())
                                 .setDefaultValue(dimensionData.getDimensionColorPalette().getSkyColor())
                                 .setSaveConsumer(integer -> dimensionData.getDimensionColorPalette().setSkyColor(integer))
                                 .build()
                 );
             }
             colors.add(
-                    eb.startAlphaColorField("config.field.raa.fogColor", dimensionData.getDimensionColorPalette().getFogColor())
+                    eb.startAlphaColorField(new TranslatableText("config.field.raa.fogColor"), dimensionData.getDimensionColorPalette().getFogColor())
                             .setDefaultValue(dimensionData.getDimensionColorPalette().getFogColor())
                             .setSaveConsumer(integer -> dimensionData.getDimensionColorPalette().setFogColor(integer))
                             .build()
             );
             colors.add(
-                    eb.startAlphaColorField("config.field.raa.stoneColor", dimensionData.getDimensionColorPalette().getStoneColor())
+                    eb.startAlphaColorField(new TranslatableText("config.field.raa.stoneColor"), dimensionData.getDimensionColorPalette().getStoneColor())
                             .setDefaultValue(dimensionData.getDimensionColorPalette().getStoneColor())
                             .setSaveConsumer(integer -> dimensionData.getDimensionColorPalette().setStoneColor(integer))
                             .build()
             );
             category.addEntry(colors.build());
 
-            SubCategoryBuilder astralBody = eb.startSubCategory(I18n.translate("config.title.raa.astralBody")).setExpanded(false);
+            SubCategoryBuilder astralBody = eb.startSubCategory(new TranslatableText("config.title.raa.astralBody")).setExpanded(false);
             astralBody.add(
-                    eb.startBooleanToggle("config.field.raa.hasSky", dimensionData.getCustomSkyInformation().hasSky())
+                    eb.startBooleanToggle(new TranslatableText("config.field.raa.hasSky"), dimensionData.getCustomSkyInformation().hasSky())
                             .setDefaultValue(dimensionData.getCustomSkyInformation().hasSky())
                             .setSaveConsumer(dimensionData.getCustomSkyInformation()::setHasSky)
                             .build()
             );
             astralBody.add(
-                    eb.startBooleanToggle("config.field.raa.hasSkyLight", dimensionData.getCustomSkyInformation().hasSkyLight())
+                    eb.startBooleanToggle(new TranslatableText("config.field.raa.hasSkyLight"), dimensionData.getCustomSkyInformation().hasSkyLight())
                             .setDefaultValue(dimensionData.getCustomSkyInformation().hasSkyLight())
                             .setSaveConsumer(dimensionData.getCustomSkyInformation()::setHasSkyLight)
                             .build()
             );
             astralBody.add(
-                    eb.startBooleanToggle("config.field.raa.hasCustomSun", dimensionData.getCustomSkyInformation().hasCustomSun())
+                    eb.startBooleanToggle(new TranslatableText("config.field.raa.hasCustomSun"), dimensionData.getCustomSkyInformation().hasCustomSun())
                             .setDefaultValue(dimensionData.getCustomSkyInformation().hasCustomSun())
                             .setSaveConsumer(dimensionData.getCustomSkyInformation()::shouldHaveCustomSun)
                             .build()
             );
             astralBody.add(
-                    eb.startBooleanToggle("config.field.raa.hasCustomMoon", dimensionData.getCustomSkyInformation().hasCustomMoon())
+                    eb.startBooleanToggle(new TranslatableText("config.field.raa.hasCustomMoon"), dimensionData.getCustomSkyInformation().hasCustomMoon())
                             .setDefaultValue(dimensionData.getCustomSkyInformation().hasCustomMoon())
                             .setSaveConsumer(dimensionData.getCustomSkyInformation()::shouldHaveCustomMoon)
                             .build()
             );
             if (dimensionData.getCustomSkyInformation().hasCustomSun()) {
                 astralBody.add(
-                        eb.startAlphaColorField("config.field.raa.sunColor", dimensionData.getCustomSkyInformation().getSunTint())
+                        eb.startAlphaColorField(new TranslatableText("config.field.raa.sunColor"), dimensionData.getCustomSkyInformation().getSunTint())
                                 .setDefaultValue(dimensionData.getCustomSkyInformation().getSunTint())
                                 .setSaveConsumer(integer -> dimensionData.getCustomSkyInformation().setSunTint(integer))
                                 .build()
                 );
                 astralBody.add(
-                        eb.startFloatField("config.field.raa.sunSize", dimensionData.getCustomSkyInformation().getSunSize())
+                        eb.startFloatField(new TranslatableText("config.field.raa.sunSize"), dimensionData.getCustomSkyInformation().getSunSize())
                                 .setDefaultValue(dimensionData.getCustomSkyInformation().getSunSize())
                                 .setSaveConsumer(size -> dimensionData.getCustomSkyInformation().setSunSize(size))
                                 .build()
@@ -284,13 +285,13 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
             }
             if (dimensionData.getCustomSkyInformation().hasCustomMoon()) {
                 astralBody.add(
-                        eb.startAlphaColorField("config.field.raa.moonColor", dimensionData.getCustomSkyInformation().getMoonTint())
+                        eb.startAlphaColorField(new TranslatableText("config.field.raa.moonColor"), dimensionData.getCustomSkyInformation().getMoonTint())
                                 .setDefaultValue(dimensionData.getCustomSkyInformation().getMoonTint())
                                 .setSaveConsumer(integer -> dimensionData.getCustomSkyInformation().setMoonTint(integer))
                                 .build()
                 );
                 astralBody.add(
-                        eb.startFloatField("config.field.raa.moonSize", dimensionData.getCustomSkyInformation().getMoonSize())
+                        eb.startFloatField(new TranslatableText("config.field.raa.moonSize"), dimensionData.getCustomSkyInformation().getMoonSize())
                                 .setDefaultValue(dimensionData.getCustomSkyInformation().getMoonSize())
                                 .setSaveConsumer(size -> dimensionData.getCustomSkyInformation().setMoonSize(size))
                                 .build()
@@ -298,107 +299,107 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
             }
             category.addEntry(astralBody.build());
 
-            SubCategoryBuilder gravity = eb.startSubCategory(I18n.translate("config.title.raa.gravity")).setExpanded(false);
+            SubCategoryBuilder gravity = eb.startSubCategory(new TranslatableText("config.title.raa.gravity")).setExpanded(false);
             gravity.add(
-                    eb.startFloatField("config.field.raa.gravity", dimensionData.getGravity())
+                    eb.startFloatField(new TranslatableText("config.field.raa.gravity"), dimensionData.getGravity())
                             .setDefaultValue(dimensionData.getGravity())
                             .setSaveConsumer(dimensionData::setGravity)
                             .build()
             );
             category.addEntry(gravity.build());
 
-            SubCategoryBuilder biomes = eb.startSubCategory(I18n.translate("config.title.raa.biomes")).setExpanded(false);
+            SubCategoryBuilder biomes = eb.startSubCategory(new TranslatableText("config.title.raa.biomes")).setExpanded(false);
             for (DimensionBiomeData biomeData : dimensionData.getBiomeData()) {
-                SubCategoryBuilder biomeDataSubCategory = eb.startSubCategory(I18n.translate("config.title.raa.biomeData", WordUtils.capitalizeFully(biomeData.getId()
+                SubCategoryBuilder biomeDataSubCategory = eb.startSubCategory(new TranslatableText("config.title.raa.biomeData", WordUtils.capitalizeFully(biomeData.getId()
                         .getPath().replace("_", " ")))).setExpanded(false);
                 biomeDataSubCategory.add(
-                        eb.startStrField("config.field.raa.biomeData.name", WordUtils.capitalizeFully(biomeData.getId().getPath().replace("_", " ")))
-                                .setDefaultValue(WordUtils.capitalizeFully(biomeData.getId().getPath().replace("_", " ")))
-                                .setSaveConsumer(biomeData::setName)
+                        eb.startStrField(new TranslatableText("config.field.raa.biomeData.name"), WordUtils.capitalizeFully(biomeData.getId().getPath()
+                                .replace("_", " "))).setDefaultValue(WordUtils.capitalizeFully(biomeData.getId().getPath()
+                                .replace("_", " "))).setSaveConsumer(biomeData::setName)
                                 .build()
                 );
                 biomeDataSubCategory.add(
-                        eb.startStrField("config.field.raa.biomeData.surfaceBuilder",
+                        eb.startStrField(new TranslatableText("config.field.raa.biomeData.surfaceBuilder"),
                                 biomeData.getSurfaceBuilder().toString())
                                 .setDefaultValue(biomeData.getSurfaceBuilder().toString())
                                 .setSaveConsumer(biomeData::setSurfaceBuilder)
                                 .setErrorSupplier(str -> {
                                     if (str.toLowerCase().equals(str))
                                         return Optional.empty();
-                                    return Optional.of(I18n.translate("config.error.raa.identifier.no_caps"));
+                                    return Optional.of(new TranslatableText("config.error.raa.identifier.no_caps"));
                                 })
                                 .build()
                 );
                 biomeDataSubCategory.add(
-                        eb.startStrField("config.field.raa.biomeData.surfaceBuilderConfig",
+                        eb.startStrField(new TranslatableText("config.field.raa.biomeData.surfaceBuilderConfig"),
                                 Utils.fromConfigToIdentifier(biomeData.getSurfaceConfig()).toString())
                                 .setDefaultValue(Utils.fromConfigToIdentifier(biomeData.getSurfaceConfig()).toString())
                                 .setSaveConsumer(biomeData::setSurfaceConfig)
                                 .setErrorSupplier(str -> {
                                     if (str.toLowerCase().equals(str))
                                         return Optional.empty();
-                                    return Optional.of(I18n.translate("config.error.raa.identifier.no_caps"));
+                                    return Optional.of(new TranslatableText("config.error.raa.identifier.no_caps"));
                                 })
                                 .build()
                 );
                 biomeDataSubCategory.add(
-                        eb.startFloatField("config.field.raa.biomeData.depth", biomeData.getDepth())
+                        eb.startFloatField(new TranslatableText("config.field.raa.biomeData.depth"), biomeData.getDepth())
                                 .setDefaultValue(biomeData.getDepth())
                                 .setSaveConsumer(biomeData::setDepth)
                                 .setErrorSupplier(str -> {
                                     if (str >= 0.0F)
                                         return Optional.empty();
-                                    return Optional.of(I18n.translate("config.error.raa.depth_under_zero"));
+                                    return Optional.of(new TranslatableText("config.error.raa.depth_under_zero"));
                                 })
                                 .build()
                 );
                 biomeDataSubCategory.add(
-                        eb.startFloatField("config.field.raa.biomeData.scale", biomeData.getScale())
+                        eb.startFloatField(new TranslatableText("config.field.raa.biomeData.scale"), biomeData.getScale())
                                 .setDefaultValue(biomeData.getScale())
                                 .setSaveConsumer(biomeData::setScale)
                                 .setErrorSupplier(str -> {
                                     if (str >= 0.0F)
                                         return Optional.empty();
-                                    return Optional.of(I18n.translate("config.error.raa.depth_under_zero"));
+                                    return Optional.of(new TranslatableText("config.error.raa.depth_under_zero"));
                                 })
                                 .build()
                 );
                 biomeDataSubCategory.add(
-                        eb.startFloatField("config.field.raa.biomeData.temperature", biomeData.getTemperature())
+                        eb.startFloatField(new TranslatableText("config.field.raa.biomeData.temperature"), biomeData.getTemperature())
                                 .setDefaultValue(biomeData.getTemperature())
                                 .setSaveConsumer(biomeData::setTemperature)
                                 .setErrorSupplier(str -> {
                                     if (str >= 0.0F)
                                         return Optional.empty();
-                                    return Optional.of(I18n.translate("config.error.raa.depth_under_zero"));
+                                    return Optional.of(new TranslatableText("config.error.raa.depth_under_zero"));
                                 })
                                 .build()
                 );
                 biomeDataSubCategory.add(
-                        eb.startFloatField("config.field.raa.biomeData.downfall", biomeData.getDownfall())
+                        eb.startFloatField(new TranslatableText("config.field.raa.biomeData.downfall"), biomeData.getDownfall())
                                 .setDefaultValue(biomeData.getDownfall())
                                 .setSaveConsumer(biomeData::setDownfall)
                                 .setErrorSupplier(str -> {
                                     if (str >= 0.0F)
                                         return Optional.empty();
-                                    return Optional.of(I18n.translate("config.error.raa.depth_under_zero"));
+                                    return Optional.of(new TranslatableText("config.error.raa.depth_under_zero"));
                                 })
                                 .build()
                 );
                 biomeDataSubCategory.add(
-                        eb.startAlphaColorField("config.field.raa.waterColor", biomeData.getWaterColor())
+                        eb.startAlphaColorField(new TranslatableText("config.field.raa.waterColor"), biomeData.getWaterColor())
                         .setDefaultValue(biomeData.getWaterColor())
                         .setSaveConsumer(biomeData::setWaterColor)
                         .build()
                 );
                 biomeDataSubCategory.add(
-                        eb.startAlphaColorField("config.field.raa.foliageColor", biomeData.getFoliageColor())
+                        eb.startAlphaColorField(new TranslatableText("config.field.raa.foliageColor"), biomeData.getFoliageColor())
                                 .setDefaultValue(biomeData.getFoliageColor())
                                 .setSaveConsumer(biomeData::setFoliageColor)
                                 .build()
                 );
                 biomeDataSubCategory.add(
-                        eb.startAlphaColorField("config.field.raa.waterColor", biomeData.getGrassColor())
+                        eb.startAlphaColorField(new TranslatableText("config.field.raa.waterColor"), biomeData.getGrassColor())
                                 .setDefaultValue(biomeData.getGrassColor())
                                 .setSaveConsumer(biomeData::setGrassColor)
                                 .build()
@@ -412,14 +413,14 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
 
         @Override
-        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
             RenderSystem.pushMatrix();
             RenderSystem.scalef(1.4F, 1.4F, 1.4F);
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x / 1.4f, (y + 5) / 1.4f, 16777215);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, s, x / 1.4f, (y + 5) / 1.4f, 16777215);
             RenderSystem.popMatrix();
             overrideButton.x = x + entryWidth - overrideButton.getWidth();
             overrideButton.y = y;
-            overrideButton.render(mouseX, mouseY, delta);
+            overrideButton.render(matrices, mouseX, mouseY, delta);
         }
 
         @Override
@@ -434,19 +435,19 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
     }
 
     public static class TextEntryWithTooltip extends io.github.vampirestudios.raa.config.screen.dimensions.RAADimensionDescriptionListWidget.Entry {
-        protected String s;
+        protected Text s;
         protected String tooltip;
         protected DimensionListScreen screen;
 
         public TextEntryWithTooltip(Text text, String tooltip, DimensionListScreen screen) {
-            this.s = text.asFormattedString();
+            this.s = text;
             this.tooltip = I18n.hasTranslation(tooltip) ? I18n.translate(tooltip) : null;
             this.screen = screen;
         }
 
         @Override
-        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x, y, 16777215);
+        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, s, x, y, 16777215);
             if (tooltip != null && mouseX >= x && mouseY >= y && mouseX <= x + MinecraftClient.getInstance().textRenderer.getStringWidth(s) && mouseY <= y + getItemHeight())
                 screen.tooltip = tooltip;
         }
@@ -466,12 +467,12 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         protected String s;
 
         public TextEntry(Text text) {
-            this.s = text.asFormattedString();
+            this.s = text.asString();
         }
 
         @Override
-        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x, y, 16777215);
+        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, s, x, y, 16777215);
         }
 
         @Override
@@ -493,12 +494,12 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
 
         public TitleEntry(Text text) {
-            this.s = text.asFormattedString();
+            this.s = text.asString();
         }
 
         @Override
-        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(s, x, y + 10, 16777215);
+        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, s, x, y + 10, 16777215);
         }
 
         @Override
@@ -520,7 +521,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         }
 
         @Override
-        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
 
         }
 

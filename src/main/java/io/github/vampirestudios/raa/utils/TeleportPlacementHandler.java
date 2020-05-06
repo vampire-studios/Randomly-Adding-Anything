@@ -122,7 +122,7 @@ public class TeleportPlacementHandler
         if (player.getSleepingPosition().isPresent()) {
             bedLocation = player.getSleepingPosition().get();
         } else {
-            bedLocation = world.getSpawnPos();
+            bedLocation = world.getForcedSpawnPoint();
         }
         BlockPos origin = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, new BlockPos(0, 0, 0));
         return new BlockPos(PlayerEntity.findRespawnPosition(world, bedLocation, false, false).orElse(new Vec3d(origin.getX(), origin.getY(), origin.getZ())));

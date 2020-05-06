@@ -11,7 +11,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 
 public class DimensionsConfigScreen extends Screen {
@@ -50,15 +50,15 @@ public class DimensionsConfigScreen extends Screen {
     protected void init() {
         super.init();
         assert client != null;
-        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, I18n.translate("config.button.raa.dimensionConfiguration"), var1 ->
+        addButton(new ButtonWidget(width / 2 - 75, 70, 150, 20, new TranslatableText("config.button.raa.dimensionConfiguration"), var1 ->
                 client.openScreen(new DimensionListScreen(this))));
-        addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, I18n.translate("config.button.raa.dimensionMaterialConfiguration"), var1 ->
+        addButton(new ButtonWidget(width / 2 - 75, 100, 150, 20, new TranslatableText("config.button.raa.dimensionMaterialConfiguration"), var1 ->
                 client.openScreen(new DimensionMaterialListScreen(this))));
-        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> client.openScreen(parent)));
+        addButton(new ButtonWidget(4, 4, 50, 20, new TranslatableText("gui.back"), var1 -> client.openScreen(parent)));
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float delta) {
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         overlayBackground(0, 0, width, height, 32, 32, 32, 255, 255);
         overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
         RenderSystem.enableBlend();
@@ -80,8 +80,8 @@ public class DimensionsConfigScreen extends Screen {
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
-        drawCenteredString(textRenderer, title.asFormattedString(), width / 2, 10, 16777215);
-        super.render(mouseX, mouseY, delta);
+        drawCenteredString(matrices, textRenderer, title.asString(), width / 2, 10, 16777215);
+        super.render(matrices, mouseX, mouseY, delta);
     }
 
 }

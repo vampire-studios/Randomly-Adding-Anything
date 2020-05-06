@@ -90,7 +90,7 @@ public class StonehengeFeature extends Feature<DefaultFeatureConfig> {
 		//6.7% of being a perfect stonehenge right off the bat
 		markedForPerfection = rand.nextInt(15) == 0;
 		perfectStoneCount = 0;
-		StructureManager templatemanager = ((ServerWorld) world.getWorld()).getSaveHandler().getStructureManager();
+		StructureManager templatemanager = ((ServerWorld) world.getWorld()).getStructureManager();
 		Structure template;
 		BlockState iblockstate = world.getBlockState(blockpos$Mutable);
 

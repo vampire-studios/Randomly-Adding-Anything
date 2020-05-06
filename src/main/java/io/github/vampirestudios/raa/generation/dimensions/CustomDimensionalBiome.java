@@ -2,14 +2,12 @@ package io.github.vampirestudios.raa.generation.dimensions;
 
 import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
-import io.github.vampirestudios.raa.generation.decorator.BiasedNoiseBasedDecoratorConfig;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionBiomeData;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeData;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionTreeTypes;
 import io.github.vampirestudios.raa.generation.feature.StoneCircleFeature;
 import io.github.vampirestudios.raa.generation.feature.TombFeature;
-import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig;
 import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureConfig;
 import io.github.vampirestudios.raa.generation.feature.tree.foliage.*;
 import io.github.vampirestudios.raa.registries.Decorators;
@@ -20,8 +18,6 @@ import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Blocks;
-import net.minecraft.class_5204;
-import net.minecraft.class_5209;
 import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.registry.Registry;
@@ -31,15 +27,14 @@ import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.*;
 import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
-import net.minecraft.world.gen.foliage.PineFoliagePlacer;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
-import net.minecraft.world.gen.trunk.TrunkPlacer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,8 +91,10 @@ public class CustomDimensionalBiome extends Biome {
                 case MULTIPLE_TREE_FOREST:
                     for (DimensionTreeData treeData : biomeData.getTreeData()) {
                         if (treeData.getTreeType() == DimensionTreeTypes.MEGA_JUNGLE || treeData.getTreeType() == DimensionTreeTypes.MEGA_SPRUCE || treeData.getTreeType() == DimensionTreeTypes.DARK_OAK) {
-                            TreeFeatureConfig config = (new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()), new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState())))
-                                    .baseHeight(treeData.getBaseHeight()).heightInterval(treeData.getFoliageHeightRandom()).build();
+                            TreeFeatureConfig config = (new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLog().getDefaultState()),
+                                    new SimpleBlockStateProvider(treeData.getWoodType().woodType.getLeaves().getDefaultState()), getFoliagePlacer(treeData),
+                                    new StraightTrunkPlacer(treeData.getBaseHeight(), 0, 0),
+                                    new TwoLayersFeatureSize(1, 1, 2))).baseHeight(treeData.getBaseHeight()).build();
 
                             this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION,
                                     getMegaTree(treeData.getTreeType())
@@ -116,7 +113,7 @@ public class CustomDimensionalBiome extends Biome {
                 break;
 
                 case PLAINS_TREES:
-                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(ImmutableList.of(Feature.FANCY_TREE.configure(DefaultBiomeFeatures.FANCY_TREE_WITH_MORE_BEEHIVES_CONFIG).withChance(0.33333334F)), Feature.NORMAL_TREE.configure(DefaultBiomeFeatures.OAK_TREE_WITH_MORE_BEEHIVES_CONFIG))).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.05F, 1))));
+                    this.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.configure(new RandomFeatureConfig(ImmutableList.of(Feature.TREE.configure(DefaultBiomeFeatures.FANCY_TREE_WITH_MORE_BEEHIVES_CONFIG).withChance(0.33333334F)), Feature.TREE.configure(DefaultBiomeFeatures.OAK_TREE_WITH_MORE_BEEHIVES_CONFIG))).createDecoratedFeature(Decorator.COUNT_EXTRA_HEIGHTMAP.configure(new CountExtraChanceDecoratorConfig(0, 0.05F, 1))));
                     break;
 
                 case SINGLE_TREE_FOREST:
@@ -323,7 +320,7 @@ public class CustomDimensionalBiome extends Biome {
                 new SimpleBlockStateProvider(data.getWoodType().woodType.getLeaves().getDefaultState()),
                 getFoliagePlacer(data),
                 new StraightTrunkPlacer(data.getBaseHeight(), 0, 0),
-                new class_5204(1, 0, 1)).method_27376(decorators).build();
+                new TwoLayersFeatureSize(1, 0, 1)).method_27376(decorators).build();
     }
 
     public static TreeFeatureConfig getMegaTreeConfig(DimensionTreeData data) {
@@ -339,7 +336,7 @@ public class CustomDimensionalBiome extends Biome {
                 new SimpleBlockStateProvider(data.getWoodType().woodType.getLeaves().getDefaultState()),
                 getFoliagePlacer(data),
                 new StraightTrunkPlacer(data.getBaseHeight(), 0, 0),
-                new class_5204(1, 1, 2))
+                new TwoLayersFeatureSize(1, 1, 2))
                 .baseHeight(data.getBaseHeight())
 //                .heightInterval(data.getFoliageHeightRandom())
 //                .crownHeight(data.getCrownHeight())

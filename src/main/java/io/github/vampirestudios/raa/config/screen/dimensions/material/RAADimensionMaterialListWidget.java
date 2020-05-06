@@ -8,6 +8,7 @@ import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.Rect2i;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -46,9 +47,9 @@ public class RAADimensionMaterialListWidget extends DynamicElementListWidget<RAA
         }
 
         @Override
-        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
             widget.bounds = new Rect2i(x, y, entryWidth, getItemHeight());
-            widget.render(mouseX, mouseY, delta);
+            widget.render(matrices, mouseX, mouseY, delta);
         }
 
         @Override
@@ -69,11 +70,12 @@ public class RAADimensionMaterialListWidget extends DynamicElementListWidget<RAA
             private Rect2i bounds;
 
             @Override
-            public void render(int mouseX, int mouseY, float delta) {
+            public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
                 RenderSystem.disableAlphaTest();
                 boolean isHovered = bounds.contains(mouseX, mouseY);
-                drawString(MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + (isSelected(material) ? Formatting.BOLD.toString() : "") + WordUtils.capitalizeFully(material.getName()),
-                        bounds.getX() + 5, bounds.getY() + 6, 16777215
+                drawString(matrices, MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") +
+                                (isSelected(material) ? Formatting.BOLD.toString() : "") + WordUtils.capitalizeFully(material.getName()), bounds.getX() + 5, bounds.getY() + 6,
+                        16777215
                 );
             }
 
@@ -119,7 +121,7 @@ public class RAADimensionMaterialListWidget extends DynamicElementListWidget<RAA
         }
 
         @Override
-        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
+        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
 
         }
 

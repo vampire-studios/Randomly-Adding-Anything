@@ -8,23 +8,17 @@ import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.JsonConverter;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.resource.Resource;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -127,7 +121,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         placePiece(world, pos, structures.get("portal_hub"), 0);
 
         //Record spawn in text file
-        try {
+        /*try {
             String path;
             World world2 = world.getWorld();
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
@@ -138,7 +132,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         return true;
     }

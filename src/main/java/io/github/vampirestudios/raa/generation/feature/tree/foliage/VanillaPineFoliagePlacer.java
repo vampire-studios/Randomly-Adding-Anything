@@ -23,7 +23,7 @@ public class VanillaPineFoliagePlacer extends FoliagePlacer {
         this.randomHeight = n;
     }
 
-    public void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig treeFeatureConfig, int trunkHeight, class_5208 arg, int foliageHeight, int radius, Set<BlockPos> leaves, int i) {
+    public void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig treeFeatureConfig, int trunkHeight, TreeNode arg, int foliageHeight, int radius, Set<BlockPos> leaves, int i) {
         int offset = this.offset + random.nextInt(this.randomOffset + 1);
         int j = 0;
 

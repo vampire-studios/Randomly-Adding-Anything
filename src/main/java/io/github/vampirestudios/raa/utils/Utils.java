@@ -2,23 +2,17 @@ package io.github.vampirestudios.raa.utils;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
-import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
 import io.github.vampirestudios.raa.effects.MaterialEffects;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
+import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.WeightedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -225,7 +219,7 @@ public class Utils {
     }
 
     public static void createSpawnsFile(String name, IWorld world, BlockPos pos) {
-        try {
+        /*try {
             String path;
             World world2 = world.getWorld();
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
@@ -237,7 +231,7 @@ public class Utils {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 }

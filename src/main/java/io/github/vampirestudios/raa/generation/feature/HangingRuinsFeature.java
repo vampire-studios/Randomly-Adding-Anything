@@ -15,8 +15,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.*;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -65,7 +64,7 @@ public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 		}
 
 		//UltraAmplified.LOGGER.debug("Hanging Ruins | " + position.getX() + " " + position.getY() + " "+position.getZ());
-		StructureManager templatemanager = ((ServerWorld) world.getWorld()).getSaveHandler().getStructureManager();
+		StructureManager templatemanager = ((ServerWorld) world.getWorld()).getStructureManager();
 		Structure template = templatemanager.getStructure(new Identifier(RandomlyAddingAnything.MOD_ID + ":hanging_ruins"));
 
 		if (template == null)

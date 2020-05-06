@@ -9,7 +9,9 @@ import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 
 /**
@@ -24,7 +26,7 @@ public class TagButton extends ButtonWidget {
     private boolean toggled;
 
     public TagButton(int x, int y, FilterEntry filter, PressAction pressable) {
-        super(x, y, 32, 28, "", pressable);
+        super(x, y, 32, 28, new LiteralText(""), pressable);
         this.category = filter;
         this.stack = filter.getIcon();
         this.toggled = filter.isEnabled();
@@ -43,7 +45,7 @@ public class TagButton extends ButtonWidget {
     }
 
     @Override
-    public void renderButton(int mouseX, int mouseY, float partialTicks) {
+    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
         MinecraftClient mc = MinecraftClient.getInstance();
         mc.getTextureManager().bindTexture(TABS);
 

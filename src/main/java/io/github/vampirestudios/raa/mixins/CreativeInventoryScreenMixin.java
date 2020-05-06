@@ -6,6 +6,7 @@ import io.github.vampirestudios.raa.itemGroup.TabbedItemGroup;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.text.Text;
@@ -56,13 +57,13 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
 		}
 	}
 
-	@Inject(at = @At("TAIL"), method = "render(IIF)V")
-	public void onForegroundRender(int mouseX, int mouseY, float delta, CallbackInfo cbi)
+	@Inject(at = @At("TAIL"), method = "render")
+	public void onForegroundRender(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo cbi)
 	{
 		tabButtons.forEach(b->{
 			if(b.isHovered())
 			{
-				renderTooltip(b.getMessage(), mouseX, mouseY);
+				renderTooltip(matrices, b.getMessage(), mouseX, mouseY);
 			}
 		});
 	}

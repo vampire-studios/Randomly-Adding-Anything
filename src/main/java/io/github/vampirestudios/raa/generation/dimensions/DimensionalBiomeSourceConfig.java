@@ -4,7 +4,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSourceConfig;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.level.LevelGeneratorType;
-import net.minecraft.world.level.LevelProperties;
+import net.minecraft.world.level.UnmodifiableLevelProperties;
 
 import java.util.Set;
 
@@ -14,14 +14,14 @@ public class DimensionalBiomeSourceConfig implements BiomeSourceConfig {
     private OverworldChunkGeneratorConfig generatorSettings = new OverworldChunkGeneratorConfig();
     private Set<Biome> biomes;
 
-    public DimensionalBiomeSourceConfig(LevelProperties levelProperties_1) {
+    public DimensionalBiomeSourceConfig(UnmodifiableLevelProperties levelProperties_1) {
         this.seed = levelProperties_1.getSeed();
         this.generatorType = levelProperties_1.getGeneratorType();
     }
 
     public DimensionalBiomeSourceConfig(Object o) {
-        this.seed = ((LevelProperties) o).getSeed();
-        this.generatorType = ((LevelProperties) o).getGeneratorType();
+        this.seed = ((UnmodifiableLevelProperties) o).getSeed();
+        this.generatorType = ((UnmodifiableLevelProperties) o).getGeneratorType();
     }
 
     public long getSeed() {

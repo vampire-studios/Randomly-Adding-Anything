@@ -11,12 +11,11 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class DimensionMaterialListScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        addButton(new ButtonWidget(4, 4, 50, 20, I18n.translate("gui.back"), var1 -> client.openScreen(parent)));
+        addButton(new ButtonWidget(4, 4, 50, 20, new TranslatableText("gui.back"), var1 -> client.openScreen(parent)));
         children.add(materialList = new RAADimensionMaterialListWidget(client, width / 2 - 10, height,
                 28 + 5, height - 5, BACKGROUND_TEXTURE));
         children.add(descriptionList = new RAADimensionMaterialDescriptionListWidget(client, width / 2 - 10, height,
@@ -71,11 +70,11 @@ public class DimensionMaterialListScreen extends Screen {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float delta) {
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         tooltip = null;
         renderDirtBackground(0);
-        materialList.render(mouseX, mouseY, delta);
-        descriptionList.render(mouseX, mouseY, delta);
+        materialList.render(matrices, mouseX, mouseY, delta);
+        descriptionList.render(matrices, mouseX, mouseY, delta);
         ConfigScreen.overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);
         ConfigScreen.overlayBackground(0, height - 5, width, height, 64, 64, 64, 255, 255);
         RenderSystem.enableBlend();
@@ -97,10 +96,10 @@ public class DimensionMaterialListScreen extends Screen {
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
-        drawCenteredString(textRenderer, title.asFormattedString(), width / 2, 10, 16777215);
-        super.render(mouseX, mouseY, delta);
-        if (tooltip != null)
-            renderTooltip(Arrays.asList(tooltip.split("\n")), mouseX, mouseY);
+        drawCenteredString(matrices, textRenderer, title.asString(), width / 2, 10, 16777215);
+        super.render(matrices, mouseX, mouseY, delta);
+//        if (tooltip != null)
+//            renderTooltip(Arrays.asList(tooltip.split("\n")), mouseX, mouseY);
     }
 
 }

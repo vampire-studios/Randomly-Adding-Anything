@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.generation.feature.dungeon;
 
 import com.mojang.datafixers.Dynamic;
+import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.AbstractTempleFeature;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
@@ -14,7 +15,7 @@ public class RandomDungeonFeature extends AbstractTempleFeature<DefaultFeatureCo
     }
 
     @Override
-    protected int getSeedModifier() {
+    protected int getSeedModifier(ChunkGeneratorConfig chunkGeneratorConfig) {
         return 437583903;
     }
 
