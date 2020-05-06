@@ -1,7 +1,6 @@
 package io.github.vampirestudios.raa;
 
 import com.swordglowsblue.artifice.api.Artifice;
-import io.github.vampirestudios.raa.api.buckets.BucketItemRegistry;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.client.DimensionalOreBakedModel;
@@ -12,7 +11,6 @@ import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.SwordTextureData;
 import io.github.vampirestudios.raa.generation.materials.data.TextureData;
 import io.github.vampirestudios.raa.items.RAABlockItem;
-import io.github.vampirestudios.raa.items.material.RAABucketItem;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.registries.Entities;
 import io.github.vampirestudios.raa.registries.Materials;
@@ -211,20 +209,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder.texture("layer0", material.getTexturesInformation().getFruitTexture());
                     });
                 }
-                if (RandomlyAddingAnything.CONFIG.materialBuckets && material.getOreInformation().getOreType() == OreType.METAL) {
-                    for (Map.Entry<Fluid, BucketItem> entry : BucketItemRegistry.BUCKET_ITEMS.get(material.getId()).getFluidBucketItemsMap().entrySet()) {
-                        clientResourcePackBuilder.addItemModel(Registry.ITEM.getId(entry.getValue()), modelBuilder -> {
-                            modelBuilder.parent(new Identifier("item/generated"));
-                            modelBuilder.texture("layer0", new Identifier("item/bucket"));
-                            if (entry.getKey() == Fluids.EMPTY) {
-                                modelBuilder.texture("layer1", new Identifier("item/bucket"));
-                            } else {
-                                modelBuilder.texture("layer1", new Identifier(Registry.FLUID.getId(entry.getKey()).getNamespace(), "item/" + Registry.FLUID.getId(entry.getKey()).getPath()));
-                            }
-                        });
-                    }
-                }
-                RandomlyAddingAnything.MODCOMPAT.generateCompatModels(clientResourcePackBuilder);
             });
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
                 Identifier identifier = dimensionData.getId();
@@ -543,22 +527,8 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                         modelBuilder.texture("layer0", material.getTexturesInformation().getFruitTexture());
                     });
                 }
-
-
-                if (RandomlyAddingAnything.CONFIG.materialBuckets && material.getOreInformation().getOreType() == OreType.METAL) {
-                    for (Map.Entry<Fluid, BucketItem> entry : BucketItemRegistry.BUCKET_ITEMS.get(material.getId()).getFluidBucketItemsMap().entrySet()) {
-                        clientResourcePackBuilder.addItemModel(Registry.ITEM.getId(entry.getValue()), modelBuilder -> {
-                            modelBuilder.parent(new Identifier("item/generated"));
-                            modelBuilder.texture("layer0", new Identifier("item/bucket"));
-                            if (entry.getKey() == Fluids.EMPTY) {
-                                modelBuilder.texture("layer1", new Identifier("item/bucket"));
-                            } else {
-                                modelBuilder.texture("layer1", new Identifier(Registry.FLUID.getId(entry.getKey()).getNamespace(), "item/" + Registry.FLUID.getId(entry.getKey()).getPath()));
-                            }
-                        });
-                    }
-                }
             });
+            RandomlyAddingAnything.MODCOMPAT.generateCompatModels(clientResourcePackBuilder);
         });
 
         Materials.MATERIALS.forEach(material -> {
@@ -620,14 +590,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block"))
             );
-            if (RandomlyAddingAnything.CONFIG.materialBuckets && material.getOreInformation().getOreType() == OreType.METAL) {
-                for (Map.Entry<Fluid, BucketItem> entry : BucketItemRegistry.BUCKET_ITEMS.get(material.getId()).getFluidBucketItemsMap().entrySet()) {
-                    ColorProviderRegistryImpl.ITEM.register((stack, tintIndex) -> {
-                        if (tintIndex == 0 || entry.getKey() == Fluids.EMPTY) return material.getColor();
-                        else return -1;
-                    }, entry.getValue());
-                }
-            }
         });
         Dimensions.DIMENSIONS.forEach(dimensionData -> {
             Block stone = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone"));
@@ -703,15 +665,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             );
             ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) -> material.getColor(),
                     Registry.BLOCK.get(Utils.addSuffixToPath(id, "_block")));
-
-            if (RandomlyAddingAnything.CONFIG.materialBuckets && material.getOreInformation().getOreType() == OreType.METAL) {
-                for (Map.Entry<Fluid, BucketItem> entry : BucketItemRegistry.BUCKET_ITEMS.get(material.getId()).getFluidBucketItemsMap().entrySet()) {
-                    ColorProviderRegistryImpl.ITEM.register((stack, tintIndex) -> {
-                        if (tintIndex == 0 || entry.getKey() == Fluids.EMPTY) return material.getColor();
-                        else return -1;
-                    }, entry.getValue());
-                }
-            }
         });
 
         ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> (modelIdentifier, modelProviderContext) -> {

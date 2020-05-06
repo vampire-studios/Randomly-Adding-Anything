@@ -2,7 +2,6 @@ package io.github.vampirestudios.raa;
 
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
-import io.github.vampirestudios.raa.api.buckets.BucketItemRegistry;
 import io.github.vampirestudios.raa.config.*;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
@@ -77,9 +76,9 @@ public class RandomlyAddingAnything implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        MODCOMPAT = new ModCompat();
         AutoConfig.register(GeneralConfig.class, GsonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(GeneralConfig.class).getConfig();
+        MODCOMPAT = new ModCompat();
         Textures.init();
         FoliagePlacers.init();
         Features.init();
@@ -159,6 +158,7 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         }
         Materials.createDimensionMaterialResources();
+        MODCOMPAT.generateCompatItems();
 
         DimensionRecipes.init();
         MaterialRecipes.init();
@@ -187,7 +187,5 @@ public class RandomlyAddingAnything implements ModInitializer {
                 biome.addStructureFeature(Features.LABYRINT_FEATURE.configure(FeatureConfig.DEFAULT));
             }*/
         });
-
-        if (CONFIG.materialBuckets) BucketItemRegistry.init();
     }
 }
