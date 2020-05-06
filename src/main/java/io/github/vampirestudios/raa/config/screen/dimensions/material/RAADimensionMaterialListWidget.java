@@ -73,7 +73,7 @@ public class RAADimensionMaterialListWidget extends DynamicElementListWidget<RAA
             public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
                 RenderSystem.disableAlphaTest();
                 boolean isHovered = bounds.contains(mouseX, mouseY);
-                drawString(matrices, MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") +
+                drawStringWithShadow(matrices, MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") +
                                 (isSelected(material) ? Formatting.BOLD.toString() : "") + WordUtils.capitalizeFully(material.getName()), bounds.getX() + 5, bounds.getY() + 6,
                         16777215
                 );

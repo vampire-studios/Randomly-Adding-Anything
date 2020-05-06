@@ -5,7 +5,7 @@ import io.github.vampirestudios.raa.entity.EntityData;
 import io.github.vampirestudios.raa.entity.RandomEntity;
 import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCategory;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
@@ -24,7 +24,7 @@ public class Entities {
             RANDOM_ZOMBIES.add(EntitiesConfig.ENTITIES.getId(entity), Registry.register(
                     Registry.ENTITY_TYPE,
                     EntitiesConfig.ENTITIES.getId(entity),
-                    FabricEntityTypeBuilder.create(EntityCategory.AMBIENT,
+                    FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT,
                             (e, w) -> new RandomEntity(EntitiesConfig.ENTITIES.getId(entity), w)
                     ).size(EntityDimensions.fixed(1, 2)).build()
             ));

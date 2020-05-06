@@ -75,7 +75,7 @@ public class RAADimensionListWidget extends DynamicElementListWidget<RAADimensio
                 RenderSystem.disableAlphaTest();
                 fill(matrices, bounds.getX(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), 0x15FFFFFF);
                 boolean isHovered = focused || bounds.contains(mouseX, mouseY);
-                drawString(matrices, MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + (isSelected(material) ? Formatting.BOLD.toString() : "") + WordUtils.capitalizeFully(material.getName()),
+                drawStringWithShadow(matrices, MinecraftClient.getInstance().textRenderer, (isHovered ? Formatting.UNDERLINE.toString() : "") + (isSelected(material) ? Formatting.BOLD.toString() : "") + WordUtils.capitalizeFully(material.getName()),
                         bounds.getX() + 5, bounds.getY() + 6, 16777215
                 );
             }

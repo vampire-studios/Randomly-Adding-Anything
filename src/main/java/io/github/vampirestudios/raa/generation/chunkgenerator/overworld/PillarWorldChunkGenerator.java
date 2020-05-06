@@ -2,7 +2,7 @@ package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
 import io.github.vampirestudios.raa.utils.noise.old.OctaveOpenSimplexNoise;
 import net.minecraft.world.gen.StructureAccessor;
-import net.minecraft.entity.EntityCategory;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -65,16 +65,16 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
         return doubles;
     }
 
-    public List<Biome.SpawnEntry> getEntitySpawnList(StructureAccessor StructureAccessor, EntityCategory entityCategory_1, BlockPos blockPos_1) {
+    public List<Biome.SpawnEntry> getEntitySpawnList(StructureAccessor StructureAccessor, SpawnGroup entityCategory_1, BlockPos blockPos_1) {
         if (Feature.SWAMP_HUT.method_14029(this.world, StructureAccessor, blockPos_1)) {
-            if (entityCategory_1 == EntityCategory.MONSTER) {
+            if (entityCategory_1 == SpawnGroup.MONSTER) {
                 return Feature.SWAMP_HUT.getMonsterSpawns();
             }
 
-            if (entityCategory_1 == EntityCategory.CREATURE) {
+            if (entityCategory_1 == SpawnGroup.CREATURE) {
                 return Feature.SWAMP_HUT.getCreatureSpawns();
             }
-        } else if (entityCategory_1 == EntityCategory.MONSTER) {
+        } else if (entityCategory_1 == SpawnGroup.MONSTER) {
             if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, StructureAccessor, blockPos_1)) {
                 return Feature.PILLAGER_OUTPOST.getMonsterSpawns();
             }

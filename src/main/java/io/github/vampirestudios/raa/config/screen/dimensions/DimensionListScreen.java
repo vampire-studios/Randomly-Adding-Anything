@@ -81,7 +81,7 @@ public class DimensionListScreen extends Screen {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         tooltip = null;
-        renderDirtBackground(0);
+        renderBackgroundTexture(0);
         dimensionList.render(matrices, mouseX, mouseY, delta);
         descriptionList.render(matrices, mouseX, mouseY, delta);
         ConfigScreen.overlayBackground(0, 0, width, 28, 64, 64, 64, 255, 255);

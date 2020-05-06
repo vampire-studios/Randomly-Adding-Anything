@@ -5,7 +5,7 @@
 
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
-import net.minecraft.entity.EntityCategory;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
 import net.minecraft.util.crash.CrashException;
@@ -138,16 +138,16 @@ public class LayeredChunkGenerator extends SurfaceChunkGenerator<OverworldChunkG
         return -d;
     }
 
-    public List<SpawnEntry> getEntitySpawnList(EntityCategory category, StructureAccessor StructureAccessor, BlockPos pos) {
+    public List<SpawnEntry> getEntitySpawnList(SpawnGroup category, StructureAccessor StructureAccessor, BlockPos pos) {
         if (Feature.SWAMP_HUT.method_14029(this.world, StructureAccessor, pos)) {
-            if (category == EntityCategory.MONSTER) {
+            if (category == SpawnGroup.MONSTER) {
                 return Feature.SWAMP_HUT.getMonsterSpawns();
             }
 
-            if (category == EntityCategory.CREATURE) {
+            if (category == SpawnGroup.CREATURE) {
                 return Feature.SWAMP_HUT.getCreatureSpawns();
             }
-        } else if (category == EntityCategory.MONSTER) {
+        } else if (category == SpawnGroup.MONSTER) {
             if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, StructureAccessor, pos)) {
                 return Feature.PILLAGER_OUTPOST.getMonsterSpawns();
             }

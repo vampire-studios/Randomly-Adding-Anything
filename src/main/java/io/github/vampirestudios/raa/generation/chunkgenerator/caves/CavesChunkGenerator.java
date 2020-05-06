@@ -1,12 +1,12 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.caves;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.world.gen.StructureAccessor;
-import net.minecraft.entity.EntityCategory;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
@@ -51,8 +51,8 @@ public class CavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGenerat
         return ds;
     }
 
-    public List<Biome.SpawnEntry> getEntitySpawnList(StructureAccessor StructureAccessor, EntityCategory category, BlockPos pos) {
-        if (category == EntityCategory.MONSTER) {
+    public List<Biome.SpawnEntry> getEntitySpawnList(StructureAccessor StructureAccessor, SpawnGroup category, BlockPos pos) {
+        if (category == SpawnGroup.MONSTER) {
             if (Feature.NETHER_BRIDGE.isInsideStructure(this.world, StructureAccessor, pos)) {
                 return Feature.NETHER_BRIDGE.getMonsterSpawns();
             }
