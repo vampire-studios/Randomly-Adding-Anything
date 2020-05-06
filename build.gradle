@@ -62,8 +62,6 @@ dependencies {
     modImplementation "com.github.vampire-studios:Customized-Astral-Body:7b8ce81062"
     include "com.github.vampire-studios:Customized-Astral-Body:7b8ce81062"
 
-    modImplementation "curse.maven:dark-loading-screen:2894480"
-
     modCompile("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
         exclude module: "fabric-api"
     }
@@ -80,13 +78,11 @@ dependencies {
         exclude group :"com.lettuce.fudge"
     }
 
-    modCompile "com.github.oliviathevampire:Patchouli:3bd6208706"
-
     modImplementation ("io.github.cottonmc:Jankson-Fabric:2.0.1+j1.2.0") {
         force = true
     }
 
-    modRuntime "curse.maven:immersive-portals-mod:2945189"
+//    modRuntime "curse.maven:immersive-portals-mod:2945189"
 
     include ("me.zeroeightsix:fiber:0.6.0-7") {
         exclude group :"net.fabricmc.fabric-api"
@@ -99,9 +95,9 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-//    modRuntime ("com.github.mrmangohands:sodium-fabric:4ba93ad1aa3b18b8284e4c455004da722bdd883e")
+    modRuntime ("com.github.mrmangohands:sodium-fabric:659bb22a1d86de801a8c29430030fcb1404e1e1e")
     modRuntime ("com.github.SuperCoder7979:phosphor-fabric:11d964bf07d44bdf6cbdbb7cce25ed9da81d9f78")
-//    modRuntime ("com.github.SuperCoder7979:lithium-fabric:084e95f5db18404cae388eb35d7ef87f181b650a")
+    modRuntime ("com.github.SuperCoder7979:lithium-fabric:126ed6dd3e0f163e3111104d8f8fbbb52c607ba4")
 }
 
 github {
