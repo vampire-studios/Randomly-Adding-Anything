@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.items;
 
+import com.ibm.icu.text.MessageFormat;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,9 @@ public class RAABlockItemAlt extends BlockItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.block." + type, new LiteralText(WordUtils.capitalize(name)));
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.block." + type).asString());
+        Object[] data = {WordUtils.capitalize(name), WordUtils.uncapitalize(name), WordUtils.uncapitalize(name).charAt(0), WordUtils.uncapitalize(name).charAt(name.length() - 1)};
+        return new LiteralText(format.format(data));
     }
 
 }
