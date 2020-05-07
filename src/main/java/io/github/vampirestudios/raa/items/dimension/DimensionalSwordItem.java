@@ -21,7 +21,7 @@ public class DimensionalSwordItem extends SwordItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.sword").asString());
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.sword").getString());
         Object[] data = {WordUtils.capitalize(dimensionData.getName()), WordUtils.uncapitalize(dimensionData.getName()),
                 WordUtils.uncapitalize(dimensionData.getName()).charAt(0), WordUtils.uncapitalize(dimensionData.getName()).charAt(dimensionData.getName().length() - 1)};
         return new LiteralText(format.format(data));

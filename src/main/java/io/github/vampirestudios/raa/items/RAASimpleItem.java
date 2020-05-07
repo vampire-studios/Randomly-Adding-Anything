@@ -22,7 +22,7 @@ public class RAASimpleItem extends Item {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item." + getItemType().name().toLowerCase()).asString());
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item." + getItemType().name().toLowerCase()).getString());
         Object[] data = {WordUtils.capitalize(name), WordUtils.uncapitalize(name), WordUtils.uncapitalize(name).charAt(0), WordUtils.uncapitalize(name).charAt(name.length() - 1)};
         return new LiteralText(format.format(data));
     }

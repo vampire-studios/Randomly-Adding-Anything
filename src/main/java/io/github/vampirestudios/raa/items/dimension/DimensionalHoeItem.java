@@ -21,7 +21,7 @@ public class DimensionalHoeItem extends HoeItem {
 
     @Override
     public Text getName(ItemStack itemStack) {
-        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.hoe").asString());
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.hoe").getString());
         Object[] data = {WordUtils.capitalize(dimensionData.getName()), WordUtils.uncapitalize(dimensionData.getName()),
                 WordUtils.uncapitalize(dimensionData.getName()).charAt(0), WordUtils.uncapitalize(dimensionData.getName()).charAt(dimensionData.getName().length() - 1)};
         return new LiteralText(format.format(data));

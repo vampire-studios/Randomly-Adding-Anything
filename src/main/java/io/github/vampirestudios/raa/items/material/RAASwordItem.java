@@ -27,7 +27,7 @@ public class RAASwordItem extends SwordItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.sword").asString());
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.sword").getString());
         Object[] data = {WordUtils.capitalize(material.getName()), WordUtils.uncapitalize(material.getName()),
                 WordUtils.uncapitalize(material.getName()).charAt(0), WordUtils.uncapitalize(material.getName()).charAt(material.getName().length() - 1)};
         return new LiteralText(format.format(data));

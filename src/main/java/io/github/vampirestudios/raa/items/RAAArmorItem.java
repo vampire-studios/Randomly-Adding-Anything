@@ -28,7 +28,7 @@ public class RAAArmorItem extends DyeableArmorItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.armor_" + this.equipmentSlot_1.getName()).asString());
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.armor_" + this.equipmentSlot_1.getName()).getString());
         Object[] data = {WordUtils.capitalize(material.getName()),
                 WordUtils.uncapitalize(material.getName()), WordUtils.uncapitalize(material.getName()).charAt(0), WordUtils.uncapitalize(material.getName()).charAt(material.getName().length() - 1)};
         return new LiteralText(format.format(data));

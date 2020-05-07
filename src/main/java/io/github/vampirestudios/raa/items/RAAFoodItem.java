@@ -18,7 +18,7 @@ public class RAAFoodItem extends Item {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.food").asString());
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.food").getString());
         Object[] data = {WordUtils.capitalize(name), WordUtils.uncapitalize(name), WordUtils.uncapitalize(name).charAt(0), WordUtils.uncapitalize(name).charAt(name.length() - 1)};
         return new LiteralText(format.format(data));
     }
