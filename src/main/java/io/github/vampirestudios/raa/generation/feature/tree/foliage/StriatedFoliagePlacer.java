@@ -17,16 +17,32 @@ public class StriatedFoliagePlacer extends FoliagePlacer {
         this.height = height;
     }
 
+    /*@Override
+    protected void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig config, BlockPos blockPos, int baseHeight, Set<BlockPos> leaves, int i, boolean giantTrunk) {
+
+    }
+
     @Override
-    protected void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig config, int trunkHeight, TreeNode treeNode, int foliageHeight, int radius, Set<BlockPos> leaves, int i) {
+    public void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig config, int trunkHeight, TreeNode treeNode, int foliageHeight, int radius, Set<BlockPos> leaves) {
+        int j = this.radius;
         int i2 = 0;
 
         for(int m = foliageHeight; m >= 0; --m) {
             i2++;
             if (i2 % 2 == 1) {
-                this.generate(world, random, config, trunkHeight, treeNode, foliageHeight, radius, leaves);
+                this.generate(world, random, config, blockPos, baseHeight, m, j, leaves);
             }
         }
+    }
+
+    @Override
+    protected void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig config, int trunkHeight, TreeNode treeNode, int foliageHeight, int radius, Set<BlockPos> leaves, int i) {
+
+    }*/
+
+    @Override
+    protected void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig config, int trunkHeight, TreeNode treeNode, int foliageHeight, int radius, Set<BlockPos> leaves, int i) {
+
     }
 
     @Override

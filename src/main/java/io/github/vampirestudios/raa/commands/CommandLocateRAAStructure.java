@@ -175,4 +175,5 @@ public class CommandLocateRAAStructure {
         return !dim.equals("") && !dim.equals("_end") && !dim.equals("_nether");
     }
 
-}*/
+}
+*/

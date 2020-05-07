@@ -39,10 +39,7 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.entity.EntityType;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
@@ -100,7 +97,6 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                 });
 
         Artifice.registerAssets(new Identifier(RandomlyAddingAnything.MOD_ID, "pack"), clientResourcePackBuilder -> {
-
             Materials.MATERIALS.forEach(material -> {
                 Identifier bid = material.getId();
                 for (RAABlockItem.BlockType blockType : RAABlockItem.BlockType.values()) {
@@ -402,6 +398,12 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
                     modelBuilder.texture("layer0", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_hoe_head"));
                     modelBuilder.texture("layer1", new Identifier(RandomlyAddingAnything.MOD_ID, "item/tools/dimension_hoe_handle"));
                 });
+
+                //TODO: Finish this
+                /*clientResourcePackBuilder.addItemModel(Utils.addSuffixToPath(identifier, "_shield"), modelBuilder -> {
+                    modelBuilder.parent(new Identifier("raa", "item/shield"));
+                    modelBuilder.texture()
+                });*/
 
                 ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
                     if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();

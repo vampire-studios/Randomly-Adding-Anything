@@ -21,9 +21,11 @@ public class CustomToolMaterial implements ToolMaterial {
     private float axeAttackDamage;
     private float axeAttackSpeed;
     private float swordAttackDamage;
+    private int cooldownTicks;
 
     public CustomToolMaterial(Identifier materialId, OreType oreType, int durability, float miningSpeed, float attackDamage, int miningLevel,
-                              int enchantability, float hoeAttackSpeed, float axeAttackDamage, float axeAttackSpeed, float swordAttackDamage) {
+                              int enchantability, float hoeAttackSpeed, float axeAttackDamage, float axeAttackSpeed, float swordAttackDamage,
+                              int cooldownTicks) {
         this.materialId = materialId;
         this.oreType = oreType;
         this.durability = durability;
@@ -35,6 +37,7 @@ public class CustomToolMaterial implements ToolMaterial {
         this.axeAttackDamage = axeAttackDamage;
         this.axeAttackSpeed = axeAttackSpeed;
         this.swordAttackDamage = swordAttackDamage;
+        this.cooldownTicks = cooldownTicks;
     }
 
     public static CustomToolMaterial generate(Identifier materialId, OreType oreType, int miningLevel) {
@@ -43,7 +46,7 @@ public class CustomToolMaterial implements ToolMaterial {
                 Rands.randFloat(4.0F) + 0.5f, miningLevel,
                 Rands.randIntRange(5, 30) + 5, Rands.randFloat(4.0F),
                 Rands.randFloat(3.0F), Rands.randFloat(0.8F),
-                Rands.randFloat(6.0F) + 0.75f);
+                Rands.randFloat(6.0F) + 0.75f, Rands.randIntRange(2, 10));
     }
 
     public void setMaterialId(Identifier materialId) {
@@ -123,6 +126,10 @@ public class CustomToolMaterial implements ToolMaterial {
 
     public float getSwordAttackDamage() {
         return swordAttackDamage;
+    }
+
+    public int getCooldownTicks() {
+        return cooldownTicks;
     }
 
 }

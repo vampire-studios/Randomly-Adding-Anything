@@ -8,12 +8,12 @@ import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.namegeneration.NameGenerator;
 import io.github.vampirestudios.raa.blocks.LayeredOreBlock;
 import io.github.vampirestudios.raa.blocks.RAABlock;
+import io.github.vampirestudios.raa.effects.MaterialEffects;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.MaterialFoodData;
 import io.github.vampirestudios.raa.items.*;
-import io.github.vampirestudios.raa.effects.MaterialEffects;
 import io.github.vampirestudios.raa.items.material.*;
 import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
@@ -21,6 +21,7 @@ import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.debug.ConsolePrinting;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import io.github.vampirestudios.vampirelib.utils.Color;
+import me.crimsondawn45.fabricshieldlib.object.FabricShield;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
@@ -357,6 +358,16 @@ public class Materials {
                         Utils.addSuffixToPath(identifier, "_shears")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
+                item = RegistryUtils.registerItem(
+                        new FabricShield(
+                                new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem),
+                                material.getToolMaterial().getCooldownTicks(),
+                                material.getToolMaterial().getDurability(),
+                                repairItem
+                        ),
+                        Utils.addSuffixToPath(identifier, "_shield")
+                );
+                if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
             }
             if (material.hasWeapons()) {
                 Item item = RegistryUtils.registerItem(
@@ -565,6 +576,16 @@ public class Materials {
                                 new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem)
                         ),
                         Utils.addSuffixToPath(identifier, "_shears")
+                );
+                if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
+                item = RegistryUtils.registerItem(
+                        new FabricShield(
+                                new Item.Settings().group(RandomlyAddingAnything.RAA_TOOLS).recipeRemainder(repairItem),
+                                material.getToolMaterial().getCooldownTicks(),
+                                material.getToolMaterial().getDurability(),
+                                repairItem
+                        ),
+                        Utils.addSuffixToPath(identifier, "_shield")
                 );
                 if (material.isCompostable()) CompostingChanceRegistry.INSTANCE.add(item, material.getCompostableAmount());
             }
