@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.items.material;
 
 import com.google.gson.JsonElement;
+import com.ibm.icu.text.MessageFormat;
 import io.github.vampirestudios.raa.effects.MaterialEffects;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import net.minecraft.entity.LivingEntity;
@@ -27,7 +28,10 @@ public class RAAAxeItem extends AxeItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.axe", new LiteralText(WordUtils.capitalize(material.getName())));
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.axe").asString());
+        Object[] data = {WordUtils.capitalize(material.getName()), WordUtils.uncapitalize(material.getName()),
+                WordUtils.uncapitalize(material.getName()).charAt(0), WordUtils.uncapitalize(material.getName()).charAt(material.getName().length() - 1)};
+        return new LiteralText(format.format(data));
     }
 
     @Override

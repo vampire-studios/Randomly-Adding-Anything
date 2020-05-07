@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.items;
 
+import com.ibm.icu.text.MessageFormat;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
 import io.github.vampirestudios.raa.generation.materials.Material;
@@ -27,7 +28,10 @@ public class RAAHorseArmorItem extends DyeableHorseArmorItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.horse_armor", new LiteralText(WordUtils.capitalize(material.getName())));
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.horse_armor").asString());
+        Object[] data = {WordUtils.capitalize(material.getName()), WordUtils.uncapitalize(material.getName()),
+                WordUtils.uncapitalize(material.getName()).charAt(0), WordUtils.uncapitalize(material.getName()).charAt(material.getName().length() - 1)};
+        return new LiteralText(format.format(data));
     }
 
     @Override

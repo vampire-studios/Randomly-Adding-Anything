@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.items.dimension;
 
+import com.ibm.icu.text.MessageFormat;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
@@ -20,7 +21,10 @@ public class DimensionalPickaxeItem extends PickaxeItem {
 
     @Override
     public Text getName(ItemStack itemStack_1) {
-        return new TranslatableText("text.raa.item.pickaxe", new LiteralText(WordUtils.capitalize(dimensionData.getName())));
+        MessageFormat format = new MessageFormat(new TranslatableText("text.raa.item.pickaxe").asString());
+        Object[] data = {WordUtils.capitalize(dimensionData.getName()), WordUtils.uncapitalize(dimensionData.getName()),
+                WordUtils.uncapitalize(dimensionData.getName()).charAt(0), WordUtils.uncapitalize(dimensionData.getName()).charAt(dimensionData.getName().length() - 1)};
+        return new LiteralText(format.format(data));
     }
 
 }
