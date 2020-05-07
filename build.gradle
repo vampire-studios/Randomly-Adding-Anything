@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.2.7-SNAPSHOT'
+    id 'fabric-loom' version '0.4.3'
     id 'maven-publish'
     id "co.riiid.gradle" version "0.4.2"
     id "com.matthewprenger.cursegradle" version "1.4.0"
@@ -95,9 +95,9 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    modRuntime ("com.github.mrmangohands:sodium-fabric:659bb22a1d86de801a8c29430030fcb1404e1e1e")
+    modRuntime ("com.github.mrmangohands:sodium-fabric:97650e1acce5a34460b8d6946430171cff6e3d8a")
     modRuntime ("com.github.SuperCoder7979:phosphor-fabric:11d964bf07d44bdf6cbdbb7cce25ed9da81d9f78")
-    modRuntime ("com.github.SuperCoder7979:lithium-fabric:126ed6dd3e0f163e3111104d8f8fbbb52c607ba4")
+    modRuntime ("com.github.jellysquid3:lithium-fabric:21769c40c5")
 }
 
 github {
