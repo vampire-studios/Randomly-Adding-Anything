@@ -1,13 +1,11 @@
 package io.github.vampirestudios.raa.generation.carvers;
 
-import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ProbabilityConfig;
-import net.minecraft.world.gen.carver.Carver;
 
 import java.util.BitSet;
 import java.util.Random;

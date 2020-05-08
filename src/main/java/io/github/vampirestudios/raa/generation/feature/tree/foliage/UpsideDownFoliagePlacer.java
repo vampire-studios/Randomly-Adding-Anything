@@ -28,7 +28,7 @@ public class UpsideDownFoliagePlacer extends FoliagePlacer {
                 i2 = 2;
                 if (j == 0) break;
             }
-            this.generate(world, random, config, trunkHeight, treeNode, foliageHeight, radius, leaves);
+//            this.generate(world, random, config, trunkHeight, treeNode, foliageHeight, radius, leaves);
             i2--;
         }
     }

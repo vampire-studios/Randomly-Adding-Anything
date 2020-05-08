@@ -194,7 +194,7 @@ public class DimensionRecipes {
                 });
 
 
-                serverResourcePackBuilder.addBlockTag(new Identifier("minecraft:walls"), tagBuilder -> {
+                /*serverResourcePackBuilder.addBlockTag(new Identifier("minecraft:walls"), tagBuilder -> {
                     tagBuilder.replace(false);
                     tagBuilder.values(
                         Utils.addSuffixToPath(identifier, "_stone_wall"),
@@ -202,7 +202,7 @@ public class DimensionRecipes {
                         Utils.addSuffixToPath(identifier, "_cobblestone_wall"),
                         Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_wall")
                     );
-                });
+                });*/
             }
         ));
     }

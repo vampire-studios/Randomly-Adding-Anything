@@ -14,16 +14,18 @@ import java.util.List;
 
 public class DimensionalStone extends Block {
     private final DimensionData dimensionData;
+    private Identifier name;
 
-    public DimensionalStone(DimensionData dimensionData) {
+    public DimensionalStone(Identifier name, DimensionData dimensionData) {
         super(Settings.copy(Blocks.STONE).strength(dimensionData.getStoneHardness(), dimensionData.getStoneResistance()));
         this.dimensionData = dimensionData;
+        this.name = name;
     }
 
     @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
         List<ItemStack> list = new ArrayList<>();
-        list.add(new ItemStack(Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), dimensionData.getId().getPath() + "_cobblestone")).asItem()));
+        list.add(new ItemStack(Registry.BLOCK.get(new Identifier(name.getNamespace(), name.getPath() + "_cobblestone")).asItem()));
         return list;
     }
 }

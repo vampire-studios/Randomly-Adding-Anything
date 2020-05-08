@@ -191,6 +191,14 @@ public class Dimensions {
                 MOON_COLOR = VENUS;
             }
 
+            int stoneAmount = Rands.randIntRange(1, 3);
+
+            List<Identifier> stoneNames = new ArrayList<>();
+            NameGenerator stoneNameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getStoneNameGenerator();
+            for (int i = 0; i < stoneAmount; i++) {
+                stoneNames.add(new Identifier(MOD_ID, stoneNameGenerator.asId(stoneNameGenerator.generate())));
+            }
+
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), WordUtils.capitalizeFully(name.getLeft()))
                     .canSleep(Rands.chance(4))
                     .waterVaporize(Rands.chance(100))
@@ -203,7 +211,9 @@ public class Dimensions {
                     .cloudHeight(Rands.randFloatRange(80F, 256F))
                     .stoneHardness(Rands.randFloatRange(0.2f, 5f), Rands.randFloatRange(3, 18))
                     .stoneJumpHeight(Rands.randFloatRange(1.0F, 10.0F))
-                    .gravity(gravity);
+                    .gravity(gravity)
+                    .stoneAmount(stoneAmount)
+                    .stones(stoneNames);
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
@@ -357,15 +367,59 @@ public class Dimensions {
         DIMENSIONS.forEach(dimensionData -> {
             Identifier identifier = dimensionData.getId();
 
-            Block stoneBlock = RegistryUtils.register(new DimensionalStone(dimensionData), Utils.addSuffixToPath(identifier, "_stone"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stone");
-            RegistryUtils.register(new StairsBaseBlock(stoneBlock.getDefaultState()), Utils.addSuffixToPath(identifier, "_stone_stairs"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneStairs");
-            RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier, "_stone_slab"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneSlab");
-            RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier, "_stone_wall"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneWall");
+            dimensionData.getStones().forEach(identifier1 -> {
+                for (int i = 0; i < dimensionData.getStones().size(); i++) {
+                    Block stoneBlock = RegistryUtils.register(new DimensionalStone(identifier1, dimensionData), Utils.addSuffixToPath(identifier1,
+                            "_stone"), RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "stone");
 
+                    RegistryUtils.register(new StairsBaseBlock(stoneBlock.getDefaultState()), Utils.addSuffixToPath(identifier1, "_stone_stairs"),
+                            RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "stoneStairs");
+                    RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier1, "_stone_slab"),
+                            RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "stoneSlab");
+                    RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier1, "_stone_wall"),
+                            RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "stoneWall");
+                }
+
+                Block stoneBrick = RegistryUtils.register(new DimensionalBlock(), Utils.addSuffixToPath(identifier1, "_stone_bricks"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "stoneBricks");
+                RegistryUtils.register(new StairsBaseBlock(stoneBrick.getDefaultState()), Utils.addSuffixToPath(identifier1, "_stone_brick_stairs"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "stoneBrickStairs");
+                RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier1, "_stone_brick_slab"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "stoneBrickSlab");
+                RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier1, "_stone_brick_wall"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "stoneBrickWall");
+                RegistryUtils.register(new DimensionalBlock(), Utils.addPrefixAndSuffixToPath(identifier1, "mossy_", "_stone_bricks"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "mossyStoneBricks");
+                RegistryUtils.register(new DimensionalBlock(), Utils.addPrefixAndSuffixToPath(identifier1, "cracked_", "_stone_bricks"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "crackedStoneBricks");
+                Block cobblestone = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
+                                dimensionData.getId().getPath().toLowerCase() + "_cobblestone"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "cobblestone");
+                RegistryUtils.register(new StairsBaseBlock(cobblestone.getDefaultState()), Utils.addSuffixToPath(identifier1, "_cobblestone_stairs"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "cobblestoneStairs");
+                RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier1, "_cobblestone_slab"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "cobblestoneSlab");
+                RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier1, "_cobblestone_wall"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "cobblestoneWall");
+                RegistryUtils.register(new DimensionalBlock(), Utils.addPrefixAndSuffixToPath(identifier1, "mossy_", "_cobblestone"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "mossyCobblestone");
+                RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
+                                "chiseled_" + dimensionData.getId().getPath().toLowerCase() + "_stone_bricks"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "chiseled_stone_bricks");
+                RegistryUtils.register(new DimensionalBlock(), Utils.addPrefixAndSuffixToPath(identifier1, "cracked_", "_chiseled_stone_bricks"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "crackedChiseledStoneBricks");
+                RegistryUtils.register(new DimensionalBlock(), Utils.addPrefixAndSuffixToPath(identifier1, "mossy_", "_chiseled_stone_bricks"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "mossyChiseledStoneBricks");
+                Block polished = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
+                                "polished_" + dimensionData.getId().getPath().toLowerCase()),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "polished");
+                RegistryUtils.register(new StairsBaseBlock(polished.getDefaultState()), Utils.addPrefixAndSuffixToPath(identifier1, "polished_", "_stairs"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "polishedStairs");
+                RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addPrefixAndSuffixToPath(identifier1, "polished_", "_slab"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "polishedSlab");
+                RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addPrefixAndSuffixToPath(identifier1, "polished_", "_wall"),
+                        RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "polishedWall");
+            });
             Set<Biome> biomes = new LinkedHashSet<>();
             for (int i = 0; i < dimensionData.getBiomeData().size(); i++) {
                 CustomDimensionalBiome biome = new CustomDimensionalBiome(dimensionData, dimensionData.getBiomeData().get(i));
@@ -375,7 +429,8 @@ public class Dimensions {
             FabricDimensionType.Builder builder = FabricDimensionType.builder()
                     .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
                     .skyLight(dimensionData.getCustomSkyInformation().hasSkyLight())
-                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimensionData, biomes, Rands.chance(50) ? Blocks.STONE : stoneBlock));
+                    .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimensionData, biomes, Rands.chance(50) ? Blocks.STONE :
+                            Registry.BLOCK.get(dimensionData.getStones().get(0))));
 
             if (dimensionData.getDimensionChunkGenerator() == CAVES || dimensionData.getDimensionChunkGenerator() == FLAT_CAVES || dimensionData.getDimensionChunkGenerator() == HIGH_CAVES) {
                 builder.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
@@ -424,7 +479,7 @@ public class Dimensions {
 
                 @Override
                 public Ingredient getRepairIngredient() {
-                    return Ingredient.ofItems(Registry.ITEM.get(Utils.addSuffixToPath(identifier, "_cobblestone")));
+                    return Ingredient.ofItems(Registry.ITEM.get(Utils.addSuffixToPath(dimensionData.getStones().get(0), "_cobblestone")));
                 }
             };
 
@@ -477,52 +532,6 @@ public class Dimensions {
                     Utils.addSuffixToPath(identifier, "_sword")
             );
 //            RegistryUtils.registerItem(new DimensionalPortalKeyItem(dimensionData), Utils.addSuffixToPath(identifier, "_portal_key"));
-
-            Block stoneBrick = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimensionData.getId().getPath().toLowerCase() + "_stone_bricks"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneBricks");
-            RegistryUtils.register(new StairsBaseBlock(stoneBrick.getDefaultState()), Utils.addSuffixToPath(identifier, "_stone_brick_stairs"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneBrickStairs");
-            RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier, "_stone_brick_slab"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneBrickSlab");
-            RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier, "_stone_brick_wall"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "stoneBrickWall");
-            /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "mossy_" + dimension.getName().toLowerCase() + "_stone_bricks"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyStoneBricks");
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "cracked_" + dimension.getName().toLowerCase() + "_stone_bricks"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedStoneBricks");*/
-            Block cobblestone = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimensionData.getId().getPath().toLowerCase() + "_cobblestone"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "cobblestone");
-            RegistryUtils.register(new StairsBaseBlock(cobblestone.getDefaultState()), Utils.addSuffixToPath(identifier, "_cobblestone_stairs"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "cobblestoneStairs");
-            RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addSuffixToPath(identifier, "_cobblestone_slab"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "cobblestoneSlab");
-            RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addSuffixToPath(identifier, "_cobblestone_wall"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "cobblestoneWall");
-            /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            dimension.getName().toLowerCase() + "_mossy_cobblestone"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyCobblestone");*/
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "chiseled_" + dimensionData.getId().getPath().toLowerCase() + "_stone_bricks"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "chiseled_stone_bricks");
-            /*RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "cracked_chiseled_" + dimension.getName().toLowerCase()),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "crackedChiseled");
-            RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "mossy_chiseled_" + dimension.getName().toLowerCase()),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimension.getName(), "mossyChiseled");*/
-            Block polished = RegistryUtils.register(new DimensionalBlock(), new Identifier(RandomlyAddingAnything.MOD_ID,
-                            "polished_" + dimensionData.getId().getPath().toLowerCase()),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "polished");
-            RegistryUtils.register(new StairsBaseBlock(polished.getDefaultState()), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stairs"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "polishedStairs");
-            RegistryUtils.register(new SlabBaseBlock(Block.Settings.copy(Blocks.STONE_SLAB)), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_slab"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "polishedSlab");
-            RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_wall"),
-                    RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "polishedWall");
 
             /*RegistryUtils.register(new IceBlock(Block.Settings.copy(Blocks.ICE)), Utils.addSuffixToPath(dimensionData.getId(), "_ice"),
                     RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, dimensionData.getName(), "ice");*/

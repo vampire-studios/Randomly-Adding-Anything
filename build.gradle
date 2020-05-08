@@ -100,6 +100,7 @@ dependencies {
     modRuntime ("com.github.jellysquid3:lithium-fabric:21769c40c5")
 
     modImplementation "com.github.CrimsonDawn45:Fabric-Shield-Lib:${project.fabric_shield_lib_version}"
+    modImplementation 'com.github.SuperCoder7979:cavebiomes:8a8a3d691c'
 }
 
 github {

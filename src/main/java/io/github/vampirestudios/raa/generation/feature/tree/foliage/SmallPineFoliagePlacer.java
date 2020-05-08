@@ -38,11 +38,11 @@ public class SmallPineFoliagePlacer extends FoliagePlacer {
 
     }
 
-    public int getRadius(Random random, int baseHeight) {
-        return super.getRadius(random, baseHeight) + random.nextInt(baseHeight + 1);
+    public int getHeight(Random random, int trunkHeight, TreeFeatureConfig treeFeatureConfig) {
+        return super.getRadius(random, treeFeatureConfig.baseHeight) + random.nextInt(treeFeatureConfig.baseHeight + 1);
     }
 
-    public int getHeight(Random random, int trunkHeight, TreeFeatureConfig treeFeatureConfig) {
+    public int getRadius(Random random, int baseHeight) {
         return this.height + random.nextInt(this.randomHeight + 1);
     }
 
