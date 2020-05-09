@@ -74,7 +74,7 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    modCompile ("com.github.vampire-studios:Spontaneous-Bucketing:1.1.2-20w16a") {
+    modCompile ("com.github.vampire-studios:Spontaneous-Bucketing:1.2.1-20w19a") {
         exclude group :"com.lettuce.fudge"
     }
 
