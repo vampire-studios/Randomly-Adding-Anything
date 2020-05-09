@@ -29,7 +29,7 @@ public class DimensionData {
     private float stoneResistance; //blast resistance
     private float gravity;
     private final int stoneAmount;
-    private List<Identifier> stones;
+    private Identifier[] stones;
 
     public DimensionData() {
         this(null, null, null, null, null, null, false,
@@ -40,7 +40,7 @@ public class DimensionData {
     public DimensionData(Identifier id, String name, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
                          DimensionCustomSkyInformation customSkyInformation, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator,
                          int flags, HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, float cloudHeight, float stoneJumpHeight, float stoneHardness,
-                         float stoneResistance, float gravity, int stoneAmount, List<Identifier> stones) {
+                         float stoneResistance, float gravity, int stoneAmount, Identifier[] stones) {
         this.id = id;
         this.name = name;
         this.biomeData = biomeData;
@@ -184,7 +184,7 @@ public class DimensionData {
         return stoneAmount;
     }
 
-    public List<Identifier> getStones() {
+    public Identifier[] getStones() {
         return stones;
     }
 
@@ -209,7 +209,7 @@ public class DimensionData {
         private float stoneResistance; //blast resistance
         private float gravity;
         private int stoneAmount;
-        private List<Identifier> stones;
+        private Identifier[] stones;
 
         private Builder() {
 
@@ -328,7 +328,7 @@ public class DimensionData {
             return this;
         }
 
-        public Builder stones(List<Identifier> stones) {
+        public Builder stones(Identifier[] stones) {
             this.stones = stones;
             return this;
         }

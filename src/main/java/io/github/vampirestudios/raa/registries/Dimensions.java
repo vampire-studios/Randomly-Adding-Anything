@@ -195,8 +195,8 @@ public class Dimensions {
 
             List<Identifier> stoneNames = new ArrayList<>();
             NameGenerator stoneNameGenerator = RandomlyAddingAnything.CONFIG.namingLanguage.getStoneNameGenerator();
-            for (int i = 0; i < stoneAmount; i++) {
-                stoneNames.add(new Identifier(MOD_ID, stoneNameGenerator.asId(stoneNameGenerator.generate())));
+            for (int i = 1; i < stoneAmount; i++) {
+                stoneNames.add(new Identifier(MOD_ID, name.getRight().getPath() + "_" + stoneNameGenerator.asId(stoneNameGenerator.generate())));
             }
 
             DimensionData.Builder builder = DimensionData.Builder.create(name.getRight(), WordUtils.capitalizeFully(name.getLeft()))
@@ -213,7 +213,7 @@ public class Dimensions {
                     .stoneJumpHeight(Rands.randFloatRange(1.0F, 10.0F))
                     .gravity(gravity)
                     .stoneAmount(stoneAmount)
-                    .stones(stoneNames);
+                    .stones(stoneNames.toArray(new Identifier[0]));
 
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
@@ -367,8 +367,9 @@ public class Dimensions {
         DIMENSIONS.forEach(dimensionData -> {
             Identifier identifier = dimensionData.getId();
 
-            dimensionData.getStones().forEach(identifier1 -> {
-                for (int i = 0; i < dimensionData.getStones().size(); i++) {
+            for(Identifier identifier1 : dimensionData.getStones()) {
+                for (int i = 0; i < dimensionData.getStones().length; i++) {
+                    System.out.println("Stone block: " + identifier1);
                     Block stoneBlock = RegistryUtils.register(new DimensionalStone(identifier1, dimensionData), Utils.addSuffixToPath(identifier1,
                             "_stone"), RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "stone");
 
@@ -419,7 +420,7 @@ public class Dimensions {
                         RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "polishedSlab");
                 RegistryUtils.register(new WallBaseBlock(Block.Settings.copy(Blocks.COBBLESTONE_WALL)), Utils.addPrefixAndSuffixToPath(identifier1, "polished_", "_wall"),
                         RandomlyAddingAnything.RAA_DIMENSION_BLOCKS, WordUtils.capitalizeFully(identifier1.getPath()), "polishedWall");
-            });
+            }
             Set<Biome> biomes = new LinkedHashSet<>();
             for (int i = 0; i < dimensionData.getBiomeData().size(); i++) {
                 CustomDimensionalBiome biome = new CustomDimensionalBiome(dimensionData, dimensionData.getBiomeData().get(i));
@@ -430,7 +431,7 @@ public class Dimensions {
                     .biomeAccessStrategy(HorizontalVoronoiBiomeAccessType.INSTANCE)
                     .skyLight(dimensionData.getCustomSkyInformation().hasSkyLight())
                     .factory((world, dimensionType) -> new CustomDimension(world, dimensionType, dimensionData, biomes, Rands.chance(50) ? Blocks.STONE :
-                            Registry.BLOCK.get(dimensionData.getStones().get(0))));
+                            Registry.BLOCK.get(dimensionData.getStones()[1])));
 
             if (dimensionData.getDimensionChunkGenerator() == CAVES || dimensionData.getDimensionChunkGenerator() == FLAT_CAVES || dimensionData.getDimensionChunkGenerator() == HIGH_CAVES) {
                 builder.defaultPlacer(PlayerPlacementHandlers.CAVE_WORLD.getEntityPlacer());
@@ -479,7 +480,7 @@ public class Dimensions {
 
                 @Override
                 public Ingredient getRepairIngredient() {
-                    return Ingredient.ofItems(Registry.ITEM.get(Utils.addSuffixToPath(dimensionData.getStones().get(0), "_cobblestone")));
+                    return Ingredient.ofItems(Registry.ITEM.get(Utils.addSuffixToPath(dimensionData.getStones()[1], "_cobblestone")));
                 }
             };
 

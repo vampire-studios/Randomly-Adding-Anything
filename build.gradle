@@ -95,12 +95,12 @@ dependencies {
         exclude group :"net.fabricmc.fabric-api"
     }
 
-    modRuntime ("com.github.mrmangohands:sodium-fabric:97650e1acce5a34460b8d6946430171cff6e3d8a")
+//    modRuntime ("com.github.mrmangohands:sodium-fabric:97650e1acce5a34460b8d6946430171cff6e3d8a")
     modRuntime ("com.github.SuperCoder7979:phosphor-fabric:11d964bf07d44bdf6cbdbb7cce25ed9da81d9f78")
     modRuntime ("com.github.jellysquid3:lithium-fabric:21769c40c5")
 
     modImplementation "com.github.CrimsonDawn45:Fabric-Shield-Lib:${project.fabric_shield_lib_version}"
-    modImplementation 'com.github.SuperCoder7979:cavebiomes:8a8a3d691c'
+    modImplementation "com.github.SuperCoder7979:cavebiomes:8a8a3d691c"
 }
 
 github {

@@ -209,7 +209,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
                 Identifier identifier = dimensionData.getId();
 
-                dimensionData.getStones().forEach(identifier1 -> {
+                for(Identifier identifier1 : dimensionData.getStones()) {
                     Identifier stoneId = Utils.addSuffixToPath(identifier1, "_stone");
                     clientResourcePackBuilder.addBlockState(stoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
                             variant.model(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())))
@@ -319,7 +319,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
 
                     Identifier polishedWallId = Utils.addPrefixAndSuffixToPath(identifier1, "polished_", "_wall");
                     ModelUtils.wall(clientResourcePackBuilder, polishedWallId, dimensionData.getTexturesInformation().getPolishedTexture());
-                });
+                };
 
                 Identifier portalId = Utils.addSuffixToPath(identifier, "_portal");
                 clientResourcePackBuilder.addBlockState(portalId, blockStateBuilder -> {
@@ -596,42 +596,35 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             );
         });
         Dimensions.DIMENSIONS.forEach(dimensionData -> {
-            Block stone = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone"));
-            Block stoneStairs = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone_stairs"));
-            Block stoneSlab = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone_slab"));
-            Block stoneWall = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone_wall"));
-            Block stoneBricks = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone_bricks"));
-            Block stoneBrickStairs = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone_brick_stairs"));
-            Block stoneBrickSlab = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone_brick_slab"));
-            Block stoneBrickWall = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_stone_brick_wall"));
-            Block cobblestone = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_cobblestone"));
-            Block cobblestoneStairs = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_cobblestone_stairs"));
-            Block cobblestoneSlab = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_cobblestone_slab"));
-            Block cobblestoneWall = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_cobblestone_wall"));
-            Block chiseled = Registry.BLOCK.get(Utils.addPrefixAndSuffixToPath(dimensionData.getId(), "chiseled_", "_stone_bricks"));
-            Block polished = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath()));
-            Block polishedStairs = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_stairs"));
-            Block polishedSlab = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_slab"));
-            Block polishedWall = Registry.BLOCK.get(new Identifier(dimensionData.getId().getNamespace(), "polished_" + dimensionData.getId().getPath() + "_wall"));
+            for(Identifier identifier : dimensionData.getStones()) {
+                Block stone = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_stone"));
+                Block stoneStairs = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_stone_stairs"));
+                Block stoneSlab = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_stone_slab"));
+                Block stoneWall = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_stone_wall"));
+                Block stoneBricks = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_stone_bricks"));
+                Block stoneBrickStairs = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_stone_brick_stairs"));
+                Block stoneBrickSlab = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_stone_brick_slab"));
+                Block stoneBrickWall = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_stone_brick_wall"));
+                Block cobblestone = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_cobblestone"));
+                Block cobblestoneStairs = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_cobblestone_stairs"));
+                Block cobblestoneSlab = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_cobblestone_slab"));
+                Block cobblestoneWall = Registry.BLOCK.get(Utils.addSuffixToPath(identifier, "_cobblestone_wall"));
+                Block chiseled = Registry.BLOCK.get(Utils.addPrefixAndSuffixToPath(identifier, "chiseled_", "_stone_bricks"));
+                Block polished = Registry.BLOCK.get(new Identifier(identifier.getNamespace(), "polished_" + identifier.getPath()));
+                Block polishedStairs = Registry.BLOCK.get(new Identifier(identifier.getNamespace(), "polished_" + identifier.getPath() + "_stairs"));
+                Block polishedSlab = Registry.BLOCK.get(new Identifier(identifier.getNamespace(), "polished_" + identifier.getPath() + "_slab"));
+                Block polishedWall = Registry.BLOCK.get(new Identifier(identifier.getNamespace(), "polished_" + identifier.getPath() + "_wall"));
 
-            Block ice = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_ice"));
-
-            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
-                if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
-                else return -1;
-            }, stone, stoneSlab, stoneStairs, stoneWall, stoneBricks, stoneBrickSlab, stoneBrickStairs, stoneBrickWall, cobblestone,
-                    cobblestoneSlab, cobblestoneStairs, cobblestoneWall, chiseled, polished, polishedSlab, polishedStairs, polishedWall);
-            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->
-                    dimensionData.getDimensionColorPalette().getStoneColor(),
-                    stone, stoneSlab, stoneStairs, stoneWall, stoneBricks, stoneBrickSlab, stoneBrickStairs, stoneBrickWall, cobblestone,
-                cobblestoneSlab, cobblestoneStairs, cobblestoneWall, chiseled, polished, polishedSlab, polishedStairs, polishedWall);
-
-            ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
-                if (layer == 0) return dimensionData.getDimensionColorPalette().getSkyColor();
-                else return -1;
-            }, ice);
-            ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->
-                    dimensionData.getDimensionColorPalette().getSkyColor(), ice);
+                ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
+                            if (layer == 0) return dimensionData.getDimensionColorPalette().getStoneColor();
+                            else return -1;
+                        }, stone, stoneSlab, stoneStairs, stoneWall, stoneBricks, stoneBrickSlab, stoneBrickStairs, stoneBrickWall, cobblestone,
+                        cobblestoneSlab, cobblestoneStairs, cobblestoneWall, chiseled, polished, polishedSlab, polishedStairs, polishedWall);
+                ColorProviderRegistryImpl.BLOCK.register((blockstate, blockview, blockpos, layer) ->
+                                dimensionData.getDimensionColorPalette().getStoneColor(),
+                        stone, stoneSlab, stoneStairs, stoneWall, stoneBricks, stoneBrickSlab, stoneBrickStairs, stoneBrickWall, cobblestone,
+                        cobblestoneSlab, cobblestoneStairs, cobblestoneWall, chiseled, polished, polishedSlab, polishedStairs, polishedWall);
+            };
         });
         Materials.DIMENSION_MATERIALS.forEach(material -> {
             Identifier id = material.getId();
