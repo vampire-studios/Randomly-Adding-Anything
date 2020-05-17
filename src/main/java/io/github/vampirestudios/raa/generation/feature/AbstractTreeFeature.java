@@ -17,14 +17,10 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.shape.BitSetVoxelSet;
 import net.minecraft.util.shape.VoxelSet;
+import net.minecraft.world.*;
 import net.minecraft.world.Heightmap.Type;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.ModifiableTestableWorld;
-import net.minecraft.world.ModifiableWorld;
-import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
@@ -145,7 +141,7 @@ public class AbstractTreeFeature extends Feature<TreeFeatureConfig> {
         setBlockStateWithoutUpdatingNeighbors(world, pos, state);
     }
 
-    public final boolean generate(IWorld iWorld, StructureAccessor structureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig) {
+    public final boolean generate(ServerWorldAccess iWorld, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig) {
         Set<BlockPos> set = Sets.newHashSet();
         Set<BlockPos> set2 = Sets.newHashSet();
         Set<BlockPos> set3 = Sets.newHashSet();
@@ -168,7 +164,7 @@ public class AbstractTreeFeature extends Feature<TreeFeatureConfig> {
         }
     }
 
-    private VoxelSet placeLogsAndLeaves(IWorld world, BlockBox box, Set<BlockPos> logs, Set<BlockPos> leaves) {
+    private VoxelSet placeLogsAndLeaves(WorldAccess world, BlockBox box, Set<BlockPos> logs, Set<BlockPos> leaves) {
         List<Set<BlockPos>> list = Lists.newArrayList();
         VoxelSet voxelSet = new BitSetVoxelSet(box.getBlockCountX(), box.getBlockCountY(), box.getBlockCountZ());
 

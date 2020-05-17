@@ -10,6 +10,7 @@ import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.WorldStructureManipulation;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.loot.LootTables;
 import net.minecraft.resource.Resource;
@@ -20,7 +21,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
@@ -38,7 +38,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         super(function);
     }
 
-    private static void placePiece(IWorld world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, float decay) {
+    private static void placePiece(ServerWorldAccess world, BlockPos pos, int rotation, JsonConverter.StructureValues piece, float decay) {
         for (int i = 0; i < piece.getBlockPositions().size(); i++) {
             Vec3i currBlockPos = piece.getBlockPositions().get(i);
             String currBlockType = piece.getBlockTypes().get(piece.getBlockStates().get(i));
@@ -81,7 +81,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    private static void fillWindows(IWorld world, BlockPos pos, int fill) {
+    private static void fillWindows(ServerWorldAccess world, BlockPos pos, int fill) {
         //Fill windows part-way if outside or all the way if next to blocks
         for (int i = 0; i < 4; i++) {
             float xPart = 6.5f - 5.5f * MathHelper.cos((float) (Math.PI / 2 * i));
@@ -100,7 +100,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    private static void placeDecoration(IWorld world, BlockPos pos, int rotation, List<String> blocks, List<Vec3i> blockPos, List<Map<String, String>> blockProps) {
+    private static void placeDecoration(ServerWorldAccess world, BlockPos pos, int rotation, List<String> blocks, List<Vec3i> blockPos, List<Map<String, String>> blockProps) {
         if (!world.isAir(pos.add(0, -1, 0))) {
             for (int i = 0; i < blockPos.size(); i++) {
                 String currBlock = blocks.get(i);
@@ -179,7 +179,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    private static void placeRoom(IWorld world, BlockPos pos, Map<String, JsonConverter.StructureValues> pieces, String type, float decay) {
+    private static void placeRoom(ServerWorldAccess world, BlockPos pos, Map<String, JsonConverter.StructureValues> pieces, String type, float decay) {
         Random rand = new Random();
 
         //walls
@@ -366,7 +366,7 @@ public class TowerFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject towerBase = null;
         JsonObject towerWalls = null;
         JsonObject towerStairs = null;

@@ -3,10 +3,9 @@ package io.github.vampirestudios.raa.generation.decorator;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.noise.OctaveSimplexNoiseSampler;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
 
 import java.util.Random;
@@ -22,7 +21,7 @@ public class BiasedNoiseBasedDecorator extends Decorator<BiasedNoiseBasedDecorat
     }
 
     @Override
-    public Stream<BlockPos> getPositions(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> var2, Random random, BiasedNoiseBasedDecoratorConfig config, BlockPos pos) {
+    public Stream<BlockPos> getPositions(WorldAccess world, ChunkGenerator var2, Random random, BiasedNoiseBasedDecoratorConfig config, BlockPos pos) {
         double noise = NOISE.sample((double) pos.getX() / config.noiseFactor, (double) pos.getZ() / config.noiseFactor, false);
         int int_1 = (int) Math.ceil((noise + config.noiseOffset) * (double) config.noiseToCountRatio);
         return IntStream.range(0, int_1).mapToObj((int_1x) -> {

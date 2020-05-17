@@ -7,13 +7,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.Feature;
 
 import java.util.Random;
@@ -33,7 +32,7 @@ public class ColumnRampFeature extends Feature<ColumnBlocksConfig> {
 	}
 
 	@Override
-	public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, ColumnBlocksConfig blocksConfig) {
+	public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator changedBlock, Random rand, BlockPos position, ColumnBlocksConfig blocksConfig) {
 		BlockPos.Mutable blockpos$Mutable = new BlockPos.Mutable(position.getX(), position.getY(), position.getZ());
 		int minWidth = 4;
 		int currentHeight = 0;
@@ -192,7 +191,7 @@ public class ColumnRampFeature extends Feature<ColumnBlocksConfig> {
 						BlockState blockBelowBelowAir = world.getBlockState(blockpos$Mutable.down(2));
 						if (blockBelowAir.isAir())
 						{
-							if (blocksConfig.topBlock.getMaterial() == Material.SAND && blockBelowBelowAir.getMaterial() == Material.AIR)
+							if (blocksConfig.topBlock.getMaterial() == Material.AGGREGATE && blockBelowBelowAir.getMaterial() == Material.AIR)
 							{
 								world.setBlockState(blockpos$Mutable.down(), blocksConfig.middleBlock, 2);
 							}
@@ -251,7 +250,7 @@ public class ColumnRampFeature extends Feature<ColumnBlocksConfig> {
 							BlockState blockBelow = world.getBlockState(blockpos$Mutable.down(downward + 1));
 							if (block == blocksConfig.insideBlock)
 							{
-								if (downward == 1 && !(blocksConfig.topBlock.getMaterial() == Material.SAND && blockBelow.getMaterial() == Material.AIR))
+								if (downward == 1 && !(blocksConfig.topBlock.getMaterial() == Material.AGGREGATE && blockBelow.getMaterial() == Material.AIR))
 								{
 									world.setBlockState(blockpos$Mutable.down(downward), blocksConfig.topBlock, 2);
 								}

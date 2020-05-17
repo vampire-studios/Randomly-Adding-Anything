@@ -9,7 +9,6 @@ import net.minecraft.util.math.noise.OctavePerlinNoiseSampler;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.village.ZombieSiegeManager;
 import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
@@ -17,6 +16,7 @@ import net.minecraft.world.gen.CatSpawner;
 import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.PhantomSpawner;
 import net.minecraft.world.gen.PillagerSpawner;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 
@@ -42,14 +42,22 @@ public class QuadrupleAmplifiedChunkGenerator extends SurfaceChunkGenerator<Over
     private final OctavePerlinNoiseSampler field_16581;
     private final OctavePerlinNoiseSampler field_16575;
 
-    public QuadrupleAmplifiedChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
-        super(iWorld_1, biomeSource_1, 4, 4, 256, overworldChunkGeneratorConfig_1, true);
+    private final OverworldChunkGeneratorConfig chunkGeneratorConfig;
+
+    public QuadrupleAmplifiedChunkGenerator(long seed, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
+        super(biomeSource, seed, config, 4, 4, 256,  true);
+        this.chunkGeneratorConfig = config;
         this.random.consume(Rands.randInt(100000));
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
 
         this.field_16574 = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
         this.field_16581 = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
         this.field_16575 = new OctavePerlinNoiseSampler(this.random, IntStream.of(7, 0));
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new OverworldChunkGenerator(seed, this.biomeSource.create(seed), this.chunkGeneratorConfig);
     }
 
     public void populateEntities(ChunkRegion chunkRegion_1) {
@@ -66,8 +74,8 @@ public class QuadrupleAmplifiedChunkGenerator extends SurfaceChunkGenerator<Over
         double[] doubles_2 = this.computeNoiseRange(int_1, int_2);
         double double_5 = doubles_2[0];
         double double_6 = doubles_2[1];
-        double double_7 = this.method_16409();
-        double double_8 = this.method_16410();
+        double double_7 = this.bottomInterpolationStart();
+        double double_8 = this.topInterpolationStart();
 
         for (int int_5 = 0; int_5 < this.getNoiseSizeY(); ++int_5) {
             double double_9 = this.sampleNoise(int_1, int_5, int_2, double_1, double_2, double_3, double_4);

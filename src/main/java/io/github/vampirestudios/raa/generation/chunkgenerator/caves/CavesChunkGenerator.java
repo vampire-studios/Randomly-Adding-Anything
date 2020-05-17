@@ -3,11 +3,10 @@ package io.github.vampirestudios.raa.generation.chunkgenerator.caves;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.StructureAccessor;
-import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 
@@ -15,9 +14,16 @@ import java.util.List;
 
 public class CavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGeneratorConfig> {
     private final double[] noiseFalloff = this.buildNoiseFalloff();
+    private final CavesChunkGeneratorConfig chunkGeneratorConfig;
 
-    public CavesChunkGenerator(IWorld world, BiomeSource biomeSource, CavesChunkGeneratorConfig config) {
-        super(world, biomeSource, 4, 8, 256, config, true);
+    public CavesChunkGenerator(long seed, BiomeSource biomeSource, CavesChunkGeneratorConfig config) {
+        super(biomeSource, seed, config,4, 8, 256,  true);
+        this.chunkGeneratorConfig = config;
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new CavesChunkGenerator(seed, this.biomeSource.create(seed), this.chunkGeneratorConfig);
     }
 
     protected void sampleNoiseColumn(double[] buffer, int x, int z) {
@@ -51,22 +57,14 @@ public class CavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGenerat
         return ds;
     }
 
-    public List<Biome.SpawnEntry> getEntitySpawnList(StructureAccessor StructureAccessor, SpawnGroup category, BlockPos pos) {
-        if (category == SpawnGroup.MONSTER) {
-            if (Feature.NETHER_BRIDGE.isInsideStructure(this.world, StructureAccessor, pos)) {
-                return Feature.NETHER_BRIDGE.getMonsterSpawns();
-            }
-
-            if (Feature.NETHER_BRIDGE.isApproximatelyInsideStructure(this.world, StructureAccessor, pos) && this.world.getBlockState(pos.down()).getBlock() == Blocks.NETHER_BRICKS) {
-                return Feature.NETHER_BRIDGE.getMonsterSpawns();
-            }
-        }
-
-        return super.getEntitySpawnList(StructureAccessor, category, pos);
+    @Override
+    public List<Biome.SpawnEntry> getEntitySpawnList(Biome biome, StructureAccessor accessor, SpawnGroup group, BlockPos pos) {
+        return group == SpawnGroup.MONSTER && Feature.NETHER_BRIDGE.isInsideStructure(accessor, pos) ?
+                Feature.NETHER_BRIDGE.getMonsterSpawns() : super.getEntitySpawnList(biome, accessor, group, pos);
     }
 
     public int getSpawnHeight() {
-        return this.world.getSeaLevel() + 1;
+        return getSeaLevel() + 1;
     }
 
     public int getMaxY() {

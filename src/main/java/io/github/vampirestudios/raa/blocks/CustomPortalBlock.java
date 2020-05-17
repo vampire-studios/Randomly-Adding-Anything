@@ -23,8 +23,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.dimension.DimensionType;
 
 import java.util.Objects;
@@ -71,7 +71,7 @@ public class CustomPortalBlock extends Block {
 
     }*/
 
-    public static boolean createPortalAt(DimensionData dimensionData, IWorld iWorld, BlockPos blockPos) {
+    public static boolean createPortalAt(DimensionData dimensionData, WorldAccess iWorld, BlockPos blockPos) {
         CustomPortalBlock.AreaHelper areaHelper = createAreaHelper(dimensionData, iWorld, blockPos);
         if (areaHelper != null) {
             areaHelper.createPortal();
@@ -81,7 +81,7 @@ public class CustomPortalBlock extends Block {
         }
     }
 
-    public static CustomPortalBlock.AreaHelper createAreaHelper(DimensionData dimensionData, IWorld iWorld, BlockPos blockPos) {
+    public static CustomPortalBlock.AreaHelper createAreaHelper(DimensionData dimensionData, WorldAccess iWorld, BlockPos blockPos) {
         CustomPortalBlock.AreaHelper areaHelper = new CustomPortalBlock.AreaHelper(dimensionData, iWorld, blockPos, Direction.Axis.X);
         if (areaHelper.isValid() && areaHelper.foundPortalBlocks == 0) {
             return areaHelper;
@@ -91,7 +91,7 @@ public class CustomPortalBlock extends Block {
         }
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, IWorld world, BlockPos pos, BlockPos posFrom) {
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
         Direction.Axis axis = direction.getAxis();
         Direction.Axis axis2 = state.get(AXIS);
         boolean bl = axis2 != axis && axis.isHorizontal();
@@ -158,7 +158,7 @@ public class CustomPortalBlock extends Block {
         builder.add(AXIS);
     }
 
-    public static BlockPattern.Result findPortal(DimensionData dimensionData, IWorld iWorld, BlockPos world) {
+    public static BlockPattern.Result findPortal(DimensionData dimensionData, WorldAccess iWorld, BlockPos world) {
         Direction.Axis axis = Direction.Axis.Z;
         CustomPortalBlock.AreaHelper areaHelper = new CustomPortalBlock.AreaHelper(dimensionData, iWorld, world, Direction.Axis.X);
         LoadingCache<BlockPos, CachedBlockPosition> loadingCache = BlockPattern.makeCache(iWorld, true);
@@ -213,7 +213,7 @@ public class CustomPortalBlock extends Block {
     }
 
     public static class AreaHelper {
-        private final IWorld world;
+        private final WorldAccess world;
         private final Direction.Axis axis;
         private final Direction negativeDir;
         private final Direction positiveDir;
@@ -223,7 +223,7 @@ public class CustomPortalBlock extends Block {
         private int width;
         private final DimensionData dimensionData;
 
-        public AreaHelper(DimensionData dimensionData, IWorld world, BlockPos pos, Direction.Axis axis) {
+        public AreaHelper(DimensionData dimensionData, WorldAccess world, BlockPos pos, Direction.Axis axis) {
             this.world = world;
             this.axis = axis;
             this.dimensionData = dimensionData;

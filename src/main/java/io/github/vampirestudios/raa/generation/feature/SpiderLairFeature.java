@@ -6,14 +6,13 @@ import io.github.vampirestudios.raa.utils.FeatureUtils;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
@@ -28,7 +27,7 @@ public class SpiderLairFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig defaultFeatureConfig) {
+    public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig defaultFeatureConfig) {
         if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
             return true;
         if (world.getBlockState(pos.down(1)).getBlock() == Blocks.GRASS_BLOCK) {

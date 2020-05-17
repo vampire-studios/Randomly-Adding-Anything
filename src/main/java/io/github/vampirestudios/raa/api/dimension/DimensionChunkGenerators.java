@@ -5,11 +5,12 @@ import io.github.vampirestudios.raa.registries.ChunkGenerators;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.class_5284;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 
 public enum DimensionChunkGenerators {
@@ -33,13 +34,13 @@ public enum DimensionChunkGenerators {
 
     TEST;
 
-    public ChunkGenerator<?> getChunkGenerator(World world, BiomeSource biomeSource, DimensionData data, Block stoneBlock) {
+    public ChunkGenerator getChunkGenerator(World world, BiomeSource biomeSource, DimensionData data, Block stoneBlock) {
         OverworldChunkGeneratorConfig config = new OverworldChunkGeneratorConfig();
         if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN)) config.setDefaultFluid(Blocks.LAVA.getDefaultState());
         if (Utils.checkBitFlag(data.getFlags(), Utils.DRY)) config.setDefaultFluid(Blocks.AIR.getDefaultState());
         config.setDefaultBlock(stoneBlock.getDefaultState());
 
-        CavesChunkGeneratorConfig caveConfig = new CavesChunkGeneratorConfig() { //set the bedrock ceiling y to 256
+        CavesChunkGeneratorConfig caveConfig = new CavesChunkGeneratorConfig(new ChunkGeneratorConfig()) { //set the bedrock ceiling y to 256
             @Override
             public int getBedrockCeilingY() {
                 return 255;
@@ -49,7 +50,7 @@ public enum DimensionChunkGenerators {
         if (Utils.checkBitFlag(data.getFlags(), Utils.MOLTEN))
             caveConfig.setDefaultFluid(Blocks.LAVA.getDefaultState());
 
-        FloatingIslandsChunkGeneratorConfig floatingConfig = new FloatingIslandsChunkGeneratorConfig();
+        class_5284 floatingConfig = new class_5284(new ChunkGeneratorConfig());
         floatingConfig.setDefaultBlock(stoneBlock.getDefaultState());
 
         if (this == CAVES) return ChunkGenerators.CAVES.create(world, biomeSource, caveConfig);

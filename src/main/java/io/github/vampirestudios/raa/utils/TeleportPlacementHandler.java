@@ -18,7 +18,7 @@ import java.util.HashSet;
 public class TeleportPlacementHandler
 {
     public static void enterDimension(Entity entity, DimensionData dimensionData, ServerWorld previousWorld, ServerWorld newWorld) {
-        if (newWorld.dimension instanceof CustomDimension) {
+        if (newWorld.getDimension() instanceof CustomDimension) {
             Block block = Registry.BLOCK.get(Utils.addSuffixToPath(dimensionData.getId(), "_custom_portal"));
             if(block == net.minecraft.block.Blocks.AIR) block = Blocks.OBSIDIAN;
 

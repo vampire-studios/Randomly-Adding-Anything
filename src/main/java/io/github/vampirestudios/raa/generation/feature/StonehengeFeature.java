@@ -5,6 +5,7 @@ import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.Structure;
@@ -15,9 +16,7 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
@@ -47,7 +46,7 @@ public class StonehengeFeature extends Feature<DefaultFeatureConfig> {
 
 
 	@Override
-	public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, DefaultFeatureConfig p_212245_5_) {
+	public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator changedBlock, Random rand, BlockPos position, DefaultFeatureConfig p_212245_5_) {
 		//makes sure this stonehenge does not spawn too close to world height border or it will get cut off.
 		if (position.getY() > 248) {
 			return false;
@@ -227,7 +226,7 @@ public class StonehengeFeature extends Feature<DefaultFeatureConfig> {
 	}
 
 
-	private boolean validatePosition(IWorld world, BlockPos position) {
+	private boolean validatePosition(ServerWorldAccess world, BlockPos position) {
 		BlockPos.Mutable blockpos$Mutable = new BlockPos.Mutable(position.getX(), position.getY(), position.getZ());
 		//makes sure it generates with land around it instead of cutting into cliffs or hanging over an edge by checking if block at north, east, west, and south are acceptable terrain blocks that appear only at top of land.
 		for (int x = -10; x <= 10; x = x + 5) {

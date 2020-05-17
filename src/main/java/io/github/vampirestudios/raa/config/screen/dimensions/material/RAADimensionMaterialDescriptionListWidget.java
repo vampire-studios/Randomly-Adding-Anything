@@ -132,7 +132,7 @@ public class RAADimensionMaterialDescriptionListWidget extends DynamicElementLis
         public TitleMaterialOverrideEntry(DimensionMaterialListScreen og, DimensionMaterial material, Text text) {
             this.s = text;
             Text btnText = new TranslatableText("config.button.raa.edit");
-            overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText, widget ->
+            overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getWidth(btnText) + 10, 20, btnText, widget ->
                     openClothConfigForMaterial(og, material));
         }
 

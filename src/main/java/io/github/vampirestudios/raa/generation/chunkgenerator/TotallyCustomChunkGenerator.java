@@ -6,11 +6,11 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.noise.OctavePerlinNoiseSampler;
 import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.ChunkRandom;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 
@@ -35,11 +35,19 @@ public class TotallyCustomChunkGenerator extends SurfaceChunkGenerator<Overworld
     private final int div = Rands.randIntRange(3, 64);
     private final int mod = Rands.randIntRange(-4096, 4096);
 
-    public TotallyCustomChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
-        super(iWorld_1, biomeSource_1, (int) Math.pow(2, Rands.randIntRange(3, 3)), (int) Math.pow(2, Rands.randIntRange(3, 3)), 256, overworldChunkGeneratorConfig_1, true);
+    private final OverworldChunkGeneratorConfig chunkGeneratorConfig;
+
+    public TotallyCustomChunkGenerator(long seed, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
+        super(biomeSource_1, seed, overworldChunkGeneratorConfig_1, (int) Math.pow(2, Rands.randIntRange(3, 3)), (int) Math.pow(2, Rands.randIntRange(3, 3)), 256, true);
+        this.chunkGeneratorConfig = overworldChunkGeneratorConfig_1;
         this.random.consume(Rands.randInt(100000));
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
 
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new TotallyCustomChunkGenerator(seed, this.biomeSource.create(seed), this.chunkGeneratorConfig);
     }
 
     public void populateEntities(ChunkRegion chunkRegion) {

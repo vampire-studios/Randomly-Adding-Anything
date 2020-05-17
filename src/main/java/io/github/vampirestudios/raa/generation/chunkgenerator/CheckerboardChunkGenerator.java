@@ -11,11 +11,17 @@ import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 
-public class CheckerboardChunkGenerator extends ChunkGenerator<NoneGeneratorSettings> {
+public class CheckerboardChunkGenerator extends ChunkGenerator {
 
-    public CheckerboardChunkGenerator(IWorld iWorld, BiomeSource biomeSource, NoneGeneratorSettings arg) {
-        super(iWorld, biomeSource, arg);
+    public CheckerboardChunkGenerator(BiomeSource biomeSource, ChunkGeneratorConfig arg) {
+        super(biomeSource, arg);
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new CheckerboardChunkGenerator(this.biomeSource.create(seed), this.getConfig());
     }
 
     private static int method_26528(int i) {
@@ -35,7 +41,7 @@ public class CheckerboardChunkGenerator extends ChunkGenerator<NoneGeneratorSett
         return 100;
     }
 
-    public void populateNoise(IWorld world, StructureAccessor StructureAccessor, Chunk chunk) {
+    public void populateNoise(WorldAccess world, StructureAccessor StructureAccessor, Chunk chunk) {
         ChunkPos chunkPos = chunk.getPos();
 
         for (int i = 0; i < 8; ++i) {

@@ -46,7 +46,7 @@ public class PortalBlock extends Block {
             }*/
             BlockPos playerPos = playerEntity_1.getBlockPos();
             if (playerPos.getX() == pos.getX() && playerPos.getZ() == pos.getZ() && playerPos.getY() == pos.getY() + 1) {
-                if (playerEntity_1.world.dimension.getType() == dimensionType) {
+                if (playerEntity_1.world.getDimension().getType() == dimensionType) {
                     // coming from our custom dimension
                     FabricDimensions.teleport(playerEntity_1, DimensionType.OVERWORLD, PlayerPlacementHandlers.OVERWORLD.getEntityPlacer());
                 } else {

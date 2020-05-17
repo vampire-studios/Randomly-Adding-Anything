@@ -13,10 +13,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
@@ -36,7 +35,7 @@ public class FossilFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject fossil1 = null;
         JsonObject fossil2 = null;
         JsonObject fossil3 = null;

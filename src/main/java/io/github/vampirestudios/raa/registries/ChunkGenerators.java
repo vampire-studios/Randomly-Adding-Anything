@@ -11,35 +11,22 @@ import io.github.vampirestudios.raa.generation.chunkgenerator.overworld.*;
 import io.github.vampirestudios.raa.utils.RegistryUtils;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
-import net.minecraft.world.gen.chunk.ChunkGeneratorType;
-import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 
 import static io.github.vampirestudios.raa.RandomlyAddingAnything.MOD_ID;
 
 public class ChunkGenerators {
-    public static ChunkGeneratorType<FloatingIslandsChunkGeneratorConfig, FloatingIslandsChunkGenerator> FLOATING_ISLANDS;
-    public static ChunkGeneratorType<FloatingIslandsChunkGeneratorConfig, LayeredFloatingIslandsChunkGenerator> LAYERED_FLOATING;
-    public static ChunkGeneratorType<FloatingIslandsChunkGeneratorConfig, PreClassicFloatingIslandsChunkGenerator> PRE_CLASSIC_FLOATING;
+    public static ChunkGenerator FLOATING_ISLANDS, LAYERED_FLOATING, PRE_CLASSIC_FLOATING;
 
-    public static ChunkGeneratorType<CavesChunkGeneratorConfig, CavesChunkGenerator> CAVES;
-    public static ChunkGeneratorType<CavesChunkGeneratorConfig, FlatCavesChunkGenerator> FLAT_CAVES;
-    public static ChunkGeneratorType<CavesChunkGeneratorConfig, HighCavesChunkGenerator> HIGH_CAVES;
+    public static ChunkGenerator CAVES, FLAT_CAVES, HIGH_CAVES;
 
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, OverworldChunkGenerator> SURFACE;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, QuadrupleAmplifiedChunkGenerator> QUADRUPLE_AMPLIFIED;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, PillarWorldChunkGenerator> PILLAR_WORLD;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, SmoothOverworldChunkGenerator> SMOOTH;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, TotallyCustomChunkGenerator> TOTALLY_CUSTOM;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, LayeredChunkGenerator> LAYERED_OVERWORLD;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, ChaosChunkGenerator> CHAOS;
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, RollingHillsChunkGenerator> ROLLING_HILLS;
+    public static ChunkGenerator SURFACE, QUADRUPLE_AMPLIFIED, PILLAR_WORLD, SMOOTH, TOTALLY_CUSTOM, LAYERED_OVERWORLD, CHAOS, ROLLING_HILLS;
 
-    public static ChunkGeneratorType<NoneGeneratorSettings, RetroChunkGenerator> RETRO;
-    public static ChunkGeneratorType<NoneGeneratorSettings, CheckerboardChunkGenerator> CHECKERBOARD;
+    public static ChunkGenerator RETRO, CHECKERBOARD;
 
     //this is only for testing use!
-    public static ChunkGeneratorType<OverworldChunkGeneratorConfig, TestChunkGenerator> TEST;
+    public static ChunkGenerator TEST;
 
     public static void init() {
         //End-like chunk generators

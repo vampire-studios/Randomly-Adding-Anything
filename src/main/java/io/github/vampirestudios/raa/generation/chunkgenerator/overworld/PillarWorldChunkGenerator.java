@@ -8,7 +8,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.village.ZombieSiegeManager;
 import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
@@ -16,6 +15,7 @@ import net.minecraft.world.gen.CatSpawner;
 import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.PhantomSpawner;
 import net.minecraft.world.gen.PillagerSpawner;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
@@ -30,10 +30,18 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
 
     private final OctaveOpenSimplexNoise simplexNoise;
 
-    public PillarWorldChunkGenerator(IWorld iWorld, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
-        super(iWorld, biomeSource, 8, 4, 256, config, false);
+    private final OverworldChunkGeneratorConfig chunkGeneratorConfig;
+
+    public PillarWorldChunkGenerator(long seed, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
+        super(biomeSource, seed, config, 8, 4, 256, false);
+        this.chunkGeneratorConfig = config;
         this.random.consume(2620);
         this.simplexNoise = new OctaveOpenSimplexNoise(this.random, 4, 1024.0D, 384.0D, -128.0D);
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new OverworldChunkGenerator(seed, this.biomeSource.create(seed), this.chunkGeneratorConfig);
     }
 
     public void populateEntities(ChunkRegion region) {
@@ -65,8 +73,8 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
         return doubles;
     }
 
-    public List<Biome.SpawnEntry> getEntitySpawnList(StructureAccessor StructureAccessor, SpawnGroup entityCategory_1, BlockPos blockPos_1) {
-        if (Feature.SWAMP_HUT.method_14029(this.world, StructureAccessor, blockPos_1)) {
+    public List<Biome.SpawnEntry> getEntitySpawnList(Biome biome, StructureAccessor StructureAccessor, SpawnGroup entityCategory_1, BlockPos blockPos_1) {
+        if (Feature.SWAMP_HUT.method_14029(StructureAccessor, blockPos_1)) {
             if (entityCategory_1 == SpawnGroup.MONSTER) {
                 return Feature.SWAMP_HUT.getMonsterSpawns();
             }
@@ -75,16 +83,16 @@ public class PillarWorldChunkGenerator extends SurfaceChunkGenerator<OverworldCh
                 return Feature.SWAMP_HUT.getCreatureSpawns();
             }
         } else if (entityCategory_1 == SpawnGroup.MONSTER) {
-            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, StructureAccessor, blockPos_1)) {
+            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(StructureAccessor, blockPos_1)) {
                 return Feature.PILLAGER_OUTPOST.getMonsterSpawns();
             }
 
-            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(this.world, StructureAccessor, blockPos_1)) {
+            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(StructureAccessor, blockPos_1)) {
                 return Feature.OCEAN_MONUMENT.getMonsterSpawns();
             }
         }
 
-        return super.getEntitySpawnList(StructureAccessor, entityCategory_1, blockPos_1);
+        return super.getEntitySpawnList(biome, StructureAccessor, entityCategory_1, blockPos_1);
     }
 
     public void spawnEntities(ServerWorld serverWorld_1, boolean boolean_1, boolean boolean_2) {

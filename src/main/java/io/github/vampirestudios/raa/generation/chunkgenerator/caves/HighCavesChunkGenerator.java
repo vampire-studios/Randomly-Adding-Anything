@@ -1,15 +1,21 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.caves;
 
-import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.gen.chunk.CavesChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 
 public class HighCavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGeneratorConfig> {
     private final double[] noiseFalloff = this.buildNoiseFalloff();
+    private final CavesChunkGeneratorConfig chunkGeneratorConfig;
 
-    public HighCavesChunkGenerator(IWorld world, BiomeSource biomeSource, CavesChunkGeneratorConfig config) {
-        super(world, biomeSource, 2, 16, 256, config, true);
+    public HighCavesChunkGenerator(long seed, BiomeSource biomeSource, CavesChunkGeneratorConfig config) {
+        super(biomeSource, seed, config,2, 16, 256,  true);
+        this.chunkGeneratorConfig = config;
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new HighCavesChunkGenerator(seed, this.biomeSource.create(seed), this.chunkGeneratorConfig);
     }
 
     protected void sampleNoiseColumn(double[] doubles_1, int int_1, int int_2) {
@@ -44,7 +50,7 @@ public class HighCavesChunkGenerator extends SurfaceChunkGenerator<CavesChunkGen
     }
 
     public int getSpawnHeight() {
-        return this.world.getSeaLevel() + 1;
+        return getSeaLevel() + 1;
     }
 
     public int getMaxY() {

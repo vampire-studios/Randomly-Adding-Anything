@@ -6,14 +6,13 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.noise.OctavePerlinNoiseSampler;
 import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.ChunkRandom;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
-import net.minecraft.world.level.LevelGeneratorType;
 
 import java.util.stream.IntStream;
 
@@ -30,11 +29,20 @@ public class SmoothOverworldChunkGenerator extends SurfaceChunkGenerator<Overwor
     private final OctavePerlinNoiseSampler noiseSampler;
     private final boolean amplified;
 
-    public SmoothOverworldChunkGenerator(IWorld iWorld_1, BiomeSource biomeSource_1, OverworldChunkGeneratorConfig overworldChunkGeneratorConfig_1) {
-        super(iWorld_1, biomeSource_1, 16, 16, 256, overworldChunkGeneratorConfig_1, true);
+    private final OverworldChunkGeneratorConfig chunkGeneratorConfig;
+
+    public SmoothOverworldChunkGenerator(long seed, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
+        super(biomeSource, seed, config, 16, 16, 256, true);
+        this.chunkGeneratorConfig = config;
         this.random.consume(Rands.randInt(100000));
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
-        this.amplified = iWorld_1.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
+        //        this.amplified = world.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
+        this.amplified = false;
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new OverworldChunkGenerator(seed, this.biomeSource.create(seed), this.chunkGeneratorConfig);
     }
 
     public void populateEntities(ChunkRegion chunkRegion_1) {

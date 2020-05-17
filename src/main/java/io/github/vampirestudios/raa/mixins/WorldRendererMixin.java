@@ -20,7 +20,7 @@ public class WorldRendererMixin {
 
     @Inject(method = "renderSky", at = @At("HEAD"))
     public void onRenderSkyPre(MatrixStack matrixStack, float f, CallbackInfo info) {
-        Testing.renderCustomSky(matrixStack, client, this.world.dimension);
+        Testing.renderCustomSky(matrixStack, client, this.world.getDimension());
     }
 
 }

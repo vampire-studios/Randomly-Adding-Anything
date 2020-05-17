@@ -14,15 +14,14 @@ import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.ZombieSiegeManager;
 import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.*;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.level.LevelGeneratorType;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -51,17 +50,26 @@ public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGen
 
     private final OctaveOpenSimplexNoise simplexNoise;
 
-    public ChaosChunkGenerator(IWorld world, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
-        super(world, biomeSource, 4, 8, 256, config, false);
+    private final OverworldChunkGeneratorConfig chunkGeneratorConfig;
+
+    public ChaosChunkGenerator(long seed, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
+        super(biomeSource, seed, config, 4, 8, 256, false);
+        this.chunkGeneratorConfig = config;
         this.random.consume(2620);
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
-        this.amplified = world.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
+//        this.amplified = world.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
+        this.amplified = false;
 
         this.field_16574 = new OctavePerlinNoiseSampler(this.random, IntStream.rangeClosed(-15, 0));
         this.field_16581 = new OctavePerlinNoiseSampler(this.random, IntStream.rangeClosed(-15, 0));
         this.field_16575 = new OctavePerlinNoiseSampler(this.random, IntStream.rangeClosed(-7, 0));
 
         this.simplexNoise = new OctaveOpenSimplexNoise(this.random, 4, 1024.0D, 2.0D, 2.0D);
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new ChaosChunkGenerator(seed, this.biomeSource.create(seed), this.chunkGeneratorConfig);
     }
 
     public void populateEntities(ChunkRegion region) {
@@ -82,8 +90,8 @@ public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGen
         double[] ds = this.computeNoiseRange(x, z);
         double h = ds[0];
         double k = ds[1];
-        double l = this.method_16409();
-        double m = this.method_16410();
+        double l = this.bottomInterpolationStart();
+        double m = this.topInterpolationStart();
 
         for(int n = 0; n < this.getNoiseSizeY(); ++n) {
             double o = this.sampleNoise(x, n, z, d, e, f, g);
@@ -213,8 +221,8 @@ public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGen
         return d * 20f;
     }
 
-    public List<Biome.SpawnEntry> getEntitySpawnList(SpawnGroup category, StructureAccessor StructureAccessor, BlockPos pos) {
-        if (Feature.SWAMP_HUT.method_14029(this.world, StructureAccessor, pos)) {
+    public List<Biome.SpawnEntry> getEntitySpawnList(Biome biome, SpawnGroup category, StructureAccessor StructureAccessor, BlockPos pos) {
+        if (Feature.SWAMP_HUT.method_14029(StructureAccessor, pos)) {
             if (category == SpawnGroup.MONSTER) {
                 return Feature.SWAMP_HUT.getMonsterSpawns();
             }
@@ -223,16 +231,16 @@ public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGen
                 return Feature.SWAMP_HUT.getCreatureSpawns();
             }
         } else if (category == SpawnGroup.MONSTER) {
-            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, StructureAccessor, pos)) {
+            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(StructureAccessor, pos)) {
                 return Feature.PILLAGER_OUTPOST.getMonsterSpawns();
             }
 
-            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(this.world, StructureAccessor, pos)) {
+            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(StructureAccessor, pos)) {
                 return Feature.OCEAN_MONUMENT.getMonsterSpawns();
             }
         }
 
-        return super.getEntitySpawnList(StructureAccessor, category, pos);
+        return super.getEntitySpawnList(biome, StructureAccessor, category, pos);
     }
 
     @Override
@@ -271,7 +279,7 @@ public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGen
     }
 
     public int getSpawnHeight() {
-        return this.world.getSeaLevel() + 1;
+        return getSeaLevel() + 1;
     }
 
     public int getSeaLevel() {

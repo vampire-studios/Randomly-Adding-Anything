@@ -44,8 +44,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
-import net.minecraft.world.gen.chunk.ChunkGeneratorFactory;
-import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;

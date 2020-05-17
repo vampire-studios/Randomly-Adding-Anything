@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.WeightedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 
@@ -218,7 +218,7 @@ public class Utils {
         return civilizationName;
     }
 
-    public static void createSpawnsFile(String name, IWorld world, BlockPos pos) {
+    public static void createSpawnsFile(String name, WorldAccess world, BlockPos pos) {
         /*try {
             String path;
             World world2 = world.getWorld();

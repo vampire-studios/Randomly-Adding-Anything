@@ -12,15 +12,20 @@ public class DimensionalBiomeSource extends BiomeSource {
     private static Set<Biome> BIOMES;
     private final BiomeLayerSampler noiseLayer;
 
-    public DimensionalBiomeSource(Object o) {
-        super(((DimensionalBiomeSourceConfig) o).getBiomes());
-        this.noiseLayer = DimensionalBiomeLayers.build(((DimensionalBiomeSourceConfig) o).getSeed(), ((DimensionalBiomeSourceConfig) o).getBiomes());
-        BIOMES = ((DimensionalBiomeSourceConfig) o).getBiomes();
+    public DimensionalBiomeSource(long seed, Set<Biome> biomes) {
+        super(biomes);
+        this.noiseLayer = DimensionalBiomeLayers.build(seed, biomes);
+        BIOMES = biomes;
     }
 
     @Override
     public Biome getBiomeForNoiseGen(int biomeX, int biomeY, int biomeZ) {
         return this.noiseLayer.sample(biomeX, biomeZ);
+    }
+
+    @Override
+    public BiomeSource create(long seed) {
+        return new DimensionalBiomeSource(seed, BIOMES);
     }
 
     @Override

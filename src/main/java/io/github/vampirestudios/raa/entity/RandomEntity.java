@@ -40,6 +40,11 @@ public class RandomEntity extends ZombieEntity {
         this.targetSelector.add(5, new FollowTargetGoal<>(this, TurtleEntity.class, 10, true, false, TurtleEntity.BABY_TURTLE_ON_LAND_FILTER));
     }
 
+    //TODO: fix this
+    public RandomEntity(World world) {
+        this(null, world);
+    }
+
     @Override
     protected void initCustomGoals() {
         //TODO: proper entity data storage

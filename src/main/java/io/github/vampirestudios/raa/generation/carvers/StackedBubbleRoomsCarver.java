@@ -105,7 +105,7 @@ public class StackedBubbleRoomsCarver extends CaveCarver {
 
         Material material = blockState.getMaterial();
         Material aboveMaterial = aboveBlockState.getMaterial();
-        return (material == Material.STONE || material == Material.EARTH || material == Material.ORGANIC) &&
+        return (material == Material.STONE || material == Material.SOIL || material == Material.ORGANIC_PRODUCT) &&
                 material != Material.WATER &&
                 material != Material.LAVA &&
                 aboveMaterial != Material.WATER &&

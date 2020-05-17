@@ -196,7 +196,7 @@ public class Materials {
             net.minecraft.block.Material baseBlockMaterial = baseBlock.getDefaultState().getMaterial();
             if (baseBlockMaterial == net.minecraft.block.Material.STONE) {
                 blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
-            } else if (baseBlockMaterial == net.minecraft.block.Material.EARTH) {
+            } else if (baseBlockMaterial == net.minecraft.block.Material.SOIL) {
                 blockSettings.breakByTool(FabricToolTags.SHOVELS, material.getMiningLevel());
             } else {
                 blockSettings.breakByHand(true);
@@ -415,7 +415,7 @@ public class Materials {
             net.minecraft.block.Material baseBlockMaterial = baseBlock.getDefaultState().getMaterial();
             if (baseBlockMaterial == net.minecraft.block.Material.STONE) {
                 blockSettings.breakByTool(FabricToolTags.PICKAXES, material.getMiningLevel());
-            } else if (baseBlockMaterial == net.minecraft.block.Material.EARTH) {
+            } else if (baseBlockMaterial == net.minecraft.block.Material.SOIL) {
                 blockSettings.breakByTool(FabricToolTags.SHOVELS, material.getMiningLevel());
             } else {
                 blockSettings.breakByHand(true);

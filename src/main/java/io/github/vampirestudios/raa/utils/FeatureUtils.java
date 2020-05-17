@@ -7,13 +7,13 @@ import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldAccess;
 
 import java.util.Random;
 
 public class FeatureUtils {
 
-    public static void setSpawner(IWorld world, BlockPos pos, EntityType<?> entity) {
+    public static void setSpawner(WorldAccess world, BlockPos pos, EntityType<?> entity) {
         world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2);
         BlockEntity be = world.getBlockEntity(pos);
         if (be instanceof MobSpawnerBlockEntity) {
@@ -21,7 +21,7 @@ public class FeatureUtils {
         }
     }
 
-    public static void setLootChest(IWorld world, BlockPos pos, Identifier lootTable, Random rand) {
+    public static void setLootChest(WorldAccess world, BlockPos pos, Identifier lootTable, Random rand) {
         world.setBlockState(pos, Blocks.CHEST.getDefaultState(), 2);
 
         BlockEntity entity = world.getBlockEntity(pos);

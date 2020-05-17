@@ -159,7 +159,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         public TitleMaterialOverrideEntry(DimensionListScreen og, DimensionData material, Text text) {
             this.s = text.asString();
             Text btnText = new TranslatableText("config.button.raa.edit");
-            overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(btnText) + 10, 20, btnText,
+            overrideButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getWidth(btnText) + 10, 20, btnText,
                     widget -> openClothConfigForMaterial(og, material));
         }
 
@@ -448,7 +448,7 @@ public class RAADimensionDescriptionListWidget extends DynamicElementListWidget<
         @Override
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
             MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, s, x, y, 16777215);
-            if (tooltip != null && mouseX >= x && mouseY >= y && mouseX <= x + MinecraftClient.getInstance().textRenderer.getStringWidth(s) && mouseY <= y + getItemHeight())
+            if (tooltip != null && mouseX >= x && mouseY >= y && mouseX <= x + MinecraftClient.getInstance().textRenderer.getWidth(s) && mouseY <= y + getItemHeight())
                 screen.tooltip = tooltip;
         }
 

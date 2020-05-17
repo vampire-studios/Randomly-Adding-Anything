@@ -30,7 +30,7 @@ public enum PlayerPlacementHandlers {
     }),
     OVERWORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
         BlockPos blockPos = getSurfacePos(destination, teleported);
-        destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(teleported.getEntityWorld().dimension.getType())), "_portal")).getDefaultState()/*.with(PortalBlock.ACTIVATED, true)*/);
+        destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(teleported.getEntityWorld().getDimension().getType())), "_portal")).getDefaultState()/*.with(PortalBlock.ACTIVATED, true)*/);
         return new BlockPattern.TeleportTarget(new Vec3d(new Vector3f(blockPos.getX(), blockPos.getY(), blockPos.getZ())), Vec3d.ZERO, 0);
     }),
     FLOATING_WORLD((teleported, destination, portalDir, horizontalOffset, verticalOffset) -> {
@@ -39,7 +39,7 @@ public enum PlayerPlacementHandlers {
             blockPos = new BlockPos(blockPos.getX(), teleported.getY(), blockPos.getZ());
             destination.setBlockState(blockPos.down(1), Registry.BLOCK.get(Utils.addSuffixToPath(Objects.requireNonNull(Registry.DIMENSION_TYPE.getId(destination.getDimension().getType())), "_portal")).getDefaultState()/*.with(PortalBlock.ACTIVATED, true)*/);
 
-            BlockState stone = ((CustomDimension) destination.dimension).getStoneBlock().getDefaultState();
+            BlockState stone = ((CustomDimension) destination.getDimension()).getStoneBlock().getDefaultState();
 
             blockPos = blockPos.down().down();
             destination.setBlockState(blockPos, stone);

@@ -1,9 +1,6 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
 import io.github.vampirestudios.cab.api.AstralBodyModifier;
-import io.github.vampirestudios.raa.RandomlyAddingAnything;
-import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
-import io.github.vampirestudios.raa.generation.carvers.CaveCavityCarver;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -17,14 +14,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
 
 import java.util.Set;
 
@@ -43,18 +38,85 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
         this.stoneBlock = stoneBlock;
     }
 
+//    @Override
+//    public ChunkGenerator createChunkGenerator() {
+//        CaveCavityCarver.setSeed(world.getSeed());
+//        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, RandomlyAddingAnything.DIMENSIONAL_BIOMES.
+//                applyConfig(new DimensionalBiomeSourceConfig(this.world.getLevelProperties()).setBiomes(biomeSet)), this.dimensionData, this.stoneBlock);
+//    }
+
     @Override
-    public ChunkGenerator<?> createChunkGenerator() {
-        CaveCavityCarver.setSeed(world.getSeed());
-        return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, RandomlyAddingAnything.DIMENSIONAL_BIOMES.
-                applyConfig(new DimensionalBiomeSourceConfig(this.world.getLevelProperties()).setBiomes(biomeSet)), this.dimensionData, this.stoneBlock);
+    public float getSkyAngle(long timeOfDay, float tickDelta) {
+        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.getCustomSkyInformation().hasSky()) {
+            double fractionalPart = MathHelper.fractionalPart((double) timeOfDay / 24000.0D - 0.25D);
+            double v1 = 0.5D - Math.cos(fractionalPart * 3.141592653589793D) / 2.0D;
+            return (float) (fractionalPart * 2.0D + v1) / 3.0F;
+        } else {
+            return 0.0F;
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public float[] getBackgroundColor(float skyAngle, float tickDelta) {
+        return null;
     }
 
     @Override
-    public BlockPos getSpawningBlockInChunk(ChunkPos pos, boolean checkMobSpawnValidity) {
+    public boolean hasVisibleSky() {
+        return !Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.getCustomSkyInformation().hasSky();
+    }
+
+//    @Override
+//    public boolean hasGround() {
+//        return !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.FLOATING) &&
+//                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.LAYERED_FLOATING) &&
+//                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.PRE_CLASSIC_FLOATING);
+//    }
+
+//    @Override
+//    public float getCloudHeight() {
+//        return dimensionData.getCloudHeight();
+//    }
+
+//    @Override
+//    @Environment(EnvType.CLIENT)
+//    public Vec3d modifyFogColor(Vec3d fogColor, float tickDelta) {
+//        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID)) {
+//            return fogColor.multiply(0.15000000596046448D);
+//        }
+//        int fogColor2 = dimensionData.getDimensionColorPalette().getFogColor();
+//        int[] rgbColor = Color.intToRgb(fogColor2);
+//        return new Vec3d(rgbColor[0] / 255.0, rgbColor[1] / 255.0, rgbColor[2] / 255.0);
+//    }
+
+    @Override
+    public boolean canPlayersSleep() {
+        return dimensionData.canSleep();
+    }
+
+//    @Override
+//    public boolean doesWaterVaporize() {
+//        return dimensionData.doesWaterVaporize();
+//    }
+
+
+
+//    @Override
+//    @Environment(EnvType.CLIENT)
+//    public boolean isFogThick(int x, int z) {
+//        return dimensionData.hasThickFog();
+//    }
+
+    @Override
+    public DimensionType getType() {
+        return dimensionType;
+    }
+
+    @Override
+    public BlockPos getSpawningBlockInChunk(long l, ChunkPos pos, boolean checkMobSpawnValidity) {
         for (int startX = pos.getStartX(); startX <= pos.getEndX(); ++startX) {
             for (int startZ = pos.getStartZ(); startZ <= pos.getEndZ(); ++startZ) {
-                BlockPos topSpawningBlockPosition = this.getTopSpawningBlockPosition(startX, startZ, checkMobSpawnValidity);
+                BlockPos topSpawningBlockPosition = this.getTopSpawningBlockPosition(l, startX, startZ, checkMobSpawnValidity);
                 if (topSpawningBlockPosition != null) {
                     return topSpawningBlockPosition;
                 }
@@ -64,7 +126,7 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
     }
 
     @Override
-    public BlockPos getTopSpawningBlockPosition(int x, int z, boolean checkMobSpawnValidity) {
+    public BlockPos getTopSpawningBlockPosition(long l, int x, int z, boolean checkMobSpawnValidity) {
         BlockPos.Mutable mutable = new BlockPos.Mutable(x, 0, z);
         Biome biome = this.world.getBiomeAccess().getBiome(mutable);
         BlockState topMaterial = biome.getSurfaceConfig().getTopMaterial();
@@ -93,71 +155,6 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
                 return null;
             }
         }
-    }
-
-    @Override
-    public float getSkyAngle(long timeOfDay, float tickDelta) {
-        if (!Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.getCustomSkyInformation().hasSky()) {
-            double fractionalPart = MathHelper.fractionalPart((double) timeOfDay / 24000.0D - 0.25D);
-            double v1 = 0.5D - Math.cos(fractionalPart * 3.141592653589793D) / 2.0D;
-            return (float) (fractionalPart * 2.0D + v1) / 3.0F;
-        } else {
-            return 0.0F;
-        }
-    }
-
-    @Environment(EnvType.CLIENT)
-    public float[] getBackgroundColor(float skyAngle, float tickDelta) {
-        return null;
-    }
-
-    @Override
-    public boolean hasVisibleSky() {
-        return !Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.getCustomSkyInformation().hasSky();
-    }
-
-    @Override
-    public boolean hasGround() {
-        return !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.FLOATING) &&
-                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.LAYERED_FLOATING) &&
-                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.PRE_CLASSIC_FLOATING);
-    }
-
-    @Override
-    public float getCloudHeight() {
-        return dimensionData.getCloudHeight();
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public Vec3d modifyFogColor(Vec3d fogColor, float tickDelta) {
-        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID)) {
-            return fogColor.multiply(0.15000000596046448D);
-        }
-        int fogColor2 = dimensionData.getDimensionColorPalette().getFogColor();
-        int[] rgbColor = Color.intToRgb(fogColor2);
-        return new Vec3d(rgbColor[0] / 255.0, rgbColor[1] / 255.0, rgbColor[2] / 255.0);
-    }
-
-    @Override
-    public boolean canPlayersSleep() {
-        return dimensionData.canSleep();
-    }
-
-    @Override
-    public boolean doesWaterVaporize() {
-        return dimensionData.doesWaterVaporize();
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public boolean isFogThick(int x, int z) {
-        return dimensionData.hasThickFog();
-    }
-
-    @Override
-    public DimensionType getType() {
-        return dimensionType;
     }
 
     public Block getStoneBlock() {

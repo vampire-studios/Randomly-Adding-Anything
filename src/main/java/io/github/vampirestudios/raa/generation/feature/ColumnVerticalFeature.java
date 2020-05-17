@@ -4,12 +4,11 @@ import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.generation.feature.config.ColumnBlocksConfig;
 import io.github.vampirestudios.raa.utils.OpenSimplexNoise;
 import net.minecraft.block.BlockState;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.Feature;
 
 import java.util.Random;
@@ -38,7 +37,7 @@ public class ColumnVerticalFeature extends Feature<ColumnBlocksConfig> {
 
 
 	@Override
-	public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, ColumnBlocksConfig blocksConfig) {
+	public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator changedBlock, Random rand, BlockPos position, ColumnBlocksConfig blocksConfig) {
 		setSeed(world.getSeed());
 		BlockPos.Mutable blockpos$Mutable = new BlockPos.Mutable(position.getX(), position.getY(), position.getZ());
 		int minWidth = 3;

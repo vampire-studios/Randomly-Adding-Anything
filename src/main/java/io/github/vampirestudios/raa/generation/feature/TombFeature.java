@@ -8,6 +8,7 @@ import io.github.vampirestudios.raa.utils.Utils;
 import io.github.vampirestudios.raa.utils.noise.old.OctaveOpenSimplexNoise;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
@@ -15,10 +16,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.surfacebuilder.SurfaceConfig;
@@ -41,7 +40,7 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random rand, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random rand, BlockPos pos, DefaultFeatureConfig config) {
         if (world.getBlockState(pos.add(0, -3, 0)).isAir() || !world.getBlockState(pos.add(0, -3, 0)).isOpaque() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
             return true;
         final BiomeSource source = chunkGenerator.getBiomeSource();
@@ -49,7 +48,7 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
         return this.generate(world, rand, pos.add(0, -3, 0), (x, y, z) -> source.getBiomeForNoiseGen(x, y, z).getSurfaceConfig());
     }
 
-    private boolean generate(IWorld world, Random rand, BlockPos pos, Coordinate3iFunction<SurfaceConfig> configFunction) {
+    private boolean generate(ServerWorldAccess world, Random rand, BlockPos pos, Coordinate3iFunction<SurfaceConfig> configFunction) {
         int centreX = pos.getX() + rand.nextInt(16) - 8;
         int centreZ = pos.getZ() + rand.nextInt(16) - 8;
         int lowY = pos.getY() - 3;
@@ -88,7 +87,7 @@ public class TombFeature extends Feature<DefaultFeatureConfig> {
         return true;
     }
 
-    private void generateBarrowColumn(IWorld world, Random rand, int lowY, int heightOffset, BlockPos.Mutable pos, SurfaceConfig surfaceConfig) {
+    private void generateBarrowColumn(ServerWorldAccess world, Random rand, int lowY, int heightOffset, BlockPos.Mutable pos, SurfaceConfig surfaceConfig) {
         int upperY = lowY + heightOffset;
 
         for (int y = upperY; y >= lowY; --y) {

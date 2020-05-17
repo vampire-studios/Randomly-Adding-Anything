@@ -17,16 +17,15 @@ import net.minecraft.util.math.noise.OctavePerlinNoiseSampler;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.ZombieSiegeManager;
 import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnEntry;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.*;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.level.LevelGeneratorType;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -48,11 +47,20 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
     private final CatSpawner catSpawner = new CatSpawner();
     private final ZombieSiegeManager zombieSiegeManager = new ZombieSiegeManager();
 
-    public OverworldChunkGenerator(IWorld world, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
-        super(world, biomeSource, 4, 8, 256, config, false);
+    private final OverworldChunkGeneratorConfig chunkGeneratorConfig;
+
+    public OverworldChunkGenerator(long seed, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
+        super(biomeSource, seed, config, 4, 8, 256, false);
+        this.chunkGeneratorConfig = config;
         this.random.consume(2620);
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
-        this.amplified = world.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
+        //        this.amplified = world.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
+        this.amplified = false;
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new OverworldChunkGenerator(seed, this.biomeSource.create(seed), this.chunkGeneratorConfig);
     }
 
     public void populateEntities(ChunkRegion region) {
@@ -136,8 +144,8 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
         return d;
     }
 
-    public List<SpawnEntry> getEntitySpawnList(SpawnGroup category, StructureAccessor StructureAccessor, BlockPos pos) {
-        if (Feature.SWAMP_HUT.method_14029(this.world, StructureAccessor, pos)) {
+    public List<SpawnEntry> getEntitySpawnList(Biome biome, SpawnGroup category, StructureAccessor StructureAccessor, BlockPos pos) {
+        if (Feature.SWAMP_HUT.method_14029(StructureAccessor, pos)) {
             if (category == SpawnGroup.MONSTER) {
                 return Feature.SWAMP_HUT.getMonsterSpawns();
             }
@@ -146,16 +154,16 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
                 return Feature.SWAMP_HUT.getCreatureSpawns();
             }
         } else if (category == SpawnGroup.MONSTER) {
-            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(this.world, StructureAccessor, pos)) {
+            if (Feature.PILLAGER_OUTPOST.isApproximatelyInsideStructure(StructureAccessor, pos)) {
                 return Feature.PILLAGER_OUTPOST.getMonsterSpawns();
             }
 
-            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(this.world, StructureAccessor, pos)) {
+            if (Feature.OCEAN_MONUMENT.isApproximatelyInsideStructure(StructureAccessor, pos)) {
                 return Feature.OCEAN_MONUMENT.getMonsterSpawns();
             }
         }
 
-        return super.getEntitySpawnList(StructureAccessor, category, pos);
+        return super.getEntitySpawnList(biome, StructureAccessor, category, pos);
     }
 
     @Override
@@ -194,7 +202,7 @@ public class OverworldChunkGenerator extends SurfaceChunkGenerator<OverworldChun
     }
 
     public int getSpawnHeight() {
-        return this.world.getSeaLevel() + 1;
+        return getSeaLevel() + 1;
     }
 
     public int getSeaLevel() {

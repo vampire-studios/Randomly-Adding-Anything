@@ -1,14 +1,21 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.floating;
 
-import net.minecraft.world.IWorld;
+import net.minecraft.class_5284;
 import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.gen.chunk.FloatingIslandsChunkGeneratorConfig;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 
-public class FloatingIslandsChunkGenerator extends SurfaceChunkGenerator<FloatingIslandsChunkGeneratorConfig> {
+public class FloatingIslandsChunkGenerator extends SurfaceChunkGenerator<class_5284> {
+    private final class_5284 chunkGeneratorConfig;
 
-    public FloatingIslandsChunkGenerator(IWorld iWorld, BiomeSource biomeSource, FloatingIslandsChunkGeneratorConfig floatingIslandsChunkGeneratorConfig) {
-        super(iWorld, biomeSource, 8, 4, 128, floatingIslandsChunkGeneratorConfig, true);
+    public FloatingIslandsChunkGenerator(long seed, BiomeSource biomeSource, class_5284 chunkGeneratorConfig) {
+        super(biomeSource, seed, chunkGeneratorConfig, 8, 4, 128, true);
+        this.chunkGeneratorConfig = chunkGeneratorConfig;
+    }
+
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new FloatingIslandsChunkGenerator(seed, this.biomeSource.create(seed), this.chunkGeneratorConfig);
     }
 
     protected void sampleNoiseColumn(double[] buffer, int x, int z) {
@@ -16,18 +23,22 @@ public class FloatingIslandsChunkGenerator extends SurfaceChunkGenerator<Floatin
     }
 
     protected double[] computeNoiseRange(int x, int z) {
-        return new double[]{(double) this.biomeSource.getNoiseRange(x, z), 0.0D};
+        return new double[]{(double) this.biomeSource.getNoiseAt(x, z), 0.0D};
     }
 
     protected double computeNoiseFalloff(double depth, double scale, int y) {
         return 8.0D - depth;
     }
 
-    protected double method_16409() {
-        return super.method_16409() / 2;
+
+
+    @Override
+    protected double topInterpolationStart() {
+        return super.topInterpolationStart();
     }
 
-    protected double method_16410() {
+    @Override
+    protected double bottomInterpolationStart() {
         return 8.0D;
     }
 

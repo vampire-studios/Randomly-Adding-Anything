@@ -3,9 +3,8 @@ package io.github.vampirestudios.raa.generation.decorator;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
 
@@ -22,7 +21,7 @@ public class RandomExtraHeightmapDecorator extends Decorator<CountExtraChanceDec
     }
 
     @Override
-    public Stream<BlockPos> getPositions(IWorld iWorld_1, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator_1, Random random_1, CountExtraChanceDecoratorConfig countExtraChanceDecoratorConfig_1, BlockPos blockPos_1) {
+    public Stream<BlockPos> getPositions(WorldAccess iWorld_1, ChunkGenerator chunkGenerator_1, Random random_1, CountExtraChanceDecoratorConfig countExtraChanceDecoratorConfig_1, BlockPos blockPos_1) {
         if (random == null) random = new Random();
         int int_1 = countExtraChanceDecoratorConfig_1.count;
         if (random.nextFloat() < countExtraChanceDecoratorConfig_1.extraChance) {

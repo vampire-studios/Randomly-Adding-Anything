@@ -5,7 +5,7 @@ import io.github.vampirestudios.raa.api.RAAWorldAPI;
 import io.github.vampirestudios.raa.config.*;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
-import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
+//import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSourceConfig;
 import io.github.vampirestudios.raa.generation.materials.MaterialRecipes;
 import io.github.vampirestudios.raa.generation.surface.random.SurfaceBuilderGenerator;
 import io.github.vampirestudios.raa.generation.targets.OreTargetGenerator;
@@ -62,7 +62,7 @@ public class RandomlyAddingAnything implements ModInitializer {
     public static DimensionMaterialsConfig DIMENSION_MATERIALS_CONFIG;
     public static EntitiesConfig ENTITIES_CONFIG;
 
-    public static BiomeSourceType<DimensionalBiomeSourceConfig, DimensionalBiomeSource> DIMENSIONAL_BIOMES;
+//    public static BiomeSourceType<DimensionalBiomeSourceConfig, DimensionalBiomeSource> DIMENSIONAL_BIOMES;
 
     public static ModCompat MODCOMPAT;
 
@@ -90,13 +90,13 @@ public class RandomlyAddingAnything implements ModInitializer {
 
         //Reflection hacks
         Constructor<BiomeSourceType> constructor;
-        try {
-            constructor = BiomeSourceType.class.getDeclaredConstructor(Function.class, LongFunction.class);
-            constructor.setAccessible(true);
-            DIMENSIONAL_BIOMES = constructor.newInstance((Function) DimensionalBiomeSource::new, (LongFunction) DimensionalBiomeSourceConfig::new);
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            constructor = BiomeSourceType.class.getDeclaredConstructor(Function.class, LongFunction.class);
+//            constructor.setAccessible(true);
+//            DIMENSIONAL_BIOMES = constructor.newInstance((Function) DimensionalBiomeSource::new, (LongFunction) DimensionalBiomeSourceConfig::new);
+//        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+//            e.printStackTrace();
+//        }
 
         OreTargetGenerator.registerElements();
         ORE_TARGET_CONFIG = new OreTargetConfig("targets/ore_target_config");

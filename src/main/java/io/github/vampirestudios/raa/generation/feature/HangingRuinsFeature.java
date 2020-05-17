@@ -11,10 +11,10 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.*;
 
 import java.util.Random;
@@ -29,7 +29,7 @@ public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 	}
 
 	@Override
-	public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> changedBlock, Random rand, BlockPos position, DefaultFeatureConfig config) {
+	public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator changedBlock, Random rand, BlockPos position, DefaultFeatureConfig config) {
 		//makes sure this ruins does not spawn too close to world height border.
 		if (position.getY() < world.getSeaLevel() + 5) {
 			return false;
@@ -84,7 +84,7 @@ public class HangingRuinsFeature extends Feature<DefaultFeatureConfig> {
 	}
 
 
-	private boolean shouldMoveDownOne(IWorld world, BlockPos.Mutable blockpos$Mutable, BlockPos.Mutable offset, BlockRotation rot) {
+	private boolean shouldMoveDownOne(WorldAccess world, BlockPos.Mutable blockpos$Mutable, BlockPos.Mutable offset, BlockRotation rot) {
 
 		//if we are on a 1 block thick ledge at any point, move down one so ruins ceiling isn't exposed 
 		for (int x = -5; x <= 5; x++)

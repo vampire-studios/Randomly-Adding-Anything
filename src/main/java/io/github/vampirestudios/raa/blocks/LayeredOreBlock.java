@@ -110,11 +110,11 @@ public class LayeredOreBlock extends OreBlock {
         if (tableId == LootTables.EMPTY) {
             return Collections.emptyList();
         } else {
-            LootContext context = builder.put(LootContextParameters.BLOCK_STATE, state).build(LootContextTypes.BLOCK);
+            LootContext context = builder.parameter(LootContextParameters.BLOCK_STATE, state).build(LootContextTypes.BLOCK);
             ServerWorld world = context.getWorld();
             LootTable lootSupplier = world.getServer().getLootManager().getTable(tableId);
 
-            List<ItemStack> result = lootSupplier.getDrops(context);
+            List<ItemStack> result = lootSupplier.generateLoot(context);
             if (result.isEmpty()) {
                 //This might not be good. Confirm:
 

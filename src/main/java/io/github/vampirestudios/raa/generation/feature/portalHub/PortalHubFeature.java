@@ -13,7 +13,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
@@ -32,7 +33,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
         super(function);
     }
 
-    public static void placePiece(IWorld world, BlockPos pos, JsonConverter.StructureValues piece, int decay) {
+    public static void placePiece(WorldAccess world, BlockPos pos, JsonConverter.StructureValues piece, int decay) {
         int themeNum = Rands.randInt(PortalHubThemes.PORTAL_HUB_THEMES.getIds().size());
         PortalHubTheme theme = PortalHubThemes.PORTAL_HUB_THEMES.get(themeNum);
         assert theme != null;
@@ -87,7 +88,7 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         JsonObject jsonObject = null;
         try {
             Resource path = Objects.requireNonNull(world.getWorld().getServer()).getDataManager().getResource(new Identifier("raa:structures/portal_hub/portal_hub.json"));

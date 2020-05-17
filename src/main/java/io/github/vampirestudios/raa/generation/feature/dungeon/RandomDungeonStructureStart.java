@@ -26,7 +26,7 @@ public class RandomDungeonStructureStart extends StructureStart {
     }
  
     @Override
-    public void init(ChunkGenerator<?> chunkGenerator, StructureManager structureManager, int x, int z, Biome biome) {
+    public void init(ChunkGenerator chunkGenerator, StructureManager structureManager, int x, int z, Biome biome) {
         StructurePoolBasedGenerator.addPieces(CENTERS, 7, RandomDungeonPiece::new, chunkGenerator, structureManager, new BlockPos(x * 16, 0, z * 16), children, random, true, true);
         setBoundingBoxFromChildren();
     }

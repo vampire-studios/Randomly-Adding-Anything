@@ -1,12 +1,12 @@
 package io.github.vampirestudios.raa.world.gen.feature;
 
 import com.mojang.datafixers.Dynamic;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Heightmap.Type;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.Feature;
@@ -22,7 +22,7 @@ public class OreFeature extends Feature<OreFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld iWorld, StructureAccessor StructureAccessor, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos blockPos, OreFeatureConfig oreFeatureConfig) {
+    public boolean generate(ServerWorldAccess iWorld, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, OreFeatureConfig oreFeatureConfig) {
         float f = random.nextFloat() * 3.1415927F;
         float g = (float) oreFeatureConfig.size / 8.0F;
         int i = MathHelper.ceil(((float) oreFeatureConfig.size / 16.0F * 2.0F + 1.0F) / 2.0F);
@@ -51,7 +51,7 @@ public class OreFeature extends Feature<OreFeatureConfig> {
         return false;
     }
 
-    protected boolean generateVeinPart(IWorld world, Random random_1, OreFeatureConfig config, double startX, double endX, double startZ, double endZ, double startY, double endY, int x, int y, int z, int size, int i) {
+    protected boolean generateVeinPart(ServerWorldAccess world, Random random_1, OreFeatureConfig config, double startX, double endX, double startZ, double endZ, double startY, double endY, int x, int y, int z, int size, int i) {
         int j = 0;
         BitSet bitSet = new BitSet(size * i * size);
         Mutable mutable = new Mutable();

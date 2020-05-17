@@ -4,9 +4,8 @@ import com.mojang.datafixers.Dynamic;
 import io.github.vampirestudios.raa.generation.feature.config.ChanceAndTypeConfig;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
 
 import java.util.Random;
@@ -20,7 +19,7 @@ public class LedgeUndersideMiniFeature extends Decorator<ChanceAndTypeConfig> {
 	}
 
 	@Override
-	public Stream<BlockPos> getPositions(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, ChanceAndTypeConfig placementConfig, BlockPos pos) {
+	public Stream<BlockPos> getPositions(WorldAccess world, ChunkGenerator chunkGenerator, Random random, ChanceAndTypeConfig placementConfig, BlockPos pos) {
 		float chance;
 
 		//hacky workaround as biome/feature registration happens at MC startup before the config file is loaded in a world. 
@@ -55,7 +54,7 @@ public class LedgeUndersideMiniFeature extends Decorator<ChanceAndTypeConfig> {
 	}
 
 
-	private int YPositionOfBottomOfLayer(IWorld world, BlockPos pos) {
+	private int YPositionOfBottomOfLayer(WorldAccess world, BlockPos pos) {
 		BlockPos.Mutable blockpos$Mutable = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
 
 		// if height is inside a non-air block, move up until we reached an air block

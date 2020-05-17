@@ -5,9 +5,10 @@ import io.github.vampirestudios.raa.generation.feature.config.CorruptedFeatureCo
 import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 
@@ -26,7 +27,7 @@ public class CraterFeature extends Feature<CorruptedFeatureConfig> {
         ALLOWED_STATES.add(Blocks.SAND.getDefaultState());
     }
 
-    private static boolean canSpawn(IWorld world, BlockPos pos) {
+    private static boolean canSpawn(WorldAccess world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         if (state == Blocks.GRASS_BLOCK.getDefaultState() || state == Blocks.PODZOL.getDefaultState() || state == Blocks.COARSE_DIRT.getDefaultState())
             return true;
@@ -34,7 +35,7 @@ public class CraterFeature extends Feature<CorruptedFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, CorruptedFeatureConfig config) {
+    public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, CorruptedFeatureConfig config) {
         if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
             return true;
         if (canSpawn(world, pos.add(0, -1, 0))) {

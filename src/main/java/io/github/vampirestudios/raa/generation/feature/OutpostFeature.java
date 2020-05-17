@@ -6,13 +6,13 @@ import io.github.vampirestudios.raa.utils.Rands;
 import io.github.vampirestudios.raa.utils.Utils;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.loot.LootTables;
 import net.minecraft.state.property.Properties;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
@@ -32,7 +32,7 @@ public class OutpostFeature extends Feature<DefaultFeatureConfig> {
     // T3 = crying obsidian
     // T-1 = cobblestone
 
-    public static void placeBlockAt(IWorld world, BlockPos pos, int tier) {
+    public static void placeBlockAt(ServerWorldAccess world, BlockPos pos, int tier) {
         switch (tier) {
             case -1:
                 int randneg1 = Rands.randInt(4);
@@ -87,7 +87,7 @@ public class OutpostFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(ServerWorldAccess world, StructureAccessor StructureAccessor, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         if (world.getBlockState(pos.add(0, -1, 0)).isAir() || !world.getBlockState(pos.add(0, -1, 0)).isOpaque() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState()))
             return true;
         int tier = 0;

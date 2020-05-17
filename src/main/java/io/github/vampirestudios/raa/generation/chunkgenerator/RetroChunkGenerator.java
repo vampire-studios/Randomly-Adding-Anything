@@ -13,17 +13,23 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 
 import java.util.stream.IntStream;
 
-public class RetroChunkGenerator extends ChunkGenerator<NoneGeneratorSettings> {
+public class RetroChunkGenerator extends ChunkGenerator {
       private final OctaveSimplexNoiseSampler noise = new OctaveSimplexNoiseSampler(new ChunkRandom(1234L), IntStream.rangeClosed(-5, 0));
 
-      public RetroChunkGenerator(IWorld iWorld, BiomeSource biomeSource, NoneGeneratorSettings arg) {
-         super(iWorld, biomeSource, arg);
+      public RetroChunkGenerator(BiomeSource biomeSource, ChunkGeneratorConfig arg) {
+         super(biomeSource, arg);
       }
 
-      public void buildSurface(ChunkRegion region, Chunk chunk) {
+    @Override
+    public ChunkGenerator create(long seed) {
+        return new RetroChunkGenerator(this.biomeSource.create(seed), this.getConfig());
+    }
+
+    public void buildSurface(ChunkRegion region, Chunk chunk) {
       }
 
       public void generateFeatures(ChunkRegion region) {
@@ -36,7 +42,7 @@ public class RetroChunkGenerator extends ChunkGenerator<NoneGeneratorSettings> {
          return 100;
       }
 
-      public void populateNoise(IWorld world, StructureAccessor StructureAccessor, Chunk chunk) {
+      public void populateNoise(WorldAccess world, StructureAccessor StructureAccessor, Chunk chunk) {
          BlockState blockState = Blocks.BLACK_CONCRETE.getDefaultState();
          BlockState blockState2 = Blocks.LIME_CONCRETE.getDefaultState();
          ChunkPos chunkPos = chunk.getPos();

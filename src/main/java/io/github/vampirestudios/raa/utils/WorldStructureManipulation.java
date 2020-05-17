@@ -15,13 +15,13 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldAccess;
 
 import java.util.*;
 
 public class WorldStructureManipulation {
 
-    public static Vec3i circularSpawnCheck(IWorld world, BlockPos pos, Vec3i size, float tolerance) {
+    public static Vec3i circularSpawnCheck(WorldAccess world, BlockPos pos, Vec3i size, float tolerance) {
         //Make sure the structure can spawn here
         int xOrigin = pos.getX();
         int zOrigin = pos.getZ();
@@ -75,7 +75,7 @@ public class WorldStructureManipulation {
         return newPos;
     }
 
-    private static Vec3i trySpawning(IWorld world, BlockPos pos, Vec3i size, float tolerance) {
+    private static Vec3i trySpawning(WorldAccess world, BlockPos pos, Vec3i size, float tolerance) {
         if (world.getBlockState(pos.add(0, -1, 0)).isAir() || world.getBlockState(pos.add(0, -1, 0)).equals(Blocks.BEDROCK.getDefaultState())) {
             return Vec3i.ZERO;
         }
@@ -130,7 +130,7 @@ public class WorldStructureManipulation {
         return (pos.add(0, modeHeight - pos.getY(), 0));
     }
 
-    public static void placeBlock(IWorld world, BlockPos pos, String block, Map<String, String> properties, int rotation) {
+    public static void placeBlock(WorldAccess world, BlockPos pos, String block, Map<String, String> properties, int rotation) {
         //Place block
         world.setBlockState(pos, Registry.BLOCK.get(Identifier.tryParse(block)).getDefaultState(), 2);
 
@@ -248,7 +248,7 @@ public class WorldStructureManipulation {
         }
     }
 
-    public static void spawnEntity(IWorld world, BlockPos pos, String entity, Map<String, String> properties, float rotation) {
+    public static void spawnEntity(WorldAccess world, BlockPos pos, String entity, Map<String, String> properties, float rotation) {
         if (entity.equals("minecraft:armor_stand")) {
             Entity armorStand = EntityType.ARMOR_STAND.create(world.getWorld());
 

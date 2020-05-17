@@ -7,15 +7,15 @@ import io.github.vampirestudios.raa.utils.Rands;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
@@ -35,7 +35,7 @@ public class AbovegroundStorageFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, StructureAccessor arg, ChunkGenerator<? extends ChunkGeneratorConfig> generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(ServerWorldAccess world, StructureAccessor arg, ChunkGenerator generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         int width = Rands.randIntRange(6, 10);
         int length = Rands.randIntRange(6, 10);
         int height = Rands.randIntRange(4, 8);
@@ -92,7 +92,7 @@ public class AbovegroundStorageFeature extends Feature<DefaultFeatureConfig> {
         return false;
     }
 
-    public static void placeBlockAt(IWorld world, BlockPos pos) {
+    public static void placeBlockAt(WorldAccess world, BlockPos pos) {
         int rand = Rands.randInt(4);
         switch (rand) {
             case 0:
@@ -110,13 +110,13 @@ public class AbovegroundStorageFeature extends Feature<DefaultFeatureConfig> {
 
     //TODO: split into more classes when more area decorators are added
     private static abstract class AreaDecorator {
-        public abstract Set<BlockPos> decorate(IWorld world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height);
+        public abstract Set<BlockPos> decorate(WorldAccess world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height);
     }
 
     private static class RareBlockAreaDecorator extends AreaDecorator {
 
         @Override
-        public Set<BlockPos> decorate(IWorld world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
+        public Set<BlockPos> decorate(WorldAccess world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
             Set<BlockPos> decoratedPositions = new HashSet<>();
 
             Dimension dimension = world.getDimension();
@@ -165,7 +165,7 @@ public class AbovegroundStorageFeature extends Feature<DefaultFeatureConfig> {
     public static class LibraryAreaDecorator extends AreaDecorator {
 
         @Override
-        public Set<BlockPos> decorate(IWorld world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
+        public Set<BlockPos> decorate(WorldAccess world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
             Set<BlockPos> decoratedPositions = new HashSet<>();
 
             //castle transformer
@@ -188,7 +188,7 @@ public class AbovegroundStorageFeature extends Feature<DefaultFeatureConfig> {
     public static class PillarsAreaDecorator extends AreaDecorator {
 
         @Override
-        public Set<BlockPos> decorate(IWorld world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
+        public Set<BlockPos> decorate(WorldAccess world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
             Set<BlockPos> decoratedPositions = new HashSet<>();
 
             for (int x = -width; x <= width; x++) {
@@ -212,7 +212,7 @@ public class AbovegroundStorageFeature extends Feature<DefaultFeatureConfig> {
     private static class MonsterSpawnerAreaDecorator extends AreaDecorator {
 
         @Override
-        public Set<BlockPos> decorate(IWorld world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
+        public Set<BlockPos> decorate(WorldAccess world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
             Set<BlockPos> decoratedPositions = new HashSet<>();
 
             for (BlockPos pos : airPositions) {
@@ -244,7 +244,7 @@ public class AbovegroundStorageFeature extends Feature<DefaultFeatureConfig> {
     public static class CobwebAreaDecorator extends AreaDecorator {
 
         @Override
-        public Set<BlockPos> decorate(IWorld world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
+        public Set<BlockPos> decorate(WorldAccess world, Set<BlockPos> airPositions, BlockPos basePos, int width, int length, int height) {
             Set<BlockPos> decoratedPositions = new HashSet<>();
 
             for (BlockPos pos : airPositions) {
