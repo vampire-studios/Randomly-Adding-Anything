@@ -3,6 +3,9 @@ package io.github.vampirestudios.raa.client;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.registries.Dimensions;
+import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.TextureUtils;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
@@ -17,6 +20,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelOverrideList;
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.world.ClientWorld;
@@ -51,8 +56,8 @@ public class DimensionalOreBakedModel extends RAABakedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        Identifier diemnsionId = new Identifier(dimensionMaterial.getId().getNamespace(), dimensionMaterial.getId().getPath().split("_")[0]);
-        DimensionData dimensionData = Dimensions.DIMENSIONS.get(diemnsionId);
+        Identifier dimensionId = new Identifier(dimensionMaterial.getId().getNamespace(), dimensionMaterial.getId().getPath().split("_")[0]);
+        DimensionData dimensionData = Dimensions.DIMENSIONS.get(dimensionId);
 
         RenderMaterial mat = renderer.materialFinder().disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).find();
         int color = Objects.requireNonNull(dimensionData).getDimensionColorPalette().getStoneColor();
@@ -90,7 +95,20 @@ public class DimensionalOreBakedModel extends RAABakedModel {
             mat = renderer.materialFinder().disableDiffuse(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
         }
         color = dimensionMaterial.getColor();
-        sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.dimensionMaterial.getTexturesInformation().getOverlayTexture());
+        /*sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
+                .apply(this.dimensionMaterial.getTexturesInformation().getOverlayTexture());*/
+
+        NativeImage imageBase = TextureUtils.generateOreTexture(
+                TextureUtils.getImage(dimensionData.getTexturesInformation().getStoneTexture()),
+                Rands.getRandom().nextLong(),
+                color
+        );
+
+        Identifier textureId = Utils.addSuffixToPath(material.getId(), "_ore_overlay.png");
+        MinecraftClient.getInstance().getTextureManager().registerTexture(textureId, new NativeImageBackedTexture(imageBase));
+
+        sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
+                .apply(textureId);
 
         emitter.square(Direction.SOUTH, 0, 0, 1, 1, 0)
                 .material(mat)
