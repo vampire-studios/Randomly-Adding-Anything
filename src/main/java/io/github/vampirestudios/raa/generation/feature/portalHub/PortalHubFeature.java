@@ -77,7 +77,9 @@ public class PortalHubFeature extends Feature<DefaultFeatureConfig> {
                     case "minecraft:orange_wool":
                         List<DimensionData> dimensionDataList = new ArrayList<>();
                         Dimensions.DIMENSIONS.forEach(dimensionDataList::add);
-                        WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + Rands.list(dimensionDataList).getName().toLowerCase() + "_portal", currBlockProp, 0);
+                        if (dimensionDataList.size() > 0) {
+                            WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), "raa:" + Rands.list(dimensionDataList).getName().toLowerCase() + "_portal", currBlockProp, 0);
+                        }
                         break;
                     default:
                         WorldStructureManipulation.placeBlock(world, pos.add(currBlockPos), currBlockType, currBlockProp, 0);

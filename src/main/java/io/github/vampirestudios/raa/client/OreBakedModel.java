@@ -3,6 +3,9 @@ package io.github.vampirestudios.raa.client;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.CustomTargets;
+import io.github.vampirestudios.raa.utils.Rands;
+import io.github.vampirestudios.raa.utils.TextureUtils;
+import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
@@ -19,6 +22,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelOverrideList;
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.world.ClientWorld;
@@ -54,10 +59,11 @@ public class OreBakedModel extends RAABakedModel {
         RenderMaterial mat = renderer.materialFinder().blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, true).disableAo(0, false).find();
         int color = 0xFFFFFFFF;
         Sprite sprite;
+        Identifier baseTexture = new Identifier(Registry.BLOCK.getId(Objects.requireNonNull(
+                RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).getNamespace(), "block/" +
+                Registry.BLOCK.getId(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).getPath());
         if (material.getOreInformation().getTargetId() != CustomTargets.DOES_NOT_APPEAR.getId()) {
-            sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier(Registry.BLOCK.getId(Objects.requireNonNull(
-                    RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).getNamespace(), "block/" +
-                    Registry.BLOCK.getId(Objects.requireNonNull(RAARegisteries.TARGET_REGISTRY.get(material.getOreInformation().getTargetId())).getBlock()).getPath()));
+            sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(baseTexture);
         } else {
             sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("block/oak_planks"));
         }
@@ -70,7 +76,20 @@ public class OreBakedModel extends RAABakedModel {
             mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
         }
         color = material.getColor();
-        sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());
+//        sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());
+
+        NativeImage imageBase = TextureUtils.generateOreTexture(
+                TextureUtils.getImage(baseTexture),
+                Rands.getRandom().nextLong(),
+                color
+        );
+
+        Identifier textureId = Utils.addSuffixToPath(material.getId(), "_ore_overlay");
+        System.out.println(textureId);
+        MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(textureId.getPath(), new NativeImageBackedTexture(imageBase));
+
+        sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
+                .apply(textureId);
 
         this.renderOverlay(emitter, mat, sprite, color);
 
