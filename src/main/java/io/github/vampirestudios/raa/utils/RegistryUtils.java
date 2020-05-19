@@ -143,9 +143,9 @@ public class RegistryUtils {
      * @param settingsSupplier   config supplier
      * @param buffetScreenOption whether or not the ChunkGeneratorType should appear in the buffet screen options page
      */
-    public static <C extends ChunkGeneratorConfig, T extends ChunkGenerator<C>> ChunkGeneratorType<C, T> registerChunkGenerator(Identifier id, ChunkGeneratorFactory<C, T> factory, Supplier<C> settingsSupplier, boolean buffetScreenOption) {
-        return Registry.register(Registry.CHUNK_GENERATOR_TYPE, id, new ChunkGeneratorType<>(factory, buffetScreenOption, settingsSupplier));
-    }
+//    public static <C extends ChunkGeneratorConfig, T extends ChunkGenerator<C>> ChunkGeneratorType<C, T> registerChunkGenerator(Identifier id, ChunkGeneratorFactory<C, T> factory, Supplier<C> settingsSupplier, boolean buffetScreenOption) {
+//        return Registry.register(Registry.CHUNK_GENERATOR_TYPE, id, new ChunkGeneratorType<>(factory, buffetScreenOption, settingsSupplier));
+//    }
 
     public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(Builder<T> builder, Identifier name) {
         BlockEntityType<T> blockEntityType = builder.build(null);

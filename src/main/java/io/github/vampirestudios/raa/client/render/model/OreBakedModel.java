@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.client;
+package io.github.vampirestudios.raa.client.render.model;
 
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.generation.materials.Material;

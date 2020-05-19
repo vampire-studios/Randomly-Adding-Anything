@@ -56,11 +56,6 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
         }
     }
 
-    @Environment(EnvType.CLIENT)
-    public float[] getBackgroundColor(float skyAngle, float tickDelta) {
-        return null;
-    }
-
     @Override
     public boolean hasVisibleSky() {
         return !Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.getCustomSkyInformation().hasSky();
@@ -73,22 +68,6 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
 //                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.PRE_CLASSIC_FLOATING);
 //    }
 
-//    @Override
-//    public float getCloudHeight() {
-//        return dimensionData.getCloudHeight();
-//    }
-
-//    @Override
-//    @Environment(EnvType.CLIENT)
-//    public Vec3d modifyFogColor(Vec3d fogColor, float tickDelta) {
-//        if (Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID)) {
-//            return fogColor.multiply(0.15000000596046448D);
-//        }
-//        int fogColor2 = dimensionData.getDimensionColorPalette().getFogColor();
-//        int[] rgbColor = Color.intToRgb(fogColor2);
-//        return new Vec3d(rgbColor[0] / 255.0, rgbColor[1] / 255.0, rgbColor[2] / 255.0);
-//    }
-
     @Override
     public boolean canPlayersSleep() {
         return dimensionData.canSleep();
@@ -97,14 +76,6 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
 //    @Override
 //    public boolean doesWaterVaporize() {
 //        return dimensionData.doesWaterVaporize();
-//    }
-
-
-
-//    @Override
-//    @Environment(EnvType.CLIENT)
-//    public boolean isFogThick(int x, int z) {
-//        return dimensionData.hasThickFog();
 //    }
 
     @Override

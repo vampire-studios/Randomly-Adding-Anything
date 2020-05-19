@@ -53,30 +53,31 @@ public enum DimensionChunkGenerators {
         class_5284 floatingConfig = new class_5284(new ChunkGeneratorConfig());
         floatingConfig.setDefaultBlock(stoneBlock.getDefaultState());
 
-        if (this == CAVES) return ChunkGenerators.CAVES.create(world, biomeSource, caveConfig);
-        if (this == FLAT_CAVES) return ChunkGenerators.FLAT_CAVES.create(world, biomeSource, caveConfig);
-        if (this == HIGH_CAVES) return ChunkGenerators.HIGH_CAVES.create(world, biomeSource, caveConfig);
+//        if (this == CAVES) return ChunkGenerators.CAVES.create(world, biomeSource, caveConfig);
+//        if (this == FLAT_CAVES) return ChunkGenerators.FLAT_CAVES.create(world, biomeSource, caveConfig);
+//        if (this == HIGH_CAVES) return ChunkGenerators.HIGH_CAVES.create(world, biomeSource, caveConfig);
 
 //        if (this == FLOATING) return ChunkGenerators.FLOATING_ISLANDS.create(world, biomeSource, floatingConfig);
-        if (this == LAYERED_FLOATING)
-            return ChunkGenerators.LAYERED_FLOATING.create(world, biomeSource, floatingConfig);
-        if (this == FLOATING)
-            return ChunkGenerators.LAYERED_FLOATING.create(world, biomeSource, floatingConfig);
-        if (this == PRE_CLASSIC_FLOATING)
-            return ChunkGenerators.PRE_CLASSIC_FLOATING.create(world, biomeSource, floatingConfig);
-
-        if (this == QUADRUPLE_AMPLIFIED) return ChunkGenerators.QUADRUPLE_AMPLIFIED.create(world, biomeSource, config);
-        if (this == PILLAR_WORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config);
-
-        if (this == SMOOTH_OVERWORLD) return ChunkGenerators.SMOOTH.create(world, biomeSource, config);
-        if (this == TOTALLY_CUSTOM) return ChunkGenerators.TOTALLY_CUSTOM.create(world, biomeSource, config);
-        if (this == LAYERED_OVERWORLD) return ChunkGenerators.LAYERED_OVERWORLD.create(world, biomeSource, config);
-        if (this == CHAOS) return ChunkGenerators.CHAOS.create(world, biomeSource, config);
-        if (this == ROLLING_HILLS) return ChunkGenerators.ROLLING_HILLS.create(world, biomeSource, config);
-
-        if (this == TEST) return ChunkGenerators.TEST.create(world, biomeSource, config);
-
-        return ChunkGenerators.SURFACE.create(world, biomeSource, config);
+//        if (this == LAYERED_FLOATING)
+//            return ChunkGenerators.LAYERED_FLOATING.create(world, biomeSource, floatingConfig);
+//        if (this == FLOATING)
+//            return ChunkGenerators.LAYERED_FLOATING.create(world, biomeSource, floatingConfig);
+//        if (this == PRE_CLASSIC_FLOATING)
+//            return ChunkGenerators.PRE_CLASSIC_FLOATING.create(world, biomeSource, floatingConfig);
+//
+//        if (this == QUADRUPLE_AMPLIFIED) return ChunkGenerators.QUADRUPLE_AMPLIFIED.create(world, biomeSource, config);
+//        if (this == PILLAR_WORLD) return ChunkGenerators.PILLAR_WORLD.create(world, biomeSource, config);
+//
+//        if (this == SMOOTH_OVERWORLD) return ChunkGenerators.SMOOTH.create(world, biomeSource, config);
+//        if (this == TOTALLY_CUSTOM) return ChunkGenerators.TOTALLY_CUSTOM.create(world, biomeSource, config);
+//        if (this == LAYERED_OVERWORLD) return ChunkGenerators.LAYERED_OVERWORLD.create(world, biomeSource, config);
+//        if (this == CHAOS) return ChunkGenerators.CHAOS.create(world, biomeSource, config);
+//        if (this == ROLLING_HILLS) return ChunkGenerators.ROLLING_HILLS.create(world, biomeSource, config);
+//
+//        if (this == TEST) return ChunkGenerators.TEST.create(world, biomeSource, config);
+//
+//        return ChunkGenerators.SURFACE.create(world, biomeSource, config);
+        return null;
     }
 
 }

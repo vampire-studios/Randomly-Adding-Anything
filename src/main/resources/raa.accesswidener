@@ -6,3 +6,4 @@ accessible field net/minecraft/world/gen/foliage/FoliagePlacer radius I
 accessible field net/minecraft/world/gen/foliage/FoliagePlacer randomRadius I
 accessible field net/minecraft/world/gen/foliage/FoliagePlacer offset I
 accessible field net/minecraft/world/gen/foliage/FoliagePlacer randomOffset I
+accessible field net/minecraft/class_5294 field_24609 Ljava/util/Map;

@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.client.entity.model;
+package io.github.vampirestudios.raa.client.render.entity.model;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

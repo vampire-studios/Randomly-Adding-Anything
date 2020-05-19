@@ -3,9 +3,10 @@ package io.github.vampirestudios.raa;
 import com.swordglowsblue.artifice.api.Artifice;
 import io.github.vampirestudios.raa.api.enums.OreType;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
-import io.github.vampirestudios.raa.client.DimensionalOreBakedModel;
-import io.github.vampirestudios.raa.client.OreBakedModel;
-import io.github.vampirestudios.raa.client.entity.RandomEntityRenderer;
+import io.github.vampirestudios.raa.client.render.model.DimensionalOreBakedModel;
+import io.github.vampirestudios.raa.client.render.model.OreBakedModel;
+import io.github.vampirestudios.raa.client.render.RAASkyProperties;
+import io.github.vampirestudios.raa.client.render.entity.RandomEntityRenderer;
 import io.github.vampirestudios.raa.generation.materials.DimensionMaterial;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.generation.materials.data.SwordTextureData;
@@ -718,6 +719,7 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
         for (EntityType<?> entity : Entities.RANDOM_ZOMBIES) {
             EntityRendererRegistry.INSTANCE.register(entity, (dispatcher, context) -> new RandomEntityRenderer(dispatcher));
         }
+        RAASkyProperties.init();
     }
 
 }

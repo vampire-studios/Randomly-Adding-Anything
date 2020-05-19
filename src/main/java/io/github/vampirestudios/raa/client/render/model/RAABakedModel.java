@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.client;
+package io.github.vampirestudios.raa.client.render.model;
 
 import io.github.vampirestudios.raa.generation.materials.Material;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;

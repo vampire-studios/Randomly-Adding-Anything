@@ -83,13 +83,13 @@ public class RandomlyAddingAnything implements ModInitializer {
         FoliagePlacers.init();
         Features.init();
         Decorators.init();
-        SurfaceBuilders.init();
-        ChunkGenerators.init();
+//        SurfaceBuilders.init();
+//        ChunkGenerators.init();
         CustomTargets.init();
         RAAPlacements.init();
 
         //Reflection hacks
-        Constructor<BiomeSourceType> constructor;
+//        Constructor<BiomeSourceType> constructor;
 //        try {
 //            constructor = BiomeSourceType.class.getDeclaredConstructor(Function.class, LongFunction.class);
 //            constructor.setAccessible(true);
@@ -98,14 +98,14 @@ public class RandomlyAddingAnything implements ModInitializer {
 //            e.printStackTrace();
 //        }
 
-        OreTargetGenerator.registerElements();
-        ORE_TARGET_CONFIG = new OreTargetConfig("targets/ore_target_config");
-        if (!ORE_TARGET_CONFIG.fileExist()) {
-            ORE_TARGET_CONFIG.generate();
-            ORE_TARGET_CONFIG.save();
-        } else {
-            ORE_TARGET_CONFIG.load();
-        }
+//        OreTargetGenerator.registerElements();
+//        ORE_TARGET_CONFIG = new OreTargetConfig("targets/ore_target_config");
+//        if (!ORE_TARGET_CONFIG.fileExist()) {
+//            ORE_TARGET_CONFIG.generate();
+//            ORE_TARGET_CONFIG.save();
+//        } else {
+//            ORE_TARGET_CONFIG.load();
+//        }
 
         MATERIALS_CONFIG = new MaterialsConfig("materials/material_config");
         if (CONFIG.materialGenAmount > 0) {
@@ -128,39 +128,39 @@ public class RandomlyAddingAnything implements ModInitializer {
             }
         }
 
-        SurfaceBuilderGenerator.registerElements();
-        SURFACE_BUILDER_CONFIG = new SurfaceBuilderConfig("surface_builders/surface_builder_config");
-        if (!SURFACE_BUILDER_CONFIG.fileExist()) {
-            SURFACE_BUILDER_CONFIG.generate();
-            SURFACE_BUILDER_CONFIG.save();
-        } else {
-            SURFACE_BUILDER_CONFIG.load();
-        }
-
-        DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
-        if (CONFIG.dimensionGenAmount > 0) {
-            if (!DIMENSIONS_CONFIG.fileExist()) {
-                DIMENSIONS_CONFIG.generate();
-                DIMENSIONS_CONFIG.save();
-            } else {
-                DIMENSIONS_CONFIG.load();
-            }
-        }
-        Dimensions.createDimensions();
-
-        DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("dimensions/dimensional_material_config");
-        if (CONFIG.dimensionMaterialGenAmount > 0) {
-            if (!DIMENSION_MATERIALS_CONFIG.fileExist()) {
-                DIMENSION_MATERIALS_CONFIG.generate();
-                DIMENSION_MATERIALS_CONFIG.save();
-            } else {
-                DIMENSION_MATERIALS_CONFIG.load();
-            }
-        }
-        Materials.createDimensionMaterialResources();
-        MODCOMPAT.generateCompatItems();
-
-        DimensionRecipes.init();
+//        SurfaceBuilderGenerator.registerElements();
+//        SURFACE_BUILDER_CONFIG = new SurfaceBuilderConfig("surface_builders/surface_builder_config");
+//        if (!SURFACE_BUILDER_CONFIG.fileExist()) {
+//            SURFACE_BUILDER_CONFIG.generate();
+//            SURFACE_BUILDER_CONFIG.save();
+//        } else {
+//            SURFACE_BUILDER_CONFIG.load();
+//        }
+//
+//        DIMENSIONS_CONFIG = new DimensionsConfig("dimensions/dimension_config");
+//        if (CONFIG.dimensionGenAmount > 0) {
+//            if (!DIMENSIONS_CONFIG.fileExist()) {
+//                DIMENSIONS_CONFIG.generate();
+//                DIMENSIONS_CONFIG.save();
+//            } else {
+//                DIMENSIONS_CONFIG.load();
+//            }
+//        }
+//        Dimensions.createDimensions();
+//
+//        DIMENSION_MATERIALS_CONFIG = new DimensionMaterialsConfig("dimensions/dimensional_material_config");
+//        if (CONFIG.dimensionMaterialGenAmount > 0) {
+//            if (!DIMENSION_MATERIALS_CONFIG.fileExist()) {
+//                DIMENSION_MATERIALS_CONFIG.generate();
+//                DIMENSION_MATERIALS_CONFIG.save();
+//            } else {
+//                DIMENSION_MATERIALS_CONFIG.load();
+//            }
+//        }
+//        Materials.createDimensionMaterialResources();
+//        MODCOMPAT.generateCompatItems();
+//
+//        DimensionRecipes.init();
         MaterialRecipes.init();
 
         //entity stuff

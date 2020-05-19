@@ -1,4 +1,4 @@
-package io.github.vampirestudios.raa.client.entity;
+package io.github.vampirestudios.raa.client.render.entity;
 
 import io.github.vampirestudios.raa.entity.RandomEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
