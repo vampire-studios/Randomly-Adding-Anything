@@ -1,5 +1,6 @@
 package io.github.vampirestudios.raa.client.render;
 
+import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.registries.Dimensions;
 import io.github.vampirestudios.raa.utils.Color;
@@ -39,6 +40,13 @@ public class RAASkyProperties {
         @Override
         public boolean method_28110(int i, int j) {
             return this.dimensionData.hasThickFog();
+        }
+
+        @Override
+        public boolean method_28113() {
+            return !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.FLOATING) &&
+                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.LAYERED_FLOATING) &&
+                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.PRE_CLASSIC_FLOATING);
         }
     }
 }

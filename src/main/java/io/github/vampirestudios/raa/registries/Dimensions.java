@@ -1,6 +1,7 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.api.accessor.DimensionTypeAccessor;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.api.dimension.PlayerPlacementHandlers;
 import io.github.vampirestudios.raa.api.enums.TextureTypes;
@@ -442,6 +443,8 @@ public class Dimensions {
             }
 
             DimensionType type = builder.buildAndRegister(dimensionData.getId());
+            type = ((DimensionTypeAccessor) type).setHellish(false);
+            type = ((DimensionTypeAccessor) type).setDoesWaterVaporize(dimensionData.doesWaterVaporize());
             DimensionType dimensionType;
             if (Registry.DIMENSION_TYPE.get(dimensionData.getId()) == null) {
                 dimensionType = Registry.register(Registry.DIMENSION_TYPE, dimensionData.getId(), type);

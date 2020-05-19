@@ -61,22 +61,10 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
         return !Utils.checkBitFlag(dimensionData.getFlags(), Utils.LUCID) && dimensionData.getCustomSkyInformation().hasSky();
     }
 
-//    @Override
-//    public boolean hasGround() {
-//        return !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.FLOATING) &&
-//                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.LAYERED_FLOATING) &&
-//                !dimensionData.getDimensionChunkGenerator().equals(DimensionChunkGenerators.PRE_CLASSIC_FLOATING);
-//    }
-
     @Override
     public boolean canPlayersSleep() {
         return dimensionData.canSleep();
     }
-
-//    @Override
-//    public boolean doesWaterVaporize() {
-//        return dimensionData.doesWaterVaporize();
-//    }
 
     @Override
     public DimensionType getType() {

@@ -9,7 +9,8 @@
     "LeavesBlockMixin",
 //    "LivingEntityMixin",
     "LocateCommandMixin",
-    "DefaultAttributeRegistryMixin"
+    "DefaultAttributeRegistryMixin",
+    "DimensionTypeMixin"
   ],
   "client": [
 //    "WorldRendererMixin",

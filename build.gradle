@@ -59,8 +59,8 @@ dependencies {
     modImplementation "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
     include "com.github.vampire-studios:VampireLib-Fabric:${project.vampirelib_version}"
 
-    modImplementation "com.github.vampire-studios:Customized-Astral-Body:7b8ce81062"
-    include "com.github.vampire-studios:Customized-Astral-Body:7b8ce81062"
+    modImplementation "com.github.vampire-studios:Customized-Astral-Body:1918d340a9"
+    include "com.github.vampire-studios:Customized-Astral-Body:1918d340a9"
 
     modCompile("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
         exclude module: "fabric-api"
