@@ -31,7 +31,7 @@ public class JsonConverter {
             JsonArray array = JsonHelper.getArray(structureJsonObject, "value");
             array.forEach(jsonElement -> {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
-                String name = JsonHelper.getString(jsonObject, "name");
+                String name = JsonHelper.getString(jsonObject, "name").toLowerCase(Locale.ENGLISH);
                 JsonObject valueArray = JsonHelper.getObject(jsonObject, "value");
 
                 if (name.equals("size")) {
@@ -51,7 +51,7 @@ public class JsonConverter {
                         JsonArray blockProperties = jsonElement1.getAsJsonArray();
                         blockProperties.forEach(jsonElement2 -> {
                             JsonObject blockProperty = jsonElement2.getAsJsonObject();
-                            String propertyName = JsonHelper.getString(blockProperty, "name");
+                            String propertyName = JsonHelper.getString(blockProperty, "name").toLowerCase(Locale.ENGLISH);
                             if (propertyName.equals("state")) {
                                 int state = JsonHelper.getInt(blockProperty, "value");
                                 structure.setBlockStates(state);
@@ -76,18 +76,18 @@ public class JsonConverter {
                         JsonArray paletteProperties = jsonElement1.getAsJsonArray();
                         paletteProperties.forEach(jsonElement2 -> {
                             JsonObject paletteProperty = jsonElement2.getAsJsonObject();
-                            String propertyName = JsonHelper.getString(paletteProperty, "name");
-                            if (propertyName.equals("Name")) {
+                            String propertyName = JsonHelper.getString(paletteProperty, "name").toLowerCase(Locale.ENGLISH);
+                            if (propertyName.equals("name")) {
                                 structure.setBlockProperties(blockPropertyMap);
-                                String blockId = JsonHelper.getString(paletteProperty, "value");
+                                String blockId = JsonHelper.getString(paletteProperty, "value").toLowerCase(Locale.ENGLISH);
                                 structure.setBlockTypes(blockId);
                             }
-                            if (propertyName.equals("Properties")) {
+                            if (propertyName.equals("properties")) {
                                 JsonArray properties = JsonHelper.getArray(paletteProperty, "value");
                                 properties.forEach(jsonElement3 -> {
                                     JsonObject blockProperties = jsonElement3.getAsJsonObject();
-                                    String blockPropertyName = JsonHelper.getString(blockProperties, "name");
-                                    String propertyValue = JsonHelper.getString(blockProperties, "value");
+                                    String blockPropertyName = JsonHelper.getString(blockProperties, "name").toLowerCase(Locale.ENGLISH);
+                                    String propertyValue = JsonHelper.getString(blockProperties, "value").toLowerCase(Locale.ENGLISH);
                                     blockPropertyMap.put(blockPropertyName, propertyValue);
                                 });
                             }
@@ -114,8 +114,8 @@ public class JsonConverter {
         if (JsonHelper.hasArray(structureJson, "palette")) {
             JsonArray blocksArray = JsonHelper.getArray(structureJson, "palette");
             blocksArray.forEach(jsonElement -> {
-                Identifier identifier = Identifier.tryParse(jsonElement.getAsJsonObject().get("name").getAsString());
-                structure.setBlockTypes(Objects.requireNonNull(identifier).toString());
+                Identifier identifier = Identifier.tryParse(jsonElement.getAsJsonObject().get("name").getAsString().toLowerCase(Locale.ENGLISH));
+                structure.setBlockTypes(Objects.requireNonNull(identifier).toString().toLowerCase(Locale.ENGLISH));
             });
         }
 
