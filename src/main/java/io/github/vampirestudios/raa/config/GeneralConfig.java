@@ -10,11 +10,11 @@ import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 public class GeneralConfig implements ConfigData {
 
     @Comment("Amount of materials to generate")
-    public int materialGenAmount = 40;
+    public int materialGenAmount = 30;
     @Comment("Amount of unique materials to generate per dimension")
     public int dimensionalMaterialGenAmount = 10;
     @Comment("Amount of dimensions to generate")
-    public int dimensionsGenAmount = 50;
+    public int dimensionsGenAmount = 10;
     @Comment("Mostly for us developers")
     public boolean debug = false;
     @Comment("If this is set to true materials will regenerate each time you restart your game, you can also just delete the raa folder in the configs folder")
