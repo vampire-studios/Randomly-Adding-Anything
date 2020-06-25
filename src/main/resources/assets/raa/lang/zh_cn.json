@@ -47,9 +47,9 @@
   "text.raa.block.polishedWall": "磨制{0}墙",
   "text.raa.item.lexicon.name": "RAA词典",
   "text.raa.item.lexicon.landing": "该词典将在你发现/采集到材料、维度或维度材料时提供有关的信息",
-  "text.raa.compat.techreborn.small_dust": "Small {0} Dust",
-  "text.raa.compat.techreborn.gear": "{0} Gear",
-  "text.raa.compat.techreborn.plate": "{0} Plate",
+  "text.raa.compat.techreborn.small_dust": "小堆{0}粉",
+  "text.raa.compat.techreborn.gear": "{0}齿轮",
+  "text.raa.compat.techreborn.plate": "{0}板",
   "text.raa.item.portal_key": "{0}传送门钥匙",
 
 
