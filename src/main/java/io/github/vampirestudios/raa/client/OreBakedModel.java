@@ -3,9 +3,6 @@ package io.github.vampirestudios.raa.client;
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.generation.materials.Material;
 import io.github.vampirestudios.raa.registries.CustomTargets;
-import io.github.vampirestudios.raa.utils.Rands;
-import io.github.vampirestudios.raa.utils.TextureUtils;
-import io.github.vampirestudios.raa.utils.Utils;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
@@ -22,8 +19,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelOverrideList;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.world.ClientWorld;
@@ -56,7 +51,7 @@ public class OreBakedModel extends RAABakedModel {
         MeshBuilder builder = renderer.meshBuilder();
         QuadEmitter emitter = builder.getEmitter();
 
-        RenderMaterial mat = renderer.materialFinder().blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, true).disableAo(0, false).find();
+        RenderMaterial mat = renderer.materialFinder().blendMode(0, BlendMode.CUTOUT_MIPPED).disableDiffuse(0, false).disableAo(0, false).find();
         int color = 0xFFFFFFFF;
         Sprite sprite;
         Identifier baseTexture = new Identifier(Registry.BLOCK.getId(Objects.requireNonNull(
@@ -71,25 +66,12 @@ public class OreBakedModel extends RAABakedModel {
         this.renderBase(emitter, mat, sprite, renderer, blockView, pos, color);
 
         if (material.isGlowing()) {
-            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).emissive(0, true).find();
+            mat = renderer.materialFinder().disableDiffuse(0, true).disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).emissive(0, true).find();
         } else {
-            mat = renderer.materialFinder().disableDiffuse(0, false).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
+            mat = renderer.materialFinder().disableDiffuse(0, true).disableAo(0, true).blendMode(0, BlendMode.CUTOUT_MIPPED).find();
         }
         color = material.getColor();
-//        sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());
-
-        NativeImage imageBase = TextureUtils.generateOreTexture(
-                TextureUtils.getImage(baseTexture),
-                Rands.getRandom().nextLong(),
-                color
-        );
-
-        Identifier textureId = Utils.addSuffixToPath(material.getId(), "_ore_overlay");
-        System.out.println(textureId);
-        MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(textureId.getPath(), new NativeImageBackedTexture(imageBase));
-
-        sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
-                .apply(textureId);
+        sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(this.material.getTexturesInformation().getOverlayTexture());
 
         this.renderOverlay(emitter, mat, sprite, color);
 
