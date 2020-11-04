@@ -1,5 +1,7 @@
 package io.github.vampirestudios.raa.generation.chunkgenerator.overworld;
 
+import io.github.vampirestudios.raa.api.Heightmap;
+import io.github.vampirestudios.raa.generation.chunkgenerator.BaseChunkGenerator;
 import io.github.vampirestudios.raa.utils.noise.old.OctaveOpenSimplexNoise;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.server.world.ServerWorld;
@@ -20,14 +22,13 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.*;
 import net.minecraft.world.gen.chunk.OverworldChunkGeneratorConfig;
-import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.level.LevelGeneratorType;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGeneratorConfig> {
+public class ChaosChunkGenerator extends BaseChunkGenerator<OverworldChunkGeneratorConfig> implements Heightmap {
     private static final float[] BIOME_WEIGHT_TABLE = Util.make(new float[25], (fs) -> {
         for (int i = -2; i <= 2; ++i) {
             for (int j = -2; j <= 2; ++j) {
@@ -52,7 +53,7 @@ public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGen
     private final OctaveOpenSimplexNoise simplexNoise;
 
     public ChaosChunkGenerator(IWorld world, BiomeSource biomeSource, OverworldChunkGeneratorConfig config) {
-        super(world, biomeSource, 4, 8, 256, config, false);
+        super(world, biomeSource, 4, 8, 256, config, false, world.getSeed());
         this.random.consume(2620);
         this.noiseSampler = new OctavePerlinNoiseSampler(this.random, IntStream.of(15, 0));
         this.amplified = world.getLevelProperties().getGeneratorType() == LevelGeneratorType.AMPLIFIED;
@@ -100,16 +101,10 @@ public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGen
     }
 
     protected double computeNoisyFalloff(double depth, double scale, int x, int y, int z) {
-//        double d = 9.5D;
-//        double e = ((double) y - (d + depth * d / 8.0D * 4.0D)) * 12.0D * 128.0D / 256.0D / scale;
-//        if (e < 0.0D) {
-//            e *= 4.0D;
-//        }
-
         return simplexNoise.sample(x, y, z);
     }
 
-    private double sampleNoise(int x, int y, int z, double d, double e, double f, double g) {
+    public double sampleNoise(int x, int y, int z, double d, double e, double f, double g) {
         double h = 0.0D;
         double i = 0.0D;
         double j = 0.0D;
@@ -241,6 +236,7 @@ public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGen
         int chunkZ = region.getCenterChunkZ();
         ChunkRandom rand = new ChunkRandom();
         rand.setTerrainSeed(chunkX, chunkZ);
+        postProcessors.forEach(postProcessor -> postProcessor.process(region, rand, chunkX, chunkZ, this));
 
         int i = region.getCenterChunkX();
         int j = region.getCenterChunkZ();
@@ -276,6 +272,67 @@ public class ChaosChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGen
 
     public int getSeaLevel() {
         return 63;
+    }
+
+    private double sigmoid(double val) {
+        return 256 / (Math.exp(8/3f - val/48) + 1);
+    }
+
+    private static double fade(double value) {
+        return value * value * (3 - (value * 2));
+    }
+
+    @Override
+    public int getHeight(int x, int z) {
+        int xLow = ((x >> 2) << 2);
+        int zLow = ((z >> 2) << 2);
+        int xUpper = xLow + 4;
+        int zUpper = zLow + 4;
+
+        double xProgress = (double) (x - xLow) * 0.25;
+        double zProgress = (double) (z - zLow) * 0.25;
+
+        xProgress = fade(xProgress);
+        zProgress = fade(zProgress);
+
+//		System.out.println("Starting sample: " + x + ", " + z);
+        final double[] samples = new double[4];
+        samples[0] = sampleNoise(xLow, zLow);
+        samples[1] = sampleNoise(xUpper, zLow);
+        samples[2] = sampleNoise(xLow, zUpper);
+        samples[3] = sampleNoise(xUpper, zUpper);
+
+        double sample = MathHelper.lerp(zProgress,
+                MathHelper.lerp(xProgress, samples[0], samples[1]),
+                MathHelper.lerp(xProgress, samples[2], samples[3]));
+
+        double detail = 0;
+
+        return (int) (sigmoid((sample + detail)));
+    }
+
+    public void generateNoise(int[] noise, ChunkPos pos, int start, int size) {
+        for (int x = start; x < start + size; x++) {
+            for (int z = 0; z < 16; z++) {
+                noise[(x*16) + z] = getHeight((pos.x * 16) + x, (pos.z * 16) + z);
+            }
+        }
+    }
+
+    @Override
+    public int[] getHeightsInChunk(ChunkPos pos) {
+        //return cached values
+        int[] res = noiseCache.get(pos.toLong());
+        if (res != null) return res;
+
+        int[] vals = new int[256];
+
+        generateNoise(vals, pos, 0, 16); //generate all noise on the main thread
+
+        //cache the values
+        noiseCache.put(pos.toLong(), vals);
+
+        return vals;
     }
 
 }

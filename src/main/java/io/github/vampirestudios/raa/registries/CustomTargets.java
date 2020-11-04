@@ -1,9 +1,11 @@
 package io.github.vampirestudios.raa.registries;
 
 import io.github.vampirestudios.raa.utils.RegistryUtils;
+import io.github.vampirestudios.raa.world.gen.feature.OreFeature;
 import io.github.vampirestudios.raa.world.gen.feature.OreFeatureConfig;
 import net.minecraft.block.Blocks;
 import net.minecraft.predicate.block.BlockPredicate;
+import net.minecraft.structure.rule.BlockMatchRuleTest;
 
 public class CustomTargets {
 
@@ -23,6 +25,12 @@ public class CustomTargets {
     public static OreFeatureConfig.Target RED_SANDSTONE;
     public static OreFeatureConfig.Target NETHERRACK;
     public static OreFeatureConfig.Target END_STONE;
+    public static OreFeatureConfig.Target BLACKSTONE;
+    public static OreFeatureConfig.Target BASALT;
+    public static OreFeatureConfig.Target SOUL_SAND;
+    public static OreFeatureConfig.Target SOUL_SOIL;
+    public static OreFeatureConfig.Target CRIMSON_NYLIUM;
+    public static OreFeatureConfig.Target WARPED_NYLIUM;
     public static OreFeatureConfig.Target DOES_NOT_APPEAR;
 
     public static void init() {
@@ -42,6 +50,12 @@ public class CustomTargets {
         RED_SANDSTONE = RegistryUtils.registerOreTarget("red_sandstone", new BlockPredicate(Blocks.RED_SANDSTONE), Blocks.RED_SANDSTONE);
         NETHERRACK = RegistryUtils.registerOreTarget("netherrack", new BlockPredicate(Blocks.NETHERRACK), Blocks.NETHERRACK);
         END_STONE = RegistryUtils.registerOreTarget("end_stone", new BlockPredicate(Blocks.END_STONE), Blocks.END_STONE);
+        BLACKSTONE = RegistryUtils.registerOreTarget("blackstone", new BlockPredicate(Blocks.BLACKSTONE), Blocks.BLACKSTONE);
+        BASALT = RegistryUtils.registerOreTarget("basalt", new BlockPredicate(Blocks.BASALT), Blocks.BASALT);
+        SOUL_SAND = RegistryUtils.registerOreTarget("soul_sand", new BlockPredicate(Blocks.SOUL_SAND), Blocks.SOUL_SAND);
+        SOUL_SOIL = RegistryUtils.registerOreTarget("soul_soil", new BlockPredicate(Blocks.SOUL_SOIL), Blocks.SOUL_SOIL);
+        CRIMSON_NYLIUM = RegistryUtils.registerOreTarget("crimson_nylium", new BlockPredicate(Blocks.CRIMSON_NYLIUM), Blocks.CRIMSON_NYLIUM);
+        WARPED_NYLIUM = RegistryUtils.registerOreTarget("warped_nylium", new BlockPredicate(Blocks.WARPED_NYLIUM), Blocks.WARPED_NYLIUM);
         DOES_NOT_APPEAR = RegistryUtils.registerOreTarget("does_not_appear", new BlockPredicate(null), null);
     }
 

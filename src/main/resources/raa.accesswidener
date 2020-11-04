@@ -6,3 +6,6 @@ accessible field net/minecraft/world/gen/foliage/FoliagePlacer radius I
 accessible field net/minecraft/world/gen/foliage/FoliagePlacer randomRadius I
 accessible field net/minecraft/world/gen/foliage/FoliagePlacer offset I
 accessible field net/minecraft/world/gen/foliage/FoliagePlacer randomOffset I
+
+accessible method net/minecraft/world/gen/chunk/SurfaceChunkGenerator sampleNoise (IIIDDDD)D
+extendable method net/minecraft/world/gen/chunk/SurfaceChunkGenerator sampleNoise (IIIDDDD)D

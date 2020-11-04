@@ -1,9 +1,15 @@
 package io.github.vampirestudios.raa.generation.dimensions;
 
+import com.google.common.collect.ImmutableList;
 import io.github.vampirestudios.cab.api.AstralBodyModifier;
+import io.github.vampirestudios.raa.ErosionPostProcessor;
 import io.github.vampirestudios.raa.RandomlyAddingAnything;
+import io.github.vampirestudios.raa.SimplexCavesPostProcessor;
+import io.github.vampirestudios.raa.StrataPostProcessor;
+import io.github.vampirestudios.raa.api.TerrainPostProcessor;
 import io.github.vampirestudios.raa.api.dimension.DimensionChunkGenerators;
 import io.github.vampirestudios.raa.generation.carvers.CaveCavityCarver;
+import io.github.vampirestudios.raa.generation.chunkgenerator.BaseChunkGenerator;
 import io.github.vampirestudios.raa.generation.dimensions.data.DimensionData;
 import io.github.vampirestudios.raa.utils.Color;
 import io.github.vampirestudios.raa.utils.Utils;
@@ -46,6 +52,13 @@ public class CustomDimension extends Dimension implements AstralBodyModifier {
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
         CaveCavityCarver.setSeed(world.getSeed());
+        RandomlyAddingAnything.INSTANCE.postProcessors.addAll(ImmutableList.of(
+                new ErosionPostProcessor(dimensionData),
+                new SimplexCavesPostProcessor(),
+                new StrataPostProcessor(dimensionData)
+        ));
+        RandomlyAddingAnything.INSTANCE.postProcessors.forEach(TerrainPostProcessor::setup);
+        RandomlyAddingAnything.INSTANCE.postProcessors.forEach(BaseChunkGenerator::addTerrainPostProcessor);
         return this.dimensionData.getDimensionChunkGenerator().getChunkGenerator(this.world, RandomlyAddingAnything.DIMENSIONAL_BIOMES.
                 applyConfig(new DimensionalBiomeSourceConfig(this.world.getLevelProperties()).setBiomes(biomeSet)), this.dimensionData, this.stoneBlock);
     }

@@ -2,6 +2,7 @@ package io.github.vampirestudios.raa;
 
 import io.github.vampirestudios.raa.api.RAARegisteries;
 import io.github.vampirestudios.raa.api.RAAWorldAPI;
+import io.github.vampirestudios.raa.api.TerrainPostProcessor;
 import io.github.vampirestudios.raa.config.*;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionRecipes;
 import io.github.vampirestudios.raa.generation.dimensions.DimensionalBiomeSource;
@@ -27,19 +28,19 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSourceType;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.CountExtraChanceDecoratorConfig;
-import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.decorator.DecoratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.FeatureConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.LongFunction;
 
 public class RandomlyAddingAnything implements ModInitializer {
+    public static final RandomlyAddingAnything INSTANCE = new RandomlyAddingAnything();
 
     public static final ItemGroup RAA_ORES = FabricItemGroupBuilder.build(new Identifier("raa", "ores"), () -> new ItemStack(Blocks.IRON_ORE));
     public static final ItemGroup RAA_RESOURCES = FabricItemGroupBuilder.build(new Identifier("raa", "resources"), () -> new ItemStack(Items.IRON_INGOT));
@@ -53,7 +54,6 @@ public class RandomlyAddingAnything implements ModInitializer {
 
     public static final String MOD_ID = "raa";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-
     public static GeneralConfig CONFIG;
     public static OreTargetConfig ORE_TARGET_CONFIG;
     public static MaterialsConfig MATERIALS_CONFIG;
@@ -74,6 +74,8 @@ public class RandomlyAddingAnything implements ModInitializer {
     public static final Tag<Item> FOOD = TagRegistry.item(new Identifier(MOD_ID, "food"));
     public static final Tag<Item> DIMENSION_BLOCKS = TagRegistry.item(new Identifier(MOD_ID, "dimension_blocks"));
 
+    public List<TerrainPostProcessor> postProcessors = new ArrayList<>();
+
     @Override
     public void onInitialize() {
         AutoConfig.register(GeneralConfig.class, GsonConfigSerializer::new);
@@ -87,6 +89,7 @@ public class RandomlyAddingAnything implements ModInitializer {
         ChunkGenerators.init();
         CustomTargets.init();
         RAAPlacements.init();
+
 
         //Reflection hacks
         Constructor<BiomeSourceType> constructor;
@@ -172,7 +175,7 @@ public class RandomlyAddingAnything implements ModInitializer {
             if (biome.getCategory() != Biome.Category.OCEAN && CONFIG.shouldSpawnPortalHub) {
                 biome.addFeature(GenerationStep.Feature.SURFACE_STRUCTURES, Features.PORTAL_HUB.configure(new DefaultFeatureConfig()).
                         createDecoratedFeature(Decorators.RANDOM_EXTRA_HEIGHTMAP_DECORATOR.
-                                configure(new CountExtraChanceDecoratorConfig(0, 0.001F, 1))));
+                                configure(new CountExtraChanceDecoratorConfig(1, 1.0F, 1))));
             }
 
             /*if (biome.getCategory() != Biome.Category.OCEAN) {

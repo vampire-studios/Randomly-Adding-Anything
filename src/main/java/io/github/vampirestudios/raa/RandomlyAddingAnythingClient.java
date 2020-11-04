@@ -209,117 +209,115 @@ public class RandomlyAddingAnythingClient implements ClientModInitializer {
             Dimensions.DIMENSIONS.forEach(dimensionData -> {
                 Identifier identifier = dimensionData.getId();
 
-                for(Identifier identifier1 : dimensionData.getStones()) {
-                    Identifier stoneId = Utils.addSuffixToPath(identifier1, "_stone");
-                    clientResourcePackBuilder.addBlockState(stoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
-                            variant.model(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())))
-                    );
-                    clientResourcePackBuilder.addBlockModel(stoneId, modelBuilder -> {
-                        modelBuilder.parent(new Identifier("block/leaves"));
-                        modelBuilder.texture("all", dimensionData.getTexturesInformation().getStoneTexture());
-                    });
-                    clientResourcePackBuilder.addItemModel(stoneId,
-                            modelBuilder -> modelBuilder.parent(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())));
+                Identifier stoneId = Utils.addSuffixToPath(identifier, "_stone");
+                clientResourcePackBuilder.addBlockState(stoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(stoneId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getStoneTexture());
+                });
+                clientResourcePackBuilder.addItemModel(stoneId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(stoneId.getNamespace(), "block/" + stoneId.getPath())));
 
-                    Identifier stoneStairsId = Utils.addSuffixToPath(identifier1, "_stone_stairs");
-                    ModelUtils.stairs(clientResourcePackBuilder, stoneStairsId, dimensionData.getTexturesInformation().getStoneTexture());
+                Identifier stoneStairsId = Utils.addSuffixToPath(identifier, "_stone_stairs");
+                ModelUtils.stairs(clientResourcePackBuilder, stoneStairsId, dimensionData.getTexturesInformation().getStoneTexture());
 
-                    Identifier stoneSlabId = Utils.addSuffixToPath(identifier1, "_stone_slab");
-                    ModelUtils.slab(clientResourcePackBuilder, stoneSlabId, stoneId, dimensionData.getTexturesInformation().getStoneTexture());
+                Identifier stoneSlabId = Utils.addSuffixToPath(identifier, "_stone_slab");
+                ModelUtils.slab(clientResourcePackBuilder, stoneSlabId, stoneId, dimensionData.getTexturesInformation().getStoneTexture());
 
-                    Identifier stoneWallId = Utils.addSuffixToPath(identifier1, "_stone_wall");
-                    ModelUtils.wall(clientResourcePackBuilder, stoneWallId, dimensionData.getTexturesInformation().getStoneTexture());
-
-
-                    Identifier stoneBricksId = Utils.addSuffixToPath(identifier1, "_stone_bricks");
-                    clientResourcePackBuilder.addBlockState(stoneBricksId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
-                            variant.model(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())))
-                    );
-                    clientResourcePackBuilder.addBlockModel(stoneBricksId, modelBuilder -> {
-                        modelBuilder.parent(new Identifier("block/leaves"));
-                        modelBuilder.texture("all", dimensionData.getTexturesInformation().getStoneBricksTexture());
-                    });
-                    clientResourcePackBuilder.addItemModel(stoneBricksId,
-                            modelBuilder -> modelBuilder.parent(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())));
+                Identifier stoneWallId = Utils.addSuffixToPath(identifier, "_stone_wall");
+                ModelUtils.wall(clientResourcePackBuilder, stoneWallId, dimensionData.getTexturesInformation().getStoneTexture());
 
 
-                    Identifier stoneBricksStairsId = Utils.addSuffixToPath(identifier1, "_stone_brick_stairs");
-                    ModelUtils.stairs(clientResourcePackBuilder, stoneBricksStairsId, dimensionData.getTexturesInformation().getStoneBricksTexture());
-
-                    Identifier stoneBricksSlabId = Utils.addSuffixToPath(identifier1, "_stone_brick_slab");
-                    ModelUtils.slab(clientResourcePackBuilder, stoneBricksSlabId, stoneBricksId, dimensionData.getTexturesInformation().getStoneBricksTexture());
-
-                    Identifier stoneBricksWallId = Utils.addSuffixToPath(identifier1, "_stone_brick_wall");
-                    ModelUtils.wall(clientResourcePackBuilder, stoneBricksWallId, dimensionData.getTexturesInformation().getStoneBricksTexture());
-
-
-                    Identifier cobblestoneId = Utils.addSuffixToPath(identifier1, "_cobblestone");
-                    clientResourcePackBuilder.addBlockState(cobblestoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
-                            variant.model(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())))
-                    );
-                    clientResourcePackBuilder.addBlockModel(cobblestoneId, modelBuilder -> {
-                        modelBuilder.parent(new Identifier("block/leaves"));
-                        modelBuilder.texture("all", dimensionData.getTexturesInformation().getCobblestoneTexture());
-                    });
-                    clientResourcePackBuilder.addItemModel(cobblestoneId,
-                            modelBuilder -> modelBuilder.parent(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())));
+                Identifier stoneBricksId = Utils.addSuffixToPath(identifier, "_stone_bricks");
+                clientResourcePackBuilder.addBlockState(stoneBricksId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(stoneBricksId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getStoneBricksTexture());
+                });
+                clientResourcePackBuilder.addItemModel(stoneBricksId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(stoneBricksId.getNamespace(), "block/" + stoneBricksId.getPath())));
 
 
-                    Identifier cobblestoneStairsId = Utils.addSuffixToPath(identifier1, "_cobblestone_stairs");
-                    ModelUtils.stairs(clientResourcePackBuilder, cobblestoneStairsId, dimensionData.getTexturesInformation().getCobblestoneTexture());
+                Identifier stoneBricksStairsId = Utils.addSuffixToPath(identifier, "_stone_brick_stairs");
+                ModelUtils.stairs(clientResourcePackBuilder, stoneBricksStairsId, dimensionData.getTexturesInformation().getStoneBricksTexture());
 
-                    Identifier cobblestoneSlabId = Utils.addSuffixToPath(identifier1, "_cobblestone_slab");
-                    ModelUtils.slab(clientResourcePackBuilder, cobblestoneSlabId, cobblestoneId, dimensionData.getTexturesInformation().getCobblestoneTexture());
+                Identifier stoneBricksSlabId = Utils.addSuffixToPath(identifier, "_stone_brick_slab");
+                ModelUtils.slab(clientResourcePackBuilder, stoneBricksSlabId, stoneBricksId, dimensionData.getTexturesInformation().getStoneBricksTexture());
 
-                    Identifier cobblestoneWallId = Utils.addSuffixToPath(identifier1, "_cobblestone_wall");
-                    ModelUtils.wall(clientResourcePackBuilder, cobblestoneWallId, dimensionData.getTexturesInformation().getCobblestoneTexture());
-
-
-                    Identifier chiseledId = Utils.addPrefixAndSuffixToPath(identifier1, "chiseled_", "_stone_bricks");
-                    clientResourcePackBuilder.addBlockState(chiseledId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
-                            variant.model(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())))
-                    );
-                    clientResourcePackBuilder.addBlockModel(chiseledId, modelBuilder -> {
-                        modelBuilder.parent(new Identifier("block/leaves"));
-                        modelBuilder.texture("all", dimensionData.getTexturesInformation().getChiseledTexture());
-                    });
-                    clientResourcePackBuilder.addItemModel(chiseledId,
-                            modelBuilder -> modelBuilder.parent(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())));
+                Identifier stoneBricksWallId = Utils.addSuffixToPath(identifier, "_stone_brick_wall");
+                ModelUtils.wall(clientResourcePackBuilder, stoneBricksWallId, dimensionData.getTexturesInformation().getStoneBricksTexture());
 
 
-                    Identifier crackedChiseledId = Utils.addPrefixAndSuffixToPath(identifier1, "cracked_", "_chiseled_stone_bricks");
-                    clientResourcePackBuilder.addBlockState(crackedChiseledId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
-                            variant.model(new Identifier(chiseledId.getNamespace(), "block/" + crackedChiseledId.getPath())))
-                    );
-                    clientResourcePackBuilder.addBlockModel(crackedChiseledId, modelBuilder -> {
-                        modelBuilder.parent(new Identifier("block/leaves"));
-                        modelBuilder.texture("all", dimensionData.getTexturesInformation().getChiseledTexture());
-                    });
-                    clientResourcePackBuilder.addItemModel(chiseledId,
-                            modelBuilder -> modelBuilder.parent(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())));
+                Identifier cobblestoneId = Utils.addSuffixToPath(identifier, "_cobblestone");
+                clientResourcePackBuilder.addBlockState(cobblestoneId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(cobblestoneId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getCobblestoneTexture());
+                });
+                clientResourcePackBuilder.addItemModel(cobblestoneId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(cobblestoneId.getNamespace(), "block/" + cobblestoneId.getPath())));
 
 
-                    Identifier polishedId = Utils.addPrefixToPath(identifier1, "polished_");
-                    clientResourcePackBuilder.addBlockState(polishedId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
-                            variant.model(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())))
-                    );
-                    clientResourcePackBuilder.addBlockModel(polishedId, modelBuilder -> {
-                        modelBuilder.parent(new Identifier("block/leaves"));
-                        modelBuilder.texture("all", dimensionData.getTexturesInformation().getPolishedTexture());
-                    });
-                    clientResourcePackBuilder.addItemModel(polishedId,
-                            modelBuilder -> modelBuilder.parent(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())));
+                Identifier cobblestoneStairsId = Utils.addSuffixToPath(identifier, "_cobblestone_stairs");
+                ModelUtils.stairs(clientResourcePackBuilder, cobblestoneStairsId, dimensionData.getTexturesInformation().getCobblestoneTexture());
+
+                Identifier cobblestoneSlabId = Utils.addSuffixToPath(identifier, "_cobblestone_slab");
+                ModelUtils.slab(clientResourcePackBuilder, cobblestoneSlabId, cobblestoneId, dimensionData.getTexturesInformation().getCobblestoneTexture());
+
+                Identifier cobblestoneWallId = Utils.addSuffixToPath(identifier, "_cobblestone_wall");
+                ModelUtils.wall(clientResourcePackBuilder, cobblestoneWallId, dimensionData.getTexturesInformation().getCobblestoneTexture());
 
 
-                    Identifier polishedStairsId = Utils.addPrefixAndSuffixToPath(identifier1, "polished_", "_stairs");
-                    ModelUtils.stairs(clientResourcePackBuilder, polishedStairsId, dimensionData.getTexturesInformation().getPolishedTexture());
+                Identifier chiseledId = Utils.addPrefixAndSuffixToPath(identifier, "chiseled_", "_stone_bricks");
+                clientResourcePackBuilder.addBlockState(chiseledId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(chiseledId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getChiseledTexture());
+                });
+                clientResourcePackBuilder.addItemModel(chiseledId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())));
 
-                    Identifier polishedSlabId = Utils.addPrefixAndSuffixToPath(identifier1, "polished_", "_slab");
-                    ModelUtils.slab(clientResourcePackBuilder, polishedSlabId, polishedId, dimensionData.getTexturesInformation().getPolishedTexture());
 
-                    Identifier polishedWallId = Utils.addPrefixAndSuffixToPath(identifier1, "polished_", "_wall");
-                    ModelUtils.wall(clientResourcePackBuilder, polishedWallId, dimensionData.getTexturesInformation().getPolishedTexture());
-                };
+                Identifier crackedChiseledId = Utils.addPrefixAndSuffixToPath(identifier, "cracked_", "_chiseled_stone_bricks");
+                clientResourcePackBuilder.addBlockState(crackedChiseledId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(chiseledId.getNamespace(), "block/" + crackedChiseledId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(crackedChiseledId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getChiseledTexture());
+                });
+                clientResourcePackBuilder.addItemModel(chiseledId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(chiseledId.getNamespace(), "block/" + chiseledId.getPath())));
+
+
+                Identifier polishedId = Utils.addPrefixToPath(identifier, "polished_");
+                clientResourcePackBuilder.addBlockState(polishedId, blockStateBuilder -> blockStateBuilder.variant("", variant ->
+                        variant.model(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())))
+                );
+                clientResourcePackBuilder.addBlockModel(polishedId, modelBuilder -> {
+                    modelBuilder.parent(new Identifier("block/leaves"));
+                    modelBuilder.texture("all", dimensionData.getTexturesInformation().getPolishedTexture());
+                });
+                clientResourcePackBuilder.addItemModel(polishedId,
+                        modelBuilder -> modelBuilder.parent(new Identifier(polishedId.getNamespace(), "block/" + polishedId.getPath())));
+
+
+                Identifier polishedStairsId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_stairs");
+                ModelUtils.stairs(clientResourcePackBuilder, polishedStairsId, dimensionData.getTexturesInformation().getPolishedTexture());
+
+                Identifier polishedSlabId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_slab");
+                ModelUtils.slab(clientResourcePackBuilder, polishedSlabId, polishedId, dimensionData.getTexturesInformation().getPolishedTexture());
+
+                Identifier polishedWallId = Utils.addPrefixAndSuffixToPath(identifier, "polished_", "_wall");
+                ModelUtils.wall(clientResourcePackBuilder, polishedWallId, dimensionData.getTexturesInformation().getPolishedTexture());
 
                 Identifier portalId = Utils.addSuffixToPath(identifier, "_portal");
                 clientResourcePackBuilder.addBlockState(portalId, blockStateBuilder -> {

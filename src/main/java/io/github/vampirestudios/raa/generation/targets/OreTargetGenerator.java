@@ -20,6 +20,15 @@ public class OreTargetGenerator {
         registerElement(OreTargetData.Builder.create().name(new Identifier("podzol")).topOnly(true).build(), 6);
         registerElement(OreTargetData.Builder.create().name(new Identifier("sand")).topOnly(false).build(), 6);
         registerElement(OreTargetData.Builder.create().name(new Identifier("red_sand")).topOnly(false).build(), 6);
+        registerElement(OreTargetData.Builder.create().name(new Identifier("red_sandstone")).topOnly(false).build(), 6);
+        registerElement(OreTargetData.Builder.create().name(new Identifier("netherrack")).topOnly(false).build(), 6);
+        registerElement(OreTargetData.Builder.create().name(new Identifier("end_stone")).topOnly(false).build(), 6);
+        registerElement(OreTargetData.Builder.create().name(new Identifier("blackstone")).topOnly(false).build(), 6);
+        registerElement(OreTargetData.Builder.create().name(new Identifier("basalt")).topOnly(false).build(), 6);
+        registerElement(OreTargetData.Builder.create().name(new Identifier("soul_sand")).topOnly(false).build(), 6);
+        registerElement(OreTargetData.Builder.create().name(new Identifier("soul_soil")).topOnly(false).build(), 6);
+        registerElement(OreTargetData.Builder.create().name(new Identifier("crimson_nylium")).topOnly(false).build(), 6);
+        registerElement(OreTargetData.Builder.create().name(new Identifier("warped_nylium")).topOnly(false).build(), 6);
 //        registerElement(new RedDesertSurfaceElement(), 5);
 //        registerElement(new GravelSurfaceElement(), 5);
 //        registerElement(new ClassicCliffsSurfaceElement(), 2);

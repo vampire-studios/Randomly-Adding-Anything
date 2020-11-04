@@ -215,6 +215,16 @@ public class Dimensions {
                     .stoneAmount(stoneAmount)
                     .stones(stoneNames.toArray(new Identifier[0]));
 
+            DimensionErosion erosion = DimensionErosion.Builder.create()
+                    .octaves(4)
+                    .frequency(128.0)
+                    .amplitude_high(6)
+                    .amplitude_low(8)
+                    .base_noise(0.1)
+                    .threshold(0.0)
+                    .build();
+            builder.dimensionErosion(erosion);
+
             DimensionTextureData texturesInformation = DimensionTextureData.Builder.create()
                     .stoneTexture(Rands.list(TextureTypes.STONE_TEXTURES))
                     .stoneBricksTexture(Rands.list(TextureTypes.STONE_BRICKS_TEXTURES))
@@ -355,6 +365,7 @@ public class Dimensions {
             DimensionData dimensionData = builder.build();
 
             Registry.register(DIMENSIONS, dimensionData.getId(), dimensionData);
+
 
             // Debug Only
             if (RandomlyAddingAnything.CONFIG.debug) {

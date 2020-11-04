@@ -101,7 +101,7 @@ public class TestChunkGenerator extends SurfaceChunkGenerator<OverworldChunkGene
 
     }
 
-    private double sampleNoise(int x, int y, int z, double d, double e, double f, double g) {
+    public double sampleNoise(int x, int y, int z, double d, double e, double f, double g) {
         double h = 0.0D;
         double i = 0.0D;
         double j = 0.0D;

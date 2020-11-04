@@ -15,6 +15,7 @@ public class DimensionData {
     private final DimensionColorPalette dimensionColorPalette;
     private final DimensionTextureData texturesInformation;
     private final DimensionCustomSkyInformation customSkyInformation;
+    private final DimensionErosion dimensionErosion;
     private boolean canSleep;
     private boolean waterVaporize;
     private boolean renderFog;
@@ -32,13 +33,13 @@ public class DimensionData {
     private Identifier[] stones;
 
     public DimensionData() {
-        this(null, null, null, null, null, null, false,
+        this(null, null, null, null, null, null, null, false,
                 false, false, null, 0, null, 0, null,
                 0, 0, 0, 0, 0, 0, null);
     }
 
     public DimensionData(Identifier id, String name, List<DimensionBiomeData> biomeData, DimensionColorPalette dimensionColorPalette, DimensionTextureData texturesInformation,
-                         DimensionCustomSkyInformation customSkyInformation, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator,
+                         DimensionCustomSkyInformation customSkyInformation, DimensionErosion dimensionErosion, boolean canSleep, boolean waterVaporize, boolean renderFog, DimensionChunkGenerators dimensionChunkGenerator,
                          int flags, HashMap<String, int[]> mobs, int difficulty, HashMap<String, Double> civilizationInfluences, float cloudHeight, float stoneJumpHeight, float stoneHardness,
                          float stoneResistance, float gravity, int stoneAmount, Identifier[] stones) {
         this.id = id;
@@ -47,6 +48,7 @@ public class DimensionData {
         this.dimensionColorPalette = dimensionColorPalette;
         this.texturesInformation = texturesInformation;
         this.customSkyInformation = customSkyInformation;
+        this.dimensionErosion = dimensionErosion;
         this.canSleep = canSleep;
         this.waterVaporize = waterVaporize;
         this.renderFog = renderFog;
@@ -94,6 +96,10 @@ public class DimensionData {
 
     public DimensionCustomSkyInformation getCustomSkyInformation() {
         return customSkyInformation;
+    }
+
+    public DimensionErosion getDimensionErosion() {
+        return dimensionErosion;
     }
 
     public boolean canSleep() {
@@ -196,6 +202,7 @@ public class DimensionData {
         private DimensionColorPalette dimensionColorPalette;
         private DimensionTextureData texturesInformation;
         private DimensionCustomSkyInformation customSkyInformation;
+        private DimensionErosion dimensionErosion;
         private boolean canSleep;
         private boolean waterVaporize;
         private boolean renderFog;
@@ -263,6 +270,11 @@ public class DimensionData {
 
         public Builder customSkyInformation(DimensionCustomSkyInformation customSkyInformation) {
             this.customSkyInformation = customSkyInformation;
+            return this;
+        }
+
+        public Builder dimensionErosion(DimensionErosion dimensionErosion) {
+            this.dimensionErosion = dimensionErosion;
             return this;
         }
 
@@ -334,7 +346,7 @@ public class DimensionData {
         }
 
         public DimensionData build() {
-            return new DimensionData(id, name, biomeData, dimensionColorPalette, texturesInformation, customSkyInformation, canSleep, waterVaporize,
+            return new DimensionData(id, name, biomeData, dimensionColorPalette, texturesInformation, customSkyInformation, dimensionErosion, canSleep, waterVaporize,
                     renderFog, dimensionChunkGenerator, flags, mobs, difficulty, civilizationInfluences, cloudHeight, stoneJumpHeight, stoneHardness,
                     stoneResistance, gravity, stoneAmount, stones);
         }
