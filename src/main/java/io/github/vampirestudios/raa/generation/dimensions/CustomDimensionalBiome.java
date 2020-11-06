@@ -354,8 +354,7 @@ public class CustomDimensionalBiome extends Biome {
 //                return new SmallPineFoliagePlacer(data.getFoliageRange(), 0, 0, data.getFoliageHeight(), 3, 1);
                 return new BlobFoliagePlacer(Math.max(data.getFoliageRange(), 1), 0, 0, 0, 3 + data.getFoliageHeight());
             case PINE:
-//                return new SmallPineFoliagePlacer(data.getFoliageRange(), 0, 0, data.getFoliageHeight(), 3, 1);
-                return new BlobFoliagePlacer(Math.max(data.getFoliageRange(), 1), 0, 0, 0, 3 + data.getFoliageHeight());
+                return new VanillaPineFoliagePlacer(data.getFoliageRange(), 0, 0, data.getFoliageHeight(), 3, 1);
 //            case PINE:
 //                return new VanillaPineFoliagePlacer(data.getFoliageRange(), 0, 0, data.getFoliageHeight(), 3, 1);
             case STRIATED:

@@ -3,6 +3,7 @@ package io.github.vampirestudios.raa.generation.feature.tree.foliage;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
+import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.types.DynamicOps;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ModifiableTestableWorld;
@@ -21,6 +22,10 @@ public class VanillaPineFoliagePlacer extends FoliagePlacer {
         super(i, j, k, l, FoliagePlacerType.PINE_FOLIAGE_PLACER);
         this.height = m;
         this.randomHeight = n;
+    }
+
+    public <T> VanillaPineFoliagePlacer(Dynamic<T> data) {
+        this(data.get("radius").asInt(0), data.get("radius_random").asInt(0), data.get("offset").asInt(0), data.get("offset_random").asInt(0), data.get("height").asInt(0), data.get("height_random").asInt(0));
     }
 
     public void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig treeFeatureConfig, int trunkHeight, TreeNode arg, int foliageHeight, int radius, Set<BlockPos> leaves, int i) {
